@@ -1,0 +1,13 @@
+{
+  "rollback_restores": true,
+  "duplicate_poll": {
+    "status": "duplicate_ignored",
+    "id": "w1",
+    "condition": "B0"
+  },
+  "interruption": {
+    "status": "crashed_incomplete",
+    "decision": "idle",
+    "id": "331a9fa7-a9b9-42da-8d72-72665ecfcd56"
+  }
+}

@@ -32,3 +32,31 @@ Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PE
 | OpenLife | reject | not released | | Conceptual only |
 | Soar / OpenCog Hyperon | TBD | | | Only if gaps remain |
 | Chemistry / protocell (D-000A) | reject (as gate) | n/a | PROJECT_GOAL optional section | Deferred optional research; do not execute D-000A |
+
+
+## Track 3 — Hexis (persistence / memory / identity) — 2026-07-20
+
+Verdict: `UMBRA_D000_TRACK3_PARTIAL_MECHANISM_QUALIFICATION`  
+Pin: QuixiAI/Hexis `@50f5194da6b938e54ab87796ffc33d429b78bd89` (MIT, package 1.0.5)
+
+| Mechanism | Class | Confidence | UMBRA boundary |
+|---|---|---|---|
+| Transactional durable cognitive state | ADAPT | 0.85 | Embedded ledger OK; not Postgres-required |
+| Stateless restartable workers | ADAPT | 0.80 | Workers ≠ identity owner |
+| Typed memory classes | ADAPT | 0.90 | Keep authority/physiology out of memory |
+| Episodic provenance + belief revision | ADAPT | 0.88 | Inference ≠ observation |
+| Procedural success/failure history | ADAPT | 0.80 | Embodiment-compatible policies |
+| Working memory TTL/capacity | ADAPT | 0.85 | No automatic permanence |
+| Correction/supersession | ADAPT | 0.88 | History inspectable |
+| Strategic memory | REFERENCE | 0.75 | Cannot override authority |
+| Heartbeat OODA scheduling | REFERENCE | 0.85 | Schedule ≠ organism motivation |
+| PostgreSQL exclusive authority | REFERENCE | 0.80 | Optional scale tier |
+| Apache AGE graph | REFERENCE | 0.70 | Optional index |
+| Character cards / Big Five as individuality | REJECT | 0.92 | Configured presentation only |
+| LLM conscious decision loop | REJECT | 0.95 | Language expresses, does not command |
+| Database-is-the-brain literal | REJECT | 0.90 | Storage ≠ organism |
+| Action energy as metabolism | REJECT | 0.90 | Computational budget only |
+| Self-termination architecture | REJECT | 0.95 | Forbidden |
+| Model-produced self-description as identity fact | REJECT | 0.90 | D4 non-authoritative |
+
+Evidence: `docs/evidence/d000-track3/`, `docs/prior-art/hexis/`.

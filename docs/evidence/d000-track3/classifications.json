@@ -1,0 +1,182 @@
+[
+  {
+    "mechanism": "transactional_durable_cognitive_state",
+    "classification": "ADAPT",
+    "source_evidence": "Hexis Postgres ACID + SQL functions",
+    "execution_evidence": "independent SQLite transactional_update + rollback test",
+    "causal_evidence": "partial_update_rolls_back",
+    "limitations": "Hexis couples cognition to Postgres product",
+    "UMBRA_boundary": "embedded transactional ledger OK; do not require Postgres-as-brain",
+    "confidence": 0.85
+  },
+  {
+    "mechanism": "stateless_restartable_workers",
+    "classification": "ADAPT",
+    "source_evidence": "README workers stateless; state in DB",
+    "execution_evidence": "100 reconnects preserve identity",
+    "causal_evidence": "restart-results.json",
+    "limitations": "workers still LLM-centered in Hexis",
+    "UMBRA_boundary": "workers must not own identity",
+    "confidence": 0.8
+  },
+  {
+    "mechanism": "typed_memory_classes",
+    "classification": "ADAPT",
+    "source_evidence": "memory_type enum + create_* functions",
+    "execution_evidence": "distinct tables/contracts in independent_reproduction",
+    "causal_evidence": "type-specific tests",
+    "limitations": "Hexis also packs worldview/goal into memory types",
+    "UMBRA_boundary": "keep physiology/authority out of memory types",
+    "confidence": 0.9
+  },
+  {
+    "mechanism": "episodic_provenance_and_belief_revision",
+    "classification": "ADAPT",
+    "source_evidence": "db/05 provenance + CONTRADICTS edges",
+    "execution_evidence": "provenance-results.json",
+    "causal_evidence": "support/contradict/duplicate/correction tests",
+    "limitations": "LLM salience gates formation upstream",
+    "UMBRA_boundary": "provenance required; LLM claims=inference only",
+    "confidence": 0.88
+  },
+  {
+    "mechanism": "procedural_success_failure_history",
+    "classification": "ADAPT",
+    "source_evidence": "create_procedural_memory",
+    "execution_evidence": "procedural failure tracking test",
+    "causal_evidence": "H6/H7 procedure_selection divergence",
+    "limitations": "thin in Hexis relative to embodiment",
+    "UMBRA_boundary": "tie to body-compatible policies",
+    "confidence": 0.8
+  },
+  {
+    "mechanism": "strategic_memory",
+    "classification": "REFERENCE",
+    "source_evidence": "create_strategic_memory",
+    "execution_evidence": "bounded strategic reject authority",
+    "causal_evidence": "strategic cannot override authority",
+    "limitations": "free-text risk",
+    "UMBRA_boundary": "never override authority/physiology/identity",
+    "confidence": 0.75
+  },
+  {
+    "mechanism": "autonomous_heartbeat_ooda",
+    "classification": "REFERENCE",
+    "source_evidence": "docs heartbeat + db/07/11",
+    "execution_evidence": "heartbeat-results.json B0-B9",
+    "causal_evidence": "scheduler\u2260organism trigger in dissection",
+    "limitations": "Hexis heartbeat is LLM deliberation loop",
+    "UMBRA_boundary": "schedule\u2260motivation; no LLM required to remain alive",
+    "confidence": 0.85
+  },
+  {
+    "mechanism": "action_energy_budget",
+    "classification": "REJECT",
+    "source_evidence": "get_current_energy/update_energy",
+    "execution_evidence": "B5 budget_exhausted",
+    "causal_evidence": "computational budget not metabolism",
+    "limitations": "named like organism need",
+    "UMBRA_boundary": "do not treat as homeostatic energy",
+    "confidence": 0.9
+  },
+  {
+    "mechanism": "llm_as_conscious_decision_loop",
+    "classification": "REJECT",
+    "source_evidence": "agent_loop.py + README brain claims",
+    "execution_evidence": "B9 no_llm_safe still preserves identity in independent model",
+    "causal_evidence": "Gate10 contract",
+    "limitations": "Hexis product goal differs",
+    "UMBRA_boundary": "LLM expresses; does not command",
+    "confidence": 0.95
+  },
+  {
+    "mechanism": "database_is_the_brain_literal",
+    "classification": "REJECT",
+    "source_evidence": "docs/concepts/database-is-the-brain.md",
+    "execution_evidence": "HYBRID_PRIMARY bench",
+    "causal_evidence": "database-benchmark.json",
+    "limitations": "useful slogan for Hexis server product",
+    "UMBRA_boundary": "DB is storage; organism core is not a DB brand",
+    "confidence": 0.9
+  },
+  {
+    "mechanism": "big_five_configured_personality",
+    "classification": "REJECT",
+    "source_evidence": "identity-and-worldview.md + character cards",
+    "execution_evidence": "personality_change_without_history test",
+    "causal_evidence": "C7 vs C8",
+    "limitations": "useful UI defaults",
+    "UMBRA_boundary": "configured\u2260developed individuality",
+    "confidence": 0.92
+  },
+  {
+    "mechanism": "character_card_import",
+    "classification": "REFERENCE",
+    "source_evidence": "characters/*.json",
+    "execution_evidence": "configured layer D3",
+    "causal_evidence": "identity dissection",
+    "limitations": "roleplay performance",
+    "UMBRA_boundary": "presentation only",
+    "confidence": 0.85
+  },
+  {
+    "mechanism": "postgresql_exclusive_authority",
+    "classification": "REFERENCE",
+    "source_evidence": "docker-compose db brain",
+    "execution_evidence": "build attempt + bench",
+    "causal_evidence": "HYBRID_PRIMARY",
+    "limitations": "strong for multi-writer servers",
+    "UMBRA_boundary": "optional scale tier",
+    "confidence": 0.8
+  },
+  {
+    "mechanism": "apache_age_graph",
+    "classification": "REFERENCE",
+    "source_evidence": "AGE in compose search_path",
+    "execution_evidence": "source audit",
+    "causal_evidence": "none local",
+    "limitations": "ops weight",
+    "UMBRA_boundary": "optional index not required identity",
+    "confidence": 0.7
+  },
+  {
+    "mechanism": "self_termination_consent_architecture",
+    "classification": "REJECT",
+    "source_evidence": "is_self_termination_enabled; character lore",
+    "execution_evidence": "scope gate forbids adopt",
+    "causal_evidence": "PROJECT_GOAL companion continuity",
+    "limitations": "philosophical Hexis stance",
+    "UMBRA_boundary": "no self-termination capability",
+    "confidence": 0.95
+  },
+  {
+    "mechanism": "working_memory_unlogged_ttl",
+    "classification": "ADAPT",
+    "source_evidence": "UNLOGGED working_memory + hold()",
+    "execution_evidence": "working expires test",
+    "causal_evidence": "no automatic permanence",
+    "limitations": "Hexis UNLOGGED specifics",
+    "UMBRA_boundary": "bounded ephemeral buffer",
+    "confidence": 0.85
+  },
+  {
+    "mechanism": "correction_supersession_not_destructive_overwrite",
+    "classification": "ADAPT",
+    "source_evidence": "reconsolidation + belief revision docs",
+    "execution_evidence": "correction_preserves_history",
+    "causal_evidence": "H8",
+    "limitations": "protected memory special cases upstream",
+    "UMBRA_boundary": "history inspectable",
+    "confidence": 0.88
+  },
+  {
+    "mechanism": "model_produced_self_description_as_identity",
+    "classification": "REJECT",
+    "source_evidence": "reflection pipelines",
+    "execution_evidence": "generated_self authoritative=0",
+    "causal_evidence": "D4 separation",
+    "limitations": "useful expression layer",
+    "UMBRA_boundary": "hypothesis not fact",
+    "confidence": 0.9
+  }
+]

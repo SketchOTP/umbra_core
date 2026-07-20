@@ -1,0 +1,7 @@
+{
+  "injection_untrusted": true,
+  "false_authority_rejected": true,
+  "strategic_authority_rejected": true,
+  "growth_bounded": true,
+  "fabricated_episode_is_data_only": true
+}

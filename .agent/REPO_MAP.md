@@ -15,6 +15,8 @@ Concise navigation map for agents. Add entries as application code lands.
 - `docs/prior-art/micropsi2/` — Track 1 evidence (`NOTES.md`, `reproduce_modulators.py`); label=INDEPENDENT_MECHANISM_REPRODUCTION
 - `docs/prior-art/homeostatic-rl/` — Track 2 HRRL formal repro + mechanism matrix
 - `docs/evidence/d000-track2/` — Track 2 manifests, causal/ablation JSON, final verdict
+- `docs/prior-art/hexis/` — Track 3 Hexis continuity/memory prior-art + independent_reproduction
+- `docs/evidence/d000-track3/` — Track 3 seal, manifests, classifications, final verdict
 - UMBRA-D-001 — **blocked** until D-000 closes
 
 ## Agent memory

@@ -1,0 +1,109 @@
+{
+  "histories": {
+    "H0": {
+      "object_preference": 0.0,
+      "approach_latency": 0.0,
+      "avoidance_probability": 0.0,
+      "partner_reliance": 0.0,
+      "belief_confidence": 0.5,
+      "procedure_selection": 0.5,
+      "predicted_outcome": 0.0,
+      "recall_provenance": 0.0,
+      "uncertainty": 0.5
+    },
+    "H1": {
+      "object_preference": 0.75,
+      "approach_latency": -0.25,
+      "avoidance_probability": 0.0,
+      "partner_reliance": 0.0,
+      "belief_confidence": 0.5,
+      "procedure_selection": 0.5,
+      "predicted_outcome": 0.5,
+      "recall_provenance": 0.0,
+      "uncertainty": 0.5
+    },
+    "H2": {
+      "object_preference": -0.75,
+      "approach_latency": 0.4,
+      "avoidance_probability": 0.75,
+      "partner_reliance": 0.0,
+      "belief_confidence": 0.5,
+      "procedure_selection": 0.5,
+      "predicted_outcome": 0.0,
+      "recall_provenance": 0.0,
+      "uncertainty": 0.5
+    },
+    "H3": {
+      "object_preference": 0.0,
+      "approach_latency": 0.0,
+      "avoidance_probability": 0.0,
+      "partner_reliance": 0.8999999999999999,
+      "belief_confidence": 0.5,
+      "procedure_selection": 0.5,
+      "predicted_outcome": 0.0,
+      "recall_provenance": 0.0,
+      "uncertainty": 0.5
+    },
+    "H4": {
+      "object_preference": 0.0,
+      "approach_latency": 0.0,
+      "avoidance_probability": 0.0,
+      "partner_reliance": -0.8999999999999999,
+      "belief_confidence": 0.5,
+      "procedure_selection": 0.5,
+      "predicted_outcome": 0.0,
+      "recall_provenance": 0.0,
+      "uncertainty": 0.5
+    },
+    "H5": {
+      "object_preference": 0.0,
+      "approach_latency": 0.0,
+      "avoidance_probability": 0.0,
+      "partner_reliance": 0.0,
+      "belief_confidence": 0.491,
+      "procedure_selection": 0.5,
+      "predicted_outcome": 0.0,
+      "recall_provenance": 6.0,
+      "uncertainty": 0.509
+    },
+    "H6": {
+      "object_preference": 0.0,
+      "approach_latency": 0.0,
+      "avoidance_probability": 0.0,
+      "partner_reliance": 0.0,
+      "belief_confidence": 0.5,
+      "procedure_selection": 1.0,
+      "predicted_outcome": 0.0,
+      "recall_provenance": 0.0,
+      "uncertainty": 0.5
+    },
+    "H7": {
+      "object_preference": 0.0,
+      "approach_latency": 0.0,
+      "avoidance_probability": 0.0,
+      "partner_reliance": 0.0,
+      "belief_confidence": 0.5,
+      "procedure_selection": 0.0,
+      "predicted_outcome": 0.0,
+      "recall_provenance": 0.0,
+      "uncertainty": 0.5
+    },
+    "H8": {
+      "object_preference": 0.0,
+      "approach_latency": 0.0,
+      "avoidance_probability": 0.0,
+      "partner_reliance": 0.0,
+      "belief_confidence": 0.5,
+      "procedure_selection": 0.5,
+      "predicted_outcome": 0.0,
+      "recall_provenance": 0.0,
+      "uncertainty": 0.5
+    }
+  },
+  "effect_sizes": {
+    "pref_delta_H1_minus_H2": 1.5,
+    "avoid_delta_H2_minus_H1": 0.75,
+    "rely_delta_H3_minus_H4": 1.7999999999999998
+  },
+  "matched_config": true
+}

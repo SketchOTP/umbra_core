@@ -1,0 +1,14 @@
+{
+  "support_increases_confidence": true,
+  "confidence_after_two_supports": 0.82,
+  "duplicate_does_not_increase": true,
+  "contradiction_reduces": true,
+  "correction_preserves_history": true,
+  "semantic_to_episode_trace": [
+    "46270362-2d3a-46ad-9885-ba1471663f0e",
+    "e78c3fb8-7303-4049-bb6d-8867fa92cf77",
+    "22552caa-b8ae-4724-9230-f6f74f47dca0"
+  ],
+  "embedding_delete_keeps_memory": true,
+  "inference_vs_observation": true
+}

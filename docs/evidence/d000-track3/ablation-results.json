@@ -1,0 +1,10 @@
+{
+  "C0_full": 0.75,
+  "C6_memory_not_to_policy": 0.5,
+  "C4_randomized": 0.3333333333333333,
+  "C7_personality_only": 0.75,
+  "C8_history_diff_same_card": {
+    "H1": 0.75,
+    "H2": -0.75
+  }
+}

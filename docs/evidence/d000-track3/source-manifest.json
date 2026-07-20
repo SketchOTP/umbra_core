@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/QuixiAI/Hexis",
+  "exact_commit_hash": "50f5194da6b938e54ab87796ffc33d429b78bd89",
+  "commit_date": "2026-07-20T09:12:10-04:00",
+  "tag": "50f5194",
+  "package_version": "1.0.5",
+  "license": "MIT",
+  "license_hash": "b5138e29f1b4a2ca7f6106af7317efb23d89e255867609b79cd26baef4843308",
+  "default_branch": "main",
+  "submodule_state": "none",
+  "docker_image_digests": {
+    "upstream-db:latest (ops/Dockerfile.db build)": "sha256:5e365ff1aff701f211a8d8473d50337f529aa72c2528728a709e4426b2eb6585",
+    "rabbitmq:4-management": "UNRESOLVED_NOT_PULLED"
+  },
+  "Python_version": "requires >=3.10 (host probe Python 3.14.4)",
+  "PostgreSQL_version": "as_per_compose_image (not started at pin time)",
+  "extension_versions": {
+    "apache_age": "expected_by_hexis",
+    "pgvector": "expected_by_hexis"
+  },
+  "embedding_model": "configurable; TEI optional in compose",
+  "LLM_provider": "openai_compatible_configurable; prefer mocked for UMBRA tests",
+  "pinned_at": "2026-07-20T14:36:31.994353+00:00"
+}

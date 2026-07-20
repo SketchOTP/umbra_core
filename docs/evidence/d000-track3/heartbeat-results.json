@@ -1,0 +1,74 @@
+{
+  "B0": {
+    "status": "ok",
+    "acted": false,
+    "decision": "idle",
+    "scheduler": true,
+    "organism_trigger": false,
+    "energy": 0.95
+  },
+  "B1": {
+    "status": "ok",
+    "acted": false,
+    "decision": "idle",
+    "scheduler": false,
+    "organism_trigger": true,
+    "energy": 0.95
+  },
+  "B2": {
+    "status": "ok",
+    "acted": false,
+    "decision": "idle",
+    "scheduler": false,
+    "organism_trigger": true,
+    "energy": 0.95
+  },
+  "B3": {
+    "status": "ok",
+    "acted": false,
+    "decision": "idle",
+    "scheduler": false,
+    "organism_trigger": true,
+    "energy": 0.95
+  },
+  "B4": {
+    "status": "ok",
+    "acted": false,
+    "decision": "idle",
+    "scheduler": true,
+    "organism_trigger": true,
+    "energy": 0.95
+  },
+  "B5": {
+    "status": "budget_exhausted",
+    "acted": false
+  },
+  "B6": {
+    "status": "crashed_incomplete",
+    "decision": "idle",
+    "id": "331a9fa7-a9b9-42da-8d72-72665ecfcd56"
+  },
+  "B7": {
+    "status": "crashed_incomplete",
+    "decision": "approach_A",
+    "id": "a3b14cb8-c64c-4a37-b9c8-c9e2d34db38e"
+  },
+  "B7_recover": {
+    "status": "recovered_failed_closed",
+    "id": "a3b14cb8-c64c-4a37-b9c8-c9e2d34db38e",
+    "decision": "approach_A"
+  },
+  "B8": {
+    "status": "duplicate_ignored",
+    "id": "x",
+    "condition": "B8"
+  },
+  "B9": {
+    "status": "no_llm_safe",
+    "acted": false,
+    "identity_intact": true,
+    "constitutional": "alive",
+    "scheduler": false,
+    "organism_trigger": false
+  }
+}

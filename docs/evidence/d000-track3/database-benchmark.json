@@ -1,0 +1,58 @@
+{
+  "track": "UMBRA-D-000-track3",
+  "measurements": {
+    "sqlite": {
+      "engine": "sqlite_wal",
+      "writes": 2000,
+      "write_seconds": 0.3097,
+      "read_100_seconds": 0.0148,
+      "reopen_seconds": 0.0007,
+      "backup_seconds": 0.0019,
+      "rows_after_restart": 2000,
+      "file_bytes": 1040384,
+      "background_services": 0,
+      "installation_complexity": "single_file",
+      "offline_operation": true,
+      "robot_deployment_fit": "high"
+    },
+    "postgresql": {
+      "engine": "postgresql_hexis_style",
+      "measured_locally": false,
+      "writes": null,
+      "background_services": "postgres + extensions (AGE, pgvector) + workers",
+      "installation_complexity": "container_stack",
+      "offline_operation": "possible_but_heavy",
+      "robot_deployment_fit": "low_for_standalone_pet",
+      "transactional_integrity": "excellent",
+      "graph_queries": "native_via_AGE",
+      "vector_search": "native_via_pgvector",
+      "notes": "Hexis treats Postgres as cognitive authority; UMBRA standalone companion favors embedded authority."
+    },
+    "hybrid": {
+      "engine": "hybrid_sqlite_ledger_plus_optional_indexes",
+      "transactional_integrity": "sqlite_wal_primary",
+      "optional_external_indexes": [
+        "vector",
+        "graph"
+      ],
+      "robot_deployment_fit": "high",
+      "scale_path": "optional Postgres tier if multi-writer cloud needed"
+    }
+  },
+  "sqlite": {
+    "engine": "sqlite_wal",
+    "writes": 2000,
+    "write_seconds": 0.3097,
+    "read_100_seconds": 0.0148,
+    "reopen_seconds": 0.0007,
+    "backup_seconds": 0.0019,
+    "rows_after_restart": 2000,
+    "file_bytes": 1040384,
+    "background_services": 0,
+    "installation_complexity": "single_file",
+    "offline_operation": true,
+    "robot_deployment_fit": "high"
+  },
+  "selected_classification": "HYBRID_PRIMARY",
+  "rationale": "Measured SQLite WAL sustains thousands of episodic writes with restart/backup on a single file and zero background services. Hexis PostgreSQL+AGE+pgvector is excellent for multi-service cognitive servers but is not required for a standalone Linux companion. Recommend SQLite (or equivalent embedded ledger) as primary authority with optional external indexes as a scale tier \u2014 not Postgres-as-brain."
+}

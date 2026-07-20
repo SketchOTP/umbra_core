@@ -1,0 +1,15 @@
+{
+  "migrations_from_empty": "PASS",
+  "tables_observed_after_init": 23,
+  "memory_type_enum": true,
+  "create_episodic_memory": "PASS_WITH_MOCKED_EMBEDDING",
+  "create_semantic_memory": "PASS_WITH_MOCKED_EMBEDDING",
+  "embedding_service_default": "BLOCKED host.docker.internal:11434 unreachable",
+  "should_run_heartbeat": "callable_returns_false_unconfigured",
+  "run_heartbeat": "callable_returns_null_unconfigured",
+  "start_heartbeat": "callable_returns_null_unconfigured",
+  "pytest_upstream": "BLOCKED ModuleNotFoundError:asyncpg (deps not installed in host)",
+  "provider": "deterministic_sql_mock_embedding",
+  "channels_enabled": false,
+  "verdict": "PARTIAL_UPSTREAM_EXECUTION"
+}

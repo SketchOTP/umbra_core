@@ -16,3 +16,4 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - 2026-07-20 | area:micropsi | lesson:reproduce_modulators.py is INDEPENDENT_MECHANISM_REPRODUCTION not full MicroPsi2 runtime execution | evidence:docs/prior-art/micropsi2/NOTES.md
 - 2026-07-20 | area:hrrl | lesson:Adapt vector H+drift+drive-reduction signal+satiation; reject RL-as-brain and mujoco-py/PFRL foundation | evidence:docs/prior-art/homeostatic-rl/MECHANISM_MATRIX.md
 - 2026-07-20 | area:hrrl | lesson:Yoshida homeostatic_shaped equals drive reduction; full trp_env needs mujoco_py (blocked here) | evidence:docs/prior-art/homeostatic-rl/UPSTREAM_REPRODUCTION.md
+- 2026-07-20 Track3: Hexis continuity mechanisms (typed memory, provenance, transactional state, restartable workers) are ADAPT-worthy; LLM-heartbeat, Big-Five-as-individuality, Postgres-as-brain, action-energy-as-metabolism, and self-termination are REJECT for UMBRA companion core. Embedding outage blocks Hexis memory writes unless mocked.
