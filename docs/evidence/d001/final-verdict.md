@@ -3,7 +3,7 @@
 **Verdict:** `UMBRA_D001_PARTIAL_FOUNDATION`
 
 **Starting commit:** `813b9d6a3f1cbee159d0e421bf745a2039626dcf`  
-**Ending commit:** `e9fed18ec8c1a72db05b2efe6d93502a2ba6d7c9`  
+**Ending commit:** `ec5990dc9d352ce5bcd208f9e5301849e298c882`  
 **Date:** 2026-07-20  
 **Mimir project:** `7777645d52a91b49`  
 **Mimir task:** `32cbec622ee34877977ba95ff10becf8` (closed v3)
