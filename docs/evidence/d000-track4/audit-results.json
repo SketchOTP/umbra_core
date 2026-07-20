@@ -1,0 +1,7 @@
+{
+  "detects_mutation_deletion_reorder_replay_revoked_signer": true,
+  "binds_policy_capability_body_lifecycle": true,
+  "stale_backup_rejected": true,
+  "duplicate_migration_rejected": true,
+  "verdict": "PASS"
+}

@@ -1,0 +1,11 @@
+{
+  "CPU_hours_est": 0.5,
+  "GPU_hours": 0,
+  "external_model_cost_usd": 0,
+  "peak_RSS_approx": "n/a",
+  "disk_usage_upstream_gb_est": 0.2,
+  "audit_event_count_independent": "<1000",
+  "capability_lifecycle_transitions": "<100",
+  "simulated_migrations": "<20",
+  "within_budget": true
+}

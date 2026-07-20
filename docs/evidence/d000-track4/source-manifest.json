@@ -1,0 +1,47 @@
+{
+  "aeros_core": {
+    "repository": "https://github.com/s20sc/aeros-core",
+    "exact_commit_hash": "3e46d82bf5cd829df8d00061b865b7eb709e278d",
+    "commit_date": "2026-07-15 10:49:52 +0800",
+    "tag": "3e46d82",
+    "package_version": "0.15.0",
+    "Python_version": ">=3.11",
+    "license": "AGPL-3.0-or-later (repo default); Apache-2.0 boundary surfaces per NOTICE",
+    "license_hash": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+    "NOTICE_hash": "a46d3db01aacbd4725c56e5cd69a23f90048788fe6d3204fba740e1e05823303",
+    "CITATION_hash": "07d2bd67374bc2bf04aca3f43e2202177824478de49bf765daa4ae8995e255f7",
+    "history_depth": 2,
+    "submodule_state": "none",
+    "dependency_lock_state": "no lockfile; pyproject.toml dependencies"
+  },
+  "aeros_historical": {
+    "repository": "https://github.com/s20sc/aeros",
+    "exact_commit_hash": "f3a5ef0d976fadc78e3914b23af55ac532b7d2e5",
+    "commit_date": "2026-04-26 09:19:28 +0800",
+    "tag": "v1.0-arxiv",
+    "license": "Apache-2.0",
+    "license_hash": "4ad92dc36be9432947c34ea9ec440a7fac8dd71c134384fa4fb4537697467079",
+    "history_depth": 40,
+    "role": "historical_reference_only",
+    "explicit_gaps": [
+      "no persistent storage",
+      "no real hardware integration",
+      "no process isolation",
+      "no concurrency guarantees",
+      "not production ready"
+    ]
+  },
+  "papers": [
+    {
+      "title": "AEROS single-agent operating architecture",
+      "url": "https://arxiv.org/abs/2604.07039",
+      "status": "PAPER_ONLY_partial",
+      "note": "Historical repo README cites arXiv:2604.07039; claims mapped where source exists else PAPER_ONLY"
+    },
+    {
+      "title": "Runtime governance / identity-stable canary / ECM contracts",
+      "status": "SOURCE_AND_PAPER",
+      "note": "Mechanisms present in aeros-core src; paper experiments not independently re-run"
+    }
+  ]
+}

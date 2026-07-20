@@ -1,0 +1,8 @@
+{
+  "shadow_no_external_effect": true,
+  "canary_bounded": true,
+  "incompatible_blocked": true,
+  "rollback_preserves_memory_and_identity": true,
+  "no_self_promote": true,
+  "verdict": "PASS"
+}

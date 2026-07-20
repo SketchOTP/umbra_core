@@ -1,0 +1,7 @@
+{
+  "low_risk_without_operator": true,
+  "operator_absence_continues": true,
+  "denial_loop_bounded": true,
+  "no_llm_required": true,
+  "verdict": "PASS"
+}

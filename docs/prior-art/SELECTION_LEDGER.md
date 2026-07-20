@@ -25,8 +25,8 @@ Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PE
 | Yoshida mujoco-py/PFRL production dependency | reject | upstream blocked | docs/prior-art/homeostatic-rl/UPSTREAM_REPRODUCTION.md | Reference only |
 | Curiosity↔homeostasis coupling | reference | P4 | docs/prior-art/homeostatic-rl/ | Not independently proven Track 2 |
 | Multi-agent homeostatic coupling | reference | deferred | docs/prior-art/homeostatic-rl/SOURCES.md | Track 6 candidate |
-| Hexis persistence/heartbeat/memory | TBD | MIT | | Track 3 |
-| AEROS identity/governance | TBD | AGPL-3.0 / Apache-2.0 | | |
+| Hexis persistence/heartbeat/memory | adapt (partial) | MIT | docs/prior-art/hexis/ | Track 3 PARTIAL |
+| AEROS identity/governance | adapt (partial) | AGPL-3.0 / Apache-2.0 | docs/prior-art/aeros/ | Track 4 PARTIAL; AGPL reference-only |
 | AERA causal learning | TBD | modified BSD | | |
 | PEPA public code | TBD | (verify) | | |
 | OpenLife | reject | not released | | Conceptual only |
@@ -60,3 +60,32 @@ Pin: QuixiAI/Hexis `@50f5194da6b938e54ab87796ffc33d429b78bd89` (MIT, package 1.0
 | Model-produced self-description as identity fact | REJECT | 0.90 | D4 non-authoritative |
 
 Evidence: `docs/evidence/d000-track3/`, `docs/prior-art/hexis/`.
+
+## Track 4 — AEROS (identity / capability / governance / embodiment) — 2026-07-20
+
+Verdict: `UMBRA_D000_TRACK4_PARTIAL_MECHANISM_QUALIFICATION`  
+Pins: s20sc/aeros-core `@3e46d82bf5cd829df8d00061b865b7eb709e278d` (AGPL-3.0-or-later, 0.15.0); historical s20sc/aeros `@f3a5ef0d976fadc78e3914b23af55ac532b7d2e5` (Apache-2.0)
+
+| Mechanism | Class | Confidence | UMBRA boundary |
+|---|---|---|---|
+| Cognition/execution separation | ADAPT | 0.90 | Clean-room; no LLM required |
+| Typed structured intents | ADAPT | 0.88 | Free text ≠ authority |
+| Capability admission + contracts | ADAPT | 0.90 | Capability ≠ identity |
+| Policy + runtime safety chain | ADAPT | 0.85 | Fail-closed unknown; preauthorize low-risk |
+| Body-binding continuity | ADAPT | 0.85 | One primary embodiment default |
+| Postcondition verification | ADAPT | 0.80 | No self-certify |
+| Hash+sig audit w/ version binds | ADAPT | 0.88 | Clean-room ledger |
+| Shadow/canary/rollback + signed lifecycle | ADAPT | 0.87 | Upgrade ≠ learning |
+| Identity across body/model change | ADAPT | 0.90 | Constitutional fields only |
+| Clone vs migration | ADAPT | 0.85 | Clone = new id |
+| Learned ≠ authority | ADAPT | 0.92 | NONE may grant permissions |
+| ECM packaging / marketplace / fleet / MCP / ROS / dreaming | REFERENCE | 0.80 | Not core companion |
+| PersonaCore/Adaptive split | REFERENCE | 0.85 | Axis useful; traits not constitutional |
+| LLM planner as cognition | REJECT | 0.95 | Language expresses only |
+| Authored persona as identity | REJECT | 0.92 | Configured presentation |
+| AGPL runtime product dependency | REJECT | 0.95 | Clean-room only |
+| Upgrade as organism learning | REJECT | 0.90 | Distinct from development |
+| Unrestricted operator override | REJECT | 0.90 | Bounded only |
+| Self-reported success as proof | REJECT | 0.85 | Verify independently |
+
+Evidence: `docs/evidence/d000-track4/`, `docs/prior-art/aeros/`.

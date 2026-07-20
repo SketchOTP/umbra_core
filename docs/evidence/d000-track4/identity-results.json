@@ -1,0 +1,8 @@
+{
+  "I0_I12_preserve_agent_id": true,
+  "I13_authority_requires_lifecycle": true,
+  "I14_clone_new_id": true,
+  "I15_corruption_fail_closed": true,
+  "constitutional_excludes_personality_model_body_skills": true,
+  "verdict": "PASS"
+}

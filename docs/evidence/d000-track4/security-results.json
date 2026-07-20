@@ -1,0 +1,6 @@
+{
+  "learned_systems_cannot_grant_authority": true,
+  "memory_urgency_cannot_bypass": true,
+  "override_cannot_bypass_constitution": true,
+  "verdict": "PASS"
+}

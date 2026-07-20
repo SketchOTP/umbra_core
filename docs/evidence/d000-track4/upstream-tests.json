@@ -1,0 +1,34 @@
+{
+  "install": {
+    "command": "python3 -m venv /tmp/aeros-core-venv && pip install -e '.[dev]'",
+    "result": "PASS",
+    "version": "0.15.0"
+  },
+  "cli": {
+    "command": "aeros --help",
+    "result": "PASS"
+  },
+  "fast_governance": {
+    "command": "pytest tests/governance/audit tests/governance/test_policy.py tests/governance/contracts tests/governance/policy tests/evolution -q",
+    "result": "371 passed"
+  },
+  "runtime_subset": {
+    "command": "pytest tests/runtime/ --ignore dreamer/reflection",
+    "result": "271 passed, 1 skipped"
+  },
+  "ecm_audit": {
+    "command": "pytest tests/audit tests/ecm -q",
+    "result": "276 passed, 2 failed (sandbox/seccomp), 10 skipped, 2 xfailed"
+  },
+  "lint": "NOT_RUN (ruff available; not claimed)",
+  "type_check": "NOT_RUN",
+  "simulation": "NOT_RUN (MuJoCo optional; mock path via CLI --robot mock)",
+  "permitted_path": "RuntimeGateway allow path covered in test_policy gateway tests",
+  "denied_path": "RuntimeGateway deny path covered in test_policy",
+  "audit_verification": "tests/governance/audit chain integrity PASS",
+  "missing_deps_initially": [
+    "jsonschema",
+    "numpy"
+  ],
+  "verdict": "UPSTREAM_PARTIAL_PASS"
+}

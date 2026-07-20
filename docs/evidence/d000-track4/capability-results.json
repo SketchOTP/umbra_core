@@ -1,0 +1,8 @@
+{
+  "unsigned_rejected": true,
+  "revoked_rejected": true,
+  "incompatible_rejected": true,
+  "tampered_rejected": true,
+  "cannot_mutate_identity_authority_physiology": true,
+  "verdict": "PASS"
+}

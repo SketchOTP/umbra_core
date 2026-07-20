@@ -1,0 +1,12 @@
+{
+  "signed_transitions": [
+    "birth",
+    "operator_transfer",
+    "body_bind",
+    "migration_export",
+    "migration_import",
+    "cap_transition"
+  ],
+  "no_discovered_to_active": true,
+  "verdict": "PASS"
+}

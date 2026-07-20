@@ -1,0 +1,14 @@
+{
+  "chain": [
+    "admission",
+    "policy",
+    "contract",
+    "runtime_safety",
+    "override",
+    "execution",
+    "outcome_verification"
+  ],
+  "denied_never_executes": true,
+  "requested_effect_not_assumed": true,
+  "verdict": "PASS"
+}
