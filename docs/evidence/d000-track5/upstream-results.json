@@ -1,0 +1,66 @@
+{
+  "windows_vs_build": {
+    "attempted": false,
+    "reason": "Host is Linux; Visual Studio / Win32 toolchain unavailable",
+    "documented_path": "INSTALL.md + AERA.sln Win32 Release"
+  },
+  "linux_cmake_native": {
+    "attempted": true,
+    "success": false,
+    "reason": "cmake and g++-multilib not installed on host; sudo unavailable"
+  },
+  "linux_cmake_container": {
+    "attempted": true,
+    "image": "ubuntu:22.04",
+    "configure": "PASS",
+    "compile": "FAIL",
+    "notes": "CMake configures with -m32; build fails in r_exec/mem.tpl.cpp template instantiation (state_/RUNNING/deleted_/objects_ undeclared in MemExec destructor) and related translation units. No AERA rewrite applied before recording.",
+    "compatibility_patches": []
+  },
+  "examples": {
+    "hello.world.1.replicode": {
+      "command": "N/A — binary not built",
+      "configuration": "settings.xml source_file_name → hello.world.1 (default main load)",
+      "seed_program": "AERA/replicode_v1.2/hello.world.1.replicode",
+      "runtime": null,
+      "output": null,
+      "learned_models": "none (print probe only)",
+      "predictions": null,
+      "selected_actions": null,
+      "success": false,
+      "classification": "infrastructure_demo_not_reasoning",
+      "genuine_execution_attempt": true,
+      "block_reason": "upstream binary unavailable after compile failure"
+    },
+    "hand-grab-sphere.replicode": {
+      "command": "N/A — binary not built",
+      "configuration": "settings.xml source_file_name → hand-grab-sphere.replicode",
+      "seed_program": "AERA/replicode_v1.2/hand-grab-sphere.replicode",
+      "runtime": null,
+      "output": null,
+      "learned_models": "seed-supplied M0–M7 (not TPX)",
+      "predictions": "expected under seed mdls (not observed)",
+      "selected_actions": "expected cmd goals (not observed)",
+      "success": false,
+      "classification": "seed_reasoning_demo",
+      "genuine_execution_attempt": true,
+      "block_reason": "upstream binary unavailable after compile failure"
+    },
+    "hand-grab-sphere-learn.replicode": {
+      "command": "N/A — binary not built",
+      "configuration": "settings.xml source_file_name → hand-grab-sphere-learn.replicode",
+      "seed_program": "AERA/replicode_v1.2/hand-grab-sphere-learn.replicode",
+      "runtime": null,
+      "output": null,
+      "learned_models": "expected TPX from babbling (not observed)",
+      "predictions": null,
+      "selected_actions": "babble cmd goals in seed",
+      "success": false,
+      "classification": "learning_demo",
+      "genuine_execution_attempt": true,
+      "block_reason": "upstream binary unavailable after compile failure"
+    }
+  },
+  "verdict": "UPSTREAM_BUILD_BLOCKED_EXAMPLES_ATTEMPTED",
+  "gate2_note": "Genuine execution attempts recorded; reasoning and learning examples could not demonstrate runtime behavior without binary. Independent reproduction carries scientific weight for mechanism gates."
+}

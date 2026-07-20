@@ -27,7 +27,7 @@ Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PE
 | Multi-agent homeostatic coupling | reference | deferred | docs/prior-art/homeostatic-rl/SOURCES.md | Track 6 candidate |
 | Hexis persistence/heartbeat/memory | adapt (partial) | MIT | docs/prior-art/hexis/ | Track 3 PARTIAL |
 | AEROS identity/governance | adapt (partial) | AGPL-3.0 / Apache-2.0 | docs/prior-art/aeros/ | Track 4 PARTIAL; AGPL reference-only |
-| AERA causal learning | TBD | modified BSD | | |
+| AERA causal learning | adapt (partial) | HUMANOBS BSD+CADIA (reference-only) | docs/prior-art/aera/ | Track 5 PARTIAL; runtime reference-only |
 | PEPA public code | TBD | (verify) | | |
 | OpenLife | reject | not released | | Conceptual only |
 | Soar / OpenCog Hyperon | TBD | | | Only if gaps remain |
@@ -89,3 +89,23 @@ Pins: s20sc/aeros-core `@3e46d82bf5cd829df8d00061b865b7eb709e278d` (AGPL-3.0-or-
 | Self-reported success as proof | REJECT | 0.85 | Verify independently |
 
 Evidence: `docs/evidence/d000-track4/`, `docs/prior-art/aeros/`.
+
+## Track 5 — AERA (causal learning / planning) — 2026-07-20
+
+Verdict: `UMBRA_D000_TRACK5_PARTIAL_MECHANISM_QUALIFICATION`  
+Pin: IIIM-IS/AERA `@77b570226d12052828ff5b7ee0ca968bf1702221` (HUMANOBS BSD + CADIA Clause — SOURCE_AVAILABLE_REFERENCE_ONLY)
+
+| Mechanism | Class | Confidence | UMBRA boundary |
+|---|---|---|---|
+| Learned forward models | ADAPT | 0.88 | Propose only |
+| Inverse model goal reasoning | ADAPT | 0.90 | Needs endogenous goals |
+| Confidence from evidence | ADAPT | 0.85 | ≠ will |
+| Contradiction-driven revision | ADAPT | 0.90 | Supersede obsolete |
+| Interruptible planning | ADAPT | 0.80 | Bounded replans |
+| Bounded model composition | ADAPT | 0.85 | Hard depth caps |
+| Dynamic priority scheduling | ADAPT | 0.70 | Priority ≠ command |
+| Non-axiomatic / cumulative learning | ADAPT | 0.85 | Under Track3/4 memory rules |
+| Replicode / full scheduler / closure claims | REFERENCE | 0.85 | Ideas only |
+| Replicode as core; AERA runtime dep; generated code exec; designer drives-as-autonomy; monolithic brain; models grant authority | REJECT | 0.95 | Forbidden |
+
+Evidence: `docs/evidence/d000-track5/`, `docs/prior-art/aera/`.

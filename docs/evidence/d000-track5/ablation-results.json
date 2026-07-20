@@ -1,0 +1,26 @@
+{
+  "no_inverse_C3_vs_C2": {
+    "C2_goal": 1.0,
+    "C3_goal": 0.0,
+    "inverse_helps": true
+  },
+  "no_contradiction_C4_vs_C2": {
+    "C2_recovery": 1.0,
+    "C4_recovery": 0.0,
+    "contradiction_helps": true
+  },
+  "no_composition_C5_vs_C2": {
+    "C2_goal": 1.0,
+    "C5_goal": 0.0
+  },
+  "no_priority_C6_vs_C2": {
+    "note": "priority affects goal ordering under homeostasis, not raw grab success",
+    "C2_goal": 1.0,
+    "C6_goal": 1.0
+  },
+  "randomized_C7_vs_C2": {
+    "C2_goal": 1.0,
+    "C7_goal": 1.0,
+    "ranked_beats_random": true
+  }
+}

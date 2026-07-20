@@ -1,28 +1,28 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260720-umbra-d000-track4-aeros-governed-individual
-- Project directive: UMBRA-D-000 (Track 4)
-- Goal: Reproduce/classify AEROS identity, capability, governance, embodiment
+- ID: D-20260720-umbra-d000-track5-aera-causal-learning
+- Project directive: UMBRA-D-000 (Track 5)
+- Goal: Reproduce/classify AERA cumulative causal learning & interruptible planning
 - Status: done
-- Acceptance: Gates 0–16; PARTIAL_MECHANISM_QUALIFICATION; D-001 blocked — met
-- Touched files: docs/prior-art/aeros/*, docs/evidence/d000-track4/*, SELECTION_LEDGER, .agent/*
-- Next action: D-000 Track 5 (AERA) when operator opens — not auto-authorized
+- Acceptance: Gates 0–11; PARTIAL_MECHANISM_QUALIFICATION; D-001 blocked — met
+- Touched files: docs/prior-art/aera/*, docs/evidence/d000-track5/*, SELECTION_LEDGER, .agent/*
+- Next action: D-000 Track 6 (PEPA / Soar-Hyperon if needed) when operator opens — not auto-authorized
 
 ## Repo facts needed now
 - Mimir project ID: 7777645d52a91b49
-- Task ID: 35b14ff4ca9748c68e7d57c5f5415f18
-- Track3 seal: bdc2b9a661816afe6b9c702313c81b6876f07b60
-- aeros-core pin: 3e46d82bf5cd829df8d00061b865b7eb709e278d (AGPL 0.15.0)
-- historical aeros: f3a5ef0d976fadc78e3914b23af55ac532b7d2e5
-- Verdict: UMBRA_D000_TRACK4_PARTIAL_MECHANISM_QUALIFICATION
+- Task ID: db45eb4295134a32b2c65a8fddd03ee5
+- Track4 seal: d4df38bd51b2ca3ccc0615a74b808b02595992f3
+- AERA pin: 77b570226d12052828ff5b7ee0ca968bf1702221 (CADIA reference-only)
+- Verdict: UMBRA_D000_TRACK5_PARTIAL_MECHANISM_QUALIFICATION
 
 ## Last validation
-- Command: `python3 -m pytest docs/prior-art/aeros/independent_reproduction/test_track4.py -q`
-- Result: 69 passed
-- Mimir validation_run: BLOCKED (server: active observed task / allowlist); local evidence used
-- Mimir task close: 35b14ff4ca9748c68e7d57c5f5415f18 v3 completed
+- Command: `python3 -m pytest docs/prior-art/aera/independent_reproduction/test_track5.py -q`
+- Result: 20 passed; experiment seeds=30
+- Mimir validation_run: not used (local evidence)
+- Upstream: container cmake PASS / compile FAIL; examples attempted without binary
 
 ## Open blockers
 - D-001 remains blocked
-- Tracks 5–6 incomplete
+- Track 6 incomplete
+- AERA upstream binary not runnable on this host

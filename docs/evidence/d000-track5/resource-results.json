@@ -1,0 +1,8 @@
+{
+  "max_models": 200,
+  "max_plan_depth": 4,
+  "seeds": 8,
+  "P4_bounded": true,
+  "external_model_cost_usd": 0,
+  "gpu_required": false
+}

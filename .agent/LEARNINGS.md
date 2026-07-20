@@ -20,3 +20,6 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - 2026-07-20 Track4: AEROS PersonaCore fields (risk_appetite, verbosity, etc.) hash into identity — do not import personality dials into UMBRA constitutional identity; keep constitutional vs adaptive split but redefine constitutional fields.
 - 2026-07-20 Track4: aeros-core is AGPL-3.0-or-later by default; NOTICE lists Apache boundary surfaces — treat AGPL as reference-only; clean-room governance mechanisms for production; Apache reuse only after file-level confirm.
 - 2026-07-20 Track4: Upstream policy evaluator defaults ALLOW on no-match — UMBRA should fail-closed for unknown capabilities while preauthorizing low-risk companion actions.
+- 2026-07-20 Track5: AERA License.txt is HUMANOBS BSD with CADIA field-of-use → SOURCE_AVAILABLE_REFERENCE_ONLY; never vendor Replicode into product paths.
+- 2026-07-20 Track5: Container CMake configures AERA (-m32) but compile fails in mem.tpl.cpp templates; record original failure before any rewrite.
+- 2026-07-20 Track5: Independent inverse models strongly improve goal success vs no-inverse (C2 1.0 vs C3 0.0, 30 seeds); contradiction handling required for obsolete-model recovery (C4 fails).

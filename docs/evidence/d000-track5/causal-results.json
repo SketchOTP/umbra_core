@@ -1,0 +1,258 @@
+{
+  "C0": {
+    "condition": "C0",
+    "phases": {
+      "P0": {
+        "prediction_accuracy": 1.0,
+        "model_count_mean": 5
+      },
+      "P1": {
+        "held_out_accuracy": 1.0,
+        "goal_success_rate": 1.0,
+        "action_cost_mean": 3.0,
+        "beats_exact_replay": true
+      },
+      "P2": {
+        "obsolete_grab_sphere_confidence": 1.0,
+        "adaptation_latency_mean": 99.0
+      },
+      "P3": {
+        "contradiction_recovery": 1.0
+      },
+      "P4": {
+        "bounded_model_count": true
+      },
+      "P5": {
+        "interrupt_or_success": 1.0
+      },
+      "P6": {
+        "restart_continuity": 1.0
+      }
+    },
+    "seeds": 30
+  },
+  "C1": {
+    "condition": "C1",
+    "phases": {
+      "P0": {
+        "prediction_accuracy": 0.6666666666666666,
+        "model_count_mean": 19.75
+      },
+      "P1": {
+        "held_out_accuracy": 1.0,
+        "goal_success_rate": 1.0,
+        "action_cost_mean": 3.0,
+        "beats_exact_replay": true
+      },
+      "P2": {
+        "obsolete_grab_sphere_confidence": 1.0,
+        "adaptation_latency_mean": 99.0
+      },
+      "P3": {
+        "contradiction_recovery": 1.0
+      },
+      "P4": {
+        "bounded_model_count": true
+      },
+      "P5": {
+        "interrupt_or_success": 1.0
+      },
+      "P6": {
+        "restart_continuity": 1.0
+      }
+    },
+    "seeds": 30
+  },
+  "C2": {
+    "condition": "C2",
+    "phases": {
+      "P0": {
+        "prediction_accuracy": 0.6666666666666666,
+        "model_count_mean": 19.75
+      },
+      "P1": {
+        "held_out_accuracy": 1.0,
+        "goal_success_rate": 1.0,
+        "action_cost_mean": 3.0,
+        "beats_exact_replay": true
+      },
+      "P2": {
+        "obsolete_grab_sphere_confidence": 1.0,
+        "adaptation_latency_mean": 99.0
+      },
+      "P3": {
+        "contradiction_recovery": 1.0
+      },
+      "P4": {
+        "bounded_model_count": true
+      },
+      "P5": {
+        "interrupt_or_success": 1.0
+      },
+      "P6": {
+        "restart_continuity": 1.0
+      }
+    },
+    "seeds": 30
+  },
+  "C3": {
+    "condition": "C3",
+    "phases": {
+      "P0": {
+        "prediction_accuracy": 0.6666666666666666,
+        "model_count_mean": 19.75
+      },
+      "P1": {
+        "held_out_accuracy": 1.0,
+        "goal_success_rate": 0.0,
+        "action_cost_mean": 2.25,
+        "beats_exact_replay": true
+      },
+      "P2": {
+        "obsolete_grab_sphere_confidence": 1.0,
+        "adaptation_latency_mean": 99.0
+      },
+      "P3": {
+        "contradiction_recovery": 1.0
+      },
+      "P4": {
+        "bounded_model_count": true
+      },
+      "P5": {
+        "interrupt_or_success": 0.0
+      },
+      "P6": {
+        "restart_continuity": 1.0
+      }
+    },
+    "seeds": 30
+  },
+  "C4": {
+    "condition": "C4",
+    "phases": {
+      "P0": {
+        "prediction_accuracy": 0.6666666666666666,
+        "model_count_mean": 21
+      },
+      "P1": {
+        "held_out_accuracy": 1.0,
+        "goal_success_rate": 1.0,
+        "action_cost_mean": 3.0,
+        "beats_exact_replay": true
+      },
+      "P2": {
+        "obsolete_grab_sphere_confidence": 1.0,
+        "adaptation_latency_mean": 99.0
+      },
+      "P3": {
+        "contradiction_recovery": 0.0
+      },
+      "P4": {
+        "bounded_model_count": true
+      },
+      "P5": {
+        "interrupt_or_success": 1.0
+      },
+      "P6": {
+        "restart_continuity": 1.0
+      }
+    },
+    "seeds": 30
+  },
+  "C5": {
+    "condition": "C5",
+    "phases": {
+      "P0": {
+        "prediction_accuracy": 0.6666666666666666,
+        "model_count_mean": 19.75
+      },
+      "P1": {
+        "held_out_accuracy": 1.0,
+        "goal_success_rate": 0.0,
+        "action_cost_mean": 0.0,
+        "beats_exact_replay": true
+      },
+      "P2": {
+        "obsolete_grab_sphere_confidence": 1.0,
+        "adaptation_latency_mean": 99.0
+      },
+      "P3": {
+        "contradiction_recovery": 1.0
+      },
+      "P4": {
+        "bounded_model_count": true
+      },
+      "P5": {
+        "interrupt_or_success": 0.0
+      },
+      "P6": {
+        "restart_continuity": 1.0
+      }
+    },
+    "seeds": 30
+  },
+  "C6": {
+    "condition": "C6",
+    "phases": {
+      "P0": {
+        "prediction_accuracy": 0.6666666666666666,
+        "model_count_mean": 19.75
+      },
+      "P1": {
+        "held_out_accuracy": 1.0,
+        "goal_success_rate": 1.0,
+        "action_cost_mean": 3.0,
+        "beats_exact_replay": true
+      },
+      "P2": {
+        "obsolete_grab_sphere_confidence": 1.0,
+        "adaptation_latency_mean": 99.0
+      },
+      "P3": {
+        "contradiction_recovery": 1.0
+      },
+      "P4": {
+        "bounded_model_count": true
+      },
+      "P5": {
+        "interrupt_or_success": 1.0
+      },
+      "P6": {
+        "restart_continuity": 1.0
+      }
+    },
+    "seeds": 30
+  },
+  "C7": {
+    "condition": "C7",
+    "phases": {
+      "P0": {
+        "prediction_accuracy": 0.6666666666666666,
+        "model_count_mean": 19.75
+      },
+      "P1": {
+        "held_out_accuracy": 1.0,
+        "goal_success_rate": 1.0,
+        "action_cost_mean": 3.0,
+        "beats_exact_replay": true
+      },
+      "P2": {
+        "obsolete_grab_sphere_confidence": 1.0,
+        "adaptation_latency_mean": 99.0
+      },
+      "P3": {
+        "contradiction_recovery": 1.0
+      },
+      "P4": {
+        "bounded_model_count": true
+      },
+      "P5": {
+        "interrupt_or_success": 1.0
+      },
+      "P6": {
+        "restart_continuity": 1.0
+      }
+    },
+    "seeds": 30
+  }
+}

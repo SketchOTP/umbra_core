@@ -19,6 +19,8 @@ Concise navigation map for agents. Add entries as application code lands.
 - `docs/evidence/d000-track3/` — Track 3 seal, manifests, classifications, final verdict
 - `docs/prior-art/aeros/` — Track 4 AEROS identity/governance prior-art + independent_reproduction
 - `docs/evidence/d000-track4/` — Track 4 seal, manifests, classifications, final verdict
+- `docs/prior-art/aera/` — Track 5 AERA causal learning prior-art + independent_reproduction
+- `docs/evidence/d000-track5/` — Track 5 seal, manifests, causal/ablation JSON, final verdict
 - UMBRA-D-001 — **blocked** until D-000 closes
 
 ## Agent memory

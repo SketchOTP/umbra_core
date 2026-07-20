@@ -1,0 +1,35 @@
+{
+  "repository": "https://github.com/IIIM-IS/AERA",
+  "commit": "77b570226d12052828ff5b7ee0ca968bf1702221",
+  "commit_date": "2025-01-24T18:39:13+01:00",
+  "release": "diagnostic_mode_v0_3-7-g77b57022",
+  "submodules": [
+    {
+      "path": "AERA/IODevices/TCP/AERA_Protobuf",
+      "url": "https://github.com/IIIM-IS/AERA_Protobuf.git",
+      "commit": "a78104ba5e3da14303fd3159a16467d0d431f9d1"
+    },
+    {
+      "path": "submodules/CoreLibrary",
+      "url": "https://github.com/IIIM-IS/CoreLibrary.git",
+      "commit": "c3e52c0d3dc6a4560a530733c6e25982397c8e4a"
+    }
+  ],
+  "license_file": "License.txt",
+  "license_name": "HUMANOBS Open-Source BSD License, with CADIA Clause v 1.0",
+  "license_hash": "fdfecddfd2c51db0651cff37f7234250aa136779c5ca65d68133176620c3b826",
+  "license_stance": "SOURCE_AVAILABLE_REFERENCE_ONLY",
+  "build_requirements": [
+    "Windows: Visual Studio 2019/2022 Win32 Release (documented primary)",
+    "Linux: CMake >= 3.22, g++ with -m32 (multilib), protobuf",
+    "Git recursive clone for submodules"
+  ],
+  "supported_platforms": ["Windows (documented)", "Linux CMake experimental (-m32)"],
+  "example_files": [
+    "AERA/replicode_v1.2/hello.world.1.replicode",
+    "AERA/replicode_v1.2/hand-grab-sphere.replicode",
+    "AERA/replicode_v1.2/hand-grab-sphere-learn.replicode"
+  ],
+  "readme_warning": "Only AERA/replicode_v1.2 examples reliably function",
+  "local_clone": "docs/prior-art/aera/upstream/AERA (gitignored)"
+}
