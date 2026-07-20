@@ -1,0 +1,7 @@
+# Prior-art upstream clones (evaluate in place; do not vendor as foundation)
+docs/prior-art/*/upstream/
+
+# Python caches
+**/__pycache__/
+**/.pytest_cache/
+*.py[cod]

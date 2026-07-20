@@ -10,16 +10,17 @@
 
 Read `.agent/PROJECT_GOAL.md` before any design or implementation work. Non-negotiable:
 
-- Build a self-maintaining digital lifeform (protocell → embodied creature), not a chatbot, virtual pet, game character, or scripted animation
-- No central controller may directly command eat, repair, approach, bond, fear, reproduce, or scripted emotion
-- Outcomes must emerge from digital chemistry, cells, metabolism, body, nervous system, memory, environment, and development
-- Continued existence depends on real simulated resource and energy flows; damage/starvation/death are causal
-- Behavior must remain autonomous when no observer is present
-- Do not invent LLM-prompt personality, reaction tables, or animation-state “life”
+- Primary target: persistent organism/brain core for an autonomous digital pet companion (Digimon/Pokémon-class experience) — not a chatbot, scripted animation, or LLM puppet
+- No LLM as central controller; optional language expresses, does not command
+- No scripted emotional responses, predefined personality performances, or user prompts required to stay alive
+- No direct commands: become happy, bond, eat, play, sleep, become afraid, etc.
+- Outcomes emerge from needs, regulation, body, memory, relationships, and developmental history
+- Bodies (avatar, robot, sensors, animations, dialogue) are interfaces around the organism core
+- Digital chemistry / protocells are optional long-range research only — **not** required foundations; **do not** create or execute UMBRA-D-000A
 
-**Program gate:** UMBRA-D-000 (prior-art reproduction) is active and **blocks UMBRA-D-001**. Do not implement an organism kernel until D-000’s selection ledger is complete and D-001 is revised from measured results. See `docs/directives/UMBRA-D-000-prior-art-reproduction.md`.
+**Program gate:** UMBRA-D-000 is active and **blocks UMBRA-D-001**. Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PEPA → Soar/Hyperon (if needed). See `docs/directives/UMBRA-D-000-prior-art-reproduction.md`.
 
-Informed reuse over blind greenfield: audit/reproduce MicroPsi, Hexis, AEROS, homeostatic RL, AERA, PEPA; classify adopt/adapt/reference/reject. LLM-wrapper companions (Hexis/AEROS/OpenLife-style) do not satisfy the non-LLM organism kernel requirement.
+LLM-wrapper companions (Hexis/AEROS/OpenLife-style) do not satisfy the non-LLM organism kernel requirement.
 
 ## Local Governance Contract
 

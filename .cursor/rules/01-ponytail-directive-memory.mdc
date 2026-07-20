@@ -80,11 +80,12 @@ Before writing new code, stop at the first valid option:
 ## UMBRA product gate
 
 Reject designs that:
-- script eat/repair/approach/bond/fear/reproduce/emotion via a central controller
-- fake life with LLM personality prompts, reaction tables, or animation states
-- require a user to be present for the organism to continue living
+- use an LLM as the central controller, or require user prompts to stay alive
+- script become-happy / bond / eat / play / sleep / fear as commanded performances
+- treat digital chemistry or protocells as a required foundation (D-000A rejected)
+- freeze when no observer is present
 
-Prefer emergent, causal, resource-backed mechanisms per `.agent/PROJECT_GOAL.md`.
+Prefer endogenous needs, regulation, memory, and developmental history per `.agent/PROJECT_GOAL.md`.
 
 ## Hard Rules
 

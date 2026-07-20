@@ -1,0 +1,14 @@
+{
+  "cpu_hours_approx": 0.05,
+  "gpu_hours": 0.0,
+  "peak_rss_mb_approx": null,
+  "disk_upstream_bytes": 2297375475,
+  "disk_upstream_gb": 2.297,
+  "budget_limits": {
+    "gpu_h": 2,
+    "cpu_h": 8,
+    "artifacts_gb": 20,
+    "external_src_gb": 10
+  },
+  "within_budget": true
+}

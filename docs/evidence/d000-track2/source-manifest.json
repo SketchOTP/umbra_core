@@ -1,0 +1,46 @@
+{
+  "track": "UMBRA-D-000-track2",
+  "pinned_at": "2026-07-20",
+  "sources": [
+    {
+      "id": "keramati_gutkin_2014",
+      "type": "paper",
+      "url": "https://elifesciences.org/articles/04811",
+      "commit": null,
+      "reproduction": "INDEPENDENT_MECHANISM_REPRODUCTION"
+    },
+    {
+      "id": "ctcs_hrrl_arxiv_2109_06580",
+      "type": "paper",
+      "url": "https://arxiv.org/abs/2109.06580",
+      "commit": null,
+      "reproduction": "PAPER_REFERENCE"
+    },
+    {
+      "id": "homeostatic_agents_pfrl",
+      "type": "repository",
+      "url": "https://github.com/ugo-nama-kun/homeostatic_agents_pfrl",
+      "commit": "3d0a9b31ebec9dab8d24322e8bef8e639705ca74",
+      "commit_date": "2025-06-28T17:14:30+09:00",
+      "license_spdx": "NOASSERTION",
+      "license_file_present": false,
+      "reproduction": "UPSTREAM_RUNTIME_BLOCKED"
+    },
+    {
+      "id": "deeprl_gfn",
+      "type": "repository",
+      "url": "https://github.com/ugo-nama-kun/deeprl_gfn",
+      "commit": "2f7af29311484bcc8f624359c7d60aa9a0cc64c9",
+      "commit_date": "2024-11-22T10:55:46+09:00",
+      "license_spdx": "NOASSERTION",
+      "license_file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "license_file_bytes": 0,
+      "reproduction": "SOURCE_DERIVED_EQUATION_SMOKE_OK"
+    }
+  ],
+  "micropsi_correction": {
+    "old_terminology": "stdlib repro OK / runnable check implying full runtime success",
+    "corrected_terminology": "INDEPENDENT_MECHANISM_REPRODUCTION",
+    "upstream_runtime_executed": false
+  }
+}

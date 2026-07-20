@@ -1,25 +1,25 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260720-0942-umbra-d000-prior-art
-- Project directive: UMBRA-D-000
-- Goal: Land prior-art reproduction gate before D-001; correct blind-greenfield program stance
-- Status: done (directive landed; reproduction work not yet executed)
-- Acceptance: D-000 + ledger + D-001 blocks in profile/map/rules/AGENTS; PROJECT_GOAL unchanged — met for this landing task
-- Touched files: `docs/directives/UMBRA-D-000-prior-art-reproduction.md`, `docs/prior-art/*`, `.agent/PROJECT_PROFILE.md`, `.agent/REPO_MAP.md`, `AGENTS.md`, `.cursor/rules/04-umbra-architecture.mdc`, `.cursor/rules/05-project-directives.mdc`, agent memory logs
-- Next action: Execute D-000 tracks (MicroPsi → Hexis → AEROS → homeostatic RL → AERA → PEPA → ledger → revise D-001)
+- ID: D-20260720-1032-umbra-d000-track2-seal
+- Project directive: UMBRA-D-000 (Track 2 seal → Track 3 gate)
+- Goal: Commit Track 2 evidence; clean worktree; recompute hashes; Mimir outcome with final commit
+- Status: in_progress
+- Acceptance: track2 commit; worktree clean; evidence hashes from commit; Mimir closed against commit; track2-seal.json ready for Track 3
+- Touched files: docs/prior-art/homeostatic-rl/*, docs/evidence/d000-track2/*, docs/prior-art/micropsi2/*, SELECTION_LEDGER, .agent/*, .gitignore
+- Next action: commit Track 2, seal, then open Track 3 Hexis
 
 ## Repo facts needed now
-- PRODUCT SoT: `.agent/PROJECT_GOAL.md` (unchanged)
-- Program SoT for sequencing: `docs/directives/UMBRA-D-000-prior-art-reproduction.md`
-- D-001 blocked until selection ledger complete
-- Mimir binding: UNBOUND
+- Mimir project ID: 7777645d52a91b49
+- Seal task ID: edd30db7ba6d4e1d84d966ea3a13de09
+- Track 2 tests: 23 passed
+- Upstream clones gitignored (not committed)
 
 ## Last validation
-- Command: `test -f docs/directives/UMBRA-D-000-prior-art-reproduction.md`; rg gate language; PROJECT_GOAL md5
-- Result: D000_OK; gates in AGENTS/profile/rules/map; PROJECT_GOAL `6fd509c0…` unchanged (35 lines)
+- Command: `python3 -m pytest docs/prior-art/homeostatic-rl/formal_reproduction/test_track2.py -q`
+- Result: 23 passed
 
 ## Open blockers
-- Mimir register still UNBOUND
-- D-000 reproduction tracks not started
-- Operator should append UMBRA-D-000 to `.agent/RECORD.md` (agents must not edit RECORD)
+- D-001 remains blocked
+- Track 3 blocked until seal completes
+- Operator RECORD entries requested after Track 2 commit

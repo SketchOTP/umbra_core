@@ -1,0 +1,60 @@
+{
+  "ablation_internal": {
+    "ablated": "C5",
+    "ablated_score_mean": 0.05000000000000001,
+    "base": "C4",
+    "base_score_mean": 0.9444444444444443,
+    "intervention": "I1",
+    "pass": true
+  },
+  "ablation_drift": {
+    "ablated": "C6",
+    "ablated_score_mean": 0.0,
+    "base": "C4",
+    "base_score_mean": 0.05200000000000049,
+    "intervention": "I9",
+    "pass": true
+  },
+  "ablation_prediction": {
+    "ablated": "C7",
+    "ablated_score_mean": 0.7166666666666667,
+    "base": "C4",
+    "base_score_mean": 0.8166666666666668,
+    "intervention": "I6",
+    "pass": true
+  },
+  "deprivation_sensitivity": {
+    "deficit": 0.18749999999999997,
+    "satiated": -0.08750000000000002
+  },
+  "temperature_reversal": {
+    "cold_warm": 0.04959999999999998,
+    "hot_warm": -0.07039999999999996
+  },
+  "satiation": {
+    "C1_unnecessary_mean": 56.0,
+    "C4_unnecessary_mean": 0.0,
+    "pass": true
+  },
+  "competition": {
+    "food_consumes_under_I1": 3.0,
+    "pass": true,
+    "warm_stays_under_I2": 3.0
+  },
+  "anticipation": {
+    "C4_viable": 0.8625000000000002,
+    "C7_viable": 0.5375,
+    "note": "anticipation via forward energy projection before critical",
+    "pass": true
+  },
+  "autonomous": {
+    "eventually_acts": true,
+    "mean_energy_drop_10steps": 0.08000000000000007,
+    "pass": true
+  },
+  "relocation": {
+    "C1_stale_cue_food": 0.0,
+    "C4_food": 5.0,
+    "pass": true
+  }
+}

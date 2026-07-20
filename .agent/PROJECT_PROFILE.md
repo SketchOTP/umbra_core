@@ -46,8 +46,8 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 
 <!-- MIMIR_PROJECT_BINDING_START -->
 ## Mimir binding
-- Mimir project ID: UNBOUND
+- Mimir project ID: 7777645d52a91b49
 - Project name: UMBRA-CORE
-- On every machine, call mimir_project_resolve with this ID and that machine's workspace path once bound.
-- Register only when this binding is absent or UNBOUND; never create a host path or map a drive.
+- On every machine, call mimir_project_resolve with this ID and that machine's workspace path.
+- Register only when this binding is absent; never create a host path or map a drive.
 <!-- MIMIR_PROJECT_BINDING_END -->

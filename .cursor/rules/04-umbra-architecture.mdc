@@ -8,38 +8,43 @@ Source of truth: `.agent/PROJECT_GOAL.md`. This rule restates load-bearing const
 
 ## What we are building
 
-A standalone Linux-based digital lifeform: self-maintaining digital chemistry and cellular structures that develop into a persistent embodied creature. Aliveness comes from internal organization and continued existence — not from scripted performance.
+The persistent organism and brain core for a believable autonomous digital pet companion. UMBRA is the internal life; avatars, robots, dialogue, animations, and sensors are bodies and interfaces around that life.
 
 ## Forbidden patterns
 
 Do not implement:
 
-- A central controller that directly commands eat, repair, approach, bond, fear, reproduce, or scripted emotion
-- Personality via LLM prompt, reaction tables, or animation-state machines presented as “life”
-- Behavior that stops or freezes solely because no user is present
-- Damage, starvation, development, reproduction, or death as pure state-flag flips with no causal resource/structure basis
+- An LLM as the central controller (language may express; must not command)
+- Scripted emotional responses or predefined personality performances
+- Dependence on user prompts to remain active
+- Direct commands such as become happy, bond, eat, play, sleep, or become afraid
+- UMBRA-D-000A / chemistry-protocell reframes as a required foundation
+- Behavior that stops solely because no user is present
 
 ## Required properties (design toward these)
 
-- Consume energy/material; continuously rebuild and regulate; maintain self/environment boundary
-- Grow, repair, adapt, reproduce with inheritance of variation, and die
-- Reorganize through experience; develop sensorimotor, memory, and regulatory systems from simpler foundations
-- Behavior from internal dynamics, learned predictions, developmental history, and environment
-- Mature embodiment: screen-as-glass boundary; webcam/mic perception; movement, posture, proximity, environment manipulation, nonverbal vocalization
+- Persistent identity; continuous autonomous existence; homeostatic needs and regulation
+- Internally generated action; learning from consequences; developmental change
+- Selective long-term memory; habits and preferences; relationship formation
+- Temperament shaped by history; coherent embodied expression
+- Transfer between virtual and physical bodies
+- Optional language that expresses rather than controls the organism
 
 ## Success criteria (do not claim success without evidence)
 
-See the numbered success list in `.agent/PROJECT_GOAL.md` (self-production, resource dependence, causal life events, divergent individuals, lasting experience effects, unauthored rituals, understandable-but-not-mechanical predictability, unobserved continuation, identity loss when organization/history removed, observer perceives a living creature).
+See the numbered success list in `.agent/PROJECT_GOAL.md`.
+
+## Optional long-range research (non-gating)
+
+Digital chemistry, protocells, autopoietic membranes, molecular metabolism, and bottom-up cellular reproduction may be investigated later. They must not gate the companion core or D-001.
 
 ## Program gate (UMBRA-D-000)
 
-**Do not start UMBRA-D-001** or an organism kernel until `docs/directives/UMBRA-D-000-prior-art-reproduction.md` is complete.
+**Do not start UMBRA-D-001** until `docs/directives/UMBRA-D-000-prior-art-reproduction.md` is complete.
 
-- Blind greenfield is rejected; informed reuse is required
-- Reproduce/audit: MicroPsi motivational loop, Hexis persistence/heartbeat/memory, AEROS identity/governance tests, one homeostatic-RL env, AERA causal learning (as feasible), PEPA public vs paper claims
-- Classify each: adopt / adapt / reference / reject (license + evidence)
-- LLM-as-conscious-loop + DB continuity is **not** endogenous homeostasis
-- AGPL (e.g. AEROS core) needs explicit operator license decision before adopt
+Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PEPA → Soar/Hyperon (only if needed).
+
+Classify each: adopt / adapt / reference / reject. LLM-as-conscious-loop + DB continuity is **not** endogenous homeostasis. AGPL needs an explicit operator license decision before adopt.
 
 ## Navigation
 

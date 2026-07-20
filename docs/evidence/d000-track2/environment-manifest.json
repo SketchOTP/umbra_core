@@ -1,0 +1,25 @@
+{
+  "formal_reproduction": {
+    "path": "docs/prior-art/homeostatic-rl/formal_reproduction/",
+    "python": "3.x",
+    "dependencies_allowed": ["stdlib", "numpy", "matplotlib", "pytest"],
+    "dependencies_used": ["stdlib", "numpy", "pytest"],
+    "internal_variables": ["energy", "temperature"],
+    "drives": ["D1", "D2", "D3"],
+    "rewards": ["R0", "R1", "R2", "R3", "R4"],
+    "seeds": [0, 1, 2],
+    "steps_default": 80,
+    "deterministic_formulas": true
+  },
+  "upstream_venvs": {
+    "path": "/tmp/umbra-hrrl2",
+    "packages": ["gym==0.22.0", "pfrl==0.3.0", "trp_env editable"],
+    "mujoco_py": false,
+    "note": "Isolated; not vendored into UMBRA package"
+  },
+  "host": {
+    "os": "linux",
+    "torch_host": "present",
+    "python_host": "3.14"
+  }
+}

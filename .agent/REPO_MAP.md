@@ -3,30 +3,29 @@
 Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
-- `.agent/PROJECT_GOAL.md` — product and architecture source of truth (digital lifeform end goal)
-- `.agent/PROJECT_PROFILE.md` — repo identity, Mimir binding, program status, constraints
-- `AGENTS.md` — agent governance and Mimir V2 lifecycle (`CLAUDE.md` / `GEMINI.md` symlink here)
-- `COMMANDMENTS_OF_THE_CODE.md` — ethical and execution principles for coding agents
-- `.cursor/rules/` — Cursor rule adapters (governance, memory, Mimir, Serena, UMBRA architecture, directives)
+- `.agent/PROJECT_GOAL.md` — product SoT (companion organism core; chemistry optional/non-gating)
+- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status
+- `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
+- `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
+- `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`)
 
 ## Program directives
-- `docs/directives/UMBRA-D-000-prior-art-reproduction.md` — **active / blocks D-001**; prior-art audit + foundation selection
-- `docs/prior-art/` — reproduction/audit evidence + `SELECTION_LEDGER.md`
-- UMBRA-D-001 — **not started**; revise only after D-000 closes
+- `docs/directives/UMBRA-D-000-prior-art-reproduction.md` — **active / blocks D-001**; **D-000A rejected**
+- `docs/prior-art/SELECTION_LEDGER.md` — adopt/adapt/reference/reject ledger
+- `docs/prior-art/micropsi2/` — Track 1 evidence (`NOTES.md`, `reproduce_modulators.py`); label=INDEPENDENT_MECHANISM_REPRODUCTION
+- `docs/prior-art/homeostatic-rl/` — Track 2 HRRL formal repro + mechanism matrix
+- `docs/evidence/d000-track2/` — Track 2 manifests, causal/ablation JSON, final verdict
+- UMBRA-D-001 — **blocked** until D-000 closes
 
 ## Agent memory
-- `.agent/CURRENT.md` — mutable working state
-- `.agent/DIRECTIVES.md` — append-only task-start log
-- `.agent/OUTCOMES.md` — append-only task-end log
-- `.agent/LEARNINGS.md` — append-only repo-specific lessons
-- `.agent/REPO_MAP.md` — this file
-- `.agent/RECORD.md` — operator-only architect instruction log (agents must not edit)
+- `.agent/CURRENT.md`, `DIRECTIVES.md`, `OUTCOMES.md`, `LEARNINGS.md`, `REPO_MAP.md`
+- `.agent/RECORD.md` — operator-only (agents must not edit)
 
 ## Tooling
-- MCP: configure globally in `~/.cursor/mcp.json` (Mimir, Serena, GitHub) — do not duplicate in-repo
-- `.serena/project.yml` — Serena project name `UMBRA-CORE`
-- `.cursor/skills/mimir/SKILL.md` — Mimir V2 session workflow skill
+- MCP: `~/.cursor/mcp.json` (Mimir, Serena) — repo `.cursor/mcp.json` empty
+- `.serena/project.yml` — Serena `UMBRA-CORE`
+- Mimir SSH connection name `UMBRA-CORE` → `/home/sketch/Projects/UMBRA-CORE`
 
-## Application / vendor code
-- No UMBRA organism kernel yet (blocked on D-000).
-- Prior-art checkouts (when added) should live under an explicit path recorded in `docs/prior-art/` — never silently become “the creature.”
+## Application / vendor
+- No UMBRA organism kernel yet (D-001 blocked).
+- Prior-art upstream clones under `docs/prior-art/*/upstream/` are local evaluation copies (gitignored); never treat as the companion.

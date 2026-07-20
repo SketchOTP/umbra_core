@@ -1,0 +1,39 @@
+{
+  "homeostatic_agents_pfrl": {
+    "attempted": true,
+    "commit": "3d0a9b31ebec9dab8d24322e8bef8e639705ca74",
+    "import_util": true,
+    "pfrl_host": false,
+    "mujoco_py": false,
+    "pretrained_eval": false,
+    "bounded_training": false,
+    "static_audit": true,
+    "reward_settings_observed": [
+      "homeostatic_shaped",
+      "homeostatic",
+      "homeostatic_biased",
+      "one",
+      "greedy"
+    ],
+    "verdict": "UPSTREAM_RUNTIME_BLOCKED"
+  },
+  "deeprl_gfn": {
+    "attempted": true,
+    "commit": "2f7af29311484bcc8f624359c7d60aa9a0cc64c9",
+    "gym_venv": true,
+    "pfrl_venv": true,
+    "trp_env_editable_install": true,
+    "trp_env_import": true,
+    "TwoResourceEnv": "ModuleNotFoundError: mujoco_py",
+    "rules_import": true,
+    "source_derived_homeostatic_shaped_smoke": true,
+    "source_derived_results": {
+      "r_rec": 0.15,
+      "r_over": -0.16,
+      "r_def_gt_r_sat": true
+    },
+    "pretrained_eval": false,
+    "bounded_training": false,
+    "verdict": "SOURCE_DERIVED_OK_FULL_ENV_BLOCKED"
+  }
+}
