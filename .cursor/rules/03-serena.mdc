@@ -1,0 +1,22 @@
+---
+alwaysApply: true
+---
+# Serena + Symbol Navigation (UMBRA-CORE)
+
+Mimir V2 remains mandatory for coding tasks (see `02-mimir-v2.mdc`). Serena provides symbol-aware inspection when application code exists.
+
+## When to use Serena
+
+- Exact symbol lookup, references, renames, and surgical edits
+- Prefer after Mimir context compile / hybrid search bounds the area
+- Greenfield: Serena project is configured as `UMBRA-CORE` (`.serena/project.yml`); languages list may be empty until stack is chosen
+
+## Rules
+
+- Prefer precise symbol lookup over broad search-and-replace
+- Preserve existing repository conventions unless they conflict with `.agent/PROJECT_GOAL.md` or the active task
+- If Serena is unavailable or languages are empty, fall back to targeted reads, `rg`, and compiler diagnostics — report the limitation plainly
+
+## Governance reminder
+
+Read `PROJECT_GOAL.md`, `PROJECT_PROFILE.md`, and `CURRENT.md` every task. Follow the Mimir V2 lifecycle. Do not edit `.agent/RECORD.md`.

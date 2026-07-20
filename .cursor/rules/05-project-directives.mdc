@@ -1,0 +1,80 @@
+---
+alwaysApply: true
+---
+# Project Directive Rules (UMBRA-CORE)
+
+These rules apply to this repository and govern every coding task. Pure conversation with no repository work does not start a Mimir task.
+
+## Repository Governance Contract
+
+Maintain under `.agent/`: `PROJECT_GOAL.md`, `PROJECT_PROFILE.md`, `CURRENT.md`, `DIRECTIVES.md`, `OUTCOMES.md`, `LEARNINGS.md`, `RECORD.md`, `REPO_MAP.md`.
+
+- Create missing files before repository edits; preserve compatible content.
+- Read `PROJECT_GOAL.md`, `PROJECT_PROFILE.md`, and `CURRENT.md` every task.
+- Read relevant recent `DIRECTIVES.md` / `OUTCOMES.md` before changing code.
+- Consult and update `REPO_MAP.md` for touched areas.
+- Append `DIRECTIVES.md` at task start; append `OUTCOMES.md` at task end.
+- Append `LEARNINGS.md` only for durable evidence-backed facts.
+- Do not edit `RECORD.md` (operator-only).
+- Update `CURRENT.md` at start, pivots/blockers, and end.
+- Never rewrite append-only history.
+
+`PROJECT_PROFILE.md` MUST contain one committed Mimir project ID. Resolve against this machine's workspace path. Register only if absent or `UNBOUND`.
+
+## Mimir V2
+
+Mandatory lifecycle: register/resolve → `mimir_task_begin` → `mimir_context_compile` → observe (durable facts only) → `mimir_validation_run` → `mimir_task_evidence` → `mimir_task_close`. Retain latest task version throughout.
+
+## Directive Scope
+
+When a directive contains `DIRECTIVE ID: D-###`:
+
+- Preserve that exact project directive ID
+- Create a local agent-memory ID (`D-YYYYMMDD-HHMM-slug`) for `.agent/DIRECTIVES.md`
+- Record both IDs in directives/outcomes and the final response
+- Do not merge the two ID systems
+
+If no project directive ID is present, follow normal governance and do not invent one.
+
+## Scope Control
+
+Follow the active directive exactly. Do not implement future sprint work, add unrelated features, perform broad refactors, add dependencies unless required, or remove working behavior unless required. If the directive conflicts with `PROJECT_GOAL.md`, tests, or governance, report the conflict.
+
+## Repository Notes (UMBRA-CORE)
+
+### Layout
+
+```text
+UMBRA-CORE/
+├── .agent/                 # Governance + local memory (PROJECT_GOAL is product SoT)
+├── docs/directives/        # Project directives (UMBRA-D-000 active; blocks D-001)
+├── docs/prior-art/         # Reproduction/audit evidence + selection ledger
+├── .cursor/rules/          # Cursor always-apply rules
+├── .cursor/skills/mimir/   # Mimir V2 skill
+├── .serena/                # Serena project (name: UMBRA-CORE)
+├── AGENTS.md               # Agent instructions (CLAUDE.md/GEMINI.md → symlink)
+└── COMMANDMENTS_OF_THE_CODE.md
+```
+
+Organism kernel: blocked until D-000 closes. Update `.agent/REPO_MAP.md` when code or prior-art checkouts land.
+
+### Development
+
+- Target platform: Linux
+- Stack TBD — choose languages/tools that serve PROJECT_GOAL; do not import foreign-repo structure
+- Prefer `.venv` when Python appears; prefer Cargo/workspace norms when Rust appears
+- MCP servers live in `~/.cursor/mcp.json` (Mimir, Serena) — repo `.cursor/mcp.json` stays empty
+
+### Verification
+
+- Run the smallest relevant checks that validate the change
+- Do not claim tests or manual verification you did not perform
+- Do not hide failed tests, missing proof, or unresolved risks
+
+## Reporting for Directive Work
+
+Include: project directive ID (if any), agent-memory directive ID, changed summary, files, tests, manual verification, deviations, known issues, backup/savepoint, Memory/MCP status, next step if needed.
+
+## Backup or Savepoint
+
+If requested: create before changing files; do not overwrite uncommitted user work; report exact branch/tag. If not requested: `Not requested`.

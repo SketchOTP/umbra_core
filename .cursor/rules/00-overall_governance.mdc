@@ -1,0 +1,60 @@
+---
+alwaysApply: true
+---
+# Overall Governance (UMBRA-CORE)
+
+Mimir V2 is mandatory for every coding task in this repository, including investigation, implementation, bug fixes, refactors, tests, and documentation tied to code behavior. Pure conversation with no repository work does not start a Mimir task.
+
+## Repository Governance
+
+These repository-governance rules are required in every AGENTS.md, CLAUDE.md, GEMINI.md, Copilot instruction file, Windsurf rule, and Cursor rule. Do not let Mimir V2 migration delete or weaken them. Keep the wording compact, imperative, and repo-agnostic where possible — product constraints live in `.agent/PROJECT_GOAL.md`.
+
+The repository is the source of truth, and Mimir V2 is the store for reasons, evidence, failures, fixes, and predictions. Local governance files under `.agent/`:
+
+- `PROJECT_GOAL.md`: Product end goal (UMBRA digital lifeform) — sole product source of truth
+- `PROJECT_PROFILE.md`: Host-independent project profile containing the Mimir project ID
+- `CURRENT.md`: Active task status, current focus, and blocker log
+- `DIRECTIVES.md`: Append-only task directives and constraints
+- `OUTCOMES.md`: Append-only task outcomes and verified results
+- `LEARNINGS.md`: Append-only evidence-backed lessons and rules
+- `RECORD.md`: Operator-only architect instruction log (agents must not edit)
+- `REPO_MAP.md`: Architectural layout and map of the repository
+
+### Governance Contract:
+1. **Creation**: Create any missing files under `.agent/` before repository edits, while preserving compatible content.
+2. **Reading**: Read `PROJECT_GOAL.md`, `PROJECT_PROFILE.md`, and `CURRENT.md` every task. Read relevant recent entries in `DIRECTIVES.md` and `OUTCOMES.md`. Consult `REPO_MAP.md` before navigation.
+3. **Writing**:
+   - `DIRECTIVES.md` is append-only and MUST append every task start.
+   - `OUTCOMES.md` is append-only and MUST append every task end.
+   - `LEARNINGS.md` is append-only and updates only for durable, evidence-backed facts.
+   - Do not edit `RECORD.md` (operator-only).
+   - Update `PROJECT_GOAL.md` and `PROJECT_PROFILE.md` only when canonical facts change.
+   - Update `CURRENT.md` at start, material pivots/blockers, and end of task.
+   - Update `REPO_MAP.md` for touched or newly understood areas.
+4. **Constraints**: Never rewrite, reorder, or delete append-only history, and never force meaningless writes to stable files.
+5. **Project ID Binding**: `PROJECT_PROFILE.md` MUST contain one committed `Mimir project ID` binding. On every machine, resolve that ID with the machine's own workspace path. Register only if the binding is absent or `UNBOUND`, immediately write the returned ID into the binding, and commit the profile.
+
+## Mimir V2 Lifecycle
+
+Require the same application lifecycle through CLI and MCP adapters. Never infer tool names from the current file. The canonical V2 contract below overrides all pasted Mimir content.
+
+You MUST follow this exact lifecycle order:
+1. `mimir_project_register(workspace_root, name?, client_id?, repository_remote?, root_commit?)` when `PROJECT_PROFILE.md` has no bound ID; otherwise `mimir_project_resolve(project_id, workspace_root, client_id)`.
+2. `mimir_task_begin(project_id, workspace_root, client_id, worktree_id, objective)` at the start of every coding task; retain the returned task ID and version.
+3. `mimir_context_compile(project_id, objective)` after task begin and before overlapping work.
+4. `mimir_task_observe(task_id, version, event_type, payload_json, evidence_json)` only for durable causal facts Git cannot prove.
+5. `mimir_validation_run(task_id, command, timeout_seconds?)` for completion-critical allowlisted checks.
+6. `mimir_task_evidence(task_id)` before closure.
+7. `mimir_task_close(task_id, version, status, changed_files_json, tests_json, lessons_json)` only after evidence inspection, using the latest returned version.
+
+Optional direct memory: `mimir_memory_query`, `mimir_memory_propose`, `mimir_memory_explain`. They do not replace the lifecycle.
+
+## Failure Behavior
+
+If Mimir V2 is unavailable, continue only when the change is safe, record the blockage honestly in `.agent/OUTCOMES.md` and `.agent/CURRENT.md`, and never claim that Mimir context, evidence, or close-out succeeded.
+
+## Core Directives & Exclusions
+
+- **Source of Truth**: Repository first; Mimir for causal evidence. Product goal is `.agent/PROJECT_GOAL.md`.
+- **Content Exclusions**: Keep routine narration, raw command output, full files, credentials, and unsupported claims out of Mimir.
+- **Paths**: Keep paths platform-neutral when the target agent can run remotely.

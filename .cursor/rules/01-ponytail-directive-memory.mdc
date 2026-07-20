@@ -1,0 +1,114 @@
+---
+alwaysApply: true
+---
+# Ponytail Directive Memory (UMBRA-CORE)
+
+Follow root `AGENTS.md`. Treat repository instructions and `.agent/` governance as co-equal with Mimir V2. Product constraints come from `.agent/PROJECT_GOAL.md`.
+
+Use the smallest correct change. Prefer deletion, reuse, and boring local fixes over new abstractions.
+
+## Scope
+
+This file governs every coding task in this repository, including investigation, implementation, refactors, bug fixes, tests, documentation tied to code behavior, and validation work.
+
+Pure conversation with no repository work does not start a Mimir task.
+
+## Repository Governance Contract
+
+Maintain the attached-style `.agent/` files as the local repository memory layer.
+
+Files:
+- `.agent/PROJECT_GOAL.md` — canonical project goal and scope (UMBRA digital lifeform).
+- `.agent/PROJECT_PROFILE.md` — canonical project binding; contains exactly one committed Mimir project ID.
+- `.agent/CURRENT.md` — live task state.
+- `.agent/DIRECTIVES.md` — append-only task starts.
+- `.agent/OUTCOMES.md` — append-only task ends.
+- `.agent/LEARNINGS.md` — append-only durable facts.
+- `.agent/RECORD.md` — operator-only; agents must not edit.
+- `.agent/REPO_MAP.md` — navigation map for touched or newly understood areas.
+
+Rules:
+- Create missing files before repository edits while preserving any compatible existing content.
+- Read `.agent/PROJECT_GOAL.md`, `.agent/PROJECT_PROFILE.md`, and `.agent/CURRENT.md` at the start of every task.
+- Read relevant recent entries in `.agent/DIRECTIVES.md` and `.agent/OUTCOMES.md` before work that may overlap prior work.
+- Consult `.agent/REPO_MAP.md` before broad navigation or file discovery.
+- Update `.agent/REPO_MAP.md` for touched areas or newly understood areas.
+- Append to `.agent/DIRECTIVES.md` at task start. Never rewrite, reorder, or delete its history.
+- Append to `.agent/OUTCOMES.md` at task end. Never rewrite, reorder, or delete its history.
+- Update `.agent/LEARNINGS.md` only for durable, evidence-backed facts.
+- Do not edit `.agent/RECORD.md`.
+- Update `.agent/PROJECT_GOAL.md` and `.agent/PROJECT_PROFILE.md` only when canonical facts change.
+- Update `.agent/CURRENT.md` at task start, at material pivots or blockers, and at task end.
+- Never force meaningless writes to stable files.
+
+`PROJECT_PROFILE.md` binding rule:
+- The file must contain one committed Mimir project ID binding.
+- On every machine, resolve that ID against the machine's own workspace path.
+- If the binding is absent or `UNBOUND`, register the project, immediately write the returned ID into the binding, and commit the profile.
+- Never guess project identity from a path.
+- Never require a Windows path, create a host copy, or fall back without Mimir.
+
+## Mimir V2 Mandate
+
+Use only this canonical lifecycle:
+
+1. `mimir_project_register` when unbound; else `mimir_project_resolve`
+2. `mimir_task_begin` — retain task ID and version
+3. `mimir_context_compile`
+4. `mimir_task_observe` only for durable causal facts; retain latest version
+5. `mimir_validation_run` for allowlisted completion-critical checks
+6. `mimir_task_evidence` before closure
+7. `mimir_task_close` with latest version after evidence inspection
+
+Optional: `mimir_memory_query`, `mimir_memory_propose`, `mimir_memory_explain`.
+
+## Failure Handling
+
+If Mimir V2 is unavailable: continue only when safe; record blockage in `.agent/CURRENT.md` and `.agent/OUTCOMES.md`; never claim Mimir succeeded.
+
+## Ponytail Ladder
+
+Before writing new code, stop at the first valid option:
+1. Does this need to exist?
+2. Is this already solved in the repo?
+3. Can stdlib or native platform features handle it?
+4. Can an already-installed dependency handle it?
+5. Can one clear line handle it?
+6. Can a small local change handle it?
+7. Only then add a helper or module.
+
+## UMBRA product gate
+
+Reject designs that:
+- script eat/repair/approach/bond/fear/reproduce/emotion via a central controller
+- fake life with LLM personality prompts, reaction tables, or animation states
+- require a user to be present for the organism to continue living
+
+Prefer emergent, causal, resource-backed mechanisms per `.agent/PROJECT_GOAL.md`.
+
+## Hard Rules
+
+- Read touched code first.
+- Root cause over symptom.
+- Check callers before changing shared code.
+- No speculative abstractions.
+- No new dependency unless proven necessary.
+- No broad refactor for a narrow fix.
+- Prefer deletion over addition; boring over clever.
+- Never skip validation, security, accessibility, data safety, or needed error handling.
+- Non-trivial logic gets one smallest useful check.
+- Mark known shortcuts with `ponytail:` plus ceiling and upgrade path.
+
+## Current State / Directive / Outcome formats
+
+Follow `AGENTS.md` templates for `CURRENT.md`, directive start lines, outcomes, and final responses.
+
+## End-Of-Task Sequence
+
+1. Compare work against acceptance and PROJECT_GOAL constraints
+2. Validate; use `mimir_validation_run` when available
+3. Inspect `mimir_task_evidence` when available
+4. Close Mimir task when available
+5. Append `.agent/OUTCOMES.md`; update `.agent/CURRENT.md`
+6. Append `.agent/LEARNINGS.md` / update `.agent/REPO_MAP.md` only if useful
+7. Check `git status --short`

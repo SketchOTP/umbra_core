@@ -1,0 +1,37 @@
+---
+alwaysApply: true
+---
+# Mimir V2 Lifecycle Detail (UMBRA-CORE)
+
+Mimir V2 MUST be used for every coding task in this repository. Pure conversation with no repository work does not start a Mimir task.
+
+## Mandatory Lifecycle
+
+1. **Project Registration / Resolution**:
+   - `mimir_project_register(workspace_root, name?, client_id?, repository_remote?, root_commit?)` when `.agent/PROJECT_PROFILE.md` has no bound ID (absent or `UNBOUND`). Write the returned ID immediately into the binding and commit the profile. Prefer name `UMBRA-CORE`.
+   - Otherwise `mimir_project_resolve(project_id, workspace_root, client_id)`.
+   - NEVER guess project identity from a path. NEVER bind this checkout to a foreign project (e.g. another repo's chemistry/agent history).
+
+2. **Task Inception**: `mimir_task_begin` — retain task ID and version.
+
+3. **Context Compilation**: `mimir_context_compile` after task begin and before overlapping work.
+
+4. **Task Observation**: `mimir_task_observe` ONLY for durable causal facts Git cannot prove. Every success returns a new version; retain and reuse the latest.
+
+5. **Validation Run**: `mimir_validation_run` for allowlisted completion-critical checks.
+
+6. **Evidence Inspection**: `mimir_task_evidence` before closure.
+
+7. **Task Closure**: `mimir_task_close` only after evidence inspection, using the latest version.
+
+## Direct Memory Tools
+
+`mimir_memory_query`, `mimir_memory_propose`, `mimir_memory_explain` — optional; never replace the lifecycle. Do not run mature-repo onboard on every task.
+
+## Local Governance
+
+Maintain `.agent/` contract files per `01-repository-memory.mdc`. Read `PROJECT_GOAL.md` every task. Agents must not edit `RECORD.md`.
+
+## Failure Handling
+
+If Mimir V2 is unavailable, continue only when safe, record blockage in `.agent/CURRENT.md` / `.agent/OUTCOMES.md`, and never claim success.
