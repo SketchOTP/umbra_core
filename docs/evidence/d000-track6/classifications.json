@@ -1,0 +1,150 @@
+{
+  "track": 6,
+  "verdict_context": "UMBRA_D000_TRACK6_PARTIAL_MECHANISM_QUALIFICATION",
+  "mechanisms": [
+    {
+      "mechanism": "Sys1/Sys2/Sys3 layer separation",
+      "classification": "ADAPT",
+      "confidence": 0.88,
+      "evidence": "independent_reproduction layered goals + skills + reflection; ARCHITECTURE_DISSECTION",
+      "limitation": "PEPA implements Sys2/Sys3 with LLMs; adapt structure only",
+      "umbra_boundary": "Clean-room layering; no PEPA cloud Sys3"
+    },
+    {
+      "mechanism": "Internal vs external goal arbitration",
+      "classification": "ADAPT",
+      "confidence": 0.9,
+      "evidence": "governance_block_rate=1.0 under critical energy; test_external_request_cannot_bypass_governance",
+      "limitation": "Micro-world priorities only",
+      "umbra_boundary": "External requests never auto-override safety/homeostasis/governance"
+    },
+    {
+      "mechanism": "Periodic bounded reflection (outcome-weight retune)",
+      "classification": "ADAPT",
+      "confidence": 0.86,
+      "evidence": "reflection_delta≈0.999 on stress probe C6 vs C7; test_reflection_has_measurable_value",
+      "limitation": "Not PEPA LLM autobiographical reflection",
+      "umbra_boundary": "Deterministic bounded retune only; prose diaries do not qualify"
+    },
+    {
+      "mechanism": "Embodiment-aware goal filtering / charging self-preservation",
+      "classification": "ADAPT",
+      "confidence": 0.9,
+      "evidence": "C6 viability≈1.0 vs C0≈0.15; critical charge override; C8 over-acts without costs",
+      "limitation": "Abstract battery model",
+      "umbra_boundary": "Body costs and capabilities constrain goals"
+    },
+    {
+      "mechanism": "Skill-level execution separated from goal generation",
+      "classification": "ADAPT",
+      "confidence": 0.85,
+      "evidence": "Fixed SKILLS repertoire; goals select among skills",
+      "limitation": "Closed skill set ≠ open-ended motor evolution",
+      "umbra_boundary": "Skills are interfaces; not the will"
+    },
+    {
+      "mechanism": "Persistent operation without continuous user instruction",
+      "classification": "ADAPT",
+      "confidence": 0.92,
+      "evidence": "unprompted_action_rate C6=1.0; test_agent_acts_without_user_prompt",
+      "limitation": "Accelerated ticks; not multi-day robot deployment",
+      "umbra_boundary": "Must remain active when unobserved"
+    },
+    {
+      "mechanism": "History-dependent behavioral individuality via memory",
+      "classification": "ADAPT",
+      "confidence": 0.9,
+      "evidence": "history_effect_play/social; C2 history effect ≈0; test_different_histories_change_behavior",
+      "limitation": "Preference shaping, not full developmental temperament",
+      "umbra_boundary": "Lived history > authored traits"
+    },
+    {
+      "mechanism": "Homeostatic motivation / satiation",
+      "classification": "ADAPT",
+      "confidence": 0.88,
+      "evidence": "Tracks 1–2 composition; satiation>0; homeostasis ablation vs C0",
+      "limitation": "Inherited from prior tracks; PEPA itself uses LLM rewards",
+      "umbra_boundary": "Physiology drives; not LLM intrinsic reward"
+    },
+    {
+      "mechanism": "MCTS planning / policy distillation",
+      "classification": "REFERENCE",
+      "confidence": 0.7,
+      "evidence": "paper §III-B only; no public code",
+      "limitation": "Upstream blocked; LLM-centered",
+      "umbra_boundary": "Reference algorithms; not required kernel"
+    },
+    {
+      "mechanism": "Quadruped navigation / elevator / staircase skills",
+      "classification": "REFERENCE",
+      "confidence": 0.65,
+      "evidence": "paper + site demos; anonymous.4open 401",
+      "limitation": "Code unreachable; robotics-specific",
+      "umbra_boundary": "Body adapters later; not organism core"
+    },
+    {
+      "mechanism": "Daily goal hierarchy (ultimate/daily)",
+      "classification": "REFERENCE",
+      "confidence": 0.75,
+      "evidence": "paper Table II; independent bounded goal queue",
+      "limitation": "PEPA hierarchy LLM-authored",
+      "umbra_boundary": "Hierarchy OK if endogenous; not prompt-injected"
+    },
+    {
+      "mechanism": "User-authored Big Five personality as individuality",
+      "classification": "REJECT",
+      "confidence": 0.95,
+      "evidence": "test_authored_personality_alone_is_not_individuality; site personality prompts",
+      "limitation": "May still be useful as UI presentation layer",
+      "umbra_boundary": "Never constitutional identity"
+    },
+    {
+      "mechanism": "LLM-generated intrinsic reward as primary motivation",
+      "classification": "REJECT",
+      "confidence": 0.95,
+      "evidence": "paper Eq.2 Sys3; C3 negative control; PROJECT_GOAL",
+      "limitation": "n/a",
+      "umbra_boundary": "Motivation from regulation/history"
+    },
+    {
+      "mechanism": "LLM reflection as organism development",
+      "classification": "REJECT",
+      "confidence": 0.9,
+      "evidence": "site Sys3 prompts; independent measurable reflection is non-LLM",
+      "limitation": "Language may narrate later",
+      "umbra_boundary": "Development ≠ generated autobiography"
+    },
+    {
+      "mechanism": "Generated goals as inherently autonomous",
+      "classification": "REJECT",
+      "confidence": 0.9,
+      "evidence": "Goals from LLM prompts are authored-by-proxy",
+      "limitation": "Endogenous goal formation still desired",
+      "umbra_boundary": "Autonomy requires internal regulation, not text generation"
+    },
+    {
+      "mechanism": "Fixed action diversity as open-ended evolution",
+      "classification": "REJECT",
+      "confidence": 0.9,
+      "evidence": "paper OEE claim over ~19 discrete actions; LIMITATIONS",
+      "limitation": "Skill libraries can grow via governance later",
+      "umbra_boundary": "Do not equate repertoire novelty with OEE"
+    },
+    {
+      "mechanism": "Personality alignment as proof of aliveness",
+      "classification": "REJECT",
+      "confidence": 0.92,
+      "evidence": "COMPANION_RELEVANCE; PROJECT_GOAL success criteria",
+      "limitation": "n/a",
+      "umbra_boundary": "Trait-matching ≠ organismhood"
+    },
+    {
+      "mechanism": "PEPA as complete UMBRA brain",
+      "classification": "REJECT",
+      "confidence": 0.95,
+      "evidence": "Missing code; LLM-centered; D-001 blocked",
+      "limitation": "n/a",
+      "umbra_boundary": "Prior-art only"
+    }
+  ]
+}

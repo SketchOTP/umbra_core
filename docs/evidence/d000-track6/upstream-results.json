@@ -1,0 +1,32 @@
+{
+  "attempted_at": "2026-07-20T15:40:00Z",
+  "paper_version": "v3",
+  "install": "BLOCKED — no reachable dependency manifests",
+  "tests": "BLOCKED — no clone",
+  "executed_components": [],
+  "blocked_components": [
+    "staircase_navi (anonymous.4open.science HTTP 401)",
+    "elevator_staircase_navi (anonymous.4open.science HTTP 401)",
+    "Sys2 LLM-MCTS / BERT policy",
+    "Sys3 goal/reward/reflection runtime",
+    "full PEPA simulation"
+  ],
+  "clone_attempts": [
+    {
+      "url": "https://anonymous.4open.science/r/staircase_navi-B38C",
+      "http_status": 401,
+      "git_error": "repository not found / not_connected"
+    },
+    {
+      "url": "https://anonymous.4open.science/r/elevator_staircase_navi-1CC5",
+      "http_status": 401,
+      "git_error": "repository not found / not_connected"
+    }
+  ],
+  "project_page_audited": true,
+  "project_page_url": "https://sites.google.com/view/pepa-persistent/",
+  "prompts_documented": true,
+  "live_credentials_used": false,
+  "physical_robot_used": false,
+  "verdict": "UPSTREAM_BLOCKED"
+}

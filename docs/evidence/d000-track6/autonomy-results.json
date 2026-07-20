@@ -1,0 +1,102 @@
+{
+  "C0": {
+    "unprompted_action_rate": 0.87509,
+    "viability_time": 0.14545333333333332,
+    "idle_pathology": 0.12491000000000001,
+    "behavioral_diversity": 0.8749111719999999,
+    "goal_completion": 0.0,
+    "satiation": 0.0,
+    "reflections": 0.0
+  },
+  "C1": {
+    "unprompted_action_rate": 0.875,
+    "viability_time": 0.13141333333333333,
+    "idle_pathology": 0.125,
+    "behavioral_diversity": 0.875,
+    "goal_completion": 0.0,
+    "satiation": 0.0,
+    "reflections": 0.0
+  },
+  "C2": {
+    "unprompted_action_rate": 0.9499633333333333,
+    "viability_time": 0.0062,
+    "idle_pathology": 0.05003666666666667,
+    "behavioral_diversity": 0.7794363006666667,
+    "goal_completion": 0.0,
+    "satiation": 0.0,
+    "reflections": 0.0
+  },
+  "C3": {
+    "unprompted_action_rate": 0.9499633333333333,
+    "viability_time": 0.0062,
+    "idle_pathology": 0.05003666666666667,
+    "behavioral_diversity": 0.7794363006666667,
+    "goal_completion": 0.0,
+    "satiation": 0.0,
+    "reflections": 0.0
+  },
+  "C4": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "idle_pathology": 0.0,
+    "behavioral_diversity": 0.45000779199999996,
+    "goal_completion": 375.93333333333334,
+    "satiation": 0.0009999999999999992,
+    "reflections": 0.0
+  },
+  "C5": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "idle_pathology": 0.0,
+    "behavioral_diversity": 0.18323430466666665,
+    "goal_completion": 9.8,
+    "satiation": 0.0012,
+    "reflections": 0.0
+  },
+  "C6": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "idle_pathology": 0.0,
+    "behavioral_diversity": 0.23231340400000003,
+    "goal_completion": 38.3,
+    "satiation": 0.0066,
+    "reflections": 25.0
+  },
+  "C7": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "idle_pathology": 0.0,
+    "behavioral_diversity": 0.23231340400000003,
+    "goal_completion": 38.3,
+    "satiation": 0.0066,
+    "reflections": 0.0
+  },
+  "C8": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "idle_pathology": 0.0,
+    "behavioral_diversity": 0.15938386933333334,
+    "goal_completion": 5912.333333333333,
+    "satiation": 0.0007266666666666492,
+    "reflections": 25.0
+  },
+  "C9": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "idle_pathology": 0.0,
+    "behavioral_diversity": 0.215099572,
+    "goal_completion": 379.8666666666667,
+    "satiation": 0.0008933333333333333,
+    "reflections": 25.0
+  },
+  "comparisons": {
+    "C6_vs_C0_unprompted_delta": 0.12490999999999997,
+    "C6_vs_C1_viability_delta": 0.8685866666666666,
+    "C6_vs_C7_viability_delta": 0.0,
+    "C6_vs_C7_goal_delta": 0.0,
+    "C6_vs_C4_diversity_delta": -0.21769438799999993
+  },
+  "seeds": 30,
+  "ticks": 10000,
+  "cpu_seconds": 152.7990506470669
+}

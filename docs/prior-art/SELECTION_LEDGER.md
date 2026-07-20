@@ -28,9 +28,11 @@ Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PE
 | Hexis persistence/heartbeat/memory | adapt (partial) | MIT | docs/prior-art/hexis/ | Track 3 PARTIAL |
 | AEROS identity/governance | adapt (partial) | AGPL-3.0 / Apache-2.0 | docs/prior-art/aeros/ | Track 4 PARTIAL; AGPL reference-only |
 | AERA causal learning | adapt (partial) | HUMANOBS BSD+CADIA (reference-only) | docs/prior-art/aera/ | Track 5 PARTIAL; runtime reference-only |
-| PEPA public code | TBD | (verify) | | |
+| PEPA layered autonomy (Sys1/2/3 structure, arbitration, bounded reflection, embodiment filtering, unprompted persistence) | adapt (partial) | UNVERIFIED_NO_REACHABLE_REPO | docs/prior-art/pepa/ | Track 6 PARTIAL; clean-room only |
+| PEPA Big Five / LLM goals-rewards / LLM reflection / OEE-over-fixed-skills / PEPA-as-brain | reject | n/a | docs/prior-art/pepa/ | Authored personality ≠ individuality |
+| PEPA MCTS/BERT, quadruped nav, elevator/stairs, daily hierarchy | reference | unreachable code | docs/prior-art/pepa/ | Paper + blocked anonymous.4open |
 | OpenLife | reject | not released | | Conceptual only |
-| Soar / OpenCog Hyperon | TBD | | | Only if gaps remain |
+| Soar / OpenCog Hyperon | TBD | | | Only if gaps remain after D-000 synthesis |
 | Chemistry / protocell (D-000A) | reject (as gate) | n/a | PROJECT_GOAL optional section | Deferred optional research; do not execute D-000A |
 
 
@@ -109,3 +111,22 @@ Pin: IIIM-IS/AERA `@77b570226d12052828ff5b7ee0ca968bf1702221` (HUMANOBS BSD + CA
 | Replicode as core; AERA runtime dep; generated code exec; designer drives-as-autonomy; monolithic brain; models grant authority | REJECT | 0.95 | Forbidden |
 
 Evidence: `docs/evidence/d000-track5/`, `docs/prior-art/aera/`.
+
+## Track 6 — PEPA (persistent autonomy) — 2026-07-20
+
+Verdict: `UMBRA_D000_TRACK6_PARTIAL_MECHANISM_QUALIFICATION`  
+Paper: arXiv:2603.00117**v3** | Upstream nav: anonymous.4open.science **BLOCKED** (HTTP/API 401)
+
+| Mechanism | Class | Confidence | UMBRA boundary |
+|---|---|---|---|
+| Sys1/Sys2/Sys3 separation | ADAPT | 0.88 | Structure only; no LLM Sys3 |
+| Internal↔external arbitration | ADAPT | 0.90 | Never auto-override safety |
+| Bounded non-LLM reflection | ADAPT | 0.86 | Weight retune ≠ diary |
+| Embodiment / charging filters | ADAPT | 0.90 | Body constrains goals |
+| Skill execution ≠ goal gen | ADAPT | 0.85 | Closed skills ≠ OEE |
+| Unprompted persistence | ADAPT | 0.92 | Active when unobserved |
+| History individuality via memory | ADAPT | 0.90 | Not Big Five |
+| MCTS / BERT / nav skills / daily hierarchy | REFERENCE | 0.65–0.75 | Unreachable / optional |
+| Big Five individuality; LLM rewards/reflection; generated-goals-as-autonomy; OEE-over-fixed-skills; personality=aliveness; PEPA-as-brain | REJECT | 0.90–0.95 | Forbidden for core |
+
+Evidence: `docs/evidence/d000-track6/`, `docs/prior-art/pepa/`.

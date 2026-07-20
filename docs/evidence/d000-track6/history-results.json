@@ -1,0 +1,13 @@
+{
+  "play_rate_H1": 0.079,
+  "play_rate_H2": 2.222222222222222e-05,
+  "social_rate_H3": 0.08966666666666669,
+  "social_rate_H4": 0.0,
+  "history_effect_play": 0.07897777777777777,
+  "history_effect_social": 0.08966666666666669,
+  "c2_history_effect_play": 0.0,
+  "personality_play_spread_note": "authored personality may change rates; not individuality",
+  "seeds": 30,
+  "ticks": 3000,
+  "cpu_seconds": 14.09544534003362
+}

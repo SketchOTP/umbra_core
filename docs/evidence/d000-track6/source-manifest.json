@@ -1,0 +1,78 @@
+{
+  "paper_id": "2603.00117",
+  "paper_version": "v3",
+  "paper_url": "https://arxiv.org/abs/2603.00117v3",
+  "paper_html": "https://arxiv.org/html/2603.00117v3",
+  "project_page": "https://sites.google.com/view/pepa-persistent/",
+  "authors": [
+    "Kaige Liu",
+    "Yang Li",
+    "Lijun Zhu",
+    "Weinan Zhang"
+  ],
+  "repositories": [
+    {
+      "name": "staircase_navi",
+      "url": "https://anonymous.4open.science/r/staircase_navi-B38C",
+      "commit": null,
+      "license": null,
+      "license_hash": null,
+      "status": "UPSTREAM_BLOCKED",
+      "http_status": 401,
+      "error": "not_connected",
+      "attempted_at": "2026-07-20T15:40:00Z",
+      "released_component": "Sys1 staircase navigation module (claimed)"
+    },
+    {
+      "name": "elevator_staircase_navi",
+      "url": "https://anonymous.4open.science/r/elevator_staircase_navi-1CC5",
+      "commit": null,
+      "license": null,
+      "license_hash": null,
+      "status": "UPSTREAM_BLOCKED",
+      "http_status": 401,
+      "error": "not_connected",
+      "attempted_at": "2026-07-20T15:40:00Z",
+      "released_component": "Sys1 elevator + staircase navigation (claimed)"
+    }
+  ],
+  "released_components": [
+    "Project page documentation and Sys3 prompt templates",
+    "Demo videos (not executable)",
+    "Claimed navigation module URLs (unreachable at audit time)"
+  ],
+  "missing_components": [
+    "Full PEPA Sys3 personality/goal/reward generation codebase",
+    "Sys2 LLM-MCTS planner and distilled BERT policy weights",
+    "Episodic memory / reflection runtime",
+    "Unitree Go2-W deployment stack",
+    "End-to-end PEPA simulation harness",
+    "Cloneable git commits for navigation modules"
+  ],
+  "paper_only_claims": [
+    "Sys3 LLM generates ultimate/daily goals and intrinsic rewards from Big Five personality descriptions",
+    "Open-ended evolution via unbounded distinct goal sequences",
+    "Personality as intrinsic organizational principle of autonomy",
+    "Complete three-system closed loop on physical robot with cloud Sys3",
+    "Public release of full codebase and model details (only nav links + site prompts found)"
+  ],
+  "hardware_requirements": [
+    "Unitree Go2-W wheeled quadruped",
+    "Jetson Orin NX 16GB",
+    "6-DOF Piper arm",
+    "Livox Mid-360 LiDAR",
+    "Intel RealSense D405",
+    "Multi-floor office with elevator/stairs"
+  ],
+  "model_requirements": [
+    "LLM for Sys3 goal/reward generation and Sys2 MCTS prior/value",
+    "Distilled dual-head BERT policy for real-time Sys2",
+    "YOLO for elevator button detection",
+    "Open3D_loc / PCT-planner related stacks"
+  ],
+  "license": "NOT_PUBLISHED_WITH_REACHABLE_CODE",
+  "license_hash": null,
+  "license_stance": "UNVERIFIED_NO_REACHABLE_REPO",
+  "full_reproduction_claimed": false,
+  "audit_note": "Do not claim full PEPA reproduction; only documentation + blocked anonymous.4open links were available."
+}

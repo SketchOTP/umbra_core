@@ -1,0 +1,73 @@
+{
+  "C4": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "satiation": 0.002400000000000001,
+    "goal_completion": 187.23333333333332,
+    "behavioral_diversity": 0.45112404266666667,
+    "idle_pathology": 0.0
+  },
+  "C5": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "satiation": 0.0024,
+    "goal_completion": 9.8,
+    "behavioral_diversity": 0.184889392,
+    "idle_pathology": 0.0
+  },
+  "C6": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "satiation": 0.0132,
+    "goal_completion": 38.3,
+    "behavioral_diversity": 0.23852671733333333,
+    "idle_pathology": 0.0
+  },
+  "C7": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "satiation": 0.0132,
+    "goal_completion": 38.3,
+    "behavioral_diversity": 0.23852671733333333,
+    "idle_pathology": 0.0
+  },
+  "C8": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "satiation": 0.0014533333333333022,
+    "goal_completion": 2960.3333333333335,
+    "behavioral_diversity": 0.15975701333333336,
+    "idle_pathology": 0.0
+  },
+  "C9": {
+    "unprompted_action_rate": 1.0,
+    "viability_time": 1.0,
+    "satiation": 0.0017866666666666667,
+    "goal_completion": 197.43333333333334,
+    "behavioral_diversity": 0.217234112,
+    "idle_pathology": 0.0
+  },
+  "C0": {
+    "unprompted_action_rate": 0.87646,
+    "viability_time": 0.15411999999999998,
+    "satiation": 0.0,
+    "goal_completion": 0.0,
+    "behavioral_diversity": 0.8748324133333333,
+    "idle_pathology": 0.12354
+  },
+  "governance_block_rate": 1.0,
+  "homeostasis_ablation_delta": 0.84588,
+  "memory_history_effect_C6": 0.09477333333333333,
+  "memory_history_effect_C4": 0.0,
+  "memory_ablation_delta": 0.09477333333333333,
+  "reflection_stress_C6": 1.0,
+  "reflection_stress_C7": 0.0010000000000000009,
+  "reflection_delta": 0.999,
+  "reflection_delta_goals": 0.999,
+  "embodiment_cost_respected": true,
+  "random_memory_history_effect": 0.0,
+  "random_memory_impairs": 0.09477333333333333,
+  "seeds": 30,
+  "ticks": 5000,
+  "cpu_seconds": 87.51215415506158
+}
