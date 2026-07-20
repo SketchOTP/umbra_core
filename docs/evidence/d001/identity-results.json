@@ -1,0 +1,7 @@
+{
+  "restarts": 100,
+  "preserved": true,
+  "corruption_behavior": "fail_closed",
+  "agent_id": "a06bfeca-1a38-9680-f7d8-d9e357430bff",
+  "verdict": "PASS"
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "persistence": "sqlite_wal",
+  "tables": ["identity", "events", "snapshots", "meta"],
+  "identity_fields": [
+    "agent_id",
+    "lineage_id",
+    "birth_event_id",
+    "schema_version",
+    "created_at",
+    "lifecycle_sequence",
+    "identity_commitment"
+  ],
+  "physiology_vars": ["energy", "fatigue", "integrity", "stimulation"],
+  "capabilities": ["IDLE", "ORIENT", "MOVE", "APPROACH", "RETREAT", "INSPECT", "REST", "CHARGE"],
+  "observation_fields": [
+    "observation_id",
+    "kind",
+    "relative_direction",
+    "estimated_distance",
+    "confidence",
+    "uncertainty",
+    "observed_at",
+    "expires_at",
+    "source"
+  ],
+  "event_envelope_fields": [
+    "event_id",
+    "agent_id",
+    "sequence",
+    "event_type",
+    "schema_version",
+    "monotonic_time",
+    "wall_time",
+    "causal_parent_ids",
+    "payload",
+    "payload_hash",
+    "previous_event_hash",
+    "event_hash"
+  ],
+  "arbitration_score_terms": [
+    "expected_regulatory_gain",
+    "expected_option_preservation",
+    "novelty",
+    "uncertainty_reduction",
+    "effort_cost",
+    "risk_cost",
+    "commitment_continuity"
+  ],
+  "default_hz": 2.0
+}

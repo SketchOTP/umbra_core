@@ -1,0 +1,7 @@
+{
+  "birth_replay_match": true,
+  "ticks": 50,
+  "seeds": 100,
+  "hash_validation": true,
+  "snapshot_replay_match": true
+}

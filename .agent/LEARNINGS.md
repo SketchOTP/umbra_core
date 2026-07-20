@@ -28,3 +28,5 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - 2026-07-20 Track6: bounded deterministic reflection (weight retune) can show measurable value vs no-reflection; LLM autobiographical reflection is not required for that gate.
 - 2026-07-20 | area:architecture | lesson:D-000S freezes HYBRID_PRIMARY SQLite+vector physiology+constitutional identity+governed loop; Soar/Hyperon not required | evidence:docs/evidence/d000-synthesis/final-verdict.md
 - 2026-07-20 | area:program | lesson:D-001 authorized only under UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED; foundation excludes LLM/UI/robotics/OEE | evidence:docs/directives/UMBRA-D-001-invariant-companion-core.md
+- 2026-07-20 | area:d001 | lesson:Sticky serialized recovery focus + desperate locomotion costs needed for multi-deficit regulation; hide_physiology must disable reflexes for honest C3 ablation | evidence:docs/evidence/d001/physiology-results.json
+- 2026-07-20 | area:d001 | lesson:Loading full event chain into Python for validate_chain inflates RSS; measure perf before full-chain load; downsample drift/proposal events | evidence:docs/evidence/d001/performance-results.json

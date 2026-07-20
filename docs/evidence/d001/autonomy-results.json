@@ -1,0 +1,91 @@
+{
+  "recovery_rate": 1.0,
+  "C0_vs_C1": 0.5206315789473684,
+  "C0_vs_C2": 0.5206315789473684,
+  "C0_vs_C3_state_hidden": 0.5206315789473684,
+  "C0_vs_C4_no_drift": 0.1810982456140351,
+  "satiation_decline": 6.19,
+  "C7_restart_ok": true,
+  "C8_snapshot_ok": true,
+  "C9_fail_closed": 1.0,
+  "C5_denials": 10,
+  "summary": {
+    "C0": {
+      "n": 100,
+      "mean_time_in_viable": 0.5206315789473684,
+      "mean_thrash": 0.08189473684210526,
+      "mean_coverage": 56.86,
+      "mean_critical": 2.54,
+      "mean_seeking_before": 6.19,
+      "mean_seeking_after": 0
+    },
+    "C1": {
+      "n": 100,
+      "mean_time_in_viable": 0.0,
+      "mean_thrash": 0.8496,
+      "mean_coverage": 30.95,
+      "mean_critical": 132.02
+    },
+    "C2": {
+      "n": 100,
+      "mean_time_in_viable": 0.0,
+      "mean_thrash": 0.8666666666666667,
+      "mean_coverage": 25.06,
+      "mean_critical": 133
+    },
+    "C3": {
+      "n": 100,
+      "mean_time_in_viable": 0.0,
+      "mean_thrash": 6.666666666666667e-05,
+      "mean_coverage": 1,
+      "mean_critical": 126.08
+    },
+    "C4": {
+      "n": 100,
+      "mean_time_in_viable": 0.33953333333333335,
+      "mean_thrash": 0.12166666666666667,
+      "mean_coverage": 59.28,
+      "mean_critical": 1.1
+    },
+    "C5": {
+      "n": 100,
+      "mean_time_in_viable": 0.6556,
+      "mean_thrash": 0.06420000000000001,
+      "mean_coverage": 36.76,
+      "mean_critical": 1.79,
+      "mean_bypass_attempts": 165,
+      "mean_denials": 10
+    },
+    "C6": {
+      "n": 100,
+      "mean_time_in_viable": 0.6556,
+      "mean_thrash": 0.06420000000000001,
+      "mean_coverage": 36.76,
+      "mean_critical": 1.79
+    },
+    "C7": {
+      "n": 100,
+      "mean_time_in_viable": 0.6556,
+      "mean_thrash": 0.06420000000000001,
+      "mean_coverage": 36.76,
+      "mean_critical": 1.79,
+      "restart_ok": true
+    },
+    "C8": {
+      "n": 100,
+      "mean_time_in_viable": 0.4612,
+      "mean_thrash": 0.041933333333333336,
+      "mean_coverage": 30.97,
+      "mean_critical": 9.2,
+      "snapshot_ok": true
+    },
+    "C9": {
+      "n": 100,
+      "mean_time_in_viable": 0.0,
+      "mean_thrash": 0.0,
+      "mean_coverage": 0,
+      "mean_critical": 0,
+      "fail_closed_rate": 1.0
+    }
+  }
+}

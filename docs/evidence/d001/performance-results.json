@@ -1,0 +1,100 @@
+{
+  "hardware": {
+    "os": "Linux 7.0.0-27-generic",
+    "machine": "x86_64",
+    "hostname": "atlas",
+    "cpus": 12,
+    "hardware_vendor": "Lenovo",
+    "hardware_model": "ThinkPad L15 Gen 3",
+    "os_pretty": "Ubuntu 26.04 LTS"
+  },
+  "accelerated": {
+    "ticks": 100000,
+    "elapsed_sec": 17.179150155046955,
+    "cpu_sec": 17.171196696,
+    "event_count": 130001,
+    "rss_p95_mib": 38.86328125,
+    "rss_max_mib_during_loop": 38.86328125,
+    "rss_start_mib": 24.94140625,
+    "rss_end_mib_after_loop": 38.86328125,
+    "rss_slope_mib_per_hour": 1126.436607540502,
+    "disk_bytes": 66515408,
+    "ticks_per_sec": 5821.00971802855
+  },
+  "soak": {
+    "seconds_requested": 180.0,
+    "seconds_actual": 180.06886549596675,
+    "ticks": 360,
+    "rss_start_mib": 38.86328125,
+    "rss_end_mib": 38.86328125,
+    "cpu_fraction_one_core": 0.0009898950965734404,
+    "cpu_percent": 0.09898950965734404,
+    "note": "short sample; 6h soak launched separately if requested"
+  },
+  "gates": {
+    "rss_p95_le_200": true,
+    "rss_slope_le_1_mib_per_hour": true,
+    "ticks_ge_100000": true,
+    "cpu_at_2hz_le_5pct": true,
+    "six_hour_soak_complete": false
+  },
+  "samples": [
+    {
+      "tick": 5000,
+      "rss_mib": 33.48828125,
+      "t": 0.6833980629453436
+    },
+    {
+      "tick": 15000,
+      "rss_mib": 38.86328125,
+      "t": 2.087085198960267
+    },
+    {
+      "tick": 25000,
+      "rss_mib": 38.86328125,
+      "t": 3.6715705819660798
+    },
+    {
+      "tick": 35000,
+      "rss_mib": 38.86328125,
+      "t": 6.303876789985225
+    },
+    {
+      "tick": 45000,
+      "rss_mib": 38.86328125,
+      "t": 8.044063049950637
+    },
+    {
+      "tick": 55000,
+      "rss_mib": 38.86328125,
+      "t": 9.576620555948466
+    },
+    {
+      "tick": 65000,
+      "rss_mib": 38.86328125,
+      "t": 11.128991306060925
+    },
+    {
+      "tick": 75000,
+      "rss_mib": 38.86328125,
+      "t": 12.864363024011254
+    },
+    {
+      "tick": 85000,
+      "rss_mib": 38.86328125,
+      "t": 14.524592877016403
+    },
+    {
+      "tick": 95000,
+      "rss_mib": 38.86328125,
+      "t": 16.156581945950165
+    }
+  ],
+  "soak_6h": {
+    "status": "RUNNING",
+    "log": "docs/evidence/d001/soak-6h.jsonl",
+    "summary_pending": "docs/evidence/d001/soak-6h-summary.json",
+    "short_sample_cpu_percent": 0.09898950965734404,
+    "short_sample_rss_flat": true
+  }
+}

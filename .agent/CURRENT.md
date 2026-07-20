@@ -1,25 +1,24 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260720-umbra-d000s-foundation-synthesis
-- Project directive: UMBRA-D-000S
-- Goal: Synthesize D-000 Tracks 1–6 into frozen companion-core architecture; revise D-001; close D-000
-- Status: done
-- Acceptance: Gates 0–10; UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED — met
-- Touched files: docs/architecture/*, docs/directives/UMBRA-D-001*, docs/evidence/d000-synthesis/*, SELECTION_LEDGER, .agent/*, AGENTS.md, .cursor/rules/04*,05*
-- Next action: Begin UMBRA-D-001 foundation when operator opens; operator RECORD append
+- ID: D-20260720-umbra-d001-invariant-companion-core
+- Project directive: UMBRA-D-001
+- Goal: Implement and validate the minimum persistent UMBRA invariant companion core
+- Status: partial — foundation implemented; 6h soak running for Gate 9 QUALIFIED seal
+- Acceptance: Gates 0–8,10 PASS; Gate 9/11 PARTIAL (soak incomplete)
+- Touched files: umbra_core/, tests/, experiments/d001/, docs/evidence/d001/, .agent/*
+- Next action: Await soak-6h-summary.json; then re-seal QUALIFIED if metrics hold
 
 ## Repo facts needed now
 - Mimir project ID: 7777645d52a91b49
-- Synthesis task ID: f0066ee6c91247efb6cb8f8d5c086d1d
-- Starting commit: d55dbe1bd7fac8e1ab367c6fe203ba224606c7d4
-- Ending commit: d6d522549a2350b2e8163ee129fc6303fce52f8f
-- Verdict: UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED
-- D-000 closed; D-001 authorized; Soar/Hyperon not required
+- Mimir task ID: 32cbec622ee34877977ba95ff10becf8
+- Starting commit: 813b9d6a3f1cbee159d0e421bf745a2039626dcf
+- Verdict: UMBRA_D001_PARTIAL_FOUNDATION
+- Soak: RUNNING under /tmp/umbra_soak/soak6h.sqlite
 
 ## Last validation
-- Command: `python3 -m pytest docs/evidence/d000-synthesis/test_d000s.py docs/prior-art/pepa/independent_reproduction/test_track6.py -q`
-- Result: 35 passed
+- Command: `PYTHONPATH=. python3 -m pytest tests/test_d001.py -q`
+- Result: 33 passed
 
 ## Open blockers
-- None; operator RECORD entry requested
+- Gate 9 six-hour soak not yet complete (process running)

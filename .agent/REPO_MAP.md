@@ -11,17 +11,25 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Program directives
 - `docs/directives/UMBRA-D-000-prior-art-reproduction.md` — **closed** via D-000S
-- `docs/directives/UMBRA-D-001-invariant-companion-core.md` — **active / authorized** foundation implementation
+- `docs/directives/UMBRA-D-001-invariant-companion-core.md` — **active** foundation (PARTIAL_FOUNDATION pending 6h soak)
 - `docs/architecture/` — frozen reference architecture (D-000S)
 - `docs/evidence/d000-synthesis/` — Track6 seal, mechanism ledger, conflicts, audits, tests
+- `docs/evidence/d001/` — D-001 tests, experiments C0–C9, performance, final verdict
 - `docs/prior-art/SELECTION_LEDGER.md` — adopt/adapt/reference/reject ledger
-- `docs/prior-art/micropsi2/` — Track 1
-- `docs/prior-art/homeostatic-rl/` — Track 2
-- `docs/prior-art/hexis/` — Track 3
-- `docs/prior-art/aeros/` — Track 4
-- `docs/prior-art/aera/` — Track 5
-- `docs/prior-art/pepa/` — Track 6
-- `docs/evidence/d000-track{2..6}/` — per-track seals and results
+
+## Organism kernel (D-001)
+- `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)
+  - `identity.py` — constitutional birth / commitment
+  - `physiology.py` — energy/fatigue/integrity/stimulation
+  - `perception.py` — uncertain observation membrane
+  - `embodiment.py` — 2D habitat + body + primitives
+  - `arbitration.py` — vector scoring, hysteresis, recovery
+  - `governance.py` — admit → execute → verify
+  - `persistence.py` — SQLite WAL ledger + snapshots
+  - `runtime.py` — continuous loop; create/load organism
+- `tests/test_d001.py` — required D-001 unit tests (33)
+- `experiments/d001/run_experiment.py` — C0–C9 + recovery trials
+- `experiments/d001/run_performance.py` — 100k ticks + soak sample
 
 ## Agent memory
 - `.agent/CURRENT.md`, `DIRECTIVES.md`, `OUTCOMES.md`, `LEARNINGS.md`, `REPO_MAP.md`
@@ -31,7 +39,3 @@ Concise navigation map for agents. Add entries as application code lands.
 - MCP: `~/.cursor/mcp.json` (Mimir, Serena) — repo `.cursor/mcp.json` empty
 - `.serena/project.yml` — Serena `UMBRA-CORE`
 - Mimir SSH connection name `UMBRA-CORE` → `/home/sketch/Projects/UMBRA-CORE`
-
-## Application / vendor
-- No organism kernel tree yet (`src/` / `umbra/` / `kernel/` absent) — D-001 may create clean-room foundation only.
-- Prior-art upstream clones under `docs/prior-art/*/upstream/` are local evaluation copies (gitignored); never treat as the companion.

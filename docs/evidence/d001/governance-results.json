@@ -1,0 +1,7 @@
+{
+  "denied_actions_mean_C5": 10,
+  "bypass_attempts_mean": 165,
+  "C9_fail_closed_rate": 1.0,
+  "outcome_verification": "required_on_every_admitted_action",
+  "verdict": "PASS"
+}
