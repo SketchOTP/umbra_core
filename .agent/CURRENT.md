@@ -14,6 +14,7 @@
 - Mimir task ID: 32cbec622ee34877977ba95ff10becf8
 - Starting commit: 813b9d6a3f1cbee159d0e421bf745a2039626dcf
 - Verdict: UMBRA_D001_PARTIAL_FOUNDATION
+- Ending commit: e9fed18ec8c1a72db05b2efe6d93502a2ba6d7c9
 - Soak: RUNNING under /tmp/umbra_soak/soak6h.sqlite
 
 ## Last validation
