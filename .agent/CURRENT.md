@@ -20,7 +20,7 @@
 ## Last validation
 - Command: `python3 -m pytest docs/prior-art/pepa/independent_reproduction/test_track6.py -q`
 - Result: 19 passed; experiment seeds=30 ticks=10000
-- Mimir: resolve + begin + compile + observe v3; close pending commit
+- Mimir: task b707a36c closed v4; commit c48dec7dd26969889c9fa23f2a20d6e22b902dfc
 
 ## Open blockers
 - D-001 remains blocked pending D-000 synthesis acceptance
