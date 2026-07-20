@@ -26,18 +26,19 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
-- Active project directive: **UMBRA-D-000** (prior-art reproduction and foundation selection)
+- Active project directive: **UMBRA-D-001** (invariant companion core foundation)
+- **UMBRA-D-000 closed** via **UMBRA-D-000S** — `UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`
 - **UMBRA-D-000A rejected** — do not create or execute artificial-life/protocell substrate reframes
-- **UMBRA-D-001 is blocked** until D-000 acceptance is met
-- Canonical directive: `docs/directives/UMBRA-D-000-prior-art-reproduction.md`
-- Prior-art lab notebook: `docs/prior-art/`
-- Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PEPA → Soar/Hyperon (only if needed)
+- Architecture freeze: `docs/architecture/`
+- Synthesis evidence: `docs/evidence/d000-synthesis/`
+- Prior-art lab notebook: `docs/prior-art/` (Tracks 1–6 complete; Soar/Hyperon not required)
 - Stance: informed reuse for the **companion organism core**; chemistry/protocell deferred
 
 ## Stack
 - Target platform: Linux
-- Implementation languages, persistence, and runtime: TBD pending D-000 selection ledger
-- No UMBRA organism kernel yet — by policy, pending D-000
+- Persistence: SQLite WAL event/state authority (`HYBRID_PRIMARY`); optional Postgres scale tier
+- Core loop: deterministic non-LLM (see architecture freeze)
+- Organism kernel: authorized for D-001 foundation only — not yet implemented
 - Agent/tooling docs: Markdown, Cursor rules, Mimir V2, Serena
 
 ## Common commands

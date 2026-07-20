@@ -26,3 +26,5 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - 2026-07-20 Track6: PEPA Sys3 goals/rewards are LLM-generated from authored Big Five text — useful loop structure survives without them; individuality requires lived history/memory, not personality prompts (evidence: c2_history_effect_play=0 vs C6 history_effect_play>0.04).
 - 2026-07-20 Track6: anonymous.4open.science may serve SPA HTML 200 while `/api/repo/*` returns 401 not_connected — treat as UPSTREAM_BLOCKED, do not claim nav-module reproduction.
 - 2026-07-20 Track6: bounded deterministic reflection (weight retune) can show measurable value vs no-reflection; LLM autobiographical reflection is not required for that gate.
+- 2026-07-20 | area:architecture | lesson:D-000S freezes HYBRID_PRIMARY SQLite+vector physiology+constitutional identity+governed loop; Soar/Hyperon not required | evidence:docs/evidence/d000-synthesis/final-verdict.md
+- 2026-07-20 | area:program | lesson:D-001 authorized only under UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED; foundation excludes LLM/UI/robotics/OEE | evidence:docs/directives/UMBRA-D-001-invariant-companion-core.md

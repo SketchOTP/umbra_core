@@ -1,0 +1,297 @@
+{
+  "directive": "UMBRA-D-000S",
+  "conflicts": [
+    {
+      "decision": "fixed traits vs developed individuality",
+      "accepted": "history-dependent individuality via memory/physiology",
+      "rejected": "authored Big Five / character cards as individuality",
+      "evidence": [
+        "docs/evidence/d000-track3/classifications.json",
+        "docs/evidence/d000-track6/classifications.json"
+      ],
+      "tradeoff": "slower authored UX defaults",
+      "risk": "under-specified early temperament",
+      "revisit_condition": "presentation-only trait UI explicitly non-constitutional"
+    },
+    {
+      "decision": "scripted goals vs endogenous motivation",
+      "accepted": "endogenous goals from physiology+memory+commitments",
+      "rejected": "scripted schedules / LLM-generated goals as autonomy",
+      "evidence": [
+        "docs/prior-art/homeostatic-rl/MECHANISM_MATRIX.md",
+        "docs/evidence/d000-track6/final-verdict.md"
+      ],
+      "tradeoff": "harder demos",
+      "risk": "sparse early behavior",
+      "revisit_condition": "never for core; demos may script habitat events only"
+    },
+    {
+      "decision": "PostgreSQL vs embedded persistence",
+      "accepted": "SQLite WAL HYBRID_PRIMARY + optional Postgres scale tier",
+      "rejected": "Postgres-as-brain exclusive authority",
+      "evidence": [
+        "docs/prior-art/hexis/DATABASE_DECISION.md",
+        "docs/evidence/d000-track3/"
+      ],
+      "tradeoff": "weaker multi-writer",
+      "risk": "scale later migration",
+      "revisit_condition": "multi-writer cloud requirement"
+    },
+    {
+      "decision": "LLM deliberation vs non-LLM core",
+      "accepted": "non-LLM autonomous core loop",
+      "rejected": "LLM conscious decision loop / PEPA Sys3 will",
+      "evidence": [
+        ".agent/PROJECT_GOAL.md",
+        "docs/architecture/LLM_BOUNDARY.md"
+      ],
+      "tradeoff": "weaker language until later",
+      "risk": "user expects chat-first",
+      "revisit_condition": "language layer after foundation green"
+    },
+    {
+      "decision": "monolithic RL vs modular regulation",
+      "accepted": "modular physiology + arbitration + learning signal",
+      "rejected": "RL policy as complete brain",
+      "evidence": [
+        "docs/prior-art/homeostatic-rl/MECHANISM_MATRIX.md"
+      ],
+      "tradeoff": "more modules",
+      "risk": "integration bugs",
+      "revisit_condition": "none for foundation"
+    },
+    {
+      "decision": "model-generated identity vs constitutional identity",
+      "accepted": "constitutional signed identity excluding persona/model",
+      "rejected": "model self-description / PersonaCore dials as identity",
+      "evidence": [
+        "docs/evidence/d000-track4/classifications.json"
+      ],
+      "tradeoff": "less flashy identity UX",
+      "risk": "operators smuggle traits into constitution",
+      "revisit_condition": "audit fail if traits enter identity hash"
+    },
+    {
+      "decision": "capability upgrades vs lived learning",
+      "accepted": "upgrades are lifecycle; learning is developmental",
+      "rejected": "upgrade-as-learning",
+      "evidence": [
+        "docs/evidence/d000-track4/classifications.json"
+      ],
+      "tradeoff": "two pathways to maintain",
+      "risk": "confusion in ops",
+      "revisit_condition": "none"
+    },
+    {
+      "decision": "reflection narrative vs factual memory",
+      "accepted": "bounded non-authoritative reflection; factual memory needs provenance",
+      "rejected": "LLM diary as development/memory truth",
+      "evidence": [
+        "docs/evidence/d000-track6/classifications.json",
+        "docs/architecture/MEMORY_MODEL.md"
+      ],
+      "tradeoff": "less storytelling early",
+      "risk": "users treat chat as memory",
+      "revisit_condition": "explicit promotion protocol only"
+    },
+    {
+      "decision": "1 viable ranges vs setpoints",
+      "accepted": "viable ranges",
+      "rejected": "point setpoints for all psych vars",
+      "evidence": [
+        "docs/prior-art/homeostatic-rl/MECHANISM_MATRIX.md"
+      ],
+      "tradeoff": "calibration needed",
+      "risk": "loose bounds",
+      "revisit_condition": "calibration data"
+    },
+    {
+      "decision": "2 scalar vs vector motivation",
+      "accepted": "vector H / multi-drive",
+      "rejected": "one scalar happiness",
+      "evidence": [
+        "docs/prior-art/homeostatic-rl/MECHANISM_MATRIX.md"
+      ],
+      "tradeoff": "complexity",
+      "risk": "drive interference",
+      "revisit_condition": "none"
+    },
+    {
+      "decision": "3 reflex vs learned regulation",
+      "accepted": "non-learned critical reflexes + learned non-critical",
+      "rejected": "learned-only regulation",
+      "evidence": [
+        "docs/architecture/LEARNING_AND_PLANNING.md"
+      ],
+      "tradeoff": "authored reflex table",
+      "risk": "over-hardcoding",
+      "revisit_condition": "after D-001 safety eval"
+    },
+    {
+      "decision": "4 event ledger vs mutable-state authority",
+      "accepted": "event ledger authority + state projection",
+      "rejected": "mutable-state-only truth",
+      "evidence": [
+        "docs/prior-art/hexis/DATABASE_DECISION.md"
+      ],
+      "tradeoff": "dual write discipline",
+      "risk": "projection drift",
+      "revisit_condition": "replay tests fail"
+    },
+    {
+      "decision": "5 memory type schemas",
+      "accepted": "working/episodic/semantic/procedural/relationship/strategic",
+      "rejected": "single undifferentiated store",
+      "evidence": [
+        "docs/evidence/d000-track3/classifications.json"
+      ],
+      "tradeoff": "schema work",
+      "risk": "type leakage",
+      "revisit_condition": "none"
+    },
+    {
+      "decision": "6 identity commitment model",
+      "accepted": "signed constitutional record",
+      "rejected": "hash including personality dials",
+      "evidence": [
+        "docs/architecture/IDENTITY_AND_LIFECYCLE.md"
+      ],
+      "tradeoff": "ops ceremony",
+      "risk": "key loss",
+      "revisit_condition": "multi-host"
+    },
+    {
+      "decision": "7 body migration semantics",
+      "accepted": "same agent_id + bind event",
+      "rejected": "body change minting new identity",
+      "evidence": [
+        "docs/evidence/d000-track4/classifications.json"
+      ],
+      "tradeoff": "contract revalidation",
+      "risk": "incompatible body",
+      "revisit_condition": "none"
+    },
+    {
+      "decision": "8 capability lifecycle",
+      "accepted": "versioned operator-granted contracts",
+      "rejected": "self-promoting learned grants",
+      "evidence": [
+        "docs/evidence/d000-track4/classifications.json"
+      ],
+      "tradeoff": "manual grants",
+      "risk": "stale caps",
+      "revisit_condition": "none"
+    },
+    {
+      "decision": "9 action-arbitration method",
+      "accepted": "soft drive competition + commitments + embodiment filters",
+      "rejected": "fixed priority list / scalar reward sole selector",
+      "evidence": [
+        "docs/evidence/d000-track2/",
+        "docs/evidence/d000-track6/"
+      ],
+      "tradeoff": "tuning",
+      "risk": "thrash",
+      "revisit_condition": "thrash metrics"
+    },
+    {
+      "decision": "10 planning depth and model-count bounds",
+      "accepted": "depth<=4; fixed model/replan/retry caps",
+      "rejected": "unbounded search",
+      "evidence": [
+        "docs/evidence/d000-track5/classifications.json"
+      ],
+      "tradeoff": "shallow plans",
+      "risk": "local optima",
+      "revisit_condition": "D-001 planning insufficiency"
+    },
+    {
+      "decision": "11 forgetting and consolidation",
+      "accepted": "bounded growth + consolidation + protected set",
+      "rejected": "unlimited retention / destructive overwrite",
+      "evidence": [
+        "docs/architecture/MEMORY_MODEL.md"
+      ],
+      "tradeoff": "info loss",
+      "risk": "over-eviction",
+      "revisit_condition": "memory pressure tests"
+    },
+    {
+      "decision": "12 relationship-memory representation",
+      "accepted": "minimal partner affinity/expectancy stats",
+      "rejected": "full social graph in foundation",
+      "evidence": [
+        "docs/architecture/MEMORY_MODEL.md"
+      ],
+      "tradeoff": "thin social",
+      "risk": "deferred bonds",
+      "revisit_condition": "post-D-001 social milestone"
+    },
+    {
+      "decision": "13 reflection boundary",
+      "accepted": "bounded optional non-authoritative evidence-linked",
+      "rejected": "LLM autobiography as development",
+      "evidence": [
+        "docs/evidence/d000-track6/classifications.json"
+      ],
+      "tradeoff": "less narrative",
+      "risk": "user confusion",
+      "revisit_condition": "measurable improvement tests"
+    },
+    {
+      "decision": "14 online-learning limits",
+      "accepted": "rate-limited local model updates",
+      "rejected": "unlimited monolithic online retrain",
+      "evidence": [
+        "docs/prior-art/homeostatic-rl/MECHANISM_MATRIX.md"
+      ],
+      "tradeoff": "slower adapt",
+      "risk": "stale models",
+      "revisit_condition": "identity drift incidents"
+    },
+    {
+      "decision": "15 LLM boundary",
+      "accepted": "optional express/summarize/hypothesize only",
+      "rejected": "LLM owns will/identity/memory truth",
+      "evidence": [
+        "docs/architecture/LLM_BOUNDARY.md"
+      ],
+      "tradeoff": "deferred chat",
+      "risk": "product pressure",
+      "revisit_condition": "after foundation"
+    },
+    {
+      "decision": "16 rollback behavior",
+      "accepted": "operator restore snapshot or replay to checkpoint",
+      "rejected": "silent self-rewrite of history",
+      "evidence": [
+        "docs/architecture/IDENTITY_AND_LIFECYCLE.md"
+      ],
+      "tradeoff": "ops complexity",
+      "risk": "fork confusion",
+      "revisit_condition": "explicit fork policy if needed"
+    },
+    {
+      "decision": "17 clone versus migration",
+      "accepted": "clone=new id; migration=same id",
+      "rejected": "conflating copy with move",
+      "evidence": [
+        "docs/evidence/d000-track4/classifications.json"
+      ],
+      "tradeoff": "two code paths",
+      "risk": "id collision",
+      "revisit_condition": "none"
+    },
+    {
+      "decision": "18 failure and safe-torpor",
+      "accepted": "safe-torpor on critical/corruption",
+      "rejected": "continue consequential acts when critical",
+      "evidence": [
+        "docs/architecture/ORGANISM_LOOP.md"
+      ],
+      "tradeoff": "apparent inactivity",
+      "risk": "stuck torpor",
+      "revisit_condition": "recovery capability design"
+    }
+  ]
+}

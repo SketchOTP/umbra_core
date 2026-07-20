@@ -38,13 +38,13 @@ See the numbered success list in `.agent/PROJECT_GOAL.md`.
 
 Digital chemistry, protocells, autopoietic membranes, molecular metabolism, and bottom-up cellular reproduction may be investigated later. They must not gate the companion core or D-001.
 
-## Program gate (UMBRA-D-000)
+## Program gate (post D-000S)
 
-**Do not start UMBRA-D-001** until `docs/directives/UMBRA-D-000-prior-art-reproduction.md` is complete.
+**UMBRA-D-000 is closed.** Architecture freeze: `docs/architecture/`. **UMBRA-D-001 is authorized** for the minimum foundation only (`docs/directives/UMBRA-D-001-invariant-companion-core.md`).
 
-Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PEPA → Soar/Hyperon (only if needed).
+Prior-art order completed: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PEPA. Soar/Hyperon not required. Classifications: `docs/prior-art/SELECTION_LEDGER.md`.
 
-Classify each: adopt / adapt / reference / reject. LLM-as-conscious-loop + DB continuity is **not** endogenous homeostasis. AGPL needs an explicit operator license decision before adopt.
+LLM-wrapper companions (Hexis/AEROS/OpenLife-style) do not satisfy the non-LLM organism kernel requirement.
 
 ## Navigation
 

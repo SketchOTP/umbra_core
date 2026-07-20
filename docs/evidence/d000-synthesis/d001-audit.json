@@ -1,0 +1,33 @@
+{
+  "directive": "UMBRA-D-001",
+  "path": "docs/directives/UMBRA-D-001-invariant-companion-core.md",
+  "required_modules_present": [
+    "constitutional identity",
+    "persistence",
+    "physiology",
+    "perception membrane",
+    "minimal embodiment",
+    "autonomous loop",
+    "bounded arbitration",
+    "governed primitive actions",
+    "event and outcome recording",
+    "deterministic replay",
+    "restart continuity"
+  ],
+  "deferred_modules_excluded": [
+    "full social relationships",
+    "LLM communication",
+    "advanced reflection",
+    "complex personality",
+    "physical robotics",
+    "reproduction",
+    "open-ended evolution",
+    "complete causal cognition",
+    "production UI"
+  ],
+  "foundational_decisions_unresolved": [],
+  "executable": true,
+  "testable": true,
+  "audit_verdict": "D001_READY",
+  "authorized_only_if": "UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED"
+}

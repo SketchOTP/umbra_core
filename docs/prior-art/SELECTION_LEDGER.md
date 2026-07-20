@@ -32,8 +32,26 @@ Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PE
 | PEPA Big Five / LLM goals-rewards / LLM reflection / OEE-over-fixed-skills / PEPA-as-brain | reject | n/a | docs/prior-art/pepa/ | Authored personality ≠ individuality |
 | PEPA MCTS/BERT, quadruped nav, elevator/stairs, daily hierarchy | reference | unreachable code | docs/prior-art/pepa/ | Paper + blocked anonymous.4open |
 | OpenLife | reject | not released | | Conceptual only |
-| Soar / OpenCog Hyperon | TBD | | | Only if gaps remain after D-000 synthesis |
+| Soar / OpenCog Hyperon | reject (as D-000 requirement) | n/a | docs/evidence/d000-synthesis/ | No foundational gap after D-000S; revisit only if D-001 proves cognitive insufficiency |
 | Chemistry / protocell (D-000A) | reject (as gate) | n/a | PROJECT_GOAL optional section | Deferred optional research; do not execute D-000A |
+
+
+## D-000S — Foundation synthesis — 2026-07-20
+
+Verdict: `UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`  
+Track 6 seal commit: `d55dbe1bd7fac8e1ab367c6fe203ba224606c7d4`  
+Architecture: `docs/architecture/`  
+D-001: `docs/directives/UMBRA-D-001-invariant-companion-core.md` — **authorized**  
+Evidence: `docs/evidence/d000-synthesis/`
+
+| Bucket | Count (mechanism-ledger) |
+|---|---|
+| adapted | 45 |
+| referenced | 17 |
+| rejected | 30 |
+| unresolved | 0 |
+
+Soar/Hyperon supplemental audit: **not required**.
 
 
 ## Track 3 — Hexis (persistence / memory / identity) — 2026-07-20

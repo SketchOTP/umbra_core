@@ -18,7 +18,7 @@ Read `.agent/PROJECT_GOAL.md` before any design or implementation work. Non-nego
 - Bodies (avatar, robot, sensors, animations, dialogue) are interfaces around the organism core
 - Digital chemistry / protocells are optional long-range research only — **not** required foundations; **do not** create or execute UMBRA-D-000A
 
-**Program gate:** UMBRA-D-000 is active and **blocks UMBRA-D-001**. Prior-art order: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PEPA → Soar/Hyperon (if needed). See `docs/directives/UMBRA-D-000-prior-art-reproduction.md`.
+**Program gate:** UMBRA-D-000 closed via D-000S (`UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`). **UMBRA-D-001 authorized** for foundation only. Architecture: `docs/architecture/`. See `docs/directives/UMBRA-D-001-invariant-companion-core.md`.
 
 LLM-wrapper companions (Hexis/AEROS/OpenLife-style) do not satisfy the non-LLM organism kernel requirement.
 

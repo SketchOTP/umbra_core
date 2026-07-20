@@ -1,0 +1,660 @@
+{
+  "directive": "UMBRA-D-000S",
+  "starting_commit": "d55dbe1bd7fac8e1ab367c6fe203ba224606c7d4",
+  "track6_seal": "docs/evidence/d000-synthesis/track6-seal.json",
+  "counts": {
+    "adapted": 45,
+    "adopted": 0,
+    "referenced": 17,
+    "rejected": 30,
+    "unresolved": 0
+  },
+  "unresolved": [],
+  "soar_hyperon": "NOT_REQUIRED_NO_FOUNDATIONAL_GAP",
+  "mechanisms": [
+    {
+      "track": 1,
+      "mechanism": "motivational modulators",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/micropsi2/NOTES.md",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 1,
+      "mechanism": "sensor/actor/world separation",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/micropsi2/NOTES.md",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 1,
+      "mechanism": "survivor need datasources",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/micropsi2/NOTES.md",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 1,
+      "mechanism": "MicroPsi2 server/Theano/UI",
+      "classification": "REJECT",
+      "evidence": "docs/prior-art/micropsi2/NOTES.md",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 1,
+      "mechanism": "node-net sole substrate",
+      "classification": "REFERENCE",
+      "evidence": "docs/prior-art/micropsi2/NOTES.md",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 2,
+      "mechanism": "vector internal state + viable ranges",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/homeostatic-rl/MECHANISM_MATRIX.md",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 2,
+      "mechanism": "autonomous drift",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 2,
+      "mechanism": "drive-reduction learning signal",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 2,
+      "mechanism": "satiation + overshoot",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 2,
+      "mechanism": "need competition via relative drive",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 2,
+      "mechanism": "anticipatory forward model",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 2,
+      "mechanism": "physiology/policy separation",
+      "classification": "ADAPT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 2,
+      "mechanism": "hard-coded lowest-need controller",
+      "classification": "REJECT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 2,
+      "mechanism": "fixed external reward sole motive",
+      "classification": "REJECT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 2,
+      "mechanism": "scalar happiness / global reward authority",
+      "classification": "REJECT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 2,
+      "mechanism": "RL policy as complete brain",
+      "classification": "REJECT",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 2,
+      "mechanism": "curiosity\u2194homeostasis coupling",
+      "classification": "REFERENCE",
+      "evidence": "docs/prior-art/homeostatic-rl/",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 3,
+      "mechanism": "transactional_durable_cognitive_state",
+      "classification": "ADAPT",
+      "evidence": "independent SQLite transactional_update + rollback test",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 3,
+      "mechanism": "stateless_restartable_workers",
+      "classification": "ADAPT",
+      "evidence": "100 reconnects preserve identity",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 3,
+      "mechanism": "typed_memory_classes",
+      "classification": "ADAPT",
+      "evidence": "distinct tables/contracts in independent_reproduction",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 3,
+      "mechanism": "episodic_provenance_and_belief_revision",
+      "classification": "ADAPT",
+      "evidence": "provenance-results.json",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 3,
+      "mechanism": "procedural_success_failure_history",
+      "classification": "ADAPT",
+      "evidence": "procedural failure tracking test",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 3,
+      "mechanism": "strategic_memory",
+      "classification": "REFERENCE",
+      "evidence": "bounded strategic reject authority",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 3,
+      "mechanism": "autonomous_heartbeat_ooda",
+      "classification": "REFERENCE",
+      "evidence": "heartbeat-results.json B0-B9",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 3,
+      "mechanism": "action_energy_budget",
+      "classification": "REJECT",
+      "evidence": "B5 budget_exhausted",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 3,
+      "mechanism": "llm_as_conscious_decision_loop",
+      "classification": "REJECT",
+      "evidence": "B9 no_llm_safe still preserves identity in independent model",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 3,
+      "mechanism": "database_is_the_brain_literal",
+      "classification": "REJECT",
+      "evidence": "HYBRID_PRIMARY bench",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 3,
+      "mechanism": "big_five_configured_personality",
+      "classification": "REJECT",
+      "evidence": "personality_change_without_history test",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 3,
+      "mechanism": "character_card_import",
+      "classification": "REFERENCE",
+      "evidence": "configured layer D3",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 3,
+      "mechanism": "postgresql_exclusive_authority",
+      "classification": "REFERENCE",
+      "evidence": "build attempt + bench",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 3,
+      "mechanism": "apache_age_graph",
+      "classification": "REFERENCE",
+      "evidence": "source audit",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 3,
+      "mechanism": "self_termination_consent_architecture",
+      "classification": "REJECT",
+      "evidence": "scope gate forbids adopt",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 3,
+      "mechanism": "working_memory_unlogged_ttl",
+      "classification": "ADAPT",
+      "evidence": "working expires test",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 3,
+      "mechanism": "correction_supersession_not_destructive_overwrite",
+      "classification": "ADAPT",
+      "evidence": "correction_preserves_history",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 3,
+      "mechanism": "model_produced_self_description_as_identity",
+      "classification": "REJECT",
+      "evidence": "generated_self authoritative=0",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 4,
+      "mechanism": "cognition/execution separation",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/governance/runtime_gateway.py",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "typed structured intents",
+      "classification": "ADAPT",
+      "evidence": "bridge/schemas/structured_intent.py",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "capability admission + versioned contracts",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/governance/contracts/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "policy-separated runtime + runtime safety",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/governance/policy/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "body-binding contracts",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/runtime/robot.py",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "postcondition verification",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/governance/runtime_gateway.py",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "hash-linked causal audit + signatures",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/audit/; src/aeros/governance/audit/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "signed lifecycle + shadow/canary/rollback",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/evolution/",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "identity across body/model upgrades",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/runtime/persona_*.py",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "clone vs migration semantics",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/cli/migrate.py",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "learned competence \u2260 authority",
+      "classification": "ADAPT",
+      "evidence": "src/aeros/runtime/persona_adaptive.py",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 4,
+      "mechanism": "ECM packaging format",
+      "classification": "REFERENCE",
+      "evidence": "ecm_library/; src/aeros/ecm/",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 4,
+      "mechanism": "PersonaCore/PersonaAdaptive split",
+      "classification": "REFERENCE",
+      "evidence": "src/aeros/runtime/persona_core.py",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 4,
+      "mechanism": "Ed25519 / fleet / marketplace / MCP / ROS / dreaming",
+      "classification": "REFERENCE",
+      "evidence": "src/aeros/{audit,fleet,marketplace,mcp,runtime/active_dreamer.py}",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 4,
+      "mechanism": "LLM planner as creature cognition",
+      "classification": "REJECT",
+      "evidence": "src/aeros/providers/adapters/",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 4,
+      "mechanism": "immutable authored persona as identity",
+      "classification": "REJECT",
+      "evidence": "src/aeros/runtime/persona_core.py",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 4,
+      "mechanism": "AGPL runtime as product dependency",
+      "classification": "REJECT",
+      "evidence": "entire src/aeros/governance",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 4,
+      "mechanism": "capability upgrade as organism learning",
+      "classification": "REJECT",
+      "evidence": "src/aeros/evolution/",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 4,
+      "mechanism": "self-reported execution success as authority",
+      "classification": "REJECT",
+      "evidence": "src/aeros/governance/runtime_gateway.py",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 4,
+      "mechanism": "unrestricted operator override",
+      "classification": "REJECT",
+      "evidence": "src/aeros/governance/policy/engine.py",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 5,
+      "mechanism": "learned_forward_models",
+      "classification": "ADAPT",
+      "evidence": "independent C2 P0 prediction_accuracy=0.67; test_forward_model_learns",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "inverse_model_goal_reasoning",
+      "classification": "ADAPT",
+      "evidence": "C2 goal 1.0 vs C3 0.0 over 30 seeds",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "confidence_from_evidence",
+      "classification": "ADAPT",
+      "evidence": "support/contradict ratio; contradiction tests",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "contradiction_driven_revision",
+      "classification": "ADAPT",
+      "evidence": "P3 C2 recovery 1.0 vs C4 0.0",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "interruptible_planning",
+      "classification": "ADAPT",
+      "evidence": "test_failed_prediction_interrupts_plan",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "bounded_model_composition",
+      "classification": "ADAPT",
+      "evidence": "C2\u226bC5; MAX_PLAN_DEPTH=4",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "dynamic_priority_scheduling",
+      "classification": "ADAPT",
+      "evidence": "PriorityQueue + homeostasis_priority; C6 parity on single goal",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "non_axiomatic_beliefs",
+      "classification": "ADAPT",
+      "evidence": "models revisable; not frozen axioms",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "cumulative_causal_learning",
+      "classification": "ADAPT",
+      "evidence": "P6 restart continuity 1.0; sqlite persistence",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 5,
+      "mechanism": "replicode_syntax",
+      "classification": "REFERENCE",
+      "evidence": "license + README gotchas",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 5,
+      "mechanism": "reflective_generated_programs",
+      "classification": "REFERENCE",
+      "evidence": "icpp_pgm / TPX controllers",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 5,
+      "mechanism": "aera_full_scheduler",
+      "classification": "REFERENCE",
+      "evidence": "reduction/time cores; upstream not run",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 5,
+      "mechanism": "semantic_operational_closure_claims",
+      "classification": "REFERENCE",
+      "evidence": "docs only",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 5,
+      "mechanism": "replicode_as_umbra_core",
+      "classification": "REJECT",
+      "evidence": "CADIA + complexity + build block",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 5,
+      "mechanism": "unrestricted_self_generated_code",
+      "classification": "REJECT",
+      "evidence": "test_no_generated_code_executes",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 5,
+      "mechanism": "designer_goals_as_endogenous_autonomy",
+      "classification": "REJECT",
+      "evidence": "m_drive / drives.replicode analysis",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 5,
+      "mechanism": "aera_runtime_product_dependency",
+      "classification": "REJECT",
+      "evidence": "LICENSE_AUDIT SOURCE_AVAILABLE_REFERENCE_ONLY",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 5,
+      "mechanism": "monolithic_reasoning_as_entire_brain",
+      "classification": "REJECT",
+      "evidence": "PROJECT_GOAL multi-system organism",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 5,
+      "mechanism": "learned_models_grant_authority",
+      "classification": "REJECT",
+      "evidence": "test_learned_model_cannot_authorize_action",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 6,
+      "mechanism": "Sys1/Sys2/Sys3 layer separation",
+      "classification": "ADAPT",
+      "evidence": "independent_reproduction layered goals + skills + reflection; ARCHITECTURE_DISSECTION",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 6,
+      "mechanism": "Internal vs external goal arbitration",
+      "classification": "ADAPT",
+      "evidence": "governance_block_rate=1.0 under critical energy; test_external_request_cannot_bypass_governance",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 6,
+      "mechanism": "Periodic bounded reflection (outcome-weight retune)",
+      "classification": "ADAPT",
+      "evidence": "reflection_delta\u22480.999 on stress probe C6 vs C7; test_reflection_has_measurable_value",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 6,
+      "mechanism": "Embodiment-aware goal filtering / charging self-preservation",
+      "classification": "ADAPT",
+      "evidence": "C6 viability\u22481.0 vs C0\u22480.15; critical charge override; C8 over-acts without costs",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 6,
+      "mechanism": "Skill-level execution separated from goal generation",
+      "classification": "ADAPT",
+      "evidence": "Fixed SKILLS repertoire; goals select among skills",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 6,
+      "mechanism": "Persistent operation without continuous user instruction",
+      "classification": "ADAPT",
+      "evidence": "unprompted_action_rate C6=1.0; test_agent_acts_without_user_prompt",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 6,
+      "mechanism": "History-dependent behavioral individuality via memory",
+      "classification": "ADAPT",
+      "evidence": "history_effect_play/social; C2 history effect \u22480; test_different_histories_change_behavior",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 6,
+      "mechanism": "Homeostatic motivation / satiation",
+      "classification": "ADAPT",
+      "evidence": "Tracks 1\u20132 composition; satiation>0; homeostasis ablation vs C0",
+      "synthesis_role": "adapted"
+    },
+    {
+      "track": 6,
+      "mechanism": "MCTS planning / policy distillation",
+      "classification": "REFERENCE",
+      "evidence": "paper \u00a7III-B only; no public code",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 6,
+      "mechanism": "Quadruped navigation / elevator / staircase skills",
+      "classification": "REFERENCE",
+      "evidence": "paper + site demos; anonymous.4open 401",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 6,
+      "mechanism": "Daily goal hierarchy (ultimate/daily)",
+      "classification": "REFERENCE",
+      "evidence": "paper Table II; independent bounded goal queue",
+      "synthesis_role": "referenced"
+    },
+    {
+      "track": 6,
+      "mechanism": "User-authored Big Five personality as individuality",
+      "classification": "REJECT",
+      "evidence": "test_authored_personality_alone_is_not_individuality; site personality prompts",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 6,
+      "mechanism": "LLM-generated intrinsic reward as primary motivation",
+      "classification": "REJECT",
+      "evidence": "paper Eq.2 Sys3; C3 negative control; PROJECT_GOAL",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 6,
+      "mechanism": "LLM reflection as organism development",
+      "classification": "REJECT",
+      "evidence": "site Sys3 prompts; independent measurable reflection is non-LLM",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 6,
+      "mechanism": "Generated goals as inherently autonomous",
+      "classification": "REJECT",
+      "evidence": "Goals from LLM prompts are authored-by-proxy",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 6,
+      "mechanism": "Fixed action diversity as open-ended evolution",
+      "classification": "REJECT",
+      "evidence": "paper OEE claim over ~19 discrete actions; LIMITATIONS",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 6,
+      "mechanism": "Personality alignment as proof of aliveness",
+      "classification": "REJECT",
+      "evidence": "COMPANION_RELEVANCE; PROJECT_GOAL success criteria",
+      "synthesis_role": "rejected"
+    },
+    {
+      "track": 6,
+      "mechanism": "PEPA as complete UMBRA brain",
+      "classification": "REJECT",
+      "evidence": "Missing code; LLM-centered; D-001 blocked",
+      "synthesis_role": "rejected"
+    }
+  ]
+}

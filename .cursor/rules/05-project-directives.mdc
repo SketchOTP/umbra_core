@@ -47,8 +47,10 @@ Follow the active directive exactly. Do not implement future sprint work, add un
 ```text
 UMBRA-CORE/
 ├── .agent/                 # Governance + local memory (PROJECT_GOAL is product SoT)
-├── docs/directives/        # Project directives (UMBRA-D-000 active; blocks D-001)
+├── docs/directives/        # UMBRA-D-000 closed; UMBRA-D-001 active foundation
+├── docs/architecture/      # D-000S frozen reference architecture
 ├── docs/prior-art/         # Reproduction/audit evidence + selection ledger
+├── docs/evidence/          # Per-track + d000-synthesis seals/audits
 ├── .cursor/rules/          # Cursor always-apply rules
 ├── .cursor/skills/mimir/   # Mimir V2 skill
 ├── .serena/                # Serena project (name: UMBRA-CORE)
@@ -56,7 +58,7 @@ UMBRA-CORE/
 └── COMMANDMENTS_OF_THE_CODE.md
 ```
 
-Organism kernel: blocked until D-000 closes. Update `.agent/REPO_MAP.md` when code or prior-art checkouts land.
+Organism kernel: authorized under D-001 foundation scope only. Update `.agent/REPO_MAP.md` when code lands.
 
 ### Development
 

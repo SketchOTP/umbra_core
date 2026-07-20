@@ -1,0 +1,42 @@
+{
+  "directive": "UMBRA-D-000S",
+  "gates": {
+    "gate0_track6_sealed": "PASS",
+    "gate1_evidence_traceability": "PASS",
+    "gate2_complete_organism_loop": "PASS",
+    "gate3_authority_separation": "PASS",
+    "gate4_identity_continuity": "PASS",
+    "gate5_causal_individuality": "PASS",
+    "gate6_autonomous_existence": "PASS",
+    "gate7_boundedness": "PASS",
+    "gate8_d001_readiness": "PASS",
+    "gate9_scope_no_production_kernel": "PASS",
+    "gate10_seal": "PENDING_COMMIT"
+  },
+  "architecture_artifacts": [
+    "docs/architecture/UMBRA_REFERENCE_ARCHITECTURE.md",
+    "docs/architecture/ORGANISM_LOOP.md",
+    "docs/architecture/MODULE_AUTHORITY_MATRIX.md",
+    "docs/architecture/STATE_AND_EVENT_MODEL.md",
+    "docs/architecture/IDENTITY_AND_LIFECYCLE.md",
+    "docs/architecture/MEMORY_MODEL.md",
+    "docs/architecture/LEARNING_AND_PLANNING.md",
+    "docs/architecture/GOVERNANCE_AND_CAPABILITIES.md",
+    "docs/architecture/LLM_BOUNDARY.md",
+    "docs/architecture/OPEN_QUESTIONS.md"
+  ],
+  "module_owners": {
+    "constitutional_identity": "Identity",
+    "physiology": "Physiology",
+    "perception_embodiment": "Perception & Embodiment",
+    "memory": "Memory",
+    "causal_learning": "Causal Learning",
+    "motivation_arbitration": "Motivation & Goal Arbitration",
+    "capability_governance": "Capability Governance",
+    "persistence": "Persistence",
+    "reflection_language": "Reflection & Language"
+  },
+  "foundational_conflicts_unresolved": [],
+  "production_kernel_paths_absent": true,
+  "verdict_candidate": "UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED"
+}

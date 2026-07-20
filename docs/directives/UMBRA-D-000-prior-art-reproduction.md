@@ -1,10 +1,12 @@
 # UMBRA-D-000 — Prior-Art Reproduction and Foundation Selection
 
-**Status:** active / blocking  
-**Blocks:** UMBRA-D-001 and any organism-kernel implementation  
+**Status:** closed — synthesized under UMBRA-D-000S (`UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`)  
+**Blocks:** none remaining for foundation work; production product features remain scoped by D-001 deferred list  
+**Successor:** `docs/directives/UMBRA-D-001-invariant-companion-core.md` (authorized)  
 **Product SoT:** `.agent/PROJECT_GOAL.md` (companion organism core)  
 **Issued:** 2026-07-20  
-**Amended:** 2026-07-20 — restore digital companion core scope; reject UMBRA-D-000A
+**Amended:** 2026-07-20 — restore digital companion core scope; reject UMBRA-D-000A  
+**Closed:** 2026-07-20 — Tracks 1–6 complete; architecture freeze in `docs/architecture/`
 
 ## Governing statement
 
@@ -75,16 +77,19 @@ Execute in the order above. Each item produces artifacts under `docs/prior-art/`
 
 ## Hard gates
 
-- **Do not start UMBRA-D-001** until this directive’s acceptance criteria are met.
+- **UMBRA-D-001 authorized** after D-000S foundation architecture qualification (see `docs/evidence/d000-synthesis/final-verdict.md`).
 - **Do not create or execute UMBRA-D-000A.**
 - **Do not** treat Hexis/AEROS/OpenLife-style LLM wrappers as satisfying the non-LLM organism kernel.
+- **Do not** implement deferred D-001 features (LLM chat, robotics product, OEE, etc.) in the foundation pass.
 - **Do not** adopt AGPL into the UMBRA kernel without an explicit operator license decision.
 - **Do not** claim PEPA/AERA capabilities that exist only in papers without runnable public evidence.
 - Chemistry/protocell work must not delay or redefine the companion core.
 
 ## Done when
 
-- Tracks 1–6 have written evidence (or honest BLOCKED with reason); track 7 only if needed.
-- Selection ledger is complete (no TBD except explicitly deferred with owner approval).
-- A revised **UMBRA-D-001** draft exists for the companion organism core.
-- PROJECT_GOAL success criteria remain the evaluation bar.
+- Tracks 1–6 have written evidence (or honest BLOCKED with reason); track 7 only if needed. **MET**
+- Selection ledger is complete (no TBD except explicitly deferred with owner approval). **MET** (Soar/Hyperon rejected as D-000 requirement)
+- A revised **UMBRA-D-001** exists for the companion organism core. **MET** (`docs/directives/UMBRA-D-001-invariant-companion-core.md`)
+- PROJECT_GOAL success criteria remain the evaluation bar. **UNCHANGED**
+- D-000S architecture freeze committed. **See** `docs/evidence/d000-synthesis/final-verdict.md`
+

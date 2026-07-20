@@ -58,9 +58,16 @@ def test_project_goal_unchanged():
 
 
 def test_d001_remains_blocked():
+    """Track6 gate: D-001 blocked until D-000S. After QUALIFIED, foundation D-001 is authorized."""
+    syn = ROOT / "docs" / "evidence" / "d000-synthesis" / "final-verdict.md"
+    profile = (ROOT / ".agent" / "PROJECT_PROFILE.md").read_text()
+    if syn.is_file() and "UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED" in syn.read_text():
+        assert "UMBRA-D-001" in profile
+        assert "authorized" in profile.lower() or "active" in profile.lower()
+        assert not any(p.exists() for p in PRODUCT_PATHS)
+        return
     text = DIRECTIVE.read_text()
     assert "Do not start UMBRA-D-001" in text
-    profile = (ROOT / ".agent" / "PROJECT_PROFILE.md").read_text()
     assert "blocked" in profile.lower() and "D-001" in profile
 
 
