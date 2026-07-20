@@ -11,7 +11,7 @@
     "gate7_boundedness": "PASS",
     "gate8_d001_readiness": "PASS",
     "gate9_scope_no_production_kernel": "PASS",
-    "gate10_seal": "PENDING_COMMIT"
+    "gate10_seal": "PASS"
   },
   "architecture_artifacts": [
     "docs/architecture/UMBRA_REFERENCE_ARCHITECTURE.md",
@@ -38,5 +38,6 @@
   },
   "foundational_conflicts_unresolved": [],
   "production_kernel_paths_absent": true,
-  "verdict_candidate": "UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED"
+  "verdict_candidate": "UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED",
+  "ending_commit": "d6d522549a2350b2e8163ee129fc6303fce52f8f"
 }

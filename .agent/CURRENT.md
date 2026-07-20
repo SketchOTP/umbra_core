@@ -4,15 +4,16 @@
 - ID: D-20260720-umbra-d000s-foundation-synthesis
 - Project directive: UMBRA-D-000S
 - Goal: Synthesize D-000 Tracks 1–6 into frozen companion-core architecture; revise D-001; close D-000
-- Status: closing
-- Acceptance: Gates 0–10; UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED
+- Status: done
+- Acceptance: Gates 0–10; UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED — met
 - Touched files: docs/architecture/*, docs/directives/UMBRA-D-001*, docs/evidence/d000-synthesis/*, SELECTION_LEDGER, .agent/*, AGENTS.md, .cursor/rules/04*,05*
-- Next action: Commit synthesis; Mimir close; operator RECORD append
+- Next action: Begin UMBRA-D-001 foundation when operator opens; operator RECORD append
 
 ## Repo facts needed now
 - Mimir project ID: 7777645d52a91b49
 - Synthesis task ID: f0066ee6c91247efb6cb8f8d5c086d1d
 - Starting commit: d55dbe1bd7fac8e1ab367c6fe203ba224606c7d4
+- Ending commit: d6d522549a2350b2e8163ee129fc6303fce52f8f
 - Verdict: UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED
 - D-000 closed; D-001 authorized; Soar/Hyperon not required
 
@@ -21,4 +22,4 @@
 - Result: 35 passed
 
 ## Open blockers
-- None for synthesis; operator RECORD entry still requested
+- None; operator RECORD entry requested
