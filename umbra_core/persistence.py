@@ -27,8 +27,9 @@ class Store:
         self.conn.execute("PRAGMA journal_mode=WAL")
         self.conn.execute("PRAGMA synchronous=NORMAL")
         self.conn.execute("PRAGMA foreign_keys=ON")
-        self.conn.execute("PRAGMA cache_size=-8000")  # ~8 MiB page cache
+        self.conn.execute("PRAGMA cache_size=-4000")  # ~4 MiB page cache
         self.conn.execute("PRAGMA temp_store=MEMORY")
+        self.conn.execute("PRAGMA mmap_size=0")
         self._init_schema()
 
     def _init_schema(self) -> None:

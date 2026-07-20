@@ -10,6 +10,10 @@ from typing import Any
 
 from umbra_core.arbitration import ArbitrationState, Arbitrator
 from umbra_core.embodiment import Embodiment
+from umbra_core.events import (
+    AUTHORITATIVE_EVENT_TYPES,
+    WAL_CHECKPOINT_EVERY_TICKS,
+)
 from umbra_core.governance import Governance, GovernanceState
 from umbra_core.identity import ConstitutionalIdentity, create_birth, verify_identity
 from umbra_core.perception import PerceptionMembrane
@@ -134,26 +138,27 @@ class Organism:
         self.monotonic_time += self.dt
         self.metrics["total_ticks"] += 1
 
-        # 1. physiological drift
+        # 1. physiological drift — AUTHORITATIVE every tick (never downsampled)
         drift = self.phys.tick_drift(self.dt)
-        if self.tick % 10 == 0:
-            self.store.append_event(
-                agent_id=self.identity.agent_id,
-                event_type="physiology_drift",
-                monotonic_time=self.monotonic_time,
-                wall_time=wall,
-                payload={"H": self.phys.as_dict()},
-            )
+        self.store.append_event(
+            agent_id=self.identity.agent_id,
+            event_type="physiology_drift",
+            monotonic_time=self.monotonic_time,
+            wall_time=wall,
+            payload={"drift": drift, "H": self.phys.as_dict()},
+        )
 
         # 2. perceive
         obs = self.perception.perceive(self.embodiment, self.monotonic_time, self.rng)
         obs_dicts = [o.to_dict() for o in obs]
+        # Observation detail events are DIAGNOSTIC — intentionally not persisted.
+        # Replay uses seed + authoritative physiology/outcome events + snapshots.
 
         # 3. update current state (working metrics)
         cell = self._cell()
         self.metrics["cells"].add(cell)
         self.arbitrator.state.visited_cells.add(cell)
-        # bound coverage sets (habitat is 20x20)
+        # bound coverage sets (habitat is 20x20) — not event ledger
         if len(self.metrics["cells"]) > 500:
             self.metrics["cells"] = set(list(self.metrics["cells"])[-400:])
         if len(self.arbitrator.state.visited_cells) > 500:
@@ -169,21 +174,21 @@ class Organism:
 
         cand = self.arbitrator.select(self.phys, obs_dicts, self.tick, self.rng)
 
-        # 6. govern
+        # 6. govern — AUTHORITATIVE proposal/denial every decision (never downsampled)
         proposal = self.governance.propose(cand.capability, cand.params)
         decision = self.governance.admit(proposal)
-        if (not decision.admitted) or (self.tick % 5 == 0):
-            self.store.append_event(
-                agent_id=self.identity.agent_id,
-                event_type="proposal" if decision.admitted else "denial",
-                monotonic_time=self.monotonic_time,
-                wall_time=wall,
-                payload={
-                    "capability": cand.capability,
-                    "admitted": decision.admitted,
-                    "reason": decision.reason,
-                },
-            )
+        self.store.append_event(
+            agent_id=self.identity.agent_id,
+            event_type="proposal" if decision.admitted else "denial",
+            monotonic_time=self.monotonic_time,
+            wall_time=wall,
+            payload={
+                "capability": cand.capability,
+                "admitted": decision.admitted,
+                "reason": decision.reason,
+                "stage_failed": decision.stage_failed,
+            },
+        )
 
         outcome_payload: dict[str, Any] | None = None
         if decision.admitted:
@@ -210,7 +215,10 @@ class Organism:
                 "success": outcome.success,
                 "reason": outcome.reason,
                 "effects": outcome.physiology_effects,
+                "verified": outcome.verified,
             }
+            # AUTHORITATIVE — every verified outcome
+            assert "outcome_verified" in AUTHORITATIVE_EVENT_TYPES
             self.store.append_event(
                 agent_id=self.identity.agent_id,
                 event_type="outcome_verified",
@@ -228,7 +236,7 @@ class Organism:
             self.metrics["critical_violations"] += 1
 
         snap = self.snapshot_if_due()
-        if self.tick % 2000 == 0:
+        if self.tick % WAL_CHECKPOINT_EVERY_TICKS == 0:
             self.store.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
         return {
             "tick": self.tick,

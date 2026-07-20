@@ -1,0 +1,48 @@
+{
+  "assessment_time_utc": "2026-07-20T21:20:14.333531+00:00",
+  "disposition": "PRE_FIX_SOAK_PRESERVE_AS_PERF_RERUN_REQUIRED",
+  "rationale": "Soak python PID 2216638 started 2026-07-20 13:04:02 -0400. umbra_core/events.py birth and runtime.py retention rewrite mtimes are 13:16:43/13:16:57 -0400 (after process start). Read-only ledger cadence matches pre-fix policy (physiology_drift/tick\u22480.100, proposal/tick\u22480.201).",
+  "soak_process": {
+    "bash_pid": 2216622,
+    "python_pid": 2216638,
+    "started_local": "2026-07-20 13:04:02 -0400",
+    "started_utc": "2026-07-20T17:04:02.929Z",
+    "cwd": "/home/sketch/Projects/UMBRA-CORE"
+  },
+  "source_revision": {
+    "git_tip_at_assessment": "c10937bf0af9a5482552280ccc2da592a9bd25f6",
+    "note": "Soak imported umbra_core at process start; events.py did not exist; runtime retention fix uncommitted and later than start",
+    "committed_runtime_sha256_at_tip": "b081d12903b7d4fc1190275ff3f347bbde854cb75c236fefb703b63c7380ae98",
+    "working_tree_runtime_sha256_post_fix": "4e80f34965d9c12c2ab0ee9ec5d2293fe0b17268db60b10b2ef218659d0cf161",
+    "events_py_existed_at_soak_start": false,
+    "events_py_exists_now_uncommitted": true
+  },
+  "configuration": {
+    "db_path": "/tmp/umbra_soak/soak6h.sqlite",
+    "seed": 99,
+    "hz": 2.0,
+    "snapshot_every": 7200,
+    "hours": 6.0
+  },
+  "configuration_hash_sha256": "e35b4b493f653a200f69d36ad75a0e2e40849c8b4b1c089d36041d2472ae270e",
+  "database_path": "/tmp/umbra_soak/soak6h.sqlite",
+  "retention_policy_version": "v0_pre_fix_downsample_drift_10_proposal_5",
+  "ledger_cadence_readonly": {
+    "ticks_from_jsonl": 30600,
+    "event_counts": {
+      "birth": 1,
+      "outcome_verified": 30732,
+      "physiology_drift": 3075,
+      "proposal": 6148
+    },
+    "drift_per_tick": 0.10049019607843138,
+    "proposal_per_tick": 0.20091503267973856,
+    "outcome_per_tick": 1.0043137254901962
+  },
+  "actions": {
+    "do_not_modify_soak_db_until_SOAK_DONE": true,
+    "preserve_run_as": "performance_evidence_pre_fix",
+    "required_for_QUALIFIED": "new_6h_soak_from_committed_retention_v1_code",
+    "current_verdict": "UMBRA_D001_PARTIAL_FOUNDATION"
+  }
+}

@@ -11,10 +11,10 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Program directives
 - `docs/directives/UMBRA-D-000-prior-art-reproduction.md` — **closed** via D-000S
-- `docs/directives/UMBRA-D-001-invariant-companion-core.md` — **active** foundation (PARTIAL_FOUNDATION pending 6h soak)
+- `docs/directives/UMBRA-D-001-invariant-companion-core.md` — **active** foundation (PARTIAL_FOUNDATION; D-001C Gate9 closeout)
 - `docs/architecture/` — frozen reference architecture (D-000S)
 - `docs/evidence/d000-synthesis/` — Track6 seal, mechanism ledger, conflicts, audits, tests
-- `docs/evidence/d001/` — D-001 tests, experiments C0–C9, performance, final verdict
+- `docs/evidence/d001/` — D-001 tests, experiments C0–C9, soak Run A/B, final verdict
 - `docs/prior-art/SELECTION_LEDGER.md` — adopt/adapt/reference/reject ledger
 
 ## Organism kernel (D-001)
@@ -26,10 +26,15 @@ Concise navigation map for agents. Add entries as application code lands.
   - `arbitration.py` — vector scoring, hysteresis, recovery
   - `governance.py` — admit → execute → verify
   - `persistence.py` — SQLite WAL ledger + snapshots
+  - `events.py` — authoritative vs diagnostic retention policy
   - `runtime.py` — continuous loop; create/load organism
 - `tests/test_d001.py` — required D-001 unit tests (33)
+- `tests/test_d001c_closeout.py` — retention-v1 / closeout contracts
 - `experiments/d001/run_experiment.py` — C0–C9 + recovery trials
 - `experiments/d001/run_performance.py` — 100k ticks + soak sample
+- `experiments/d001/run_soak_b.py` — Run B 6h soak (retention v1)
+- `experiments/d001/closeout_run_a.py` / `closeout_run_b.py` — Gate9 closeout validators
+- `.soak/` — local soak DBs (gitignored)
 
 ## Agent memory
 - `.agent/CURRENT.md`, `DIRECTIVES.md`, `OUTCOMES.md`, `LEARNINGS.md`, `REPO_MAP.md`

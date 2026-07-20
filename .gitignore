@@ -1,6 +1,9 @@
 # Prior-art upstream clones (evaluate in place; do not vendor as foundation)
 docs/prior-art/*/upstream/
 
+# Soak databases (large; evidence summaries committed separately)
+.soak/
+
 # Python caches
 **/__pycache__/
 **/.pytest_cache/

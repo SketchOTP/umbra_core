@@ -1,25 +1,28 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260720-umbra-d001-invariant-companion-core
-- Project directive: UMBRA-D-001
-- Goal: Implement and validate the minimum persistent UMBRA invariant companion core
-- Status: partial — foundation implemented; 6h soak running for Gate 9 QUALIFIED seal
-- Acceptance: Gates 0–8,10 PASS; Gate 9/11 PARTIAL (soak incomplete)
-- Touched files: umbra_core/, tests/, experiments/d001/, docs/evidence/d001/, .agent/*
-- Next action: Await soak-6h-summary.json; then re-seal QUALIFIED if metrics hold
+- ID: D-20260720-umbra-d001c-performance-closeout
+- Project directive: UMBRA-D-001C (parent UMBRA-D-001)
+- Goal: Commit retention-v1; Run B 6h soak; seal D-001 only if all gates pass
+- Status: in_progress — Run A closed as v0 perf-only; committing retention-v1 then starting Run B
+- Acceptance: Run B provenance + Gate9 thresholds; authoritative cadence; ledger/hash/restart/replay; full tests; QUALIFIED only if all pass
+- Touched files: umbra_core/events.py, runtime.py, persistence.py, tests/, experiments/d001/, docs/evidence/d001/, .agent/*
+- Next action: Commit → start Run B → await SOAK_B_DONE → closeout_run_b → seal or fail
 
 ## Repo facts needed now
 - Mimir project ID: 7777645d52a91b49
-- Mimir task ID: 32cbec622ee34877977ba95ff10becf8
-- Starting commit: 813b9d6a3f1cbee159d0e421bf745a2039626dcf
-- Verdict: UMBRA_D001_PARTIAL_FOUNDATION
-- Ending commit: e9fed18ec8c1a72db05b2efe6d93502a2ba6d7c9 (foundation); tip may include seal notes
-- Soak: RUNNING under /tmp/umbra_soak/soak6h.sqlite
+- Mimir task ID: a9d8858e78824663ae88103cf735c025
+- Mimir task version: 2
+- Prior D-001C task: 15d8a6968dda486183ed8ba21e322753
+- Foundation commit: e9fed18ec8c1a72db05b2efe6d93502a2ba6d7c9
+- Formal state: UMBRA_D001_PARTIAL_FOUNDATION; D-002 AUTHORIZED: NO
+- Run A: performance-only retention v0; gate9_performance_pass=false (rss_slope_le_1)
+- Run B DB: .soak/run_b.sqlite (gitignored)
 
 ## Last validation
-- Command: `PYTHONPATH=. python3 -m pytest tests/test_d001.py -q`
-- Result: 33 passed
+- Command: PYTHONPATH=. python3 -m pytest tests/test_d001.py tests/test_d001c_closeout.py -q
+- Result: 39 passed, 3 skipped
 
 ## Open blockers
-- Gate 9 six-hour soak not yet complete (process running)
+- Run B 6h soak not started until retention-v1 commit lands
+- QUALIFIED blocked until Run B passes all Gate 9 + retention gates

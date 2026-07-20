@@ -1,0 +1,10 @@
+{
+  "hours": 6.0,
+  "ticks": 43183,
+  "elapsed_sec": 21600.307396722957,
+  "cpu_sec": 21.909326728,
+  "rss_start_mib": 23.6171875,
+  "rss_end_mib": 32.05078125,
+  "cpu_fraction": 0.0010143064845725166,
+  "agent_id": "57ab8a03-3bb0-1063-8021-aaa3b6b96eae"
+}

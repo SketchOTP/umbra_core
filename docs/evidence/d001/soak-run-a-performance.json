@@ -1,0 +1,35 @@
+{
+  "run_id": "A",
+  "role": "performance_only_retention_v0",
+  "certifies_final_retention": false,
+  "retention_policy_version": "v0_pre_fix_downsample_drift_10_proposal_5",
+  "duration_sec": 21600.307396722957,
+  "ticks": 43183,
+  "cpu_mean_fraction": 0.0010143062469251676,
+  "cpu_p95_fraction": 0.0016063013014359642,
+  "cpu_mean_percent": 0.10143062469251676,
+  "cpu_p95_percent": 0.16063013014359642,
+  "rss_mean_mib": 30.578950264084508,
+  "rss_p95_mib": 31.92578125,
+  "rss_start_mib": 23.6171875,
+  "rss_end_mib": 32.05078125,
+  "rss_slope_mib_per_hour": 1.3280299090989736,
+  "rss_slope_after_1h_warmup_diagnostic": 0.838638271227997,
+  "database_bytes": null,
+  "database_path": "/tmp/umbra_soak/soak6h.sqlite",
+  "database_present_at_closeout": false,
+  "agent_id": "57ab8a03-3bb0-1063-8021-aaa3b6b96eae",
+  "failures": [
+    "rss_slope_le_1"
+  ],
+  "gates": {
+    "duration_ge_6h": true,
+    "rss_p95_le_200": true,
+    "rss_slope_le_1": false,
+    "cpu_mean_le_5pct": true,
+    "no_crash": true
+  },
+  "gate9_performance_pass": false,
+  "revision_audit": "docs/evidence/d001/soak-revision-audit.json",
+  "note": "Run A started before retention-v1. Performance evidence under retention v0 only; cannot certify authoritative-every-tick. Gate 9 uses full-window RSS slope (no threshold retune). Warmup slope is diagnostic. SQLite under /tmp was absent at closeout after clean process exit."
+}
