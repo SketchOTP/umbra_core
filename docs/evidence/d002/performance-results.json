@@ -1,0 +1,130 @@
+{
+  "accelerated_100k": {
+    "ticks": 100000,
+    "elapsed_s": 145.30031657218933,
+    "cpu_s": 129.18076416,
+    "cpu_pct_of_one_core": 88.9060445341971,
+    "rss_p95_mib": 29.38671875,
+    "rss_samples": [
+      {
+        "tick": 0,
+        "rss_mib": 22.88671875,
+        "t": 0.0015196800231933594
+      },
+      {
+        "tick": 5000,
+        "rss_mib": 29.01171875,
+        "t": 5.460433483123779
+      },
+      {
+        "tick": 10000,
+        "rss_mib": 29.01171875,
+        "t": 12.255643606185913
+      },
+      {
+        "tick": 15000,
+        "rss_mib": 29.01171875,
+        "t": 19.348085641860962
+      },
+      {
+        "tick": 20000,
+        "rss_mib": 29.01171875,
+        "t": 28.897772073745728
+      },
+      {
+        "tick": 25000,
+        "rss_mib": 29.38671875,
+        "t": 35.74678611755371
+      },
+      {
+        "tick": 30000,
+        "rss_mib": 29.38671875,
+        "t": 42.929267168045044
+      },
+      {
+        "tick": 35000,
+        "rss_mib": 29.38671875,
+        "t": 50.599371910095215
+      },
+      {
+        "tick": 40000,
+        "rss_mib": 29.38671875,
+        "t": 57.10498547554016
+      },
+      {
+        "tick": 45000,
+        "rss_mib": 29.38671875,
+        "t": 64.23315620422363
+      },
+      {
+        "tick": 50000,
+        "rss_mib": 29.38671875,
+        "t": 70.62732672691345
+      },
+      {
+        "tick": 55000,
+        "rss_mib": 29.38671875,
+        "t": 76.05761623382568
+      },
+      {
+        "tick": 60000,
+        "rss_mib": 29.38671875,
+        "t": 84.27595329284668
+      },
+      {
+        "tick": 65000,
+        "rss_mib": 29.38671875,
+        "t": 92.52331805229187
+      },
+      {
+        "tick": 70000,
+        "rss_mib": 29.38671875,
+        "t": 102.24596166610718
+      },
+      {
+        "tick": 75000,
+        "rss_mib": 29.38671875,
+        "t": 109.09540128707886
+      },
+      {
+        "tick": 80000,
+        "rss_mib": 29.38671875,
+        "t": 116.77121305465698
+      },
+      {
+        "tick": 85000,
+        "rss_mib": 29.38671875,
+        "t": 122.96554136276245
+      },
+      {
+        "tick": 90000,
+        "rss_mib": 29.38671875,
+        "t": 129.6540150642395
+      },
+      {
+        "tick": 95000,
+        "rss_mib": 29.38671875,
+        "t": 138.7925581932068
+      }
+    ],
+    "db_mib": 235.078125,
+    "restart_continuity": true
+  },
+  "soak_2h": {
+    "duration_s": 7200.356724877027,
+    "ticks": 14378,
+    "cpu_mean_pct": 0.3248499183684469,
+    "rss_p95_mib": 29.49609375,
+    "rss_first": 23.37109375,
+    "rss_last": 29.49609375,
+    "rss_slope_mib_per_h": 0.0,
+    "db_mib": 45.68359375,
+    "agent_id": "d44f91a9-cc04-8e2c-b7ee-cbe505bd981c",
+    "body_schema_id": "61cbda78-e34a-9a11-6d3d-a875c6b3fdce",
+    "gate9_pass": true,
+    "rss_slope_mib_per_h_full_window_maxrss": 3.1094358896696717,
+    "rss_slope_method": "post_30min_warmup_first_to_last_jsonl_sample",
+    "rss_slope_note": "ru_maxrss climbs during allocator warmup then plateaus; Gate9 uses post-30min slope. Full-window maxrss slope retained as diagnostic."
+  },
+  "gate9_pass": true
+}

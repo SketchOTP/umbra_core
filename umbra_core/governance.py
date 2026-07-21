@@ -187,13 +187,18 @@ class Governance:
             "out_of_range",
             "not_at_rest",
             "not_at_resource",
+            "delayed",
         )
         # movement_slip still "executed" but failed quality
         if raw.get("reason") == "movement_slip":
             success = False
+        if raw.get("reason") == "delayed" or raw.get("delayed"):
+            success = False
 
         effects: dict[str, float] = {}
-        if success:
+        if raw.get("reason") == "delayed" or raw.get("delayed"):
+            effects = {}
+        elif success:
             effects = dict(OUTCOME_EFFECTS.get(capability, {}))
             if raw.get("hazard_contact"):
                 for k, v in OUTCOME_EFFECTS["HAZARD_HIT"].items():
@@ -204,6 +209,10 @@ class Governance:
             else:
                 # failed rest/charge still costs a little effort
                 effects = {"energy": -0.003, "fatigue": 0.002}
+
+        scale = float(raw.get("energy_cost_scale", 1.0))
+        if scale != 1.0 and "energy" in effects and effects["energy"] < 0:
+            effects["energy"] = effects["energy"] * scale
 
         # Strip any forged physiology_set from raw — never accept as outcome
         if "physiology_set" in raw:

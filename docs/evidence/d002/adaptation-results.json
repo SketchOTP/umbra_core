@@ -1,0 +1,38 @@
+{
+  "C0_I9": {
+    "n": 30,
+    "mean_early_error": 0.1898545874307058,
+    "mean_late_error": 0.13039089999028078,
+    "mean_improvement": 0.05946368744042501,
+    "mean_failed_actions": 11.666666666666666,
+    "mean_collisions": 0.0,
+    "mean_viable_frac": 0.3058666666666667,
+    "mean_false_self": 0.0,
+    "mean_external": 0.0,
+    "mean_supersessions": 0.0
+  },
+  "C0_I11": {
+    "n": 30,
+    "mean_early_error": 0.340832115560171,
+    "mean_late_error": 0.3196028954647317,
+    "mean_improvement": 0.02122922009543928,
+    "mean_failed_actions": 53.46666666666667,
+    "mean_collisions": 0.8666666666666667,
+    "mean_viable_frac": 0.16040000000000001,
+    "mean_false_self": 0.0,
+    "mean_external": 0.0,
+    "mean_supersessions": 1.1
+  },
+  "C0_I10": {
+    "n": 30,
+    "mean_early_error": 0.10202936219044413,
+    "mean_late_error": 0.14624041905132004,
+    "mean_improvement": -0.04421105686087592,
+    "mean_failed_actions": 6.766666666666667,
+    "mean_collisions": 0.0,
+    "mean_viable_frac": 0.29306666666666664,
+    "mean_false_self": 0.0,
+    "mean_external": 0.0,
+    "mean_supersessions": 1.1
+  }
+}

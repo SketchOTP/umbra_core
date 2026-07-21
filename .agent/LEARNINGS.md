@@ -34,3 +34,6 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - 2026-07-20 | area:d001c | lesson:Run A (pre-fix) is valid Gate9 budget evidence under retention v0 only; full-window RSS slope ~1.33 MiB/h failed ≤1; cannot certify retention-v1 | evidence:docs/evidence/d001/soak-run-a-performance.json
 - 2026-07-20 | area:d001c | lesson:Never average Run A with Run B or use Run A to offset Run B Gate9 failures; Run B alone qualifies D-001C; soak tests must bind Run B DB/closeout only | evidence:.agent/CURRENT.md
 - 2026-07-21 | area:d001c | lesson:Retention-v1 every-tick authoritative events met Gate9 on Run B (RSS slope 0.557 MiB/h, DB ~70 MiB/6h); Run A v0 slope fail does not block QUALIFIED | evidence:docs/evidence/d001/soak-run-b-closeout.json
+- 2026-07-21 | D-002 | ru_maxrss full-window slope is allocator-warmup dominated; Gate9 RSS slope should use post-warmup plateau (here post-30min slope=0 while full-window maxrss looked like 3 MiB/h).
+- 2026-07-21 | D-002 | Body-change evidence must ignore movement_slip and near-wall truncated moves; otherwise I0 false supersession explodes.
+- 2026-07-21 | D-002 | Prediction improvement metrics must filter to locomotion errors and skip early warmup ticks.

@@ -26,13 +26,15 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
-- Active project directive: **none** (D-001 closed QUALIFIED); **D-002** authorized to begin when opened
+- Active project directive: **none** (D-002 closed QUALIFIED); **D-003** authorized to begin when opened
+- **UMBRA-D-002 closed** — `UMBRA_D002_SENSORIMOTOR_SELF_MODEL_QUALIFIED`
 - **UMBRA-D-001 closed** — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED` (Run B 6h soak)
 - **UMBRA-D-000 closed** via **UMBRA-D-000S** — `UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`
 - **UMBRA-D-000A rejected** — do not create or execute artificial-life/protocell substrate reframes
 - Architecture freeze: `docs/architecture/`
 - Synthesis evidence: `docs/evidence/d000-synthesis/`
 - D-001 evidence: `docs/evidence/d001/`
+- D-002 evidence: `docs/evidence/d002/`
 - Prior-art lab notebook: `docs/prior-art/` (Tracks 1–6 complete; Soar/Hyperon not required)
 - Stance: informed reuse for the **companion organism core**; chemistry/protocell deferred
 
@@ -40,7 +42,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Target platform: Linux
 - Persistence: SQLite WAL event/state authority (`HYBRID_PRIMARY`); optional Postgres scale tier
 - Core loop: deterministic non-LLM (see architecture freeze)
-- Organism kernel: D-001 QUALIFIED (`umbra_core/`); further modules per later directives
+- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`)
 - Agent/tooling docs: Markdown, Cursor rules, Mimir V2, Serena
 
 ## Common commands

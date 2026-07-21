@@ -1,0 +1,45 @@
+{
+  "directive": "UMBRA-D-002",
+  "schema_version": "1.0.0",
+  "modules": [
+    "umbra_core/self_model/engine.py",
+    "umbra_core/self_model/__init__.py",
+    "umbra_core/runtime.py",
+    "umbra_core/embodiment.py",
+    "umbra_core/governance.py",
+    "umbra_core/events.py"
+  ],
+  "body_schema_fields": [
+    "body_schema_id",
+    "body_binding_id",
+    "sensor_contracts",
+    "actuator_contracts",
+    "expected_motion",
+    "expected_latency",
+    "expected_cost",
+    "expected_reliability",
+    "reachable_affordances",
+    "confidence",
+    "evidence_count",
+    "updated_at"
+  ],
+  "attribution_labels": [
+    "SELF_CAUSED",
+    "EXTERNAL_CAUSED",
+    "MIXED",
+    "UNKNOWN"
+  ],
+  "bounds": {
+    "MAX_MODEL_VERSIONS": 32,
+    "MAX_PREDICTION_HISTORY": 256,
+    "MAX_ERROR_HISTORY": 256
+  },
+  "authoritative_events_added": [
+    "body_schema_supersede",
+    "embodiment_bind"
+  ],
+  "diagnostic_events": [
+    "self_attribution",
+    "prediction_error"
+  ]
+}

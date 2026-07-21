@@ -18,7 +18,7 @@ Read `.agent/PROJECT_GOAL.md` before any design or implementation work. Non-nego
 - Bodies (avatar, robot, sensors, animations, dialogue) are interfaces around the organism core
 - Digital chemistry / protocells are optional long-range research only — **not** required foundations; **do not** create or execute UMBRA-D-000A
 
-**Program gate:** UMBRA-D-000 closed via D-000S (`UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`). **UMBRA-D-001 closed** — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`. **D-002** authorized to begin when opened. Architecture: `docs/architecture/`. Evidence: `docs/evidence/d001/`.
+**Program gate:** UMBRA-D-000 closed via D-000S (`UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`). **UMBRA-D-001 closed** — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`. **UMBRA-D-002 closed** — `UMBRA_D002_SENSORIMOTOR_SELF_MODEL_QUALIFIED`. **D-003** authorized to begin when opened. Architecture: `docs/architecture/`. Evidence: `docs/evidence/d001/`, `docs/evidence/d002/`.
 
 LLM-wrapper companions (Hexis/AEROS/OpenLife-style) do not satisfy the non-LLM organism kernel requirement.
 

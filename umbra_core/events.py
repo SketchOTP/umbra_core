@@ -19,6 +19,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "restart_recovery",
         "lifecycle",
         "embodiment_bind",
+        "body_schema_supersede",
     }
 )
 
@@ -28,6 +29,8 @@ DIAGNOSTIC_EVENT_TYPES = frozenset(
         "observation",  # not currently emitted; reserved
         "arbitration_scores",  # reserved diagnostic
         "metrics_sample",  # reserved diagnostic
+        "self_attribution",  # persisted in snapshot; sample to ledger
+        "prediction_error",  # persisted in snapshot; sample to ledger
     }
 )
 

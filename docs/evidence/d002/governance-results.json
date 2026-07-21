@@ -1,0 +1,5 @@
+{
+  "prediction_cannot_grant_capability": true,
+  "adapter_cannot_self_certify": true,
+  "forbidden_effects_enforced": true
+}

@@ -17,6 +17,13 @@ Concise navigation map for agents. Add entries as application code lands.
 - `docs/evidence/d001/` — D-001 tests, experiments C0–C9, soak Run A/B, final verdict
 - `docs/prior-art/SELECTION_LEDGER.md` — adopt/adapt/reference/reject ledger
 
+## Organism kernel (D-001 + D-002)
+- `umbra_core/self_model/` — sensorimotor body schema, prediction, attribution, adaptation
+  - `engine.py` — BodySchema / SelfModel / Attribution
+- D-002 evidence: `docs/evidence/d002/`
+- D-002 experiments: `experiments/d002/`
+- D-002 tests: `tests/test_d002.py`
+
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)
   - `identity.py` — constitutional birth / commitment

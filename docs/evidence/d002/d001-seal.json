@@ -1,0 +1,17 @@
+{
+  "directive": "UMBRA-D-002",
+  "gate0": "d001_seal",
+  "starting_commit": "60de076e8f4fc5c8f73ef2cc98750b3036e06dea",
+  "d001_verdict": "UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED",
+  "d001_seal_commit": "8653381ad6b41ad1153f781266df582fc1a46215",
+  "d001_seal_note_commit": "405640b510918f321a79465153c5fd11e4f9d482",
+  "d001_run_b_runtime_commit": "8d68995d114504e1265eef1941a0b46588b0893e",
+  "d001_tests": {"passed": 45, "failed": 0, "skipped": 0},
+  "d001_evidence_hashes_verified": true,
+  "worktree_clean_at_start": true,
+  "mimir_project_id": "7777645d52a91b49",
+  "mimir_task_id": "17d78c89af9c4e11ad0597d4005b0993",
+  "run_a_status": "negative_context_only",
+  "run_b_status": "sole_qualification_evidence",
+  "recorded_at": "2026-07-21T10:54:00Z"
+}

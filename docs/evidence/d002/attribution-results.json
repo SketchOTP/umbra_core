@@ -1,0 +1,27 @@
+{
+  "C0_I8": {
+    "n": 100,
+    "mean_early_error": 0.11622233713439434,
+    "mean_late_error": 0.16619517324781632,
+    "mean_improvement": -0.04997283611342199,
+    "mean_failed_actions": 9.07,
+    "mean_collisions": 0.0,
+    "mean_viable_frac": 0.29044000000000003,
+    "mean_false_self": 0.0,
+    "mean_external": 0.98,
+    "mean_supersessions": 0.11
+  },
+  "C3_I8": {
+    "n": 30,
+    "mean_early_error": 0.09908363031241403,
+    "mean_late_error": 0.1683944893400321,
+    "mean_improvement": -0.06931085902761806,
+    "mean_failed_actions": 8.033333333333333,
+    "mean_collisions": 0.0,
+    "mean_viable_frac": 0.2958666666666667,
+    "mean_false_self": 0.0,
+    "mean_external": 0.0,
+    "mean_supersessions": 0.1
+  },
+  "false_self_rate_C0_I8": 0.0
+}

@@ -1,0 +1,16 @@
+{
+  "duration_s": 7200.356724877027,
+  "ticks": 14378,
+  "cpu_mean_pct": 0.3248499183684469,
+  "rss_p95_mib": 29.49609375,
+  "rss_first": 23.37109375,
+  "rss_last": 29.49609375,
+  "rss_slope_mib_per_h": 0.0,
+  "db_mib": 45.68359375,
+  "agent_id": "d44f91a9-cc04-8e2c-b7ee-cbe505bd981c",
+  "body_schema_id": "61cbda78-e34a-9a11-6d3d-a875c6b3fdce",
+  "gate9_pass": true,
+  "rss_slope_mib_per_h_full_window_maxrss": 3.1094358896696717,
+  "rss_slope_method": "post_30min_warmup_first_to_last_jsonl_sample",
+  "rss_slope_note": "ru_maxrss climbs during allocator warmup then plateaus; Gate9 uses post-30min slope. Full-window maxrss slope retained as diagnostic."
+}

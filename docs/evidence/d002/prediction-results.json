@@ -1,0 +1,43 @@
+{
+  "ticks": 250,
+  "seeds_C0_I1": 100,
+  "C0_I1": {
+    "n": 100,
+    "mean_early_error": 0.14729499468761617,
+    "mean_late_error": 0.07507256378749573,
+    "mean_improvement": 0.07222243090012044,
+    "mean_failed_actions": 10.34,
+    "mean_collisions": 0.42,
+    "mean_viable_frac": 0.27864,
+    "mean_false_self": 0.0,
+    "mean_external": 0.0,
+    "mean_supersessions": 0.0
+  },
+  "C1_I1": {
+    "n": 100,
+    "mean_early_error": 0.5692413923343962,
+    "mean_late_error": 0.5693234991778688,
+    "mean_improvement": -8.210684347260023e-05,
+    "mean_failed_actions": 10.34,
+    "mean_collisions": 0.42,
+    "mean_viable_frac": 0.27864,
+    "mean_false_self": 0.0,
+    "mean_external": 0.0,
+    "mean_supersessions": 0.0
+  },
+  "C2_I1": {
+    "n": 100,
+    "mean_early_error": 1.0,
+    "mean_late_error": 1.0,
+    "mean_improvement": 0.0,
+    "mean_failed_actions": 10.34,
+    "mean_collisions": 0.42,
+    "mean_viable_frac": 0.27864,
+    "mean_false_self": 0.0,
+    "mean_external": 0.0,
+    "mean_supersessions": 0.0
+  },
+  "gate1_C0_beats_C1": true,
+  "gate1_C0_beats_C2": true,
+  "gate1_error_decreases": true
+}

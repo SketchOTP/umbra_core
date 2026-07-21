@@ -1,0 +1,19 @@
+{
+  "docs/evidence/d002/adaptation-results.json": "cf57232345268bba4b8cef12cc068f2a810ea8a5ef895ae763ffb1058a278bf2",
+  "docs/evidence/d002/attribution-results.json": "095215528f043004d1bdcd581b0b73cf4fbaa539ead930e6437046e007c4f305",
+  "docs/evidence/d002/body-change-results.json": "ef99bc7620cdc8ef08f674cd74d47992bc1fb66e2d2040b5a9ebfd6cf94adbcf",
+  "docs/evidence/d002/d001-seal.json": "5d2cb00134bb4f35e435b41488abf83a5040175a46710e9b7a4bebb85ddd8567",
+  "docs/evidence/d002/evidence-hashes.json": "ce3637675501fdb7ad6abf2666e723cd8e39a71f94238e695e886f8c5c88a27e",
+  "docs/evidence/d002/experiment-summary.json": "18dbf126dacd68542654f15d52faa5c39cb7589c62272f1c0462a29e8fa4f29d",
+  "docs/evidence/d002/final-verdict.md": "1043790a4bc0015f795820816cb59e7fb177e288b60191e0ae1da35247bf7131",
+  "docs/evidence/d002/governance-results.json": "dbccbaa130e3eddb3d52e91c6ce178d464ba0f897a19ee298bd972d7381ba3cf",
+  "docs/evidence/d002/identity-results.json": "d0a7a16495499865d187c61f382bd25a5ccab62f601a73e754f8f41bf7f1c5fc",
+  "docs/evidence/d002/performance-100k.json": "3a13ec9b78d3dcdff23054f48624f4d9fdc0fb8355d5e592c19f4dbab813cecf",
+  "docs/evidence/d002/performance-results.json": "00d2fe2331ae9bd620ebc82bf23cc486e30cb1c8786957884ce58bac5458afa5",
+  "docs/evidence/d002/prediction-results.json": "c5bd4c9c19010d8834d84407f28665b330261659d344e3c4ded3e7cdb048db88",
+  "docs/evidence/d002/replay-results.json": "61b441693e5ca82eaafc7b820f8ebd0779c9b78b754579a7e73f4e30ab2c65d0",
+  "docs/evidence/d002/schema-manifest.json": "28f56fc192999c6801e69c1e20f92feba9a6ed1362d087d7138876716be515b9",
+  "docs/evidence/d002/soak-2h-summary.json": "56c0ba131b79a1d2a9778972ff9e4212a9b1cee73630c08e479062f366f5f817",
+  "docs/evidence/d002/soak-2h.jsonl": "ea41e108f37488c55c73d47332353e45710314788aadda286e4f5dc3753de087",
+  "docs/evidence/d002/test-results.txt": "841bbdeb671b2d1391e15f21d79c64972d276b3efa64d69db78e4fa78ee807c5"
+}
