@@ -3,6 +3,7 @@
 **Verdict:** `UMBRA_D002_SENSORIMOTOR_SELF_MODEL_QUALIFIED`
 
 **Starting commit:** `60de076e8f4fc5c8f73ef2cc98750b3036e06dea`  
+**Seal commit:** `17c7eae2e46e58731122b066fdadf9674ab2852a`  
 **Date:** 2026-07-21  
 **Mimir project:** `7777645d52a91b49`  
 **Mimir task:** `17d78c89af9c4e11ad0597d4005b0993`
