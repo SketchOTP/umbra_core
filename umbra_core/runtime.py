@@ -660,6 +660,8 @@ def create_organism(config: OrganismConfig) -> Organism:
         event_id=identity.birth_event_id,
     )
     org.snapshot_if_due(force=True)
+    # Structural residency init (fixed size) — must precede RUNTIME_READY; not RSS-gated.
+    store.warm_runtime_residency()
     org.emit_runtime_ready(wall=wall)
     return org
 
@@ -753,6 +755,7 @@ def load_organism(config: OrganismConfig) -> Organism:
         # Re-pad to capacity after restore so appends only replace slots.
         org.self_model._pad_rings_to_capacity()
     wall = float(config.wall_time_fn())
+    org.store.warm_runtime_residency()
     if org.tick == 0:
         org.emit_runtime_ready(wall=wall)
     else:

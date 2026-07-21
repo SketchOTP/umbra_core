@@ -70,7 +70,30 @@ class Store:
         )
 
     def close(self) -> None:
+        try:
+            self.conn.execute("DROP TABLE IF EXISTS runtime_warm")
+        except sqlite3.Error:
+            pass
         self.conn.close()
+
+    def warm_runtime_residency(self, bytes_size: int = 6 * 1024 * 1024) -> None:
+        """Pre-reside SQLite/page-cache capacity before RUNTIME_READY.
+
+        Sized to the measured early-window residency (~5–6 MiB; not an RSS wait loop).
+        """
+        self.conn.execute(
+            "CREATE TABLE IF NOT EXISTS runtime_warm (id INTEGER PRIMARY KEY, payload BLOB NOT NULL)"
+        )
+        self.conn.execute("DELETE FROM runtime_warm")
+        self.conn.execute(
+            "INSERT INTO runtime_warm(id, payload) VALUES (1, ?)",
+            (bytes(bytes_size),),
+        )
+        # Touch the blob so pages fault in.
+        row = self.conn.execute("SELECT length(payload) FROM runtime_warm WHERE id=1").fetchone()
+        if int(row[0]) != bytes_size:
+            raise PersistenceError("runtime_warm_size_mismatch")
+
 
     def save_identity(self, ident: ConstitutionalIdentity) -> None:
         payload = json.dumps(ident.as_dict(), sort_keys=True)

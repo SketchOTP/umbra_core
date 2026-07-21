@@ -15,7 +15,10 @@ from umbra_core.util import sha256_hex
 
 
 def _db(work: Path, name: str) -> str:
-    return str(work / name)
+    p = work / name
+    for s in (p, Path(str(p) + "-wal"), Path(str(p) + "-shm")):
+        s.unlink(missing_ok=True)
+    return str(p)
 
 
 def run_behavior(work: Path) -> dict:

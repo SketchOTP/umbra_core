@@ -60,3 +60,19 @@ Primary defect: pad objects were replaced by newly allocated live objects after 
 - In-place slot reuse + nested-dict mutation after capacity
 - `malloc_trim(0)` after WAL checkpoint (glibc)
 - 30 min probe: 20–30 min OLS ≈ −0.7 (settling)
+
+## Attempt-2 soak (6778802, in-place reuse, no warm table)
+
+| Window | OLS MiB/h |
+|---|---|
+| 0–10 min | 24.9 |
+| 10–30 min | 2.91 |
+| 60–120 min | 0.019 |
+| full | **1.293 FAIL** |
+
+Late window solved. Remaining full-window OLS dominated by early SQLite/page residency.
+
+## Remediation revision 3
+
+- `Store.warm_runtime_residency(6 MiB)` before RUNTIME_READY (fixed-size structural init)
+- 20 min probe: first RSS ≈34 MiB; 5–20 min OLS negative/flat
