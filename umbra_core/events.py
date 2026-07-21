@@ -20,6 +20,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "lifecycle",
         "embodiment_bind",
         "body_schema_supersede",
+        "runtime_ready",
     }
 )
 
@@ -74,9 +75,13 @@ SUPERSESSION_HISTORY_BOUND = 32  # matches MAX_MODEL_VERSIONS
 SNAPSHOT_EVERY_TICKS_DEFAULT = 200
 WAL_CHECKPOINT_EVERY_TICKS = 500
 COVERAGE_SET_BOUND = 500  # in-memory cells/visited bound (not event ledger)
+SNAPSHOT_RETAIN_COUNT = 2  # keep latest N snapshots; ledger remains authoritative
 
 # Cadence for diagnostic self-model ledger samples (identical to sealed D-002).
 DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS = 10
+
+# Emitted once after migration/identity/snapshot/bounded-init/loop readiness.
+RUNTIME_READY_EVENT = "runtime_ready"
 
 
 def is_authoritative(event_type: str) -> bool:

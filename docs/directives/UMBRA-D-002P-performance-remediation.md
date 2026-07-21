@@ -1,0 +1,11 @@
+# UMBRA-D-002P
+
+## REMEDIATE SENSORIMOTOR MEMORY GROWTH AND REVALIDATE PERFORMANCE
+
+**Parent:** UMBRA-D-002V (`UMBRA_D002V_PERFORMANCE_FAIL` — preserved, not waived)
+
+**Status:** in progress
+
+**Evidence:** `docs/evidence/d002p/`
+
+**D-003:** blocked until `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`

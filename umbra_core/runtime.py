@@ -18,6 +18,7 @@ from umbra_core.embodiment import Embodiment
 from umbra_core.events import (
     AUTHORITATIVE_EVENT_TYPES,
     DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS,
+    SNAPSHOT_RETAIN_COUNT,
     WAL_CHECKPOINT_EVERY_TICKS,
 )
 from umbra_core.governance import Governance, GovernanceState
@@ -121,7 +122,8 @@ class Organism:
             "cells": set(),
             "collisions": 0,
             "failed_actions": 0,
-            "prediction_errors": [],
+            # ponytail: scalar last-error only — full history lives in SelfModel.errors
+            "last_prediction_error": None,
         }
         self._pending_action: dict[str, Any] | None = None
         self._delayed_proposal: dict[str, Any] | None = None
@@ -131,6 +133,8 @@ class Organism:
         self._intervention_applied = False
         self._i9_recovered = False
         self._external_displaced = False
+        self._runtime_ready = False
+        self._first_tick_after_ready = False
 
     @property
     def dt(self) -> float:
@@ -155,9 +159,8 @@ class Organism:
             "delayed_proposal": self._delayed_proposal,
             "intervention": self.config.intervention,
             "metrics": {
-                **{k: v for k, v in self.metrics.items() if k not in ("cells", "prediction_errors")},
+                **{k: v for k, v in self.metrics.items() if k not in ("cells",)},
                 "cells": [list(c) for c in self.metrics["cells"]],
-                "prediction_errors": list(self.metrics.get("prediction_errors", []))[-64:],
             },
         }
 
@@ -166,13 +169,46 @@ class Organism:
 
     def snapshot_if_due(self, force: bool = False) -> str | None:
         if force or (self.tick > 0 and self.tick % self.config.snapshot_every == 0):
-            return self.store.save_snapshot(
+            sid = self.store.save_snapshot(
                 self.identity.agent_id,
                 self.store.last_sequence(),
                 self.monotonic_time,
                 self.authoritative_state(),
             )
+            self.store.prune_snapshots(keep=SNAPSHOT_RETAIN_COUNT)
+            return sid
         return None
+
+    def emit_runtime_ready(self, *, wall: float | None = None) -> dict[str, Any]:
+        """Mark loop ready after migration/identity/snapshot/bounded-init.
+
+        Must not wait for RSS plateau. May only fire once per process session.
+        """
+        if self._runtime_ready:
+            raise RuntimeError("runtime_ready_already_emitted")
+        if self.tick != 0:
+            raise RuntimeError("runtime_ready_must_precede_first_tick")
+        wall_t = float(self.config.wall_time_fn() if wall is None else wall)
+        if self.self_model is not None:
+            self.self_model.initialize_bounded_collections()
+        payload = {
+            "tick": self.tick,
+            "bounded_initialized": bool(
+                self.self_model and self.self_model._bounded_initialized
+            ),
+            "schema_version": SCHEMA_VERSION,
+            # Explicit: readiness is structural, never RSS-gated.
+            "rss_gated": False,
+        }
+        ev = self.store.append_event(
+            agent_id=self.identity.agent_id,
+            event_type="runtime_ready",
+            monotonic_time=self.monotonic_time,
+            wall_time=wall_t,
+            payload=payload,
+        )
+        self._runtime_ready = True
+        return ev
 
     def _resolve_params(self, params: dict[str, Any]) -> dict[str, Any]:
         """Convert body-relative headings to absolute for embodiment."""
@@ -221,6 +257,8 @@ class Organism:
 
     def tick_once(self) -> dict[str, Any]:
         """One organism loop iteration (D-002 extended)."""
+        if not self._runtime_ready:
+            raise RuntimeError("tick_before_runtime_ready")
         wall = float(self.config.wall_time_fn())
         self.tick += 1
         self.monotonic_time += self.dt
@@ -486,11 +524,7 @@ class Organism:
                 now=self.monotonic_time,
             )
             if sm_result.get("prediction_error"):
-                pe = sm_result["prediction_error"]["body_error"]
-                errs = self.metrics.setdefault("prediction_errors", [])
-                errs.append(pe)
-                if len(errs) > 256:
-                    self.metrics["prediction_errors"] = errs[-256:]
+                self.metrics["last_prediction_error"] = sm_result["prediction_error"]["body_error"]
             # Persist attribution + errors diagnostically (bounded sample); supersession authoritative
             sample_diag = self.tick % DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS == 0
             if sm_result.get("attribution") and sample_diag:
@@ -524,7 +558,7 @@ class Organism:
             obs_max = self._obs_summary(obs_dicts).get("max_range_seen", 0.0)
             self.self_model.note_observation_range(obs_max, self.tick)
             if not outcome.success and outcome.capability in ("MOVE", "APPROACH", "RETREAT"):
-                recent = self.self_model.errors[-8:]
+                recent = self.self_model.live_errors()[-8:]
                 fails = sum(1 for e in recent if not e.verified_success)
                 if len(recent) >= 8 and fails >= 6:
                     self.self_model.record_dimension_evidence("reliability", 0.55, self.tick)
@@ -620,6 +654,7 @@ def create_organism(config: OrganismConfig) -> Organism:
         event_id=identity.birth_event_id,
     )
     org.snapshot_if_due(force=True)
+    org.emit_runtime_ready(wall=wall)
     return org
 
 
@@ -696,7 +731,42 @@ def load_organism(config: OrganismConfig) -> Organism:
     org.metrics["cells"] = {tuple(c) for c in metrics.get("cells", [])}
     org.metrics["collisions"] = int(metrics.get("collisions", 0))
     org.metrics["failed_actions"] = int(metrics.get("failed_actions", 0))
-    org.metrics["prediction_errors"] = list(metrics.get("prediction_errors", []))
+    org.metrics["last_prediction_error"] = metrics.get("last_prediction_error")
+    # Bring rings to documented capacity, preserving live (tick>=0) history.
+    if org.self_model is not None:
+        live_p = org.self_model.live_predictions()
+        live_e = org.self_model.live_errors()
+        live_a = org.self_model.live_attributions()
+        live_c = org.self_model.live_change_evidence()
+        org.self_model._bounded_initialized = False
+        org.self_model.initialize_bounded_collections()
+        org.self_model.predictions.reset_from(live_p)
+        org.self_model.errors.reset_from(live_e)
+        org.self_model.attributions.reset_from(live_a)
+        org.self_model.change_evidence.reset_from(live_c)
+        # Re-pad to capacity after restore so appends only replace slots.
+        org.self_model._pad_rings_to_capacity()
+    wall = float(config.wall_time_fn())
+    if org.tick == 0:
+        org.emit_runtime_ready(wall=wall)
+    else:
+        # Restart resume: same readiness contract, tick may already be > 0.
+        org.store.append_event(
+            agent_id=org.identity.agent_id,
+            event_type="runtime_ready",
+            monotonic_time=org.monotonic_time,
+            wall_time=wall,
+            payload={
+                "tick": org.tick,
+                "restart": True,
+                "bounded_initialized": bool(
+                    org.self_model and org.self_model._bounded_initialized
+                ),
+                "schema_version": SCHEMA_VERSION,
+                "rss_gated": False,
+            },
+        )
+        org._runtime_ready = True
     return org
 
 

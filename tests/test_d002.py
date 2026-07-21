@@ -70,8 +70,9 @@ def test_action_prediction_is_recorded(tmp_path):
     org = create_organism(OrganismConfig(db_path=_db(tmp_path), seed=3))
     org.run_ticks(40)
     assert org.self_model is not None
-    assert len(org.self_model.predictions) > 0
-    p = org.self_model.predictions[0]
+    live = org.self_model.live_predictions()
+    assert len(live) > 0
+    p = live[0]
     assert "expected_body_delta" in p.to_dict()
     assert "expected_success_probability" in p.to_dict()
     org.close()
@@ -81,7 +82,7 @@ def test_prediction_error_uses_verified_outcome(tmp_path):
     org = create_organism(OrganismConfig(db_path=_db(tmp_path), seed=4))
     org.run_ticks(50)
     assert org.self_model is not None
-    assert len(org.self_model.errors) > 0
+    assert len(org.self_model.live_errors()) > 0
     types = {e["event_type"] for e in org.store.iter_events()}
     assert "outcome_verified" in types
     assert "prediction_error" in types
@@ -106,7 +107,7 @@ def test_policy_cannot_read_world_truth(tmp_path):
     assert "habitat" not in view
     # self-model attribution never receives world_truth
     org.run_ticks(20)
-    for a in org.self_model.attributions:
+    for a in org.self_model.live_attributions():
         assert "world_truth" not in a.reasons
         assert "habitat" not in "".join(a.reasons)
     org.close()
@@ -117,12 +118,12 @@ def test_external_displacement_is_not_self_attributed(tmp_path):
     # Force idle-heavy window around displacement by setting energy high
     org.phys.intervene(energy=0.85, fatigue=0.1, stimulation=0.55)
     org.run_ticks(55)
-    attrs = [a for a in org.self_model.attributions if a.tick == 40]
+    attrs = [a for a in org.self_model.live_attributions() if a.tick == 40]
     # At tick 40 external shove; if an action also ran, may be MIXED — must not be confidently SELF alone without mismatch handling
-    labels = {a.label for a in org.self_model.attributions if a.tick >= 40 and a.tick <= 42}
+    labels = {a.label for a in org.self_model.live_attributions() if a.tick >= 40 and a.tick <= 42}
     assert Attribution.EXTERNAL_CAUSED.value in labels or Attribution.MIXED.value in labels or Attribution.UNKNOWN.value in labels
     # Across the shove window, EXTERNAL should appear when no action / large unexpected motion
-    external = [a for a in org.self_model.attributions if a.label == Attribution.EXTERNAL_CAUSED.value]
+    external = [a for a in org.self_model.live_attributions() if a.label == Attribution.EXTERNAL_CAUSED.value]
     assert len(external) >= 1
     org.close()
 
@@ -132,7 +133,7 @@ def test_uncertain_attribution_remains_unknown(tmp_path):
         OrganismConfig(db_path=_db(tmp_path), seed=8, condition="C6")
     )
     org.run_ticks(30)
-    unknowns = [a for a in org.self_model.attributions if a.label == Attribution.UNKNOWN.value]
+    unknowns = [a for a in org.self_model.live_attributions() if a.label == Attribution.UNKNOWN.value]
     assert len(unknowns) >= 1
     org.close()
 
@@ -180,7 +181,7 @@ def test_previous_body_model_is_preserved(tmp_path):
 def test_reduced_sensor_range_is_detected(tmp_path):
     org = create_organism(OrganismConfig(db_path=_db(tmp_path), seed=11, intervention="I5"))
     org.run_ticks(100)
-    dims = {e.dimension for e in org.self_model.change_evidence}
+    dims = {e.dimension for e in org.self_model.live_change_evidence()}
     supers = [s for s in org.self_model.supersessions if s.get("dimension") == "sensor_range"]
     belief = org.self_model.active.sensor_contracts.get("range", 10.0)
     assert "sensor_range" in dims or supers or belief < 9.5 or org.self_model.active.reachable_affordances.get("INSPECT") != "available"
@@ -190,7 +191,7 @@ def test_reduced_sensor_range_is_detected(tmp_path):
 def test_actuator_delay_is_detected(tmp_path):
     org = create_organism(OrganismConfig(db_path=_db(tmp_path), seed=12, intervention="I3"))
     org.run_ticks(80)
-    dims = {e.dimension for e in org.self_model.change_evidence}
+    dims = {e.dimension for e in org.self_model.live_change_evidence()}
     assert "actuator_delay" in dims or org.self_model.active.expected_latency > 0 or any(
         s.get("dimension") == "actuator_delay" for s in org.self_model.supersessions
     )

@@ -26,8 +26,13 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-002V evidence: `docs/evidence/d002v/` (VmRSS method freeze, soak, event authority, replay)
 - D-002V experiments: `experiments/d002v/`
 - D-002V tests: `tests/test_d002v.py`
-- `umbra_core/util.py` — `current_rss_mib` (VmRSS), `ols_slope`; peak via `peak_rss_mib`
-- `umbra_core/events.py` — `SELF_MODEL_EVENT_AUTHORITY` classification (D-002V Gate 2)
+- D-002P evidence: `docs/evidence/d002p/` (memory audit, RUNTIME_READY soak, remediation)
+- D-002P experiments: `experiments/d002p/`
+- D-002P tests: `tests/test_d002p.py`
+- `umbra_core/util.py` — `current_rss_mib` (VmRSS), `ols_slope`, `BoundedRing`
+- `umbra_core/events.py` — `SELF_MODEL_EVENT_AUTHORITY`; `runtime_ready`; snapshot retain count
+- `umbra_core/runtime.py` — `emit_runtime_ready`; bounded init before first tick
+- `umbra_core/persistence.py` — `prune_snapshots(keep=2)`
 
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)

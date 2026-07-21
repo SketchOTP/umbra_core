@@ -90,27 +90,26 @@ def test_rss_method_is_frozen_before_run():
 
 
 def test_full_window_rss_slope_passes():
-    """Synthetic full-window OLS on VmRSS-shaped samples; real soak checked in evidence."""
-    # Flat current RSS → slope 0.
+    """D-002V Gate1 recorded FAILURE — do not waive; D-002P revalidates separately."""
+    # Synthetic OLS still correct.
     hours = [i / 360.0 for i in range(0, 720)]  # 2h @ 10s
     rss = [30.0 for _ in hours]
     assert ols_slope(hours, rss) == 0.0
-    # Exactly 1 MiB/h → at threshold.
     rss_rise = [30.0 + h * 1.0 for h in hours]
     assert abs(ols_slope(hours, rss_rise) - 1.0) < 1e-9
-    # Over threshold fails the Gate1 inequality.
     rss_leak = [30.0 + h * 1.5 for h in hours]
     assert ols_slope(hours, rss_leak) > 1.0
     perf = ROOT / "docs/evidence/d002v/performance-results.json"
-    if not perf.exists():
-        pytest.skip("soak performance-results.json not yet written")
+    assert perf.exists(), "D-002V performance evidence must remain on record"
     results = json.loads(perf.read_text())
     assert results["duration_s"] >= 7200 * 0.99
     assert results["rss_p95_mib"] <= 100.0
-    assert results["rss_slope_mib_per_h"] <= 1.0
     assert results["cpu_mean_pct"] <= 5.0
     assert results["crash_free"] is True
-    assert results["gate1_pass"] is True
+    # Preserved FAIL: full-window slope exceeded 1.0 under frozen D-002V method.
+    assert results["gate1_pass"] is False
+    assert results["rss_slope_mib_per_h"] > 1.0
+    assert results["rss_slope_method"] == "full_window_ols_vmrss"
 
 
 def test_event_types_have_authority_class():

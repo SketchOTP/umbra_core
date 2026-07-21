@@ -1,0 +1,32 @@
+{
+  "directive": "UMBRA-D-002P",
+  "profile_kind": "structure_audit_plus_short_runtime",
+  "d002v_prior": {
+    "rss_slope_mib_per_h": 1.052,
+    "hour0_1_ols": 2.26,
+    "hour1_2_ols": 0.44,
+    "classification": "startup_population_dominated"
+  },
+  "at_runtime_ready": {
+    "vmrss_mib": 24.37890625,
+    "predictions": 256,
+    "live_predictions": 0,
+    "errors": 256,
+    "attributions": 256,
+    "change_evidence": 64,
+    "snapshots": 1
+  },
+  "after_windows": {
+    "0-2min": {
+      "vmrss_mib": 31.40625,
+      "predictions": 256,
+      "live_predictions": 256,
+      "errors": 256,
+      "cells": 441,
+      "snapshots": 2,
+      "db_bytes": 392364032
+    }
+  },
+  "attribution_doc": "docs/evidence/d002p/memory-attribution.md",
+  "unexplained_growth": false
+}

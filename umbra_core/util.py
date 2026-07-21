@@ -9,10 +9,83 @@ import os
 import random
 import resource
 import uuid
-from typing import Any
+from typing import Any, Generic, Iterable, Iterator, Sequence, TypeVar
 
 
 SCHEMA_VERSION = "1.0.0"
+
+T = TypeVar("T")
+
+
+class BoundedRing(Generic[T]):
+    """Fixed-capacity ring buffer — slots allocated at construction (steady RSS)."""
+
+    __slots__ = ("_buf", "_maxlen", "_start", "_len")
+
+    def __init__(self, maxlen: int, initial: Iterable[T] | None = None):
+        if maxlen < 1:
+            raise ValueError("maxlen_must_be_positive")
+        self._maxlen = int(maxlen)
+        self._buf: list[T | None] = [None] * self._maxlen
+        self._start = 0
+        self._len = 0
+        if initial is not None:
+            for item in initial:
+                self.append(item)
+
+    @property
+    def maxlen(self) -> int:
+        return self._maxlen
+
+    def __len__(self) -> int:
+        return self._len
+
+    def __iter__(self) -> Iterator[T]:
+        for i in range(self._len):
+            yield self._buf[(self._start + i) % self._maxlen]  # type: ignore[misc]
+
+    def __getitem__(self, index: int | slice) -> T | list[T]:
+        if isinstance(index, slice):
+            return list(self)[index]
+        n = self._len
+        if index < 0:
+            index += n
+        if index < 0 or index >= n:
+            raise IndexError("ring_index")
+        return self._buf[(self._start + index) % self._maxlen]  # type: ignore[return-value]
+
+    def append(self, item: T) -> None:
+        if self._len < self._maxlen:
+            self._buf[(self._start + self._len) % self._maxlen] = item
+            self._len += 1
+            return
+        self._buf[self._start] = item
+        self._start = (self._start + 1) % self._maxlen
+
+    def clear(self) -> None:
+        """Drop logical entries; keep preallocated slot array."""
+        for i in range(self._maxlen):
+            self._buf[i] = None
+        self._start = 0
+        self._len = 0
+
+    def reset_from(self, items: Sequence[T]) -> None:
+        self.clear()
+        for item in items[-self._maxlen :]:
+            self.append(item)
+
+    def as_list(self) -> list[T]:
+        return list(self)
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, BoundedRing):
+            return list(self) == list(other)
+        if isinstance(other, list):
+            return list(self) == other
+        return NotImplemented
+
+    def __repr__(self) -> str:
+        return f"BoundedRing(maxlen={self._maxlen}, data={list(self)!r})"
 
 
 def current_rss_mib(pid: int | None = None) -> float:

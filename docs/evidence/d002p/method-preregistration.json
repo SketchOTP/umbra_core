@@ -1,0 +1,43 @@
+{
+  "directive": "UMBRA-D-002P",
+  "frozen_at_utc": "2026-07-21T16:55:00Z",
+  "starting_commit": "97e5df2175817b9122f5724aaedd2c320d12510c",
+  "parent_d002v_verdict": "UMBRA_D002V_PERFORMANCE_FAIL",
+  "parent_d002v_slope_mib_per_h": 1.052,
+  "parent_d002v_not_waived": true,
+  "metric": "current_VmRSS",
+  "metric_source": "/proc/<pid>/status VmRSS (kB → MiB)",
+  "forbidden_leak_signal": "resource.ru_maxrss / VmHWM (peak high-water; not current RSS)",
+  "duration_s": 7200,
+  "sample_interval_s": 10,
+  "measurement_start": "first_persisted_RUNTIME_READY_event",
+  "window": "all_samples_from_RUNTIME_READY_through_shutdown",
+  "warmup_policy": "none — no post-hoc steady-state exemption; RUNTIME_READY is structural readiness only",
+  "runtime_ready_semantics": {
+    "emitted_after": [
+      "database_migration",
+      "identity_recovery_or_birth",
+      "snapshot_load_or_birth_snapshot",
+      "bounded_collection_initialization",
+      "static_model_loading",
+      "runtime_loop_readiness"
+    ],
+    "must_not_delay_for": ["rss_plateau", "allocator_warmup", "memory_stabilization"],
+    "rss_gated": false
+  },
+  "regression_method": "ordinary_least_squares_slope",
+  "regression_x_unit": "hours_from_RUNTIME_READY",
+  "regression_y_unit": "VmRSS_MiB",
+  "outlier_handling": "none",
+  "pass_thresholds": {
+    "duration_s_min": 7200,
+    "rss_slope_mib_per_h_max": 1.0,
+    "rss_p95_mib_max": 100.0,
+    "cpu_mean_pct_of_one_core_max": 5.0,
+    "crash_free": true
+  },
+  "database": "new empty SQLite under .soak/d002p_soak/",
+  "runtime_modifications": "remediation revision only — method frozen before final soak; code unchanged during soak",
+  "no_post_result_metric_changes": true,
+  "no_steady_state_exemption": true
+}

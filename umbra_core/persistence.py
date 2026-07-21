@@ -170,6 +170,28 @@ class Store:
         )
         return sid
 
+    def prune_snapshots(self, keep: int = 2) -> int:
+        """Retain the newest `keep` snapshots; durable history is the event ledger."""
+        if keep < 1:
+            raise ValueError("keep_must_be_positive")
+        rows = self.conn.execute(
+            "SELECT snapshot_id FROM snapshots ORDER BY sequence DESC, rowid DESC"
+        ).fetchall()
+        if len(rows) <= keep:
+            return 0
+        keep_ids = [r["snapshot_id"] for r in rows[:keep]]
+        drop = [r["snapshot_id"] for r in rows[keep:]]
+        self.conn.executemany(
+            "DELETE FROM snapshots WHERE snapshot_id=?",
+            [(sid,) for sid in drop],
+        )
+        # Keep meta pointer on the newest retained snapshot.
+        self.conn.execute(
+            "INSERT OR REPLACE INTO meta(key, value) VALUES ('latest_snapshot', ?)",
+            (keep_ids[0],),
+        )
+        return len(drop)
+
     def load_snapshot(self, snapshot_id: str | None = None) -> dict[str, Any]:
         if snapshot_id is None:
             row = self.conn.execute("SELECT value FROM meta WHERE key='latest_snapshot'").fetchone()

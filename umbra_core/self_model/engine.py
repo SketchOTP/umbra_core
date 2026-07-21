@@ -11,7 +11,7 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 from typing import Any
 
-from umbra_core.util import clamp, new_id, sha256_hex, canon_json
+from umbra_core.util import BoundedRing, clamp, new_id, sha256_hex, canon_json
 from umbra_core.identity import deterministic_id
 
 
@@ -224,19 +224,32 @@ class SelfModel:
     agent_id: str
     body_binding_id: str
     active: BodySchema
-    archive: list[BodySchema] = field(default_factory=list)
-    predictions: list[Prediction] = field(default_factory=list)
-    errors: list[PredictionError] = field(default_factory=list)
-    attributions: list[AttributionDecision] = field(default_factory=list)
-    change_evidence: list[ChangeEvidence] = field(default_factory=list)
-    supersessions: list[dict[str, Any]] = field(default_factory=list)
+    archive: BoundedRing[BodySchema] = field(default_factory=lambda: BoundedRing(MAX_MODEL_VERSIONS))
+    predictions: BoundedRing[Prediction] = field(
+        default_factory=lambda: BoundedRing(MAX_PREDICTION_HISTORY)
+    )
+    errors: BoundedRing[PredictionError] = field(
+        default_factory=lambda: BoundedRing(MAX_ERROR_HISTORY)
+    )
+    attributions: BoundedRing[AttributionDecision] = field(
+        default_factory=lambda: BoundedRing(MAX_PREDICTION_HISTORY)
+    )
+    change_evidence: BoundedRing[ChangeEvidence] = field(
+        default_factory=lambda: BoundedRing(MAX_CHANGE_EVIDENCE)
+    )
+    supersessions: BoundedRing[dict[str, Any]] = field(
+        default_factory=lambda: BoundedRing(MAX_MODEL_VERSIONS)
+    )
     config: SelfModelConfig = field(default_factory=SelfModelConfig)
     seed: int | None = None
     _body_before: dict[str, float] | None = field(default=None, repr=False)
     _pending_prediction: Prediction | None = field(default=None, repr=False)
     _last_attribution: AttributionDecision | None = field(default=None, repr=False)
-    _obs_range_window: list[float] = field(default_factory=list, repr=False)
+    _obs_range_window: BoundedRing[float] = field(
+        default_factory=lambda: BoundedRing(40), repr=False
+    )
     primary_bound: bool = True
+    _bounded_initialized: bool = False
 
     @classmethod
     def create(
@@ -251,14 +264,155 @@ class SelfModel:
             deterministic_id(int(seed), "body_binding") if seed is not None else new_id()
         )
         schema = BodySchema.bootstrap(binding, now, seed=seed, version=1)
+        cfg = config or SelfModelConfig()
         return cls(
             agent_id=agent_id,
             body_binding_id=binding,
             active=schema,
-            config=config or SelfModelConfig(),
+            archive=BoundedRing(cfg.max_versions),
+            predictions=BoundedRing(cfg.max_prediction_history),
+            errors=BoundedRing(cfg.max_error_history),
+            attributions=BoundedRing(cfg.max_prediction_history),
+            change_evidence=BoundedRing(MAX_CHANGE_EVIDENCE),
+            supersessions=BoundedRing(cfg.max_versions),
+            config=cfg,
             seed=seed,
             primary_bound=True,
         )
+
+    def initialize_bounded_collections(self) -> None:
+        """Allocate ring slots to documented bounds before RUNTIME_READY.
+
+        Prefills then clears logical entries so capacity is held without
+        polluting behavioral history. Must not wait on RSS plateau.
+        """
+        if self._bounded_initialized:
+            return
+        # Touch every slot so the backing arrays are resident.
+        for ring, factory in (
+            (self.predictions, lambda: Prediction(
+                prediction_id="init",
+                capability="IDLE",
+                tick=-1,
+                expected_body_delta={},
+                expected_observation_delta={},
+                expected_physiology_cost={},
+                expected_duration=0.0,
+                expected_success_probability=0.0,
+                prediction_confidence=0.0,
+                intent_issued=False,
+                body_schema_id=self.active.body_schema_id,
+            )),
+            (self.errors, lambda: PredictionError(
+                error_id="init",
+                prediction_id="init",
+                tick=-1,
+                body_error=0.0,
+                observation_error=0.0,
+                success_error=0.0,
+                duration_error=0.0,
+                verified_success=False,
+                capability="IDLE",
+            )),
+            (self.attributions, lambda: AttributionDecision(
+                decision_id="init",
+                tick=-1,
+                label=Attribution.UNKNOWN.value,
+                confidence=0.0,
+                reasons=["init"],
+                prediction_id=None,
+            )),
+            (self.change_evidence, lambda: ChangeEvidence(
+                evidence_id="init",
+                dimension="init",
+                residual=0.0,
+                tick=-1,
+                body_schema_id=self.active.body_schema_id,
+            )),
+        ):
+            for _ in range(ring.maxlen):
+                ring.append(factory())
+        # Leave rings at capacity; pads (tick<0) are overwritten by live entries.
+        # Steady-state object count from RUNTIME_READY onward.
+        # _obs_range_window stays empty (preallocated slots only) — zeros would
+        # falsely trigger sensor-range evidence.
+        self._bounded_initialized = True
+
+    def _pad_rings_to_capacity(self) -> None:
+        """Ensure rings are full: oldest slots are pads, newest are live history."""
+        specs = (
+            (
+                self.predictions,
+                lambda: Prediction(
+                    prediction_id="init",
+                    capability="IDLE",
+                    tick=-1,
+                    expected_body_delta={},
+                    expected_observation_delta={},
+                    expected_physiology_cost={},
+                    expected_duration=0.0,
+                    expected_success_probability=0.0,
+                    prediction_confidence=0.0,
+                    intent_issued=False,
+                    body_schema_id=self.active.body_schema_id,
+                ),
+            ),
+            (
+                self.errors,
+                lambda: PredictionError(
+                    error_id="init",
+                    prediction_id="init",
+                    tick=-1,
+                    body_error=0.0,
+                    observation_error=0.0,
+                    success_error=0.0,
+                    duration_error=0.0,
+                    verified_success=False,
+                    capability="IDLE",
+                ),
+            ),
+            (
+                self.attributions,
+                lambda: AttributionDecision(
+                    decision_id="init",
+                    tick=-1,
+                    label=Attribution.UNKNOWN.value,
+                    confidence=0.0,
+                    reasons=["init"],
+                    prediction_id=None,
+                ),
+            ),
+            (
+                self.change_evidence,
+                lambda: ChangeEvidence(
+                    evidence_id="init",
+                    dimension="init",
+                    residual=0.0,
+                    tick=-1,
+                    body_schema_id=self.active.body_schema_id,
+                ),
+            ),
+        )
+        for ring, factory in specs:
+            live = [x for x in ring if getattr(x, "tick", 0) >= 0]
+            ring.clear()
+            for _ in range(max(0, ring.maxlen - len(live))):
+                ring.append(factory())
+            for item in live[-ring.maxlen :]:
+                ring.append(item)
+        self._bounded_initialized = True
+
+    def live_predictions(self) -> list[Prediction]:
+        return [p for p in self.predictions if p.tick >= 0]
+
+    def live_errors(self) -> list[PredictionError]:
+        return [e for e in self.errors if e.tick >= 0]
+
+    def live_attributions(self) -> list[AttributionDecision]:
+        return [a for a in self.attributions if a.tick >= 0]
+
+    def live_change_evidence(self) -> list[ChangeEvidence]:
+        return [c for c in self.change_evidence if c.tick >= 0]
 
     def bind_primary(self, body_binding_id: str | None = None) -> str:
         """Bind primary body. Duplicate primary binding is rejected."""
@@ -277,7 +431,7 @@ class SelfModel:
         prior = self.active
         prior.active = False
         self.archive.append(prior)
-        self._trim_archive()
+        # ring auto-evicts; no list trim
         ver = prior.version + 1
         if self.seed is not None:
             new_binding = deterministic_id(self.seed, f"body_binding_v{ver}")
@@ -371,7 +525,6 @@ class SelfModel:
             pass
         self._pending_prediction = p
         self.predictions.append(p)
-        self._trim_predictions()
         return p
 
     def observe_outcome(
@@ -428,7 +581,6 @@ class SelfModel:
                 capability=pred.capability,
             )
             self.errors.append(err)
-            self._trim_errors()
 
         attr = self._attribute(
             tick=tick,
@@ -440,8 +592,6 @@ class SelfModel:
         )
         self._last_attribution = attr
         self.attributions.append(attr)
-        if len(self.attributions) > MAX_PREDICTION_HISTORY:
-            self.attributions = self.attributions[-MAX_PREDICTION_HISTORY:]
 
         adapted = False
         if (
@@ -592,7 +742,6 @@ class SelfModel:
                             body_schema_id=schema.body_schema_id,
                         )
                     )
-                    self._trim_change_evidence()
                 # EMA nudge toward observed gain (always mild)
                 old = schema.expected_motion.get("step_gain", 1.0)
                 alpha = 0.35 if residual > 0.3 else 0.2
@@ -636,9 +785,10 @@ class SelfModel:
 
     def _maybe_supersede(self, now: float) -> bool:
         """Persistent evidence only — single anomaly must not rewrite."""
-        if len(self.change_evidence) < self.config.change_evidence_threshold:
+        live_ev = self.live_change_evidence()
+        if len(live_ev) < self.config.change_evidence_threshold:
             return False
-        recent = self.change_evidence[-self.config.change_evidence_threshold :]
+        recent = live_ev[-self.config.change_evidence_threshold :]
         # Require same dimension cluster
         by_dim: dict[str, list[ChangeEvidence]] = {}
         for e in recent:
@@ -658,7 +808,6 @@ class SelfModel:
         prior.active = False
         prior.superseded_by = None  # filled below
         self.archive.append(prior)
-        self._trim_archive()
 
         nxt = BodySchema.from_dict(prior.to_dict())
         nxt.version = prior.version + 1
@@ -695,7 +844,7 @@ class SelfModel:
 
         prior.superseded_by = nxt.body_schema_id
         self.active = nxt
-        self.change_evidence = []  # reset after supersession
+        self.change_evidence.clear()  # reset after supersession; keep ring capacity
         self.supersessions.append(
             {
                 "event": "schema_supersession",
@@ -706,8 +855,6 @@ class SelfModel:
                 "at": now,
             }
         )
-        if len(self.supersessions) > MAX_MODEL_VERSIONS:
-            self.supersessions = self.supersessions[-MAX_MODEL_VERSIONS:]
         return True
 
     def note_observation_range(self, max_range_seen: float, tick: int) -> bool:
@@ -715,8 +862,6 @@ class SelfModel:
         if not self.config.updating_enabled or self.config.fixed_authored:
             return False
         self._obs_range_window.append(float(max_range_seen))
-        if len(self._obs_range_window) > 40:
-            self._obs_range_window = self._obs_range_window[-40:]
         if len(self._obs_range_window) < 30:
             return False
         belief = self.active.sensor_contracts.get("range", 10.0)
@@ -742,7 +887,6 @@ class SelfModel:
                 body_schema_id=self.active.body_schema_id,
             )
         )
-        self._trim_change_evidence()
         return self._maybe_supersede(float(tick))
 
     def restore_confidence(self, amount: float = 0.05) -> None:
@@ -754,20 +898,21 @@ class SelfModel:
         self.active.reachable_affordances[capability] = status
 
     def mean_body_prediction_error(self, last_n: int = 50) -> float:
-        xs = self.errors[-last_n:]
+        xs = self.live_errors()[-last_n:]
         if not xs:
             return 1.0
         return sum(e.body_error for e in xs) / len(xs)
 
     def initial_vs_recent_error(self, window: int = 20, skip_first: int = 10) -> tuple[float, float]:
         """Compare early post-warmup locomotion errors to recent ones."""
+        errs = self.live_errors()
         xs = [
             e
-            for e in self.errors[skip_first:]
+            for e in errs[skip_first:]
             if e.capability in ("MOVE", "APPROACH", "RETREAT")
         ]
         if not xs:
-            xs = self.errors[skip_first:] or self.errors
+            xs = errs[skip_first:] or errs
         if len(xs) < window * 2:
             early = xs[: max(1, len(xs) // 2)] or xs
             late = xs[-max(1, len(xs) // 2) :] or xs
@@ -786,11 +931,11 @@ class SelfModel:
             "body_binding_id": self.body_binding_id,
             "active": self.active.to_dict(),
             "archive": [s.to_dict() for s in self.archive],
-            "predictions": [p.to_dict() for p in self.predictions[-self.config.max_prediction_history :]],
-            "errors": [e.to_dict() for e in self.errors[-self.config.max_error_history :]],
-            "attributions": [a.to_dict() for a in self.attributions[-MAX_PREDICTION_HISTORY:]],
-            "change_evidence": [c.to_dict() for c in self.change_evidence[-MAX_CHANGE_EVIDENCE:]],
-            "supersessions": list(self.supersessions[-MAX_MODEL_VERSIONS:]),
+            "predictions": [p.to_dict() for p in self.live_predictions()],
+            "errors": [e.to_dict() for e in self.live_errors()],
+            "attributions": [a.to_dict() for a in self.live_attributions()],
+            "change_evidence": [c.to_dict() for c in self.live_change_evidence()],
+            "supersessions": list(self.supersessions),
             "config": {
                 "adaptive": self.config.adaptive,
                 "fixed_authored": self.config.fixed_authored,
@@ -802,6 +947,7 @@ class SelfModel:
             },
             "primary_bound": self.primary_bound,
             "seed": self.seed,
+            "bounded_initialized": self._bounded_initialized,
             "state_hash": self.state_hash(),
         }
 
@@ -830,33 +976,32 @@ class SelfModel:
             agent_id=str(d["agent_id"]),
             body_binding_id=str(d["body_binding_id"]),
             active=BodySchema.from_dict(d["active"]),
-            archive=[BodySchema.from_dict(x) for x in d.get("archive", [])],
-            predictions=[Prediction.from_dict(x) for x in d.get("predictions", [])],
-            errors=[PredictionError.from_dict(x) for x in d.get("errors", [])],
-            attributions=[AttributionDecision.from_dict(x) for x in d.get("attributions", [])],
-            change_evidence=[ChangeEvidence.from_dict(x) for x in d.get("change_evidence", [])],
-            supersessions=list(d.get("supersessions", [])),
+            archive=BoundedRing(
+                cfg.max_versions, [BodySchema.from_dict(x) for x in d.get("archive", [])]
+            ),
+            predictions=BoundedRing(
+                cfg.max_prediction_history,
+                [Prediction.from_dict(x) for x in d.get("predictions", [])],
+            ),
+            errors=BoundedRing(
+                cfg.max_error_history,
+                [PredictionError.from_dict(x) for x in d.get("errors", [])],
+            ),
+            attributions=BoundedRing(
+                cfg.max_prediction_history,
+                [AttributionDecision.from_dict(x) for x in d.get("attributions", [])],
+            ),
+            change_evidence=BoundedRing(
+                MAX_CHANGE_EVIDENCE,
+                [ChangeEvidence.from_dict(x) for x in d.get("change_evidence", [])],
+            ),
+            supersessions=BoundedRing(cfg.max_versions, list(d.get("supersessions", []))),
             config=cfg,
             seed=d.get("seed"),
             primary_bound=bool(d.get("primary_bound", True)),
+            _bounded_initialized=bool(d.get("bounded_initialized", False)),
         )
         # Corruption fail-closed: hash mismatch if present
         if "state_hash" in d and d["state_hash"] != sm.state_hash():
             raise ValueError("corrupt_body_model")
         return sm
-
-    def _trim_archive(self) -> None:
-        if len(self.archive) > self.config.max_versions:
-            self.archive = self.archive[-self.config.max_versions :]
-
-    def _trim_predictions(self) -> None:
-        if len(self.predictions) > self.config.max_prediction_history:
-            self.predictions = self.predictions[-self.config.max_prediction_history :]
-
-    def _trim_errors(self) -> None:
-        if len(self.errors) > self.config.max_error_history:
-            self.errors = self.errors[-self.config.max_error_history :]
-
-    def _trim_change_evidence(self) -> None:
-        if len(self.change_evidence) > MAX_CHANGE_EVIDENCE:
-            self.change_evidence = self.change_evidence[-MAX_CHANGE_EVIDENCE:]

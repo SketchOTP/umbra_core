@@ -1,0 +1,129 @@
+{
+  "duration_s": 180,
+  "slope_mib_per_h": 44.93686724010321,
+  "rss_first": 23.9453125,
+  "rss_last": 25.5625,
+  "samples": [
+    {
+      "wall_s": 0.5001350189559162,
+      "vmrss_mib": 23.9453125,
+      "predictions": 256,
+      "live_predictions": 1,
+      "errors": 256,
+      "cells": 1,
+      "snapshots": 1,
+      "db_bytes": 4096
+    },
+    {
+      "wall_s": 15.504476957023144,
+      "vmrss_mib": 24.00390625,
+      "predictions": 256,
+      "live_predictions": 31,
+      "errors": 256,
+      "cells": 3,
+      "snapshots": 1,
+      "db_bytes": 4096
+    },
+    {
+      "wall_s": 30.50940354494378,
+      "vmrss_mib": 24.0546875,
+      "predictions": 256,
+      "live_predictions": 61,
+      "errors": 256,
+      "cells": 14,
+      "snapshots": 1,
+      "db_bytes": 4096
+    },
+    {
+      "wall_s": 45.5131376539357,
+      "vmrss_mib": 24.14453125,
+      "predictions": 256,
+      "live_predictions": 91,
+      "errors": 256,
+      "cells": 24,
+      "snapshots": 1,
+      "db_bytes": 4096
+    },
+    {
+      "wall_s": 60.5184067649534,
+      "vmrss_mib": 24.2265625,
+      "predictions": 256,
+      "live_predictions": 121,
+      "errors": 256,
+      "cells": 42,
+      "snapshots": 1,
+      "db_bytes": 4096
+    },
+    {
+      "wall_s": 75.52277961093932,
+      "vmrss_mib": 24.3125,
+      "predictions": 256,
+      "live_predictions": 151,
+      "errors": 256,
+      "cells": 62,
+      "snapshots": 1,
+      "db_bytes": 274432
+    },
+    {
+      "wall_s": 90.52710209297948,
+      "vmrss_mib": 24.41015625,
+      "predictions": 256,
+      "live_predictions": 181,
+      "errors": 256,
+      "cells": 81,
+      "snapshots": 1,
+      "db_bytes": 274432
+    },
+    {
+      "wall_s": 105.53184504399542,
+      "vmrss_mib": 25.5625,
+      "predictions": 256,
+      "live_predictions": 211,
+      "errors": 256,
+      "cells": 103,
+      "snapshots": 2,
+      "db_bytes": 274432
+    },
+    {
+      "wall_s": 120.5360442569945,
+      "vmrss_mib": 25.5625,
+      "predictions": 256,
+      "live_predictions": 241,
+      "errors": 256,
+      "cells": 113,
+      "snapshots": 2,
+      "db_bytes": 675840
+    },
+    {
+      "wall_s": 135.54252214392181,
+      "vmrss_mib": 25.5625,
+      "predictions": 256,
+      "live_predictions": 256,
+      "errors": 256,
+      "cells": 114,
+      "snapshots": 2,
+      "db_bytes": 675840
+    },
+    {
+      "wall_s": 150.54668008594308,
+      "vmrss_mib": 25.5625,
+      "predictions": 256,
+      "live_predictions": 256,
+      "errors": 256,
+      "cells": 129,
+      "snapshots": 2,
+      "db_bytes": 675840
+    },
+    {
+      "wall_s": 165.55121096700896,
+      "vmrss_mib": 25.5625,
+      "predictions": 256,
+      "live_predictions": 256,
+      "errors": 256,
+      "cells": 141,
+      "snapshots": 2,
+      "db_bytes": 675840
+    }
+  ],
+  "note": "post-remediation 3min from RUNTIME_READY"
+}
