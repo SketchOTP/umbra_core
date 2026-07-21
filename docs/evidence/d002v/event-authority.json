@@ -1,0 +1,63 @@
+{
+  "directive": "UMBRA-D-002V",
+  "policy_unchanged_from_d002_seal": true,
+  "ledger_sample_every_ticks": 10,
+  "bounded_history": {
+    "prediction_history": 256,
+    "error_history": 256,
+    "attribution_history": 256,
+    "change_evidence": 64,
+    "supersession_history": 32,
+    "model_versions": 32,
+    "definition": "Snapshots and SelfModel retain only the trailing N records of each diagnostic stream; older diagnostic samples are discarded. Authoritative ledger events (including body_schema_supersede) are never omitted by this bound."
+  },
+  "events": {
+    "action_prediction": {
+      "class": "DERIVABLE",
+      "ledger_type": null,
+      "justification": "Recomputed each tick from active BodySchema + action params; trailing predictions retained in snapshot SelfModel.predictions (bound 256). Not required as ledger rows for birth resimulation."
+    },
+    "prediction_error": {
+      "class": "DIAGNOSTIC",
+      "ledger_type": "prediction_error",
+      "sampled": true,
+      "sample_every_ticks": 10,
+      "justification": "Full error stream lives in SelfModel.errors (snapshot-bounded). Birth resimulation recomputes errors from outcome_verified + body state. Ledger samples are observability only."
+    },
+    "self_attribution": {
+      "class": "DIAGNOSTIC",
+      "ledger_type": "self_attribution",
+      "sampled": true,
+      "sample_every_ticks": 10,
+      "justification": "Attributions recomputed during resimulation from body delta vs prediction without world truth; snapshot retains trailing attributions (bound 256)."
+    },
+    "body_change_evidence": {
+      "class": "DERIVABLE",
+      "ledger_type": null,
+      "justification": "Accumulated in SelfModel.change_evidence (bound 64). Persistent change yields AUTHORITATIVE body_schema_supersede; isolated residuals do not rewrite the model."
+    },
+    "body_model_supersession": {
+      "class": "AUTHORITATIVE",
+      "ledger_type": "body_schema_supersede",
+      "sampled": false,
+      "justification": "Every accepted schema rewrite is ledgered; required for provenance of active body-model lineage."
+    },
+    "capability_degradation": {
+      "class": "AUTHORITATIVE",
+      "ledger_type": null,
+      "state_field": "BodySchema.reachable_affordances",
+      "justification": "Part of accepted BodySchema state carried in snapshots and supersession lineage; not a sampled diagnostic stream."
+    },
+    "capability_dormancy": {
+      "class": "AUTHORITATIVE",
+      "ledger_type": null,
+      "state_field": "BodySchema.reachable_affordances",
+      "justification": "Same as capability_degradation — affordance state is authoritative body-model content."
+    }
+  },
+  "reconstruction_contract": {
+    "birth_replay": "Identical seed + config + tick count resimulation reconstructs active body-model hash, supersession history, and capability affordances without reading prediction_error or self_attribution ledger rows.",
+    "snapshot_replay": "load_organism from latest snapshot restores SelfModel.to_state() including bounded diagnostic histories; must match live authoritative_state self_model hash.",
+    "snapshots_do_not_conceal_missing_authoritative_history": "Deleting body_schema_supersede (or any authoritative event) breaks the hash chain (validate_chain fail-closed). Snapshot state_hash mismatch on self_model fails closed on load."
+  }
+}

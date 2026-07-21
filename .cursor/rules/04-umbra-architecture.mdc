@@ -40,7 +40,7 @@ Digital chemistry, protocells, autopoietic membranes, molecular metabolism, and 
 
 ## Program gate (post D-000S)
 
-**UMBRA-D-000 is closed.** Architecture freeze: `docs/architecture/`. **UMBRA-D-001 is closed** — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`. **UMBRA-D-002 is closed** — `UMBRA_D002_SENSORIMOTOR_SELF_MODEL_QUALIFIED`. **D-003** authorized to begin when opened.
+**UMBRA-D-000 is closed.** Architecture freeze: `docs/architecture/`. **UMBRA-D-001 is closed** — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`. **UMBRA-D-002 is closed** — `UMBRA_D002_SENSORIMOTOR_SELF_MODEL_QUALIFIED` (provisionally qualified pending D-002V). **UMBRA-D-002V** — `UMBRA_D002V_PERFORMANCE_FAIL`; **D-003 blocked** until `UMBRA_D002V_SEAL_VALIDATED`.
 
 Prior-art order completed: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PEPA. Soar/Hyperon not required. Classifications: `docs/prior-art/SELECTION_LEDGER.md`.
 

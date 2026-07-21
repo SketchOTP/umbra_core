@@ -1,0 +1,23 @@
+{
+  "birth_replay": {
+    "pass": true,
+    "self_model_hash": "3bbb93d6bfc5a3350e13027c8c869c5a066fc2f8ec152bbf4712e0eb78b60c71",
+    "body_schema_id": "77556f13-e812-1d34-9d2d-567b2be95cb1",
+    "relied_on_later_snapshot": false
+  },
+  "snapshot_replay": {
+    "pass": true,
+    "self_model_hash": "3bbb93d6bfc5a3350e13027c8c869c5a066fc2f8ec152bbf4712e0eb78b60c71",
+    "body_schema_id": "77556f13-e812-1d34-9d2d-567b2be95cb1"
+  },
+  "identical_active_body_model_hash": true,
+  "identical_supersession_history": true,
+  "identical_capability_compatibility": true,
+  "diagnostic_ledger_samples_present": {
+    "prediction_error": 10,
+    "self_attribution": 10
+  },
+  "corruption_missing_authoritative_fails_closed": true,
+  "corruption_snapshot_hash_fails_closed": true,
+  "gate3_pass": true
+}

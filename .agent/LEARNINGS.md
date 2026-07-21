@@ -37,3 +37,6 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - 2026-07-21 | D-002 | ru_maxrss full-window slope is allocator-warmup dominated; Gate9 RSS slope should use post-warmup plateau (here post-30min slope=0 while full-window maxrss looked like 3 MiB/h).
 - 2026-07-21 | D-002 | Body-change evidence must ignore movement_slip and near-wall truncated moves; otherwise I0 false supersession explodes.
 - 2026-07-21 | D-002 | Prediction improvement metrics must filter to locomotion errors and skip early warmup ticks.
+- 2026-07-21 | D-002V | `ru_maxrss` is peak (VmHWM), not current RSS; Gate9 leak slope must use `/proc` VmRSS (or equivalent current RSS).
+- 2026-07-21 | D-002V | Full-window current-VmRSS OLS can fail ≤1 MiB/h on allocator warmup (here ~2.26 MiB/h hour1, ~0.44 hour2, full-window 1.052) even without a continuing leak; do not post-hoc switch to post-warmup after seeing results.
+- 2026-07-21 | D-002V | `prediction_error` / `self_attribution` may remain DIAGNOSTIC (sampled) when birth resimulation reconstructs body-model hash without those ledger rows; `body_schema_supersede` stays AUTHORITATIVE.

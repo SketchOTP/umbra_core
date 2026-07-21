@@ -1,0 +1,29 @@
+{
+  "directive": "UMBRA-D-002V",
+  "frozen_at_utc": "2026-07-21T13:32:44Z",
+  "starting_commit": "a60b9258135867fed63e58109243043162142c3e",
+  "d002_functional_commit": "a60b9258135867fed63e58109243043162142c3e",
+  "d002_seal_commit": "17c7eae2e46e58731122b066fdadf9674ab2852a",
+  "metric": "current_VmRSS",
+  "metric_source": "/proc/<pid>/status VmRSS (kB → MiB)",
+  "forbidden_leak_signal": "resource.ru_maxrss / VmHWM (peak high-water; not current RSS)",
+  "duration_s": 7200,
+  "sample_interval_s": 10,
+  "window": "full_run",
+  "warmup_policy": "none — full window from first to last sample",
+  "regression_method": "ordinary_least_squares_slope",
+  "regression_x_unit": "hours_from_t0",
+  "regression_y_unit": "VmRSS_MiB",
+  "outlier_handling": "none",
+  "pass_thresholds": {
+    "duration_s_min": 7200,
+    "rss_slope_mib_per_h_max": 1.0,
+    "rss_p95_mib_max": 100.0,
+    "cpu_mean_pct_of_one_core_max": 5.0,
+    "crash_free": true
+  },
+  "authoritative_event_policy": "identical to sealed D-002 (events.py AUTHORITATIVE_EVENT_TYPES / DIAGNOSTIC_EVENT_TYPES; prediction_error and self_attribution sampled every 10 ticks)",
+  "database": "new empty SQLite under .soak/d002v_soak/",
+  "runtime_modifications": "none — measurement harness only; organism kernel unchanged for soak",
+  "no_post_result_metric_changes": true
+}

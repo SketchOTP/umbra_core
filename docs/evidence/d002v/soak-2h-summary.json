@@ -1,0 +1,48 @@
+{
+  "method_path": "docs/evidence/d002v/method-preregistration.json",
+  "method_sha256": "cab25dac3d5e1eaf75237d6868392efe376f60239e520c5c35089335cb26d2be",
+  "git_commit": "a60b9258135867fed63e58109243043162142c3e",
+  "duration_s": 7200.181909817969,
+  "ticks": 14377,
+  "sample_count": 720,
+  "sample_interval_s": 10.0,
+  "cpu_mean_pct": 0.27715410635374493,
+  "rss_p95_mib": 29.53515625,
+  "rss_first_mib": 23.75390625,
+  "rss_last_mib": 29.55859375,
+  "rss_slope_mib_per_h": 1.0522667364101703,
+  "rss_slope_method": "full_window_ols_vmrss",
+  "db_mib": 44.7421875,
+  "agent_id": "d44f91a9-cc04-8e2c-b7ee-cbe505bd981c",
+  "body_schema_id": "7e983f72-25c3-4394-c78b-c3c18e296db9",
+  "crash_free": true,
+  "ledger_integrity": true,
+  "identity_after_restart": true,
+  "gate1_pass": false,
+  "source_hashes": {
+    "umbra_core/runtime.py": "10855c310a338d5cce5f63733418774113a73c334554c2058f51f38601555757",
+    "umbra_core/events.py": "505bd6432170120875130f9ead8d96f5ae3914b8cc4ba6a0f97192158a2ae6c1",
+    "umbra_core/util.py": "cf3597cf295d8360626a5109083f00edc7b9730465aaf2eca52d9b8243170717",
+    "umbra_core/self_model/engine.py": "8a2295e04116640971d133d69b6fa61dc58c331245bd2b6b4617b887eb2bacdb",
+    "experiments/d002v/run_soak.py": "c2d442951757974d172b50b7655b265eb561abb5b22c87acbb226709be88f7a0",
+    "docs/evidence/d002v/method-preregistration.json": "cab25dac3d5e1eaf75237d6868392efe376f60239e520c5c35089335cb26d2be"
+  },
+  "config": {
+    "seed": 7,
+    "hz": 2.0,
+    "snapshot_every": 200,
+    "db": "new"
+  },
+  "diagnostic_peak_vs_current": {
+    "vmrss_last": 29.55859375,
+    "ru_maxrss_last": 29.17578125,
+    "note": "ru_maxrss retained diagnostic only; Gate1 uses VmRSS OLS full window"
+  },
+  "diagnostic_window_slopes": {
+    "hour0_1_ols": 2.262517482873496,
+    "hour0_1_n": 360,
+    "hour1_2_ols": 0.4371318206788103,
+    "hour1_2_n": 360,
+    "note": "Not pass criteria; full-window OLS is sole Gate1 slope"
+  }
+}

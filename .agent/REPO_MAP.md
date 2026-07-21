@@ -23,6 +23,11 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-002 evidence: `docs/evidence/d002/`
 - D-002 experiments: `experiments/d002/`
 - D-002 tests: `tests/test_d002.py`
+- D-002V evidence: `docs/evidence/d002v/` (VmRSS method freeze, soak, event authority, replay)
+- D-002V experiments: `experiments/d002v/`
+- D-002V tests: `tests/test_d002v.py`
+- `umbra_core/util.py` — `current_rss_mib` (VmRSS), `ols_slope`; peak via `peak_rss_mib`
+- `umbra_core/events.py` — `SELF_MODEL_EVENT_AUTHORITY` classification (D-002V Gate 2)
 
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)

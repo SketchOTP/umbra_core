@@ -5,12 +5,43 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import random
+import resource
 import uuid
 from typing import Any
 
 
 SCHEMA_VERSION = "1.0.0"
+
+
+def current_rss_mib(pid: int | None = None) -> float:
+    """Current resident set size from /proc VmRSS (not peak ru_maxrss/VmHWM)."""
+    pid = os.getpid() if pid is None else int(pid)
+    with open(f"/proc/{pid}/status", encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("VmRSS:"):
+                return int(line.split()[1]) / 1024.0
+    raise RuntimeError("VmRSS_missing")
+
+
+def peak_rss_mib() -> float:
+    """Linux peak RSS high-water (ru_maxrss, KiB). Not a leak-slope signal."""
+    return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0
+
+
+def ols_slope(xs: list[float], ys: list[float]) -> float:
+    """Ordinary least-squares slope of y vs x. Returns 0.0 if undefined."""
+    n = len(xs)
+    if n < 2 or n != len(ys):
+        return 0.0
+    mx = sum(xs) / n
+    my = sum(ys) / n
+    den = sum((x - mx) ** 2 for x in xs)
+    if den <= 0.0:
+        return 0.0
+    return sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / den
+
 
 
 def new_id() -> str:

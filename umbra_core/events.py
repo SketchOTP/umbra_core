@@ -34,10 +34,49 @@ DIAGNOSTIC_EVENT_TYPES = frozenset(
     }
 )
 
+# Self-model conceptual events → authority class (D-002V Gate 2).
+# AUTHORITATIVE: required for accepted body-model provenance / reconstruction contracts.
+# DERIVABLE: may be omitted from ledger if deterministic derivation from authoritative
+#            inputs + same seed/config is specified.
+# DIAGNOSTIC: may be sampled; never required for birth/snapshot replay equality.
+SELF_MODEL_EVENT_AUTHORITY: dict[str, str] = {
+    # Predictions are recomputed each tick from active schema + params (and retained
+    # in snapshot bounded history). Not a ledger event type.
+    "action_prediction": "DERIVABLE",
+    # Ledger samples every 10 ticks; full history in SelfModel.errors / snapshot
+    # (bounded). Birth resimulation recomputes from outcome_verified + body state.
+    "prediction_error": "DIAGNOSTIC",
+    # Ledger samples every 10 ticks; attributions in snapshot (bounded). Resimulation
+    # recomputes from body delta vs prediction without world truth.
+    "self_attribution": "DIAGNOSTIC",
+    # Accumulated residuals live in SelfModel.change_evidence (snapshot-bounded).
+    # Not a ledger event; supersession is the authoritative ledger consequence.
+    "body_change_evidence": "DERIVABLE",
+    # Every schema rewrite emits body_schema_supersede (no sampling).
+    "body_model_supersession": "AUTHORITATIVE",
+    # Capability affordance changes are part of BodySchema state (snapshot +
+    # supersession). No separate ledger type; not sampled away.
+    "capability_degradation": "AUTHORITATIVE",
+    "capability_dormancy": "AUTHORITATIVE",
+}
+
+# Ledger type aliases used at emit sites for the conceptual names above.
+SELF_MODEL_LEDGER_ALIASES: dict[str, str] = {
+    "body_model_supersession": "body_schema_supersede",
+}
+
+# Bounded in-memory / snapshot history for diagnostic self-model streams.
+PREDICTION_HISTORY_BOUND = 256  # matches MAX_PREDICTION_HISTORY / MAX_ERROR_HISTORY
+CHANGE_EVIDENCE_BOUND = 64
+SUPERSESSION_HISTORY_BOUND = 32  # matches MAX_MODEL_VERSIONS
+
 # Retention / operational policy (not omission of authoritative types).
 SNAPSHOT_EVERY_TICKS_DEFAULT = 200
 WAL_CHECKPOINT_EVERY_TICKS = 500
 COVERAGE_SET_BOUND = 500  # in-memory cells/visited bound (not event ledger)
+
+# Cadence for diagnostic self-model ledger samples (identical to sealed D-002).
+DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS = 10
 
 
 def is_authoritative(event_type: str) -> bool:
@@ -46,3 +85,9 @@ def is_authoritative(event_type: str) -> bool:
 
 def is_diagnostic(event_type: str) -> bool:
     return event_type in DIAGNOSTIC_EVENT_TYPES
+
+
+def self_model_authority_class(name: str) -> str:
+    if name not in SELF_MODEL_EVENT_AUTHORITY:
+        raise KeyError(f"unknown_self_model_event:{name}")
+    return SELF_MODEL_EVENT_AUTHORITY[name]

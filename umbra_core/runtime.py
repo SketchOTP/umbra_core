@@ -17,6 +17,7 @@ from umbra_core.arbitration import ArbitrationState, Arbitrator, Candidate
 from umbra_core.embodiment import Embodiment
 from umbra_core.events import (
     AUTHORITATIVE_EVENT_TYPES,
+    DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS,
     WAL_CHECKPOINT_EVERY_TICKS,
 )
 from umbra_core.governance import Governance, GovernanceState
@@ -491,7 +492,8 @@ class Organism:
                 if len(errs) > 256:
                     self.metrics["prediction_errors"] = errs[-256:]
             # Persist attribution + errors diagnostically (bounded sample); supersession authoritative
-            if sm_result.get("attribution") and self.tick % 10 == 0:
+            sample_diag = self.tick % DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS == 0
+            if sm_result.get("attribution") and sample_diag:
                 self.store.append_event(
                     agent_id=self.identity.agent_id,
                     event_type="self_attribution",
@@ -499,7 +501,7 @@ class Organism:
                     wall_time=wall,
                     payload=sm_result["attribution"],
                 )
-            if sm_result.get("prediction_error") and self.tick % 10 == 0:
+            if sm_result.get("prediction_error") and sample_diag:
                 self.store.append_event(
                     agent_id=self.identity.agent_id,
                     event_type="prediction_error",
