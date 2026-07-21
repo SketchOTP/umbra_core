@@ -12,12 +12,12 @@ import os
 import sys
 import time
 import tracemalloc
-from collections import Counter
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT))
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from umbra_core.runtime import OrganismConfig, create_organism  # noqa: E402
 from umbra_core.util import current_rss_mib  # noqa: E402

@@ -5,14 +5,18 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 import time
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from umbra_core.runtime import OrganismConfig, create_organism, load_organism
 from umbra_core.util import current_rss_mib, ols_slope, peak_rss_mib
 
 
-ROOT = Path(__file__).resolve().parents[2]
 METHOD_PATH = ROOT / "docs/evidence/d002p/method-preregistration.json"
 
 
