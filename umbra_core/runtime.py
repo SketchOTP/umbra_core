@@ -8,6 +8,7 @@ D-002 loop:
 
 from __future__ import annotations
 
+import ctypes
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -464,6 +465,11 @@ class Organism:
         snap = self.snapshot_if_due()
         if self.tick % WAL_CHECKPOINT_EVERY_TICKS == 0:
             self.store.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+            # ponytail: return freed arenas to OS; ceiling = glibc-only, no-op elsewhere
+            try:
+                ctypes.CDLL("libc.so.6").malloc_trim(0)
+            except OSError:
+                pass
         return {
             "tick": self.tick,
             "capability": cand.capability if decision.admitted else None,

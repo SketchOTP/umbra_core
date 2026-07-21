@@ -1,0 +1,18 @@
+{
+  "c0_live_predictions": 80,
+  "c0_live_errors": 80,
+  "c0_live_attributions": 80,
+  "c0_has_prediction": true,
+  "i1_schema_changed": false,
+  "i1_supersessions": 0,
+  "i1_step_gain": 0.44379607886647743,
+  "i1_adapted": true,
+  "i8_labels": [
+    "EXTERNAL_CAUSED",
+    "SELF_CAUSED"
+  ],
+  "i8_external_or_mixed": true,
+  "identity_stable": true,
+  "viable_frac": 0.13333333333333333,
+  "pass": false
+}

@@ -62,6 +62,18 @@ class BoundedRing(Generic[T]):
         self._buf[self._start] = item
         self._start = (self._start + 1) % self._maxlen
 
+    def reclaim_oldest(self) -> T | None:
+        """When full, return oldest object for in-place rewrite (no new alloc)."""
+        if self._len < self._maxlen:
+            return None
+        return self._buf[self._start]  # type: ignore[return-value]
+
+    def advance_after_reclaim(self) -> None:
+        """Rotate start after reclaim_oldest + in-place rewrite."""
+        if self._len < self._maxlen:
+            raise RuntimeError("reclaim_advance_on_partial_ring")
+        self._start = (self._start + 1) % self._maxlen
+
     def clear(self) -> None:
         """Drop logical entries; keep preallocated slot array."""
         for i in range(self._maxlen):

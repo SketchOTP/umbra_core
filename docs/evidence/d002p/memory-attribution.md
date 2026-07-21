@@ -42,3 +42,21 @@ D-002V diagnostics showed hour0–1 ≈ 2.26 MiB/h and hour1–2 ≈ 0.44 MiB/h.
 After `initialize_bounded_collections()` at `RUNTIME_READY`, prediction/error/attribution rings are at capacity. Measurement window should therefore exclude startup population. Snapshot prune removes unbounded snapshot-table growth. Duplicate metrics list removed.
 
 No unexplained growth owners remain in the in-process sensorimotor path.
+
+## Attempt-1 soak (ef2a484, heavy prefill without in-place reuse)
+
+| Window | OLS MiB/h |
+|---|---|
+| 0–10 min | 28.6 |
+| 10–30 min | 3.71 |
+| 60–120 min | 0.165 |
+| full | **1.485 FAIL** |
+
+Primary defect: pad objects were replaced by newly allocated live objects after RUNTIME_READY, extending early/mid growth. Snapshot prune worked (DB 25 MiB vs D-002V 44 MiB).
+
+## Remediation revision 2
+
+- Prefill rings before RUNTIME_READY
+- In-place slot reuse + nested-dict mutation after capacity
+- `malloc_trim(0)` after WAL checkpoint (glibc)
+- 30 min probe: 20–30 min OLS ≈ −0.7 (settling)

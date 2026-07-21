@@ -281,65 +281,18 @@ class SelfModel:
         )
 
     def initialize_bounded_collections(self) -> None:
-        """Allocate ring slots to documented bounds before RUNTIME_READY.
+        """Populate ring capacity before RUNTIME_READY (structural init, not RSS wait).
 
-        Prefills then clears logical entries so capacity is held without
-        polluting behavioral history. Must not wait on RSS plateau.
+        Rings are filled with pad objects, then every live write mutates a slot
+        in place so post-READY ticks do not allocate new history objects.
         """
         if self._bounded_initialized:
             return
-        # Touch every slot so the backing arrays are resident.
-        for ring, factory in (
-            (self.predictions, lambda: Prediction(
-                prediction_id="init",
-                capability="IDLE",
-                tick=-1,
-                expected_body_delta={},
-                expected_observation_delta={},
-                expected_physiology_cost={},
-                expected_duration=0.0,
-                expected_success_probability=0.0,
-                prediction_confidence=0.0,
-                intent_issued=False,
-                body_schema_id=self.active.body_schema_id,
-            )),
-            (self.errors, lambda: PredictionError(
-                error_id="init",
-                prediction_id="init",
-                tick=-1,
-                body_error=0.0,
-                observation_error=0.0,
-                success_error=0.0,
-                duration_error=0.0,
-                verified_success=False,
-                capability="IDLE",
-            )),
-            (self.attributions, lambda: AttributionDecision(
-                decision_id="init",
-                tick=-1,
-                label=Attribution.UNKNOWN.value,
-                confidence=0.0,
-                reasons=["init"],
-                prediction_id=None,
-            )),
-            (self.change_evidence, lambda: ChangeEvidence(
-                evidence_id="init",
-                dimension="init",
-                residual=0.0,
-                tick=-1,
-                body_schema_id=self.active.body_schema_id,
-            )),
-        ):
-            for _ in range(ring.maxlen):
-                ring.append(factory())
-        # Leave rings at capacity; pads (tick<0) are overwritten by live entries.
-        # Steady-state object count from RUNTIME_READY onward.
-        # _obs_range_window stays empty (preallocated slots only) — zeros would
-        # falsely trigger sensor-range evidence.
+        self._pad_rings_to_capacity()
         self._bounded_initialized = True
 
     def _pad_rings_to_capacity(self) -> None:
-        """Ensure rings are full: oldest slots are pads, newest are live history."""
+        """Fill rings to maxlen with pads (tick=-1); live writes overwrite in place."""
         specs = (
             (
                 self.predictions,
@@ -400,7 +353,27 @@ class SelfModel:
                 ring.append(factory())
             for item in live[-ring.maxlen :]:
                 ring.append(item)
+        # Prefill nested maps so later ticks mutate keys instead of replacing dicts.
+        for p in self.predictions:
+            if not p.expected_body_delta:
+                p.expected_body_delta = {"dx": 0.0, "dy": 0.0, "dheading": 0.0}
+            if not p.expected_observation_delta:
+                p.expected_observation_delta = {"range": 10.0}
+            if not p.expected_physiology_cost:
+                p.expected_physiology_cost = {"energy": 0.0}
         self._bounded_initialized = True
+
+    def _append_change_evidence(self, ev: ChangeEvidence) -> None:
+        reused = self.change_evidence.reclaim_oldest()
+        if reused is None:
+            self.change_evidence.append(ev)
+            return
+        reused.evidence_id = ev.evidence_id
+        reused.dimension = ev.dimension
+        reused.residual = ev.residual
+        reused.tick = ev.tick
+        reused.body_schema_id = ev.body_schema_id
+        self.change_evidence.advance_after_reclaim()
 
     def live_predictions(self) -> list[Prediction]:
         return [p for p in self.predictions if p.tick >= 0]
@@ -505,26 +478,50 @@ class SelfModel:
 
         cost_key = capability if capability in schema.expected_cost else "MOVE"
         cost = float(schema.expected_cost.get(cost_key, 0.008))
-        p = Prediction(
-            prediction_id=new_id(),
-            capability=capability,
-            tick=tick,
-            expected_body_delta={"dx": dx, "dy": dy, "dheading": dheading},
-            expected_observation_delta={"range": schema.sensor_contracts.get("range", 10.0)},
-            expected_physiology_cost={"energy": -abs(cost) if cost > 0 else cost},
-            expected_duration=1.0 + delay,
-            expected_success_probability=schema.expected_reliability
-            if capability in ("MOVE", "APPROACH", "RETREAT")
-            else 0.9,
-            prediction_confidence=schema.confidence,
-            intent_issued=True,
-            body_schema_id=schema.body_schema_id,
-        )
+        reused = self.predictions.reclaim_oldest()
+        if reused is None:
+            p = Prediction(
+                prediction_id=new_id(),
+                capability=capability,
+                tick=tick,
+                expected_body_delta={"dx": dx, "dy": dy, "dheading": dheading},
+                expected_observation_delta={"range": schema.sensor_contracts.get("range", 10.0)},
+                expected_physiology_cost={"energy": -abs(cost) if cost > 0 else cost},
+                expected_duration=1.0 + delay,
+                expected_success_probability=schema.expected_reliability
+                if capability in ("MOVE", "APPROACH", "RETREAT")
+                else 0.9,
+                prediction_confidence=schema.confidence,
+                intent_issued=True,
+                body_schema_id=schema.body_schema_id,
+            )
+            self.predictions.append(p)
+        else:
+            p = reused
+            p.prediction_id = new_id()
+            p.capability = capability
+            p.tick = tick
+            # Mutate nested maps in place — avoid per-tick dict allocation.
+            ebd = p.expected_body_delta
+            ebd["dx"] = dx
+            ebd["dy"] = dy
+            ebd["dheading"] = dheading
+            p.expected_observation_delta["range"] = schema.sensor_contracts.get("range", 10.0)
+            p.expected_physiology_cost["energy"] = -abs(cost) if cost > 0 else cost
+            p.expected_duration = 1.0 + delay
+            p.expected_success_probability = (
+                schema.expected_reliability
+                if capability in ("MOVE", "APPROACH", "RETREAT")
+                else 0.9
+            )
+            p.prediction_confidence = schema.confidence
+            p.intent_issued = True
+            p.body_schema_id = schema.body_schema_id
+            self.predictions.advance_after_reclaim()
         if self.config.fixed_authored:
             # C1: freeze authored assumptions — still predict, never update later
             pass
         self._pending_prediction = p
-        self.predictions.append(p)
         return p
 
     def observe_outcome(
@@ -580,7 +577,21 @@ class SelfModel:
                 verified_success=success,
                 capability=pred.capability,
             )
-            self.errors.append(err)
+            reused_e = self.errors.reclaim_oldest()
+            if reused_e is None:
+                self.errors.append(err)
+            else:
+                reused_e.error_id = err.error_id
+                reused_e.prediction_id = err.prediction_id
+                reused_e.tick = err.tick
+                reused_e.body_error = err.body_error
+                reused_e.observation_error = err.observation_error
+                reused_e.success_error = err.success_error
+                reused_e.duration_error = err.duration_error
+                reused_e.verified_success = err.verified_success
+                reused_e.capability = err.capability
+                err = reused_e
+                self.errors.advance_after_reclaim()
 
         attr = self._attribute(
             tick=tick,
@@ -591,7 +602,19 @@ class SelfModel:
             verified_outcome=verified_outcome,
         )
         self._last_attribution = attr
-        self.attributions.append(attr)
+        reused_a = self.attributions.reclaim_oldest()
+        if reused_a is None:
+            self.attributions.append(attr)
+        else:
+            reused_a.decision_id = attr.decision_id
+            reused_a.tick = attr.tick
+            reused_a.label = attr.label
+            reused_a.confidence = attr.confidence
+            reused_a.reasons = attr.reasons
+            reused_a.prediction_id = attr.prediction_id
+            self.attributions.advance_after_reclaim()
+            attr = reused_a
+            self._last_attribution = attr
 
         adapted = False
         if (
@@ -733,7 +756,7 @@ class SelfModel:
                     and residual > 0.45
                     and (ratio < 0.7 or ratio > 1.35)
                 ):
-                    self.change_evidence.append(
+                    self._append_change_evidence(
                         ChangeEvidence(
                             evidence_id=new_id(),
                             dimension=dim,
@@ -878,7 +901,7 @@ class SelfModel:
             return False
         if residual < self.config.change_mean_error_threshold:
             return False
-        self.change_evidence.append(
+        self._append_change_evidence(
             ChangeEvidence(
                 evidence_id=new_id(),
                 dimension=dimension,

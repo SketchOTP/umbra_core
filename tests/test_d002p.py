@@ -88,6 +88,8 @@ def test_prediction_history_is_bounded(tmp_path):
     org = create_organism(OrganismConfig(db_path=_db(tmp_path), seed=104))
     assert isinstance(org.self_model.predictions, BoundedRing)
     assert org.self_model.predictions.maxlen == MAX_PREDICTION_HISTORY
+    assert len(org.self_model.predictions) == MAX_PREDICTION_HISTORY  # prefilled before READY
+    assert len(org.self_model.live_predictions()) == 0
     org.run_ticks(400)
     assert len(org.self_model.predictions) == MAX_PREDICTION_HISTORY
     assert len(org.self_model.live_predictions()) <= MAX_PREDICTION_HISTORY

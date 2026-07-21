@@ -1,0 +1,49 @@
+{
+  "method_path": "docs/evidence/d002p/method-preregistration.json",
+  "method_sha256": "fdc637c77c6ef4863d49e3294c4bff363be467d375aa9e460217ceb164b5f660",
+  "git_commit": "ef2a484c050a2067e397928b20333b8c9c47ae33",
+  "config_hash": "f3671d694f1a277496f82800a94211fcac79b095b4a227b386bac9b10e11a123",
+  "source_hashes": {
+    "umbra_core/runtime.py": "ee8b335c921fbfcbcc2121a19a36d1b5421d048afc3e2e15fce0f7762c76c4e9",
+    "umbra_core/events.py": "b9635a1ef1c698d0f93cd83d061ef5b2e6db7414605c4fcb2abf0076dac234ff",
+    "umbra_core/util.py": "c64603718510d5c7446aadf3b31832a5e3253dbb0d2a3b0fd70bffc043de245e",
+    "umbra_core/persistence.py": "cfc0230e7d4328964ea7647585bdfe6293cf3091758145fe5b0361773211cbd9",
+    "umbra_core/self_model/engine.py": "b8505959e3f9d3fdcaef5af44889aefc734eefe42ff92c617a667b089fdf713b",
+    "experiments/d002p/run_soak.py": "c641f5ae0b8c84bf8c24ab8015954668741da69dbccda7164308a2aac910b1ee",
+    "docs/evidence/d002p/method-preregistration.json": "fdc637c77c6ef4863d49e3294c4bff363be467d375aa9e460217ceb164b5f660"
+  },
+  "measurement_start": "runtime_ready",
+  "duration_s": 7200.106947844033,
+  "ticks": 14375,
+  "sample_count": 721,
+  "sample_interval_s": 10.0,
+  "cpu_mean_pct": 0.22867109837764385,
+  "rss_p95_mib": 31.9609375,
+  "rss_first_mib": 24.8125,
+  "rss_last_mib": 31.9765625,
+  "rss_slope_mib_per_h": 1.4846443000146583,
+  "rss_slope_method": "runtime_ready_to_shutdown_ols_vmrss",
+  "db_mib": 25.57421875,
+  "agent_id": "d44f91a9-cc04-8e2c-b7ee-cbe505bd981c",
+  "body_schema_id": "7e983f72-25c3-4394-c78b-c3c18e296db9",
+  "body_model_hash": "d6dc60a278d475c273e05292b6e4b81c9f139e6ecd9c5e477e128fb35ccfee63",
+  "collection_bounds": {
+    "predictions": 256,
+    "errors": 256,
+    "attributions": 256,
+    "change_evidence": 12,
+    "cells": 374,
+    "snapshots": 2
+  },
+  "crash_free": true,
+  "ledger_integrity": true,
+  "identity_after_restart": true,
+  "gate_performance_pass": false,
+  "config": {
+    "seed": 7,
+    "hz": 2.0,
+    "snapshot_every": 200,
+    "db": "new"
+  },
+  "parent_d002v_verdict": "UMBRA_D002V_PERFORMANCE_FAIL"
+}

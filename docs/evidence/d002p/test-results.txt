@@ -1,0 +1,8 @@
+........................................................................ [ 72%]
+...........F...............                                              [100%]
+=================================== FAILURES ===================================
+E   assert 1.4846443000146583 <= 1.0
+/home/sketch/Projects/UMBRA-CORE/tests/test_d002p.py:169: assert 1.4846443000146583 <= 1.0
+=========================== short test summary info ============================
+FAILED tests/test_d002p.py::test_full_window_rss_slope_passes - assert 1.4846...
+1 failed, 98 passed in 8.09s
