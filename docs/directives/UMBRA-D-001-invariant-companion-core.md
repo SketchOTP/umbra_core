@@ -1,9 +1,9 @@
 # UMBRA-D-001 — Invariant Companion Core (Foundation)
 
-**Status:** AUTHORIZED under `UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`  
+**Status:** CLOSED — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`  
 **Parent:** UMBRA-D-000 / UMBRA-D-000S  
 **Architecture freeze:** `docs/architecture/`  
-**Blocks:** production companion product features listed under Deferred
+**Blocks:** production companion product features listed under Deferred; D-002 may begin when opened
 
 ## Objective
 

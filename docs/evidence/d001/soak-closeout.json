@@ -1,0 +1,59 @@
+{
+  "run_id": "B",
+  "role": "final_retention_v1_certification",
+  "certifies_final_retention": true,
+  "run_a_not_used_for_offset": true,
+  "commit": "8d68995d114504e1265eef1941a0b46588b0893e",
+  "configuration_hash_sha256": "77f5e0422042481b1451afd7d3444f00887414e0a3094af9facde7bc2b00304b",
+  "retention_policy_version": "v1_authoritative_every_tick",
+  "duration_sec": 21600.1512772009,
+  "ticks": 43177,
+  "cpu_mean_fraction": 0.0014742972258538138,
+  "cpu_p95_fraction": 0.0026963390381094503,
+  "rss_p95_mib": 27.7890625,
+  "rss_start_mib": 24.5390625,
+  "rss_end_mib": 27.7890625,
+  "rss_slope_mib_per_hour": 0.5568414910298068,
+  "rss_slope_method": "full_window_first_to_last_jsonl_sample",
+  "database_bytes": 72847360,
+  "database_bytes_ceiling": 1073741824,
+  "database_path": "/home/sketch/Projects/UMBRA-CORE/.soak/run_b.sqlite",
+  "event_counts": {
+    "birth": 1,
+    "outcome_verified": 43177,
+    "physiology_drift": 43177,
+    "proposal": 43177
+  },
+  "cadence": {
+    "drift_per_tick": 1.0,
+    "gov_per_tick": 1.0,
+    "outcome_per_tick": 1.0
+  },
+  "omitted_required_authoritative": [],
+  "identity_preserved": true,
+  "agent_id": "57ab8a03-3bb0-1063-8021-aaa3b6b96eae",
+  "ledger_valid": true,
+  "ledger_error": null,
+  "restart_ok": true,
+  "snapshot_replay_match": true,
+  "gates": {
+    "1_duration_ge_6h": true,
+    "1_no_crash": true,
+    "2_cpu_mean_le_5pct": true,
+    "3_rss_p95_le_200": true,
+    "4_rss_slope_le_1": true,
+    "5_authoritative_cadence": true,
+    "6_ledger_valid": true,
+    "7_identity_after_restart": true,
+    "8_snapshot_replay_match": true,
+    "9_database_growth_recorded_and_bounded": true,
+    "retention_v1": true
+  },
+  "gate9_pass": true,
+  "failures": [],
+  "checklist_remaining": [],
+  "checklist_10_tests": {
+    "command": "pytest tests/test_d001.py tests/test_d001c_closeout.py -q",
+    "result": "45 passed, 0 skipped"
+  }
+}

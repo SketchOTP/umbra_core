@@ -1,0 +1,32 @@
+{
+  "run_id": "B",
+  "started_utc": "2026-07-20T23:07:48.436983+00:00",
+  "commit": "8d68995d114504e1265eef1941a0b46588b0893e",
+  "configuration": {
+    "db_path": "/home/sketch/Projects/UMBRA-CORE/.soak/run_b.sqlite",
+    "seed": 99,
+    "hz": 2.0,
+    "snapshot_every": 7200,
+    "hours": 6.0,
+    "retention_policy_version": "v1_authoritative_every_tick"
+  },
+  "configuration_hash_sha256": "77f5e0422042481b1451afd7d3444f00887414e0a3094af9facde7bc2b00304b",
+  "runtime_source_sha256": {
+    "umbra_core/runtime.py": "4e80f34965d9c12c2ab0ee9ec5d2293fe0b17268db60b10b2ef218659d0cf161",
+    "umbra_core/events.py": "2688e2a5565a4f77a8f7f9fff6b9f405b0345aba363e261dab167dcc25944aa3",
+    "umbra_core/persistence.py": "e438801712009d9c88dd0a7a6328e8e8ecd4b411c7b61f0037511abf1ceaaa7d"
+  },
+  "retention_policy_version": "v1_authoritative_every_tick",
+  "authoritative_event_types": [
+    "birth",
+    "denial",
+    "embodiment_bind",
+    "lifecycle",
+    "outcome_verified",
+    "physiology_drift",
+    "proposal",
+    "restart_recovery"
+  ],
+  "pid": 2658119,
+  "database_path": "/home/sketch/Projects/UMBRA-CORE/.soak/run_b.sqlite"
+}

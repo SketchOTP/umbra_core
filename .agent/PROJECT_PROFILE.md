@@ -26,11 +26,13 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
-- Active project directive: **UMBRA-D-001** (invariant companion core foundation)
+- Active project directive: **none** (D-001 closed QUALIFIED); **D-002** authorized to begin when opened
+- **UMBRA-D-001 closed** — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED` (Run B 6h soak)
 - **UMBRA-D-000 closed** via **UMBRA-D-000S** — `UMBRA_D000S_FOUNDATION_ARCHITECTURE_QUALIFIED`
 - **UMBRA-D-000A rejected** — do not create or execute artificial-life/protocell substrate reframes
 - Architecture freeze: `docs/architecture/`
 - Synthesis evidence: `docs/evidence/d000-synthesis/`
+- D-001 evidence: `docs/evidence/d001/`
 - Prior-art lab notebook: `docs/prior-art/` (Tracks 1–6 complete; Soar/Hyperon not required)
 - Stance: informed reuse for the **companion organism core**; chemistry/protocell deferred
 
@@ -38,7 +40,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Target platform: Linux
 - Persistence: SQLite WAL event/state authority (`HYBRID_PRIMARY`); optional Postgres scale tier
 - Core loop: deterministic non-LLM (see architecture freeze)
-- Organism kernel: authorized for D-001 foundation only — not yet implemented
+- Organism kernel: D-001 QUALIFIED (`umbra_core/`); further modules per later directives
 - Agent/tooling docs: Markdown, Cursor rules, Mimir V2, Serena
 
 ## Common commands

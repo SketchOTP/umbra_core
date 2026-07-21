@@ -11,7 +11,7 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Program directives
 - `docs/directives/UMBRA-D-000-prior-art-reproduction.md` — **closed** via D-000S
-- `docs/directives/UMBRA-D-001-invariant-companion-core.md` — **active** foundation (PARTIAL_FOUNDATION; D-001C Gate9 closeout)
+- `docs/directives/UMBRA-D-001-invariant-companion-core.md` — **closed** `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`
 - `docs/architecture/` — frozen reference architecture (D-000S)
 - `docs/evidence/d000-synthesis/` — Track6 seal, mechanism ledger, conflicts, audits, tests
 - `docs/evidence/d001/` — D-001 tests, experiments C0–C9, soak Run A/B, final verdict

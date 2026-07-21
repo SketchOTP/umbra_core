@@ -1,0 +1,13 @@
+{
+  "hours": 6.0,
+  "ticks": 43177,
+  "elapsed_sec": 21600.1512772009,
+  "cpu_sec": 31.845043106000002,
+  "rss_start_mib": 23.6640625,
+  "rss_end_mib": 27.7890625,
+  "cpu_fraction": 0.0014742974907445828,
+  "agent_id": "57ab8a03-3bb0-1063-8021-aaa3b6b96eae",
+  "commit": "8d68995d114504e1265eef1941a0b46588b0893e",
+  "retention_policy_version": "v1_authoritative_every_tick",
+  "configuration_hash_sha256": "77f5e0422042481b1451afd7d3444f00887414e0a3094af9facde7bc2b00304b"
+}

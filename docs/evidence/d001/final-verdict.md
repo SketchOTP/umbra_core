@@ -1,37 +1,57 @@
 # UMBRA-D-001 Final Verdict
 
-**Verdict:** `UMBRA_D001_PARTIAL_FOUNDATION`
+**Verdict:** `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`
 
 **Starting commit:** `813b9d6a3f1cbee159d0e421bf745a2039626dcf`  
-**Ending commit:** `e9fed18ec8c1a72db05b2efe6d93502a2ba6d7c9` (foundation commit; see git log for seal notes)  
-**Date:** 2026-07-20  
+**Foundation commit:** `e9fed18ec8c1a72db05b2efe6d93502a2ba6d7c9`  
+**Retention-v1 / Run B commit:** `8d68995d114504e1265eef1941a0b46588b0893e`  
+**Seal commit:** (this commit after evidence land)  
+**Date:** 2026-07-21  
 **Mimir project:** `7777645d52a91b49`  
-**Mimir task:** `32cbec622ee34877977ba95ff10becf8` (closed v3)
+**Mimir tasks:** D-001 `32cbec622ee34877977ba95ff10becf8` (closed); D-001C `a9d8858e78824663ae88103cf735c025` (closed at seal)
 
 ## Gate summary
 
 | Gate | Result | Notes |
 |---|---|---|
-| 0 Governance | PASS | Mimir resolved; D-001 only active; architecture intact |
-| 1 Identity | PASS | 100/100 restarts preserve agent_id; corruption fail-closed |
-| 2 Persistence/replay | PASS | Birth replay match; snapshot match; hash/sequence validation |
-| 3 Causal physiology | PASS | Interventions change actions; C3/C4 underperform C0 |
-| 4 Autonomous regulation | PASS | Recovery rate 1.0 across 500 matched trials (≥95%) |
-| 5 Satiation/competition | PASS | Seeking declines after correction; no fixed need monopoly |
+| 0 Governance | PASS | Mimir resolved; architecture intact |
+| 1 Identity | PASS | Restarts preserve agent_id; corruption fail-closed |
+| 2 Persistence/replay | PASS | Birth/snapshot match; hash/sequence validation |
+| 3 Causal physiology | PASS | Interventions change actions; ablations underperform |
+| 4 Autonomous regulation | PASS | Recovery rate 1.0 across matched trials |
+| 5 Satiation/competition | PASS | Seeking declines after correction |
 | 6 Embodiment | PASS | Policy lacks world truth; body-dependent actions |
 | 7 Governance | PASS | Denials; bypass fail-closed; outcomes verified |
 | 8 Autonomous existence | PASS | No user/LLM/network in loop |
-| 9 Performance | PARTIAL | 100k ticks + RSS p95≤200 + CPU≪5% at 2 Hz short soak; **6h soak still RUNNING** |
+| 9 Performance | PASS | Run B 6h soak: duration, CPU, RSS p95, RSS slope ≤1, DB bounded |
 | 10 Scope | PASS | No memory/planning/LLM/UI/robotics modules |
-| 11 Seal | PARTIAL | Evidence present; 6h soak incomplete → not QUALIFIED |
+| 11 Seal | PASS | Run B closeout + 45/45 tests (0 skips); evidence committed |
 
-## Why not QUALIFIED
+## Gate 9 — Run B (qualifying)
 
-Gate 9 requires a completed 6-hour real-time soak. Soak process is running (`docs/evidence/d001/soak-6h.jsonl` → summary on completion). Short 180s soak already shows CPU ~0.1% of one core and flat RSS ~39 MiB.
+Retention policy: `v1_authoritative_every_tick`  
+Provenance: `docs/evidence/d001/soak-run-b-provenance.json`  
+Closeout: `docs/evidence/d001/soak-run-b-closeout.json`
+
+| Metric | Value | Gate |
+|---|---|---|
+| Duration | 21600.15 s | ≥ 6h |
+| Ticks | 43177 | — |
+| CPU mean | 0.147% | ≤ 5% |
+| RSS p95 | 27.79 MiB | ≤ 200 |
+| RSS slope (full window) | 0.557 MiB/h | ≤ 1 |
+| DB size | 69.5 MiB | ≤ 1 GiB |
+| Drift / tick | 1.0 | ≈ 1 |
+| Gov / tick | 1.0 | ≈ 1 |
+| Ledger / restart / snapshot | PASS | — |
+
+## Run A (non-qualifying)
+
+Retention v0 performance-only / **negative** RSS-slope evidence (`~1.33 MiB/h`). Not used to offset Run B. DB under `/tmp` was absent at closeout (no restart/replay from Run A).
 
 ## Scientific claim authorized
 
-A minimum persistent non-LLM companion core with constitutional identity, vector physiology, uncertain perception, embodied primitives, vector arbitration, governed execution, and SQLite WAL replay can regulate under matched disturbances and outperform random/scripted/ablated controls — without personality, language, or advanced memory.
+A minimum persistent non-LLM companion core with constitutional identity, vector physiology, uncertain perception, embodied primitives, vector arbitration, governed execution, and SQLite WAL replay can regulate under matched disturbances, meet the 6h performance budget under authoritative-every-tick retention, and outperform random/scripted/ablated controls — without personality, language, or advanced memory.
 
 ## Claims not authorized
 
@@ -39,4 +59,4 @@ Living organism; consciousness; genuine emotion; personality; relationship; lear
 
 ## D-002
 
-**Not authorized** until `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED` after completed 6h soak seal.
+**Authorized** to begin when opened under `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`. Not started by this seal.

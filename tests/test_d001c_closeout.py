@@ -1,9 +1,12 @@
-"""D-001C tests: downsampling policy + soak closeout gates."""
+"""D-001C tests: retention-v1 policy + Run B soak closeout gates.
+
+Soak-dependent tests require Run B artifacts only. Run A evidence must not
+satisfy or offset these gates.
+"""
 
 from __future__ import annotations
 
 import json
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -18,13 +21,25 @@ from umbra_core.runtime import OrganismConfig, create_organism, load_organism
 from umbra_core.persistence import Store
 
 EVIDENCE = Path(__file__).resolve().parents[1] / "docs" / "evidence" / "d001"
-SOAK_SUMMARY = EVIDENCE / "soak-6h-summary.json"
-SOAK_CLOSEOUT = EVIDENCE / "soak-closeout.json"
-SOAK_DB = Path("/tmp/umbra_soak/soak6h.sqlite")
+# Qualifying soak = Run B only (retention v1).
+SOAK_SUMMARY = EVIDENCE / "soak-run-b-summary.json"
+SOAK_CLOSEOUT = EVIDENCE / "soak-run-b-closeout.json"
+SOAK_CLOSEOUT_ALIAS = EVIDENCE / "soak-closeout.json"
+SOAK_DB = Path("/home/sketch/Projects/UMBRA-CORE/.soak/run_b.sqlite")
 
 
 def _db(tmp_path: Path, name: str = "t.sqlite") -> str:
     return str(tmp_path / name)
+
+
+def _closeout_path() -> Path | None:
+    if SOAK_CLOSEOUT.exists():
+        return SOAK_CLOSEOUT
+    if SOAK_CLOSEOUT_ALIAS.exists():
+        co = json.loads(SOAK_CLOSEOUT_ALIAS.read_text())
+        if co.get("run_id") == "B":
+            return SOAK_CLOSEOUT_ALIAS
+    return None
 
 
 def test_authoritative_events_are_never_downsampled(tmp_path):
@@ -32,18 +47,15 @@ def test_authoritative_events_are_never_downsampled(tmp_path):
     org.run_ticks(12)
     events = org.store.iter_events()
     types = [e["event_type"] for e in events]
-    # Every tick: physiology_drift + (proposal|denial) + usually outcome_verified
     drifts = [e for e in events if e["event_type"] == "physiology_drift"]
     gov = [e for e in events if e["event_type"] in ("proposal", "denial")]
     outcomes = [e for e in events if e["event_type"] == "outcome_verified"]
     assert len(drifts) == 12
     assert len(gov) == 12
-    assert len(outcomes) == 12  # all defaults admitted
+    assert len(outcomes) == 12
     assert "birth" in types
     for t in ("physiology_drift", "proposal", "outcome_verified", "birth"):
         assert is_authoritative(t)
-    # No cadence holes in drift sequences
-    assert [e["sequence"] for e in drifts]  # present
     org.close()
 
 
@@ -51,8 +63,7 @@ def test_omitted_events_are_non_authoritative():
     for t in DIAGNOSTIC_EVENT_TYPES:
         assert is_diagnostic(t)
         assert not is_authoritative(t)
-    overlap = AUTHORITATIVE_EVENT_TYPES & DIAGNOSTIC_EVENT_TYPES
-    assert not overlap
+    assert not (AUTHORITATIVE_EVENT_TYPES & DIAGNOSTIC_EVENT_TYPES)
 
 
 def test_replay_does_not_require_omitted_events(tmp_path):
@@ -67,7 +78,7 @@ def test_replay_does_not_require_omitted_events(tmp_path):
         "tick": o1.authoritative_state()["tick"],
     }
     types = {e["event_type"] for e in o1.store.iter_events()}
-    assert "observation" not in types  # diagnostic omitted
+    assert "observation" not in types
     o1.close()
     o2 = create_organism(OrganismConfig(db_path=p2, seed=42))
     o2.run_ticks(30)
@@ -88,71 +99,86 @@ def test_no_unbounded_runtime_collection(tmp_path):
     org.close()
 
 
-def _require_soak():
-    if not SOAK_SUMMARY.exists() and not SOAK_CLOSEOUT.exists():
-        pytest.skip("soak summary not ready yet")
-    if SOAK_CLOSEOUT.exists():
-        return json.loads(SOAK_CLOSEOUT.read_text())
-    return json.loads(SOAK_SUMMARY.read_text())
+def _require_run_b_closeout():
+    path = _closeout_path()
+    if path is None:
+        if not SOAK_SUMMARY.exists():
+            pytest.skip("Run B soak not finished")
+        pytest.skip("Run B closeout not generated yet")
+    co = json.loads(path.read_text())
+    assert co.get("run_id") == "B"
+    assert co.get("run_a_not_used_for_offset") is True
+    return co
 
 
 def test_soak_duration_meets_gate():
-    data = _require_soak()
-    # prefer closeout if present
-    dur = data.get("duration_sec") or data.get("elapsed_sec") or 0
-    assert dur >= 6 * 3600 - 30  # 30s clock slack
+    co = _require_run_b_closeout()
+    assert co["duration_sec"] >= 6 * 3600 - 30
+    assert co["gates"]["1_duration_ge_6h"] is True
+    assert co["gates"]["1_no_crash"] is True
+
+
+def test_soak_gate9_performance():
+    co = _require_run_b_closeout()
+    assert co["gates"]["2_cpu_mean_le_5pct"] is True
+    assert co["gates"]["3_rss_p95_le_200"] is True
+    assert co["gates"]["4_rss_slope_le_1"] is True
+
+
+def test_soak_authoritative_cadence():
+    co = _require_run_b_closeout()
+    assert co["gates"]["5_authoritative_cadence"] is True
+    assert abs(co["cadence"]["drift_per_tick"] - 1.0) < 0.02
+    assert abs(co["cadence"]["gov_per_tick"] - 1.0) < 0.02
 
 
 def test_soak_identity_preserved():
-    data = _require_soak()
-    if SOAK_CLOSEOUT.exists():
-        co = json.loads(SOAK_CLOSEOUT.read_text())
-        assert co.get("identity_preserved") is True
-        assert co.get("agent_id")
-    else:
-        assert data.get("agent_id")
+    co = _require_run_b_closeout()
+    assert co.get("identity_preserved") is True
+    assert co.get("agent_id")
+    assert co["gates"]["7_identity_after_restart"] is True
 
 
 def test_soak_ledger_valid():
-    if SOAK_CLOSEOUT.exists():
-        co = json.loads(SOAK_CLOSEOUT.read_text())
-        assert co.get("ledger_valid") is True
-    else:
-        if not SOAK_DB.exists():
-            pytest.skip("soak db missing")
+    co = _require_run_b_closeout()
+    assert co.get("ledger_valid") is True
+    assert co["gates"]["6_ledger_valid"] is True
+    if SOAK_DB.exists():
         store = Store(str(SOAK_DB))
         store.validate_chain()
         store.close()
 
 
 def test_soak_restart_succeeds():
-    if SOAK_CLOSEOUT.exists():
-        co = json.loads(SOAK_CLOSEOUT.read_text())
-        assert co.get("restart_ok") is True
-        return
+    co = _require_run_b_closeout()
+    assert co.get("restart_ok") is True
     if not SOAK_DB.exists():
-        pytest.skip("soak db missing")
-    cfg = OrganismConfig(db_path=str(SOAK_DB), seed=99)
-    org = load_organism(cfg)
-    assert org.identity.agent_id
+        pytest.fail("Run B DB required for restart check")
+    org = load_organism(OrganismConfig(db_path=str(SOAK_DB), seed=99))
+    assert org.identity.agent_id == co["agent_id"]
     org.run_ticks(2)
     org.close()
 
 
 def test_soak_snapshot_replay_matches():
-    if SOAK_CLOSEOUT.exists():
-        co = json.loads(SOAK_CLOSEOUT.read_text())
-        assert co.get("snapshot_replay_match") is True
-        return
+    co = _require_run_b_closeout()
+    assert co.get("snapshot_replay_match") is True
+    assert co["gates"]["8_snapshot_replay_match"] is True
     if not SOAK_DB.exists():
-        pytest.skip("soak db missing")
-    cfg = OrganismConfig(db_path=str(SOAK_DB), seed=99)
+        pytest.fail("Run B DB required for snapshot check")
     store = Store(str(SOAK_DB))
     snap = store.load_snapshot()
     store.close()
-    org = load_organism(cfg)
+    org = load_organism(OrganismConfig(db_path=str(SOAK_DB), seed=99))
     live = org.authoritative_state()
     assert live["physiology"] == snap["state"]["physiology"]
     assert live["embodiment"] == snap["state"]["embodiment"]
     assert live["identity"]["agent_id"] == snap["state"]["identity"]["agent_id"]
     org.close()
+
+
+def test_soak_database_growth_bounded():
+    co = _require_run_b_closeout()
+    assert co["gates"]["9_database_growth_recorded_and_bounded"] is True
+    assert co["database_bytes"] > 0
+    assert co["database_bytes"] <= co["database_bytes_ceiling"]
