@@ -3,7 +3,8 @@
 **Verdict:** `UMBRA_D002V_PERFORMANCE_FAIL`
 
 **Starting commit:** `a60b9258135867fed63e58109243043162142c3e`  
-**Ending commit:** `5a82b580adf035b88acbdea3f6f8a63f9a55e672`  
+**Ending commit:** `d976fd59c6b737c2db98f2829da780b28cab906e`  
+**Tip commit:** `f6796d7a668f70b0738c8f2f5822252bc83601c7` (hash-record)  
 **Date:** 2026-07-21  
 **Mimir project:** `7777645d52a91b49`  
 **Mimir task:** `74b43bba377d4c4f85245eb62ad26018`
