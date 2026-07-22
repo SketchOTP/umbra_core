@@ -1,0 +1,8 @@
+{
+  "entropy_bounds": [
+    0.15,
+    2.8
+  ],
+  "gate": 12,
+  "pass": true
+}

@@ -41,6 +41,13 @@ from umbra_core.social import (
     SocialEngineError,
     condition_to_social_config,
 )
+from umbra_core.individuality import (
+    IndividualityConfig,
+    IndividualityEngine,
+    IndividualityEngineError,
+    condition_to_individuality_config,
+    infer_evidence_from_outcome,
+)
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, new_id
 from umbra_core.world_model import WorldModel, WorldModelConfig, condition_to_world_model_config
 
@@ -78,6 +85,10 @@ class OrganismConfig:
     social_enabled: bool = False
     social_history: str = "H0"
     social_config: SocialConfig | None = None
+    # D-007
+    individuality_enabled: bool = False
+    individuality_history: str = "H0"
+    individuality_config: IndividualityConfig | None = None
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -111,7 +122,7 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
 
 
 class Organism:
-    """Minimum persistent UMBRA creature core (+ D-002/D-003/D-004/D-005)."""
+    """Minimum persistent UMBRA creature core (+ D-002..D-007)."""
 
     def __init__(
         self,
@@ -130,6 +141,7 @@ class Organism:
         development: DevelopmentEngine | None = None,
         memory: MemoryEngine | None = None,
         social: SocialEngine | None = None,
+        individuality: IndividualityEngine | None = None,
         monotonic_time: float = 0.0,
         tick: int = 0,
         session_id: str | None = None,
@@ -148,6 +160,7 @@ class Organism:
         self.development = development
         self.memory = memory
         self.social = social
+        self.individuality = individuality
         self.monotonic_time = monotonic_time
         self.tick = tick
         self.session_id = session_id or new_id()
@@ -170,6 +183,7 @@ class Organism:
             "play_ticks": 0,
             "memory_retrieval_hits": 0,
             "memory_consolidations": 0,
+            "individuality_updates": 0,
         }
         self._pending_action: dict[str, Any] | None = None
         self._delayed_proposal: dict[str, Any] | None = None
@@ -181,8 +195,10 @@ class Organism:
         self._development_intervention_applied = False
         self._memory_history_applied = False
         self._social_history_applied = False
+        self._individuality_history_applied = False
         self._dev_tags: dict[str, Any] = {}
         self._mem_tags: dict[str, Any] = {}
+        self._indiv_tags: dict[str, Any] = {}
         self._i9_recovered = False
         self._external_displaced = False
         self._world_object_moved = False
@@ -217,6 +233,7 @@ class Organism:
             "development": self.development.to_state() if self.development else None,
             "memory": self.memory.to_state() if self.memory else None,
             "social": self.social.to_state() if self.social else None,
+            "individuality": self.individuality.to_state() if self.individuality else None,
             "monotonic_time": self.monotonic_time,
             "tick": self.tick,
             "session_id": self.session_id,
@@ -229,6 +246,8 @@ class Organism:
             "development_intervention": self.config.development_intervention,
             "memory_history": self.config.memory_history,
             "social_history": self.config.social_history,
+            "individuality_history": self.config.individuality_history,
+            "indiv_tags": dict(self._indiv_tags),
             "dev_tags": dict(self._dev_tags),
             "mem_tags": dict(self._mem_tags),
             "metrics": {
@@ -354,6 +373,30 @@ class Organism:
             return
         self.embodiment.apply_social_history(self.config.social_history)
         self._social_history_applied = True
+
+    def _ensure_individuality_history(self) -> None:
+        if self._individuality_history_applied:
+            return
+        if not self.config.individuality_enabled:
+            self._individuality_history_applied = True
+            return
+        self._indiv_tags = self.embodiment.apply_individuality_history(
+            self.config.individuality_history
+        )
+        self._individuality_history_applied = True
+
+    def _flush_individuality_events(self, wall: float) -> None:
+        if self.individuality is None or not self.config.individuality_enabled:
+            return
+        for ev in self.individuality.drain_events():
+            self.store.append_event(
+                agent_id=self.identity.agent_id,
+                event_type=ev["event_type"],
+                monotonic_time=self.monotonic_time,
+                wall_time=wall,
+                payload=ev["payload"],
+                event_id=ev.get("event_id"),
+            )
 
     def _maybe_memory_midcourse(self) -> None:
         """H5/H6/H7 timed memory-history interventions."""
@@ -483,6 +526,7 @@ class Organism:
         self._ensure_development_intervention()
         self._ensure_memory_history()
         self._ensure_social_history()
+        self._ensure_individuality_history()
         self._maybe_world_dynamics()
         self._maybe_recover_i9()
         self._maybe_development_midcourse()
@@ -598,8 +642,23 @@ class Organism:
             self.social.recognize(social_cues, self.tick, store=self.store)
             self.social.resume_pending(store=self.store, now_tick=self.tick)
 
-        # 4–5. generate candidates + arbitrate
-        cand = self.arbitrator.select(self.phys, obs_dicts, self.tick, self.rng)
+        # 4–5. generate candidates + arbitrate (+ D-007 bounded individuality modifiers)
+        indiv_apply = None
+        indiv_scope = str(self._indiv_tags.get("arbitration_context", "default"))
+        phase_hint = None
+        if self._indiv_tags.get("timing_phase"):
+            phase_hint = float((self.tick % 100) / 100.0)
+        if self.individuality is not None and self.config.individuality_enabled:
+            indiv_apply = self.individuality.apply_modifiers
+        cand = self.arbitrator.select(
+            self.phys,
+            obs_dicts,
+            self.tick,
+            self.rng,
+            individuality_apply=indiv_apply,
+            context_scope=indiv_scope,
+            phase_hint=phase_hint,
+        )
 
         # D-004: practice goal generation + arbitration (propose only; no authority)
         practice_goal = None
@@ -1218,6 +1277,43 @@ class Organism:
             }
             assert self.memory.try_grant_authority({"grant_capability": True}) is False
 
+        # D-007: individuality learns only from verified executed outcomes
+        if self.individuality is not None and self.config.individuality_enabled:
+            ctx = str(self._indiv_tags.get("learning_context", "default"))
+            # Specialization histories map inspect toward family tags
+            toward = pending_params.get("toward")
+            if toward in ("object_a", "family_a"):
+                ctx = "object_family_a"
+            elif toward in ("object_b", "family_b"):
+                ctx = "object_family_b"
+            if self._indiv_tags.get("force_context"):
+                ctx = str(self._indiv_tags["force_context"])
+            evid_list = infer_evidence_from_outcome(
+                evidence_id=f"out-{self.tick}-{outcome.capability}",
+                tick=self.tick,
+                capability=outcome.capability,
+                success=bool(outcome.success),
+                context_scope=ctx,
+                verified=bool(outcome.verified),
+                source_system="outcome",
+                from_episode=True,
+                from_frequency_only=bool(
+                    self.individuality.config.frequency_only
+                ),
+                is_anomaly=bool(self._indiv_tags.get("inject_anomaly")),
+                severe_safety=bool(
+                    outcome.raw and outcome.raw.get("hazard_contact")
+                ),
+            )
+            for ev in evid_list:
+                self.individuality.observe_verified(ev)
+            self.metrics["individuality_updates"] = int(
+                self.individuality.metrics.get("updates", 0)
+            )
+            self._flush_individuality_events(wall)
+            # Clear one-shot anomaly inject
+            self._indiv_tags.pop("inject_anomaly", None)
+
         if outcome_payload is not None:
             outcome_payload["_sm"] = sm_result
             outcome_payload["_wm"] = wm_result
@@ -1278,7 +1374,10 @@ def create_organism(config: OrganismConfig) -> Organism:
     # D-005: conditions C0–C9 are memory ablations (full arbitration).
     # D-006: conditions C0–C9 are social ablations (C7 = random *social* intents inside
     # SocialEngine.propose, not whole-organism random arbitration — full arbitration).
-    if config.social_enabled:
+    # D-007: conditions C0–C10 are individuality ablations (full arbitration; C2/C3 not production).
+    if config.individuality_enabled:
+        pass
+    elif config.social_enabled:
         pass
     elif config.memory_enabled:
         pass
@@ -1294,7 +1393,12 @@ def create_organism(config: OrganismConfig) -> Organism:
     # C0 unless an explicit config override is provided.
     sm_cond = (
         "C0"
-        if (config.social_enabled or config.memory_enabled or config.development_enabled)
+        if (
+            config.individuality_enabled
+            or config.social_enabled
+            or config.memory_enabled
+            or config.development_enabled
+        )
         else config.condition
     )
     sm_cfg = config.self_model_config or condition_to_self_model_config(sm_cond)
@@ -1314,7 +1418,12 @@ def create_organism(config: OrganismConfig) -> Organism:
         )
     wm_cond = (
         "C0"
-        if (config.social_enabled or config.memory_enabled or config.development_enabled)
+        if (
+            config.individuality_enabled
+            or config.social_enabled
+            or config.memory_enabled
+            or config.development_enabled
+        )
         else config.condition
     )
     wm_cfg = config.world_model_config
@@ -1335,7 +1444,11 @@ def create_organism(config: OrganismConfig) -> Organism:
         )
     # When D-006 owns `condition`, keep memory at full C0 unless overridden (same
     # pin pattern as self/world above).
-    mem_cond = "C0" if config.social_enabled else config.condition
+    mem_cond = (
+        "C0"
+        if (config.individuality_enabled or config.social_enabled)
+        else config.condition
+    )
     mem_cfg = config.memory_config
     if mem_cfg is None and config.memory_enabled:
         mem_cfg = condition_to_memory_config(mem_cond)
@@ -1344,12 +1457,21 @@ def create_organism(config: OrganismConfig) -> Organism:
         memory = MemoryEngine.create(
             identity.agent_id, config=mem_cfg, seed=config.seed
         )
+    soc_cond = "C0" if config.individuality_enabled else config.condition
     soc_cfg = config.social_config
     if soc_cfg is None and config.social_enabled:
-        soc_cfg = condition_to_social_config(config.condition)
+        soc_cfg = condition_to_social_config(soc_cond)
     social = None
     if config.social_enabled:
         social = SocialEngine.create(identity.agent_id, config=soc_cfg, seed=config.seed)
+    indiv_cfg = config.individuality_config
+    if indiv_cfg is None and config.individuality_enabled:
+        indiv_cfg = condition_to_individuality_config(config.condition)
+    individuality = None
+    if config.individuality_enabled:
+        individuality = IndividualityEngine.create(
+            identity.agent_id, config=indiv_cfg, seed=config.seed
+        )
     org = Organism(
         identity=identity,
         store=store,
@@ -1365,7 +1487,18 @@ def create_organism(config: OrganismConfig) -> Organism:
         development=development,
         memory=memory,
         social=social,
+        individuality=individuality,
     )
+    if individuality is not None:
+        for ev in individuality.drain_events():
+            store.append_event(
+                agent_id=identity.agent_id,
+                event_type=ev["event_type"],
+                monotonic_time=0.0,
+                wall_time=wall,
+                payload=ev["payload"],
+                event_id=ev.get("event_id"),
+            )
     store.append_event(
         agent_id=identity.agent_id,
         event_type="birth",
@@ -1399,7 +1532,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     arb = Arbitrator(ArbitrationState.from_state(state["arbitration"]))
     arb.state.hide_physiology = config.hide_physiology
     arb.state.mode = config.arbitration_mode
-    if config.social_enabled:
+    if config.individuality_enabled:
+        pass
+    elif config.social_enabled:
         pass
     elif config.memory_enabled:
         pass
@@ -1418,7 +1553,12 @@ def load_organism(config: OrganismConfig) -> Organism:
 
     sm_cond = (
         "C0"
-        if (config.social_enabled or config.memory_enabled or config.development_enabled)
+        if (
+            config.individuality_enabled
+            or config.social_enabled
+            or config.memory_enabled
+            or config.development_enabled
+        )
         else config.condition
     )
     self_model = None
@@ -1433,7 +1573,12 @@ def load_organism(config: OrganismConfig) -> Organism:
 
     wm_cond = (
         "C0"
-        if (config.social_enabled or config.memory_enabled or config.development_enabled)
+        if (
+            config.individuality_enabled
+            or config.social_enabled
+            or config.memory_enabled
+            or config.development_enabled
+        )
         else config.condition
     )
     world_model = None
@@ -1452,7 +1597,11 @@ def load_organism(config: OrganismConfig) -> Organism:
         if development.agent_id != identity.agent_id:
             raise PersistenceError("development_agent_mismatch")
 
-    mem_cond = "C0" if config.social_enabled else config.condition
+    mem_cond = (
+        "C0"
+        if (config.individuality_enabled or config.social_enabled)
+        else config.condition
+    )
     memory = None
     if state.get("memory") and config.memory_enabled:
         mcfg = config.memory_config or condition_to_memory_config(mem_cond)
@@ -1462,10 +1611,26 @@ def load_organism(config: OrganismConfig) -> Organism:
 
     social = None
     if state.get("social") and config.social_enabled:
-        soc_cfg = config.social_config or condition_to_social_config(config.condition)
+        soc_cond = "C0" if config.individuality_enabled else config.condition
+        soc_cfg = config.social_config or condition_to_social_config(soc_cond)
         social = SocialEngine.from_state(state["social"], config=soc_cfg)
         if social.agent_id != identity.agent_id:
             raise PersistenceError("social_agent_mismatch")
+
+    individuality = None
+    if state.get("individuality") and config.individuality_enabled:
+        icfg = config.individuality_config or condition_to_individuality_config(
+            config.condition
+        )
+        try:
+            individuality = IndividualityEngine.from_state(
+                state["individuality"], config=icfg
+            )
+        except IndividualityEngineError as e:
+            raise PersistenceError(str(e)) from e
+        if individuality.agent_id != identity.agent_id:
+            raise PersistenceError("individuality_agent_mismatch")
+        # C8: explicit reset already handled inside from_state via config
 
     org = Organism(
         identity=identity,
@@ -1482,6 +1647,7 @@ def load_organism(config: OrganismConfig) -> Organism:
         development=development,
         memory=memory,
         social=social,
+        individuality=individuality,
         monotonic_time=float(state.get("monotonic_time", 0.0)),
         tick=int(state.get("tick", 0)),
         session_id=new_id(),
@@ -1491,8 +1657,10 @@ def load_organism(config: OrganismConfig) -> Organism:
     org._development_intervention_applied = True
     org._memory_history_applied = True
     org._social_history_applied = True
+    org._individuality_history_applied = True
     org._dev_tags = dict(state.get("dev_tags") or {})
     org._mem_tags = dict(state.get("mem_tags") or {})
+    org._indiv_tags = dict(state.get("indiv_tags") or {})
     org._delayed_proposal = state.get("delayed_proposal")
     pending = state.get("pending_action")
     if pending:
@@ -1522,6 +1690,7 @@ def load_organism(config: OrganismConfig) -> Organism:
     org.metrics["play_ticks"] = int(metrics.get("play_ticks", 0))
     org.metrics["memory_retrieval_hits"] = int(metrics.get("memory_retrieval_hits", 0))
     org.metrics["memory_consolidations"] = int(metrics.get("memory_consolidations", 0))
+    org.metrics["individuality_updates"] = int(metrics.get("individuality_updates", 0))
     # Bring rings to documented capacity, preserving live (tick>=0) history.
     if org.self_model is not None:
         live_p = org.self_model.live_predictions()
@@ -1545,6 +1714,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     if org.memory is not None:
         org.memory._bounded_initialized = False
         org.memory.initialize_bounded_collections()
+    if org.individuality is not None:
+        org.individuality._bounded_initialized = False
+        org.individuality.initialize_bounded_collections()
     wall = float(config.wall_time_fn())
     org.store.warm_runtime_residency()
     if org.tick == 0:
@@ -1602,6 +1774,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
     dev_accepted = org.development.accepted_state() if org.development else None
     mem_accepted = org.memory.accepted_state() if org.memory else None
     social_accepted = org.social.accepted_state() if org.social else None
+    indiv_accepted = org.individuality.accepted_state() if org.individuality else None
     comparable = {
         "physiology": state["physiology"],
         "embodiment": state["embodiment"],
@@ -1614,6 +1787,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
         "development_accepted": dev_accepted,
         "memory_accepted": mem_accepted,
         "social_accepted": social_accepted,
+        "individuality_accepted": indiv_accepted,
     }
     org.close()
     return comparable

@@ -1,0 +1,56 @@
+{
+  "all_experiment_gates_pass": true,
+  "gate1": {
+    "c0_h1_between_mean": 0.2363805687094929,
+    "c0_vs_c1_gap": 0.2363805687094929,
+    "c0_vs_c4_gap": 0.06342403795054476,
+    "c0_vs_c9_gap": 0.15339417552068757,
+    "effect_vs_c1": 236380568.7094929,
+    "pass": true
+  },
+  "gate2": {
+    "c0_between_dist": 0.2363805687094929,
+    "c0_matched_sim": 0.9986240696932747,
+    "c3_matched_sim": 0.5377187004440561,
+    "pass": true
+  },
+  "gate3_replay": {
+    "pass": true,
+    "replay_frac": 1.0,
+    "snap_ok": true
+  },
+  "gate4": {
+    "h1_explore": 0.2896510746324717,
+    "h2_explore": -0.2896510746324717,
+    "h3_persist": 0.3457735340632271,
+    "h4_persist": -0.26062561970623904,
+    "h5_stim": 0.3053348152148058,
+    "h6_stim": -0.2896510746324717,
+    "pass": true
+  },
+  "gate5": {
+    "c0_persist": 0.3457735340632271,
+    "c4_persist": 0.23474555391508473,
+    "h11_timing": 0.42947023737772905,
+    "h7_novelty": 0.2751438037572134,
+    "h8_novelty": 0.2751438037572134,
+    "pass": true
+  },
+  "gate6": {
+    "h12_explore": -0.11658552116955605,
+    "pass": true
+  },
+  "gate7": {
+    "pass": true,
+    "pooled_weaker": true,
+    "social_sep": 0.6657090901464031
+  },
+  "gate9": {
+    "c0_updates_mean": 72.0,
+    "c5_updates_mean": 0.0,
+    "c8_reset_distance": 0.13413333725109447,
+    "pass": true
+  },
+  "n_results": 2200,
+  "paired_seeds": 100
+}

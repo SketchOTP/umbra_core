@@ -657,6 +657,121 @@ class Embodiment:
         h.partners = partners
         return tags
 
+    def apply_individuality_history(self, code: str) -> dict[str, Any]:
+        """D-007 individuality history plant H0–H12.
+
+        Alters opportunities and verified-consequence contexts only.
+        Never sets personality labels or forces internal disposition values.
+        """
+        h = self.habitat
+        tags: dict[str, Any] = {
+            "code": code,
+            "learning_context": "default",
+            "arbitration_context": "default",
+        }
+        if code == "H0":
+            tags["learning_context"] = "safe_explore"
+            tags["arbitration_context"] = "safe_explore"
+        elif code == "H1":
+            tags["learning_context"] = "safe_explore"
+            tags["arbitration_context"] = "safe_explore"
+            tags["explore_rewarding"] = True
+            # Extra inspectable novelty that charges successfully
+            h.features.append(
+                HabitatFeature("novel_crystal", 14.0, 12.0, 1.2, chargeable=True, inspectable=True)
+            )
+        elif code == "H2":
+            tags["learning_context"] = "uncertain_hazard"
+            tags["arbitration_context"] = "uncertain_hazard"
+            tags["explore_punishing"] = True
+            h.features.append(HabitatFeature("hazard", 11.0, 11.0, 2.0))
+            # Spurious inspect that looks novel but is near hazard
+            h.features.append(
+                HabitatFeature("novel_crystal", 10.5, 10.5, 1.0, inspectable=True)
+            )
+        elif code == "H3":
+            tags["learning_context"] = "solvable_task"
+            tags["arbitration_context"] = "solvable_task"
+            tags["persistence_rewarded"] = True
+            h.features.append(
+                HabitatFeature("inspect", 13.0, 9.0, 1.0, inspectable=True, chargeable=True)
+            )
+        elif code == "H4":
+            tags["learning_context"] = "solvable_task"
+            tags["arbitration_context"] = "solvable_task"
+            tags["persistence_futile"] = True
+            # Non-chargeable inspect — effort unproductive
+            h.features.append(
+                HabitatFeature("inspect", 13.0, 9.0, 1.0, inspectable=True, chargeable=False)
+            )
+            feat = h.feature("resource")
+            if feat:
+                feat.chargeable = False
+        elif code == "H5":
+            tags["learning_context"] = "high_stim"
+            tags["arbitration_context"] = "high_stim"
+            tags["stim_rewarding"] = True
+            h.features.append(
+                HabitatFeature("inspect", 8.0, 14.0, 1.5, inspectable=True)
+            )
+            h.features.append(
+                HabitatFeature("inspect", 15.0, 8.0, 1.5, inspectable=True)
+            )
+        elif code == "H6":
+            tags["learning_context"] = "post_stim_recovery"
+            tags["arbitration_context"] = "high_stim"
+            tags["stim_overstimulating"] = True
+            tags["force_context"] = "post_stim_recovery"
+            h.features.append(
+                HabitatFeature("inspect", 9.0, 9.0, 2.5, inspectable=True)
+            )
+        elif code == "H7":
+            tags["learning_context"] = "object_family_a"
+            tags["arbitration_context"] = "object_family_a"
+            tags["force_context"] = "object_family_a"
+            tags["specialization"] = "A"
+            # Use inspectable chargeable target — policy sees inspect/novel, learning uses family A
+            h.features.append(
+                HabitatFeature("inspect", 12.0, 14.0, 1.2, inspectable=True, chargeable=True)
+            )
+        elif code == "H8":
+            tags["learning_context"] = "object_family_b"
+            tags["arbitration_context"] = "object_family_b"
+            tags["force_context"] = "object_family_b"
+            tags["specialization"] = "B"
+            h.features.append(
+                HabitatFeature(
+                    "novel_crystal", 14.0, 12.0, 1.2, inspectable=True, chargeable=True
+                )
+            )
+        elif code == "H9":
+            tags["learning_context"] = "play_context"
+            tags["arbitration_context"] = "play_context"
+            tags["social_reliable"] = True
+            # Reuse social partner plant for reliable play
+            self.apply_social_history("H0")
+        elif code == "H10":
+            tags["learning_context"] = "play_context"
+            tags["arbitration_context"] = "play_context"
+            tags["social_unreliable"] = True
+            self.apply_social_history("H2")
+        elif code == "H11":
+            tags["learning_context"] = "routine_window"
+            tags["arbitration_context"] = "diurnal_phase"
+            tags["timing_phase"] = True
+            tags["force_context"] = "routine_window"
+        elif code == "H12":
+            tags["learning_context"] = "safe_explore"
+            tags["arbitration_context"] = "safe_explore"
+            tags["reversal"] = True
+            tags["rule_flip_at"] = 80
+            h.features.append(
+                HabitatFeature("novel_crystal", 14.0, 12.0, 1.2, chargeable=True, inspectable=True)
+            )
+        else:
+            raise ValueError(f"unknown_individuality_history:{code}")
+        return tags
+
     def hidden_partner_truth_for_eval(self) -> list[dict[str, Any]]:
         """Evaluator-only accessor — never pass to policy, SocialEngine, or arbitration."""
         return [

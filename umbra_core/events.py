@@ -31,6 +31,15 @@ SOCIAL_EVENT_AUTHORITY: dict[str, str] = {
     "social_match_score": "DIAGNOSTIC",
 }
 
+# D-007 individuality conceptual events → authority class.
+INDIVIDUALITY_EVENT_AUTHORITY: dict[str, str] = {
+    "individuality_disposition_created": "AUTHORITATIVE",
+    "individuality_disposition_updated": "AUTHORITATIVE",
+    "individuality_disposition_revised": "AUTHORITATIVE",
+    "individuality_disposition_deactivated": "AUTHORITATIVE",
+    "individuality_profile_migrated": "AUTHORITATIVE",
+}
+
 # Must be emitted on every occurrence (no cadence skip).
 AUTHORITATIVE_EVENT_TYPES = frozenset(
     {
@@ -48,6 +57,11 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "memory_correction",
     }
     | {name for name, klass in SOCIAL_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
+    | {
+        name
+        for name, klass in INDIVIDUALITY_EVENT_AUTHORITY.items()
+        if klass == "AUTHORITATIVE"
+    }
 )
 
 # Optional / diagnostic — may be downsampled or omitted; not required for replay.
@@ -128,3 +142,9 @@ def social_event_authority_class(name: str) -> str:
     if name not in SOCIAL_EVENT_AUTHORITY:
         raise KeyError(f"unknown_social_event:{name}")
     return SOCIAL_EVENT_AUTHORITY[name]
+
+
+def individuality_event_authority_class(name: str) -> str:
+    if name not in INDIVIDUALITY_EVENT_AUTHORITY:
+        raise KeyError(f"unknown_individuality_event:{name}")
+    return INDIVIDUALITY_EVENT_AUTHORITY[name]

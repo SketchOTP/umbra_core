@@ -1,0 +1,7 @@
+{
+  "gate": 11,
+  "pass": true,
+  "replay_frac": 1.0,
+  "snap_l2_max": 0.05,
+  "snap_ok": true
+}

@@ -256,6 +256,10 @@ class Arbitrator:
         observations: list[dict[str, Any]],
         tick: int,
         rng: SeededRNG,
+        individuality_apply: Any | None = None,
+        *,
+        context_scope: str = "default",
+        phase_hint: float | None = None,
     ) -> Candidate:
         mode = self.state.mode
         if mode == "random":
@@ -271,7 +275,8 @@ class Arbitrator:
 
         # recovery reflexes — disabled under physiology-hidden ablation (C3)
         needs = [] if self.state.hide_physiology else phys.needs_recovery()
-        if (needs or phys.critical_any()) and not self.state.hide_physiology:
+        critical = bool(needs or phys.critical_any()) and not self.state.hide_physiology
+        if critical:
             crit = phys.critical_vars()
             # sticky serialized recovery — finish current focus unless energy critical
             ORDER = ("energy", "fatigue", "integrity", "stimulation")
@@ -294,6 +299,7 @@ class Arbitrator:
 
             def pick_recovery(cands: list[Candidate]) -> Candidate:
                 # ignore hysteresis for recovery — break orient thrash
+                # individuality modifiers suppressed under critical physiology
                 scored = []
                 for c in cands:
                     sc = self.score_candidate(c, phys, observations, tick)
@@ -303,6 +309,14 @@ class Arbitrator:
                     if c.capability == "ORIENT":
                         sc.total -= 1.0
                     scored.append(sc)
+                if individuality_apply is not None:
+                    individuality_apply(
+                        scored,
+                        context_scope=context_scope,
+                        critical_physiology=True,
+                        tick=tick,
+                        phase_hint=phase_hint,
+                    )
                 scored.sort(key=lambda c: c.total, reverse=True)
                 chosen = scored[0]
                 self._commit(chosen, tick)
@@ -442,6 +456,14 @@ class Arbitrator:
 
         cands = self.generate_candidates(phys, observations, tick)
         scored = [self.score_candidate(c, phys, observations, tick) for c in cands]
+        if individuality_apply is not None:
+            individuality_apply(
+                scored,
+                context_scope=context_scope,
+                critical_physiology=False,
+                tick=tick,
+                phase_hint=phase_hint,
+            )
         # bounded stochasticity: softmax-ish via noisy argmax
         for c in scored:
             c.total += rng.gauss(0.0, 0.08)

@@ -3,6 +3,7 @@ docs/prior-art/*/upstream/
 
 # Soak databases (large; evidence summaries committed separately)
 .soak/
+docs/evidence/**/.perf/
 
 # Python caches
 **/__pycache__/

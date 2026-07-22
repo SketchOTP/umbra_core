@@ -1,0 +1,8 @@
+{
+  "c0_between_dist": 0.2363805687094929,
+  "c0_matched_sim": 0.9986240696932747,
+  "c3_matched_sim": 0.5377187004440561,
+  "gate": 2,
+  "pass": true,
+  "threshold_sim": 0.55
+}
