@@ -297,22 +297,112 @@ def test_c6_recognition_disabled_always_unknown():
     assert engine.hypotheses == {}
 
 
+def test_c3_affection_controller_is_isolated():
+    import umbra_core.social.engine as eng
+
+    assert not hasattr(eng, "AffectionMeter")
+    from experiments.d006.affection_controller import AffectionController
+
+    assert AffectionController is not None
+    ctrl = AffectionController()
+    assert ctrl.observe_interaction(positive=True) > 0.0
+
+
 def test_c4_resets_relationship_state_between_encounters():
-    from umbra_core.social import SocialEngine, condition_to_social_config
+    from umbra_core.social import RoutineHandle, SocialEngine, condition_to_social_config
 
     cfg = condition_to_social_config("C4")
     assert cfg.persist_relationship is False
     engine = SocialEngine.create("agent-1", seed=1, config=cfg)
     engine.recognize([_social_cue()], tick=1)
     assert engine.hypotheses
+    hid = next(iter(engine.hypotheses))
+    engine.create_pending(
+        hypothesis_id=hid,
+        context="play",
+        signal="SIGNAL_PLAY",
+        execution_id="exec-1",
+        signal_tick=1,
+        recognition_confidence=0.8,
+        governance_admitted=True,
+        capability_executed=True,
+        tick=1,
+    )
+    engine.routine_handles["r1"] = RoutineHandle(
+        routine_id="r1", hypothesis_id=hid, context="play", signal="SIGNAL_PLAY"
+    )
 
     engine.reset_for_encounter_boundary()
     assert engine.hypotheses == {}
+    assert engine.contingency_cells == {}
+    assert engine.pending == {}
+    assert engine.routine_handles == {}
 
     engine.recognize([_social_cue()], tick=2)
     state = engine.to_state()
     restarted = SocialEngine.from_state(state, config=cfg)
     assert restarted.hypotheses == {}  # C4 also resets on restart, per design §6
+
+
+@pytest.mark.parametrize(
+    "condition,expected",
+    [
+        ("C0", {}),
+        ("C1", {"preference_familiarity_only": True}),
+        ("C2", {"pooled_partner_model": True}),
+        ("C3", {}),
+        ("C4", {"persist_relationship": False}),
+        ("C5", {"satiation_enabled": False}),
+        ("C6", {"recognition_enabled": False}),
+        ("C7", {"random_social_actions": True}),
+        ("C8", {"scripted_routine": True}),
+        ("C9", {"randomized_contingency_timing": True}),
+    ],
+)
+def test_condition_to_social_config_all_ablations(condition, expected):
+    from dataclasses import asdict
+
+    from umbra_core.social import SocialConfig, condition_to_social_config
+
+    cfg = condition_to_social_config(condition)
+    assert isinstance(cfg, SocialConfig)
+    baseline = asdict(SocialConfig())
+    actual = asdict(cfg)
+    for key, value in expected.items():
+        assert actual[key] == value, f"{condition}.{key}"
+    for key, value in baseline.items():
+        if key not in expected:
+            assert actual[key] == value, f"{condition} leaked change to {key}"
+
+
+def test_c2_pooled_partner_model_uses_single_hypothesis():
+    from umbra_core.social import SocialEngine, condition_to_social_config
+
+    cfg = condition_to_social_config("C2")
+    engine = SocialEngine.create("agent-1", seed=1, config=cfg)
+    cue_a = _social_cue(seed_tag=0.0)
+    cue_b = _social_cue(seed_tag=0.9)
+
+    r1 = engine.recognize([cue_a], tick=1)
+    r2 = engine.recognize([cue_b], tick=2)
+    assert r1.matches[0].hypothesis_id == r2.matches[0].hypothesis_id
+    assert len(engine.hypotheses) == 1
+
+
+def test_c9_randomized_contingency_timing_ignores_latency():
+    from umbra_core.social import ResponseClass, SocialEngine, condition_to_social_config
+
+    baseline = SocialEngine.create("agent-1", seed=1)
+    c9 = SocialEngine.create("agent-1", seed=1, config=condition_to_social_config("C9"))
+    assert baseline.classify_response(response_latency=3.0) == ResponseClass.CONTINGENT
+    assert baseline.classify_response(response_latency=12.0) == ResponseClass.DELAYED
+    c9_classes = {
+        c9.classify_response(response_latency=float(lat)) for lat in range(1, 25)
+    }
+    assert c9.classify_response(response_latency=3.0) == c9.classify_response(
+        response_latency=3.0
+    )
+    assert c9_classes != {ResponseClass.CONTINGENT}
 
 
 def test_current_satiation_is_derived_not_stored():

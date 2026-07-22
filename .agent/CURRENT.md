@@ -1,23 +1,23 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-1401-d006-task8-routines
+- ID: D-20260722-1408-d006-task9-ablations
 - Project directive: UMBRA-D-006
-- Goal: Task 8 — shared routines via D-005 procedural promotion
+- Goal: Task 9 — ablations C0–C9 + C3 isolated controller + C4 reset semantics
 - Status: done
-- Acceptance: met — routine_eligible after N independent contingent episodes; MemoryEngine.promote_social_routine; soft ordered proposals; interrupt_active_routine; C8 authored blocked; episode provenance test; 4 new tests + full suite green
-- Touched files: umbra_core/social/engine.py, umbra_core/memory/engine.py, umbra_core/social/__init__.py, umbra_core/memory/__init__.py, tests/test_d006.py, .superpowers/sdd/task-8-report.md, .agent/*
-- Next action: Task 9 (ablations C0–C9 + C3 isolated controller)
+- Acceptance: met — condition_to_social_config complete C0–C9; C2 pooled + C9 randomized timing; C3 AffectionController isolated under experiments/; C4 resets hypotheses/contingency/pending/routines at boundaries and on restart; 14 new tests + full suite green
+- Touched files: umbra_core/social/engine.py, experiments/d006/affection_controller.py, tests/test_d006.py, .superpowers/sdd/task-9-report.md, .agent/*
+- Next action: Task 10 persistence/restart/replay contracts
 
 ## Repo facts needed now
 - Mimir project: 7777645d52a91b49
-- Mimir task: 09de60f0ae00461e961223db74bf78eb
-- Promotion auto-fires on 3rd contingent `resolve_pending` commit when episodes are independent (tick gap ≥ 32)
-- C8 `scripted_routine=True` blocks eligibility; `authored=True` spec raises ValueError
+- Mimir task: c75bd95c868046b580ec6e27140506db
+- C3 returns C0 baseline SocialConfig; affection only via experiments/d006/affection_controller.py
+- C4 `reset_for_encounter_boundary()` clears pending + routine_handles in addition to hypotheses/contingency
 
 ## Last validation
 - Command: pytest -q
-- Result: 228 passed
+- Result: 243 passed
 
 ## Open blockers
-- mimir_validation_run task-scoped runner unavailable (same precedent as Tasks 4–7)
+- mimir_validation_run task-scoped runner unavailable (same precedent as Tasks 4–8)

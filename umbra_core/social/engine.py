@@ -348,15 +348,17 @@ class RecognitionResult:
 
 @dataclass
 class SocialConfig:
-    """Ablation switches for D-006 conditions (C4/C6 implemented; see condition_to_social_config)."""
+    """Ablation switches for D-006 conditions C0–C9 (see condition_to_social_config)."""
 
     enabled: bool = True
     persist_relationship: bool = True  # C4 off — reset at encounter boundaries + restart
     recognition_enabled: bool = True  # C6 off — always UNKNOWN
     satiation_enabled: bool = True  # C5 off — no social satiation
     preference_familiarity_only: bool = False  # C1 — frequency/familiarity only, no reliability
+    pooled_partner_model: bool = False  # C2 — single generic partner hypothesis
     random_social_actions: bool = False  # C7 — propose() picks intents deterministically-randomly
     scripted_routine: bool = False  # C8 — authored FSM; never learned development
+    randomized_contingency_timing: bool = False  # C9 — destroys temporal classification
     approach_distance: float = SOCIAL_APPROACH_DISTANCE
     min_opportunity: float = SOCIAL_MIN_OPPORTUNITY
     satiated_disengage_threshold: float = SOCIAL_SATIATED_DISENGAGE_THRESHOLD
@@ -392,6 +394,11 @@ def condition_to_social_config(condition: str) -> SocialConfig:
     if condition == "C1":
         c.preference_familiarity_only = True
         return c
+    if condition == "C2":
+        c.pooled_partner_model = True
+        return c
+    if condition == "C3":
+        return c  # C3 affection lives only under experiments/d006/ — no production switches
     if condition == "C4":
         c.persist_relationship = False
         return c
@@ -407,9 +414,9 @@ def condition_to_social_config(condition: str) -> SocialConfig:
     if condition == "C8":
         c.scripted_routine = True
         return c
-    # C2/C3/C9 depend on pooled-model/affection-isolation/routine wiring landing
-    # in later tasks; they fall through to the C0 baseline here (no speculative
-    # behavior implemented ahead of that wiring).
+    if condition == "C9":
+        c.randomized_contingency_timing = True
+        return c
     return c
 
 
@@ -537,6 +544,53 @@ class SocialEngine:
                     )
                 )
                 continue
+
+            if self.config.pooled_partner_model:
+                active = [
+                    h
+                    for h in self.hypotheses.values()
+                    if h.status != HypothesisStatus.INACTIVE.value
+                ]
+                if active:
+                    hyp = active[0]
+                    prev_status = hyp.status
+                    hyp.cue_prototype = _blend_prototype(hyp.cue_prototype, cue)
+                    hyp.encounter_count += 1
+                    hyp.familiarity = clamp(hyp.familiarity + 0.1)
+                    score = _match_score(cue, hyp.cue_prototype)
+                    hyp.recognition_confidence = score
+                    hyp.uncertainty = clamp(1.0 - score)
+                    hyp.last_interaction_tick = tick
+                    if (
+                        hyp.encounter_count >= self.config.min_encounters_for_familiar
+                        and prev_status
+                        in (HypothesisStatus.UNKNOWN.value, HypothesisStatus.CONTESTED.value)
+                    ):
+                        hyp.status = HypothesisStatus.FAMILIAR.value
+                    if hyp.status != prev_status and hyp.status == HypothesisStatus.FAMILIAR.value:
+                        self.metrics["recognition_updates"] = (
+                            int(self.metrics.get("recognition_updates", 0)) + 1
+                        )
+                        emitted.append(
+                            self._emit(
+                                "social_recognition_updated",
+                                {
+                                    "hypothesis_id": hyp.hypothesis_id,
+                                    "status": hyp.status,
+                                    "recognition_confidence": hyp.recognition_confidence,
+                                    "tick": tick,
+                                },
+                            )
+                        )
+                    matches.append(
+                        RecognitionMatch(
+                            hypothesis_id=hyp.hypothesis_id,
+                            status=hyp.status,
+                            recognition_confidence=hyp.recognition_confidence,
+                            is_new_hypothesis=False,
+                        )
+                    )
+                    continue
 
             candidates = [
                 h for h in self.hypotheses.values() if h.status != HypothesisStatus.INACTIVE.value
@@ -684,6 +738,8 @@ class SocialEngine:
         self.hypotheses.clear()
         self.archived_hypotheses.clear()
         self.contingency_cells.clear()
+        self.pending.clear()
+        self.routine_handles.clear()
         self._hypothesis_counter = 0
 
     # --- provenance caps -----------------------------------------------
@@ -1453,6 +1509,15 @@ class SocialEngine:
             or recognition_confidence < self.config.contingency_min_recognition_confidence
         ):
             return ResponseClass.AMBIGUOUS
+        if self.config.randomized_contingency_timing:
+            options = [
+                ResponseClass.CONTINGENT.value,
+                ResponseClass.DELAYED.value,
+                ResponseClass.COINCIDENTAL.value,
+                ResponseClass.NONE.value,
+            ]
+            salt = f"timing:{response_latency}"
+            return ResponseClass(_deterministic_pick(options, salt))
         if response_latency is None:
             return ResponseClass.NONE
         lat = float(response_latency)
@@ -1804,6 +1869,8 @@ class SocialEngine:
     ) -> tuple[float, bool]:
         """Reliability rises from contingent responses; one anomaly weakens slightly;
         repeated contradiction revises down; recovery after failures revises up."""
+        if self.config.preference_familiarity_only:
+            return hyp.reliability_by_context.get(context, 0.0), False
         prev = hyp.reliability_by_context.get(context, 0.0)
         if cls_val == ResponseClass.CONTINGENT.value:
             gain = self.config.reliability_gain
