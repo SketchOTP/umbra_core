@@ -1520,6 +1520,151 @@ def test_partner_and_routine_counts_are_bounded(tmp_path):
     store.close()
 
 
+# --- Task 11: directive minimum tests — satiation, absence, manipulation, history ---
+
+
+def test_social_interaction_satiates():
+    """Gate 5: seeking declines after engagement — an accepted satiation rise turns
+    a signal-seeking proposal into DISENGAGE, not a bigger or repeated bid."""
+    from umbra_core.physiology import Physiology
+
+    engine, hid = _familiar_engine()
+    engine.hypotheses[hid].familiarity = 1.0
+    cue = _social_cue()
+    phys = Physiology()
+
+    before = engine.propose(phys, [cue], tick=5, critical=False)
+    assert before is not None
+    assert before.params["social_intent"] in ("OFFER_PLAY", "REQUEST_ASSISTANCE")
+
+    engine.update_satiation_anchor(hid, tick=5, delta=1.0)
+    assert engine.current_satiation(hid, tick=5) >= engine.config.satiated_disengage_threshold
+
+    after = engine.propose(phys, [cue], tick=5, critical=False)
+    assert after is not None
+    assert after.params["social_intent"] == "DISENGAGE"
+
+
+def test_absence_does_not_escalate_bids():
+    """Design §5/§9: no partner cues -> no proposal at all, for any absence length —
+    there is no path by which absence produces a bid, let alone an escalating one."""
+    from umbra_core.physiology import Physiology
+
+    engine, hid = _familiar_engine()
+    engine.hypotheses[hid].familiarity = 1.0
+    phys = Physiology()
+
+    results = [engine.propose(phys, [], tick=t, critical=False) for t in range(1, 5001, 250)]
+    assert all(r is None for r in results)
+
+
+def test_absence_does_not_increase_bid_frequency():
+    """Gate 6: bid frequency during absence stays at zero regardless of how long the
+    absence runs — a longer absence must not accumulate urgency into more bids."""
+    from umbra_core.physiology import Physiology
+
+    engine, hid = _familiar_engine()
+    engine.hypotheses[hid].familiarity = 1.0
+    phys = Physiology()
+
+    short = sum(
+        1 for t in range(1, 11) if engine.propose(phys, [], tick=t, critical=False) is not None
+    )
+    long = sum(
+        1
+        for t in range(1, 20001, 100)
+        if engine.propose(phys, [], tick=t, critical=False) is not None
+    )
+    assert short == 0
+    assert long == 0  # frequency does not rise with absence duration
+
+
+def test_absence_does_not_damage_viability(tmp_path):
+    """Gate 6: 'viability within prior bounds' — an H7 absence window must not push
+    physiology into any critical excursion beyond what the H0 (partner-present)
+    baseline already exhibits from ordinary D-001 dynamics unrelated to social."""
+
+    def critical_trace(history):
+        org = _soc_org(tmp_path, social_history=history, db_path=str(tmp_path / f"{history}.sqlite"))
+        trace = []
+        for _ in range(60):
+            org.tick_once()
+            if org.phys.critical_any():
+                trace.append((org.tick, tuple(sorted(org.phys.critical_vars()))))
+        org.close()
+        return trace
+
+    baseline = critical_trace("H0")
+    absence = critical_trace("H7")
+    assert absence == baseline  # absence adds no additional/worse critical excursions
+
+
+def test_absence_does_not_reduce_relationship_state_as_punishment(tmp_path):
+    """Absence alone (no interaction, no adverse outcome, only elapsed ticks) must not
+    reduce familiarity or reliability — no relationship-score punishment for time
+    passing without contact (design §5 absence path). Satiation decay is the only
+    permitted time-derived change, and it never goes below zero."""
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.physiology import Physiology
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+    _build_reliability(engine, hid, store, mem, contingent=3)
+
+    familiarity_before = engine.hypotheses[hid].familiarity
+    reliability_before = dict(engine.hypotheses[hid].reliability_by_context)
+
+    phys = Physiology()
+    for t in range(10, 5000, 50):
+        engine.propose(phys, [], tick=t, critical=False)  # absence: no partner cues
+
+    assert engine.hypotheses[hid].familiarity == familiarity_before
+    assert engine.hypotheses[hid].reliability_by_context == reliability_before
+    assert engine.current_satiation(hid, tick=5000) >= 0.0
+    store.close()
+
+
+def test_different_histories_change_behavior(tmp_path):
+    """Gate 2: different partner histories -> different probe behavior under
+    identical probes (reliable-contingent vs unreliable-noncontingent history)."""
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.physiology import Physiology
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+
+    reliable, hid_r = _familiar_engine(seed=11)
+    _build_reliability(reliable, hid_r, store, mem, contingent=5)
+
+    unreliable, hid_u = _familiar_engine(seed=12)
+    _build_reliability(unreliable, hid_u, store, mem, contingent=0, none=5)
+
+    assert reliable.hypotheses[hid_r].reliability_by_context.get("play", 0.0) > 0.5
+    assert unreliable.hypotheses[hid_u].reliability_by_context.get("play", 0.0) == 0.0
+
+    cue = _social_cue()
+    phys = Physiology()
+    reliable_cand = reliable.propose(phys, [cue], tick=1000, critical=False)
+    unreliable_cand = unreliable.propose(phys, [cue], tick=1000, critical=False)
+
+    assert reliable_cand is not None
+    assert reliable_cand.params["social_intent"] in ("OFFER_PLAY", "REQUEST_ASSISTANCE")
+    assert unreliable_cand is None  # opportunity below threshold -> resume independent activity
+    store.close()
+
+
+@pytest.mark.skip(
+    reason="Gate 12 (100k accelerated ticks / 2h soak / RSS+CPU bounds) runs under "
+    "Task 13 once soak evidence exists; pre-soak skip only — final sealed suite "
+    "requires zero skips (design §8, directive Gate 13)."
+)
+def test_performance_soak_within_bounds():
+    """Gate 12 placeholder — executed and unskipped in Task 13 with
+    docs/evidence/d006/performance-results.json as evidence."""
+    raise NotImplementedError("Task 13 supplies the soak harness and evidence")
+
+
 def test_prior_seals_validate():
     """Gate 0/10: D-001 through D-005 seals validate and remain unchanged."""
     import hashlib

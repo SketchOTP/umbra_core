@@ -1,24 +1,24 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-1412-d006-task10-persistence-replay
+- ID: D-20260722-1430-d006-task11-test-suite-completion
 - Project directive: UMBRA-D-006
-- Goal: Task 10 — persistence, restart, replay contracts (Gate 11 + event sourcing)
+- Goal: Task 11 — complete tests/test_d006.py directive+design minimum test suite
 - Status: done
-- Acceptance: met — SocialEngine.accepted_state() added + wired into resimulate(); routine_handles bounded across full hypothesis lifetime (retirement interrupts + MAX_ROUTINE_HANDLES=32 FIFO prune); 6 brief tests (restart/replay/bounded-counts/prior-seals/prior-regressions/no-deferred-modules); full suite green
-- Touched files: umbra_core/social/engine.py, umbra_core/runtime.py, tests/test_d006.py, .agent/*
-- Next action: Task 11
+- Acceptance: met — 7 tests added (satiation decline, absence non-escalation/non-frequency/non-viability-damage/non-punishment, different-histories behavior, Gate 12 explicitly-skipped pre-soak placeholder); all design §8 minimum-test-list names present; full suite green
+- Touched files: tests/test_d006.py, .superpowers/sdd/task-11-report.md, .agent/*
+- Next action: Task 12 (soak) / Task 13 (unskip Gate 12 with evidence)
 
 ## Repo facts needed now
 - Mimir project: 7777645d52a91b49
-- Mimir task: 2488863e760547a08bb9208b02764650
-- Snapshot already included `social` (authoritative_state()) and load_organism already reconstructed it from prior tasks — Task 10's real gap was accepted_state()/replay-comparison + routine_handles bound
-- routine_handles must be interrupted on hypothesis retirement (`_prune_hypotheses` now calls `interrupt_active_routine`) or they leak unbounded across the full hypothesis lifetime even though active hypotheses stay capped at 16
-- PendingInteraction.execution_id (= Governance proposal_id) is plain uuid4, never seeded — excluded from SocialEngine.accepted_state() to keep birth-replay equality deterministic
+- Mimir task: 7609c47c63604e22a6d1fe60c909ed52
+- H0 and H7 both show an identical brief `stimulation` critical dip (~tick 44-45) with `social_enabled=True` — pre-existing, unrelated to absence; absence-viability test diffs H7 trace against H0 baseline instead of asserting zero criticals
+- `_build_reliability()` test helper defaults `contingent=3` even when only `none=` is passed — pass `contingent=0` explicitly for a pure-NONE history
+- Gate 12 (100k-tick/2h soak) test added as `pytest.mark.skip` with named reason; final sealed suite still requires zero skips (Task 13 supplies evidence)
 
 ## Last validation
-- Command: pytest -q
-- Result: 249 passed
+- Command: pytest tests/test_d006.py -v && pytest tests/ -q
+- Result: 77 passed/1 skipped (test_d006.py); 255 passed/1 skipped (full suite)
 
 ## Open blockers
-- mimir_validation_run task-scoped runner unavailable (same precedent as Tasks 4–9); mimir_task_close succeeded with locally-verified test results
+- mimir_validation_run: "validation requires an active observed task" (same precedent as Tasks 4–10); mimir_task_close succeeded with locally-verified test results
