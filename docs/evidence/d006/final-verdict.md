@@ -2,7 +2,7 @@
 
 **Verdict:** `UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED`
 
-**Ending commit:** `PENDING_SEAL_COMMIT`
+**Ending commit:** `9dd2022830537cf3f44a0dad34abf6b3cbfbcfc4`
 **Date:** 2026-07-22
 **Mimir project:** `7777645d52a91b49`
 
@@ -46,7 +46,7 @@
 
 ## Tests
 
-- `pytest tests/ -q`: 258 passed in 34.40s
+- `pytest tests/ -q`: 258 passed in 56.81s
 - skipped: 0 (final sealed suite requires zero skips)
 
 ## UMBRA-D-007
