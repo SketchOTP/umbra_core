@@ -17,13 +17,15 @@ Concise navigation map for agents. Add entries as application code lands.
 - `docs/evidence/d001/` — D-001 tests, experiments C0–C9, soak Run A/B, final verdict
 - `docs/prior-art/SELECTION_LEDGER.md` — adopt/adapt/reference/reject ledger
 
-## Organism kernel (D-001 + D-002 + D-003 + D-004)
+## Organism kernel (D-001 + D-002 + D-003 + D-004 + D-005)
 - `umbra_core/self_model/` — sensorimotor body schema, prediction, attribution, adaptation
   - `engine.py` — BodySchema / SelfModel / Attribution
 - `umbra_core/world_model/` — persistent entities, transitions, affordances, revision, planning
   - `engine.py` — WorldModel / TransitionModel / AffordanceBelief / PlanTrace
 - `umbra_core/development/` — intrinsic practice goals, competence/learning-progress, play, skills
   - `engine.py` — DevelopmentEngine / PracticeGoal / SkillRecord / GoalStatus
+- `umbra_core/memory/` — selective episodic memory, offline consolidation, semantic/procedural
+  - `engine.py` — MemoryEngine / Episode / SemanticBelief / ProceduralMemory
 - D-002 evidence: `docs/evidence/d002/`
 - D-002 experiments: `experiments/d002/`
 - D-002 tests: `tests/test_d002.py`
@@ -39,11 +41,14 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-004 evidence: `docs/evidence/d004/`
 - D-004 experiments: `experiments/d004/`
 - D-004 tests: `tests/test_d004.py`
+- D-005 evidence: `docs/evidence/d005/`
+- D-005 experiments: `experiments/d005/`
+- D-005 tests: `tests/test_d005.py`
 - `umbra_core/util.py` — `current_rss_mib` (VmRSS), `ols_slope`, `BoundedRing`
-- `umbra_core/events.py` — `SELF_MODEL_EVENT_AUTHORITY`; `world_model_supersede`; `runtime_ready`
-- `umbra_core/runtime.py` — `emit_runtime_ready`; world/development interventions; organism loop
+- `umbra_core/events.py` — `SELF_MODEL_EVENT_AUTHORITY`; `world_model_supersede`; `runtime_ready`; `memory_correction`
+- `umbra_core/runtime.py` — `emit_runtime_ready`; world/development/memory interventions; organism loop
 - `umbra_core/persistence.py` — `prune_snapshots(keep=2)`
-- `umbra_core/embodiment.py` — habitat plant + `apply_world_intervention` + `apply_development_intervention`
+- `umbra_core/embodiment.py` — habitat plant + world/development/memory history interventions
 
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)

@@ -30,6 +30,7 @@ from umbra_core.events import (
 )
 from umbra_core.governance import Governance, GovernanceState
 from umbra_core.identity import ConstitutionalIdentity, create_birth, verify_identity
+from umbra_core.memory import MemoryConfig, MemoryEngine, condition_to_memory_config
 from umbra_core.perception import PerceptionMembrane
 from umbra_core.persistence import PersistenceError, Store
 from umbra_core.physiology import Physiology
@@ -63,6 +64,10 @@ class OrganismConfig:
     development_enabled: bool = False
     development_intervention: str = "I0"
     development_config: DevelopmentConfig | None = None
+    # D-005
+    memory_enabled: bool = False
+    memory_history: str = "H0"
+    memory_config: MemoryConfig | None = None
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -96,7 +101,7 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
 
 
 class Organism:
-    """Minimum persistent UMBRA creature core (+ D-002/D-003/D-004)."""
+    """Minimum persistent UMBRA creature core (+ D-002/D-003/D-004/D-005)."""
 
     def __init__(
         self,
@@ -113,6 +118,7 @@ class Organism:
         self_model: SelfModel | None = None,
         world_model: WorldModel | None = None,
         development: DevelopmentEngine | None = None,
+        memory: MemoryEngine | None = None,
         monotonic_time: float = 0.0,
         tick: int = 0,
         session_id: str | None = None,
@@ -129,6 +135,7 @@ class Organism:
         self.self_model = self_model
         self.world_model = world_model
         self.development = development
+        self.memory = memory
         self.monotonic_time = monotonic_time
         self.tick = tick
         self.session_id = session_id or new_id()
@@ -149,6 +156,8 @@ class Organism:
             "goal_success": 0,
             "practice_actions": 0,
             "play_ticks": 0,
+            "memory_retrieval_hits": 0,
+            "memory_consolidations": 0,
         }
         self._pending_action: dict[str, Any] | None = None
         self._delayed_proposal: dict[str, Any] | None = None
@@ -158,7 +167,9 @@ class Organism:
         self._intervention_applied = False
         self._world_intervention_applied = False
         self._development_intervention_applied = False
+        self._memory_history_applied = False
         self._dev_tags: dict[str, Any] = {}
+        self._mem_tags: dict[str, Any] = {}
         self._i9_recovered = False
         self._external_displaced = False
         self._world_object_moved = False
@@ -170,6 +181,10 @@ class Organism:
         self._dev_body_change_done = False
         self._dev_env_change_done = False
         self._dev_master_seeded = False
+        self._mem_rule_flip_done = False
+        self._mem_body_change_done = False
+        self._mem_skill_degrade_done = False
+        self._energy_before_action: float | None = None
 
     @property
     def dt(self) -> float:
@@ -187,6 +202,7 @@ class Organism:
             "self_model": self.self_model.to_state() if self.self_model else None,
             "world_model": self.world_model.to_state() if self.world_model else None,
             "development": self.development.to_state() if self.development else None,
+            "memory": self.memory.to_state() if self.memory else None,
             "monotonic_time": self.monotonic_time,
             "tick": self.tick,
             "session_id": self.session_id,
@@ -197,7 +213,9 @@ class Organism:
             "intervention": self.config.intervention,
             "world_intervention": self.config.world_intervention,
             "development_intervention": self.config.development_intervention,
+            "memory_history": self.config.memory_history,
             "dev_tags": dict(self._dev_tags),
+            "mem_tags": dict(self._mem_tags),
             "metrics": {
                 **{k: v for k, v in self.metrics.items() if k not in ("cells",)},
                 "cells": [list(c) for c in self.metrics["cells"]],
@@ -235,16 +253,20 @@ class Organism:
             self.world_model.initialize_bounded_collections()
         if self.development is not None:
             self.development.initialize_bounded_collections()
+        if self.memory is not None:
+            self.memory.initialize_bounded_collections()
         payload = {
             "tick": self.tick,
             "bounded_initialized": bool(
                 (self.self_model and self.self_model._bounded_initialized)
                 or (self.world_model and self.world_model._bounded_initialized)
                 or (self.development and self.development._bounded_initialized)
+                or (self.memory and self.memory._bounded_initialized)
                 or (
                     self.self_model is None
                     and self.world_model is None
                     and self.development is None
+                    and self.memory is None
                 )
             ),
             "schema_version": SCHEMA_VERSION,
@@ -299,6 +321,42 @@ class Organism:
             self.config.development_intervention
         )
         self._development_intervention_applied = True
+
+    def _ensure_memory_history(self) -> None:
+        if self._memory_history_applied:
+            return
+        if not self.config.memory_enabled:
+            self._memory_history_applied = True
+            return
+        self._mem_tags = self.embodiment.apply_memory_history(self.config.memory_history)
+        self._memory_history_applied = True
+
+    def _maybe_memory_midcourse(self) -> None:
+        """H5/H6/H7 timed memory-history interventions."""
+        if self.memory is None or not self.config.memory_enabled:
+            return
+        tags = self._mem_tags
+        if tags.get("rule_flip_at") and not self._mem_rule_flip_done and self.tick >= int(tags["rule_flip_at"]):
+            feat = self.embodiment.habitat.feature("resource")
+            if feat:
+                feat.chargeable = False
+            self._mem_tags["rule_tag"] = "flipped"
+            self._mem_rule_flip_done = True
+        if tags.get("body_change_at") and not self._mem_body_change_done and self.tick >= int(tags["body_change_at"]):
+            self.embodiment.body.movement_gain = 0.4
+            self.embodiment.body.movement_reliability = 0.4
+            self._mem_tags["body_compatibility"] = 0.3
+            self._mem_body_change_done = True
+        if (
+            tags.get("skill_degrade_at")
+            and not self._mem_skill_degrade_done
+            and self.tick >= int(tags["skill_degrade_at"])
+        ):
+            if self.memory is not None:
+                for sk in self.memory.procedural.values():
+                    sk.confidence = max(0.05, sk.confidence * 0.35)
+                    sk.failure_count += 2
+            self._mem_skill_degrade_done = True
 
     def _maybe_development_midcourse(self) -> None:
         """I4/I5/I6/I7 timed developmental interventions."""
@@ -399,9 +457,14 @@ class Organism:
         self._ensure_intervention()
         self._ensure_world_intervention()
         self._ensure_development_intervention()
+        self._ensure_memory_history()
         self._maybe_world_dynamics()
         self._maybe_recover_i9()
         self._maybe_development_midcourse()
+        self._maybe_memory_midcourse()
+
+        # Capture energy for physiological-consequence encoding
+        self._energy_before_action = float(self.phys.energy)
 
         # 1. physiological drift — AUTHORITATIVE every tick
         drift = self.phys.tick_drift(self.dt)
@@ -569,6 +632,40 @@ class Organism:
                             int(self.development.metrics.get("play_ticks", 0)) + 1
                         )
 
+        # D-005: bounded retrieval may bias action selection (propose only; never authority)
+        if self.memory is not None and self.config.memory_enabled and self.memory.config.episodic_enabled:
+            urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
+            critical_rec = bool(
+                self.phys.critical_any()
+                or (urg.get("energy", 0) > 0.45)
+                or self.arbitrator.state.recovery_focus
+            )
+            if not critical_rec and self.arbitrator.state.mode == "full":
+                hits = self.memory.retrieve(
+                    query={"action": cand.capability if cand else None},
+                    rng=self.rng,
+                    limit=4,
+                )
+                if hits:
+                    self.metrics["memory_retrieval_hits"] += 1
+                    # Prefer procedural/belief-supported affordances when confident
+                    for h in hits:
+                        if h.kind == "PROCEDURAL_KNOWLEDGE" and h.score >= 0.45:
+                            action = (h.content.get("applicability") or {}).get("action")
+                            if action and action != "IDLE":
+                                cand = Candidate(action, dict(cand.params) if cand else {})
+                                break
+                        if h.kind == "DERIVED_BELIEF" and "success=True" in str(
+                            h.content.get("proposition")
+                        ):
+                            pred = self.memory.predict_from_memory(
+                                action=cand.capability if cand else "CHARGE"
+                            )
+                            if pred is not None and pred < 0.35 and cand and cand.capability == "CHARGE":
+                                # Avoid repeatedly selecting known-failing affordance
+                                cand = Candidate("INSPECT", {})
+                                break
+
         # D-003: world-model planning may bias toward a proposed capability (propose only)
         if self.world_model is not None and self.config.world_model_enabled:
             urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
@@ -735,6 +832,20 @@ class Organism:
             self.metrics["viable_ticks"] += 1
         if self.phys.critical_any():
             self.metrics["critical_violations"] += 1
+
+        # D-005: offline consolidation only during quiescence (core continues if unavailable)
+        if self.memory is not None and self.config.memory_enabled:
+            try:
+                if self.memory.is_quiescent(self.phys) or (
+                    self._mem_tags.get("force_consolidate_every")
+                    and self.tick % int(self._mem_tags["force_consolidate_every"]) == 0
+                ):
+                    cres = self.memory.consolidate(self.tick, self.rng)
+                    if cres.get("ran"):
+                        self.metrics["memory_consolidations"] += 1
+            except Exception:
+                # Core operation continues when consolidation fails
+                pass
 
         snap = self.snapshot_if_due()
         if self.tick % WAL_CHECKPOINT_EVERY_TICKS == 0:
@@ -929,10 +1040,106 @@ class Organism:
                 # Practice cannot grant capabilities / modify identity / physiology
                 assert "grant_capability" not in str(dev_result)
 
+        mem_result = None
+        if self.memory is not None and self.config.memory_enabled:
+            pred_err = float(self.metrics.get("last_world_prediction_error") or 0.0)
+            if pred_err == 0.0:
+                pred_err = float(self.metrics.get("last_prediction_error") or 0.0)
+            e0 = self._energy_before_action
+            phys_delta = 0.0 if e0 is None else float(self.phys.energy) - float(e0)
+            entity = pending_params.get("toward") or pending_params.get("from")
+            if not entity and outcome.raw:
+                entity = outcome.raw.get("object_kind")
+            rule_tag = self._mem_tags.get("rule_tag", "default")
+            body_compat = float(self._mem_tags.get("body_compatibility", 1.0))
+            # History-specific encoding biases
+            novelty = None
+            skill_val = 0.2
+            body_chg = 0.0
+            protected = False
+            protect_kind = None
+            hist = self.config.memory_history
+            if hist == "H3" and abs(phys_delta) >= 0.12:
+                protected = True
+                protect_kind = "safety_critical"
+            if hist == "H4":
+                # Frequent low-value: mild suppression — satiation does the rest
+                novelty = 0.15
+                skill_val = 0.08
+            force_encode = False
+            every_lv = self._mem_tags.get("force_low_value_every")
+            if every_lv and self.tick % int(every_lv) == 0:
+                force_encode = True
+                if hist == "H4":
+                    pred_err = min(pred_err, 0.08)
+                    phys_delta = 0.0
+            if hist == "H6" and self._mem_body_change_done:
+                body_chg = 0.7
+                body_compat = 0.25
+            if hist == "H8":
+                # Misleading correlation: tag spurious entity co-occurrence
+                entity = entity or "spurious_blink"
+            ctx = {
+                "entity_kind": entity or "unknown",
+                "affordance": outcome.capability,
+                "rule_tag": rule_tag,
+                "body_compatibility": body_compat,
+                "history": hist,
+            }
+            if hist == "H9":
+                ctx["unobserved"] = True
+            ep = self.memory.consider_event(
+                tick=self.tick,
+                occurred_at=self.monotonic_time,
+                context=ctx,
+                observations=obs_dicts[:4],
+                internal_state={
+                    "energy": self.phys.energy,
+                    "fatigue": self.phys.fatigue,
+                    "integrity": self.phys.integrity,
+                },
+                goal=pending_params.get("practice_goal_id"),
+                action=outcome.capability,
+                verified_outcome=dict(outcome_payload),
+                prediction_error=pred_err,
+                physiological_delta=phys_delta,
+                novelty=novelty,
+                skill_learning_value=skill_val,
+                body_change=body_chg,
+                body_binding_id=(
+                    self.self_model.body_binding_id if self.self_model else None
+                ),
+                source_event_ids=[],
+                protected=protected,
+                protect_kind=protect_kind,
+                force=force_encode,
+            )
+            # Score prediction accuracy when memory offers a forecast
+            pred = self.memory.predict_from_memory(
+                action=outcome.capability, entity_kind=entity
+            )
+            if pred is not None:
+                hit = (pred >= 0.5 and outcome.success) or (pred < 0.5 and not outcome.success)
+                if hit:
+                    self.memory.metrics["prediction_hits"] = (
+                        int(self.memory.metrics.get("prediction_hits", 0)) + 1
+                    )
+                if outcome.success:
+                    self.memory.metrics["goal_success_aided"] = (
+                        int(self.memory.metrics.get("goal_success_aided", 0)) + 1
+                    )
+            mem_result = {
+                "encoded": ep.episode_id if ep else None,
+                "episodes": len(self.memory.episodes),
+                "beliefs": len(self.memory.beliefs),
+            }
+            assert self.memory.try_grant_authority({"grant_capability": True}) is False
+
         if outcome_payload is not None:
             outcome_payload["_sm"] = sm_result
             outcome_payload["_wm"] = wm_result
             outcome_payload["_dev"] = dev_result
+            outcome_payload["_mem"] = mem_result
         return outcome_payload
 
     def run_ticks(self, n: int) -> list[dict[str, Any]]:
@@ -985,7 +1192,10 @@ def create_organism(config: OrganismConfig) -> Organism:
     )
     # D-002: C7 = random policy. D-003: C8 = random; C7 = randomized retrieval (full arb).
     # D-004: conditions C0–C9 are development ablations (full arbitration).
-    if config.development_enabled:
+    # D-005: conditions C0–C9 are memory ablations (full arbitration).
+    if config.memory_enabled:
+        pass
+    elif config.development_enabled:
         pass  # keep arbitration_mode as configured
     elif config.world_model_enabled:
         if config.condition == "C8" or config.arbitration_mode == "random":
@@ -993,7 +1203,10 @@ def create_organism(config: OrganismConfig) -> Organism:
     elif config.condition == "C7":
         arb_state.mode = "random"
     gov_state = GovernanceState(bypass_enabled=config.governance_bypass)
-    sm_cfg = config.self_model_config or condition_to_self_model_config(config.condition)
+    # When D-004/D-005 ablations own `condition`, keep self/world models at full C0
+    # unless an explicit config override is provided.
+    sm_cond = "C0" if (config.memory_enabled or config.development_enabled) else config.condition
+    sm_cfg = config.self_model_config or condition_to_self_model_config(sm_cond)
     self_model = None
     if config.self_model_enabled:
         self_model = SelfModel.create(identity.agent_id, now=0.0, config=sm_cfg, seed=config.seed)
@@ -1008,9 +1221,10 @@ def create_organism(config: OrganismConfig) -> Organism:
                 "primary": True,
             },
         )
+    wm_cond = "C0" if (config.memory_enabled or config.development_enabled) else config.condition
     wm_cfg = config.world_model_config
     if wm_cfg is None and config.world_model_enabled:
-        wm_cfg = condition_to_world_model_config(config.condition)
+        wm_cfg = condition_to_world_model_config(wm_cond)
     world_model = None
     if config.world_model_enabled:
         world_model = WorldModel.create(
@@ -1023,6 +1237,14 @@ def create_organism(config: OrganismConfig) -> Organism:
     if config.development_enabled:
         development = DevelopmentEngine.create(
             identity.agent_id, config=dev_cfg, seed=config.seed
+        )
+    mem_cfg = config.memory_config
+    if mem_cfg is None and config.memory_enabled:
+        mem_cfg = condition_to_memory_config(config.condition)
+    memory = None
+    if config.memory_enabled:
+        memory = MemoryEngine.create(
+            identity.agent_id, config=mem_cfg, seed=config.seed
         )
     org = Organism(
         identity=identity,
@@ -1037,6 +1259,7 @@ def create_organism(config: OrganismConfig) -> Organism:
         self_model=self_model,
         world_model=world_model,
         development=development,
+        memory=memory,
     )
     store.append_event(
         agent_id=identity.agent_id,
@@ -1071,7 +1294,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     arb = Arbitrator(ArbitrationState.from_state(state["arbitration"]))
     arb.state.hide_physiology = config.hide_physiology
     arb.state.mode = config.arbitration_mode
-    if config.development_enabled:
+    if config.memory_enabled:
+        pass
+    elif config.development_enabled:
         pass
     elif config.world_model_enabled:
         if config.condition == "C8":
@@ -1112,6 +1337,13 @@ def load_organism(config: OrganismConfig) -> Organism:
         if development.agent_id != identity.agent_id:
             raise PersistenceError("development_agent_mismatch")
 
+    memory = None
+    if state.get("memory") and config.memory_enabled:
+        mcfg = config.memory_config or condition_to_memory_config(config.condition)
+        memory = MemoryEngine.from_state(state["memory"], config=mcfg)
+        if memory.agent_id != identity.agent_id:
+            raise PersistenceError("memory_agent_mismatch")
+
     org = Organism(
         identity=identity,
         store=store,
@@ -1125,6 +1357,7 @@ def load_organism(config: OrganismConfig) -> Organism:
         self_model=self_model,
         world_model=world_model,
         development=development,
+        memory=memory,
         monotonic_time=float(state.get("monotonic_time", 0.0)),
         tick=int(state.get("tick", 0)),
         session_id=new_id(),
@@ -1132,7 +1365,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     org._intervention_applied = True  # plant already in embodiment state
     org._world_intervention_applied = True
     org._development_intervention_applied = True
+    org._memory_history_applied = True
     org._dev_tags = dict(state.get("dev_tags") or {})
+    org._mem_tags = dict(state.get("mem_tags") or {})
     org._delayed_proposal = state.get("delayed_proposal")
     pending = state.get("pending_action")
     if pending:
@@ -1160,6 +1395,8 @@ def load_organism(config: OrganismConfig) -> Organism:
     org.metrics["goal_success"] = int(metrics.get("goal_success", 0))
     org.metrics["practice_actions"] = int(metrics.get("practice_actions", 0))
     org.metrics["play_ticks"] = int(metrics.get("play_ticks", 0))
+    org.metrics["memory_retrieval_hits"] = int(metrics.get("memory_retrieval_hits", 0))
+    org.metrics["memory_consolidations"] = int(metrics.get("memory_consolidations", 0))
     # Bring rings to documented capacity, preserving live (tick>=0) history.
     if org.self_model is not None:
         live_p = org.self_model.live_predictions()
@@ -1180,6 +1417,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     if org.development is not None:
         org.development._bounded_initialized = False
         org.development.initialize_bounded_collections()
+    if org.memory is not None:
+        org.memory._bounded_initialized = False
+        org.memory.initialize_bounded_collections()
     wall = float(config.wall_time_fn())
     org.store.warm_runtime_residency()
     if org.tick == 0:
@@ -1198,6 +1438,7 @@ def load_organism(config: OrganismConfig) -> Organism:
                     (org.self_model and org.self_model._bounded_initialized)
                     or (org.world_model and org.world_model._bounded_initialized)
                     or (org.development and org.development._bounded_initialized)
+                    or (org.memory and org.memory._bounded_initialized)
                 ),
                 "schema_version": SCHEMA_VERSION,
                 "rss_gated": False,
@@ -1234,6 +1475,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
     state = org.authoritative_state()
     wm_accepted = org.world_model.accepted_state() if org.world_model else None
     dev_accepted = org.development.accepted_state() if org.development else None
+    mem_accepted = org.memory.accepted_state() if org.memory else None
     comparable = {
         "physiology": state["physiology"],
         "embodiment": state["embodiment"],
@@ -1244,6 +1486,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
         "self_model_hash": (state.get("self_model") or {}).get("state_hash"),
         "world_model_accepted": wm_accepted,
         "development_accepted": dev_accepted,
+        "memory_accepted": mem_accepted,
     }
     org.close()
     return comparable

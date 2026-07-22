@@ -47,7 +47,7 @@ Follow the active directive exactly. Do not implement future sprint work, add un
 ```text
 UMBRA-CORE/
 ├── .agent/                 # Governance + local memory (PROJECT_GOAL is product SoT)
-├── docs/directives/        # UMBRA-D-000 closed; D-001 QUALIFIED; D-002 QUALIFIED; D-002V PERFORMANCE_FAIL (preserved); D-002P QUALIFIED; D-003 QUALIFIED; D-004 QUALIFIED; D-005 authorized
+├── docs/directives/        # UMBRA-D-000 closed; D-001–D-005 QUALIFIED; D-002V PERFORMANCE_FAIL (preserved); D-006 authorized
 ├── docs/architecture/      # D-000S frozen reference architecture
 ├── docs/prior-art/         # Reproduction/audit evidence + selection ledger
 ├── docs/evidence/          # Per-track + d000-synthesis seals/audits

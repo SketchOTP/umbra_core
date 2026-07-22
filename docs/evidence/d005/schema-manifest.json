@@ -1,0 +1,60 @@
+{
+  "belief_fields": [
+    "belief_id",
+    "proposition",
+    "confidence",
+    "supporting_episode_ids",
+    "contradicting_episode_ids",
+    "status",
+    "supersedes"
+  ],
+  "bounds": {
+    "MAX_ACTIVE_EPISODIC": 64,
+    "MAX_ARCHIVED_EPISODIC": 256,
+    "MAX_BELIEF_UPDATES": 8,
+    "MAX_CONSOLIDATION_STEPS": 8,
+    "MAX_PROCEDURAL": 64,
+    "MAX_PROCEDURAL_UPDATES": 8,
+    "MAX_REPLAY_PER_CYCLE": 16,
+    "MAX_SEMANTIC": 128,
+    "MAX_WORKING": 32
+  },
+  "episode_fields": [
+    "episode_id",
+    "agent_id",
+    "occurred_at",
+    "context",
+    "observations",
+    "internal_state",
+    "goal",
+    "action",
+    "verified_outcome",
+    "prediction_error",
+    "salience",
+    "novelty",
+    "goal_relevance",
+    "physiological_relevance",
+    "confidence",
+    "causal_parent_ids",
+    "body_binding_id",
+    "source_event_ids"
+  ],
+  "memory_status": [
+    "ACTIVE",
+    "CONTESTED",
+    "SUPERSEDED",
+    "ARCHIVED"
+  ],
+  "memory_types": [
+    "working",
+    "episodic",
+    "semantic",
+    "procedural"
+  ],
+  "retrieval_kinds": [
+    "OBSERVED_EPISODE",
+    "DERIVED_BELIEF",
+    "PROCEDURAL_KNOWLEDGE",
+    "PREDICTION"
+  ]
+}

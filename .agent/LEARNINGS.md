@@ -48,3 +48,6 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - D-004: practice must not override recovery arbitration (energy urgency >0.45); otherwise LP looks worse than random because CHARGE recovery is displaced.
 - D-004: Gate1 fair compare uses waste-adjusted learnable_gain/nonlearnable when distractors present — C0 zeros nonlearnable attention while C1 farms and wastes.
 - D-004: full-vector viable_frac is misleading (fatigue=0 below viable_low); Gate7 uses energy-band recovery probe.
+- D-005: when memory_enabled owns experiment `condition`, force self/world model configs to C0 — otherwise world-model ablations silently zero encoding under C2.
+- D-005: memory_growth for forgetting gates should exclude compressed archives; compare active episodes+beliefs+procedural so C0 archival bounds storage vs C7.
+- D-005: each distinct encoded episode_id is independent evidence; encoding fingerprints only satiate storage, not belief confirmation.

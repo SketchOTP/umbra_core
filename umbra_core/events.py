@@ -22,6 +22,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "body_schema_supersede",
         "world_model_supersede",
         "runtime_ready",
+        "memory_correction",
     }
 )
 

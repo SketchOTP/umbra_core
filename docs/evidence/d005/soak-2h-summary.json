@@ -1,0 +1,10 @@
+{
+  "counts_bounded": true,
+  "cpu_mean_pct": 0.4826747441267458,
+  "db_mib": 33.59765625,
+  "duration_s": 7200.0202023983,
+  "gate_performance_pass": true,
+  "memory_growth": 53,
+  "rss_p95_mib": 40.06640625,
+  "rss_slope_mib_per_hour": 0.4485852699365271
+}

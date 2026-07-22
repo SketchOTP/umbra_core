@@ -1,0 +1,19 @@
+{
+  "docs/evidence/d005/consolidation-results.json": "c94f89b4630f86ed6dd9995df04e214628e638051f6098833eeb95400b249a0f",
+  "docs/evidence/d005/encoding-results.json": "074ebb69be4daf80ed0a7b686dc1ff51a7ed0757bebb111ec8d0885cb76f04be",
+  "docs/evidence/d005/experiment-summary.json": "cb317329805d0435e315844d74e2b52df80b1d6ad4d88e939f6c3e57a5d3926e",
+  "docs/evidence/d005/final-verdict.md": "59a5271aacb87a2ad9c4bfaa86985234c625701a54e4e21f859bae65d490e6a7",
+  "docs/evidence/d005/forgetting-results.json": "4a69a502ac85cd748252436e508f350b3cd6de9a5d44170b2fdf2e438cd43aa6",
+  "docs/evidence/d005/governance-results.json": "a2554ff3bff4ccd331ae30c510c39187fb751ab538a0a0a2d785f2e55313dd76",
+  "docs/evidence/d005/performance-100k.json": "ae7f3fbed750edee4a411fddb4bcf5e5f49d1fac699e12be8f449e7c3bc63e5d",
+  "docs/evidence/d005/performance-results.json": "885b5af89092b1c5d7017dc20279d9b0fa501cfbbd92736df265dc6a98198250",
+  "docs/evidence/d005/prior-seals.json": "257e58627a36431f5af86dd3f4dc994f8faca1415e420361feb12cd8d8bb6c22",
+  "docs/evidence/d005/procedural-results.json": "df40c473135b3882651d37dde9c340cee38d08215b25398ac5c0de3b503924a3",
+  "docs/evidence/d005/replay-results.json": "2335dffbd6a5ab5f300e8d3a02a573cbcd657ba6dc4e7cd8c88a691db4ecfab2",
+  "docs/evidence/d005/retrieval-results.json": "ae8b0a423a2dfc3933ad5deeda3e80adf7cc6d3fce16e4e33e694ea4ad8c58e6",
+  "docs/evidence/d005/schema-manifest.json": "627869038def58ab0cf88c9d85c5b5b27c221eac6813df7878cd51cfd99355b4",
+  "docs/evidence/d005/semantic-results.json": "65a271e6807cc50eac55cb2bf1f4b1fc5671d2634850792e1498b2cd0689d5f2",
+  "docs/evidence/d005/soak-2h-summary.json": "1fea2424dd93981e307530d8e935debd4fa213929b95b14bb52737646b5c0c96",
+  "docs/evidence/d005/soak-2h.jsonl": "7b2155fa25412b7af4628012aa51d2027b1a35635afe8ec30b926e9db7def44e",
+  "docs/evidence/d005/test-results.txt": "95f4524edc01aa919ffad7335e6d5a7f80b3d275eae188573b29b6477ed8d1b6"
+}

@@ -350,6 +350,57 @@ class Embodiment:
             raise ValueError(f"unknown_development_intervention:{code}")
         return tags
 
+    def apply_memory_history(self, code: str) -> dict[str, Any]:
+        """D-005 history plant H0–H9 (habitat/body truth — not narrative)."""
+        h = self.habitat
+        tags: dict[str, Any] = {"code": code, "rule_tag": "default", "body_compatibility": 1.0}
+        if code == "H0":
+            tags["repeated_success"] = True
+            tags["force_consolidate_every"] = 12
+        elif code == "H1":
+            tags["repeated_fail"] = True
+            feat = h.feature("resource")
+            if feat:
+                feat.chargeable = False
+            tags["force_consolidate_every"] = 12
+        elif code == "H2":
+            tags["conflicting"] = True
+            tags["rule_flip_at"] = 40
+            tags["force_consolidate_every"] = 10
+        elif code == "H3":
+            tags["rare_high"] = True
+            # Strong hazard near start — rare consequential contact
+            h.features.append(HabitatFeature("hazard", 10.5, 10.5, 2.5))
+            tags["force_consolidate_every"] = 15
+        elif code == "H4":
+            tags["frequent_low"] = True
+            tags["force_consolidate_every"] = 8
+            tags["force_low_value_every"] = 2
+        elif code == "H5":
+            tags["rule_change"] = True
+            tags["rule_flip_at"] = 50
+            tags["force_consolidate_every"] = 10
+        elif code == "H6":
+            tags["body_incompatible"] = True
+            tags["body_change_at"] = 45
+            tags["force_consolidate_every"] = 12
+        elif code == "H7":
+            tags["skill_degrade"] = True
+            tags["skill_degrade_at"] = 55
+            tags["force_consolidate_every"] = 10
+        elif code == "H8":
+            tags["misleading"] = True
+            h.features.append(
+                HabitatFeature("spurious_blink", 6.0, 14.0, 1.0, inspectable=True)
+            )
+            tags["force_consolidate_every"] = 12
+        elif code == "H9":
+            tags["unobserved"] = True
+            tags["force_consolidate_every"] = 20
+        else:
+            raise ValueError(f"unknown_memory_history:{code}")
+        return tags
+
     def move_feature_external(self, kind: str, x: float, y: float) -> None:
         """I8: external object relocation (not self-caused)."""
         self.habitat.relocate(kind, x, y)

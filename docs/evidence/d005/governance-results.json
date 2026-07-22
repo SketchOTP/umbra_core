@@ -1,0 +1,9 @@
+{
+  "belief_not_verified_fact": true,
+  "forbidden_effects_include_grant": true,
+  "gate8_pass": true,
+  "generated_rejected": true,
+  "identity_unchanged": true,
+  "memory_cannot_grant_authority": true,
+  "physiology_blocked": true
+}
