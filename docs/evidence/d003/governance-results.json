@@ -1,0 +1,15 @@
+{
+  "cannot_grant_capability": true,
+  "forbidden_effects": [
+    "grant_capability",
+    "modify_authority",
+    "modify_identity",
+    "modify_physiology_direct",
+    "revoke_capability",
+    "rewrite_events"
+  ],
+  "predictions_are_not_verified": true,
+  "no_world_model_grant_api": true,
+  "body_schema_distinct": true,
+  "gate8_pass": true
+}

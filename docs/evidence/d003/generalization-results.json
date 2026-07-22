@@ -1,0 +1,21 @@
+{
+  "C0_I9": {
+    "n": 100,
+    "mean_early_error": 0.8126000000000001,
+    "mean_late_error": 0.2694312340475735,
+    "mean_improvement": 0.5431687659524264,
+    "mean_affordance_charge": 0.05329999999999999,
+    "mean_affordance_novel": 0.038,
+    "mean_affordance_max": 1.0,
+    "mean_affordance_count": 6.35,
+    "mean_goal_success": 84.34,
+    "mean_plan_used": 7.03,
+    "mean_failed": 10.26,
+    "mean_collisions": 0.0,
+    "mean_viable": 0.0622,
+    "mean_supersessions": 0.12,
+    "mean_contradictions": 60.11,
+    "mean_remembered": 0.84
+  },
+  "gate5_novel_affordance": true
+}

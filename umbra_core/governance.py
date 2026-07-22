@@ -188,6 +188,8 @@ class Governance:
             "not_at_rest",
             "not_at_resource",
             "delayed",
+            "affordance_denied",
+            "route_blocked",
         )
         # movement_slip still "executed" but failed quality
         if raw.get("reason") == "movement_slip":
@@ -209,6 +211,10 @@ class Governance:
             else:
                 # failed rest/charge still costs a little effort
                 effects = {"energy": -0.003, "fatigue": 0.002}
+            if raw.get("integrity_hit"):
+                effects["integrity"] = effects.get("integrity", 0.0) - float(
+                    raw["integrity_hit"]
+                )
 
         scale = float(raw.get("energy_cost_scale", 1.0))
         if scale != 1.0 and "energy" in effects and effects["energy"] < 0:

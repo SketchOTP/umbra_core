@@ -1,0 +1,9 @@
+{
+  "d001_verdict": "UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED",
+  "d001_evidence_hashes_verified": true,
+  "d002p_verdict": "UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED",
+  "d002p_present": true,
+  "d002v_preserved": true,
+  "starting_commit": "4a20992ea8a974ce8853e288abb6dc5dfb34b157",
+  "gate0_pass": true
+}

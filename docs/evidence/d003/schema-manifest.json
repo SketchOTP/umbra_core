@@ -1,0 +1,43 @@
+{
+  "entity_fields": [
+    "entity_id",
+    "entity_kind",
+    "estimated_state",
+    "last_observed_at",
+    "confidence",
+    "uncertainty",
+    "persistence_probability",
+    "evidence_count"
+  ],
+  "transition_fields": [
+    "model_id",
+    "conditions",
+    "action",
+    "predicted_effect",
+    "latency",
+    "confidence",
+    "support_count",
+    "contradiction_count",
+    "status"
+  ],
+  "statuses": [
+    "CANDIDATE",
+    "ACTIVE",
+    "WEAKENED",
+    "SUPERSEDED",
+    "REJECTED"
+  ],
+  "fact_kinds": [
+    "CURRENT_OBSERVATION",
+    "REMEMBERED_ESTIMATE",
+    "PREDICTION",
+    "VERIFIED_OUTCOME",
+    "UNKNOWN"
+  ],
+  "plan_bounds": {
+    "max_depth": 4,
+    "max_candidates": 32,
+    "max_retries": 4
+  },
+  "world_model_separate_from_body_schema": true
+}

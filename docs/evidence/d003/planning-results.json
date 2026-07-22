@@ -1,0 +1,40 @@
+{
+  "C0_I0": {
+    "n": 100,
+    "mean_early_error": 0.8422,
+    "mean_late_error": 0.2465768878260712,
+    "mean_improvement": 0.5956231121739287,
+    "mean_affordance_charge": 0.06169999999999999,
+    "mean_affordance_novel": 0.0,
+    "mean_affordance_max": 1.0,
+    "mean_affordance_count": 6.36,
+    "mean_goal_success": 83.06,
+    "mean_plan_used": 7.31,
+    "mean_failed": 10.13,
+    "mean_collisions": 0.06,
+    "mean_viable": 0.03612,
+    "mean_supersessions": 0.14,
+    "mean_contradictions": 61.56,
+    "mean_remembered": 0.95
+  },
+  "C6_I0": {
+    "n": 100,
+    "mean_early_error": 0.12335176150089908,
+    "mean_late_error": 0.19399277919462016,
+    "mean_improvement": -0.0706410176937211,
+    "mean_affordance_charge": 0.5248999999999999,
+    "mean_affordance_novel": 0.0,
+    "mean_affordance_max": 1.0,
+    "mean_affordance_count": 9.25,
+    "mean_goal_success": 32.44,
+    "mean_plan_used": 0.0,
+    "mean_failed": 11.7,
+    "mean_collisions": 0.12,
+    "mean_viable": 0.45344,
+    "mean_supersessions": 0.06,
+    "mean_contradictions": 27.12,
+    "mean_remembered": 0.5
+  },
+  "gate6_plans_used": true,
+  "gate6_goal_or_efficiency": true
+}

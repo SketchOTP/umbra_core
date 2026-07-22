@@ -29,6 +29,7 @@ from umbra_core.persistence import PersistenceError, Store
 from umbra_core.physiology import Physiology
 from umbra_core.self_model import SelfModel, SelfModelConfig
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, new_id
+from umbra_core.world_model import WorldModel, WorldModelConfig, condition_to_world_model_config
 
 
 @dataclass
@@ -46,8 +47,12 @@ class OrganismConfig:
     wall_time_fn: Any = field(default=time.time, repr=False)
     # D-002
     self_model_enabled: bool = True
-    intervention: str = "I0"
+    intervention: str = "I0"  # body-plant intervention
     self_model_config: SelfModelConfig | None = None
+    # D-003
+    world_model_enabled: bool = False
+    world_intervention: str = "I0"
+    world_model_config: WorldModelConfig | None = None
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -81,7 +86,7 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
 
 
 class Organism:
-    """Minimum persistent UMBRA creature core (+ D-002 self-model)."""
+    """Minimum persistent UMBRA creature core (+ D-002 self-model + D-003 world model)."""
 
     def __init__(
         self,
@@ -96,6 +101,7 @@ class Organism:
         rng: SeededRNG,
         config: OrganismConfig,
         self_model: SelfModel | None = None,
+        world_model: WorldModel | None = None,
         monotonic_time: float = 0.0,
         tick: int = 0,
         session_id: str | None = None,
@@ -110,6 +116,7 @@ class Organism:
         self.rng = rng
         self.config = config
         self.self_model = self_model
+        self.world_model = world_model
         self.monotonic_time = monotonic_time
         self.tick = tick
         self.session_id = session_id or new_id()
@@ -125,6 +132,9 @@ class Organism:
             "failed_actions": 0,
             # ponytail: scalar last-error only — full history lives in SelfModel.errors
             "last_prediction_error": None,
+            "last_world_prediction_error": None,
+            "world_plan_used": 0,
+            "goal_success": 0,
         }
         self._pending_action: dict[str, Any] | None = None
         self._delayed_proposal: dict[str, Any] | None = None
@@ -132,10 +142,14 @@ class Organism:
         self._user_prompts = 0
         self._network_calls = 0
         self._intervention_applied = False
+        self._world_intervention_applied = False
         self._i9_recovered = False
         self._external_displaced = False
+        self._world_object_moved = False
+        self._occlusion_cleared = False
         self._runtime_ready = False
         self._first_tick_after_ready = False
+        self._pending_world_plan: list[str] | None = None
 
     @property
     def dt(self) -> float:
@@ -151,6 +165,7 @@ class Organism:
             "arbitration": self.arbitrator.state.to_state(),
             "governance": self.governance.state.to_state(),
             "self_model": self.self_model.to_state() if self.self_model else None,
+            "world_model": self.world_model.to_state() if self.world_model else None,
             "monotonic_time": self.monotonic_time,
             "tick": self.tick,
             "session_id": self.session_id,
@@ -159,6 +174,7 @@ class Organism:
             "pending_action": self._pending_action,
             "delayed_proposal": self._delayed_proposal,
             "intervention": self.config.intervention,
+            "world_intervention": self.config.world_intervention,
             "metrics": {
                 **{k: v for k, v in self.metrics.items() if k not in ("cells",)},
                 "cells": [list(c) for c in self.metrics["cells"]],
@@ -192,10 +208,14 @@ class Organism:
         wall_t = float(self.config.wall_time_fn() if wall is None else wall)
         if self.self_model is not None:
             self.self_model.initialize_bounded_collections()
+        if self.world_model is not None:
+            self.world_model.initialize_bounded_collections()
         payload = {
             "tick": self.tick,
             "bounded_initialized": bool(
-                self.self_model and self.self_model._bounded_initialized
+                (self.self_model and self.self_model._bounded_initialized)
+                or (self.world_model and self.world_model._bounded_initialized)
+                or (self.self_model is None and self.world_model is None)
             ),
             "schema_version": SCHEMA_VERSION,
             # Explicit: readiness is structural, never RSS-gated.
@@ -231,6 +251,27 @@ class Organism:
             self.self_model.replace_body(reduced=(code == "I11"), now=self.monotonic_time)
         self._intervention_applied = True
 
+    def _ensure_world_intervention(self) -> None:
+        if self._world_intervention_applied:
+            return
+        code = self.config.world_intervention
+        if code not in ("I0", "I8"):
+            self.embodiment.apply_world_intervention(code)
+        self._world_intervention_applied = True
+
+    def _maybe_world_dynamics(self) -> None:
+        """Mid-episode world interventions (occlusion clear, external object move)."""
+        wi = self.config.world_intervention
+        if wi == "I3" and not self._occlusion_cleared and self.tick >= 60:
+            self.embodiment.set_occlusion("inspect", False)
+            self._occlusion_cleared = True
+        if wi == "I8" and not self._world_object_moved and self.tick == 50:
+            self.embodiment.move_feature_external("resource", 8.0, 12.0)
+            self._world_object_moved = True
+        if wi == "I1" and self.tick == 80:
+            # late secondary move for adaptation latency
+            self.embodiment.move_feature_external("resource", 3.0, 17.0)
+
     def _maybe_external_displace(self) -> bool:
         """Apply I8 shove after body_before is noted. Returns True if displaced this tick."""
         if self.config.intervention != "I8" or self._external_displaced:
@@ -265,6 +306,8 @@ class Organism:
         self.monotonic_time += self.dt
         self.metrics["total_ticks"] += 1
         self._ensure_intervention()
+        self._ensure_world_intervention()
+        self._maybe_world_dynamics()
         self._maybe_recover_i9()
 
         # 1. physiological drift — AUTHORITATIVE every tick
@@ -285,6 +328,13 @@ class Organism:
             for o in obs_dicts:
                 o["estimated_distance"] = abs(o["estimated_distance"] + self.rng.uniform(-3, 3))
                 o["uncertainty"] = min(1.0, o["uncertainty"] + 0.4)
+
+        # World-model observation ingest (before action) — estimates only
+        if self.world_model is not None:
+            self.world_model.metrics["last_tick"] = self.tick
+            self.world_model.ingest_observations(
+                obs_dicts, tick=self.tick, now=self.monotonic_time
+            )
 
         # 3. update current state
         cell = self._cell()
@@ -354,6 +404,59 @@ class Organism:
         # 4–5. generate candidates + arbitrate
         cand = self.arbitrator.select(self.phys, obs_dicts, self.tick, self.rng)
 
+        # D-003: world-model planning may bias toward a proposed capability (propose only)
+        if self.world_model is not None and self.config.world_model_enabled:
+            urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
+            if (
+                self.world_model.config.planning_enabled
+                and self.arbitrator.state.mode == "full"
+                and urg.get("energy", 0) > 0.35
+            ):
+                kinds = {o.get("kind") for o in obs_dicts}
+                if kinds.intersection({"resource", "novel_crystal", "rest"}):
+                    prefer = None
+                    if self._pending_world_plan:
+                        prefer = self._pending_world_plan[0]
+                        self._pending_world_plan = self._pending_world_plan[1:] or None
+                    else:
+                        goal = "energy" if urg.get("energy", 0) > 0.4 else "rest"
+                        plan = self.world_model.plan(
+                            goal, tick=self.tick, observations=obs_dicts
+                        )
+                        if plan and plan.actions:
+                            self._pending_world_plan = list(plan.actions[1:]) or None
+                            prefer = plan.actions[0]
+                            self.metrics["world_plan_used"] += 1
+                    if prefer and prefer not in ("ORIENT", "IDLE") and prefer != cand.capability:
+                        need = {
+                            "CHARGE": ("resource", "novel_crystal"),
+                            "REST": ("rest",),
+                            "APPROACH": ("resource", "rest", "novel_crystal"),
+                        }.get(prefer, ())
+                        if need and kinds.intersection(need):
+                            alt = Candidate(prefer, dict(cand.params))
+                            toward = {
+                                "CHARGE": "resource",
+                                "REST": "rest",
+                                "APPROACH": "resource",
+                            }.get(prefer)
+                            if prefer == "CHARGE" and "novel_crystal" in kinds and "resource" not in kinds:
+                                toward = "novel_crystal"
+                            if toward:
+                                alt.params["toward"] = toward
+                            for o in obs_dicts:
+                                if o.get("kind") == toward or (
+                                    prefer in ("CHARGE", "APPROACH")
+                                    and o.get("kind") in need
+                                ):
+                                    alt.params["heading_delta"] = float(
+                                        o["relative_direction"]
+                                    )
+                                    alt.params["toward"] = o.get("kind")
+                                    break
+                            cand = alt
+            _ = self.world_model.propose_capability_bias(obs_dicts, urg)
+
         # Dormant/degraded capabilities: arbitration still proposes; governance admits;
         # self-model may skip prediction usefulness but cannot revoke grants.
         sm_status = (
@@ -372,14 +475,20 @@ class Organism:
                 self.tick,
                 self.embodiment.body.to_state(),
             )
+        if self.world_model is not None and self.config.world_model_enabled:
+            self.world_model.predict(
+                cand.capability, dict(cand.params), tick=self.tick
+            )
 
         # 6. govern
         proposal = self.governance.propose(cand.capability, cand.params)
-        # Prediction / confidence cannot grant capabilities (Gate 8)
+        # Prediction / confidence / world models cannot grant capabilities (Gate 8)
         if proposal.requested_effects:
             # strip any forged grants
             proposal.requested_effects = [
-                e for e in proposal.requested_effects if e not in ("grant_capability",)
+                e
+                for e in proposal.requested_effects
+                if e not in ("grant_capability", "modify_identity", "modify_physiology_direct")
             ]
         decision = self.governance.admit(proposal)
         self.store.append_event(
@@ -491,6 +600,7 @@ class Organism:
     ) -> dict[str, Any]:
         self.governance.apply_physiology(self.phys, outcome)
         self.arbitrator.note_outcome(outcome.capability, outcome.success)
+        pending_params = dict((self._pending_action or {}).get("params") or {})
         self._pending_action = None
         outcome_payload = {
             "capability": outcome.capability,
@@ -569,8 +679,59 @@ class Organism:
                 if len(recent) >= 8 and fails >= 6:
                     self.self_model.record_dimension_evidence("reliability", 0.55, self.tick)
 
+        wm_result = None
+        if self.world_model is not None:
+            params = dict(pending_params)
+            # Recover toward from outcome raw when possible
+            if outcome.raw and outcome.raw.get("object_kind"):
+                params.setdefault("toward", outcome.raw["object_kind"])
+            # Fall back to capability-typical toward
+            if "toward" not in params and "from" not in params:
+                typical = {
+                    "CHARGE": "resource",
+                    "REST": "rest",
+                    "INSPECT": "inspect",
+                    "RETREAT": "hazard",
+                }.get(outcome.capability)
+                if typical:
+                    if outcome.capability == "RETREAT":
+                        params["from"] = typical
+                    else:
+                        params["toward"] = typical
+            wm_result = self.world_model.observe_outcome(
+                tick=self.tick,
+                action=outcome.capability,
+                params=params,
+                verified_outcome=dict(outcome_payload),
+                observations=obs_dicts,
+                action_issued=action_issued,
+                now=self.monotonic_time,
+            )
+            if wm_result.get("prediction_error"):
+                self.metrics["last_world_prediction_error"] = wm_result["prediction_error"][
+                    "error"
+                ]
+            if outcome.success and outcome.capability in ("CHARGE", "REST"):
+                self.metrics["goal_success"] += 1
+                goal = "energy" if outcome.capability == "CHARGE" else "rest"
+                self.world_model.note_plan_success(goal)
+            if wm_result.get("adapted") or (
+                self.world_model.live_supersessions()
+                and self.tick % DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS == 0
+            ):
+                supers = self.world_model.live_supersessions()
+                if supers:
+                    self.store.append_event(
+                        agent_id=self.identity.agent_id,
+                        event_type="world_model_supersede",
+                        monotonic_time=self.monotonic_time,
+                        wall_time=wall,
+                        payload=supers[-1],
+                    )
+
         if outcome_payload is not None:
             outcome_payload["_sm"] = sm_result
+            outcome_payload["_wm"] = wm_result
         return outcome_payload
 
     def run_ticks(self, n: int) -> list[dict[str, Any]]:
@@ -619,9 +780,13 @@ def create_organism(config: OrganismConfig) -> Organism:
     perception = PerceptionMembrane(leak_world_truth=config.leak_world_truth)
     arb_state = ArbitrationState(
         hide_physiology=config.hide_physiology,
-        mode=config.arbitration_mode if config.condition != "C7" else "random",
+        mode=config.arbitration_mode,
     )
-    if config.condition == "C7":
+    # D-002: C7 = random policy. D-003: C8 = random; C7 = randomized retrieval (full arb).
+    if config.world_model_enabled:
+        if config.condition == "C8" or config.arbitration_mode == "random":
+            arb_state.mode = "random"
+    elif config.condition == "C7":
         arb_state.mode = "random"
     gov_state = GovernanceState(bypass_enabled=config.governance_bypass)
     sm_cfg = config.self_model_config or condition_to_self_model_config(config.condition)
@@ -639,6 +804,14 @@ def create_organism(config: OrganismConfig) -> Organism:
                 "primary": True,
             },
         )
+    wm_cfg = config.world_model_config
+    if wm_cfg is None and config.world_model_enabled:
+        wm_cfg = condition_to_world_model_config(config.condition)
+    world_model = None
+    if config.world_model_enabled:
+        world_model = WorldModel.create(
+            identity.agent_id, config=wm_cfg, seed=config.seed
+        )
     org = Organism(
         identity=identity,
         store=store,
@@ -650,6 +823,7 @@ def create_organism(config: OrganismConfig) -> Organism:
         rng=rng,
         config=config,
         self_model=self_model,
+        world_model=world_model,
     )
     store.append_event(
         agent_id=identity.agent_id,
@@ -684,7 +858,10 @@ def load_organism(config: OrganismConfig) -> Organism:
     arb = Arbitrator(ArbitrationState.from_state(state["arbitration"]))
     arb.state.hide_physiology = config.hide_physiology
     arb.state.mode = config.arbitration_mode
-    if config.condition == "C7":
+    if config.world_model_enabled:
+        if config.condition == "C8":
+            arb.state.mode = "random"
+    elif config.condition == "C7":
         arb.state.mode = "random"
     gov = Governance(GovernanceState.from_state(state["governance"]))
     gov.state.bypass_enabled = config.governance_bypass
@@ -702,6 +879,15 @@ def load_organism(config: OrganismConfig) -> Organism:
         if self_model.agent_id != identity.agent_id:
             raise PersistenceError("self_model_agent_mismatch")
 
+    world_model = None
+    if state.get("world_model") and config.world_model_enabled:
+        wm_cfg = config.world_model_config or condition_to_world_model_config(
+            config.condition
+        )
+        world_model = WorldModel.from_state(state["world_model"], config=wm_cfg)
+        if world_model.agent_id != identity.agent_id:
+            raise PersistenceError("world_model_agent_mismatch")
+
     org = Organism(
         identity=identity,
         store=store,
@@ -713,11 +899,13 @@ def load_organism(config: OrganismConfig) -> Organism:
         rng=rng,
         config=config,
         self_model=self_model,
+        world_model=world_model,
         monotonic_time=float(state.get("monotonic_time", 0.0)),
         tick=int(state.get("tick", 0)),
         session_id=new_id(),
     )
     org._intervention_applied = True  # plant already in embodiment state
+    org._world_intervention_applied = True
     org._delayed_proposal = state.get("delayed_proposal")
     pending = state.get("pending_action")
     if pending:
@@ -740,6 +928,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     org.metrics["collisions"] = int(metrics.get("collisions", 0))
     org.metrics["failed_actions"] = int(metrics.get("failed_actions", 0))
     org.metrics["last_prediction_error"] = metrics.get("last_prediction_error")
+    org.metrics["last_world_prediction_error"] = metrics.get("last_world_prediction_error")
+    org.metrics["world_plan_used"] = int(metrics.get("world_plan_used", 0))
+    org.metrics["goal_success"] = int(metrics.get("goal_success", 0))
     # Bring rings to documented capacity, preserving live (tick>=0) history.
     if org.self_model is not None:
         live_p = org.self_model.live_predictions()
@@ -754,6 +945,9 @@ def load_organism(config: OrganismConfig) -> Organism:
         org.self_model.change_evidence.reset_from(live_c)
         # Re-pad to capacity after restore so appends only replace slots.
         org.self_model._pad_rings_to_capacity()
+    if org.world_model is not None:
+        org.world_model._bounded_initialized = False
+        org.world_model.initialize_bounded_collections()
     wall = float(config.wall_time_fn())
     org.store.warm_runtime_residency()
     if org.tick == 0:
@@ -769,7 +963,8 @@ def load_organism(config: OrganismConfig) -> Organism:
                 "tick": org.tick,
                 "restart": True,
                 "bounded_initialized": bool(
-                    org.self_model and org.self_model._bounded_initialized
+                    (org.self_model and org.self_model._bounded_initialized)
+                    or (org.world_model and org.world_model._bounded_initialized)
                 ),
                 "schema_version": SCHEMA_VERSION,
                 "rss_gated": False,
@@ -804,6 +999,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
     org = create_organism(cfg)
     org.run_ticks(ticks)
     state = org.authoritative_state()
+    wm_accepted = org.world_model.accepted_state() if org.world_model else None
     comparable = {
         "physiology": state["physiology"],
         "embodiment": state["embodiment"],
@@ -812,6 +1008,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
         "identity_agent_id": state["identity"]["agent_id"],
         "body_schema_id": (state.get("self_model") or {}).get("active", {}).get("body_schema_id"),
         "self_model_hash": (state.get("self_model") or {}).get("state_hash"),
+        "world_model_accepted": wm_accepted,
     }
     org.close()
     return comparable

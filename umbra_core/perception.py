@@ -72,6 +72,8 @@ class PerceptionMembrane:
             self._leaked_truth = None
 
         for feat in embodiment.habitat.features:
+            if feat.occluded:
+                continue
             d = body.dist_to(feat.x, feat.y)
             if d > body.sensor_range:
                 continue

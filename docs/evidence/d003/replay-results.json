@@ -1,0 +1,8 @@
+{
+  "birth_resim_match": true,
+  "physiology_match": true,
+  "restart_continuity_100": true,
+  "restarts_ok": 100,
+  "supersessions_inspectable": true,
+  "gate9_pass": true
+}

@@ -1,26 +1,24 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260721-umbra-d002p-performance-remediation
-- Project directive: UMBRA-D-002P
-- Goal: Remediate D-002 runtime memory growth; RUNTIME_READY-anchored 2h VmRSS revalidation
-- Status: done — UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED
-- Acceptance: Gates 0–5 met; D-002V FAIL preserved; slope 0.217 ≤ 1.0
-- Touched files: umbra_core/*, tests/test_d002p.py, experiments/d002p/, docs/evidence/d002p/, .agent/*
-- Next action: D-003 authorized when opened
+- ID: D-20260721-umbra-d003-predictive-world-model
+- Project directive: UMBRA-D-003
+- Goal: Bounded persistent predictive world model — entities, transitions, affordances, revision, planning
+- Status: done — UMBRA_D003_PREDICTIVE_WORLD_MODEL_QUALIFIED
+- Acceptance: Gates 0–12 met; 124 tests; soak slope 0.189; D-004 authorized
+- Touched files: umbra_core/world_model/, umbra_core/{runtime,embodiment,events,arbitration,governance,perception}.py, tests/test_d003.py, experiments/d003/, docs/evidence/d003/, .agent/*
+- Next action: D-004 when opened
 
 ## Repo facts needed now
-- Starting tip: 97e5df2175817b9122f5724aaedd2c320d12510c
-- Soak commit: 13bdce2311b2a9571d2efcf1a6500a91760bb171
-- Ending commit: 607b1df192308d3a1e2a8e14a5bb92f696cadc8f
-- D-002V preserved: UMBRA_D002V_PERFORMANCE_FAIL
-- D-002P verdict: UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED
-- Mimir task: 8e2d40832317467c8eee34ab873e6234
-- D-003 AUTHORIZED: YES
+- Starting commit: 4a20992ea8a974ce8853e288abb6dc5dfb34b157
+- Ending commit: (seal pending)
+- Mimir project: 7777645d52a91b49
+- Mimir task: 87f671a62c994e79b36e29fe5c3a00cf
+- D-004 AUTHORIZED: YES
 
 ## Last validation
-- Command: pytest tests/; 2h RUNTIME_READY VmRSS soak
-- Result: 99 passed 0 skipped; slope 0.217; gate_performance_pass=true
+- Command: pytest tests/; 2h RUNTIME_READY VmRSS soak; experiments C0–C8×I0–I10
+- Result: 124 passed 0 skipped; slope 0.189; gate_performance_pass=true; experiment gates 1–6 true
 
 ## Open blockers
-- none for D-002P
+- none for D-003

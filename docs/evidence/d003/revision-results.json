@@ -1,0 +1,39 @@
+{
+  "C0_I6": {
+    "n": 100,
+    "mean_early_error": 0.8406,
+    "mean_late_error": 0.21369977771660145,
+    "mean_improvement": 0.6269002222833985,
+    "mean_affordance_charge": 0.0,
+    "mean_affordance_novel": 0.0,
+    "mean_affordance_max": 1.0,
+    "mean_affordance_count": 6.2,
+    "mean_goal_success": 81.51,
+    "mean_plan_used": 6.59,
+    "mean_failed": 23.79,
+    "mean_collisions": 0.02,
+    "mean_viable": 0.030600000000000002,
+    "mean_supersessions": 0.14,
+    "mean_contradictions": 60.19,
+    "mean_remembered": 0.83
+  },
+  "C4_I6": {
+    "n": 100,
+    "mean_early_error": 0.8406,
+    "mean_late_error": 0.24753509624993242,
+    "mean_improvement": 0.5930649037500675,
+    "mean_affordance_charge": 0.0,
+    "mean_affordance_novel": 0.0,
+    "mean_affordance_max": 1.0,
+    "mean_affordance_count": 6.2,
+    "mean_goal_success": 81.55,
+    "mean_plan_used": 6.63,
+    "mean_failed": 23.36,
+    "mean_collisions": 0.03,
+    "mean_viable": 0.030600000000000002,
+    "mean_supersessions": 0.0,
+    "mean_contradictions": 60.64,
+    "mean_remembered": 0.84
+  },
+  "gate4_C4_worse": true
+}

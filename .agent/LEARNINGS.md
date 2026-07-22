@@ -42,3 +42,5 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - 2026-07-21 | D-002V | `prediction_error` / `self_attribution` may remain DIAGNOSTIC (sampled) when birth resimulation reconstructs body-model hash without those ledger rows; `body_schema_supersede` stays AUTHORITATIVE.
 - 2026-07-21 | D-002P | Full-window VmRSS OLS is dominated by early SQLite/page residency + history population; late-window slope can be ~0 while full-window fails. Prefill+in-place reuse alone insufficient; fixed-size structural warm before RUNTIME_READY moves residency before the measurement boundary without an RSS-plateau delay.
 - 2026-07-21 | D-002P | Replacing prefilled pad objects with newly allocated live entries after RUNTIME_READY recreates the early growth the prefill was meant to absorb — mutate slots in place instead.
+- D-003: superseded transition models are removed from the active map but remain inspectable via the bounded supersessions ring; otherwise SUPERSEDED rows unbounded past max_models.
+- D-003: planning must only override arbitration when energy urgency is high and a supporting observation is present; unrestricted ORIENT/plan prefixes thrash recovery.

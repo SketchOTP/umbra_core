@@ -20,6 +20,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "lifecycle",
         "embodiment_bind",
         "body_schema_supersede",
+        "world_model_supersede",
         "runtime_ready",
     }
 )

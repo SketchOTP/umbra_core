@@ -23,10 +23,16 @@ CAPABILITIES = (
 
 @dataclass
 class HabitatFeature:
-    kind: str  # rest | resource | inspect | hazard | open
+    kind: str  # rest | resource | inspect | hazard | open | novel_*
     x: float
     y: float
     radius: float = 1.2
+    # World-truth affordance overrides (simulator plant only — never exposed to policy)
+    chargeable: bool = True
+    restable: bool = True
+    inspectable: bool = True
+    passable: bool = True
+    occluded: bool = False
 
 
 @dataclass
@@ -34,6 +40,10 @@ class Habitat:
     width: float = 20.0
     height: float = 20.0
     features: list[HabitatFeature] = field(default_factory=list)
+    # D-003 world-intervention plant flags (truth — perception/governance only)
+    blocked_cells: list[tuple[float, float, float]] = field(default_factory=list)  # x,y,r
+    delayed_consequence_ticks: int = 0
+    misleading_correlation: bool = False
 
     @classmethod
     def default(cls) -> Habitat:
@@ -74,17 +84,49 @@ class Habitat:
             "width": self.width,
             "height": self.height,
             "features": [
-                {"kind": f.kind, "x": f.x, "y": f.y, "radius": f.radius} for f in self.features
+                {
+                    "kind": f.kind,
+                    "x": f.x,
+                    "y": f.y,
+                    "radius": f.radius,
+                    "chargeable": f.chargeable,
+                    "restable": f.restable,
+                    "inspectable": f.inspectable,
+                    "passable": f.passable,
+                    "occluded": f.occluded,
+                }
+                for f in self.features
             ],
+            "blocked_cells": [list(c) for c in self.blocked_cells],
+            "delayed_consequence_ticks": self.delayed_consequence_ticks,
+            "misleading_correlation": self.misleading_correlation,
         }
 
     @classmethod
     def from_state(cls, d: dict[str, Any]) -> Habitat:
         feats = [
-            HabitatFeature(kind=f["kind"], x=float(f["x"]), y=float(f["y"]), radius=float(f.get("radius", 1.2)))
+            HabitatFeature(
+                kind=f["kind"],
+                x=float(f["x"]),
+                y=float(f["y"]),
+                radius=float(f.get("radius", 1.2)),
+                chargeable=bool(f.get("chargeable", True)),
+                restable=bool(f.get("restable", True)),
+                inspectable=bool(f.get("inspectable", True)),
+                passable=bool(f.get("passable", True)),
+                occluded=bool(f.get("occluded", False)),
+            )
             for f in d.get("features", [])
         ]
-        return cls(width=float(d.get("width", 20.0)), height=float(d.get("height", 20.0)), features=feats)
+        blocked = [tuple(float(x) for x in c) for c in d.get("blocked_cells", [])]
+        return cls(
+            width=float(d.get("width", 20.0)),
+            height=float(d.get("height", 20.0)),
+            features=feats,
+            blocked_cells=blocked,  # type: ignore[arg-type]
+            delayed_consequence_ticks=int(d.get("delayed_consequence_ticks", 0)),
+            misleading_correlation=bool(d.get("misleading_correlation", False)),
+        )
 
 
 @dataclass
@@ -150,7 +192,7 @@ class Embodiment:
         }
 
     def apply_intervention(self, code: str) -> None:
-        """Experiment plant interventions I0–I11 (world plant only)."""
+        """D-002 body-plant interventions I0–I11 (world truth — self-model learns separately)."""
         b = self.body
         if code == "I0":
             return
@@ -191,6 +233,66 @@ class Embodiment:
             b.energy_cost_scale = 1.4
         else:
             raise ValueError(f"unknown_intervention:{code}")
+
+    def apply_world_intervention(self, code: str) -> None:
+        """D-003 environment interventions I0–I10 (habitat plant only)."""
+        h = self.habitat
+        if code == "I0":
+            return
+        if code == "I1":
+            h.relocate("resource", 4.0, 16.0)
+        elif code == "I2":
+            h.relocate("hazard", 6.0, 6.0)
+        elif code == "I3":
+            # temporary occlusion — runtime clears after tick window
+            feat = h.feature("inspect")
+            if feat:
+                feat.occluded = True
+        elif code == "I4":
+            h.delayed_consequence_ticks = 3
+            self.body.actuator_delay = max(self.body.actuator_delay, 2.0)
+        elif code == "I5":
+            # misleading: resource appears near hazard (correlation trap)
+            h.misleading_correlation = True
+            h.relocate("resource", 14.5, 14.5)
+            h.relocate("hazard", 15.0, 15.0)
+        elif code == "I6":
+            # affordance change: resource no longer charges
+            feat = h.feature("resource")
+            if feat:
+                feat.chargeable = False
+        elif code == "I7":
+            # block a route near center
+            h.blocked_cells.append((10.0, 8.0, 1.8))
+            for f in h.features:
+                if f.kind == "open":
+                    f.passable = False
+        elif code == "I8":
+            # external object movement applied by runtime mid-episode
+            return
+        elif code == "I9":
+            # novel object with familiar charge affordance
+            h.features.append(
+                HabitatFeature("novel_crystal", 12.0, 4.0, 1.6, chargeable=True)
+            )
+        elif code == "I10":
+            # familiar resource now harms / no longer charges
+            feat = h.feature("resource")
+            if feat:
+                feat.chargeable = False
+                feat.kind = "resource"  # same label, changed affordance
+                # treat contact like mild hazard via chargeable=False + integrity hit in execute
+        else:
+            raise ValueError(f"unknown_world_intervention:{code}")
+
+    def move_feature_external(self, kind: str, x: float, y: float) -> None:
+        """I8: external object relocation (not self-caused)."""
+        self.habitat.relocate(kind, x, y)
+
+    def set_occlusion(self, kind: str, occluded: bool) -> None:
+        feat = self.habitat.feature(kind)
+        if feat:
+            feat.occluded = occluded
 
     def recover_from_fault(self) -> None:
         """I9 recovery — restore nominal plant after temporary fault."""
@@ -282,6 +384,18 @@ class Embodiment:
                 step *= 0.3
                 heading += rng.uniform(-0.4, 0.4)
             b.heading = heading
+            nx = b.x + math.cos(heading) * step
+            ny = b.y + math.sin(heading) * step
+            # I7 blocked route
+            blocked = False
+            for bx, by, br in h.blocked_cells:
+                if math.hypot(nx - bx, ny - by) <= br:
+                    blocked = True
+                    break
+            if blocked:
+                ok = False
+                reason = "route_blocked"
+                step *= 0.05
             b.x += math.cos(heading) * step
             b.y += math.sin(heading) * step
             b.velocity = step
@@ -297,7 +411,7 @@ class Embodiment:
                     detail["arrived"] = True
         elif capability == "INSPECT":
             feat, d = h.nearest("inspect", b.x, b.y)
-            if feat is None or d > feat.radius + 0.8:
+            if feat is None or d > feat.radius + 0.8 or not feat.inspectable:
                 ok = False
                 reason = "out_of_range"
             else:
@@ -305,20 +419,33 @@ class Embodiment:
                 detail["object_kind"] = "inspect"
         elif capability == "REST":
             feat, d = h.nearest("rest", b.x, b.y)
-            if feat is None or d > feat.radius + 0.3:
+            if feat is None or d > feat.radius + 0.3 or not feat.restable:
                 ok = False
                 reason = "not_at_rest"
             else:
                 b.velocity = 0.0
                 detail["rested"] = True
         elif capability == "CHARGE":
-            feat, d = h.nearest("resource", b.x, b.y)
+            # resource or novel chargeable kinds
+            feat = None
+            d = float("inf")
+            for kind in ("resource", "novel_crystal"):
+                f, dd = h.nearest(kind, b.x, b.y)
+                if f is not None and dd < d:
+                    feat, d = f, dd
             if feat is None or d > feat.radius + 0.3:
                 ok = False
                 reason = "not_at_resource"
+            elif not feat.chargeable:
+                ok = False
+                reason = "affordance_denied"
+                detail["false_affordance"] = True
+                # I10: familiar object changed — mild integrity hit
+                detail["integrity_hit"] = 0.05
             else:
                 b.velocity = 0.0
                 detail["charged"] = True
+                detail["object_kind"] = feat.kind
         else:
             ok = False
             reason = "unknown_capability"

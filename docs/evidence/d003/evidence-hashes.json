@@ -1,0 +1,19 @@
+{
+  "docs/evidence/d003/affordance-results.json": "f0e6597450ca262b74c8746ab6b7792e651824135cd4602314f57af1b3ac0b5c",
+  "docs/evidence/d003/experiment-summary.json": "388335d2adad06ed8127d1e35de806bedc8ef3d623f6f6a7d856315d29398491",
+  "docs/evidence/d003/final-verdict.md": "69d02249bd157db6999058cc410bc16960590315383a8b44e71c6a19c2778523",
+  "docs/evidence/d003/generalization-results.json": "4eb73f63e21cd2f6ee6a6ef0697a3a3cf3f79eb54b86d15b57c05a2ed0d9e16d",
+  "docs/evidence/d003/governance-results.json": "740db49540ef4b12ca1b561b6d3c70fba8c068d116fe881b203cf1f03ab01444",
+  "docs/evidence/d003/performance-100k.json": "ce125a6b1d235c7e95b62daa2c0da6ea405187bdd54aa2acdef1d61ec97277d6",
+  "docs/evidence/d003/performance-results.json": "0308ced1cfa0fe704dfce66f3def5c3e799268d3c6eb37f509217f3d1193171e",
+  "docs/evidence/d003/persistence-results.json": "d3f9c2011ff96322eb0f24b65da9bef247da1b266bec2502971f51b9dd9bec36",
+  "docs/evidence/d003/planning-results.json": "cead2511d10e5f327f429fdb99ce9168bfb221835283b49187fef3f7ff75d830",
+  "docs/evidence/d003/prediction-results.json": "fd114cb9a955c9fe5ea5038b82019d6ab668eed9df69b228dec596e48cfb6f34",
+  "docs/evidence/d003/prior-seals.json": "fcc7045572cce1bb6ad94d6c66f0f0a14b91a504b4368f466520f05a7d8112f8",
+  "docs/evidence/d003/replay-results.json": "dbbadc0caf52648697979ab389de1601a67dd53e7fd92d1b8c46bab68d20e3f3",
+  "docs/evidence/d003/revision-results.json": "55dec675e6b615b1abbccfb6173714a5b816a92f029a6698fc0b5e4c1c40ec37",
+  "docs/evidence/d003/schema-manifest.json": "a1605a722a050647877404aa333771e94649c2de8b931c4a3bc4b5a5d2a172db",
+  "docs/evidence/d003/soak-2h-summary.json": "4cb3aada77a2eb7fc6f3aa9298892edd454de594a083520bcb30bd803d164c35",
+  "docs/evidence/d003/soak-2h.jsonl": "e9377bfb26dc226cc3bbafcd9364a5740cfedbb4c3c7ab98cad4b3078569d80d",
+  "docs/evidence/d003/test-results.txt": "5553ad1f7b1bb9c6e73140f059242547b0b369978092c9219fc96fd2b7f689e3"
+}

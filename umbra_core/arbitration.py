@@ -126,6 +126,14 @@ class Arbitrator:
                         {"heading_delta": heading, "step": 1.2, "from": "hazard"},
                     )
                 )
+            elif kind == "novel_crystal":
+                cands.append(
+                    Candidate(
+                        "APPROACH",
+                        {"heading_delta": heading, "step": 1.0, "toward": "novel_crystal"},
+                    )
+                )
+                cands.append(Candidate("CHARGE", {"toward": "novel_crystal"}))
 
         cands.append(Candidate("MOVE", {"heading_delta": 0.0, "step": 1.0}))
         cands.append(Candidate("MOVE", {"heading_delta": 0.7, "step": 1.0}))
@@ -301,17 +309,18 @@ class Arbitrator:
                 return chosen
 
             if focus == "energy":
-                if "resource" in kinds:
-                    o = next(o for o in observations if o["kind"] == "resource")
+                if "resource" in kinds or "novel_crystal" in kinds:
+                    kind = "resource" if "resource" in kinds else "novel_crystal"
+                    o = next(o for o in observations if o["kind"] == kind)
                     hd = float(o["relative_direction"])
                     dist = float(o["estimated_distance"])
                     if dist <= 2.2:
-                        chosen = Candidate("CHARGE", {"toward": "resource"})
+                        chosen = Candidate("CHARGE", {"toward": kind})
                         self._commit(chosen, tick)
                         return chosen
                     chosen = Candidate(
                         "APPROACH",
-                        {"heading_delta": hd, "step": 1.5, "toward": "resource"},
+                        {"heading_delta": hd, "step": 1.5, "toward": kind},
                     )
                     self._commit(chosen, tick)
                     return chosen
