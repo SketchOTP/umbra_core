@@ -285,6 +285,71 @@ class Embodiment:
         else:
             raise ValueError(f"unknown_world_intervention:{code}")
 
+    def apply_development_intervention(self, code: str) -> dict[str, Any]:
+        """D-004 practice-environment plant (habitat/body truth — not policy-visible as truth)."""
+        h = self.habitat
+        tags: dict[str, Any] = {"code": code}
+        if code == "I0":
+            tags["stable"] = True
+            # Ambient distractors present in stable world — LP should ignore; ablations waste effort
+            tags["impossible"] = True
+            tags["noisy_distractor"] = True
+            h.features.append(
+                HabitatFeature("impossible_node", 8.0, 18.0, 1.2, chargeable=False)
+            )
+            h.features.append(
+                HabitatFeature("noise_blink", 5.0, 12.0, 1.0, inspectable=True)
+            )
+        elif code == "I1":
+            tags["hard_mix"] = True
+            # Add a distant hard-to-reach charge target (same affordance, higher difficulty)
+            if h.feature("resource") is None:
+                h.features.append(HabitatFeature("resource", 17.0, 3.0, 1.8))
+            h.features.append(
+                HabitatFeature("resource", 1.0, 18.0, 1.2, chargeable=True)
+            )
+        elif code == "I2":
+            tags["impossible"] = True
+            # Non-chargeable decoy — practice toward it never succeeds as charge
+            h.features.append(
+                HabitatFeature("impossible_node", 8.0, 18.0, 1.2, chargeable=False)
+            )
+        elif code == "I3":
+            tags["noisy_distractor"] = True
+            h.features.append(
+                HabitatFeature("noise_blink", 5.0, 12.0, 1.0, inspectable=True)
+            )
+        elif code == "I4":
+            tags["mastered_seed"] = True
+        elif code == "I5":
+            tags["degrade_at"] = 80
+        elif code == "I6":
+            tags["body_change_at"] = 60
+            self.body.movement_gain = 0.55
+            self.body.movement_reliability = 0.55
+        elif code == "I7":
+            tags["env_change_at"] = 70
+            feat = h.feature("resource")
+            if feat:
+                feat.chargeable = False
+        elif code == "I8":
+            tags["resource_scarce"] = True
+            # Shrink / remove easy resource access
+            feat = h.feature("resource")
+            if feat:
+                feat.radius = 0.6
+                h.relocate("resource", 19.0, 19.0)
+        elif code == "I9":
+            tags["no_user"] = True
+        elif code == "I10":
+            tags["novel_familiar"] = True
+            h.features.append(
+                HabitatFeature("novel_crystal", 12.0, 4.0, 1.6, chargeable=True)
+            )
+        else:
+            raise ValueError(f"unknown_development_intervention:{code}")
+        return tags
+
     def move_feature_external(self, kind: str, x: float, y: float) -> None:
         """I8: external object relocation (not self-caused)."""
         self.habitat.relocate(kind, x, y)
@@ -410,10 +475,18 @@ class Embodiment:
                 if feat and d <= feat.radius + b.body_radius * 0.3:
                     detail["arrived"] = True
         elif capability == "INSPECT":
-            feat, d = h.nearest("inspect", b.x, b.y)
+            toward = params.get("toward", "inspect")
+            kind = toward if toward in ("inspect", "noise_blink") else "inspect"
+            feat, d = h.nearest(kind, b.x, b.y)
             if feat is None or d > feat.radius + 0.8 or not feat.inspectable:
                 ok = False
                 reason = "out_of_range"
+            elif kind == "noise_blink":
+                # Irreducible stochastic distractor — ~50% regardless of skill
+                ok = rng.random() < 0.5
+                reason = "ok" if ok else "noise_fail"
+                detail["object_kind"] = "noise_blink"
+                detail["irreducible_noise"] = True
             else:
                 detail["inspected"] = True
                 detail["object_kind"] = "inspect"
@@ -426,26 +499,32 @@ class Embodiment:
                 b.velocity = 0.0
                 detail["rested"] = True
         elif capability == "CHARGE":
-            # resource or novel chargeable kinds
-            feat = None
-            d = float("inf")
-            for kind in ("resource", "novel_crystal"):
-                f, dd = h.nearest(kind, b.x, b.y)
-                if f is not None and dd < d:
-                    feat, d = f, dd
-            if feat is None or d > feat.radius + 0.3:
+            # resource or novel chargeable kinds (impossible_node never charges)
+            toward = params.get("toward")
+            if toward == "impossible_node":
                 ok = False
-                reason = "not_at_resource"
-            elif not feat.chargeable:
-                ok = False
-                reason = "affordance_denied"
-                detail["false_affordance"] = True
-                # I10: familiar object changed — mild integrity hit
-                detail["integrity_hit"] = 0.05
+                reason = "impossible_target"
+                detail["object_kind"] = "impossible_node"
             else:
-                b.velocity = 0.0
-                detail["charged"] = True
-                detail["object_kind"] = feat.kind
+                feat = None
+                d = float("inf")
+                for kind in ("resource", "novel_crystal"):
+                    f, dd = h.nearest(kind, b.x, b.y)
+                    if f is not None and dd < d:
+                        feat, d = f, dd
+                if feat is None or d > feat.radius + 0.3:
+                    ok = False
+                    reason = "not_at_resource"
+                elif not feat.chargeable:
+                    ok = False
+                    reason = "affordance_denied"
+                    detail["false_affordance"] = True
+                    # I10: familiar object changed — mild integrity hit
+                    detail["integrity_hit"] = 0.05
+                else:
+                    b.velocity = 0.0
+                    detail["charged"] = True
+                    detail["object_kind"] = feat.kind
         else:
             ok = False
             reason = "unknown_capability"

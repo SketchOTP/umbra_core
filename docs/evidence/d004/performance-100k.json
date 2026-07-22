@@ -1,0 +1,10 @@
+{
+  "ticks": 100000,
+  "elapsed_s": 92.06926727294922,
+  "cpu_s": 68.161726581,
+  "cpu_pct_of_one_core": 74.03309334365315,
+  "rss_p95_mib": 37.85546875,
+  "db_mib": 188.2890625,
+  "restart_continuity": true,
+  "counts_bounded": true
+}

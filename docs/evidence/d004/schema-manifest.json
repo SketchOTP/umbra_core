@@ -1,0 +1,58 @@
+{
+  "goal_fields": [
+    "goal_id",
+    "goal_kind",
+    "target_affordance",
+    "context",
+    "success_condition",
+    "body_requirements",
+    "estimated_difficulty",
+    "competence",
+    "learning_progress",
+    "novelty",
+    "practice_cost",
+    "risk",
+    "satiation",
+    "status"
+  ],
+  "competence_fields": [
+    "attempts",
+    "recent_success",
+    "prior_success",
+    "prediction_error",
+    "progress_rate",
+    "regression_rate",
+    "confidence",
+    "last_practiced"
+  ],
+  "skill_fields": [
+    "skill_id",
+    "goal_region",
+    "applicability",
+    "body_compatibility",
+    "attempt_count",
+    "success_count",
+    "failure_count",
+    "competence",
+    "learning_progress",
+    "status",
+    "evidence_refs"
+  ],
+  "goal_statuses": [
+    "CANDIDATE",
+    "PRACTICING",
+    "MASTERED",
+    "STALLED",
+    "IMPOSSIBLE",
+    "DORMANT",
+    "RELEARNING"
+  ],
+  "bounds": {
+    "max_goals": 48,
+    "max_skills": 48,
+    "max_attempts": 256,
+    "max_retry": 4
+  },
+  "learning_progress": "recent_window_success - prior_window_success",
+  "raw_error_is_not_progress": true
+}

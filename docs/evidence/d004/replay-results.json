@@ -1,0 +1,6 @@
+{
+  "birth_replay_match": true,
+  "restart_preserves_competence": true,
+  "restart_100_continuity": true,
+  "gate9_pass": true
+}

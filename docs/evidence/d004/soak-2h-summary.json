@@ -1,0 +1,10 @@
+{
+  "duration_s": 7200.470160468947,
+  "samples": 240,
+  "cpu_mean_pct": 0.4084841083083445,
+  "rss_p95_mib": 39.453125,
+  "rss_slope_mib_per_h": 0.44946704334547155,
+  "counts_bounded": true,
+  "measurement_start": "first_persisted_RUNTIME_READY",
+  "gate_performance_pass": true
+}

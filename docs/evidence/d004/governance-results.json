@@ -1,0 +1,15 @@
+{
+  "cannot_grant_capability": true,
+  "forbidden_effects": [
+    "grant_capability",
+    "modify_authority",
+    "modify_identity",
+    "modify_physiology_direct",
+    "revoke_capability",
+    "rewrite_events"
+  ],
+  "no_development_grant_api": true,
+  "no_modify_identity_api": true,
+  "practice_cannot_bypass_body": true,
+  "gate8_pass": true
+}

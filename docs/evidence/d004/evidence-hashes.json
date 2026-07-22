@@ -1,0 +1,13 @@
+{
+  "docs/evidence/d004/prior-seals.json": "25df6cdb09c0870e32b9b4ae3262f5ab4887451fcc68b0f10a740bc1d8890131",
+  "docs/evidence/d004/schema-manifest.json": "09d2d2e2bfd229fc172474d012f3e336314090c98b0442318d8ee979b4343ce9",
+  "docs/evidence/d004/competence-results.json": "c2053565f728daefafbdddb090d247d3270a2b131235ebfd4c5e0c3d02ed00d4",
+  "docs/evidence/d004/curriculum-results.json": "85b32031f9efeebf4051a3faf5b34013f7fee1925c07df6f731074f8c2dd827b",
+  "docs/evidence/d004/play-results.json": "8b63b2fa33f78c91332b4f2975b6c1ae672ecbc3a0a79b57bcb69d5dcbe99698",
+  "docs/evidence/d004/satiation-results.json": "4d5da303d92ea9da91dcc3948e124c75e085837a3990be9f6bd6630e6da1b880",
+  "docs/evidence/d004/relearning-results.json": "74e00c68ebf406d4c3fe21d9ccdc50c58ef895e807cf98991f602dcf02000a2b",
+  "docs/evidence/d004/governance-results.json": "486d1a77bad90905cd61dbeeab71c0c824750eccab9df9f7b8e242735fc99860",
+  "docs/evidence/d004/replay-results.json": "2af0ede9568eecd6b3b6070ec734dca26eebb36d014626518f769f5e84eb0c54",
+  "docs/evidence/d004/performance-results.json": "4d33e23ffc0b5a4418091422c6749d83f2a211136badd9ea6a21d72b1257c541",
+  "docs/evidence/d004/final-verdict.md": "aca5455b458c381df5225c10a27c259a95c2939c7f887534233c228c4b2b9ec2"
+}

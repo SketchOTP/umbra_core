@@ -1,0 +1,21 @@
+{
+  "duration_s": 7200.470160468947,
+  "cpu_mean_pct": 0.4084841083083445,
+  "rss_p95_mib": 39.453125,
+  "rss_slope_mib_per_h": 0.44946704334547155,
+  "counts_bounded": true,
+  "measurement_start": "first_persisted_RUNTIME_READY",
+  "gate_performance_pass": true,
+  "100k": {
+    "ticks": 100000,
+    "elapsed_s": 92.06926727294922,
+    "cpu_s": 68.161726581,
+    "cpu_pct_of_one_core": 74.03309334365315,
+    "rss_p95_mib": 37.85546875,
+    "db_mib": 188.2890625,
+    "restart_continuity": true,
+    "counts_bounded": true
+  },
+  "method": "current_VmRSS from first RUNTIME_READY",
+  "rss_ceiling_mib": 140.0
+}

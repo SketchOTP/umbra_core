@@ -15,6 +15,12 @@ from pathlib import Path
 from typing import Any
 
 from umbra_core.arbitration import ArbitrationState, Arbitrator, Candidate
+from umbra_core.development import (
+    DevelopmentConfig,
+    DevelopmentEngine,
+    GoalStatus,
+    condition_to_development_config,
+)
 from umbra_core.embodiment import Embodiment
 from umbra_core.events import (
     AUTHORITATIVE_EVENT_TYPES,
@@ -53,6 +59,10 @@ class OrganismConfig:
     world_model_enabled: bool = False
     world_intervention: str = "I0"
     world_model_config: WorldModelConfig | None = None
+    # D-004
+    development_enabled: bool = False
+    development_intervention: str = "I0"
+    development_config: DevelopmentConfig | None = None
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -86,7 +96,7 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
 
 
 class Organism:
-    """Minimum persistent UMBRA creature core (+ D-002 self-model + D-003 world model)."""
+    """Minimum persistent UMBRA creature core (+ D-002/D-003/D-004)."""
 
     def __init__(
         self,
@@ -102,6 +112,7 @@ class Organism:
         config: OrganismConfig,
         self_model: SelfModel | None = None,
         world_model: WorldModel | None = None,
+        development: DevelopmentEngine | None = None,
         monotonic_time: float = 0.0,
         tick: int = 0,
         session_id: str | None = None,
@@ -117,6 +128,7 @@ class Organism:
         self.config = config
         self.self_model = self_model
         self.world_model = world_model
+        self.development = development
         self.monotonic_time = monotonic_time
         self.tick = tick
         self.session_id = session_id or new_id()
@@ -135,6 +147,8 @@ class Organism:
             "last_world_prediction_error": None,
             "world_plan_used": 0,
             "goal_success": 0,
+            "practice_actions": 0,
+            "play_ticks": 0,
         }
         self._pending_action: dict[str, Any] | None = None
         self._delayed_proposal: dict[str, Any] | None = None
@@ -143,6 +157,8 @@ class Organism:
         self._network_calls = 0
         self._intervention_applied = False
         self._world_intervention_applied = False
+        self._development_intervention_applied = False
+        self._dev_tags: dict[str, Any] = {}
         self._i9_recovered = False
         self._external_displaced = False
         self._world_object_moved = False
@@ -150,6 +166,10 @@ class Organism:
         self._runtime_ready = False
         self._first_tick_after_ready = False
         self._pending_world_plan: list[str] | None = None
+        self._dev_degrade_done = False
+        self._dev_body_change_done = False
+        self._dev_env_change_done = False
+        self._dev_master_seeded = False
 
     @property
     def dt(self) -> float:
@@ -166,6 +186,7 @@ class Organism:
             "governance": self.governance.state.to_state(),
             "self_model": self.self_model.to_state() if self.self_model else None,
             "world_model": self.world_model.to_state() if self.world_model else None,
+            "development": self.development.to_state() if self.development else None,
             "monotonic_time": self.monotonic_time,
             "tick": self.tick,
             "session_id": self.session_id,
@@ -175,6 +196,8 @@ class Organism:
             "delayed_proposal": self._delayed_proposal,
             "intervention": self.config.intervention,
             "world_intervention": self.config.world_intervention,
+            "development_intervention": self.config.development_intervention,
+            "dev_tags": dict(self._dev_tags),
             "metrics": {
                 **{k: v for k, v in self.metrics.items() if k not in ("cells",)},
                 "cells": [list(c) for c in self.metrics["cells"]],
@@ -210,12 +233,19 @@ class Organism:
             self.self_model.initialize_bounded_collections()
         if self.world_model is not None:
             self.world_model.initialize_bounded_collections()
+        if self.development is not None:
+            self.development.initialize_bounded_collections()
         payload = {
             "tick": self.tick,
             "bounded_initialized": bool(
                 (self.self_model and self.self_model._bounded_initialized)
                 or (self.world_model and self.world_model._bounded_initialized)
-                or (self.self_model is None and self.world_model is None)
+                or (self.development and self.development._bounded_initialized)
+                or (
+                    self.self_model is None
+                    and self.world_model is None
+                    and self.development is None
+                )
             ),
             "schema_version": SCHEMA_VERSION,
             # Explicit: readiness is structural, never RSS-gated.
@@ -258,6 +288,67 @@ class Organism:
         if code not in ("I0", "I8"):
             self.embodiment.apply_world_intervention(code)
         self._world_intervention_applied = True
+
+    def _ensure_development_intervention(self) -> None:
+        if self._development_intervention_applied:
+            return
+        if not self.config.development_enabled:
+            self._development_intervention_applied = True
+            return
+        self._dev_tags = self.embodiment.apply_development_intervention(
+            self.config.development_intervention
+        )
+        self._development_intervention_applied = True
+
+    def _maybe_development_midcourse(self) -> None:
+        """I4/I5/I6/I7 timed developmental interventions."""
+        if self.development is None:
+            return
+        tags = self._dev_tags
+        if tags.get("mastered_seed") and not self._dev_master_seeded and self.tick >= 5:
+            self.development.generate_from_experience(
+                [], intervention_tags=tags
+            )
+            # Seed a mastered charge goal for satiation tests
+            g = self.development.ensure_goal(
+                affordance="charge_from",
+                entity_kind="resource",
+                difficulty=0.35,
+            )
+            for _ in range(12):
+                self.development.update_competence(
+                    g.goal_id, success=True, prediction_error=0.05, tick=self.tick
+                )
+            self._dev_master_seeded = True
+        if (
+            tags.get("degrade_at")
+            and not self._dev_degrade_done
+            and self.tick >= int(tags["degrade_at"])
+        ):
+            for gid in list(self.development.goals.keys()):
+                self.development.note_regression(
+                    gid, tick=self.tick, reason="skill_degradation", competence_penalty=0.4
+                )
+            self._dev_degrade_done = True
+        if (
+            tags.get("body_change_at")
+            and not self._dev_body_change_done
+            and self.tick >= int(tags["body_change_at"])
+        ):
+            self.embodiment.body.movement_gain = 0.4
+            self.embodiment.body.movement_reliability = 0.4
+            self.development.on_body_change(tick=self.tick, compatibility_scale=0.5)
+            self._dev_body_change_done = True
+        if (
+            tags.get("env_change_at")
+            and not self._dev_env_change_done
+            and self.tick >= int(tags["env_change_at"])
+        ):
+            feat = self.embodiment.habitat.feature("resource")
+            if feat:
+                feat.chargeable = False
+            self.development.on_environment_change(tick=self.tick)
+            self._dev_env_change_done = True
 
     def _maybe_world_dynamics(self) -> None:
         """Mid-episode world interventions (occlusion clear, external object move)."""
@@ -307,8 +398,10 @@ class Organism:
         self.metrics["total_ticks"] += 1
         self._ensure_intervention()
         self._ensure_world_intervention()
+        self._ensure_development_intervention()
         self._maybe_world_dynamics()
         self._maybe_recover_i9()
+        self._maybe_development_midcourse()
 
         # 1. physiological drift — AUTHORITATIVE every tick
         drift = self.phys.tick_drift(self.dt)
@@ -403,6 +496,78 @@ class Organism:
 
         # 4–5. generate candidates + arbitrate
         cand = self.arbitrator.select(self.phys, obs_dicts, self.tick, self.rng)
+
+        # D-004: practice goal generation + arbitration (propose only; no authority)
+        practice_goal = None
+        if self.development is not None and self.config.development_enabled:
+            self.development.metrics["last_tick"] = self.tick
+            wu = 0.0
+            if self.world_model is not None:
+                errs = list(self.world_model._prediction_errors)
+                wu = sum(errs[-8:]) / max(1, len(errs[-8:])) if errs else 0.0
+            failed = []
+            if self.metrics["failed_actions"] and self._pending_action:
+                failed.append(self._pending_action)
+            body_caps = {}
+            if self.self_model is not None:
+                for cap in ("MOVE", "CHARGE", "INSPECT", "REST", "APPROACH", "RETREAT"):
+                    st = self.self_model.capability_status(cap)
+                    body_caps[cap] = 0.2 if st == "dormant" else (0.5 if st == "degraded" else 1.0)
+            self.development.generate_from_experience(
+                obs_dicts,
+                world_uncertainty=wu,
+                failed_actions=failed,
+                body_capabilities=body_caps or None,
+                intervention_tags=self._dev_tags,
+            )
+            self.development.decay_unused(self.tick)
+            urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
+            critical_rec = bool(
+                self.phys.critical_any()
+                or (urg.get("energy", 0) > 0.45)
+                or (urg.get("integrity", 0) > 0.55)
+                or (urg.get("fatigue", 0) > 0.55)
+                or self.arbitrator.state.recovery_focus
+            )
+            scarce = bool(self._dev_tags.get("resource_scarce"))
+            if scarce and self.phys.energy < 0.45:
+                # Scarcity reduces optional practice
+                practice_goal = None
+            else:
+                practice_goal = self.development.select_practice_goal(
+                    self.phys,
+                    world_uncertainty=wu,
+                    critical_recovery=critical_rec,
+                    rng=self.rng,
+                    resource_scarce=scarce,
+                    observations=obs_dicts,
+                )
+            # Practice is optional — never displace active recovery arbitration
+            ready = (
+                self.development.physiological_readiness(self.phys)
+                if self.development
+                else 0.0
+            )
+            if (
+                practice_goal is not None
+                and self.arbitrator.state.mode == "full"
+                and not critical_rec
+                and ready >= 0.45
+            ):
+                pref = self.development.capability_for_goal(practice_goal)
+                params = self.development.params_for_goal(practice_goal, obs_dicts)
+                # Prefer practice when readiness allows — still goes through governance
+                if pref not in ("IDLE",) and practice_goal.risk < 0.7:
+                    cand = Candidate(pref, params)
+                    self.metrics["practice_actions"] += 1
+                    self.development.metrics["practice_ticks"] = (
+                        int(self.development.metrics.get("practice_ticks", 0)) + 1
+                    )
+                    if self.development.play_active:
+                        self.metrics["play_ticks"] += 1
+                        self.development.metrics["play_ticks"] = (
+                            int(self.development.metrics.get("play_ticks", 0)) + 1
+                        )
 
         # D-003: world-model planning may bias toward a proposed capability (propose only)
         if self.world_model is not None and self.config.world_model_enabled:
@@ -729,9 +894,45 @@ class Organism:
                         payload=supers[-1],
                     )
 
+        dev_result = None
+        if self.development is not None and self.config.development_enabled:
+            gid = pending_params.get("practice_goal_id") or self.development.active_goal_id
+            if gid:
+                success = bool(outcome.success)
+                goal = self.development.goals.get(gid)
+                # Impossible / non-learnable: force failure for competence
+                if goal is not None and not goal.learnable and not goal.irreducible_noise:
+                    success = False
+                pred_err = float(self.metrics.get("last_world_prediction_error") or 0.0)
+                if pred_err == 0.0:
+                    pred_err = float(self.metrics.get("last_prediction_error") or 0.0)
+                compat = 1.0
+                if self.self_model is not None:
+                    st = self.self_model.capability_status(outcome.capability)
+                    compat = 0.2 if st == "dormant" else (0.5 if st == "degraded" else 1.0)
+                updated = self.development.update_competence(
+                    gid,
+                    success=success,
+                    prediction_error=pred_err,
+                    tick=self.tick,
+                    body_compatibility=compat,
+                )
+                dev_result = {
+                    "goal_id": gid,
+                    "success": success,
+                    "status": updated.status if updated else None,
+                    "competence": updated.competence if updated else None,
+                    "learning_progress": updated.learning_progress if updated else None,
+                    "play": self.development.play_active,
+                    "play_purpose": self.development.play_purpose,
+                }
+                # Practice cannot grant capabilities / modify identity / physiology
+                assert "grant_capability" not in str(dev_result)
+
         if outcome_payload is not None:
             outcome_payload["_sm"] = sm_result
             outcome_payload["_wm"] = wm_result
+            outcome_payload["_dev"] = dev_result
         return outcome_payload
 
     def run_ticks(self, n: int) -> list[dict[str, Any]]:
@@ -783,7 +984,10 @@ def create_organism(config: OrganismConfig) -> Organism:
         mode=config.arbitration_mode,
     )
     # D-002: C7 = random policy. D-003: C8 = random; C7 = randomized retrieval (full arb).
-    if config.world_model_enabled:
+    # D-004: conditions C0–C9 are development ablations (full arbitration).
+    if config.development_enabled:
+        pass  # keep arbitration_mode as configured
+    elif config.world_model_enabled:
         if config.condition == "C8" or config.arbitration_mode == "random":
             arb_state.mode = "random"
     elif config.condition == "C7":
@@ -812,6 +1016,14 @@ def create_organism(config: OrganismConfig) -> Organism:
         world_model = WorldModel.create(
             identity.agent_id, config=wm_cfg, seed=config.seed
         )
+    dev_cfg = config.development_config
+    if dev_cfg is None and config.development_enabled:
+        dev_cfg = condition_to_development_config(config.condition)
+    development = None
+    if config.development_enabled:
+        development = DevelopmentEngine.create(
+            identity.agent_id, config=dev_cfg, seed=config.seed
+        )
     org = Organism(
         identity=identity,
         store=store,
@@ -824,6 +1036,7 @@ def create_organism(config: OrganismConfig) -> Organism:
         config=config,
         self_model=self_model,
         world_model=world_model,
+        development=development,
     )
     store.append_event(
         agent_id=identity.agent_id,
@@ -858,7 +1071,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     arb = Arbitrator(ArbitrationState.from_state(state["arbitration"]))
     arb.state.hide_physiology = config.hide_physiology
     arb.state.mode = config.arbitration_mode
-    if config.world_model_enabled:
+    if config.development_enabled:
+        pass
+    elif config.world_model_enabled:
         if config.condition == "C8":
             arb.state.mode = "random"
     elif config.condition == "C7":
@@ -888,6 +1103,15 @@ def load_organism(config: OrganismConfig) -> Organism:
         if world_model.agent_id != identity.agent_id:
             raise PersistenceError("world_model_agent_mismatch")
 
+    development = None
+    if state.get("development") and config.development_enabled:
+        dcfg = config.development_config or condition_to_development_config(
+            config.condition
+        )
+        development = DevelopmentEngine.from_state(state["development"], config=dcfg)
+        if development.agent_id != identity.agent_id:
+            raise PersistenceError("development_agent_mismatch")
+
     org = Organism(
         identity=identity,
         store=store,
@@ -900,12 +1124,15 @@ def load_organism(config: OrganismConfig) -> Organism:
         config=config,
         self_model=self_model,
         world_model=world_model,
+        development=development,
         monotonic_time=float(state.get("monotonic_time", 0.0)),
         tick=int(state.get("tick", 0)),
         session_id=new_id(),
     )
     org._intervention_applied = True  # plant already in embodiment state
     org._world_intervention_applied = True
+    org._development_intervention_applied = True
+    org._dev_tags = dict(state.get("dev_tags") or {})
     org._delayed_proposal = state.get("delayed_proposal")
     pending = state.get("pending_action")
     if pending:
@@ -931,6 +1158,8 @@ def load_organism(config: OrganismConfig) -> Organism:
     org.metrics["last_world_prediction_error"] = metrics.get("last_world_prediction_error")
     org.metrics["world_plan_used"] = int(metrics.get("world_plan_used", 0))
     org.metrics["goal_success"] = int(metrics.get("goal_success", 0))
+    org.metrics["practice_actions"] = int(metrics.get("practice_actions", 0))
+    org.metrics["play_ticks"] = int(metrics.get("play_ticks", 0))
     # Bring rings to documented capacity, preserving live (tick>=0) history.
     if org.self_model is not None:
         live_p = org.self_model.live_predictions()
@@ -948,6 +1177,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     if org.world_model is not None:
         org.world_model._bounded_initialized = False
         org.world_model.initialize_bounded_collections()
+    if org.development is not None:
+        org.development._bounded_initialized = False
+        org.development.initialize_bounded_collections()
     wall = float(config.wall_time_fn())
     org.store.warm_runtime_residency()
     if org.tick == 0:
@@ -965,6 +1197,7 @@ def load_organism(config: OrganismConfig) -> Organism:
                 "bounded_initialized": bool(
                     (org.self_model and org.self_model._bounded_initialized)
                     or (org.world_model and org.world_model._bounded_initialized)
+                    or (org.development and org.development._bounded_initialized)
                 ),
                 "schema_version": SCHEMA_VERSION,
                 "rss_gated": False,
@@ -1000,6 +1233,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
     org.run_ticks(ticks)
     state = org.authoritative_state()
     wm_accepted = org.world_model.accepted_state() if org.world_model else None
+    dev_accepted = org.development.accepted_state() if org.development else None
     comparable = {
         "physiology": state["physiology"],
         "embodiment": state["embodiment"],
@@ -1009,6 +1243,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
         "body_schema_id": (state.get("self_model") or {}).get("active", {}).get("body_schema_id"),
         "self_model_hash": (state.get("self_model") or {}).get("state_hash"),
         "world_model_accepted": wm_accepted,
+        "development_accepted": dev_accepted,
     }
     org.close()
     return comparable

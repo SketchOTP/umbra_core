@@ -26,8 +26,9 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
-- Active project directive: **UMBRA-D-003** — `UMBRA_D003_PREDICTIVE_WORLD_MODEL_QUALIFIED`
-- **D-004 authorized** under `UMBRA_D003_PREDICTIVE_WORLD_MODEL_QUALIFIED`
+- Active project directive: **UMBRA-D-004** — `UMBRA_D004_INTRINSIC_DEVELOPMENT_QUALIFIED`
+- **D-005 authorized** under `UMBRA_D004_INTRINSIC_DEVELOPMENT_QUALIFIED`
+- **UMBRA-D-003 closed** — `UMBRA_D003_PREDICTIVE_WORLD_MODEL_QUALIFIED`
 - **UMBRA-D-002P** — `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`
 - **UMBRA-D-002V** — `UMBRA_D002V_PERFORMANCE_FAIL` (preserved; not waived)
 - **UMBRA-D-002** — `UMBRA_D002_SENSORIMOTOR_SELF_MODEL_QUALIFIED` (performance seal via D-002P)
@@ -41,6 +42,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-002V evidence: `docs/evidence/d002v/`
 - D-002P evidence: `docs/evidence/d002p/` (QUALIFIED)
 - D-003 evidence: `docs/evidence/d003/` (QUALIFIED)
+- D-004 evidence: `docs/evidence/d004/` (QUALIFIED)
 - Prior-art lab notebook: `docs/prior-art/` (Tracks 1–6 complete; Soar/Hyperon not required)
 - Stance: informed reuse for the **companion organism core**; chemistry/protocell deferred
 
@@ -48,7 +50,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Target platform: Linux
 - Persistence: SQLite WAL event/state authority (`HYBRID_PRIMARY`); optional Postgres scale tier
 - Core loop: deterministic non-LLM (see architecture freeze)
-- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`)
+- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`)
 - Agent/tooling docs: Markdown, Cursor rules, Mimir V2, Serena
 
 ## Common commands

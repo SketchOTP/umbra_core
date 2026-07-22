@@ -44,3 +44,7 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - 2026-07-21 | D-002P | Replacing prefilled pad objects with newly allocated live entries after RUNTIME_READY recreates the early growth the prefill was meant to absorb — mutate slots in place instead.
 - D-003: superseded transition models are removed from the active map but remain inspectable via the bounded supersessions ring; otherwise SUPERSEDED rows unbounded past max_models.
 - D-003: planning must only override arbitration when energy urgency is high and a supporting observation is present; unrestricted ORIENT/plan prefixes thrash recovery.
+- D-004: learning progress = recent_window_success − prior_window_success; raw prediction error / novelty are ablations not intrinsic value (arXiv:1301.4862 IMGEP).
+- D-004: practice must not override recovery arbitration (energy urgency >0.45); otherwise LP looks worse than random because CHARGE recovery is displaced.
+- D-004: Gate1 fair compare uses waste-adjusted learnable_gain/nonlearnable when distractors present — C0 zeros nonlearnable attention while C1 farms and wastes.
+- D-004: full-vector viable_frac is misleading (fatigue=0 below viable_low); Gate7 uses energy-band recovery probe.
