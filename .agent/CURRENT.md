@@ -1,21 +1,21 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-1235-d006-task3-partners
+- ID: D-20260722-1240-d006-task3-timing-fix
 - Project directive: UMBRA-D-006
-- Goal: Habitat partner entities + noisy cue perception (Task 3)
+- Goal: Fix response_timing_pattern clamp saturation in noisy partner cues
 - Status: complete
-- Acceptance: pytest tests/test_d006.py → 10 passed — met
-- Touched files: umbra_core/embodiment.py, umbra_core/perception.py, tests/test_d006.py
+- Acceptance: pytest tests/test_d006.py → 11 passed — met
+- Touched files: umbra_core/perception.py, tests/test_d006.py
 - Next action: Task 4 — SocialEngine core
 
 ## Repo facts needed now
 - Mimir project: 7777645d52a91b49
-- Mimir task: 9b2cbb6d1bc04dc68a184b4e0fa39d9e
+- Mimir task: 37a628af731641a4bdfe9d7aacefa7ae
 
 ## Last validation
-- Command: pytest tests/test_d006.py -v; pytest tests/test_d001.py tests/test_d001c_closeout.py tests/test_d002v.py -q
-- Result: 10 passed; 57 passed smoke
+- Command: pytest tests/test_d006.py -v
+- Result: 11 passed
 
 ## Open blockers
 - none

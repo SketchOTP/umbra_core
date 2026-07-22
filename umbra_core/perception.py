@@ -50,6 +50,9 @@ PARTNER_CUE_FIELDS = (
     "cue_uncertainty",
 )
 
+# true_cues store timing in tick units; normalize before noisy clamp to [0,1]
+_TIMING_CUE_SCALE = 32.0  # ponytail: max expected ticks from D-006 thresholds
+
 
 @dataclass
 class PerceptionMembrane:
@@ -159,13 +162,19 @@ class PerceptionMembrane:
             # ponytail: always add noise — no permanently unique perfect cues
             return [clamp(v + prng.gauss(0.0, sigma), 0.0, 1.0) for v in vec]
 
+        def noisy_timing_vec(vec: tuple[float, ...], sigma: float = noise + 0.12) -> list[float]:
+            # true_cues in tick units; rescale to [0,1] before noise so cues stay discriminative
+            return [
+                clamp(v / _TIMING_CUE_SCALE + prng.gauss(0.0, sigma), 0.0, 1.0) for v in vec
+            ]
+
         conf = clamp(1.0 - (d / body.sensor_range) * 0.5 - abs(prng.gauss(0.0, 0.05)), 0.15, 0.92)
         unc = clamp(1.0 - conf + 0.05, 0.05, 0.95)
         return {
             "relative_position": [rel_x, rel_y],
             "motion_signature": noisy_vec(tc.motion_signature),
             "appearance_signature": noisy_vec(tc.appearance_signature),
-            "response_timing_pattern": noisy_vec(tc.response_timing_pattern, noise + 0.12),
+            "response_timing_pattern": noisy_timing_vec(tc.response_timing_pattern),
             "interaction_style_cues": noisy_vec(tc.interaction_style_cues),
             "cue_confidence": conf,
             "cue_uncertainty": unc,

@@ -48,13 +48,10 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-006 directive: `docs/directives/UMBRA-D-006-social-contingency.md`
 - D-006 preregistration: `experiments/d006/thresholds.json`, `experiments/d006/experiment-matrix.json`
 - D-006 evidence (pending): `docs/evidence/d006/`
-- D-006 tests: `tests/test_d006.py` (Task 2: signal capabilities + social event authority)
+- D-006 tests: `tests/test_d006.py` (Task 2: signals; Task 3: partner entities + noisy cues)
 - D-006 social engine (pending): `umbra_core/social/`
-- `umbra_core/util.py` — `current_rss_mib` (VmRSS), `ols_slope`, `BoundedRing`
-- `umbra_core/events.py` — `SELF_MODEL_EVENT_AUTHORITY`, `SOCIAL_EVENT_AUTHORITY`; `world_model_supersede`; `runtime_ready`; `memory_correction`
-- `umbra_core/runtime.py` — `emit_runtime_ready`; world/development/memory interventions; organism loop
-- `umbra_core/persistence.py` — `prune_snapshots(keep=2)`
-- `umbra_core/embodiment.py` — habitat plant + `SIGNAL_PLAY`/`SIGNAL_ASSISTANCE` actuation + world/development/memory history interventions
+- `umbra_core/perception.py` — habitat + partner cue membrane (`partner_cues` in policy_view)
+- `umbra_core/embodiment.py` — habitat plant + `SIGNAL_*` + `PartnerEntity`/`apply_social_history`/`hidden_partner_truth_for_eval`
 
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)

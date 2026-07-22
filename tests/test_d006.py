@@ -122,6 +122,15 @@ def test_social_history_policies_h0_through_h10_exist():
         assert hasattr(policy, "response_delay_ticks")
 
 
+def test_response_timing_pattern_not_saturated_for_h0():
+    _, view = _perceive_partner_cues("H0", seed=1)
+    timing = view["partner_cues"][0]["response_timing_pattern"]
+    assert len(timing) == 3
+    # H0 true timing is (2.0, 5.0, 1.0) ticks — must not collapse to ~[1,1,1] after noise
+    assert not all(abs(v - 1.0) < 0.01 for v in timing), f"saturated timing cue: {timing}"
+    assert max(timing) - min(timing) > 0.05, f"timing cue lacks variance: {timing}"
+
+
 def test_h7_absence_suppresses_partner_cues_during_window():
     from umbra_core.embodiment import Embodiment
     from umbra_core.perception import PerceptionMembrane
