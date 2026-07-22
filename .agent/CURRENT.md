@@ -19,4 +19,5 @@
 - Result: UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED; 258 passed 0 skipped; prior_seals_valid True
 
 ## Open blockers
-- mimir_validation_run: "validation requires an active observed task" (precedent Tasks 4-12) — validated locally with pytest
+- mimir_validation_run: "validation requires an active observed task" (precedent Tasks 4-12) — validated locally with pytest (258 passed, 0 skipped)
+- mimir_task_close/observe (task bc16bcfbb04340bf89b8a250e7062ade): server-side "task not found" on writes though task_evidence reads OK and mimir_health production_ready (begin baseline was "degraded" Windows-path). Resolve/begin/context_compile/observe(v1-3)/evidence done; close-out BLOCKED — not faked. Git seal (commit 9dd2022; tip 51ef187) is source of truth.
