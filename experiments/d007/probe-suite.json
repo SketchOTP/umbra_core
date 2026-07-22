@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "directive": "UMBRA-D-007",
+  "frozen_before_execution": true,
+  "note": "Evaluator-only held-out probes. Probe labels never enter organism runtime or IndividualityEngine state.",
+  "fingerprint_dimensions": [
+    "activity_preference",
+    "object_preference",
+    "exploration_breadth",
+    "novelty_approach",
+    "persistence",
+    "uncertainty_response",
+    "stimulation_tolerance",
+    "recovery_behavior",
+    "activity_timing",
+    "social_initiation",
+    "partner_specific_response",
+    "routine_selection",
+    "interruption_behavior"
+  ],
+  "probes": [
+    {"id": "P_explore_safe", "family": "explore", "context": "safe_explore", "capability_focus": ["MOVE", "INSPECT"], "held_out": true},
+    {"id": "P_novelty", "family": "explore", "context": "novelty_probe", "capability_focus": ["APPROACH", "INSPECT"], "held_out": true},
+    {"id": "P_persist_solvable", "family": "persist", "context": "solvable_task", "capability_focus": ["INSPECT", "CHARGE"], "held_out": true},
+    {"id": "P_uncertain_hazard", "family": "hazard", "context": "uncertain_hazard", "capability_focus": ["RETREAT", "IDLE"], "held_out": true},
+    {"id": "P_high_stim", "family": "stim", "context": "high_stim", "capability_focus": ["INSPECT", "REST"], "held_out": true},
+    {"id": "P_recovery", "family": "recover", "context": "post_stim_recovery", "capability_focus": ["REST", "IDLE"], "held_out": true},
+    {"id": "P_timing", "family": "timing", "context": "diurnal_phase", "capability_focus": ["MOVE", "REST"], "held_out": true},
+    {"id": "P_social_play", "family": "social", "context": "play_context", "capability_focus": ["SIGNAL_PLAY", "APPROACH"], "held_out": true},
+    {"id": "P_social_assist", "family": "social", "context": "assistance_context", "capability_focus": ["SIGNAL_ASSISTANCE", "APPROACH"], "held_out": true},
+    {"id": "P_object_A", "family": "persist", "context": "object_family_a", "capability_focus": ["INSPECT", "APPROACH"], "held_out": true},
+    {"id": "P_object_B", "family": "persist", "context": "object_family_b", "capability_focus": ["INSPECT", "APPROACH"], "held_out": true},
+    {"id": "P_interrupt", "family": "recover", "context": "interruption", "capability_focus": ["IDLE", "ORIENT"], "held_out": true},
+    {"id": "P_routine", "family": "timing", "context": "routine_window", "capability_focus": ["MOVE", "CHARGE"], "held_out": true}
+  ],
+  "probe_ordering": [
+    "P_explore_safe",
+    "P_novelty",
+    "P_persist_solvable",
+    "P_uncertain_hazard",
+    "P_high_stim",
+    "P_recovery",
+    "P_timing",
+    "P_social_play",
+    "P_social_assist",
+    "P_object_A",
+    "P_object_B",
+    "P_interrupt",
+    "P_routine"
+  ]
+}

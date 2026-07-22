@@ -4,7 +4,7 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 - `.agent/PROJECT_GOAL.md` — product SoT (companion organism core; chemistry optional/non-gating)
-- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-006 active)
+- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-007 in progress)
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
 - `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`)
@@ -58,6 +58,18 @@ Concise navigation map for agents. Add entries as application code lands.
 - `umbra_core/perception.py` — habitat + partner cue membrane (`partner_cues` in policy_view); identity-signature noise floor `_PARTNER_IDENTITY_NOISE_SIGMA=0.14` < spatial noise so distinct partners stay separable (Task 12 Critical fix)
 - `umbra_core/embodiment.py` — habitat plant + `SIGNAL_*` + `PartnerEntity`/`apply_social_history`/`hidden_partner_truth_for_eval`; `PartnerTrueCues.for_history` uses antipodal per-index identity basis (`_identity_offsets`, noise-free inter-partner cue distance ~0.69; ambiguous H9 tiny amplitude) — Task 12 Critical fix, frozen threshold unchanged
 - D-006 organism recognition (real-path Gate 3): `experiments/d006/run_experiment.py::_organism_recognition` + `tests/test_d006.py::test_organism_h8_distinct_partners_do_not_silently_merge`/`test_organism_h9_ambiguous_partners_are_not_split_into_distinct_identities`
+
+
+## Organism kernel (D-007)
+- `umbra_core/individuality/` — lived individuality / history-shaped dispositions
+  - `engine.py` — IndividualityEngine / DispositionEstimate / VerifiedEvidence / condition_to_individuality_config
+- D-007 directive: `docs/directives/UMBRA-D-007-lived-individuality.md`
+- D-007 design: `docs/superpowers/specs/2026-07-22-umbra-d007-lived-individuality-design.md`
+- D-007 preregistration: `experiments/d007/{thresholds,experiment-matrix,probe-suite}.json`
+- D-007 harness: `experiments/d007/run_experiment.py`, `run_performance.py`, `run_seal.py`, `history_schedules.py`, `fingerprint.py`, `diagnostic_controllers.py` (C2/C3 only)
+- D-007 tests: `tests/test_d007.py`
+- D-007 evidence: `docs/evidence/d007/`
+- Runtime: `OrganismConfig.individuality_enabled` + history plant `Embodiment.apply_individuality_history`; arbitration `individuality_apply` modifiers; authoritative individuality events in `events.py`
 
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)
