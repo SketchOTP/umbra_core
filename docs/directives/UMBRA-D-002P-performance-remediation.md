@@ -4,8 +4,8 @@
 
 **Parent:** UMBRA-D-002V (`UMBRA_D002V_PERFORMANCE_FAIL` — preserved, not waived)
 
-**Status:** in progress
+**Status:** closed — `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`
 
 **Evidence:** `docs/evidence/d002p/`
 
-**D-003:** blocked until `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`
+**D-003:** authorized under `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`

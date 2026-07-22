@@ -1,0 +1,31 @@
+{
+  "directive": "UMBRA-D-002P",
+  "verdict": "UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED",
+  "starting_commit": "97e5df2175817b9122f5724aaedd2c320d12510c",
+  "soak_commit": "13bdce2311b2a9571d2efcf1a6500a91760bb171",
+  "hashes": {
+    "behavior-equivalence.json": "4ed747aee803df430783960079c38cc959a99055077d2b3b4c9c27b2c6f7c861",
+    "evidence-hashes.json": "643a6b2939729178ca8b69e5e50442a6f4f5667f89b3f947447135bab2559508",
+    "final-verdict.md": "4d676794068be07267b6d4732a8ddbe1cde7296ec42238eb42c283b4908a9e86",
+    "memory-attribution.md": "aa80d058c15e3caa90e5ca03ded87da6cb84f541bb18cbfc3251178c0c441483",
+    "memory-profile-remediated-3m.json": "e6774e10f6829857b3a613e996536bf999b8731f323222e918ed817f6058876c",
+    "memory-profile.json": "d2c3dfd442c79a9b7df8ed00ebd292db61760f02a9d575e414ddd1c0dabd4c7b",
+    "method-preregistration.json": "fdc637c77c6ef4863d49e3294c4bff363be467d375aa9e460217ceb164b5f660",
+    "performance-results-attempt1-prefill.json": "0b56061cbbbe8da0f6974b2d9423307c52b78cc8b6f6829e05c1e19c6a00c0e0",
+    "performance-results-attempt2-reuse.json": "a58fb517f59eb989ec094226f3c1c192901df74df8aaef12dc91358739c9d22a",
+    "performance-results-probe20m-warm.json": "4982fe9c190820f65c243699461bd3c89e70991501bb2d97eb07a1de7f0645bc",
+    "performance-results-probe30m.json": "da86a638db2c7108677c6f93b78ee242a2b1f1a3c10527d712dd6d67a8ab0c77",
+    "performance-results.json": "e4db41f75684cd7d9215d251933465849fbff36261d29bfc0520f6006be07a64",
+    "post-validators.log": "18caebc3bee30b527c009960cdceffbbbf3f2b7beb369fd7868643a6fdde2bf7",
+    "replay-results.json": "e0c3340230ff160e475cc8711d4c9f80365493f0d6305fc1d55feae63e3ee571",
+    "soak-2h-attempt1.jsonl": "57f0bc9bb2e28408547a6a0f18ff521a41c9778a352e41f69dc6d7b7b4148d3b",
+    "soak-2h-attempt2.jsonl": "78c869a6543f1f980b2e0f048e8728242c132847debf13df66c7708d8a0f5da5",
+    "soak-2h-probe20m-warm.jsonl": "435d4dae953b084c6862f9677ad75a0f7285197bfc8dcfd338a6692bacb67ba0",
+    "soak-2h-probe30m.jsonl": "29278662780d0d10c6d7efcf3b16276e0296560e31855ba808e0887bd7110344",
+    "soak-2h-summary.json": "e4db41f75684cd7d9215d251933465849fbff36261d29bfc0520f6006be07a64",
+    "soak-2h.jsonl": "55f4379a894cd8eaccad5d987eb6b6a948c299f6cc1c59373e20f0f47f809d78",
+    "soak-2h.log": "e4db41f75684cd7d9215d251933465849fbff36261d29bfc0520f6006be07a64",
+    "soak-commit.txt": "980601f37fbf52d684949d450947e26ff2d99ca046fe4107b19445802e03009b",
+    "test-results.txt": "799d7aa52e3cfda79323cc24cdca18eea99d24d157b9c325860a2c71068cd605"
+  }
+}
