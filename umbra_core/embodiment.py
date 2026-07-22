@@ -18,6 +18,8 @@ CAPABILITIES = (
     "INSPECT",
     "REST",
     "CHARGE",
+    "SIGNAL_PLAY",
+    "SIGNAL_ASSISTANCE",
 )
 
 
@@ -549,6 +551,13 @@ class Embodiment:
             else:
                 b.velocity = 0.0
                 detail["rested"] = True
+        elif capability in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE"):
+            b.velocity = 0.0
+            detail["environmental_event"] = {
+                "kind": "social_signal",
+                "signal": capability,
+                "tick": int(params.get("tick", 0)),
+            }
         elif capability == "CHARGE":
             # resource or novel chargeable kinds (impossible_node never charges)
             toward = params.get("toward")

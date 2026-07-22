@@ -8,6 +8,26 @@ depend on them.
 
 from __future__ import annotations
 
+# D-006 social conceptual events → authority class (ledger type names).
+SOCIAL_EVENT_AUTHORITY: dict[str, str] = {
+    "social_hypothesis_created": "AUTHORITATIVE",
+    "social_hypothesis_merged": "AUTHORITATIVE",
+    "social_hypothesis_split": "AUTHORITATIVE",
+    "social_hypothesis_contested": "AUTHORITATIVE",
+    "social_hypothesis_retired": "AUTHORITATIVE",
+    "social_recognition_updated": "AUTHORITATIVE",
+    "social_pending_created": "AUTHORITATIVE",
+    "social_pending_resolved": "AUTHORITATIVE",
+    "social_pending_expired": "AUTHORITATIVE",
+    "social_pending_interrupted": "AUTHORITATIVE",
+    "social_contingency_updated": "AUTHORITATIVE",
+    "social_reliability_revised": "AUTHORITATIVE",
+    "social_satiation_anchor_updated": "AUTHORITATIVE",
+    "social_routine_promoted": "AUTHORITATIVE",
+    "social_routine_deactivated": "AUTHORITATIVE",
+    "social_match_score": "DIAGNOSTIC",
+}
+
 # Must be emitted on every occurrence (no cadence skip).
 AUTHORITATIVE_EVENT_TYPES = frozenset(
     {
@@ -24,6 +44,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "runtime_ready",
         "memory_correction",
     }
+    | {name for name, klass in SOCIAL_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
 )
 
 # Optional / diagnostic — may be downsampled or omitted; not required for replay.
@@ -98,3 +119,9 @@ def self_model_authority_class(name: str) -> str:
     if name not in SELF_MODEL_EVENT_AUTHORITY:
         raise KeyError(f"unknown_self_model_event:{name}")
     return SELF_MODEL_EVENT_AUTHORITY[name]
+
+
+def social_event_authority_class(name: str) -> str:
+    if name not in SOCIAL_EVENT_AUTHORITY:
+        raise KeyError(f"unknown_social_event:{name}")
+    return SOCIAL_EVENT_AUTHORITY[name]

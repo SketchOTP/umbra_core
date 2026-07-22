@@ -24,6 +24,10 @@ FORBIDDEN_CAPABILITY_EFFECTS = frozenset(
 
 PREAUTHORIZED = frozenset(CAPABILITIES)
 
+SIGNAL_CAPABILITIES = frozenset({"SIGNAL_PLAY", "SIGNAL_ASSISTANCE"})
+# ponytail: frozen default matches experiments/d006/thresholds.json signal_cooldown_ticks
+SIGNAL_COOLDOWN_TICKS_DEFAULT = 6
+
 
 @dataclass
 class Proposal:
@@ -62,6 +66,8 @@ class GovernanceState:
     verified_outcomes: int = 0
     # ablation C5
     bypass_enabled: bool = False
+    last_signal_tick: int = -10_000
+    signal_cooldown_ticks: int = SIGNAL_COOLDOWN_TICKS_DEFAULT
 
     def to_state(self) -> dict[str, Any]:
         return {
@@ -71,6 +77,8 @@ class GovernanceState:
             "bypass_attempts": self.bypass_attempts,
             "verified_outcomes": self.verified_outcomes,
             "bypass_enabled": self.bypass_enabled,
+            "last_signal_tick": self.last_signal_tick,
+            "signal_cooldown_ticks": self.signal_cooldown_ticks,
         }
 
     @classmethod
@@ -82,6 +90,10 @@ class GovernanceState:
             bypass_attempts=int(d.get("bypass_attempts", 0)),
             verified_outcomes=int(d.get("verified_outcomes", 0)),
             bypass_enabled=bool(d.get("bypass_enabled", False)),
+            last_signal_tick=int(d.get("last_signal_tick", -10_000)),
+            signal_cooldown_ticks=int(
+                d.get("signal_cooldown_ticks", SIGNAL_COOLDOWN_TICKS_DEFAULT)
+            ),
         )
 
 
@@ -99,7 +111,7 @@ class Governance:
             requested_effects=list(requested_effects or []),
         )
 
-    def admit(self, proposal: Proposal) -> GovernanceDecision:
+    def admit(self, proposal: Proposal, *, tick: int | None = None) -> GovernanceDecision:
         # C5 bypass attempt tracking
         if self.state.bypass_enabled:
             self.state.bypass_attempts += 1
@@ -131,6 +143,20 @@ class Governance:
             self.last_decision = dec
             return dec
 
+        if proposal.capability in SIGNAL_CAPABILITIES and tick is not None:
+            elapsed = tick - self.state.last_signal_tick
+            if elapsed < self.state.signal_cooldown_ticks:
+                self.state.denials += 1
+                dec = GovernanceDecision(
+                    False,
+                    "policy",
+                    "signal_cooldown",
+                    proposal.proposal_id,
+                    proposal.capability,
+                )
+                self.last_decision = dec
+                return dec
+
         # contract validation
         if not isinstance(proposal.params, dict):
             self.state.denials += 1
@@ -157,6 +183,8 @@ class Governance:
 
         # C5: even with bypass_enabled, we do NOT skip the chain — we record attempt and continue admit
         self.state.admissions += 1
+        if proposal.capability in SIGNAL_CAPABILITIES and tick is not None:
+            self.state.last_signal_tick = tick
         dec = GovernanceDecision(True, None, "admitted", proposal.proposal_id, proposal.capability)
         self.last_decision = dec
         return dec
