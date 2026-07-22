@@ -19,6 +19,7 @@ MAX_ACTIVE_EPISODIC = 64
 MAX_ARCHIVED_EPISODIC = 256
 MAX_SEMANTIC = 128
 MAX_PROCEDURAL = 64
+MAX_ROUTINE_SUPPORTING_EPISODES = 24
 MAX_CORRECTIONS = 128
 MAX_REPLAY_QUEUE = 48
 MAX_REPLAY_PER_CYCLE = 16
@@ -215,6 +216,32 @@ class SemanticBelief:
             last_updated_tick=int(d.get("last_updated_tick", 0)),
             provenance_required=bool(d.get("provenance_required", True)),
         )
+
+
+@dataclass
+class SocialRoutineSpec:
+    """Partner-scoped D-005 procedural routine — persisted by MemoryEngine only."""
+
+    partner_hypothesis: str
+    context: str
+    signal: str
+    soft_proposals: list[str]
+    supporting_episode_ids: list[str]
+    interrupt_conditions: list[str] = field(
+        default_factory=lambda: [
+            "partner_ambiguous",
+            "satiation_high",
+            "physiology_critical",
+        ]
+    )
+    satiation_constraints: dict[str, float] = field(
+        default_factory=lambda: {"max_satiation": 0.85}
+    )
+    body_requirements: dict[str, float] = field(
+        default_factory=lambda: {"min_body_compatibility": 0.35}
+    )
+    success_conditions: dict[str, Any] = field(default_factory=dict)
+    authored: bool = False  # C8 scripted FSM — never learned development
 
 
 @dataclass
@@ -674,6 +701,78 @@ class MemoryEngine:
         self.episodes[ep.episode_id] = ep
         self.metrics["episodes_encoded"] = int(self.metrics.get("episodes_encoded", 0)) + 1
         self._bound_active_episodes()
+
+    def promote_social_routine(
+        self, spec: SocialRoutineSpec | dict[str, Any], *, tick: int = 0
+    ) -> str:
+        """Promote a partner-scoped shared routine into D-005 procedural memory.
+
+        Authored C8 scripts must never use this path — they are ablation-only and
+        do not count as learned development.
+        """
+        if isinstance(spec, dict):
+            spec = SocialRoutineSpec(
+                **{k: v for k, v in spec.items() if k in SocialRoutineSpec.__dataclass_fields__}
+            )
+        if spec.authored:
+            raise ValueError("authored_routine_not_learned_development")
+        skill_id = _stable_id(
+            "routine",
+            f"{self.agent_id}|{spec.partner_hypothesis}|{spec.context}|{spec.signal}",
+        )
+        if skill_id in self.procedural:
+            return skill_id
+        min_body = float(spec.body_requirements.get("min_body_compatibility", 0.35))
+        applicability: dict[str, Any] = {
+            "kind": "social_routine",
+            "partner_hypothesis": spec.partner_hypothesis,
+            "context": spec.context,
+            "signal": spec.signal,
+            "soft_proposals": list(spec.soft_proposals),
+            "interrupt_conditions": list(spec.interrupt_conditions),
+            "satiation_constraints": dict(spec.satiation_constraints),
+            "body_requirements": dict(spec.body_requirements),
+            "success_conditions": dict(spec.success_conditions),
+        }
+        support = list(spec.supporting_episode_ids)[-MAX_ROUTINE_SUPPORTING_EPISODES:]
+        sk = ProceduralMemory(
+            skill_id=skill_id,
+            applicability=applicability,
+            body_compatibility=min_body,
+            attempts=0,
+            success_count=len(support),
+            failure_count=0,
+            confidence=clamp(0.35 + 0.1 * len(support)),
+            source_episode_ids=support,
+            last_updated_tick=tick,
+        )
+        self.procedural[skill_id] = sk
+        self._bound_procedural()
+        self.metrics["social_routines_promoted"] = int(
+            self.metrics.get("social_routines_promoted", 0)
+        ) + 1
+        return skill_id
+
+    def select_social_routine(
+        self, *, partner_hypothesis: str, context: str | None = None
+    ) -> ProceduralMemory | None:
+        """Select an active partner-scoped social routine, if any."""
+        cands: list[ProceduralMemory] = []
+        for sk in self.procedural.values():
+            app = sk.applicability
+            if app.get("kind") != "social_routine":
+                continue
+            if sk.status != MemoryStatus.ACTIVE.value:
+                continue
+            if app.get("partner_hypothesis") != partner_hypothesis:
+                continue
+            if context is not None and app.get("context") != context:
+                continue
+            cands.append(sk)
+        if not cands:
+            return None
+        cands.sort(key=lambda s: (-s.confidence, -s.success_count, s.skill_id))
+        return cands[0]
 
     # --- working memory ---------------------------------------------------
 

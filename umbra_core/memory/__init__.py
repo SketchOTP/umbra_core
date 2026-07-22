@@ -20,6 +20,7 @@ from umbra_core.memory.engine import (
     RetrievalKind,
     RetrievalResult,
     SemanticBelief,
+    SocialRoutineSpec,
     WorkingItem,
     condition_to_memory_config,
 )
@@ -42,6 +43,7 @@ __all__ = [
     "RetrievalKind",
     "RetrievalResult",
     "SemanticBelief",
+    "SocialRoutineSpec",
     "WorkingItem",
     "condition_to_memory_config",
 ]

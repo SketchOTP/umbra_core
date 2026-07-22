@@ -1175,3 +1175,121 @@ def test_recovery_history_revises_expectation(tmp_path):
     assert recovered > lowered
     assert recovered <= 1.0
     store.close()
+
+
+# --- Task 8: shared routines via D-005 procedural promotion ---
+
+
+def test_shared_routine_is_learned(tmp_path):
+    from umbra_core.memory import MemoryEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+
+    assert not engine.routine_eligible(hid, "play", "SIGNAL_PLAY", mem)
+    _build_reliability(engine, hid, store, mem, contingent=3)
+
+    assert engine.routine_eligible(hid, "play", "SIGNAL_PLAY", mem)
+    skill_id = engine.maybe_promote_routine(
+        hid, "play", "SIGNAL_PLAY", mem, store=store, tick=200
+    )
+    assert skill_id is not None
+    sk = mem.procedural[skill_id]
+    assert sk.applicability["kind"] == "social_routine"
+    assert sk.applicability["partner_hypothesis"] == hid
+    assert sk.applicability["context"] == "play"
+    assert sk.applicability["soft_proposals"] == ["APPROACH_PARTNER", "OFFER_PLAY"]
+    assert len(sk.source_episode_ids) >= 3
+    events = [e for e in store.iter_events() if e["event_type"] == "social_routine_promoted"]
+    assert len(events) == 1
+    store.close()
+
+
+def test_shared_routine_is_interruptible(tmp_path):
+    from umbra_core.memory import MemoryEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+    _build_reliability(engine, hid, store, mem, contingent=3)
+    skill_id = engine.maybe_promote_routine(
+        hid, "play", "SIGNAL_PLAY", mem, store=store, tick=200
+    )
+    assert skill_id is not None
+
+    intent = engine.next_routine_proposal(hid, "play", tick=201, memory=mem)
+    assert intent == "APPROACH_PARTNER"
+    rkey = engine._routine_key(hid, "play", "SIGNAL_PLAY")
+    assert engine.routine_handles[rkey].step_index == 1
+
+    assert engine.interrupt_active_routine(hid, "partner_ambiguous", store=store, tick=202)
+    assert engine.routine_handles[rkey].status == "INTERRUPTED"
+    assert engine.next_routine_proposal(hid, "play", tick=203, memory=mem) is None
+
+    cand = engine.propose(
+        phys=type("P", (), {"critical_any": lambda self: False})(),
+        cues=[_social_cue()],
+        tick=204,
+        critical=True,
+        memory=mem,
+    )
+    assert cand is None
+    store.close()
+
+
+def test_scripted_routine_is_not_development(tmp_path):
+    from umbra_core.memory import MemoryEngine, SocialRoutineSpec
+    from umbra_core.social import SocialEngine, condition_to_social_config
+
+    mem = MemoryEngine.create("agent-1", seed=1)
+    with pytest.raises(ValueError, match="authored_routine_not_learned_development"):
+        mem.promote_social_routine(
+            SocialRoutineSpec(
+                partner_hypothesis="hyp-1",
+                context="play",
+                signal="SIGNAL_PLAY",
+                soft_proposals=["OFFER_PLAY"],
+                supporting_episode_ids=["ep-1"],
+                authored=True,
+            )
+        )
+
+    cfg = condition_to_social_config("C8")
+    assert cfg.scripted_routine is True
+    store = _new_store(tmp_path)
+    engine = SocialEngine.create("agent-1", seed=1, config=cfg)
+    engine.recognize([_social_cue()], tick=1)
+    r = engine.recognize([_social_cue()], tick=2)
+    hid = r.matches[0].hypothesis_id
+    _build_reliability(engine, hid, store, mem, contingent=3)
+
+    assert not engine.routine_eligible(hid, "play", "SIGNAL_PLAY", mem)
+    assert engine.maybe_promote_routine(hid, "play", "SIGNAL_PLAY", mem, store=store) is None
+    assert not any(
+        sk.applicability.get("kind") == "social_routine" for sk in mem.procedural.values()
+    )
+    store.close()
+
+
+def test_relationship_state_has_episode_provenance(tmp_path):
+    from umbra_core.memory import MemoryEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+    _build_reliability(engine, hid, store, mem, contingent=3)
+
+    links = store.social_evidence_links_for(hid)
+    assert len(links) >= 3
+    episode_ids = {lnk["episode_id"] for lnk in links}
+    for eid in episode_ids:
+        assert eid in mem.episodes
+    assert episode_ids.issubset(set(engine.hypotheses[hid].evidence_refs))
+
+    cell = engine.contingency_cells[engine._cell_key(hid, "play", "SIGNAL_PLAY")]
+    assert len(cell.supporting_episode_ids) >= 3
+    assert engine.hypotheses[hid].reliability_by_context["play"] > 0.0
+    for eid in cell.supporting_episode_ids:
+        assert eid in mem.episodes
+    store.close()

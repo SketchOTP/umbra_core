@@ -45,6 +45,7 @@ RECOGNITION_CONTEST_GAP_MAX = 0.08
 SATIATION_RISE = 0.12
 SATIATION_DECAY_PER_TICK = 0.002
 MIN_ENCOUNTERS_FOR_FAMILIAR = 2  # ponytail: simplest correct familiarity gate
+ROUTINE_MIN_INDEPENDENT_EPISODES = 3  # experiments/d006/thresholds.json
 
 # Cue fields used for identity matching. `relative_position` is deliberately
 # excluded — spatial tracking belongs to WorldModel, not longitudinal
@@ -159,6 +160,34 @@ def _deterministic_pick(options: list[str], salt: str) -> str:
     """
     idx = sum(ord(c) for c in salt) % len(options)
     return options[idx]
+
+
+@dataclass
+class RoutineHandle:
+    """SocialEngine-side routine execution handle — eligibility lives here; persistence in MemoryEngine."""
+
+    routine_id: str
+    hypothesis_id: str
+    context: str
+    signal: str
+    step_index: int = 0
+    status: str = "ACTIVE"  # ACTIVE | INTERRUPTED | COMPLETED
+    supporting_episode_ids: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> RoutineHandle:
+        return cls(
+            routine_id=str(d["routine_id"]),
+            hypothesis_id=str(d["hypothesis_id"]),
+            context=str(d["context"]),
+            signal=str(d["signal"]),
+            step_index=int(d.get("step_index", 0)),
+            status=str(d.get("status", "ACTIVE")),
+            supporting_episode_ids=list(d.get("supporting_episode_ids") or []),
+        )
 
 
 @dataclass
@@ -327,6 +356,7 @@ class SocialConfig:
     satiation_enabled: bool = True  # C5 off — no social satiation
     preference_familiarity_only: bool = False  # C1 — frequency/familiarity only, no reliability
     random_social_actions: bool = False  # C7 — propose() picks intents deterministically-randomly
+    scripted_routine: bool = False  # C8 — authored FSM; never learned development
     approach_distance: float = SOCIAL_APPROACH_DISTANCE
     min_opportunity: float = SOCIAL_MIN_OPPORTUNITY
     satiated_disengage_threshold: float = SOCIAL_SATIATED_DISENGAGE_THRESHOLD
@@ -352,6 +382,7 @@ class SocialConfig:
     reliability_anomaly_weaken: float = RELIABILITY_ANOMALY_WEAKEN
     swap_detect_score_margin: float = SWAP_DETECT_SCORE_MARGIN
     swap_recency_ticks: int = SWAP_RECENCY_TICKS
+    routine_min_independent_episodes: int = ROUTINE_MIN_INDEPENDENT_EPISODES
 
 
 def condition_to_social_config(condition: str) -> SocialConfig:
@@ -373,7 +404,10 @@ def condition_to_social_config(condition: str) -> SocialConfig:
     if condition == "C7":
         c.random_social_actions = True
         return c
-    # C2/C3/C8/C9 depend on pooled-model/affection-isolation/routine wiring landing
+    if condition == "C8":
+        c.scripted_routine = True
+        return c
+    # C2/C3/C9 depend on pooled-model/affection-isolation/routine wiring landing
     # in later tasks; they fall through to the C0 baseline here (no speculative
     # behavior implemented ahead of that wiring).
     return c
@@ -392,6 +426,7 @@ class SocialEngine:
     archived_hypotheses: dict[str, PartnerHypothesis] = field(default_factory=dict)
     contingency_cells: dict[str, ContingencyCell] = field(default_factory=dict)
     pending: dict[str, PendingInteraction] = field(default_factory=dict)
+    routine_handles: dict[str, RoutineHandle] = field(default_factory=dict)
     config: SocialConfig = field(default_factory=SocialConfig)
     seed: int | None = None
     emit_event: Callable[[str, dict[str, Any]], None] | None = None
@@ -935,12 +970,226 @@ class SocialEngine:
             }
         return Candidate(cap, params)
 
+    # --- shared routines (D-005 procedural promotion) --------------------
+
+    def _routine_key(self, hypothesis_id: str, context: str, signal: str) -> str:
+        return f"{hypothesis_id}|{context}|{signal}"
+
+    def _count_independent_episodes(self, episode_ids: list[str], memory: Any) -> int:
+        """Independent encounters = finalized episodes separated by >= none-timeout."""
+        ticks: list[int] = []
+        for eid in episode_ids:
+            ep = memory.episodes.get(eid) or memory.archived.get(eid)
+            if ep is not None:
+                ticks.append(int(ep.tick))
+        if not ticks:
+            return 0
+        ticks.sort()
+        clusters = 1
+        for i in range(1, len(ticks)):
+            if ticks[i] - ticks[i - 1] >= self.config.response_none_timeout:
+                clusters += 1
+        return clusters
+
+    def routine_eligible(
+        self, hypothesis_id: str, context: str, signal: str, memory: Any
+    ) -> bool:
+        """Promotion gate: finalized episodes + accepted contingency + independent chains."""
+        if self.config.scripted_routine:
+            return False
+        hyp = self.hypotheses.get(hypothesis_id)
+        if hyp is None or hyp.status != HypothesisStatus.FAMILIAR.value:
+            return False
+        key = self._cell_key(hypothesis_id, context, signal)
+        cell = self.contingency_cells.get(key)
+        if cell is None:
+            return False
+        min_ep = self.config.routine_min_independent_episodes
+        if cell.contingent_count < min_ep:
+            return False
+        if cell.confidence < 0.15:
+            return False
+        if self._count_independent_episodes(cell.supporting_episode_ids, memory) < min_ep:
+            return False
+        for eid in cell.supporting_episode_ids[:min_ep]:
+            if eid not in memory.episodes and eid not in memory.archived:
+                return False
+        return True
+
+    def build_routine_spec(
+        self, hypothesis_id: str, context: str, signal: str
+    ) -> dict[str, Any]:
+        key = self._cell_key(hypothesis_id, context, signal)
+        cell = self.contingency_cells[key]
+        soft = (
+            ["APPROACH_PARTNER", "REQUEST_ASSISTANCE"]
+            if context == "assistance"
+            else ["APPROACH_PARTNER", "OFFER_PLAY"]
+        )
+        cap = self.config.max_routine_supporting_episodes
+        return {
+            "partner_hypothesis": hypothesis_id,
+            "context": context,
+            "signal": signal,
+            "soft_proposals": soft,
+            "supporting_episode_ids": list(cell.supporting_episode_ids[-cap:]),
+            "authored": False,
+        }
+
+    def maybe_promote_routine(
+        self,
+        hypothesis_id: str,
+        context: str,
+        signal: str,
+        memory: Any,
+        *,
+        store: Any = None,
+        tick: int = 0,
+    ) -> str | None:
+        """Request D-005 promotion when eligibility is met; idempotent per partner/context/signal."""
+        if not self.routine_eligible(hypothesis_id, context, signal, memory):
+            return None
+        rkey = self._routine_key(hypothesis_id, context, signal)
+        if rkey in self.routine_handles:
+            return self.routine_handles[rkey].routine_id
+        existing = memory.select_social_routine(
+            partner_hypothesis=hypothesis_id, context=context
+        )
+        if existing is not None:
+            return existing.skill_id
+        spec = self.build_routine_spec(hypothesis_id, context, signal)
+        skill_id = memory.promote_social_routine(spec, tick=tick)
+        self.routine_handles[rkey] = RoutineHandle(
+            routine_id=skill_id,
+            hypothesis_id=hypothesis_id,
+            context=context,
+            signal=signal,
+            supporting_episode_ids=list(spec["supporting_episode_ids"]),
+        )
+        payload = {
+            "routine_id": skill_id,
+            "hypothesis_id": hypothesis_id,
+            "context": context,
+            "signal": signal,
+            "supporting_episode_ids": spec["supporting_episode_ids"],
+            "tick": int(tick),
+        }
+        if store is not None:
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type="social_routine_promoted",
+                monotonic_time=float(tick),
+                wall_time=float(tick),
+                payload=payload,
+            )
+        else:
+            self._emit("social_routine_promoted", payload)
+        self.metrics["routines_promoted"] = int(self.metrics.get("routines_promoted", 0)) + 1
+        return skill_id
+
+    def should_interrupt_routine(
+        self,
+        hypothesis_id: str,
+        tick: int,
+        *,
+        critical: bool = False,
+        contested: bool = False,
+        memory: Any | None = None,
+    ) -> bool:
+        handle = self._active_routine_handle(hypothesis_id)
+        if handle is None or handle.status != "ACTIVE":
+            return False
+        if critical or contested:
+            return True
+        satiation = self.current_satiation(hypothesis_id, tick)
+        if self.config.satiation_enabled and satiation >= self.config.satiated_disengage_threshold:
+            return True
+        if memory is not None:
+            sk = memory.procedural.get(handle.routine_id)
+            if sk is not None:
+                max_sat = float(
+                    sk.applicability.get("satiation_constraints", {}).get("max_satiation", 0.85)
+                )
+                if satiation >= max_sat:
+                    return True
+        return False
+
+    def interrupt_active_routine(
+        self,
+        hypothesis_id: str,
+        reason: str,
+        *,
+        store: Any = None,
+        tick: int = 0,
+    ) -> bool:
+        """Abort partner-specific routine execution — soft proposals only."""
+        interrupted = False
+        for handle in self.routine_handles.values():
+            if handle.hypothesis_id != hypothesis_id or handle.status != "ACTIVE":
+                continue
+            handle.status = "INTERRUPTED"
+            handle.step_index = 0
+            interrupted = True
+            payload = {
+                "routine_id": handle.routine_id,
+                "hypothesis_id": hypothesis_id,
+                "reason": str(reason),
+                "tick": int(tick),
+            }
+            if store is not None:
+                store.append_event(
+                    agent_id=self.agent_id,
+                    event_type="social_routine_deactivated",
+                    monotonic_time=float(tick),
+                    wall_time=float(tick),
+                    payload=payload,
+                )
+            else:
+                self._emit("social_routine_deactivated", payload)
+        return interrupted
+
+    def next_routine_proposal(
+        self, hypothesis_id: str, context: str, tick: int, memory: Any
+    ) -> str | None:
+        """Return the next ordered soft proposal from a promoted routine, if any."""
+        sk = memory.select_social_routine(partner_hypothesis=hypothesis_id, context=context)
+        if sk is None:
+            return None
+        signal = str(sk.applicability.get("signal", "SIGNAL_PLAY"))
+        rkey = self._routine_key(hypothesis_id, context, signal)
+        handle = self.routine_handles.get(rkey)
+        if handle is None:
+            handle = RoutineHandle(
+                routine_id=sk.skill_id,
+                hypothesis_id=hypothesis_id,
+                context=context,
+                signal=signal,
+                supporting_episode_ids=list(sk.source_episode_ids),
+            )
+            self.routine_handles[rkey] = handle
+        if handle.status != "ACTIVE":
+            return None
+        proposals = list(sk.applicability.get("soft_proposals") or [])
+        if handle.step_index >= len(proposals):
+            handle.status = "COMPLETED"
+            return None
+        intent = proposals[handle.step_index]
+        handle.step_index += 1
+        return intent
+
+    def _active_routine_handle(self, hypothesis_id: str) -> RoutineHandle | None:
+        for handle in self.routine_handles.values():
+            if handle.hypothesis_id == hypothesis_id and handle.status == "ACTIVE":
+                return handle
+        return None
+
     def propose(
         self,
         phys: Any,
         cues: list[dict[str, Any]],
         tick: int,
         critical: bool,
+        memory: Any | None = None,
     ) -> Candidate | None:
         """Soft social intent — exactly one more `Candidate` for the same admit/execute
         path every other candidate uses (design §5 step 9, §3 hybrid actuation mapping).
@@ -960,6 +1209,11 @@ class SocialEngine:
         if hyp.status == HypothesisStatus.CONTESTED.value:
             return None
 
+        if self.should_interrupt_routine(
+            hyp.hypothesis_id, tick, critical=critical, contested=False, memory=memory
+        ):
+            self.interrupt_active_routine(hyp.hypothesis_id, "interrupt_condition", tick=tick)
+
         bearing = self._bearing_to_partner(cue)
         dist = self._cue_distance(cue)
 
@@ -978,6 +1232,19 @@ class SocialEngine:
         else:
             context, preference = "play", hyp.familiarity * 0.3
         opportunity = clamp(preference * (1.0 - satiation))
+
+        if (
+            memory is not None
+            and not self.config.scripted_routine
+            and hyp.status == HypothesisStatus.FAMILIAR.value
+            and memory.select_social_routine(partner_hypothesis=hyp.hypothesis_id, context=context)
+            is not None
+        ):
+            routine_intent = self.next_routine_proposal(hyp.hypothesis_id, context, tick, memory)
+            if routine_intent is not None:
+                return self._candidate_for(
+                    routine_intent, hyp, bearing, tick, context=context
+                )
 
         if self.config.random_social_actions:
             options = [
@@ -1421,6 +1688,15 @@ class SocialEngine:
             self.metrics["contingency_updates"] = (
                 int(self.metrics.get("contingency_updates", 0)) + 1
             )
+            if cls_val == ResponseClass.CONTINGENT.value:
+                self.maybe_promote_routine(
+                    hyp.hypothesis_id,
+                    context,
+                    signal,
+                    memory,
+                    store=store,
+                    tick=tick,
+                )
 
         store.atomic_social_outcome(
             [
@@ -1672,6 +1948,7 @@ class SocialEngine:
             "archived_hypotheses": {k: v.to_dict() for k, v in self.archived_hypotheses.items()},
             "contingency_cells": {k: v.to_dict() for k, v in self.contingency_cells.items()},
             "pending": {k: v.to_dict() for k, v in self.pending.items()},
+            "routine_handles": {k: v.to_dict() for k, v in self.routine_handles.items()},
             "hypothesis_counter": self._hypothesis_counter,
             "pending_counter": self._pending_counter,
             "metrics": dict(self.metrics),
@@ -1707,6 +1984,10 @@ class SocialEngine:
             }
             eng.pending = {
                 k: PendingInteraction.from_dict(v) for k, v in (state.get("pending") or {}).items()
+            }
+            eng.routine_handles = {
+                k: RoutineHandle.from_dict(v)
+                for k, v in (state.get("routine_handles") or {}).items()
             }
             eng._hypothesis_counter = int(state.get("hypothesis_counter", 0))
             eng._pending_counter = int(state.get("pending_counter", 0))
