@@ -1,0 +1,36 @@
+{
+  "counts_bounded": true,
+  "cpu_mean_frac": 0.003475781750305408,
+  "cpu_mean_pct": 0.3475781750305408,
+  "duration_s": 7200.305155754089,
+  "gate_100k_pass": true,
+  "gate_performance_pass": true,
+  "gate_soak_pass": true,
+  "performance_100k": {
+    "counts_bounded": true,
+    "cpu_frac_of_one_core": 0.8379421085632814,
+    "cpu_s": 82.38865346200001,
+    "db_mib": 188.56640625,
+    "elapsed_s": 98.32260799407959,
+    "restart_continuity": true,
+    "rss_p95_mib": 38.91796875,
+    "ticks": 100000
+  },
+  "rss_p95_mib": 40.54296875,
+  "rss_slope_mib_per_hour": 0.22394947490691813,
+  "soak": {
+    "counts_bounded": true,
+    "cpu_mean_frac": 0.003475781750305408,
+    "cpu_mean_pct": 0.3475781750305408,
+    "db_mib": 33.703125,
+    "duration_s": 7200.305155754089,
+    "gate_soak_pass": true,
+    "rss_p95_mib": 40.54296875,
+    "rss_slope_mib_per_hour": 0.22394947490691813
+  },
+  "thresholds": {
+    "cpu_mean_frac_max": 0.05,
+    "rss_p95_mib_max": 180.0,
+    "rss_slope_mib_per_hour_max": 1.0
+  }
+}

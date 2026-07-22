@@ -1,0 +1,30 @@
+{
+  "d002v_preserved_fail": true,
+  "files": {
+    "docs/evidence/d001/final-verdict.md": {
+      "exists": true,
+      "sha256": "d197ec6ee2a604d4a40a879a4fbe919398c20c2421d3cf44b4f95bdc115d44e0"
+    },
+    "docs/evidence/d002/final-verdict.md": {
+      "exists": true,
+      "sha256": "ad7147647cd3b0a8be4284af43bd54058ec64bbb11cc775082761ae9e2c4b35d"
+    },
+    "docs/evidence/d002p/final-verdict.md": {
+      "exists": true,
+      "sha256": "9ab7c3178cf6d763561424801988dd216f072c5a20cfef2deba6ac854c5a7181"
+    },
+    "docs/evidence/d003/final-verdict.md": {
+      "exists": true,
+      "sha256": "09da2e4a6d6502923efc7b8e63c2b152c142a51869eea1234241c92b3a4286bd"
+    },
+    "docs/evidence/d004/final-verdict.md": {
+      "exists": true,
+      "sha256": "db0de5bf98b10ceb33ce422a58eec061207f154b6606d9b3bdec29540fdd6902"
+    },
+    "docs/evidence/d005/final-verdict.md": {
+      "exists": true,
+      "sha256": "d770a0d652e9ba39aad65d4cbf664b94b269487ceaebe0388c1bbfad92167425"
+    }
+  },
+  "prior_seals_valid": true
+}

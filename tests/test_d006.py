@@ -1700,15 +1700,35 @@ def test_organism_h9_ambiguous_partners_are_not_split_into_distinct_identities(t
         assert created == 1, f"seed {seed}: ambiguous false split (created={created})"
 
 
-@pytest.mark.skip(
-    reason="Gate 12 (100k accelerated ticks / 2h soak / RSS+CPU bounds) runs under "
-    "Task 13 once soak evidence exists; pre-soak skip only — final sealed suite "
-    "requires zero skips (design §8, directive Gate 13)."
-)
 def test_performance_soak_within_bounds():
-    """Gate 12 placeholder — executed and unskipped in Task 13 with
-    docs/evidence/d006/performance-results.json as evidence."""
-    raise NotImplementedError("Task 13 supplies the soak harness and evidence")
+    """Gate 12: 100k accelerated ticks + 2h RUNTIME_READY VmRSS soak within the
+    frozen bounds (rss_p95<=180 MiB, slope<=1.0 MiB/h, cpu<=0.05 frac). Evidence:
+    docs/evidence/d006/performance-results.json (written by experiments/d006/run_performance.py)."""
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    perf = root / "docs/evidence/d006/performance-results.json"
+    assert perf.exists(), "run experiments/d006/run_performance.py to produce Gate 12 evidence"
+    data = json.loads(perf.read_text())
+    thr = json.loads((root / "experiments/d006/thresholds.json").read_text())
+
+    assert data.get("gate_performance_pass") is True, data
+    assert data.get("gate_100k_pass") is True, data
+    assert data.get("gate_soak_pass") is True, data
+
+    soak = data["soak"]
+    assert soak["duration_s"] >= 7200 * 0.99, soak["duration_s"]
+    assert soak["rss_p95_mib"] <= thr["rss_p95_mib_max"], soak["rss_p95_mib"]
+    assert soak["rss_slope_mib_per_hour"] <= thr["rss_slope_mib_per_hour_max"], soak
+    assert soak["cpu_mean_frac"] <= thr["cpu_mean_frac_max"], soak["cpu_mean_frac"]
+    assert soak["counts_bounded"] is True
+
+    k = data["performance_100k"]
+    assert k["ticks"] == 100_000
+    assert k["restart_continuity"] is True
+    assert k["counts_bounded"] is True
+    assert k["rss_p95_mib"] <= thr["rss_p95_mib_max"], k["rss_p95_mib"]
 
 
 def test_prior_seals_validate():

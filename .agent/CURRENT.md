@@ -1,22 +1,22 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-1532-d006-task12-critical-fix
+- ID: D-20260722-1552-d006-task13-perf-seal
 - Project directive: UMBRA-D-006
-- Goal: Fix Task 12 Critical — organism-level partner recognition collapsed distinct partners (PartnerTrueCues separation ~0.17 < PerceptionMembrane identity-cue noise ~0.33); make distinct partners separable through the real path without editing frozen thresholds
-- Status: done — acceptance MET
-- Acceptance: MET — organism real path forms 2 distinct H8 hypotheses + swap detection (no silent merge) and H9 ambiguous stays merged, across 20 seeds (1.0/0.0/1.0); gates 1-9 re-run PASS incl organism-level gate3; frozen recognition_match_threshold(0.55)/thresholds.json/matrix unchanged
-- Touched files: umbra_core/embodiment.py, umbra_core/perception.py, experiments/d006/{run_experiment,run_closeout}.py, tests/test_d006.py, docs/evidence/d006/* (regenerated), .superpowers/sdd/task-12-report.md, .agent/*
-- Next action: Task 13 (performance soak + final UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED seal); Critical finding resolved
+- Goal: Gate 12 performance (100k accelerated + 2h RUNTIME_READY VmRSS soak; social+memory+world enabled; social_history H0) and final UMBRA-D-006 seal
+- Status: done — acceptance MET; UMBRA-D-006 sealed QUALIFIED
+- Acceptance: MET — soak 7200.3s, rss_p95 40.54 MiB (<=180), slope 0.224 MiB/h (<=1.0), cpu 0.00348 frac (<=0.05), bounded; 100k restart_continuity True; pytest tests/ 258 passed 0 skipped; evidence-hashes covers design/thresholds/matrix/sources/tests/all results; verdict UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED; D-007 AUTHORIZED
+- Touched files: experiments/d006/run_performance.py, experiments/d006/run_seal.py, tests/test_d006.py (Gate 12 unskipped), docs/evidence/d006/{performance-results,performance-100k,soak-2h-summary,soak-2h.jsonl,prior-seals,schema-manifest,evidence-hashes,final-verdict}, .agent/*, .superpowers/sdd/task-13-report.md
+- Next action: none — UMBRA-D-006 closed QUALIFIED; D-007 authorized when opened
 
 ## Repo facts needed now
-- Root cause: identity separation lived in a small scalar salt below perception noise. Fix keeps noise but (a) antipodal per-index identity basis in PartnerTrueCues.for_history (noise-free inter-partner cue distance ~0.69), (b) PerceptionMembrane identity-signature noise floor 0.14 < spatial noise 0.33 (cues stay noisy). Ambiguous H9 keeps tiny amplitude so partners collapse/contest.
-- Gate 3 now requires BOTH synthetic mechanism check AND organism real-path check (_organism_recognition, 20 seeds). Two end-to-end organism tests added.
-- Frozen thresholds.json / experiment-matrix.json untouched (fix was in production cue/perception calibration + harness, not frozen gates).
+- Soak (social+memory+world, seed 7, H0, 2 Hz): rss_p95 40.54 MiB, slope 0.224 MiB/h, cpu 0.00348 frac, bounded, 7200.3 s
+- 100k (seed 42): rss_p95 38.9 MiB, restart_continuity True, counts_bounded True, db ~187 MiB (not gated)
+- Frozen thresholds: rss_p95_mib_max 180, rss_slope_mib_per_hour_max 1.0, cpu_mean_frac_max 0.05 (unchanged)
 
 ## Last validation
-- Command: python -m pytest tests/test_d006.py -q ; python experiments/d006/run_experiment.py ; python experiments/d006/run_closeout.py
-- Result: 79 passed/1 skipped; gates 1-9 PASS (1875 rows, 64.7s); UMBRA_D006_EXPERIMENT_GATES_1_9_PASS
+- Command: python experiments/d006/run_seal.py ; pytest tests/ -q
+- Result: UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED; 258 passed 0 skipped; prior_seals_valid True
 
 ## Open blockers
-- mimir_validation_run: "validation requires an active observed task" (same precedent Tasks 4-12) — validated locally; Mimir task begun/observed/closed
+- mimir_validation_run: "validation requires an active observed task" (precedent Tasks 4-12) — validated locally with pytest

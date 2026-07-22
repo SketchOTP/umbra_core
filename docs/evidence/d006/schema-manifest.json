@@ -1,0 +1,94 @@
+{
+  "bounds": {
+    "max_active_contradicting_episodes": 24,
+    "max_active_evidence_refs": 32,
+    "max_active_supporting_episodes": 24,
+    "max_contingency_cells": 256,
+    "max_partner_hypotheses": 16,
+    "max_pending_interactions": 8,
+    "max_routine_supporting_episodes": 24,
+    "max_source_hypothesis_ids": 8
+  },
+  "contingency_cell_fields": [
+    "hypothesis_id",
+    "context",
+    "signal",
+    "latency_ema",
+    "latency_variance",
+    "contingent_count",
+    "delayed_count",
+    "none_count",
+    "coincidental_count",
+    "ambiguous_count",
+    "external_count",
+    "confidence",
+    "supporting_episode_ids",
+    "contradicting_episode_ids",
+    "last_updated"
+  ],
+  "hypothesis_status": [
+    "UNKNOWN",
+    "FAMILIAR",
+    "CONTESTED",
+    "INACTIVE"
+  ],
+  "partner_hypothesis_fields": [
+    "hypothesis_id",
+    "status",
+    "recognition_confidence",
+    "cue_prototype",
+    "encounter_count",
+    "familiarity",
+    "responsiveness",
+    "reliability_by_context",
+    "interaction_preference_by_context",
+    "satiation_anchor",
+    "uncertainty",
+    "last_interaction_tick",
+    "last_satiation_update_tick",
+    "decay_parameters",
+    "evidence_refs",
+    "source_hypothesis_ids",
+    "created_tick"
+  ],
+  "pending_interaction_fields": [
+    "pending_interaction_id",
+    "hypothesis_id_at_signal",
+    "recognition_confidence",
+    "context",
+    "signal",
+    "execution_id",
+    "signal_tick",
+    "response_window",
+    "status",
+    "created_tick"
+  ],
+  "pending_status": [
+    "PENDING",
+    "RESOLVED",
+    "EXPIRED",
+    "INTERRUPTED"
+  ],
+  "performance_bounds": {
+    "cpu_mean_frac_max": 0.05,
+    "rss_p95_mib_max": 180,
+    "rss_slope_mib_per_hour_max": 1.0
+  },
+  "response_class": [
+    "EXTERNAL",
+    "AMBIGUOUS",
+    "CONTINGENT",
+    "DELAYED",
+    "COINCIDENTAL",
+    "NONE"
+  ],
+  "routine_handle_fields": [
+    "routine_id",
+    "hypothesis_id",
+    "context",
+    "signal",
+    "step_index",
+    "status",
+    "supporting_episode_ids"
+  ]
+}
