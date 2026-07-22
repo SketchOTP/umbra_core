@@ -24,6 +24,176 @@ CAPABILITIES = (
 
 
 @dataclass
+class PartnerTrueCues:
+    motion_signature: tuple[float, ...]
+    appearance_signature: tuple[float, ...]
+    response_timing_pattern: tuple[float, ...]
+    interaction_style_cues: tuple[float, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "motion_signature": list(self.motion_signature),
+            "appearance_signature": list(self.appearance_signature),
+            "response_timing_pattern": list(self.response_timing_pattern),
+            "interaction_style_cues": list(self.interaction_style_cues),
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> PartnerTrueCues:
+        return cls(
+            motion_signature=tuple(float(x) for x in d["motion_signature"]),
+            appearance_signature=tuple(float(x) for x in d["appearance_signature"]),
+            response_timing_pattern=tuple(float(x) for x in d["response_timing_pattern"]),
+            interaction_style_cues=tuple(float(x) for x in d["interaction_style_cues"]),
+        )
+
+    @classmethod
+    def for_history(cls, history_code: str, *, index: int = 0, ambiguous: bool = False) -> PartnerTrueCues:
+        h = int(history_code[1:]) if history_code[1:].isdigit() else 0
+        salt = index * (0.01 if ambiguous else 0.17)
+        return cls(
+            motion_signature=(0.2 + h * 0.05 + salt, 0.3 + salt, 0.1),
+            appearance_signature=(0.5 + h * 0.03, 0.4, 0.2 + salt),
+            response_timing_pattern=(2.0 + h * 0.2, 5.0, 1.0),
+            interaction_style_cues=(0.6 + salt, 0.3, 0.5),
+        )
+
+
+@dataclass
+class PartnerResponsePolicy:
+    """Stub response policy for social history plants H0–H10 (SocialEngine comes later)."""
+
+    history_code: str
+    mode: str = "contingent"
+    contingent_probability: float = 0.85
+    flip_at: float | None = None
+    absent_windows: list[tuple[float, float]] = field(default_factory=list)
+
+    def should_respond(self, signal: str, now: float, rng: SeededRNG) -> bool:
+        if self.mode == "noncontingent":
+            return rng.random() < 0.5
+        if self.mode == "unreliable":
+            return rng.random() < 0.3
+        if self.mode == "assistance":
+            return signal == "SIGNAL_ASSISTANCE" and rng.random() < 0.9
+        if self.mode == "interference":
+            return signal in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE") and rng.random() < 0.7
+        if self.mode == "flip":
+            p = 0.85 if (self.flip_at is None or now < self.flip_at) else 0.25
+            return signal in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE") and rng.random() < p
+        if self.mode == "flip_up":
+            p = 0.25 if (self.flip_at is None or now < self.flip_at) else 0.85
+            return signal in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE") and rng.random() < p
+        if self.mode == "routine":
+            return signal == "SIGNAL_PLAY" and rng.random() < 0.9
+        # contingent default
+        return signal in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE") and rng.random() < self.contingent_probability
+
+    def response_delay_ticks(self, now: float, rng: SeededRNG) -> int:
+        if self.mode == "routine":
+            return 3
+        return max(1, int(rng.uniform(1.0, 6.0)))
+
+
+def response_policy_for_history(history_code: str) -> PartnerResponsePolicy:
+    """Factory for H0–H10 partner response policies (evaluator/experiment plant)."""
+    modes: dict[str, tuple[str, dict[str, Any]]] = {
+        "H0": ("contingent", {}),
+        "H1": ("noncontingent", {}),
+        "H2": ("unreliable", {}),
+        "H3": ("assistance", {}),
+        "H4": ("interference", {}),
+        "H5": ("flip", {"flip_at": 50.0}),
+        "H6": ("flip_up", {"flip_at": 50.0}),
+        "H7": ("contingent", {"absent_windows": [(20.0, 40.0)]}),
+        "H8": ("contingent", {}),
+        "H9": ("contingent", {}),
+        "H10": ("routine", {}),
+    }
+    if history_code not in modes:
+        raise ValueError(f"unknown_social_history:{history_code}")
+    mode, extra = modes[history_code]
+    return PartnerResponsePolicy(history_code=history_code, mode=mode, **extra)
+
+
+@dataclass
+class PartnerEntity:
+    hidden_partner_id: str
+    x: float
+    y: float
+    true_cues: PartnerTrueCues
+    response_policy: PartnerResponsePolicy
+    active: bool = True
+
+    def is_visible(self, now: float) -> bool:
+        if not self.active:
+            return False
+        for start, end in self.response_policy.absent_windows:
+            if start <= now < end:
+                return False
+        return True
+
+    def to_state(self) -> dict[str, Any]:
+        return {
+            "hidden_partner_id": self.hidden_partner_id,
+            "x": self.x,
+            "y": self.y,
+            "true_cues": self.true_cues.to_dict(),
+            "response_policy": {
+                "history_code": self.response_policy.history_code,
+                "mode": self.response_policy.mode,
+                "contingent_probability": self.response_policy.contingent_probability,
+                "flip_at": self.response_policy.flip_at,
+                "absent_windows": [list(w) for w in self.response_policy.absent_windows],
+            },
+            "active": self.active,
+        }
+
+    @classmethod
+    def from_state(cls, d: dict[str, Any]) -> PartnerEntity:
+        rp = d["response_policy"]
+        windows = [tuple(float(x) for x in w) for w in rp.get("absent_windows", [])]
+        policy = PartnerResponsePolicy(
+            history_code=str(rp["history_code"]),
+            mode=str(rp.get("mode", "contingent")),
+            contingent_probability=float(rp.get("contingent_probability", 0.85)),
+            flip_at=float(rp["flip_at"]) if rp.get("flip_at") is not None else None,
+            absent_windows=windows,  # type: ignore[arg-type]
+        )
+        return cls(
+            hidden_partner_id=str(d["hidden_partner_id"]),
+            x=float(d["x"]),
+            y=float(d["y"]),
+            true_cues=PartnerTrueCues.from_dict(d["true_cues"]),
+            response_policy=policy,
+            active=bool(d.get("active", True)),
+        )
+
+
+def _partner_salt(partner_id: str) -> int:
+    return sum(ord(c) for c in partner_id) & 0xFFFFFFFF
+
+
+def _make_partner(
+    partner_id: str,
+    x: float,
+    y: float,
+    history_code: str,
+    *,
+    index: int = 0,
+    ambiguous: bool = False,
+    policy: PartnerResponsePolicy | None = None,
+) -> PartnerEntity:
+    return PartnerEntity(
+        hidden_partner_id=partner_id,
+        x=x,
+        y=y,
+        true_cues=PartnerTrueCues.for_history(history_code, index=index, ambiguous=ambiguous),
+        response_policy=policy or response_policy_for_history(history_code),
+    )
+
+
+@dataclass
 class HabitatFeature:
     kind: str  # rest | resource | inspect | hazard | open | novel_*
     x: float
@@ -42,6 +212,7 @@ class Habitat:
     width: float = 20.0
     height: float = 20.0
     features: list[HabitatFeature] = field(default_factory=list)
+    partners: list[PartnerEntity] = field(default_factory=list)
     # D-003 world-intervention plant flags (truth — perception/governance only)
     blocked_cells: list[tuple[float, float, float]] = field(default_factory=list)  # x,y,r
     delayed_consequence_ticks: int = 0
@@ -102,6 +273,7 @@ class Habitat:
             "blocked_cells": [list(c) for c in self.blocked_cells],
             "delayed_consequence_ticks": self.delayed_consequence_ticks,
             "misleading_correlation": self.misleading_correlation,
+            "partners": [p.to_state() for p in self.partners],
         }
 
     @classmethod
@@ -121,6 +293,7 @@ class Habitat:
             for f in d.get("features", [])
         ]
         blocked = [tuple(float(x) for x in c) for c in d.get("blocked_cells", [])]
+        partners = [PartnerEntity.from_state(p) for p in d.get("partners", [])]
         return cls(
             width=float(d.get("width", 20.0)),
             height=float(d.get("height", 20.0)),
@@ -128,6 +301,7 @@ class Habitat:
             blocked_cells=blocked,  # type: ignore[arg-type]
             delayed_consequence_ticks=int(d.get("delayed_consequence_ticks", 0)),
             misleading_correlation=bool(d.get("misleading_correlation", False)),
+            partners=partners,
         )
 
 
@@ -402,6 +576,59 @@ class Embodiment:
         else:
             raise ValueError(f"unknown_memory_history:{code}")
         return tags
+
+    def apply_social_history(self, code: str) -> dict[str, Any]:
+        """D-006 social history plant H0–H10 (habitat partner truth — not policy-visible)."""
+        h = self.habitat
+        tags: dict[str, Any] = {"code": code}
+        partners: list[PartnerEntity] = []
+        if code == "H0":
+            partners.append(_make_partner("p-h0", 12.0, 8.0, code))
+        elif code == "H1":
+            partners.append(_make_partner("p-h1", 12.0, 8.0, code))
+        elif code == "H2":
+            partners.append(_make_partner("p-h2", 12.0, 8.0, code))
+        elif code == "H3":
+            partners.append(_make_partner("p-h3", 12.0, 8.0, code))
+        elif code == "H4":
+            partners.append(_make_partner("p-h4", 12.0, 8.0, code))
+        elif code == "H5":
+            partners.append(_make_partner("p-h5", 12.0, 8.0, code))
+        elif code == "H6":
+            partners.append(_make_partner("p-h6", 12.0, 8.0, code))
+        elif code == "H7":
+            partners.append(_make_partner("p-h7", 12.0, 8.0, code))
+        elif code == "H8":
+            partners.append(_make_partner("p-h8-a", 11.0, 8.0, code, index=0))
+            partners.append(_make_partner("p-h8-b", 13.0, 7.0, code, index=1))
+            tags["swap_at"] = 80.0
+        elif code == "H9":
+            partners.append(_make_partner("p-h9-a", 11.5, 8.0, code, index=0, ambiguous=True))
+            partners.append(_make_partner("p-h9-b", 12.5, 8.0, code, index=1, ambiguous=True))
+            tags["ambiguous_cues"] = True
+        elif code == "H10":
+            partners.append(_make_partner("p-h10", 12.0, 8.0, code))
+            tags["routine_training"] = True
+        else:
+            raise ValueError(f"unknown_social_history:{code}")
+        h.partners = partners
+        return tags
+
+    def hidden_partner_truth_for_eval(self) -> list[dict[str, Any]]:
+        """Evaluator-only accessor — never pass to policy, SocialEngine, or arbitration."""
+        return [
+            {
+                "partner_id": p.hidden_partner_id,
+                "x": p.x,
+                "y": p.y,
+                "history": p.response_policy.history_code,
+                "true_cues": p.true_cues.to_dict(),
+            }
+            for p in self.habitat.partners
+        ]
+
+    def plant_partner(self, partner: PartnerEntity) -> None:
+        self.habitat.partners.append(partner)
 
     def move_feature_external(self, kind: str, x: float, y: float) -> None:
         """I8: external object relocation (not self-caused)."""

@@ -50,3 +50,87 @@ def test_signal_actuation_no_movement_emits_environmental_event():
         "signal": "SIGNAL_PLAY",
         "tick": 42,
     }
+
+
+PARTNER_CUE_FIELDS = (
+    "relative_position",
+    "motion_signature",
+    "appearance_signature",
+    "response_timing_pattern",
+    "interaction_style_cues",
+    "cue_confidence",
+    "cue_uncertainty",
+)
+
+
+def _perceive_partner_cues(history: str = "H0", seed: int = 1, now: float = 1.0):
+    from umbra_core.embodiment import Embodiment
+    from umbra_core.perception import PerceptionMembrane
+    from umbra_core.util import SeededRNG
+
+    emb = Embodiment()
+    emb.apply_social_history(history)
+    membrane = PerceptionMembrane(false_negative_rate=0.0)
+    membrane.perceive(emb, now, SeededRNG(seed))
+    return emb, membrane.policy_view()
+
+
+def test_policy_cannot_access_hidden_partner_id():
+    emb, view = _perceive_partner_cues("H0")
+    cues = view.get("partner_cues", [])
+    assert cues, "expected at least one partner cue observation"
+    for obs in cues:
+        assert "partner_id" not in obs
+        assert "hidden_partner_id" not in obs
+        for field in PARTNER_CUE_FIELDS:
+            assert field in obs
+    policy_blob = str(view)
+    assert "hidden_partner" not in policy_blob
+
+
+def test_hidden_partner_id_is_evaluator_only():
+    emb, view = _perceive_partner_cues("H0")
+    truth = emb.hidden_partner_truth_for_eval()
+    assert truth
+    assert "partner_id" in truth[0]
+    for obs in view.get("partner_cues", []):
+        assert "partner_id" not in obs
+        assert "hidden_partner_id" not in obs
+
+
+def test_partner_cues_are_noisy_and_seeded():
+    emb_a, view_a = _perceive_partner_cues("H0", seed=7)
+    _, view_b = _perceive_partner_cues("H0", seed=7)
+    _, view_c = _perceive_partner_cues("H0", seed=8)
+    cue_a = view_a["partner_cues"][0]
+    cue_b = view_b["partner_cues"][0]
+    cue_c = view_c["partner_cues"][0]
+    assert cue_a == cue_b
+    assert cue_a != cue_c or cue_a["motion_signature"] != cue_c["motion_signature"]
+    truth = emb_a.hidden_partner_truth_for_eval()[0]["true_cues"]
+    assert cue_a["motion_signature"] != truth["motion_signature"]
+    assert cue_a["cue_uncertainty"] > 0.0
+
+
+def test_social_history_policies_h0_through_h10_exist():
+    from umbra_core.embodiment import response_policy_for_history
+
+    for i in range(11):
+        policy = response_policy_for_history(f"H{i}")
+        assert policy.history_code == f"H{i}"
+        assert hasattr(policy, "should_respond")
+        assert hasattr(policy, "response_delay_ticks")
+
+
+def test_h7_absence_suppresses_partner_cues_during_window():
+    from umbra_core.embodiment import Embodiment
+    from umbra_core.perception import PerceptionMembrane
+    from umbra_core.util import SeededRNG
+
+    emb = Embodiment()
+    emb.apply_social_history("H7")
+    membrane = PerceptionMembrane(false_negative_rate=0.0)
+    present = membrane.perceive(emb, 1.0, SeededRNG(1))
+    absent = membrane.perceive(emb, 30.0, SeededRNG(1))
+    assert present
+    assert membrane.policy_view().get("partner_cues", []) == []

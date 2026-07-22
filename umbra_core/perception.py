@@ -6,7 +6,7 @@ import math
 from dataclasses import dataclass, field
 from typing import Any
 
-from umbra_core.embodiment import Embodiment, HabitatFeature
+from umbra_core.embodiment import Embodiment, HabitatFeature, PartnerEntity, _partner_salt
 from umbra_core.util import SeededRNG, angle_diff, clamp, sha256_hex
 
 
@@ -40,11 +40,23 @@ class Observation:
         return cls(**d)
 
 
+PARTNER_CUE_FIELDS = (
+    "relative_position",
+    "motion_signature",
+    "appearance_signature",
+    "response_timing_pattern",
+    "interaction_style_cues",
+    "cue_confidence",
+    "cue_uncertainty",
+)
+
+
 @dataclass
 class PerceptionMembrane:
     """Converts world truth → uncertain observations. Policy reads only this."""
 
     observations: list[Observation] = field(default_factory=list)
+    partner_cues: list[dict[str, Any]] = field(default_factory=list)
     false_negative_rate: float = 0.08
     noise_sigma: float = 0.25
     expire_ttl: float = 12.0
@@ -107,12 +119,66 @@ class PerceptionMembrane:
         for o in new_obs:
             by_kind[o.kind] = o
         self.observations = list(by_kind.values())
+
+        self.partner_cues = self._perceive_partners(embodiment, now, rng)
         return list(self.observations)
 
+    def _perceive_partners(
+        self,
+        embodiment: Embodiment,
+        now: float,
+        rng: SeededRNG,
+    ) -> list[dict[str, Any]]:
+        body = embodiment.body
+        cues: list[dict[str, Any]] = []
+        for partner in embodiment.habitat.partners:
+            cue = self._noisy_partner_cue(partner, body, now, rng)
+            if cue is not None:
+                cues.append(cue)
+        return cues
+
+    def _noisy_partner_cue(
+        self,
+        partner: PartnerEntity,
+        body: Any,
+        now: float,
+        rng: SeededRNG,
+    ) -> dict[str, Any] | None:
+        if not partner.is_visible(now):
+            return None
+        d = body.dist_to(partner.x, partner.y)
+        if d > body.sensor_range:
+            return None
+        prng = rng.fork(_partner_salt(partner.hidden_partner_id) ^ int(now * 1000))
+        noise = self.noise_sigma + 0.08
+        rel_x = (partner.x - body.x) + prng.gauss(0.0, noise)
+        rel_y = (partner.y - body.y) + prng.gauss(0.0, noise)
+        tc = partner.true_cues
+
+        def noisy_vec(vec: tuple[float, ...], sigma: float = noise) -> list[float]:
+            # ponytail: always add noise — no permanently unique perfect cues
+            return [clamp(v + prng.gauss(0.0, sigma), 0.0, 1.0) for v in vec]
+
+        conf = clamp(1.0 - (d / body.sensor_range) * 0.5 - abs(prng.gauss(0.0, 0.05)), 0.15, 0.92)
+        unc = clamp(1.0 - conf + 0.05, 0.05, 0.95)
+        return {
+            "relative_position": [rel_x, rel_y],
+            "motion_signature": noisy_vec(tc.motion_signature),
+            "appearance_signature": noisy_vec(tc.appearance_signature),
+            "response_timing_pattern": noisy_vec(tc.response_timing_pattern, noise + 0.12),
+            "interaction_style_cues": noisy_vec(tc.interaction_style_cues),
+            "cue_confidence": conf,
+            "cue_uncertainty": unc,
+            "observed_at": now,
+            "expires_at": now + self.expire_ttl,
+            "source": "partner_cue",
+        }
+
     def policy_view(self) -> dict[str, Any]:
-        """What arbitration/policy may see — never absolute world coords."""
+        """What arbitration/policy may see — never absolute world coords or partner_id."""
         view: dict[str, Any] = {
             "observations": [o.to_dict() for o in self.observations],
+            "partner_cues": list(self.partner_cues),
         }
         if self.leak_world_truth and self._leaked_truth is not None:
             view["WORLD_TRUTH_LEAK"] = self._leaked_truth
@@ -121,6 +187,7 @@ class PerceptionMembrane:
     def to_state(self) -> dict[str, Any]:
         return {
             "observations": [o.to_dict() for o in self.observations],
+            "partner_cues": list(self.partner_cues),
             "false_negative_rate": self.false_negative_rate,
             "noise_sigma": self.noise_sigma,
             "expire_ttl": self.expire_ttl,
@@ -136,12 +203,13 @@ class PerceptionMembrane:
             leak_world_truth=bool(d.get("leak_world_truth", False)),
         )
         p.observations = [Observation.from_dict(o) for o in d.get("observations", [])]
+        p.partner_cues = list(d.get("partner_cues", []))
         return p
 
 
 def assert_no_world_truth(policy_input: dict[str, Any]) -> None:
-    """Test/governance helper: policy bundle must not contain exact coords."""
-    bad_keys = {"x", "y", "habitat", "world_truth", "WORLD_TRUTH_LEAK", "body"}
+    """Test/governance helper: policy bundle must not contain exact coords or partner_id."""
+    bad_keys = {"x", "y", "habitat", "world_truth", "WORLD_TRUTH_LEAK", "body", "partner_id", "hidden_partner_id"}
     flat = set(policy_input.keys())
     if flat & bad_keys:
         # WORLD_TRUTH_LEAK only allowed under explicit ablation flag checked by caller
