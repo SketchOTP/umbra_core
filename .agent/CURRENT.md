@@ -1,24 +1,23 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-1430-d006-task11-test-suite-completion
+- ID: D-20260722-1439-d006-task12-experiment-harness
 - Project directive: UMBRA-D-006
-- Goal: Task 11 — complete tests/test_d006.py directive+design minimum test suite
+- Goal: Task 12 — paired-seed experiment harness over frozen matrix/thresholds; generate docs/evidence/d006/*.json asserting gates 1-9 numerically (performance deferred to Task 13)
 - Status: done
-- Acceptance: met — 7 tests added (satiation decline, absence non-escalation/non-frequency/non-viability-damage/non-punishment, different-histories behavior, Gate 12 explicitly-skipped pre-soak placeholder); all design §8 minimum-test-list names present; full suite green
-- Touched files: tests/test_d006.py, .superpowers/sdd/task-11-report.md, .agent/*
-- Next action: Task 12 (soak) / Task 13 (unskip Gate 12 with evidence)
+- Acceptance: MET — frozen thresholds/matrix unmodified; 100 paired seeds/gate-critical cell; all required result files written; gates 1-9 numeric all PASS; C3 leak fails closed; results committed
+- Touched files: experiments/d006/run_experiment.py, experiments/d006/run_closeout.py, docs/evidence/d006/*.json, .superpowers/sdd/task-12-report.md, .agent/*
+- Next action: Task 13 — performance soak (Gate 12), unskip test_performance_soak_within_bounds, final UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED seal
 
 ## Repo facts needed now
-- Mimir project: 7777645d52a91b49
-- Mimir task: 7609c47c63604e22a6d1fe60c909ed52
-- H0 and H7 both show an identical brief `stimulation` critical dip (~tick 44-45) with `social_enabled=True` — pre-existing, unrelated to absence; absence-viability test diffs H7 trace against H0 baseline instead of asserting zero criticals
-- `_build_reliability()` test helper defaults `contingent=3` even when only `none=` is passed — pass `contingent=0` explicitly for a pure-NONE history
-- Gate 12 (100k-tick/2h soak) test added as `pytest.mark.skip` with named reason; final sealed suite still requires zero skips (Task 13 supplies evidence)
+- Mimir project: 7777645d52a91b49; Task 12 mimir_task 80a390a43e204d6c806f57a8c61226ae (begun/observed/closed)
+- Harness drives SocialEngine directly with synthetic cues + frozen response_policy_for_history (embodiment cue salt < perception noise); paired seeds vary partner-response RNG
+- Gate 2 = two-partner separation probe (C0=0.595, C2=0.0, C4=0.217); Gate 6 viability = survival-critical excursions only (stimulation benign)
+- All 12 evidence files under docs/evidence/d006/; interim verdict UMBRA_D006_EXPERIMENT_GATES_1_9_PASS; Gate 12 perf deferred to Task 13
 
 ## Last validation
-- Command: pytest tests/test_d006.py -v && pytest tests/ -q
-- Result: 77 passed/1 skipped (test_d006.py); 255 passed/1 skipped (full suite)
+- Command: python experiments/d006/run_experiment.py ; python experiments/d006/run_closeout.py
+- Result: gates 1-9 all pass (1875 rows, 12.7s); closeout UMBRA_D006_EXPERIMENT_GATES_1_9_PASS; pytest tests/test_d006.py 77 passed/1 skipped (Gate 12 by design)
 
 ## Open blockers
-- mimir_validation_run: "validation requires an active observed task" (same precedent as Tasks 4–10); mimir_task_close succeeded with locally-verified test results
+- mimir_validation_run: "validation requires an active observed task" (same precedent Tasks 4-11) — validated locally; task begun/observed/closed honestly

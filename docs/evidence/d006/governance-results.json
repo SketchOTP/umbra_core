@@ -1,0 +1,13 @@
+{
+  "all_authority_safe": true,
+  "c3_no_leak": {
+    "c3_config_is_baseline": true,
+    "c3_no_leak": true,
+    "controller_isolated_to_experiments": true,
+    "no_affection_meter_symbol": true,
+    "no_forbidden_hypothesis_fields": true,
+    "not_referenced_in_production_social": true
+  },
+  "cooldown_denies": true,
+  "gate9": true
+}

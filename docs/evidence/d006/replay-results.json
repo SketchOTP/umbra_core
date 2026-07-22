@@ -1,0 +1,9 @@
+{
+  "all_equal": true,
+  "note": "Gate 11 birth/snapshot replay is asserted in tests/test_d006.py; this records determinism evidence.",
+  "replay": {
+    "identity_equal": true,
+    "social_accepted_equal": true,
+    "tick_equal": true
+  }
+}

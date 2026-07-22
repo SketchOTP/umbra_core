@@ -1,0 +1,16 @@
+{
+  "docs/evidence/d006/absence-results.json": "82ae117a830e5754a0c3e6f104a664660132ec5201cbfa8f75a8b14c89509f56",
+  "docs/evidence/d006/contingency-results.json": "476aa853fe38ef12715220e4449bc2b3d2745cd76663a9d1fbd6287321a6a89c",
+  "docs/evidence/d006/event-authority-results.json": "dd44a6968e04b4ba72192de653ae1a463abc3acdf3063bbba234308a8e6d01c0",
+  "docs/evidence/d006/experiment-summary.json": "183cf1db78f17e11b4c47a3b315d9dca694efb271eed243a6dcde1946cf327f3",
+  "docs/evidence/d006/final-verdict.md": "1f7b2e4b774b553a4e90aed6eefd300d0a2a57f106ef29766947f600746afeff",
+  "docs/evidence/d006/governance-results.json": "c71d0b303453227c7ac37b9c9e9952879b6c759bf45f7ae2e9749baf783339aa",
+  "docs/evidence/d006/history-results.json": "f9d8c236e741603a3350cc2b0655c59107e712e10f83c9854213e723f190a201",
+  "docs/evidence/d006/manipulation-results.json": "b9987bad3251311a30f6ca61899d514e85e4a72414ea174657ba6fec8b35ff1e",
+  "docs/evidence/d006/recognition-results.json": "1e09590007e7f099530ab54a8de6b7ff41895858188cdbbc435281d3ccea3759",
+  "docs/evidence/d006/reliability-results.json": "b6f8f87b667a4332e1031c26b795ce54aec2f70ff69628eee5f70b739d3758b1",
+  "docs/evidence/d006/replay-results.json": "d96ee18918fc6de2d4a2c4223a60dd3f5e253f8d0cd4414717cfaedca2d6bdca",
+  "docs/evidence/d006/routine-results.json": "99c63fbfa9a0263ea98667e6aba99f4b6d0445141efe9c18afa17716c7492929",
+  "docs/evidence/d006/satiation-results.json": "d47c685bc9b1e9640d336e128b58cb6ff0fb6ae14407587313d088398effa4d9",
+  "docs/evidence/d006/test-results.txt": "f2c67fe5504397a718c4fbd42109accd3750995bb2d17ea29f9ab56b8575a7f4"
+}

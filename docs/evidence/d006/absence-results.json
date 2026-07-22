@@ -1,0 +1,27 @@
+{
+  "C0_H7": {
+    "mean_absence_bids": 0.0,
+    "mean_absence_no_punishment": 1.0,
+    "mean_ambiguous_unknown_frac": null,
+    "mean_authority_safe": 1.0,
+    "mean_contingent_count": 8.61,
+    "mean_delayed_count": 0.0,
+    "mean_false_merge": null,
+    "mean_false_split": 0.0,
+    "mean_none_count": 1.39,
+    "mean_provenance_ok": 1.0,
+    "mean_recog_accuracy_ok": null,
+    "mean_rel_after": null,
+    "mean_rel_after_first_none": null,
+    "mean_rel_before": null,
+    "mean_reliability": 0.8223734418416023,
+    "mean_routine_formed": null,
+    "mean_separation": null,
+    "mean_supporting_preserved": null,
+    "mean_swap_latency": null,
+    "mean_unnecessary_bids": null,
+    "n": 100
+  },
+  "gate6": true,
+  "viability_frac": 1.0
+}

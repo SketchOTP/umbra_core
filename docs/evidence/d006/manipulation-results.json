@@ -1,0 +1,13 @@
+{
+  "authority_safe_all_cells": true,
+  "c3_isolated": {
+    "c3_config_is_baseline": true,
+    "c3_no_leak": true,
+    "controller_isolated_to_experiments": true,
+    "no_affection_meter_symbol": true,
+    "no_forbidden_hypothesis_fields": true,
+    "not_referenced_in_production_social": true
+  },
+  "note": "try_grant_authority is always False; C3 affection lives only under experiments/d006/.",
+  "scalar_affection_cannot_grant_authority": true
+}

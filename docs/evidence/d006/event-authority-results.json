@@ -1,0 +1,32 @@
+{
+  "all_checks_pass": true,
+  "authoritative": [
+    "social_contingency_updated",
+    "social_episode_finalized",
+    "social_episode_outcome",
+    "social_hypothesis_contested",
+    "social_hypothesis_created",
+    "social_hypothesis_merged",
+    "social_hypothesis_retired",
+    "social_hypothesis_split",
+    "social_partner_swap_detected",
+    "social_pending_created",
+    "social_pending_expired",
+    "social_pending_interrupted",
+    "social_pending_resolved",
+    "social_recognition_updated",
+    "social_reliability_revised",
+    "social_routine_deactivated",
+    "social_routine_promoted",
+    "social_satiation_anchor_updated"
+  ],
+  "checks": {
+    "social_match_score_diagnostic": true,
+    "social_pending_created": true,
+    "social_recognition_updated": true,
+    "social_reliability_revised": true
+  },
+  "diagnostic": [
+    "social_match_score"
+  ]
+}
