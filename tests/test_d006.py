@@ -662,6 +662,95 @@ def test_pending_cannot_become_evidence_twice(tmp_path):
     store.close()
 
 
+def test_ninth_pending_rejected_without_orphan(tmp_path):
+    """MAX_PENDING_INTERACTIONS=8: a 9th open bid must raise BEFORE any mutation —
+    no orphaned in-memory trace, no durable social_pending_created for it."""
+    from umbra_core.social import SocialEngineError
+
+    store = _new_store(tmp_path)
+    engine, hid = _familiar_engine()
+    tick = 5
+    for i in range(8):
+        engine.create_pending(
+            hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+            execution_id=f"e{i}", signal_tick=tick, recognition_confidence=1.0,
+            governance_admitted=True, capability_executed=True, store=store,
+        )
+        tick += 1
+    assert len(engine.pending) == 8
+
+    with pytest.raises(SocialEngineError, match="too_many_open_pending_interactions"):
+        engine.create_pending(
+            hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+            execution_id="e-overflow", signal_tick=tick, recognition_confidence=1.0,
+            governance_admitted=True, capability_executed=True, store=store,
+        )
+
+    open_count = sum(1 for p in engine.pending.values() if p.status == "PENDING")
+    assert open_count <= 8
+    assert len(engine.pending) == 8  # no orphan added
+    assert "e-overflow" not in [p.execution_id for p in engine.pending.values()]
+    types = [e["event_type"] for e in store.iter_events()]
+    assert types.count("social_pending_created") == 8  # no durable event for the rejected 9th
+    store.close()
+
+
+def test_pending_interrupted_when_recognition_contests_open_window(tmp_path):
+    """A pending bid tied to a hypothesis that becomes CONTESTED mid-window must be
+    durably interrupted, not silently left open or silently resolved."""
+    from umbra_core.social import PendingStatus, SocialEngine
+
+    store = _new_store(tmp_path)
+    engine = SocialEngine.create("agent-1", seed=1)
+    r1 = engine.recognize([_social_cue(0.0)], tick=1, store=store)
+    hid_a = r1.matches[0].hypothesis_id
+    r2 = engine.recognize([_social_cue(1.0)], tick=2, store=store)
+    hid_b = r2.matches[0].hypothesis_id
+    assert hid_a != hid_b
+
+    p = engine.create_pending(
+        hypothesis_id=hid_a, context="play", signal="SIGNAL_PLAY",
+        execution_id="e1", signal_tick=3, recognition_confidence=1.0,
+        governance_admitted=True, capability_executed=True, store=store,
+    )
+    pid = p.pending_interaction_id
+
+    # A cue exactly between the two prototypes contests both hypotheses.
+    engine.recognize([_social_cue(0.5)], tick=4, store=store)
+
+    assert engine.hypotheses[hid_a].status == "CONTESTED"
+    assert engine.pending[pid].status == PendingStatus.INTERRUPTED.value
+    events = [e for e in store.iter_events() if e["event_type"] == "social_pending_interrupted"]
+    assert len(events) == 1
+    assert events[0]["payload"]["pending_interaction_id"] == pid
+    assert events[0]["payload"]["reason"] == "recognition_contested"
+    store.close()
+
+
+def test_resume_pending_interrupts_corrupted_timing_state(tmp_path):
+    """resume_pending must interrupt (not silently expire or resume) a trace whose
+    durable timing state is corrupted/incomplete."""
+    from umbra_core.social import PendingStatus
+
+    store = _new_store(tmp_path)
+    engine, hid = _familiar_engine()
+    p = engine.create_pending(
+        hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+        execution_id="e1", signal_tick=5, recognition_confidence=1.0,
+        governance_admitted=True, capability_executed=True, store=store,
+    )
+    pid = p.pending_interaction_id
+    engine.pending[pid].response_window = []  # simulate corrupted/incomplete durable state
+
+    result = engine.resume_pending(store=store, now_tick=8)
+    assert pid in result["interrupted"]
+    assert engine.pending[pid].status == PendingStatus.INTERRUPTED.value
+    events = [e for e in store.iter_events() if e["event_type"] == "social_pending_interrupted"]
+    assert len(events) == 1
+    assert events[0]["payload"]["reason"] == "corrupted_timing_state"
+    store.close()
+
+
 def test_missing_authoritative_social_event_fails_closed():
     from umbra_core.social import SocialEngine, SocialEngineError
 

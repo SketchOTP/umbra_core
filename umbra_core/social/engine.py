@@ -422,8 +422,15 @@ class SocialEngine:
         self._prune_hypotheses()
         return hyp
 
-    def recognize(self, cues: list[dict[str, Any]], tick: int) -> RecognitionResult:
-        """Match/update hypotheses from noisy partner cues. No hidden partner_id."""
+    def recognize(
+        self, cues: list[dict[str, Any]], tick: int, *, store: Any = None
+    ) -> RecognitionResult:
+        """Match/update hypotheses from noisy partner cues. No hidden partner_id.
+
+        `store` is optional and only used to durably interrupt any open pending
+        trace tied to a hypothesis that newly becomes CONTESTED mid-window
+        (design: contested recognition must not silently settle a bid).
+        """
         matches: list[RecognitionMatch] = []
         emitted: list[dict[str, Any]] = []
 
@@ -481,6 +488,14 @@ class SocialEngine:
                                 {"hypothesis_id": h.hypothesis_id, "tick": tick},
                             )
                         )
+                        for pid, p in list(self.pending.items()):
+                            if (
+                                p.hypothesis_id_at_signal == h.hypothesis_id
+                                and p.status == PendingStatus.PENDING.value
+                            ):
+                                self.interrupt_pending(
+                                    pid, "recognition_contested", store=store, tick=tick
+                                )
                 self.metrics["contested_updates"] = int(self.metrics.get("contested_updates", 0)) + 1
                 matches.append(
                     RecognitionMatch(
@@ -703,10 +718,17 @@ class SocialEngine:
 
         A denied or unexecuted signal creates no trace and therefore no partner
         evidence (design §5/§7). Fails closed on unknown hypothesis.
+
+        Ordering is deliberate: the open-pending bound is checked, and the durable
+        `social_pending_created` event is written, BEFORE `self.pending` is ever
+        mutated. An overflow raises with no side effect; a durable-write failure
+        raises with no side effect. Never an orphaned in-memory trace with no
+        ledger event.
         """
         if not (governance_admitted and capability_executed):
             raise SocialEngineError("pending_requires_governed_executed_signal")
         self._get_hypothesis(hypothesis_id)  # fail closed if the hypothesis is unknown
+        self._ensure_pending_capacity()
         created_tick = int(tick if tick is not None else signal_tick)
         pending = PendingInteraction(
             pending_interaction_id=self._new_pending_id(),
@@ -723,8 +745,6 @@ class SocialEngine:
             status=PendingStatus.PENDING.value,
             created_tick=created_tick,
         )
-        self.pending[pending.pending_interaction_id] = pending
-        self._bound_pending()
         payload = {**pending.to_dict(), "tick": created_tick}
         if store is not None:
             store.append_event(
@@ -736,21 +756,24 @@ class SocialEngine:
             )
         else:
             self._emit("social_pending_created", payload)
+        self.pending[pending.pending_interaction_id] = pending
         self.metrics["pending_created"] = int(self.metrics.get("pending_created", 0)) + 1
         return pending
 
-    def _bound_pending(self) -> None:
+    def _ensure_pending_capacity(self) -> None:
+        """Free room by evicting settled traces (oldest first); raise BEFORE any
+        mutation if open (PENDING) traces already fill the bound. Never evicts an
+        open trace — those only leave via resolve/expire/interrupt, never silently."""
         cap = self.config.max_pending_interactions
-        if len(self.pending) <= cap:
-            return
-        # Evict settled traces first; never silently drop an open (unresolved) trace.
-        settled = [
-            pid for pid, p in self.pending.items() if p.status != PendingStatus.PENDING.value
-        ]
-        settled.sort(key=lambda pid: self.pending[pid].created_tick)
-        while len(self.pending) > cap and settled:
-            self.pending.pop(settled.pop(0), None)
-        if len(self.pending) > cap:
+        if len(self.pending) >= cap:
+            settled = [
+                pid for pid, p in self.pending.items() if p.status != PendingStatus.PENDING.value
+            ]
+            settled.sort(key=lambda pid: self.pending[pid].created_tick)
+            while len(self.pending) >= cap and settled:
+                self.pending.pop(settled.pop(0), None)
+        open_count = sum(1 for p in self.pending.values() if p.status == PendingStatus.PENDING.value)
+        if open_count >= cap:
             raise SocialEngineError("too_many_open_pending_interactions")
 
     # --- contingency classification -------------------------------------
@@ -1131,17 +1154,28 @@ class SocialEngine:
     # --- pending recovery / replay --------------------------------------
 
     def resume_pending(self, *, store: Any, now_tick: int) -> dict[str, list[str]]:
-        """After restart, resume open traces still inside their window or deterministically
-        expire elapsed ones (design §2). Never silently drops; never double-settles."""
+        """After restart, resume open traces still inside their window; deterministically
+        expire elapsed ones; interrupt ones whose durable timing state is corrupted or
+        incomplete (design §2). Never silently drops; never double-settles.
+
+        Same ordering discipline as `create_pending`: the durable event is written
+        BEFORE the in-memory status mutation, so a durable-write failure leaves the
+        trace PENDING (retryable) rather than orphaned in a settled state with no
+        ledger event.
+        """
         resumed: list[str] = []
         expired: list[str] = []
+        interrupted: list[str] = []
         for pid, pending in list(self.pending.items()):
             if pending.status != PendingStatus.PENDING.value:
                 continue
-            _lo, timeout = pending.response_window
+            window = pending.response_window
+            if not isinstance(window, (list, tuple)) or len(window) != 2 or window[1] is None:
+                self.interrupt_pending(pid, "corrupted_timing_state", store=store, tick=now_tick)
+                interrupted.append(pid)
+                continue
+            _lo, timeout = window
             if now_tick - pending.signal_tick > timeout:
-                pending.status = PendingStatus.EXPIRED.value
-                self.metrics["pending_expired"] = int(self.metrics.get("pending_expired", 0)) + 1
                 if store is not None:
                     store.append_event(
                         agent_id=self.agent_id,
@@ -1154,10 +1188,45 @@ class SocialEngine:
                             "now_tick": int(now_tick),
                         },
                     )
+                pending.status = PendingStatus.EXPIRED.value
+                self.metrics["pending_expired"] = int(self.metrics.get("pending_expired", 0)) + 1
                 expired.append(pid)
             else:
                 resumed.append(pid)
-        return {"resumed": resumed, "expired": expired}
+        return {"resumed": resumed, "expired": expired, "interrupted": interrupted}
+
+    def interrupt_pending(
+        self, pending_id: str, reason: str, *, store: Any = None, tick: int | None = None
+    ) -> PendingInteraction:
+        """Explicitly interrupt an open pending trace — e.g. recognition becomes
+        CONTESTED mid-window, or resume finds corrupted/incomplete durable timing.
+        Fails closed if the trace is missing or already settled. Durable event is
+        written before the in-memory mutation (same discipline as `create_pending`)."""
+        pending = self.pending.get(pending_id)
+        if pending is None:
+            raise SocialEngineError(f"pending_missing:{pending_id}")
+        if pending.status != PendingStatus.PENDING.value:
+            raise SocialEngineError(f"pending_not_open:{pending_id}:{pending.status}")
+        interrupt_tick = int(tick if tick is not None else pending.signal_tick)
+        payload = {
+            "pending_interaction_id": pending_id,
+            "reason": str(reason),
+            "signal_tick": pending.signal_tick,
+            "tick": interrupt_tick,
+        }
+        if store is not None:
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type="social_pending_interrupted",
+                monotonic_time=float(interrupt_tick),
+                wall_time=float(interrupt_tick),
+                payload=payload,
+            )
+        else:
+            self._emit("social_pending_interrupted", payload)
+        pending.status = PendingStatus.INTERRUPTED.value
+        self.metrics["pending_interrupted"] = int(self.metrics.get("pending_interrupted", 0)) + 1
+        return pending
 
     @staticmethod
     def reconstruct_pending(events: list[dict[str, Any]]) -> dict[str, PendingInteraction]:

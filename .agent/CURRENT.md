@@ -1,23 +1,25 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-1256-d006-task5-pending-atomic
+- ID: D-20260722-1320-d006-task5-review-fixes
 - Project directive: UMBRA-D-006
-- Goal: Pending interaction lifecycle + contingency classification precedence + atomic social outcome SQLite commit (crash-safe, restart-safe, no double-evidence)
+- Goal: Fix Task 5 review Finding 1 (create_pending/resume_pending mutate memory before durable write/bound check) and Finding 2 (social_pending_interrupted never produced)
 - Status: done
-- Acceptance: met — 9 brief tests pass; single-transaction outcome commit; crash between stages leaves no partial durable/in-memory state; denied/expired/failed + non-evidence classes build no reliability; double-evidence blocked; missing authoritative pending event fails closed
-- Touched files: umbra_core/social/{engine,__init__}.py, umbra_core/persistence.py, umbra_core/memory/engine.py, umbra_core/events.py, tests/test_d006.py, .superpowers/sdd/task-5-report.md, .agent/*
+- Acceptance: met — create_pending/resume_pending check bound and write the durable event before any in-memory mutation; interrupt_pending(pid,reason) added and wired via recognize() CONTESTED-transition and resume_pending corrupted-timing; 3 new regression tests pass; full suite green (211)
+- Touched files: umbra_core/social/engine.py, tests/test_d006.py, .superpowers/sdd/task-5-report.md, .agent/*
 - Next action: Task 6 — runtime propose/observe wiring + routine promotion
 
 ## Repo facts needed now
 - Mimir project: 7777645d52a91b49
-- Mimir task: 8bd7e271d3534997b6e04f7ca5e90fd9
+- Mimir task: 1c8964fa5cb44488a4cbe5effd571a18
 - Classification precedence: EXTERNAL→AMBIGUOUS→CONTINGENT[1,8]→DELAYED[9,24]→COINCIDENTAL→NONE(timeout 32)
 - atomic commit: Store.atomic_social_outcome (BEGIN IMMEDIATE, crash_after_stage, on_commit post-COMMIT)
+- Pending capacity gate: _ensure_pending_capacity() raises before any mutation once open (PENDING) count == MAX_PENDING_INTERACTIONS (8)
+- Interrupt path: interrupt_pending(pid, reason, store, tick) — durable write before status mutation; called from recognize() (reason="recognition_contested") and resume_pending (reason="corrupted_timing_state")
 
 ## Last validation
-- Command: pytest tests/test_d006.py -q ; pytest d001..d006 -q
-- Result: 30 passed ; 208 passed
+- Command: pytest tests/test_d006.py -v ; pytest tests/ -q
+- Result: 33 passed ; 211 passed
 
 ## Open blockers
-- mimir_validation_run "validation requires an active observed task" (allowlist has 'pytest -q' but task-scoped runner rejects) — validated locally; recorded honestly (same precedent as Task 4)
+- mimir_validation_run "validation requires an active observed task" (allowlist has 'pytest -q' but task-scoped runner rejects) — validated locally; recorded honestly (same precedent as Task 4/5)
