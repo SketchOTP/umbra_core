@@ -1206,6 +1206,56 @@ def test_shared_routine_is_learned(tmp_path):
     store.close()
 
 
+def test_full_tick_proposes_routine_ordered_intent_after_promotion(tmp_path):
+    """After promotion, `Organism.tick_once()` must wire memory into propose() and
+    emit the first routine-ordered soft intent — not only the direct API path."""
+    org = _soc_org(tmp_path, memory_enabled=True)
+    org.embodiment.body.x = 11.0
+    org.embodiment.body.y = 8.0
+    assert org.social is not None and org.memory is not None
+    org.social.recognize([_social_cue()], tick=1)
+    r = org.social.recognize([_social_cue()], tick=2)
+    hid = r.matches[0].hypothesis_id
+    _build_reliability(org.social, hid, org.store, org.memory, contingent=3)
+    skill_id = org.social.maybe_promote_routine(
+        hid, "play", "SIGNAL_PLAY", org.memory, store=org.store, tick=200
+    )
+    assert skill_id is not None
+    org.tick = 200
+
+    result = org.tick_once()
+    assert result["capability"] == "APPROACH"
+    proposals = [
+        e
+        for e in org.store.iter_events()
+        if e["event_type"] == "proposal"
+        and e["payload"].get("capability") == "APPROACH"
+    ]
+    assert proposals
+    org.close()
+
+
+def test_contested_recognition_interrupts_active_routine(tmp_path):
+    from umbra_core.memory import MemoryEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid_a = _familiar_engine(seed_tag=0.0)
+    engine.recognize([_social_cue(1.0)], tick=3)
+    engine.recognize([_social_cue(1.0)], tick=4)
+    _build_reliability(engine, hid_a, store, mem, contingent=3)
+    engine.maybe_promote_routine(hid_a, "play", "SIGNAL_PLAY", mem, store=store, tick=200)
+    assert engine.next_routine_proposal(hid_a, "play", tick=201, memory=mem) == "APPROACH_PARTNER"
+    rkey = engine._routine_key(hid_a, "play", "SIGNAL_PLAY")
+    assert engine.routine_handles[rkey].status == "ACTIVE"
+
+    engine.recognize([_social_cue(0.5)], tick=202, store=store)
+    assert engine.routine_handles[rkey].status == "INTERRUPTED"
+    events = [e for e in store.iter_events() if e["event_type"] == "social_routine_deactivated"]
+    assert any(e["payload"]["reason"] == "recognition_contested" for e in events)
+    store.close()
+
+
 def test_shared_routine_is_interruptible(tmp_path):
     from umbra_core.memory import MemoryEngine
 

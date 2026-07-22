@@ -715,7 +715,9 @@ class Organism:
             and self.config.social_enabled
             and self.arbitrator.state.mode == "full"
         ):
-            social_cand = self.social.propose(self.phys, social_cues, self.tick, social_critical)
+            social_cand = self.social.propose(
+                self.phys, social_cues, self.tick, social_critical, memory=self.memory
+            )
             if social_cand is not None:
                 cand = social_cand
 

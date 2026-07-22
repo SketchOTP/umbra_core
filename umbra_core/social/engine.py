@@ -601,6 +601,9 @@ class SocialEngine:
                                 self.interrupt_pending(
                                     pid, "recognition_contested", store=store, tick=tick
                                 )
+                    self.interrupt_active_routine(
+                        h.hypothesis_id, "recognition_contested", store=store, tick=tick
+                    )
                 self.metrics["contested_updates"] = int(self.metrics.get("contested_updates", 0)) + 1
                 matches.append(
                     RecognitionMatch(
