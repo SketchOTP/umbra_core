@@ -1601,6 +1601,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
     wm_accepted = org.world_model.accepted_state() if org.world_model else None
     dev_accepted = org.development.accepted_state() if org.development else None
     mem_accepted = org.memory.accepted_state() if org.memory else None
+    social_accepted = org.social.accepted_state() if org.social else None
     comparable = {
         "physiology": state["physiology"],
         "embodiment": state["embodiment"],
@@ -1612,6 +1613,7 @@ def resimulate(seed: int, ticks: int, db_path: str, **kwargs: Any) -> dict[str, 
         "world_model_accepted": wm_accepted,
         "development_accepted": dev_accepted,
         "memory_accepted": mem_accepted,
+        "social_accepted": social_accepted,
     }
     org.close()
     return comparable

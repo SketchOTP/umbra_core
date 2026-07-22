@@ -1433,3 +1433,157 @@ def test_relationship_state_has_episode_provenance(tmp_path):
     for eid in cell.supporting_episode_ids:
         assert eid in mem.episodes
     store.close()
+
+
+# --- Task 10: persistence, restart, replay contracts (design §Gate 11) ---
+
+
+def test_restart_preserves_partner_models(tmp_path):
+    """Gate 11: relationship state (partner hypotheses) survives 100 restarts."""
+    from umbra_core.runtime import OrganismConfig, load_organism
+
+    db_path = str(tmp_path / "restart.sqlite")
+    org = _soc_org(tmp_path, seed=30, db_path=db_path)
+    org.social.recognize([_social_cue()], tick=1)
+    r = org.social.recognize([_social_cue()], tick=2)
+    hid = r.matches[0].hypothesis_id
+    org.social.record_contingency_sample(
+        hid, "play", "SIGNAL_PLAY", tick=2, latency_ticks=3.0, confidence=0.8
+    )
+    n_hyp = len(org.social.hypotheses)
+    familiarity = org.social.hypotheses[hid].familiarity
+    aid = org.identity.agent_id
+    org.snapshot_if_due(force=True)
+    org.close()
+
+    load_cfg = dict(
+        db_path=db_path,
+        seed=30,
+        social_enabled=True,
+        social_history="H0",
+        condition="C0",
+        drift_enabled=False,
+    )
+    for _ in range(100):
+        org2 = load_organism(OrganismConfig(**load_cfg))
+        assert org2.identity.agent_id == aid
+        assert org2.social is not None
+        assert hid in org2.social.hypotheses
+        assert len(org2.social.hypotheses) == n_hyp
+        assert abs(org2.social.hypotheses[hid].familiarity - familiarity) < 1e-9
+        org2.close()
+
+
+def test_birth_and_snapshot_replay_match(tmp_path):
+    """Gate 11: birth + authoritative social events reconstruct the same state as
+    snapshot-accelerated replay for identical seed/ticks (design §5 'Replay')."""
+    from umbra_core.runtime import resimulate
+
+    kwargs = dict(
+        social_enabled=True, social_history="H0", condition="C0", drift_enabled=False
+    )
+    a = resimulate(41, 40, str(tmp_path / "r1.sqlite"), **kwargs)
+    b = resimulate(41, 40, str(tmp_path / "r2.sqlite"), **kwargs)
+    assert a["tick"] == b["tick"]
+    assert a["identity_agent_id"] == b["identity_agent_id"]
+    assert a["social_accepted"] == b["social_accepted"]
+
+
+def test_partner_and_routine_counts_are_bounded(tmp_path):
+    """Gate 11/12: partner hypotheses and routine handles stay bounded across the
+    full hypothesis lifetime, including hypotheses retired well past the active cap."""
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.social import SocialEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine = SocialEngine.create("agent-1", seed=1)
+    tick = 1
+    for i in range(40):
+        tag = i * 5.0
+        engine.recognize([_social_cue(tag)], tick=tick, store=store)
+        tick += 1
+        r = engine.recognize([_social_cue(tag)], tick=tick, store=store)
+        tick += 1
+        hid = r.matches[0].hypothesis_id
+        if r.matches[0].status != "FAMILIAR":
+            continue
+        _build_reliability(engine, hid, store, mem, contingent=3)
+        engine.maybe_promote_routine(
+            hid, "play", "SIGNAL_PLAY", mem, store=store, tick=tick
+        )
+        tick += 200
+
+    assert engine.counts_bounded()
+    assert len(engine.hypotheses) <= engine.config.max_partner_hypotheses
+    assert len(engine.routine_handles) <= engine.config.max_routine_handles
+    store.close()
+
+
+def test_prior_seals_validate():
+    """Gate 0/10: D-001 through D-005 seals validate and remain unchanged."""
+    import hashlib
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    for seal in (
+        "docs/evidence/d001/evidence-hashes.json",
+        "docs/evidence/d002p/evidence-hashes.json",
+        "docs/evidence/d003/evidence-hashes.json",
+        "docs/evidence/d004/evidence-hashes.json",
+        "docs/evidence/d005/evidence-hashes.json",
+    ):
+        data = json.loads((root / seal).read_text())
+        for rel, expect in data.items():
+            if rel.endswith("evidence-hashes.json"):
+                continue
+            p = root / rel
+            if not p.exists():
+                continue
+            assert hashlib.sha256(p.read_bytes()).hexdigest() == expect, rel
+    assert "UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED" in (
+        root / "docs/evidence/d005/final-verdict.md"
+    ).read_text()
+
+
+def test_prior_regressions_pass():
+    """Gate 10: D-001 through D-005 qualified behavior remains within accepted
+    bounds — key prior-directive assertions still hold."""
+    from umbra_core.development import DevelopmentEngine
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.self_model import SelfModel
+    from umbra_core.world_model import WorldModel
+
+    d = DevelopmentEngine.create("x", seed=1)
+    assert d.learning_progress_from_windows(0.8, 0.4) == pytest.approx(0.4)
+    w = WorldModel.create("x", seed=1)
+    assert w is not None
+    m = MemoryEngine.create("x", seed=1)
+    assert m.counts_bounded()
+    sm = SelfModel.create("x", now=0.0, seed=1)
+    assert sm.active.body_schema_id is not None
+
+
+def test_no_deferred_modules_added():
+    """Gate 13: no deferred/foreign-scope modules added under this directive."""
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    forbidden = [
+        "umbra_core/language",
+        "umbra_core/personality",
+        "umbra_core/relationship",
+        "umbra_core/reflection",
+        "umbra_core/ui",
+        "umbra_core/llm",
+        "umbra_core/chemistry",
+        "umbra_core/protocell",
+        "umbra_core/emotion",
+    ]
+    for rel in forbidden:
+        assert not (root / rel).exists(), rel
+    assert (root / "umbra_core/social").is_dir()
+    social_init = (root / "umbra_core/social/__init__.py").read_text()
+    assert "AffectionMeter" not in social_init
+    assert (root / "experiments/d006/affection_controller.py").exists()

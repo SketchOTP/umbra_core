@@ -40,6 +40,7 @@ MAX_SOURCE_HYPOTHESIS_IDS = 8
 MAX_ROUTINE_SUPPORTING_EPISODES = 24
 MAX_PARTNER_HYPOTHESES = 16
 MAX_CONTINGENCY_CELLS = 256
+MAX_ROUTINE_HANDLES = 32
 RECOGNITION_MATCH_THRESHOLD = 0.55
 RECOGNITION_CONTEST_GAP_MAX = 0.08
 SATIATION_RISE = 0.12
@@ -369,6 +370,7 @@ class SocialConfig:
     max_routine_supporting_episodes: int = MAX_ROUTINE_SUPPORTING_EPISODES
     max_partner_hypotheses: int = MAX_PARTNER_HYPOTHESES
     max_contingency_cells: int = MAX_CONTINGENCY_CELLS
+    max_routine_handles: int = MAX_ROUTINE_HANDLES
     recognition_match_threshold: float = RECOGNITION_MATCH_THRESHOLD
     recognition_contest_gap_max: float = RECOGNITION_CONTEST_GAP_MAX
     satiation_rise: float = SATIATION_RISE
@@ -707,10 +709,10 @@ class SocialEngine:
                 )
             )
 
-        self._prune_hypotheses()
+        self._prune_hypotheses(store=store, tick=tick)
         return RecognitionResult(matches=matches, emitted_events=emitted)
 
-    def _prune_hypotheses(self) -> None:
+    def _prune_hypotheses(self, *, store: Any = None, tick: int = 0) -> None:
         if len(self.hypotheses) <= self.config.max_partner_hypotheses:
             return
         ranked = sorted(
@@ -725,11 +727,30 @@ class SocialEngine:
             victim = ranked.pop(0)
             self.hypotheses.pop(victim.hypothesis_id, None)
             victim.status = HypothesisStatus.INACTIVE.value
+            # A retired hypothesis cannot keep a routine handle ACTIVE forever — without
+            # this, routine_handles grows unbounded across the full hypothesis lifetime
+            # even though hypotheses itself is capped (counts-bounded gate).
+            self.interrupt_active_routine(
+                victim.hypothesis_id, "hypothesis_retired", store=store, tick=tick
+            )
             # Provenance preserved (never silently destroyed) in archive, bounded 2x cap.
             self.archived_hypotheses[victim.hypothesis_id] = victim
             if len(self.archived_hypotheses) > self.config.max_partner_hypotheses * 2:
                 oldest = min(self.archived_hypotheses.values(), key=lambda h: h.created_tick)
                 self.archived_hypotheses.pop(oldest.hypothesis_id, None)
+        self._prune_routine_handles()
+
+    def _prune_routine_handles(self) -> None:
+        """Bound routine_handles across the full hypothesis lifetime. Evicts oldest
+        non-ACTIVE handles first (insertion order); never evicts an ACTIVE handle.
+        ponytail: FIFO, not LRU — ceiling is it may evict a rarely-touched-but-recent
+        handle before a stale one; upgrade path is a last_used_tick field."""
+        cap = self.config.max_routine_handles
+        if len(self.routine_handles) <= cap:
+            return
+        victims = [k for k, h in self.routine_handles.items() if h.status != "ACTIVE"]
+        while len(self.routine_handles) > cap and victims:
+            self.routine_handles.pop(victims.pop(0), None)
 
     def reset_for_encounter_boundary(self) -> None:
         """C4 (persist_relationship=False): reset at encounter boundaries and restarts."""
@@ -1125,6 +1146,7 @@ class SocialEngine:
             signal=signal,
             supporting_episode_ids=list(spec["supporting_episode_ids"]),
         )
+        self._prune_routine_handles()
         payload = {
             "routine_id": skill_id,
             "hypothesis_id": hypothesis_id,
@@ -1226,6 +1248,7 @@ class SocialEngine:
                 supporting_episode_ids=list(sk.source_episode_ids),
             )
             self.routine_handles[rkey] = handle
+            self._prune_routine_handles()
         if handle.status != "ACTIVE":
             return None
         proposals = list(sk.applicability.get("soft_proposals") or [])
@@ -2000,6 +2023,8 @@ class SocialEngine:
         return (
             len(self.hypotheses) <= self.config.max_partner_hypotheses
             and len(self.contingency_cells) <= self.config.max_contingency_cells
+            and len(self.routine_handles) <= self.config.max_routine_handles
+            and len(self.pending) <= self.config.max_pending_interactions
             and all(
                 len(h.evidence_refs) <= self.config.max_active_evidence_refs
                 for h in self.hypotheses.values()
@@ -2009,6 +2034,31 @@ class SocialEngine:
                 for h in self.hypotheses.values()
             )
         )
+
+    def accepted_state(self) -> dict[str, Any]:
+        """Authoritative social state for birth/snapshot replay equality (Gate 11)."""
+        return {
+            "agent_id": self.agent_id,
+            "hypotheses": {k: self.hypotheses[k].to_dict() for k in sorted(self.hypotheses)},
+            "archived_hypotheses": {
+                k: self.archived_hypotheses[k].to_dict()
+                for k in sorted(self.archived_hypotheses)
+            },
+            "contingency_cells": {
+                k: self.contingency_cells[k].to_dict() for k in sorted(self.contingency_cells)
+            },
+            # `execution_id` correlates to Governance's non-deterministic proposal_id
+            # (plain uuid4, not seeded) — an administrative link, not relationship
+            # state, so it is excluded here to keep replay equality behavioral.
+            "pending": {
+                k: {kk: vv for kk, vv in self.pending[k].to_dict().items() if kk != "execution_id"}
+                for k in sorted(self.pending)
+            },
+            "routine_handles": {
+                k: self.routine_handles[k].to_dict() for k in sorted(self.routine_handles)
+            },
+            "metrics": dict(sorted(self.metrics.items())),
+        }
 
     def to_state(self) -> dict[str, Any]:
         return {
