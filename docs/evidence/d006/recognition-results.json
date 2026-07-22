@@ -46,5 +46,13 @@
     "mean_unnecessary_bids": null,
     "n": 100
   },
-  "gate3": true
+  "gate3": true,
+  "organism_recognition": {
+    "h8_distinct_and_swap_frac": 1.0,
+    "h8_false_merge_frac": 0.0,
+    "h9_ambiguous_not_split_frac": 1.0,
+    "path": "embodiment->perception->SocialEngine.recognize (Organism.tick_once)",
+    "seeds": 20,
+    "ticks": 60
+  }
 }

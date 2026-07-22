@@ -23,6 +23,38 @@ CAPABILITIES = (
 )
 
 
+# Identity-basis parameters for PartnerTrueCues.for_history. Amplitude 0.40 keeps
+# 0.5 ± amp inside [0.10, 0.90], leaving headroom for perception noise without
+# clamp-saturating the true cue. 9 direct cue dims: motion(3)+appearance(3)+
+# interaction(3); timing is excluded (it is /32-rescaled and shared across partners).
+_IDENT_AMPLITUDE = 0.40
+_AMBIGUOUS_IDENT_AMPLITUDE = 0.02
+_IDENT_DIMS = 9
+# Fixed +/-1 base direction; index 0 and 1 (the only multi-partner histories, H8/H9)
+# are made antipodal so their noise-free cue distance (~0.69) clears the recognition
+# threshold (0.55) with wide margin. Higher indices rotate the phase (unused today).
+_IDENT_BASE = (1.0, -1.0, 1.0, -1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
+
+
+def _identity_offsets(index: int, amplitude: float) -> list[float]:
+    """Per-index offset vector over the 9 direct cue dims. Even/odd indices flip the
+    base direction (antipodal 0 vs 1) for maximal separation; index//2 adds a phase
+    rotation so any further partners stay distinct. Fixed per-dim magnitude keeps the
+    inter-partner distance above the perception-noise floor instead of swamped by it."""
+    sign = 1.0 if index % 2 == 0 else -1.0
+    rot = index // 2
+    return [
+        amplitude * sign * _IDENT_BASE[d] * math.cos(math.pi * rot * (d + 1) / _IDENT_DIMS)
+        for d in range(_IDENT_DIMS)
+    ]
+
+
+def _band(offset: float, tilt: float) -> float:
+    """Center a cue dim at 0.5 (+ history tilt) and apply the identity offset,
+    kept strictly inside (0,1) so both separation and noise survive the [0,1] clamp."""
+    return clamp(0.5 + tilt + offset, 0.02, 0.98)
+
+
 @dataclass
 class PartnerTrueCues:
     motion_signature: tuple[float, ...]
@@ -50,12 +82,23 @@ class PartnerTrueCues:
     @classmethod
     def for_history(cls, history_code: str, *, index: int = 0, ambiguous: bool = False) -> PartnerTrueCues:
         h = int(history_code[1:]) if history_code[1:].isdigit() else 0
-        salt = index * (0.01 if ambiguous else 0.17)
+        # Identity separation lives in a near-orthogonal, index-keyed basis spread
+        # across the 9 direct cue dims (motion/appearance/interaction). The old ~0.17
+        # scalar salt was smaller than PerceptionMembrane noise (sigma≈0.33), so two
+        # distinct partners collapsed into one hypothesis through the real perception
+        # path. A full-amplitude orthogonal basis keeps inter-partner cue distance
+        # above the noise floor. Ambiguous histories (H9) deliberately keep a tiny
+        # amplitude so partners genuinely collapse/contest and stay UNKNOWN.
+        # (response_timing_pattern stays tick-scaled and index-independent; it is
+        # rescaled by /32 in perception, so identity separation would be swamped there.)
+        amp = _AMBIGUOUS_IDENT_AMPLITUDE if ambiguous else _IDENT_AMPLITUDE
+        off = _identity_offsets(index, amp)
+        hb = (h % 7) * 0.02  # mild per-history tilt so single-partner histories differ
         return cls(
-            motion_signature=(0.2 + h * 0.05 + salt, 0.3 + salt, 0.1),
-            appearance_signature=(0.5 + h * 0.03, 0.4, 0.2 + salt),
+            motion_signature=(_band(off[0], hb), _band(off[1], hb), _band(off[2], hb)),
+            appearance_signature=(_band(off[3], hb), _band(off[4], hb), _band(off[5], hb)),
             response_timing_pattern=(2.0 + h * 0.2, 5.0, 1.0),
-            interaction_style_cues=(0.6 + salt, 0.3, 0.5),
+            interaction_style_cues=(_band(off[6], hb), _band(off[7], hb), _band(off[8], hb)),
         )
 
 

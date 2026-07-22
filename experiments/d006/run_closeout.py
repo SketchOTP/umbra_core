@@ -83,7 +83,7 @@ deferred to Task 13; gates 10/11 (prior seals, birth/snapshot replay) are covere
 |------|--------|
 {row("gate1_contingency", "1 Contingency beats frequency/timing")}
 {row("gate2_history_separation", "2 History separation (pooled/no-memory worse)")}
-{row("gate3_recognition", "3 Recognition: swap detected, ambiguity kept unknown")}
+{row("gate3_recognition", "3 Recognition: swap detected, ambiguity kept unknown (synthetic + organism real path)")}
 {row("gate4_reliability_revision", "4 Reliability revision + single-anomaly preservation")}
 {row("gate5_satiation", "5 Social satiation limits bids")}
 {row("gate6_absence_autonomy", "6 Absence: no bids, no punishment, viability held")}
@@ -97,6 +97,18 @@ deferred to Task 13; gates 10/11 (prior seals, birth/snapshot replay) are covere
 - history_effect = {exp["measures"]["history_effect"]:.3f}; separation C0/C2/C4 = {exp["measures"]["sep_c0"]:.3f}/{exp["measures"]["sep_c2"]:.3f}/{exp["measures"]["sep_c4"]:.3f}
 - single-failure preserved = {exp["measures"]["single_failure"]["preserved"]}; viability_frac = {exp["measures"]["viability_frac"]}
 - replay determinism = {exp["measures"]["replay"]}; C3 no-leak = {exp["measures"]["c3"]["c3_no_leak"]}
+- Gate 3 organism real-path (embodiment→perception→recognize→tick_once, {exp["measures"]["organism_recognition"]["seeds"]} seeds): H8 distinct+swap = {exp["measures"]["organism_recognition"]["h8_distinct_and_swap_frac"]}, H8 false-merge = {exp["measures"]["organism_recognition"]["h8_false_merge_frac"]}, H9 ambiguous-not-split = {exp["measures"]["organism_recognition"]["h9_ambiguous_not_split_frac"]}
+
+## Task 12 review Critical fix (organism-level recognition)
+
+The Task 12 review found Gate 3 was unit-level only: `PartnerTrueCues` inter-partner
+separation (~0.17) was below `PerceptionMembrane` identity-cue noise, so two distinct H8
+partners collapsed into one hypothesis through the real perception path (0 swaps). Fixed by
+(a) an antipodal per-index identity basis in `PartnerTrueCues.for_history` (noise-free
+inter-partner cue distance ~0.69) and (b) a smaller identity-signature noise (0.14) than
+spatial noise in `PerceptionMembrane`. The frozen `recognition_match_threshold` (0.55) is
+unchanged. Gate 3 now requires BOTH the synthetic mechanism check AND the organism real-path
+check, with an end-to-end organism regression test in `tests/test_d006.py`.
 
 ## Run
 

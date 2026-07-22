@@ -1654,6 +1654,52 @@ def test_different_histories_change_behavior(tmp_path):
     store.close()
 
 
+def _run_organism(history: str, seed: int, ticks: int, tmp_path):
+    """Drive the REAL organism path: embodiment plant -> perception membrane ->
+    SocialEngine.recognize inside Organism.tick_once (no synthetic cue injection)."""
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    db = str(tmp_path / f"e2e_{history}_{seed}.sqlite")
+    org = create_organism(
+        OrganismConfig(
+            db_path=db, seed=seed, social_enabled=True, social_history=history,
+            condition="C0", drift_enabled=False,
+        )
+    )
+    for _ in range(ticks):
+        org.tick_once()
+    active = [h for h in org.social.hypotheses.values() if h.status != "INACTIVE"]
+    swaps = int(org.social.metrics.get("partner_swaps_detected", 0))
+    created = int(org.social.metrics.get("hypotheses_created", 0))
+    org.close()
+    return active, swaps, created
+
+
+def test_organism_h8_distinct_partners_do_not_silently_merge(tmp_path):
+    """Critical (Task 12 review): two distinct H8 partners perceived through the real
+    embodiment->perception->recognize->tick_once path must form TWO separate
+    hypotheses and trigger swap detection — NOT collapse into one silent merge.
+
+    This is the end-to-end regression for the calibration bug where PartnerTrueCues
+    separation was below PerceptionMembrane identity-cue noise.
+    """
+    for seed in range(5):
+        active, swaps, created = _run_organism("H8", seed, ticks=60, tmp_path=tmp_path)
+        assert len(active) == 2, f"seed {seed}: expected 2 distinct hypotheses, got {len(active)}"
+        assert created == 2, f"seed {seed}: silent merge/false split (created={created})"
+        assert swaps > 0, f"seed {seed}: swap discriminator never fired through real path"
+
+
+def test_organism_h9_ambiguous_partners_are_not_split_into_distinct_identities(tmp_path):
+    """H9 ambiguous partners have near-identical true cues; through the real path they
+    must NOT be resolved into two confidently-distinct identities (they collapse to a
+    single hypothesis rather than false-splitting)."""
+    for seed in range(5):
+        active, _swaps, created = _run_organism("H9", seed, ticks=60, tmp_path=tmp_path)
+        assert len(active) == 1, f"seed {seed}: ambiguous partners split ({len(active)})"
+        assert created == 1, f"seed {seed}: ambiguous false split (created={created})"
+
+
 @pytest.mark.skip(
     reason="Gate 12 (100k accelerated ticks / 2h soak / RSS+CPU bounds) runs under "
     "Task 13 once soak evidence exists; pre-soak skip only — final sealed suite "

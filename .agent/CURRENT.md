@@ -1,23 +1,22 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-1439-d006-task12-experiment-harness
+- ID: D-20260722-1532-d006-task12-critical-fix
 - Project directive: UMBRA-D-006
-- Goal: Task 12 — paired-seed experiment harness over frozen matrix/thresholds; generate docs/evidence/d006/*.json asserting gates 1-9 numerically (performance deferred to Task 13)
-- Status: done
-- Acceptance: MET — frozen thresholds/matrix unmodified; 100 paired seeds/gate-critical cell; all required result files written; gates 1-9 numeric all PASS; C3 leak fails closed; results committed
-- Touched files: experiments/d006/run_experiment.py, experiments/d006/run_closeout.py, docs/evidence/d006/*.json, .superpowers/sdd/task-12-report.md, .agent/*
-- Next action: Task 13 — performance soak (Gate 12), unskip test_performance_soak_within_bounds, final UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED seal
+- Goal: Fix Task 12 Critical — organism-level partner recognition collapsed distinct partners (PartnerTrueCues separation ~0.17 < PerceptionMembrane identity-cue noise ~0.33); make distinct partners separable through the real path without editing frozen thresholds
+- Status: done — acceptance MET
+- Acceptance: MET — organism real path forms 2 distinct H8 hypotheses + swap detection (no silent merge) and H9 ambiguous stays merged, across 20 seeds (1.0/0.0/1.0); gates 1-9 re-run PASS incl organism-level gate3; frozen recognition_match_threshold(0.55)/thresholds.json/matrix unchanged
+- Touched files: umbra_core/embodiment.py, umbra_core/perception.py, experiments/d006/{run_experiment,run_closeout}.py, tests/test_d006.py, docs/evidence/d006/* (regenerated), .superpowers/sdd/task-12-report.md, .agent/*
+- Next action: Task 13 (performance soak + final UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED seal); Critical finding resolved
 
 ## Repo facts needed now
-- Mimir project: 7777645d52a91b49; Task 12 mimir_task 80a390a43e204d6c806f57a8c61226ae (begun/observed/closed)
-- Harness drives SocialEngine directly with synthetic cues + frozen response_policy_for_history (embodiment cue salt < perception noise); paired seeds vary partner-response RNG
-- Gate 2 = two-partner separation probe (C0=0.595, C2=0.0, C4=0.217); Gate 6 viability = survival-critical excursions only (stimulation benign)
-- All 12 evidence files under docs/evidence/d006/; interim verdict UMBRA_D006_EXPERIMENT_GATES_1_9_PASS; Gate 12 perf deferred to Task 13
+- Root cause: identity separation lived in a small scalar salt below perception noise. Fix keeps noise but (a) antipodal per-index identity basis in PartnerTrueCues.for_history (noise-free inter-partner cue distance ~0.69), (b) PerceptionMembrane identity-signature noise floor 0.14 < spatial noise 0.33 (cues stay noisy). Ambiguous H9 keeps tiny amplitude so partners collapse/contest.
+- Gate 3 now requires BOTH synthetic mechanism check AND organism real-path check (_organism_recognition, 20 seeds). Two end-to-end organism tests added.
+- Frozen thresholds.json / experiment-matrix.json untouched (fix was in production cue/perception calibration + harness, not frozen gates).
 
 ## Last validation
-- Command: python experiments/d006/run_experiment.py ; python experiments/d006/run_closeout.py
-- Result: gates 1-9 all pass (1875 rows, 12.7s); closeout UMBRA_D006_EXPERIMENT_GATES_1_9_PASS; pytest tests/test_d006.py 77 passed/1 skipped (Gate 12 by design)
+- Command: python -m pytest tests/test_d006.py -q ; python experiments/d006/run_experiment.py ; python experiments/d006/run_closeout.py
+- Result: 79 passed/1 skipped; gates 1-9 PASS (1875 rows, 64.7s); UMBRA_D006_EXPERIMENT_GATES_1_9_PASS
 
 ## Open blockers
-- mimir_validation_run: "validation requires an active observed task" (same precedent Tasks 4-11) — validated locally; task begun/observed/closed honestly
+- mimir_validation_run: "validation requires an active observed task" (same precedent Tasks 4-12) — validated locally; Mimir task begun/observed/closed

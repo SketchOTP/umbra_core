@@ -52,6 +52,9 @@ PARTNER_CUE_FIELDS = (
 
 # true_cues store timing in tick units; normalize before noisy clamp to [0,1]
 _TIMING_CUE_SCALE = 32.0  # ponytail: max expected ticks from D-006 thresholds
+# Identity-signature noise floor (see _noisy_partner_cue): below the ~0.69 antipodal
+# inter-partner cue distance so distinct partners separate, above 0 so cues stay noisy.
+_PARTNER_IDENTITY_NOISE_SIGMA = 0.14
 
 
 @dataclass
@@ -153,16 +156,25 @@ class PerceptionMembrane:
         if d > body.sensor_range:
             return None
         prng = rng.fork(_partner_salt(partner.hidden_partner_id) ^ int(now * 1000))
-        noise = self.noise_sigma + 0.08
+        noise = self.noise_sigma + 0.08  # spatial (relative_position) noise
+        # Identity-signature noise is deliberately smaller than the spatial noise:
+        # motion/appearance/timing/interaction signatures are more stable/repeatable
+        # than an instantaneous position estimate, and they must stay discriminative
+        # so distinct partners do not collapse into one recognition hypothesis (and a
+        # single partner does not false-split) through the real perception path. Cues
+        # still always carry noise (never perfect), just below the inter-partner
+        # cue-separation floor. ponytail: capped constant floor; upgrade path is a
+        # per-cue-channel sigma if channels need independent reliability.
+        id_noise = min(noise, _PARTNER_IDENTITY_NOISE_SIGMA)
         rel_x = (partner.x - body.x) + prng.gauss(0.0, noise)
         rel_y = (partner.y - body.y) + prng.gauss(0.0, noise)
         tc = partner.true_cues
 
-        def noisy_vec(vec: tuple[float, ...], sigma: float = noise) -> list[float]:
+        def noisy_vec(vec: tuple[float, ...], sigma: float = id_noise) -> list[float]:
             # ponytail: always add noise — no permanently unique perfect cues
             return [clamp(v + prng.gauss(0.0, sigma), 0.0, 1.0) for v in vec]
 
-        def noisy_timing_vec(vec: tuple[float, ...], sigma: float = noise + 0.12) -> list[float]:
+        def noisy_timing_vec(vec: tuple[float, ...], sigma: float = id_noise) -> list[float]:
             # true_cues in tick units; rescale to [0,1] before noise so cues stay discriminative
             return [
                 clamp(v / _TIMING_CUE_SCALE + prng.gauss(0.0, sigma), 0.0, 1.0) for v in vec

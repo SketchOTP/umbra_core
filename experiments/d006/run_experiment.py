@@ -7,15 +7,22 @@ frozen thresholds; gate 12 (performance soak) is deferred to Task 13 and gates
 10/11 (prior seals, replay) are covered by the pytest suite (a replay determinism
 probe is still recorded here as evidence).
 
-Methodology note (honest): recognition/contingency mechanisms are driven directly
+Methodology note (honest): contingency/reliability mechanisms are driven directly
 against `SocialEngine` with harness-synthesized cues and the frozen
 `response_policy_for_history` partner policies — the same controlled-cue technique
-the sealed D-006 unit suite uses. The embodiment `PartnerTrueCues` plant separates
-partners by ~0.17 in cue space, which is below `PerceptionMembrane` noise, so raw
-perception cannot exercise the swap/ambiguity discriminators at the mechanism level.
-Paired seeds vary the partner-response RNG (contingent/none draws, delays); the
-recognition discriminators are deterministic given cues, so their variance is ~0 by
-construction and reported as such.
+the sealed D-006 unit suite uses. Paired seeds vary the partner-response RNG
+(contingent/none draws, delays); those recognition discriminators are deterministic
+given cues, so their variance is ~0 by construction and reported as such.
+
+Gate 3 recognition is ALSO measured end-to-end through the real path (embodiment
+`PartnerTrueCues` plant -> `PerceptionMembrane` -> `SocialEngine.recognize` inside
+`Organism.tick_once`) via `_organism_recognition`. The prior calibration bug
+(inter-partner cue separation below perception identity-cue noise, so distinct
+partners collapsed into one hypothesis) is fixed: `PartnerTrueCues.for_history` uses
+an antipodal per-index identity basis and `PerceptionMembrane` applies a smaller
+identity-signature noise than spatial noise. The frozen `recognition_match_threshold`
+(0.55) is unchanged. Gate 3 requires BOTH the synthetic mechanism check and the
+organism-level separation/no-merge check to pass.
 """
 
 from __future__ import annotations
@@ -505,6 +512,55 @@ def _event_authority_map() -> dict[str, Any]:
     }
 
 
+def _organism_recognition(workdir: str, seeds: int = 20, ticks: int = 60) -> dict[str, Any]:
+    """Gate 3 organism-level recognition through the REAL path (embodiment plant ->
+    PerceptionMembrane -> SocialEngine.recognize inside Organism.tick_once).
+
+    Honest end-to-end counterpart to the synthetic-cue recognition_trial: proves
+    distinct H8 partners separate (no silent merge, swap discriminator fires) and
+    ambiguous H9 partners do not false-split, after the PartnerTrueCues /
+    PerceptionMembrane recalibration. The frozen recognition threshold is unchanged.
+    """
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    def run(history: str, seed: int) -> tuple[int, int, int]:
+        db = os.path.join(workdir, f"org_recog_{history}_{seed}.sqlite")
+        for suffix in ("", "-wal", "-shm"):
+            try:
+                os.unlink(db + suffix)
+            except OSError:
+                pass
+        org = create_organism(
+            OrganismConfig(
+                db_path=db, seed=seed, social_enabled=True, social_history=history,
+                condition="C0", drift_enabled=False,
+            )
+        )
+        for _ in range(ticks):
+            org.tick_once()
+        active = len([h for h in org.social.hypotheses.values() if h.status != "INACTIVE"])
+        swaps = int(org.social.metrics.get("partner_swaps_detected", 0))
+        created = int(org.social.metrics.get("hypotheses_created", 0))
+        org.close()
+        for suffix in ("", "-wal", "-shm"):
+            try:
+                os.unlink(db + suffix)
+            except OSError:
+                pass
+        return active, swaps, created
+
+    h8 = [run("H8", s) for s in range(seeds)]
+    h9 = [run("H9", s) for s in range(seeds)]
+    return {
+        "seeds": seeds,
+        "ticks": ticks,
+        "path": "embodiment->perception->SocialEngine.recognize (Organism.tick_once)",
+        "h8_distinct_and_swap_frac": sum(1 for a, sw, c in h8 if a == 2 and c == 2 and sw > 0) / seeds,
+        "h8_false_merge_frac": sum(1 for a, _sw, c in h8 if a < 2 or c < 2) / seeds,
+        "h9_ambiguous_not_split_frac": sum(1 for a, _sw, c in h9 if a == 1 and c == 1) / seeds,
+    }
+
+
 def main() -> None:
     matrix = json.loads((ROOT / "experiments/d006/experiment-matrix.json").read_text())
     thr = json.loads((ROOT / "experiments/d006/thresholds.json").read_text())
@@ -554,6 +610,7 @@ def main() -> None:
     cooldown_denies = _governance_cooldown_denies()
     replay = _replay_determinism(workdir)
     event_authority = _event_authority_map()
+    org_recog = _organism_recognition(workdir)
 
     # --- Gate 1: contingency beats frequency/timing -----------------------------
     delta_c0 = g("C0_H0", "reliability") - g("C0_H1", "reliability")
@@ -579,12 +636,18 @@ def main() -> None:
     )
 
     # --- Gate 3: recognition accuracy / swap / ambiguity ------------------------
+    # Requires BOTH the synthetic mechanism-level discriminators AND the organism-level
+    # real-path separation (distinct partners do not silently merge; ambiguous partners
+    # do not false-split) — the Task 12 review Critical fix.
     gate3 = (
         g("C0_H8", "recog_accuracy_ok") >= thr["recognition_accuracy_min"]
         and g("C0_H8", "false_merge") <= thr["false_merge_rate_max"]
         and g("C0_H8", "swap_latency", 1e9) <= thr["swap_detection_latency_ticks_max"]
         and g("C0_H9", "ambiguous_unknown_frac") >= thr["ambiguous_left_unknown_min"]
         and g("C0_H0", "false_split") <= thr["false_split_rate_max"]
+        and org_recog["h8_distinct_and_swap_frac"] >= thr["recognition_accuracy_min"]
+        and org_recog["h8_false_merge_frac"] <= thr["false_merge_rate_max"]
+        and org_recog["h9_ambiguous_not_split_frac"] >= thr["ambiguous_left_unknown_min"]
     )
 
     # --- Gate 4: reliability revision (down/up) + single-anomaly preservation ---
@@ -650,6 +713,7 @@ def main() -> None:
             "history_effect": history_effect, "sep_c0": sep_c0, "sep_c2": sep_c2, "sep_c4": sep_c4,
             "single_failure": single_fail, "viability_frac": viability_frac,
             "replay": replay, "c3": c3, "cooldown_denies": cooldown_denies,
+            "organism_recognition": org_recog,
         },
     }
 
@@ -659,7 +723,9 @@ def main() -> None:
     write("experiment-summary.json", result)
     write("recognition-results.json", {
         "C0_H8": summary.get("C0_H8"), "C0_H9": summary.get("C0_H9"),
-        "C0_H0_false_split": g("C0_H0", "false_split"), "gate3": gates["gate3_recognition"],
+        "C0_H0_false_split": g("C0_H0", "false_split"),
+        "organism_recognition": org_recog,
+        "gate3": gates["gate3_recognition"],
     })
     write("contingency-results.json", {
         "C0_H0": summary.get("C0_H0"), "C0_H1": summary.get("C0_H1"),
