@@ -3,7 +3,8 @@
 **Verdict:** `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`
 
 **Starting commit:** `97e5df2175817b9122f5724aaedd2c320d12510c`  
-**Soak / remediation commit:** `13bdce2311b2a9571d2efcf1a6500a91760bb171`  
+**Soak / remediation commit:** `13bdce2311b2a9571d2efcf1a6500a91760bb171`
+**Ending commit:** `de938ef56c258f633a61f0b6564f6f880586d584`  
 **Date:** 2026-07-21  
 **Mimir project:** `7777645d52a91b49`  
 **Mimir task:** `8e2d40832317467c8eee34ab873e6234`
