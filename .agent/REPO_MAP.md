@@ -4,7 +4,7 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 - `.agent/PROJECT_GOAL.md` — product SoT (companion organism core; chemistry optional/non-gating)
-- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-001 active)
+- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-006 active)
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
 - `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`)
@@ -44,6 +44,12 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-005 evidence: `docs/evidence/d005/`
 - D-005 experiments: `experiments/d005/`
 - D-005 tests: `tests/test_d005.py`
+- D-006 design: `docs/superpowers/specs/2026-07-22-umbra-d006-social-contingency-design.md`
+- D-006 directive: `docs/directives/UMBRA-D-006-social-contingency.md`
+- D-006 preregistration: `experiments/d006/thresholds.json`, `experiments/d006/experiment-matrix.json`
+- D-006 evidence (pending): `docs/evidence/d006/`
+- D-006 tests (pending): `tests/test_d006.py`
+- D-006 social engine (pending): `umbra_core/social/`
 - `umbra_core/util.py` — `current_rss_mib` (VmRSS), `ols_slope`, `BoundedRing`
 - `umbra_core/events.py` — `SELF_MODEL_EVENT_AUTHORITY`; `world_model_supersede`; `runtime_ready`; `memory_correction`
 - `umbra_core/runtime.py` — `emit_runtime_ready`; world/development/memory interventions; organism loop

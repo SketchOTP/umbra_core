@@ -26,8 +26,9 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
-- Active project directive: **UMBRA-D-005** — `UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED`
-- **D-006 authorized** under `UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED`
+- Active project directive: **UMBRA-D-006** — social contingency (implementation in progress under agent memory `D-20260722-umbra-d006-social-contingency`)
+- **UMBRA-D-005 closed** — `UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED`
+- **D-007 blocked** until `UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED`
 - **UMBRA-D-004 closed** — `UMBRA_D004_INTRINSIC_DEVELOPMENT_QUALIFIED`
 - **UMBRA-D-003 closed** — `UMBRA_D003_PREDICTIVE_WORLD_MODEL_QUALIFIED`
 - **UMBRA-D-002P** — `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`
@@ -45,6 +46,9 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-003 evidence: `docs/evidence/d003/` (QUALIFIED)
 - D-004 evidence: `docs/evidence/d004/` (QUALIFIED)
 - D-005 evidence: `docs/evidence/d005/` (QUALIFIED)
+- D-006 preregistration: `experiments/d006/thresholds.json`, `experiments/d006/experiment-matrix.json`
+- D-006 directive: `docs/directives/UMBRA-D-006-social-contingency.md`
+- D-006 design: `docs/superpowers/specs/2026-07-22-umbra-d006-social-contingency-design.md`
 - Prior-art lab notebook: `docs/prior-art/` (Tracks 1–6 complete; Soar/Hyperon not required)
 - Stance: informed reuse for the **companion organism core**; chemistry/protocell deferred
 
@@ -52,7 +56,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Target platform: Linux
 - Persistence: SQLite WAL event/state authority (`HYBRID_PRIMARY`); optional Postgres scale tier
 - Core loop: deterministic non-LLM (see architecture freeze)
-- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`); D-005 QUALIFIED memory (`umbra_core/memory/`)
+- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`); D-005 QUALIFIED memory (`umbra_core/memory/`); D-006 active social (`umbra_core/social/` — pending)
 - Agent/tooling docs: Markdown, Cursor rules, Mimir V2, Serena
 
 ## Common commands

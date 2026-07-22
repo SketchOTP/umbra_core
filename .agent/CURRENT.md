@@ -1,24 +1,25 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-umbra-d005-episodic-consolidation
-- Project directive: UMBRA-D-005
-- Goal: Selective episodic memory and offline consolidation
-- Status: done — UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED
-- Acceptance: Gates 0–12 met; 178 tests; soak slope 0.449; D-006 authorized
-- Touched files: umbra_core/memory/, umbra_core/{runtime,events,embodiment}.py, tests/test_d005.py, experiments/d005/, docs/evidence/d005/, .agent/*
-- Next action: D-006 when opened
+- ID: D-20260722-umbra-d006-social-contingency
+- Project directive: UMBRA-D-006
+- Goal: Partner-specific social contingency and history-dependent relationships
+- Status: active — Task 1 bootstrap (thresholds/matrix/directive frozen)
+- Acceptance: Gates 0–13; allowed D-006 verdict; evidence committed; Mimir closed; D-007 only if QUALIFIED
+- Touched files: experiments/d006/thresholds.json, experiments/d006/experiment-matrix.json, docs/directives/UMBRA-D-006-social-contingency.md, .agent/*
+- Next action: Task 2 — signal capabilities + social event authority registry
 
 ## Repo facts needed now
-- Starting commit: 26235fe80ad9db6268aa9a24fca83678eb431f93
-- Ending commit: 81f4ff66eccb13b1cf4c84dc1b6a6ae5dd96c151
+- Starting commit: 70dd08ee3d664b6eda1968ca7129a953622d45bc
 - Mimir project: 7777645d52a91b49
-- Mimir task: bfab230a72a245669aeab9010f949e17
-- D-006 AUTHORIZED: YES
+- Mimir task: 73bad275baf34020abfef413f1bce229
+- D-005: UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED
+- D-006: ACTIVE
+- D-007: blocked until D-006 QUALIFIED
 
 ## Last validation
-- Command: pytest tests/; 2h RUNTIME_READY VmRSS soak; experiments C0–C9×H0–H9 curated
-- Result: 178 passed 0 skipped; slope 0.449; gate_performance_pass=true; experiment gates 1–7 true
+- Command: n/a — Task 1 docs/freeze bootstrap only
+- Result: thresholds.json and experiment-matrix.json written per brief; no code tests yet
 
 ## Open blockers
-- none for D-005
+- none for Task 1 bootstrap
