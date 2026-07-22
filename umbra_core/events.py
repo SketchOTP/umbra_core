@@ -13,6 +13,7 @@ SOCIAL_EVENT_AUTHORITY: dict[str, str] = {
     "social_hypothesis_created": "AUTHORITATIVE",
     "social_hypothesis_merged": "AUTHORITATIVE",
     "social_hypothesis_split": "AUTHORITATIVE",
+    "social_partner_swap_detected": "AUTHORITATIVE",
     "social_hypothesis_contested": "AUTHORITATIVE",
     "social_hypothesis_retired": "AUTHORITATIVE",
     "social_recognition_updated": "AUTHORITATIVE",

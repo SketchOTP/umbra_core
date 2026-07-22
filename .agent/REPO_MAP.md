@@ -48,9 +48,9 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-006 directive: `docs/directives/UMBRA-D-006-social-contingency.md`
 - D-006 preregistration: `experiments/d006/thresholds.json`, `experiments/d006/experiment-matrix.json`
 - D-006 evidence (pending): `docs/evidence/d006/`
-- D-006 tests: `tests/test_d006.py` (Task 2: signals; Task 3: partner entities + noisy cues; Task 4: recognition/satiation; Task 5: pending lifecycle + classification precedence + atomic outcome commit)
-- D-006 social engine: `umbra_core/social/` — `engine.py`: `SocialEngine`/`PartnerHypothesis`/`ContingencyCell`/`PendingInteraction`/`ResponseClass`/`condition_to_social_config` (C0/C4/C5/C6; recognition, derived satiation/expected_response_latency; `create_pending`/`classify_response`/`observe_outcome`/`resolve_pending` atomic commit; `resume_pending`/`reconstruct_pending` restart+fail-closed)
-- D-006 atomic commit: `umbra_core/persistence.py` — `Store.atomic_social_outcome` (one BEGIN IMMEDIATE txn, crash injection) + `social_evidence_links` table; `umbra_core/memory/engine.py` — `finalize_social_episode`/`attach_episode`; `umbra_core/events.py` — `social_episode_finalized`/`social_episode_outcome` AUTHORITATIVE
+- D-006 tests: `tests/test_d006.py` (Task 2–5 + Task 6: merge/split provenance, swap detection, reliability revision)
+- D-006 social engine: `umbra_core/social/` — `engine.py`: `SocialEngine`/`PartnerHypothesis`/`ContingencyCell`/`PendingInteraction`/`ResponseClass`/`condition_to_social_config` (C0/C4/C5/C6; recognition, derived satiation/expected_response_latency; `create_pending`/`classify_response`/`observe_outcome`/`resolve_pending` atomic commit; `resume_pending`/`reconstruct_pending` restart+fail-closed; Task 6: `merge_hypotheses`/`split_hypothesis` non-destructive provenance, `social_partner_swap_detected`, reliability anomaly/repeated/recovery revision)
+- D-006 atomic commit: `umbra_core/persistence.py` — `Store.atomic_social_outcome` + `social_evidence_links` + `social_hypothesis_provenance_links`; `umbra_core/memory/engine.py` — `finalize_social_episode`/`attach_episode`; `umbra_core/events.py` — social lifecycle + `social_partner_swap_detected` AUTHORITATIVE
 - `umbra_core/perception.py` — habitat + partner cue membrane (`partner_cues` in policy_view)
 - `umbra_core/embodiment.py` — habitat plant + `SIGNAL_*` + `PartnerEntity`/`apply_social_history`/`hidden_partner_truth_for_eval`
 

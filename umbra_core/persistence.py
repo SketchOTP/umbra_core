@@ -79,6 +79,15 @@ class Store:
               tick INTEGER NOT NULL,
               UNIQUE(hypothesis_id, context, signal, episode_id, relation)
             );
+            CREATE TABLE IF NOT EXISTS social_hypothesis_provenance_links (
+              link_id TEXT PRIMARY KEY,
+              agent_id TEXT NOT NULL,
+              operation TEXT NOT NULL,
+              result_hypothesis_id TEXT NOT NULL,
+              source_hypothesis_id TEXT NOT NULL,
+              tick INTEGER NOT NULL,
+              UNIQUE(operation, result_hypothesis_id, source_hypothesis_id)
+            );
             """
         )
 
@@ -350,6 +359,42 @@ class Store:
     def social_evidence_links_for(self, hypothesis_id: str) -> list[dict[str, Any]]:
         rows = self.conn.execute(
             "SELECT * FROM social_evidence_links WHERE hypothesis_id=? ORDER BY rowid ASC",
+            (hypothesis_id,),
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+    def insert_social_hypothesis_provenance_link(
+        self,
+        *,
+        agent_id: str,
+        operation: str,
+        result_hypothesis_id: str,
+        source_hypothesis_id: str,
+        tick: int,
+    ) -> None:
+        """Normalized merge/split lineage — full provenance recoverable beyond bounded active sets."""
+        self.conn.execute(
+            """
+            INSERT INTO social_hypothesis_provenance_links(
+              link_id, agent_id, operation, result_hypothesis_id, source_hypothesis_id, tick
+            ) VALUES (?,?,?,?,?,?)
+            """,
+            (
+                new_id(),
+                agent_id,
+                operation,
+                result_hypothesis_id,
+                source_hypothesis_id,
+                int(tick),
+            ),
+        )
+
+    def social_hypothesis_provenance_links_for(self, hypothesis_id: str) -> list[dict[str, Any]]:
+        rows = self.conn.execute(
+            """
+            SELECT * FROM social_hypothesis_provenance_links
+            WHERE result_hypothesis_id=? ORDER BY rowid ASC
+            """,
             (hypothesis_id,),
         ).fetchall()
         return [dict(r) for r in rows]

@@ -288,8 +288,18 @@ No separate routine store. SocialEngine holds eligibility and handles; MemoryEng
 
 ### Merge / split provenance
 
-* **Merge:** create a new or superseding hypothesis with links to all source hypotheses; never destructively combine histories.
-* **Split:** preserve which evidence moved to each resulting hypothesis.
+* **Merge (`merge_hypotheses(ids) → new_id`):** create a superseding hypothesis with `source_hypothesis_ids` linking all inputs; archive sources as `INACTIVE` (never delete). Source contingency cells, evidence refs, and episode links remain keyed to archived hypotheses — histories are **not** destructively combined. Emit authoritative `social_hypothesis_merged` plus normalized `social_hypothesis_provenance_links` rows (full lineage recoverable beyond bounded active sets).
+* **Split (`split_hypothesis(id, evidence_partition) → (id_a, id_b)`):** archive parent as `INACTIVE`; create two children each with `source_hypothesis_ids=[parent_id]` and partitioned `evidence_refs` per `evidence_partition` (`episode_id → 'a'|'b'`; all parent refs must be assigned). Contingency cells stay on the parent archive until explicitly re-homed in later tasks. Emit `social_hypothesis_split` + provenance links.
+* **Bounded active set:** `source_hypothesis_ids` capped at `MAX_SOURCE_HYPOTHESIS_IDS`; eviction from the active set does not destroy ledger/link recoverability.
+* **Partner swap:** `recognize()` emits `social_partner_swap_detected` when a recently familiar hypothesis is out-scored by a different best match by ≥ `swap_detect_score_margin` within `swap_recency_ticks` — **without** merging histories or moving evidence between hypotheses.
+
+### Reliability revision rules
+
+* **Gain:** `CONTINGENT` responses increase `reliability_by_context[context]`; `DELAYED` contributes weakly. Frequency alone never builds reliability.
+* **Single anomaly:** first `NONE` in a context weakens reliability by `reliability_anomaly_weaken` (absolute, slight) — does not zero or permanently redefine expectations.
+* **Repeated contradiction:** second and later `NONE` outcomes in the same contingency cell apply proportional `reliability_loss` revision.
+* **Recovery:** after prior failures (`none_count > 0`), subsequent `CONTINGENT` responses apply a modest recovery gain boost so expectations revise upward from verified contingent history.
+* All revisions emit authoritative `social_reliability_revised` inside the atomic outcome commit (Task 5).
 
 ### Forbidden fields
 
@@ -565,5 +575,6 @@ D-007 may be authorized only under `UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED`.
 * **Scope:** single directive implementation plan; no deferred camera/mic/biometrics; C3 confined to `experiments/d006/`.
 * **Ambiguity resolved:** C4 resets at both encounter boundaries and restarts; Gate 6 manipulation fails explicitly; Gate 8 separates recognition provenance from episode provenance; ≥100 paired seeds per gate-critical comparison; evaluator-only hidden IDs; provenance collections bounded with ledger recoverability.
 * **Final amendments (this revision):** atomic SQLite outcome transaction + crash-injection tests; pending event authority; `social_recognition_updated` authoritative; provenance caps; Gate 8 wording; paired-seed coverage; minor field/cleanup fixes.
+* **Task 6 amendments:** `merge_hypotheses` / `split_hypothesis` non-destructive provenance with ledger links; `social_partner_swap_detected`; reliability anomaly/repeated/recovery revision rules.
 
 **Status after this amendment commit:** Design approved; proceed to implementation plan.

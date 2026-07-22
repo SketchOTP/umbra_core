@@ -67,6 +67,9 @@ RESPONSE_NONE_TIMEOUT = 32
 MAX_PENDING_INTERACTIONS = 8
 RELIABILITY_GAIN = 0.25
 RELIABILITY_LOSS = 0.30
+RELIABILITY_ANOMALY_WEAKEN = 0.08
+SWAP_DETECT_SCORE_MARGIN = 0.15
+SWAP_RECENCY_TICKS = 64
 
 
 class HypothesisStatus(str, Enum):
@@ -311,6 +314,9 @@ class SocialConfig:
     contingency_min_recognition_confidence: float = RECOGNITION_MATCH_THRESHOLD
     reliability_gain: float = RELIABILITY_GAIN
     reliability_loss: float = RELIABILITY_LOSS
+    reliability_anomaly_weaken: float = RELIABILITY_ANOMALY_WEAKEN
+    swap_detect_score_margin: float = SWAP_DETECT_SCORE_MARGIN
+    swap_recency_ticks: int = SWAP_RECENCY_TICKS
 
 
 def condition_to_social_config(condition: str) -> SocialConfig:
@@ -375,6 +381,9 @@ class SocialEngine:
             "pending_interrupted": 0,
             "contingency_updates": 0,
             "reliability_revisions": 0,
+            "hypothesis_merges": 0,
+            "hypothesis_splits": 0,
+            "partner_swaps_detected": 0,
         }
         return eng
 
@@ -477,6 +486,21 @@ class SocialEngine:
 
             second = scored[1] if len(scored) > 1 else None
             gap = (best[1] - second[1]) if second is not None else 1.0
+            swap_from = self._maybe_detect_partner_swap(best[0].hypothesis_id, best[1], scored, tick)
+            if swap_from is not None:
+                emitted.append(
+                    self._emit(
+                        "social_partner_swap_detected",
+                        {
+                            "from_hypothesis_id": swap_from,
+                            "to_hypothesis_id": best[0].hypothesis_id,
+                            "tick": tick,
+                        },
+                    )
+                )
+                self.metrics["partner_swaps_detected"] = (
+                    int(self.metrics.get("partner_swaps_detected", 0)) + 1
+                )
             if second is not None and gap < self.config.recognition_contest_gap_max:
                 contested_ids = [best[0].hypothesis_id, second[0].hypothesis_id]
                 for h in (best[0], second[0]):
@@ -595,6 +619,187 @@ class SocialEngine:
         cap = self.config.max_source_hypothesis_ids
         if len(hyp.source_hypothesis_ids) > cap:
             hyp.source_hypothesis_ids = hyp.source_hypothesis_ids[-cap:]
+
+    def _maybe_detect_partner_swap(
+        self,
+        best_id: str,
+        best_score: float,
+        scored: list[tuple[PartnerHypothesis, float]],
+        tick: int,
+    ) -> str | None:
+        """Detect partner swap without merging histories (design §4)."""
+        margin = self.config.swap_detect_score_margin
+        recency = self.config.swap_recency_ticks
+        for hyp, score in scored:
+            if hyp.hypothesis_id == best_id:
+                continue
+            if hyp.status != HypothesisStatus.FAMILIAR.value:
+                continue
+            if tick - hyp.last_interaction_tick > recency:
+                continue
+            if best_score - score >= margin:
+                return hyp.hypothesis_id
+        return None
+
+    def merge_hypotheses(
+        self, ids: list[str], *, store: Any = None, tick: int = 0
+    ) -> str:
+        """Non-destructive merge: archive sources, create superseding hypothesis with links.
+
+        Source contingency cells and evidence remain keyed to archived hypotheses;
+        full lineage is recoverable via `source_hypothesis_ids` (bounded) and ledger links.
+        """
+        if len(ids) < 2:
+            raise SocialEngineError("merge_requires_at_least_two_hypotheses")
+        unique_ids = list(dict.fromkeys(ids))
+        if len(unique_ids) != len(ids):
+            raise SocialEngineError("merge_duplicate_source_ids")
+        sources: list[PartnerHypothesis] = []
+        for hid in unique_ids:
+            if hid not in self.hypotheses:
+                raise SocialEngineError(f"merge_source_not_active:{hid}")
+            sources.append(self.hypotheses[hid])
+
+        merged_id = self._new_hypothesis_id()
+        merged_proto: dict[str, list[float]] = {}
+        for f in CUE_VECTOR_FIELDS:
+            vecs = [s.cue_prototype.get(f) for s in sources if s.cue_prototype.get(f)]
+            if not vecs:
+                continue
+            dim = len(vecs[0])
+            merged_proto[f] = [sum(v[i] for v in vecs) / len(vecs) for i in range(dim)]
+
+        merged = PartnerHypothesis(
+            hypothesis_id=merged_id,
+            status=HypothesisStatus.UNKNOWN.value,
+            recognition_confidence=max(s.recognition_confidence for s in sources),
+            cue_prototype=merged_proto,
+            encounter_count=sum(s.encounter_count for s in sources),
+            familiarity=clamp(max(s.familiarity for s in sources)),
+            responsiveness=max(s.responsiveness for s in sources),
+            uncertainty=min(s.uncertainty for s in sources),
+            last_interaction_tick=max(s.last_interaction_tick for s in sources),
+            last_satiation_update_tick=max(s.last_satiation_update_tick for s in sources),
+            created_tick=int(tick),
+        )
+        merged.source_hypothesis_ids = list(unique_ids)
+        for src in sources:
+            for prior in src.source_hypothesis_ids:
+                if prior not in merged.source_hypothesis_ids:
+                    merged.source_hypothesis_ids.append(prior)
+        cap = self.config.max_source_hypothesis_ids
+        if len(merged.source_hypothesis_ids) > cap:
+            merged.source_hypothesis_ids = merged.source_hypothesis_ids[-cap:]
+
+        for src in sources:
+            src.status = HypothesisStatus.INACTIVE.value
+            self.archived_hypotheses[src.hypothesis_id] = src
+            self.hypotheses.pop(src.hypothesis_id, None)
+
+        self.hypotheses[merged_id] = merged
+        self.metrics["hypothesis_merges"] = int(self.metrics.get("hypothesis_merges", 0)) + 1
+
+        payload = {
+            "merged_hypothesis_id": merged_id,
+            "source_hypothesis_ids": unique_ids,
+            "tick": int(tick),
+        }
+        if store is not None:
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type="social_hypothesis_merged",
+                monotonic_time=float(tick),
+                wall_time=float(tick),
+                payload=payload,
+            )
+            for sid in unique_ids:
+                store.insert_social_hypothesis_provenance_link(
+                    agent_id=self.agent_id,
+                    operation="merge",
+                    result_hypothesis_id=merged_id,
+                    source_hypothesis_id=sid,
+                    tick=int(tick),
+                )
+        else:
+            self._emit("social_hypothesis_merged", payload)
+        self._prune_hypotheses()
+        return merged_id
+
+    def split_hypothesis(
+        self,
+        hypothesis_id: str,
+        evidence_partition: dict[str, str],
+        *,
+        store: Any = None,
+        tick: int = 0,
+    ) -> tuple[str, str]:
+        """Non-destructive split: archive parent, create children with partitioned evidence."""
+        if hypothesis_id not in self.hypotheses:
+            raise SocialEngineError(f"split_source_not_active:{hypothesis_id}")
+        parent = self.hypotheses[hypothesis_id]
+        refs_a = [eid for eid in parent.evidence_refs if evidence_partition.get(eid) == "a"]
+        refs_b = [eid for eid in parent.evidence_refs if evidence_partition.get(eid) == "b"]
+        unassigned = [eid for eid in parent.evidence_refs if eid not in refs_a + refs_b]
+        if unassigned:
+            raise SocialEngineError(f"split_incomplete_partition:{unassigned}")
+
+        id_a = self._new_hypothesis_id()
+        id_b = self._new_hypothesis_id()
+        base = {
+            "status": HypothesisStatus.UNKNOWN.value,
+            "recognition_confidence": parent.recognition_confidence,
+            "cue_prototype": dict(parent.cue_prototype),
+            "familiarity": parent.familiarity,
+            "responsiveness": parent.responsiveness,
+            "reliability_by_context": dict(parent.reliability_by_context),
+            "interaction_preference_by_context": dict(parent.interaction_preference_by_context),
+            "satiation_anchor": parent.satiation_anchor,
+            "uncertainty": parent.uncertainty,
+            "last_interaction_tick": parent.last_interaction_tick,
+            "last_satiation_update_tick": parent.last_satiation_update_tick,
+            "decay_parameters": dict(parent.decay_parameters),
+            "created_tick": int(tick),
+        }
+        child_a = PartnerHypothesis(
+            hypothesis_id=id_a, evidence_refs=refs_a, source_hypothesis_ids=[hypothesis_id], **base
+        )
+        child_b = PartnerHypothesis(
+            hypothesis_id=id_b, evidence_refs=refs_b, source_hypothesis_ids=[hypothesis_id], **base
+        )
+
+        parent.status = HypothesisStatus.INACTIVE.value
+        self.archived_hypotheses[hypothesis_id] = parent
+        self.hypotheses.pop(hypothesis_id, None)
+        self.hypotheses[id_a] = child_a
+        self.hypotheses[id_b] = child_b
+        self.metrics["hypothesis_splits"] = int(self.metrics.get("hypothesis_splits", 0)) + 1
+
+        payload = {
+            "parent_hypothesis_id": hypothesis_id,
+            "child_hypothesis_ids": [id_a, id_b],
+            "evidence_partition": dict(evidence_partition),
+            "tick": int(tick),
+        }
+        if store is not None:
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type="social_hypothesis_split",
+                monotonic_time=float(tick),
+                wall_time=float(tick),
+                payload=payload,
+            )
+            for child_id in (id_a, id_b):
+                store.insert_social_hypothesis_provenance_link(
+                    agent_id=self.agent_id,
+                    operation="split",
+                    result_hypothesis_id=child_id,
+                    source_hypothesis_id=hypothesis_id,
+                    tick=int(tick),
+                )
+        else:
+            self._emit("social_hypothesis_split", payload)
+        self._prune_hypotheses()
+        return id_a, id_b
 
     # --- satiation (derived) --------------------------------------------
 
@@ -936,7 +1141,9 @@ class SocialEngine:
         cell_after, relation = self._preview_contingency(
             hyp, context, signal, cls_val, response_latency, episode_id, tick
         )
-        new_reliability, reliability_changed = self._preview_reliability(hyp, context, cls_val)
+        new_reliability, reliability_changed = self._preview_reliability(
+            hyp, context, cls_val, cell_after
+        )
 
         def stage_finalize_episode() -> None:
             store.append_event(
@@ -1134,17 +1341,30 @@ class SocialEngine:
             del seq[: len(seq) - cap]
 
     def _preview_reliability(
-        self, hyp: PartnerHypothesis, context: str, cls_val: str
+        self,
+        hyp: PartnerHypothesis,
+        context: str,
+        cls_val: str,
+        cell: ContingencyCell | None = None,
     ) -> tuple[float, bool]:
-        """Reliability rises only from temporally plausible contingent responses;
-        repeated non-response revises it down. Non-evidence classes never change it."""
+        """Reliability rises from contingent responses; one anomaly weakens slightly;
+        repeated contradiction revises down; recovery after failures revises up."""
         prev = hyp.reliability_by_context.get(context, 0.0)
         if cls_val == ResponseClass.CONTINGENT.value:
-            new = clamp(prev + self.config.reliability_gain * (1.0 - prev))
+            gain = self.config.reliability_gain
+            if prev < 0.5 and cell is not None and cell.none_count > 0:
+                gain *= 1.25  # ponytail: modest recovery boost after prior failures
+            new = clamp(prev + gain * (1.0 - prev))
         elif cls_val == ResponseClass.DELAYED.value:
             new = clamp(prev + self.config.reliability_gain * 0.3 * (1.0 - prev))
         elif cls_val == ResponseClass.NONE.value:
-            new = clamp(prev - self.config.reliability_loss * prev)
+            if prev <= 0.0:
+                return prev, False
+            none_count = cell.none_count if cell is not None else 1
+            if none_count <= 1:
+                new = clamp(prev - self.config.reliability_anomaly_weaken)
+            else:
+                new = clamp(prev - self.config.reliability_loss * prev)
         else:
             return prev, False
         if abs(new - prev) < 1e-12:

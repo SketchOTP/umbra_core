@@ -783,3 +783,220 @@ def test_missing_authoritative_social_event_fails_closed():
     unresolved = SocialEngine.reconstruct_pending([created])
     assert "pY" in unresolved
     assert unresolved["pY"].status == "PENDING"
+
+
+# --- Task 6: merge/split provenance + reliability revision + partner swap ---
+
+
+def _build_reliability(engine, hid, store, mem, *, context="play", contingent=3, none=0):
+    """Helper: build reliability via atomic outcome commits."""
+    tick = 10
+    for _ in range(contingent):
+        p = engine.create_pending(
+            hypothesis_id=hid, context=context, signal="SIGNAL_PLAY",
+            execution_id=f"c{tick}", signal_tick=tick, recognition_confidence=1.0,
+            governance_admitted=True, capability_executed=True, store=store,
+        )
+        engine.observe_outcome(
+            p.pending_interaction_id, response_tick=tick + 3, response_observed=True,
+            store=store, memory=mem,
+        )
+        tick += 50
+    for _ in range(none):
+        p = engine.create_pending(
+            hypothesis_id=hid, context=context, signal="SIGNAL_PLAY",
+            execution_id=f"n{tick}", signal_tick=tick, recognition_confidence=1.0,
+            governance_admitted=True, capability_executed=True, store=store,
+        )
+        engine.observe_outcome(
+            p.pending_interaction_id, response_tick=tick + 40, response_observed=False,
+            store=store, memory=mem,
+        )
+        tick += 50
+    return engine.hypotheses[hid].reliability_by_context.get(context, 0.0)
+
+
+def test_hypothesis_merge_preserves_provenance(tmp_path):
+    from umbra_core.social import HypothesisStatus, SocialEngine
+
+    store = _new_store(tmp_path)
+    engine = SocialEngine.create("agent-1", seed=1)
+    r1 = engine.recognize([_social_cue(0.0)], tick=1)
+    hid_a = r1.matches[0].hypothesis_id
+    r2 = engine.recognize([_social_cue(1.0)], tick=2)
+    hid_b = r2.matches[0].hypothesis_id
+    engine.record_contingency_sample(hid_a, "play", "SIGNAL_PLAY", tick=3, latency_ticks=3.0)
+    engine.add_evidence_ref(hid_a, "ep-a1")
+    engine.add_evidence_ref(hid_b, "ep-b1")
+
+    merged_id = engine.merge_hypotheses([hid_a, hid_b], store=store, tick=10)
+
+    assert merged_id not in (hid_a, hid_b)
+    merged = engine.hypotheses[merged_id]
+    assert hid_a in merged.source_hypothesis_ids
+    assert hid_b in merged.source_hypothesis_ids
+    # Non-destructive: sources archived, histories inspectable
+    assert hid_a in engine.archived_hypotheses
+    assert hid_b in engine.archived_hypotheses
+    assert engine.archived_hypotheses[hid_a].status == HypothesisStatus.INACTIVE.value
+    assert engine.archived_hypotheses[hid_b].evidence_refs == ["ep-b1"]
+    # Contingency on source id preserved (not moved/deleted)
+    key_a = engine._cell_key(hid_a, "play", "SIGNAL_PLAY")
+    assert key_a in engine.contingency_cells
+    assert engine.contingency_cells[key_a].hypothesis_id == hid_a
+
+    events = [e for e in store.iter_events() if e["event_type"] == "social_hypothesis_merged"]
+    assert len(events) == 1
+    payload = events[0]["payload"]
+    assert payload["merged_hypothesis_id"] == merged_id
+    assert set(payload["source_hypothesis_ids"]) == {hid_a, hid_b}
+    links = store.social_hypothesis_provenance_links_for(merged_id)
+    assert {hid_a, hid_b} == {lnk["source_hypothesis_id"] for lnk in links}
+    store.close()
+
+
+def test_hypothesis_split_preserves_provenance(tmp_path):
+    from umbra_core.social import HypothesisStatus, SocialEngine
+
+    store = _new_store(tmp_path)
+    engine = SocialEngine.create("agent-1", seed=1)
+    r = engine.recognize([_social_cue()], tick=1)
+    parent_id = r.matches[0].hypothesis_id
+    engine.add_evidence_ref(parent_id, "ep-1")
+    engine.add_evidence_ref(parent_id, "ep-2")
+    engine.add_evidence_ref(parent_id, "ep-3")
+
+    id_a, id_b = engine.split_hypothesis(
+        parent_id,
+        {"ep-1": "a", "ep-2": "a", "ep-3": "b"},
+        store=store,
+        tick=20,
+    )
+
+    assert id_a != id_b != parent_id
+    assert parent_id in engine.archived_hypotheses
+    assert engine.archived_hypotheses[parent_id].status == HypothesisStatus.INACTIVE.value
+    assert engine.hypotheses[id_a].source_hypothesis_ids == [parent_id]
+    assert engine.hypotheses[id_b].source_hypothesis_ids == [parent_id]
+    assert set(engine.hypotheses[id_a].evidence_refs) == {"ep-1", "ep-2"}
+    assert engine.hypotheses[id_b].evidence_refs == ["ep-3"]
+
+    events = [e for e in store.iter_events() if e["event_type"] == "social_hypothesis_split"]
+    assert len(events) == 1
+    payload = events[0]["payload"]
+    assert payload["parent_hypothesis_id"] == parent_id
+    assert payload["child_hypothesis_ids"] == [id_a, id_b]
+    assert payload["evidence_partition"]["ep-1"] == "a"
+    links = store.social_hypothesis_provenance_links_for(id_a) + store.social_hypothesis_provenance_links_for(id_b)
+    assert any(lnk["source_hypothesis_id"] == parent_id for lnk in links)
+    store.close()
+
+
+def test_partner_swap_is_detected():
+    from umbra_core.social import SocialEngine
+
+    events: list[tuple[str, dict]] = []
+    engine = SocialEngine.create("agent-1", seed=1, emit_event=lambda t, p: events.append((t, p)))
+
+    engine.recognize([_social_cue(0.0)], tick=1)
+    ra = engine.recognize([_social_cue(0.0)], tick=2)
+    hid_a = ra.matches[0].hypothesis_id
+    assert engine.hypotheses[hid_a].status == "FAMILIAR"
+
+    engine.recognize([_social_cue(1.0)], tick=3)
+    rb = engine.recognize([_social_cue(1.0)], tick=4)
+    hid_b = rb.matches[0].hypothesis_id
+    assert hid_b != hid_a
+
+    # Cue matching partner B while A was recently familiar → swap detected, not merged.
+    engine.recognize([_social_cue(1.0)], tick=5)
+    swap_events = [p for t, p in events if t == "social_partner_swap_detected"]
+    assert len(swap_events) >= 1
+    assert swap_events[-1]["from_hypothesis_id"] == hid_a
+    assert swap_events[-1]["to_hypothesis_id"] == hid_b
+
+
+def test_partner_models_remain_separate(tmp_path):
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.social import SocialEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine = SocialEngine.create("agent-1", seed=1)
+
+    engine.recognize([_social_cue(0.0)], tick=1)
+    ra = engine.recognize([_social_cue(0.0)], tick=2)
+    hid_a = ra.matches[0].hypothesis_id
+    engine.recognize([_social_cue(1.0)], tick=3)
+    rb = engine.recognize([_social_cue(1.0)], tick=4)
+    hid_b = rb.matches[0].hypothesis_id
+
+    rel_a = _build_reliability(engine, hid_a, store, mem, contingent=3)
+    rel_b = _build_reliability(engine, hid_b, store, mem, contingent=1)
+    assert rel_a > rel_b
+
+    # Swap cue — histories must not merge; A retains higher reliability.
+    engine.recognize([_social_cue(1.0)], tick=50)
+    assert hid_a in engine.hypotheses
+    assert hid_b in engine.hypotheses
+    assert engine.hypotheses[hid_a].reliability_by_context["play"] == rel_a
+    assert engine.hypotheses[hid_b].reliability_by_context["play"] == rel_b
+    assert engine.hypotheses[hid_a].reliability_by_context["play"] > engine.hypotheses[hid_b].reliability_by_context["play"]
+    store.close()
+
+
+def test_single_failure_does_not_destroy_reliability(tmp_path):
+    from umbra_core.memory import MemoryEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+
+    baseline = _build_reliability(engine, hid, store, mem, contingent=4)
+    assert baseline > 0.5
+
+    p = engine.create_pending(
+        hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+        execution_id="fail1", signal_tick=300, recognition_confidence=1.0,
+        governance_admitted=True, capability_executed=True, store=store,
+    )
+    engine.observe_outcome(
+        p.pending_interaction_id, response_tick=340, response_observed=False,
+        store=store, memory=mem,
+    )
+    after_one = engine.hypotheses[hid].reliability_by_context["play"]
+    assert after_one > 0.0
+    assert after_one > baseline * 0.5  # slight weaken, not destroyed
+    assert baseline - after_one < baseline * 0.2
+    store.close()
+
+
+def test_repeated_failure_revises_expectation(tmp_path):
+    from umbra_core.memory import MemoryEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+
+    baseline = _build_reliability(engine, hid, store, mem, contingent=4)
+    after_repeated = _build_reliability(engine, hid, store, mem, contingent=0, none=3)
+    assert after_repeated < baseline * 0.5
+    assert after_repeated < baseline - 0.15
+    store.close()
+
+
+def test_recovery_history_revises_expectation(tmp_path):
+    from umbra_core.memory import MemoryEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+
+    baseline = _build_reliability(engine, hid, store, mem, contingent=3)
+    lowered = _build_reliability(engine, hid, store, mem, contingent=0, none=2)
+    assert lowered < baseline
+
+    recovered = _build_reliability(engine, hid, store, mem, contingent=2, none=0)
+    assert recovered > lowered
+    assert recovered <= 1.0
+    store.close()
