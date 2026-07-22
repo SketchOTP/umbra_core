@@ -985,6 +985,136 @@ def test_repeated_failure_revises_expectation(tmp_path):
     store.close()
 
 
+
+# --- Task 7: soft social proposals + hybrid actuation wiring in runtime ---
+
+
+def _soc_org(tmp_path, seed: int = 1, **kwargs):
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    db_path = kwargs.pop("db_path", None) or str(tmp_path / f"soc{seed}.sqlite")
+    cfg = dict(
+        db_path=db_path,
+        seed=seed,
+        social_enabled=True,
+        social_history=kwargs.pop("social_history", "H0"),
+        condition=kwargs.pop("condition", "C0"),
+        drift_enabled=False,
+    )
+    cfg.update(kwargs)
+    return create_organism(OrganismConfig(**cfg))
+
+
+def test_social_urgency_cannot_bypass_governance():
+    """A high-opportunity social proposal is just a `Candidate` — governance's SIGNAL
+    cooldown denies it exactly like any other origin. No special-cased bypass path."""
+    from umbra_core.governance import Governance, GovernanceState
+    from umbra_core.physiology import Physiology
+
+    engine, hid = _familiar_engine()
+    engine.hypotheses[hid].familiarity = 1.0  # cross the opportunity gate deterministically
+    cand = engine.propose(Physiology(), [_social_cue()], tick=5, critical=False)
+    assert cand is not None
+    assert cand.capability in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE")
+
+    gov = Governance(GovernanceState(last_signal_tick=3, signal_cooldown_ticks=6))
+    prop = gov.propose(cand.capability, cand.params)
+    dec = gov.admit(prop, tick=5)
+    assert not dec.admitted
+    assert dec.reason == "signal_cooldown"
+
+    # Critical physiology overrides social outright — no proposal at all, denial or not.
+    assert engine.propose(Physiology(), [_social_cue()], tick=5, critical=True) is None
+
+
+def test_relationship_memory_cannot_grant_authority():
+    from umbra_core.social import SocialEngine
+
+    engine, hid = _familiar_engine()
+    hyp = engine.hypotheses[hid]
+    content = {
+        "hypothesis_id": hid,
+        "reliability_by_context": dict(hyp.reliability_by_context),
+        "familiarity": hyp.familiarity,
+    }
+    assert engine.try_grant_authority(content) is False
+    assert SocialEngine.create("agent-2", seed=1).try_grant_authority({}) is False
+
+
+def test_scalar_affection_is_not_relationship_authority():
+    """Familiarity/satiation/reliability are plain floats consumed only by `propose()`
+    for soft biasing — never an authority grant, never a governance-bypass key."""
+    from dataclasses import fields
+
+    from umbra_core.social import PartnerHypothesis
+
+    field_names = {f.name for f in fields(PartnerHypothesis)}
+    forbidden = {"authority", "granted_capabilities", "trust_level", "grant_capability"}
+    assert field_names.isdisjoint(forbidden)
+
+    engine, hid = _familiar_engine()
+    engine.hypotheses[hid].familiarity = 1.0  # maximal scalar affection
+    cand = engine.propose(None, [_social_cue()], tick=5, critical=False)
+    assert cand is not None
+    assert "requested_effects" not in cand.params
+    assert not any("authority" in k or "grant" in k for k in cand.params)
+
+
+def test_social_pins_self_world_memory_to_c0(tmp_path):
+    """When `social_enabled` owns `condition`, self/world/memory configs stay at
+    baseline C0 (same pin pattern as the D-005 `memory_enabled` case), even though
+    `condition="C7"` requests a social ablation (random social actions)."""
+    from dataclasses import asdict
+
+    from umbra_core.memory import condition_to_memory_config
+    from umbra_core.runtime import condition_to_self_model_config
+    from umbra_core.self_model import SelfModelConfig
+    from umbra_core.world_model import condition_to_world_model_config
+
+    org = _soc_org(
+        tmp_path,
+        condition="C7",
+        world_model_enabled=True,
+        memory_enabled=True,
+    )
+    assert asdict(org.self_model.config) == asdict(condition_to_self_model_config("C0"))
+    assert org.self_model.config != SelfModelConfig(fixed_authored=True)  # sanity: C1 differs
+    assert asdict(org.world_model.config) == asdict(condition_to_world_model_config("C0"))
+    assert asdict(org.memory.config) == asdict(condition_to_memory_config("C0"))
+    # The social engine itself DOES receive the C7 (random-social-actions) config.
+    assert org.social.config.random_social_actions is True
+
+
+def test_full_tick_recognizes_proposes_governs_and_opens_pending(tmp_path):
+    """End-to-end wiring: recognize -> resolve pendings -> soft propose -> govern ->
+    execute -> create_pending, driven entirely through `Organism.tick_once()`."""
+    org = _soc_org(tmp_path)
+    # Test-only placement beside the H0-plant spawn point (12.0, 8.0) so recognition
+    # accumulates familiarity without depending on multi-tick APPROACH movement noise.
+    org.embodiment.body.x = 11.0
+    org.embodiment.body.y = 8.0
+
+    for _ in range(10):
+        org.tick_once()
+        events = [e["event_type"] for e in org.store.iter_events()]
+        if "social_pending_created" in events:
+            break
+
+    events = [e["event_type"] for e in org.store.iter_events()]
+    assert "social_pending_created" in events
+    assert org.social is not None
+    assert len(org.social.pending) >= 1
+    # A denial never opens a pending trace (design §5) — every created pending here
+    # traces back to an admitted+executed proposal event on the same tick.
+    signal_admits = [
+        e
+        for e in org.store.iter_events()
+        if e["event_type"] == "proposal"
+        and e["payload"]["capability"] in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE")
+    ]
+    assert signal_admits and all(e["payload"]["admitted"] for e in signal_admits)
+
+
 def test_recovery_history_revises_expectation(tmp_path):
     from umbra_core.memory import MemoryEngine
 

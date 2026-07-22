@@ -35,6 +35,12 @@ from umbra_core.perception import PerceptionMembrane
 from umbra_core.persistence import PersistenceError, Store
 from umbra_core.physiology import Physiology
 from umbra_core.self_model import SelfModel, SelfModelConfig
+from umbra_core.social import (
+    SocialConfig,
+    SocialEngine,
+    SocialEngineError,
+    condition_to_social_config,
+)
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, new_id
 from umbra_core.world_model import WorldModel, WorldModelConfig, condition_to_world_model_config
 
@@ -68,6 +74,10 @@ class OrganismConfig:
     memory_enabled: bool = False
     memory_history: str = "H0"
     memory_config: MemoryConfig | None = None
+    # D-006
+    social_enabled: bool = False
+    social_history: str = "H0"
+    social_config: SocialConfig | None = None
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -119,6 +129,7 @@ class Organism:
         world_model: WorldModel | None = None,
         development: DevelopmentEngine | None = None,
         memory: MemoryEngine | None = None,
+        social: SocialEngine | None = None,
         monotonic_time: float = 0.0,
         tick: int = 0,
         session_id: str | None = None,
@@ -136,6 +147,7 @@ class Organism:
         self.world_model = world_model
         self.development = development
         self.memory = memory
+        self.social = social
         self.monotonic_time = monotonic_time
         self.tick = tick
         self.session_id = session_id or new_id()
@@ -168,6 +180,7 @@ class Organism:
         self._world_intervention_applied = False
         self._development_intervention_applied = False
         self._memory_history_applied = False
+        self._social_history_applied = False
         self._dev_tags: dict[str, Any] = {}
         self._mem_tags: dict[str, Any] = {}
         self._i9_recovered = False
@@ -203,6 +216,7 @@ class Organism:
             "world_model": self.world_model.to_state() if self.world_model else None,
             "development": self.development.to_state() if self.development else None,
             "memory": self.memory.to_state() if self.memory else None,
+            "social": self.social.to_state() if self.social else None,
             "monotonic_time": self.monotonic_time,
             "tick": self.tick,
             "session_id": self.session_id,
@@ -214,6 +228,7 @@ class Organism:
             "world_intervention": self.config.world_intervention,
             "development_intervention": self.config.development_intervention,
             "memory_history": self.config.memory_history,
+            "social_history": self.config.social_history,
             "dev_tags": dict(self._dev_tags),
             "mem_tags": dict(self._mem_tags),
             "metrics": {
@@ -330,6 +345,15 @@ class Organism:
             return
         self._mem_tags = self.embodiment.apply_memory_history(self.config.memory_history)
         self._memory_history_applied = True
+
+    def _ensure_social_history(self) -> None:
+        if self._social_history_applied:
+            return
+        if not self.config.social_enabled:
+            self._social_history_applied = True
+            return
+        self.embodiment.apply_social_history(self.config.social_history)
+        self._social_history_applied = True
 
     def _maybe_memory_midcourse(self) -> None:
         """H5/H6/H7 timed memory-history interventions."""
@@ -458,6 +482,7 @@ class Organism:
         self._ensure_world_intervention()
         self._ensure_development_intervention()
         self._ensure_memory_history()
+        self._ensure_social_history()
         self._maybe_world_dynamics()
         self._maybe_recover_i9()
         self._maybe_development_midcourse()
@@ -556,6 +581,22 @@ class Organism:
         policy_view = self.perception.policy_view()
         if not self.config.leak_world_truth and "WORLD_TRUTH_LEAK" in policy_view:
             raise RuntimeError("world_truth_leaked_to_policy")
+
+        # D-006: recognition + pending resolution (design §5 steps 4–5) — every tick,
+        # independent of whether social proposes anything below (critical or not).
+        social_cues: list[dict[str, Any]] = policy_view.get("partner_cues", [])
+        social_critical = False
+        if self.social is not None and self.config.social_enabled:
+            urg_s = self.phys.vector_urgency() if not self.config.hide_physiology else {}
+            social_critical = bool(
+                self.phys.critical_any()
+                or (urg_s.get("energy", 0) > 0.45)
+                or (urg_s.get("integrity", 0) > 0.55)
+                or (urg_s.get("fatigue", 0) > 0.55)
+                or self.arbitrator.state.recovery_focus
+            )
+            self.social.recognize(social_cues, self.tick, store=self.store)
+            self.social.resume_pending(store=self.store, now_tick=self.tick)
 
         # 4–5. generate candidates + arbitrate
         cand = self.arbitrator.select(self.phys, obs_dicts, self.tick, self.rng)
@@ -666,6 +707,18 @@ class Organism:
                                 cand = Candidate("INSPECT", {})
                                 break
 
+        # D-006: soft social proposal — exactly one more Candidate for the same
+        # arbitrate→govern→execute path; never authority, never bypasses governance.
+        # Critical physiology (`social_critical`) overrides social (design §5/§9).
+        if (
+            self.social is not None
+            and self.config.social_enabled
+            and self.arbitrator.state.mode == "full"
+        ):
+            social_cand = self.social.propose(self.phys, social_cues, self.tick, social_critical)
+            if social_cand is not None:
+                cand = social_cand
+
         # D-003: world-model planning may bias toward a proposed capability (propose only)
         if self.world_model is not None and self.config.world_model_enabled:
             urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
@@ -752,7 +805,7 @@ class Organism:
                 for e in proposal.requested_effects
                 if e not in ("grant_capability", "modify_identity", "modify_physiology_direct")
             ]
-        decision = self.governance.admit(proposal)
+        decision = self.governance.admit(proposal, tick=self.tick)
         self.store.append_event(
             agent_id=self.identity.agent_id,
             event_type="proposal" if decision.admitted else "denial",
@@ -810,6 +863,34 @@ class Organism:
                     outcome, wall, obs_dicts, action_issued=True
                 )
                 sm_result = outcome_payload.pop("_sm", None) if outcome_payload else None
+                # D-006: a governed, executed signal opens a pending trace (design §5
+                # step 5) — never on proposal alone, never on denial/failure.
+                social_meta = cand.params.get("_social_signal")
+                if (
+                    self.social is not None
+                    and social_meta is not None
+                    and outcome.capability in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE")
+                    and outcome.success
+                ):
+                    try:
+                        self.social.create_pending(
+                            hypothesis_id=social_meta["hypothesis_id"],
+                            context=social_meta["context"],
+                            signal=outcome.capability,
+                            execution_id=proposal.proposal_id,
+                            signal_tick=self.tick,
+                            recognition_confidence=float(
+                                social_meta.get("recognition_confidence", 0.0)
+                            ),
+                            governance_admitted=True,
+                            capability_executed=True,
+                            store=self.store,
+                            tick=self.tick,
+                        )
+                    except (SocialEngineError, KeyError):
+                        # Hypothesis retired/bounded between proposal and execution —
+                        # no partner evidence created; core loop continues.
+                        pass
         else:
             self.metrics["governance_denials"] += 1
             if self.self_model is not None:
@@ -1193,7 +1274,11 @@ def create_organism(config: OrganismConfig) -> Organism:
     # D-002: C7 = random policy. D-003: C8 = random; C7 = randomized retrieval (full arb).
     # D-004: conditions C0–C9 are development ablations (full arbitration).
     # D-005: conditions C0–C9 are memory ablations (full arbitration).
-    if config.memory_enabled:
+    # D-006: conditions C0–C9 are social ablations (C7 = random *social* intents inside
+    # SocialEngine.propose, not whole-organism random arbitration — full arbitration).
+    if config.social_enabled:
+        pass
+    elif config.memory_enabled:
         pass
     elif config.development_enabled:
         pass  # keep arbitration_mode as configured
@@ -1203,9 +1288,13 @@ def create_organism(config: OrganismConfig) -> Organism:
     elif config.condition == "C7":
         arb_state.mode = "random"
     gov_state = GovernanceState(bypass_enabled=config.governance_bypass)
-    # When D-004/D-005 ablations own `condition`, keep self/world models at full C0
-    # unless an explicit config override is provided.
-    sm_cond = "C0" if (config.memory_enabled or config.development_enabled) else config.condition
+    # When D-004/D-005/D-006 ablations own `condition`, keep self/world models at full
+    # C0 unless an explicit config override is provided.
+    sm_cond = (
+        "C0"
+        if (config.social_enabled or config.memory_enabled or config.development_enabled)
+        else config.condition
+    )
     sm_cfg = config.self_model_config or condition_to_self_model_config(sm_cond)
     self_model = None
     if config.self_model_enabled:
@@ -1221,7 +1310,11 @@ def create_organism(config: OrganismConfig) -> Organism:
                 "primary": True,
             },
         )
-    wm_cond = "C0" if (config.memory_enabled or config.development_enabled) else config.condition
+    wm_cond = (
+        "C0"
+        if (config.social_enabled or config.memory_enabled or config.development_enabled)
+        else config.condition
+    )
     wm_cfg = config.world_model_config
     if wm_cfg is None and config.world_model_enabled:
         wm_cfg = condition_to_world_model_config(wm_cond)
@@ -1238,14 +1331,23 @@ def create_organism(config: OrganismConfig) -> Organism:
         development = DevelopmentEngine.create(
             identity.agent_id, config=dev_cfg, seed=config.seed
         )
+    # When D-006 owns `condition`, keep memory at full C0 unless overridden (same
+    # pin pattern as self/world above).
+    mem_cond = "C0" if config.social_enabled else config.condition
     mem_cfg = config.memory_config
     if mem_cfg is None and config.memory_enabled:
-        mem_cfg = condition_to_memory_config(config.condition)
+        mem_cfg = condition_to_memory_config(mem_cond)
     memory = None
     if config.memory_enabled:
         memory = MemoryEngine.create(
             identity.agent_id, config=mem_cfg, seed=config.seed
         )
+    soc_cfg = config.social_config
+    if soc_cfg is None and config.social_enabled:
+        soc_cfg = condition_to_social_config(config.condition)
+    social = None
+    if config.social_enabled:
+        social = SocialEngine.create(identity.agent_id, config=soc_cfg, seed=config.seed)
     org = Organism(
         identity=identity,
         store=store,
@@ -1260,6 +1362,7 @@ def create_organism(config: OrganismConfig) -> Organism:
         world_model=world_model,
         development=development,
         memory=memory,
+        social=social,
     )
     store.append_event(
         agent_id=identity.agent_id,
@@ -1294,7 +1397,9 @@ def load_organism(config: OrganismConfig) -> Organism:
     arb = Arbitrator(ArbitrationState.from_state(state["arbitration"]))
     arb.state.hide_physiology = config.hide_physiology
     arb.state.mode = config.arbitration_mode
-    if config.memory_enabled:
+    if config.social_enabled:
+        pass
+    elif config.memory_enabled:
         pass
     elif config.development_enabled:
         pass
@@ -1344,6 +1449,13 @@ def load_organism(config: OrganismConfig) -> Organism:
         if memory.agent_id != identity.agent_id:
             raise PersistenceError("memory_agent_mismatch")
 
+    social = None
+    if state.get("social") and config.social_enabled:
+        soc_cfg = config.social_config or condition_to_social_config(config.condition)
+        social = SocialEngine.from_state(state["social"], config=soc_cfg)
+        if social.agent_id != identity.agent_id:
+            raise PersistenceError("social_agent_mismatch")
+
     org = Organism(
         identity=identity,
         store=store,
@@ -1358,6 +1470,7 @@ def load_organism(config: OrganismConfig) -> Organism:
         world_model=world_model,
         development=development,
         memory=memory,
+        social=social,
         monotonic_time=float(state.get("monotonic_time", 0.0)),
         tick=int(state.get("tick", 0)),
         session_id=new_id(),
@@ -1366,6 +1479,7 @@ def load_organism(config: OrganismConfig) -> Organism:
     org._world_intervention_applied = True
     org._development_intervention_applied = True
     org._memory_history_applied = True
+    org._social_history_applied = True
     org._dev_tags = dict(state.get("dev_tags") or {})
     org._mem_tags = dict(state.get("mem_tags") or {})
     org._delayed_proposal = state.get("delayed_proposal")

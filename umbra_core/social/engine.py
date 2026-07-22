@@ -25,6 +25,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Callable
 
+from umbra_core.arbitration import Candidate
 from umbra_core.identity import deterministic_id
 from umbra_core.util import clamp, new_id
 
@@ -70,6 +71,24 @@ RELIABILITY_LOSS = 0.30
 RELIABILITY_ANOMALY_WEAKEN = 0.08
 SWAP_DETECT_SCORE_MARGIN = 0.15
 SWAP_RECENCY_TICKS = 64
+
+# propose() heuristics — runtime behavior tuning, not gate-critical thresholds; no
+# experiments/d006/thresholds.json entry (that file freezes evaluation gates only).
+SOCIAL_APPROACH_DISTANCE = 2.5
+SOCIAL_MIN_OPPORTUNITY = 0.12
+SOCIAL_SATIATED_DISENGAGE_THRESHOLD = 0.85
+
+# Soft-intent → capability mapping (design §3). RESUME_INDEPENDENT_ACTIVITY is
+# deliberately absent — it means "no candidate", not a capability.
+SOCIAL_INTENT_CAPABILITY: dict[str, str] = {
+    "ORIENT_TO_PARTNER": "ORIENT",
+    "APPROACH_PARTNER": "APPROACH",
+    "OBSERVE_PARTNER": "INSPECT",
+    "WAIT_FOR_RESPONSE": "IDLE",
+    "DISENGAGE": "RETREAT",
+    "OFFER_PLAY": "SIGNAL_PLAY",
+    "REQUEST_ASSISTANCE": "SIGNAL_ASSISTANCE",
+}
 
 
 class HypothesisStatus(str, Enum):
@@ -129,6 +148,17 @@ def _blend_prototype(
         else:
             blended[f] = [(1 - alpha) * float(p) + alpha * float(c) for p, c in zip(pv, cv)]
     return blended
+
+
+def _deterministic_pick(options: list[str], salt: str) -> str:
+    """C7 ablation: reproducible pseudo-random pick.
+
+    Not `hash(str)` — PYTHONHASHSEED randomizes that per process, which would break
+    deterministic replay. A checksum over `salt` keeps the same (hypothesis, tick)
+    picking the same option across runs.
+    """
+    idx = sum(ord(c) for c in salt) % len(options)
+    return options[idx]
 
 
 @dataclass
@@ -295,6 +325,11 @@ class SocialConfig:
     persist_relationship: bool = True  # C4 off — reset at encounter boundaries + restart
     recognition_enabled: bool = True  # C6 off — always UNKNOWN
     satiation_enabled: bool = True  # C5 off — no social satiation
+    preference_familiarity_only: bool = False  # C1 — frequency/familiarity only, no reliability
+    random_social_actions: bool = False  # C7 — propose() picks intents deterministically-randomly
+    approach_distance: float = SOCIAL_APPROACH_DISTANCE
+    min_opportunity: float = SOCIAL_MIN_OPPORTUNITY
+    satiated_disengage_threshold: float = SOCIAL_SATIATED_DISENGAGE_THRESHOLD
     max_active_evidence_refs: int = MAX_ACTIVE_EVIDENCE_REFS
     max_active_supporting_episodes: int = MAX_ACTIVE_SUPPORTING_EPISODES
     max_active_contradicting_episodes: int = MAX_ACTIVE_CONTRADICTING_EPISODES
@@ -323,6 +358,9 @@ def condition_to_social_config(condition: str) -> SocialConfig:
     c = SocialConfig()
     if condition == "C0":
         return c
+    if condition == "C1":
+        c.preference_familiarity_only = True
+        return c
     if condition == "C4":
         c.persist_relationship = False
         return c
@@ -332,8 +370,11 @@ def condition_to_social_config(condition: str) -> SocialConfig:
     if condition == "C6":
         c.recognition_enabled = False
         return c
-    # C1/C2/C3/C7/C8/C9 depend on contingency/runtime/routine wiring landing in
-    # later tasks; they fall through to the C0 baseline here (no speculative
+    if condition == "C7":
+        c.random_social_actions = True
+        return c
+    # C2/C3/C8/C9 depend on pooled-model/affection-isolation/routine wiring landing
+    # in later tasks; they fall through to the C0 baseline here (no speculative
     # behavior implemented ahead of that wiring).
     return c
 
@@ -392,6 +433,11 @@ class SocialEngine:
     def _assert_no_hidden_identity(self, cue: dict[str, Any]) -> None:
         if "partner_id" in cue or "hidden_partner_id" in cue:
             raise SocialEngineError("hidden_partner_id_leaked_into_social_engine")
+
+    def try_grant_authority(self, content: dict[str, Any]) -> bool:
+        """Social recognition/reliability/familiarity cannot grant authority — always False."""
+        _ = content
+        return False
 
     def _emit(self, event_type: str, payload: dict[str, Any]) -> dict[str, Any]:
         if self.emit_event is not None:
@@ -825,6 +871,136 @@ class SocialEngine:
             {"hypothesis_id": hypothesis_id, "satiation_anchor": new_anchor, "tick": tick},
         )
         return new_anchor
+
+    # --- soft social proposals (never authority) -------------------------
+
+    def _best_cue_match(
+        self, cues: list[dict[str, Any]]
+    ) -> tuple[PartnerHypothesis, dict[str, Any]] | None:
+        """Read-only match of this tick's cues against current hypotheses.
+
+        `recognize()` already owns hypothesis lifecycle/mutation/events for the tick;
+        this only picks which cue/hypothesis pair (if any) `propose()` should act on.
+        """
+        best: tuple[PartnerHypothesis, dict[str, Any], float] | None = None
+        for cue in cues:
+            self._assert_no_hidden_identity(cue)
+            for hyp in self.hypotheses.values():
+                if hyp.status == HypothesisStatus.INACTIVE.value:
+                    continue
+                score = _match_score(cue, hyp.cue_prototype)
+                if score < self.config.recognition_match_threshold:
+                    continue
+                if best is None or score > best[2]:
+                    best = (hyp, cue, score)
+        return (best[0], best[1]) if best else None
+
+    @staticmethod
+    def _bearing_to_partner(cue: dict[str, Any]) -> float:
+        rel = cue.get("relative_position") or [0.0, 0.0]
+        return math.atan2(float(rel[1]), float(rel[0]))
+
+    @staticmethod
+    def _cue_distance(cue: dict[str, Any]) -> float:
+        rel = cue.get("relative_position") or [0.0, 0.0]
+        return math.hypot(float(rel[0]), float(rel[1]))
+
+    def _candidate_for(
+        self,
+        intent: str,
+        hyp: PartnerHypothesis,
+        bearing: float,
+        tick: int,
+        *,
+        context: str = "play",
+    ) -> Candidate | None:
+        cap = SOCIAL_INTENT_CAPABILITY.get(intent)
+        if cap is None:
+            return None  # RESUME_INDEPENDENT_ACTIVITY — hand control back, no candidate
+        params: dict[str, Any] = {"toward": "partner", "social_intent": intent}
+        if cap in ("ORIENT", "APPROACH", "RETREAT"):
+            # Cue `relative_position` is a world-frame offset (not body-heading-relative
+            # like sensor observations), so pass an absolute heading directly rather
+            # than the heading_delta convention used elsewhere.
+            params["heading"] = bearing
+            params["step"] = 1.0
+        if cap in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE"):
+            params["tick"] = tick
+            # Runtime reads this after governance admits + executes to open the
+            # pending trace (design §5 step 5) — never used to grant authority.
+            params["_social_signal"] = {
+                "hypothesis_id": hyp.hypothesis_id,
+                "context": context,
+                "recognition_confidence": hyp.recognition_confidence,
+            }
+        return Candidate(cap, params)
+
+    def propose(
+        self,
+        phys: Any,
+        cues: list[dict[str, Any]],
+        tick: int,
+        critical: bool,
+    ) -> Candidate | None:
+        """Soft social intent — exactly one more `Candidate` for the same admit/execute
+        path every other candidate uses (design §5 step 9, §3 hybrid actuation mapping).
+        Never authoritative: it cannot bypass governance or grant capabilities, only
+        compete for arbitration like anything else.
+
+        Critical physiology, no visible partner cues this tick, or contested identity
+        all yield no proposal — the absence path never escalates a bid (design §5/§9).
+        """
+        _ = phys  # reserved for future opportunity weighting; unused by C0/C1/C5/C7
+        if not self.config.enabled or critical or not cues:
+            return None
+        match = self._best_cue_match(cues)
+        if match is None:
+            return None
+        hyp, cue = match
+        if hyp.status == HypothesisStatus.CONTESTED.value:
+            return None
+
+        bearing = self._bearing_to_partner(cue)
+        dist = self._cue_distance(cue)
+
+        open_pending = any(
+            p.hypothesis_id_at_signal == hyp.hypothesis_id and p.status == PendingStatus.PENDING.value
+            for p in self.pending.values()
+        )
+        if open_pending:
+            return self._candidate_for("WAIT_FOR_RESPONSE", hyp, bearing, tick)
+
+        satiation = self.current_satiation(hyp.hypothesis_id, tick)
+        if self.config.preference_familiarity_only:
+            context, preference = "play", hyp.familiarity
+        elif hyp.reliability_by_context:
+            context, preference = max(hyp.reliability_by_context.items(), key=lambda kv: kv[1])
+        else:
+            context, preference = "play", hyp.familiarity * 0.3
+        opportunity = clamp(preference * (1.0 - satiation))
+
+        if self.config.random_social_actions:
+            options = [
+                "ORIENT_TO_PARTNER",
+                "APPROACH_PARTNER",
+                "OBSERVE_PARTNER",
+                "OFFER_PLAY",
+                "REQUEST_ASSISTANCE",
+                "DISENGAGE",
+            ]
+            intent = _deterministic_pick(options, f"{hyp.hypothesis_id}:{tick}")
+            return self._candidate_for(intent, hyp, bearing, tick, context=context)
+
+        if satiation >= self.config.satiated_disengage_threshold and dist <= self.config.approach_distance:
+            return self._candidate_for("DISENGAGE", hyp, bearing, tick, context=context)
+        if dist > self.config.approach_distance:
+            return self._candidate_for("APPROACH_PARTNER", hyp, bearing, tick, context=context)
+        if opportunity < self.config.min_opportunity:
+            return None  # RESUME_INDEPENDENT_ACTIVITY
+        if hyp.status != HypothesisStatus.FAMILIAR.value:
+            return self._candidate_for("OBSERVE_PARTNER", hyp, bearing, tick, context=context)
+        intent = "REQUEST_ASSISTANCE" if context == "assistance" else "OFFER_PLAY"
+        return self._candidate_for(intent, hyp, bearing, tick, context=context)
 
     # --- contingency / derived latency ----------------------------------
 

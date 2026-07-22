@@ -88,6 +88,11 @@ class BodySchema:
             "INSPECT",
             "REST",
             "CHARGE",
+            # D-006: SIGNAL_PLAY/SIGNAL_ASSISTANCE are body-level affordances too — without
+            # this the dormant-capability fallback in Organism.tick_once silently downgrades
+            # every social signal proposal to IDLE before it ever reaches governance.
+            "SIGNAL_PLAY",
+            "SIGNAL_ASSISTANCE",
         )
         schema_id = (
             deterministic_id(int(seed), f"body_schema_v{version}")
