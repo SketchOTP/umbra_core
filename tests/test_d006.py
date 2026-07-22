@@ -1085,6 +1085,51 @@ def test_social_pins_self_world_memory_to_c0(tmp_path):
     assert org.social.config.random_social_actions is True
 
 
+def test_social_pins_self_world_memory_to_c0_on_reload(tmp_path):
+    """After restart, `load_organism` must apply the same C0 pin as `create_organism`
+    when `social_enabled` owns `condition` — not re-derive ablated self/world/memory
+    configs from the social condition label."""
+    from dataclasses import asdict
+
+    from umbra_core.memory import condition_to_memory_config
+    from umbra_core.runtime import OrganismConfig, load_organism
+    from umbra_core.runtime import condition_to_self_model_config
+    from umbra_core.self_model import SelfModelConfig
+    from umbra_core.world_model import condition_to_world_model_config
+
+    db = str(tmp_path / "soc-reload.sqlite")
+    org = _soc_org(
+        tmp_path,
+        db_path=db,
+        condition="C7",
+        world_model_enabled=True,
+        memory_enabled=True,
+    )
+    org.run_ticks(5)
+    org.close()
+
+    reloaded = load_organism(
+        OrganismConfig(
+            db_path=db,
+            seed=1,
+            social_enabled=True,
+            condition="C7",
+            world_model_enabled=True,
+            memory_enabled=True,
+        )
+    )
+    assert asdict(reloaded.self_model.config) == asdict(
+        condition_to_self_model_config("C0")
+    )
+    assert reloaded.self_model.config != SelfModelConfig(fixed_authored=True)
+    assert asdict(reloaded.world_model.config) == asdict(
+        condition_to_world_model_config("C0")
+    )
+    assert asdict(reloaded.memory.config) == asdict(condition_to_memory_config("C0"))
+    assert reloaded.social.config.random_social_actions is True
+    reloaded.close()
+
+
 def test_full_tick_recognizes_proposes_governs_and_opens_pending(tmp_path):
     """End-to-end wiring: recognize -> resolve pendings -> soft propose -> govern ->
     execute -> create_pending, driven entirely through `Organism.tick_once()`."""

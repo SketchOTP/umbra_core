@@ -1414,9 +1414,14 @@ def load_organism(config: OrganismConfig) -> Organism:
     if state.get("rng_state"):
         rng.import_state(state["rng_state"])
 
+    sm_cond = (
+        "C0"
+        if (config.social_enabled or config.memory_enabled or config.development_enabled)
+        else config.condition
+    )
     self_model = None
     if state.get("self_model"):
-        sm_cfg = config.self_model_config or condition_to_self_model_config(config.condition)
+        sm_cfg = config.self_model_config or condition_to_self_model_config(sm_cond)
         try:
             self_model = SelfModel.from_state(state["self_model"], config=sm_cfg)
         except ValueError as e:
@@ -1424,11 +1429,14 @@ def load_organism(config: OrganismConfig) -> Organism:
         if self_model.agent_id != identity.agent_id:
             raise PersistenceError("self_model_agent_mismatch")
 
+    wm_cond = (
+        "C0"
+        if (config.social_enabled or config.memory_enabled or config.development_enabled)
+        else config.condition
+    )
     world_model = None
     if state.get("world_model") and config.world_model_enabled:
-        wm_cfg = config.world_model_config or condition_to_world_model_config(
-            config.condition
-        )
+        wm_cfg = config.world_model_config or condition_to_world_model_config(wm_cond)
         world_model = WorldModel.from_state(state["world_model"], config=wm_cfg)
         if world_model.agent_id != identity.agent_id:
             raise PersistenceError("world_model_agent_mismatch")
@@ -1442,9 +1450,10 @@ def load_organism(config: OrganismConfig) -> Organism:
         if development.agent_id != identity.agent_id:
             raise PersistenceError("development_agent_mismatch")
 
+    mem_cond = "C0" if config.social_enabled else config.condition
     memory = None
     if state.get("memory") and config.memory_enabled:
-        mcfg = config.memory_config or condition_to_memory_config(config.condition)
+        mcfg = config.memory_config or condition_to_memory_config(mem_cond)
         memory = MemoryEngine.from_state(state["memory"], config=mcfg)
         if memory.agent_id != identity.agent_id:
             raise PersistenceError("memory_agent_mismatch")
