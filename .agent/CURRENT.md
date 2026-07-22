@@ -12,6 +12,7 @@
 ## Repo facts needed now
 - Starting tip: 97e5df2175817b9122f5724aaedd2c320d12510c
 - Soak commit: 13bdce2311b2a9571d2efcf1a6500a91760bb171
+- Ending commit: 607b1df192308d3a1e2a8e14a5bb92f696cadc8f
 - D-002V preserved: UMBRA_D002V_PERFORMANCE_FAIL
 - D-002P verdict: UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED
 - Mimir task: 8e2d40832317467c8eee34ab873e6234
