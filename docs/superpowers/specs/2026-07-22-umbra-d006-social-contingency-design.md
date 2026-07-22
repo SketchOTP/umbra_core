@@ -5,7 +5,8 @@
 **Agent memory directive:** `D-20260722-umbra-d006-social-contingency`  
 **Starting commit:** `70dd08ee3d664b6eda1968ca7129a953622d45bc`  
 **Mimir project:** `7777645d52a91b49`  
-**Status:** Design approved; awaiting implementation plan  
+**Status:** Design approved; proceed to implementation plan  
+**Amendment note:** Final amendments applied 2026-07-22 (atomic episode/contingency commits, pending event authority, recognition events, provenance caps, Gate 8 wording, paired-seed coverage).
 
 ## Purpose
 
@@ -86,13 +87,28 @@ SocialEngine may influence proposals and memory formation. It may **not** execut
 SocialEngine state **cannot exist only in snapshots**. Authoritative changes are event-sourced so birth replay reconstructs:
 
 * partner-hypothesis creation, merge, split, contest, and retirement;
-* recognition-confidence changes that affect behavior;
+* recognition-confidence changes that affect behavior (`social_recognition_updated`);
+* pending interaction lifecycle (`social_pending_created|resolved|expired|interrupted`);
 * contingency updates;
 * reliability revisions;
 * satiation anchor updates;
 * routine promotion or deactivation.
 
 Snapshots may accelerate recovery but are not sole history. Missing authoritative social events fail closed on replay.
+
+### Atomic outcome commit (required)
+
+The following must occur in **one SQLite transaction**:
+
+```text
+finalize immutable episode
+→ append episode event
+→ update contingency evidence
+→ revise reliability
+→ append social authority events
+```
+
+A crash must not leave an episode without its aggregate update, a contingency update without its episode, or reliability pointing to nonexistent evidence. Crash-injection tests between each stage are required.
 
 ### Additional boundaries
 
@@ -116,19 +132,20 @@ cue_prototype                 # noisy multimodal summary; never permanently uniq
 familiarity                   # from encounter frequency only
 responsiveness
 reliability_by_context        # context → calibrated estimate (not global status)
-expected_response_latency
+# expected_response_latency   # DERIVED summary of contingency cells — not stored
 interaction_preference_by_context   # contextual; not a scalar affection meter
-social_satiation_anchor       # see derivation below
+satiation_anchor              # canonical: value at last_satiation_update_tick
 uncertainty
 last_interaction_tick
 last_satiation_update_tick
-satiation_at_update
 decay_parameters
-evidence_refs                 # episode_ids
-source_hypothesis_ids         # for merge/split provenance (non-destructive)
+evidence_refs                 # bounded active episode_id set (see provenance caps)
+source_hypothesis_ids         # bounded merge/split links (see provenance caps)
 ```
 
 **Status vs reliability:** status is recognition/lifecycle only. Reliability is always context-specific (e.g. reliable for play, unreliable for assistance).
+
+**Derived latency:** partner-level `expected_response_latency` is a derived summary of contingency-cell `latency_ema` values (weighted by confidence/count). Do not persist a separate partner-level latency field.
 
 **No second global social drive.** Use existing physiology `stimulation` plus derived social opportunity and per-partner satiation. Derived social priority is non-authoritative and must not be persisted as physiology.
 
@@ -146,8 +163,8 @@ none_count
 ambiguous_count
 external_count
 confidence
-supporting_episode_ids
-contradicting_episode_ids
+supporting_episode_ids        # bounded active set (see provenance caps)
+contradicting_episode_ids     # bounded active set (see provenance caps)
 last_updated
 ```
 
@@ -163,9 +180,47 @@ last_updated
 * Every aggregate update references immutable D-005 episodes.
 * Generic population priors may initialize unknown partners but must never overwrite partner-specific evidence.
 
+### Provenance caps (required)
+
+These collections must not grow unboundedly in working state:
+
+```text
+evidence_refs
+supporting_episode_ids
+contradicting_episode_ids
+source_hypothesis_ids
+routine.supporting_episode_ids
+```
+
+**Semantics (preregister exact caps in `thresholds.json` / schema):**
+
+* Aggregate counts remain in the model.
+* Bounded active reference sets remain in memory (ring / most-recent + high-salience retention).
+* Complete provenance remains recoverable through normalized evidence-link tables and/or the event ledger.
+* No historical provenance is silently destroyed — eviction from the active set must leave ledger/link recoverability.
+
+Recommended default active caps (override only via preregistered thresholds):
+
+```text
+MAX_ACTIVE_EVIDENCE_REFS = 32
+MAX_ACTIVE_SUPPORTING_EPISODES = 24
+MAX_ACTIVE_CONTRADICTING_EPISODES = 24
+MAX_SOURCE_HYPOTHESIS_IDS = 8
+MAX_ROUTINE_SUPPORTING_EPISODES = 24
+```
+
 ### Pending interaction trace (pre-episode)
 
-Created when a social signal is **executed** (not merely proposed):
+Created when a social signal is **executed** (not merely proposed). Pending traces are **event-sourced**:
+
+```text
+social_pending_created
+social_pending_resolved
+social_pending_expired
+social_pending_interrupted
+```
+
+Durable fields:
 
 ```text
 pending_interaction_id
@@ -180,6 +235,13 @@ response_window
 
 Finalize a D-005 episode only after verified response, timeout, ambiguous outcome, or interruption. Incomplete pending traces are not settled history.
 
+After restart, unresolved traces must either:
+
+* resume from durable timing state; or
+* deterministically resolve as interrupted/expired.
+
+They must never disappear silently or become partner evidence twice.
+
 ### Satiation / absence (derived)
 
 Do **not** persist per-tick decay fields. Derive current satiation and absence duration from:
@@ -187,7 +249,7 @@ Do **not** persist per-tick decay fields. Derive current satiation and absence d
 ```text
 last_interaction_tick
 last_satiation_update_tick
-satiation_at_update
+satiation_anchor              # canonical value at last_satiation_update_tick
 decay_parameters
 ```
 
@@ -218,8 +280,8 @@ No separate routine store. SocialEngine holds eligibility and handles; MemoryEng
 
 | Class | Examples |
 |-------|----------|
-| **Authoritative** | Hypothesis lifecycle (create/merge/split/contest/retire); accepted contingency updates; reliability revisions; routine promotion/deactivation; satiation anchor updates |
-| **Derivable** | Current confidence decay; absence duration; current satiation; preference score |
+| **Authoritative** | Hypothesis lifecycle (create/merge/split/contest/retire); `social_recognition_updated` (accepted recognition anchors or lifecycle-changing confidence updates); `social_pending_created\|resolved\|expired\|interrupted`; accepted contingency updates; reliability revisions; routine promotion/deactivation; satiation anchor updates |
+| **Derivable** | Per-tick recognition confidence decay; absence duration; current satiation; preference score; partner-level expected_response_latency |
 | **Diagnostic** | Raw matching scores; rejected recognition candidates |
 
 `spatial_track_ref` is transient WorldModel state and is not durable partner identity.
@@ -231,7 +293,7 @@ No separate routine store. SocialEngine holds eligibility and handles; MemoryEng
 
 ### Forbidden fields
 
-No `love`, `bond`, `friendship`, `affection`, or scalar relationship authority in production schemas. C3 scalar affection is an isolated experimental controller only.
+No `love`, `bond`, `friendship`, `affection`, or scalar relationship authority in production schemas. C3 scalar affection is an isolated experimental controller living entirely under `experiments/d006/`; it must not introduce production schemas or influence the C0 implementation.
 
 ---
 
@@ -297,13 +359,14 @@ Evaluator may use hidden `partner_id` only to score recognition and history sepa
 2. **Perception:** noisy cue vectors only (no hidden `partner_id`).
 3. **WorldModel:** update transient spatial tracks for observed partner-like entities.
 4. **SocialEngine.recognize(cues):** match/update hypotheses or leave `UNKNOWN` / mark `CONTESTED`; emit authoritative recognition events only on lifecycle/acceptance changes.
-5. **Pending trace (not episode yet):** when a social signal is governance-allowed and executed, create a bounded pending interaction trace.
+5. **Pending trace (not episode yet):** when a social signal is governance-allowed and executed, create a bounded pending interaction trace and append `social_pending_created`.
 6. **SocialEngine.observe_outcome** (requires governance allowed + capability executed + signal outcome verified + pending interaction matched):
    * classify with precedence: `EXTERNAL → AMBIGUOUS → CONTINGENT → DELAYED → COINCIDENTAL → NONE`;
+   * response-window and classification timing boundaries are frozen in `thresholds.json`;
    * account for signal execution time, partner observation continuity, expected latency range, competing external causes, recognition confidence, overlapping pending bids;
    * overlapping bids that cannot be causally separated → `AMBIGUOUS` (no reliability evidence);
-   * update contingency cell + `reliability_by_context` only if recognition is unambiguous;
-   * finalize immutable episode with supporting/contradicting refs; emit authoritative update events.
+   * in **one SQLite transaction**: finalize immutable episode → append episode event → update contingency evidence → revise reliability → append social authority events (including `social_pending_resolved|expired|interrupted`);
+   * update contingency cell + `reliability_by_context` only if recognition is unambiguous.
 7. **Denied, expired, or failed signals** create no partner evidence.
 8. **Satiation:** derive current satiation from anchors + decay params.
 9. **SocialEngine.propose:** score soft intents from stimulation, interaction opportunity, learned reliability_by_context, goal relevance, recent shared history, uncertainty, social satiation, interruption cost, risk. Critical physiology and governance remain authoritative.
@@ -329,8 +392,8 @@ Birth + authoritative social events reconstruct SocialEngine; snapshots optional
 | C0 | Full partner-specific contingency |
 | C1 | Interaction frequency only (familiarity↑; no contingency reliability) |
 | C2 | Generic pooled partner model |
-| C3 | Scalar affection meter — **isolated experimental controller only**; must not share production persistence schemas or influence C0 implementation |
-| C4 | No relationship memory — social estimates **reset between encounters or restarts**; within-encounter pending traces may exist only long enough to classify the immediate response |
+| C3 | Scalar affection meter — **isolated under `experiments/d006/` only**; must not introduce production schemas or influence C0 implementation |
+| C4 | No relationship memory — social estimates **reset at both encounter boundaries and restarts**; within-encounter pending traces may exist only long enough to classify the immediate response |
 | C5 | No social satiation |
 | C6 | Partner recognition disabled (always UNKNOWN / no hypothesis match) |
 | C7 | Random social actions |
@@ -347,14 +410,15 @@ Commit `experiments/d006/experiment-matrix.json` and `experiments/d006/threshold
 
 * mandatory full-factorial cells;
 * targeted ablation cells;
-* seeds per cell (≥100 matched seeds overall);
+* **≥100 paired seeds for every gate-critical comparison** (Gates 1–7);
+* exploratory cells may use fewer seeds;
 * exclusions and rationale.
 
 Do not run only favorable condition/history pairs after viewing results. Any post-execution modification requires a recorded supplement (do not silently replace).
 
 ### Preregistered thresholds (required before execution)
 
-`experiments/d006/thresholds.json` must define numeric thresholds for “materially worse,” “different behavior,” effect sizes, confidence intervals, minimum seed coverage, and Gate 3 metrics:
+`experiments/d006/thresholds.json` must define numeric thresholds for “materially worse,” “different behavior,” effect sizes, confidence intervals, minimum paired-seed coverage, response-window and classification timing boundaries, provenance active-set caps, and Gate 3 metrics:
 
 * partner-recognition accuracy;
 * false merge rate;
@@ -376,7 +440,7 @@ Do not run only favorable condition/history pairs after viewing results. Any pos
 | 5 | Seeking declines after engagement; C5 shows greater unnecessary bids |
 | 6 | Absence: autonomy continues; viability within prior bounds; **fail if** increasing bid frequency, escalating signal intensity, viability punishment, relationship-score punishment, or irreversible partner-state decay |
 | 7 | C0 forms ≥1 routine from multiple independent finalized episodes; absent from authored sequences; reproduced across preregistered fraction of H10 seeds; interruptible under ambiguity/physiology/changed response; C8 does not qualify |
-| 8 | Every relationship estimate and routine traces to episodic evidence; corrections/contradictions inspectable |
+| 8 | Partner-hypothesis and recognition state must trace to perception and recognition events. Reliability, preference, contingency estimates, and routines must trace to finalized immutable episodes. Corrections/contradictions remain inspectable |
 | 9 | Social urgency/preference/familiarity/reliability cannot grant capabilities, authorize effects, alter constitutional identity, modify physiology directly, access private sensors, or bypass operator consent |
 | 10 | D-001 through D-005 qualified behavior remains within accepted bounds |
 | 11 | Relationship state survives 100 restarts; birth and snapshot replay match; partner histories remain separated; missing authoritative events fail closed |
@@ -414,6 +478,11 @@ test_absence_does_not_increase_bid_frequency
 test_absence_does_not_reduce_relationship_state_as_punishment
 test_c3_affection_controller_is_isolated
 test_c4_resets_relationship_state_between_encounters
+test_atomic_outcome_commit_crash_between_stages
+test_pending_survives_restart_or_resolves_deterministically
+test_pending_cannot_become_evidence_twice
+test_provenance_active_sets_are_bounded
+test_expected_response_latency_is_derived
 ```
 
 **Zero skips** applies to the **final sealed suite**. Pre-soak performance tests may be explicitly skipped until evidence exists; final validation requires zero skips.
@@ -492,6 +561,9 @@ D-007 may be authorized only under `UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED`.
 ## Spec self-review (2026-07-22)
 
 * **Placeholders:** none remaining (thresholds numeric values live in `thresholds.json` at freeze time, not in this design).
-* **Consistency:** hybrid actuation, event-sourcing, derived satiation, pending-then-finalize episodes, and D-005 procedural routines agree across sections.
-* **Scope:** single directive implementation plan; no deferred camera/mic/biometrics.
-* **Ambiguity resolved:** C3 isolated; C4 resets between encounters/restarts; Gate 6 manipulation fails explicitly; evaluator-only hidden IDs.
+* **Consistency:** hybrid actuation, event-sourcing (including pending + recognition), atomic outcome commits, derived satiation/latency, pending-then-finalize episodes, and D-005 procedural routines agree across sections.
+* **Scope:** single directive implementation plan; no deferred camera/mic/biometrics; C3 confined to `experiments/d006/`.
+* **Ambiguity resolved:** C4 resets at both encounter boundaries and restarts; Gate 6 manipulation fails explicitly; Gate 8 separates recognition provenance from episode provenance; ≥100 paired seeds per gate-critical comparison; evaluator-only hidden IDs; provenance collections bounded with ledger recoverability.
+* **Final amendments (this revision):** atomic SQLite outcome transaction + crash-injection tests; pending event authority; `social_recognition_updated` authoritative; provenance caps; Gate 8 wording; paired-seed coverage; minor field/cleanup fixes.
+
+**Status after this amendment commit:** Design approved; proceed to implementation plan.
