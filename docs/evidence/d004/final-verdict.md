@@ -3,7 +3,7 @@
 **Verdict:** `UMBRA_D004_INTRINSIC_DEVELOPMENT_QUALIFIED`
 
 **Starting commit:** `c80a263cacdf93e3385dba3a2fb162bdf5465a28`
-**Ending commit:** *(set at seal)*
+**Ending commit:** `21992cfa88cbb7b5c3a856e390b689a4c2c03b67`
 **Date:** 2026-07-22
 **Mimir project:** `7777645d52a91b49`
 **Mimir task:** `712587cdc875470ea635fb302403df47`
