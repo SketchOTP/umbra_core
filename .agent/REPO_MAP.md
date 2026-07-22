@@ -48,8 +48,8 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-006 directive: `docs/directives/UMBRA-D-006-social-contingency.md`
 - D-006 preregistration: `experiments/d006/thresholds.json`, `experiments/d006/experiment-matrix.json`
 - D-006 evidence (pending): `docs/evidence/d006/`
-- D-006 tests: `tests/test_d006.py` (Task 2: signals; Task 3: partner entities + noisy cues)
-- D-006 social engine (pending): `umbra_core/social/`
+- D-006 tests: `tests/test_d006.py` (Task 2: signals; Task 3: partner entities + noisy cues; Task 4: SocialEngine recognition/satiation)
+- D-006 social engine: `umbra_core/social/` — `engine.py`: `SocialEngine`/`PartnerHypothesis`/`ContingencyCell`/`condition_to_social_config` (C0/C4/C5/C6; recognition, derived satiation/expected_response_latency; pending/contingency atomic commit is Task 5)
 - `umbra_core/perception.py` — habitat + partner cue membrane (`partner_cues` in policy_view)
 - `umbra_core/embodiment.py` — habitat plant + `SIGNAL_*` + `PartnerEntity`/`apply_social_history`/`hidden_partner_truth_for_eval`
 
