@@ -20,6 +20,8 @@ SOCIAL_EVENT_AUTHORITY: dict[str, str] = {
     "social_pending_resolved": "AUTHORITATIVE",
     "social_pending_expired": "AUTHORITATIVE",
     "social_pending_interrupted": "AUTHORITATIVE",
+    "social_episode_finalized": "AUTHORITATIVE",
+    "social_episode_outcome": "AUTHORITATIVE",
     "social_contingency_updated": "AUTHORITATIVE",
     "social_reliability_revised": "AUTHORITATIVE",
     "social_satiation_anchor_updated": "AUTHORITATIVE",

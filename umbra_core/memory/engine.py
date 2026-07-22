@@ -613,6 +613,68 @@ class MemoryEngine:
         """Episodes are immutable — any mutation attempt fails closed."""
         raise RuntimeError("episode_immutable")
 
+    # --- D-006 social outcome finalization --------------------------------
+
+    def finalize_social_episode(
+        self,
+        *,
+        episode_key: str,
+        tick: int,
+        occurred_at: float,
+        context: dict[str, Any],
+        observations: list[Any],
+        internal_state: dict[str, Any],
+        goal: str | None,
+        action: str | None,
+        verified_outcome: dict[str, Any] | None,
+        prediction_error: float = 0.0,
+        salience: float = 0.5,
+        source_event_ids: list[str] | None = None,
+        causal_parent_ids: list[str] | None = None,
+    ) -> Episode:
+        """Build an immutable social-outcome episode WITHOUT inserting it.
+
+        The caller records the episode durably (ledger event + evidence links) inside
+        the atomic outcome transaction and only calls `attach_episode` after COMMIT, so
+        a rolled-back outcome never leaves an orphan episode in working state.
+        """
+        eid = _stable_id("ep", f"{self.agent_id}|{episode_key}")
+        success = bool(verified_outcome.get("success")) if verified_outcome else False
+        return Episode(
+            episode_id=eid,
+            agent_id=self.agent_id,
+            occurred_at=float(occurred_at),
+            context=tuple(sorted((str(k), v) for k, v in context.items())),
+            observations=tuple(observations[:8]),
+            internal_state=tuple(sorted((str(k), v) for k, v in internal_state.items())),
+            goal=goal,
+            action=action,
+            verified_outcome=(
+                tuple(sorted((str(k), v) for k, v in verified_outcome.items()))
+                if verified_outcome
+                else None
+            ),
+            prediction_error=float(prediction_error),
+            salience=clamp(salience),
+            novelty=0.2,
+            goal_relevance=clamp(0.3 + (0.4 if success else 0.0)),
+            physiological_relevance=0.0,
+            confidence=clamp(0.5 + (0.3 if success else 0.0)),
+            causal_parent_ids=tuple(causal_parent_ids or ()),
+            body_binding_id=None,
+            source_event_ids=tuple(source_event_ids or ()),
+            tick=tick,
+            fingerprint=eid[:24],
+        )
+
+    def attach_episode(self, ep: Episode) -> None:
+        """Insert a pre-finalized immutable episode after its durable commit."""
+        if ep.episode_id in self.episodes:
+            return  # idempotent — never double-record the same finalized episode
+        self.episodes[ep.episode_id] = ep
+        self.metrics["episodes_encoded"] = int(self.metrics.get("episodes_encoded", 0)) + 1
+        self._bound_active_episodes()
+
     # --- working memory ---------------------------------------------------
 
     def _push_working(self, item: WorkingItem) -> None:

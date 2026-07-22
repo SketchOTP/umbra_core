@@ -357,3 +357,340 @@ def test_hidden_partner_id_rejected_from_cues():
     bad_cue["hidden_partner_id"] = "p-h0"
     with pytest.raises(SocialEngineError):
         engine.recognize([bad_cue], tick=1)
+
+
+# --- Task 5: pending interactions + contingency classification + atomic commit ---
+
+
+def _familiar_engine(seed_tag: float = 0.0, seed: int = 1, emit=None):
+    """Engine with one FAMILIAR, unambiguous hypothesis (two identical sightings)."""
+    from umbra_core.social import SocialEngine
+
+    engine = SocialEngine.create("agent-1", seed=seed, emit_event=emit)
+    engine.recognize([_social_cue(seed_tag)], tick=1)
+    r = engine.recognize([_social_cue(seed_tag)], tick=2)
+    return engine, r.matches[0].hypothesis_id
+
+
+def _new_store(tmp_path, name="s.db"):
+    from umbra_core.persistence import Store
+
+    return Store(str(tmp_path / name))
+
+
+def test_denied_signal_creates_no_partner_evidence(tmp_path):
+    from umbra_core.social import SocialEngineError
+
+    store = _new_store(tmp_path)
+    engine, hid = _familiar_engine()
+    with pytest.raises(SocialEngineError):
+        engine.create_pending(
+            hypothesis_id=hid,
+            context="play",
+            signal="SIGNAL_PLAY",
+            execution_id="x1",
+            signal_tick=5,
+            recognition_confidence=1.0,
+            governance_admitted=False,  # denied
+            capability_executed=False,
+            store=store,
+        )
+    assert engine.pending == {}
+    assert engine.contingency_cells == {}
+    assert engine.hypotheses[hid].reliability_by_context == {}
+    types = [e["event_type"] for e in store.iter_events()]
+    assert "social_pending_created" not in types
+    store.close()
+
+
+def test_response_classification_precedence():
+    from umbra_core.social import ResponseClass, SocialEngine
+
+    c = SocialEngine.create("agent-1", seed=1).classify_response
+    # EXTERNAL beats everything (even a contingent-window latency)
+    assert c(response_latency=3, external_cause=True) == ResponseClass.EXTERNAL
+    # AMBIGUOUS beats CONTINGENT/DELAYED/... (contested, low confidence, or overlap)
+    assert c(response_latency=3, contested=True) == ResponseClass.AMBIGUOUS
+    assert c(response_latency=3, recognition_confidence=0.10) == ResponseClass.AMBIGUOUS
+    assert c(response_latency=3, overlapping_inseparable=True) == ResponseClass.AMBIGUOUS
+    # CONTINGENT window [1,8]
+    assert c(response_latency=1) == ResponseClass.CONTINGENT
+    assert c(response_latency=8) == ResponseClass.CONTINGENT
+    # DELAYED window [9,24]
+    assert c(response_latency=9) == ResponseClass.DELAYED
+    assert c(response_latency=24) == ResponseClass.DELAYED
+    # COINCIDENTAL: response present but implausible timing (<=0 or 25..timeout)
+    assert c(response_latency=0) == ResponseClass.COINCIDENTAL
+    assert c(response_latency=28) == ResponseClass.COINCIDENTAL
+    # NONE: no response, or past the timeout window (>32)
+    assert c(response_latency=None) == ResponseClass.NONE
+    assert c(response_latency=40) == ResponseClass.NONE
+
+
+def test_overlapping_bids_resolve_ambiguous(tmp_path):
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.social import ResponseClass
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+
+    p1 = engine.create_pending(
+        hypothesis_id=hid, context="play", signal="SIGNAL_PLAY", execution_id="e1",
+        signal_tick=5, recognition_confidence=1.0,
+        governance_admitted=True, capability_executed=True, store=store,
+    )
+    engine.create_pending(
+        hypothesis_id=hid, context="play", signal="SIGNAL_PLAY", execution_id="e2",
+        signal_tick=6, recognition_confidence=1.0,
+        governance_admitted=True, capability_executed=True, store=store,
+    )
+    cls = engine.observe_outcome(
+        p1.pending_interaction_id, response_tick=9, response_observed=True,
+        store=store, memory=mem,
+    )
+    assert cls == ResponseClass.AMBIGUOUS
+    assert engine.hypotheses[hid].reliability_by_context.get("play", 0.0) == 0.0
+    key = engine._cell_key(hid, "play", "SIGNAL_PLAY")
+    cell = engine.contingency_cells.get(key)
+    assert cell is None or cell.contingent_count == 0
+    assert store.social_evidence_links_for(hid) == []
+    store.close()
+
+
+def test_contingency_beats_frequency(tmp_path):
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.social import SocialEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine = SocialEngine.create("agent-1", seed=1)
+    engine.recognize([_social_cue(0.0)], tick=1)
+    ra = engine.recognize([_social_cue(0.0)], tick=2)
+    hid_a = ra.matches[0].hypothesis_id
+    engine.recognize([_social_cue(1.0)], tick=1)
+    rb = engine.recognize([_social_cue(1.0)], tick=2)
+    hid_b = rb.matches[0].hypothesis_id
+    assert hid_a != hid_b
+
+    tick = 10
+    for _ in range(5):
+        # A: contingent responder
+        pa = engine.create_pending(
+            hypothesis_id=hid_a, context="play", signal="SIGNAL_PLAY",
+            execution_id=f"a{tick}", signal_tick=tick, recognition_confidence=1.0,
+            governance_admitted=True, capability_executed=True, store=store,
+        )
+        engine.observe_outcome(
+            pa.pending_interaction_id, response_tick=tick + 3, response_observed=True,
+            store=store, memory=mem,
+        )
+        # B: equally frequent, never responds
+        pb = engine.create_pending(
+            hypothesis_id=hid_b, context="play", signal="SIGNAL_PLAY",
+            execution_id=f"b{tick}", signal_tick=tick, recognition_confidence=1.0,
+            governance_admitted=True, capability_executed=True, store=store,
+        )
+        engine.observe_outcome(
+            pb.pending_interaction_id, response_tick=tick + 40, response_observed=False,
+            store=store, memory=mem,
+        )
+        tick += 50
+
+    rel_a = engine.hypotheses[hid_a].reliability_by_context.get("play", 0.0)
+    rel_b = engine.hypotheses[hid_b].reliability_by_context.get("play", 0.0)
+    assert rel_a > rel_b
+    assert rel_b == 0.0
+    cell_a = engine.contingency_cells[engine._cell_key(hid_a, "play", "SIGNAL_PLAY")]
+    cell_b = engine.contingency_cells[engine._cell_key(hid_b, "play", "SIGNAL_PLAY")]
+    assert cell_a.contingent_count == 5
+    assert cell_b.contingent_count == 0
+    assert cell_b.none_count == 5
+    store.close()
+
+
+def test_noncontingent_events_do_not_build_reliability(tmp_path):
+    from umbra_core.memory import MemoryEngine
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+
+    tick = 10
+    # NONE (no response), COINCIDENTAL (latency 0), EXTERNAL (competing cause)
+    scenarios = [
+        dict(response_tick=tick + 40, response_observed=False),
+        dict(response_tick=tick, response_observed=True),
+        dict(response_tick=tick + 3, response_observed=True, external_cause=True),
+    ]
+    for i, sc in enumerate(scenarios):
+        p = engine.create_pending(
+            hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+            execution_id=f"n{i}", signal_tick=tick, recognition_confidence=1.0,
+            governance_admitted=True, capability_executed=True, store=store,
+        )
+        engine.observe_outcome(
+            p.pending_interaction_id, store=store, memory=mem, **sc
+        )
+        tick += 50
+
+    assert engine.hypotheses[hid].reliability_by_context.get("play", 0.0) == 0.0
+    cell = engine.contingency_cells[engine._cell_key(hid, "play", "SIGNAL_PLAY")]
+    assert cell.contingent_count == 0
+    store.close()
+
+
+def test_atomic_outcome_commit_crash_between_stages(tmp_path):
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.persistence import PersistenceError
+    from umbra_core.social import ResponseClass
+
+    resolution_types = {
+        "social_episode_finalized",
+        "social_episode_outcome",
+        "social_contingency_updated",
+        "social_reliability_revised",
+        "social_pending_resolved",
+    }
+    for stage in range(1, 6):
+        store = _new_store(tmp_path, f"crash{stage}.db")
+        mem = MemoryEngine.create("agent-1", seed=1)
+        engine, hid = _familiar_engine()
+        p = engine.create_pending(
+            hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+            execution_id="e1", signal_tick=5, recognition_confidence=1.0,
+            governance_admitted=True, capability_executed=True, store=store,
+        )
+        with pytest.raises(PersistenceError):
+            engine.observe_outcome(
+                p.pending_interaction_id, response_tick=8, response_observed=True,
+                store=store, memory=mem, crash_after_stage=stage,
+            )
+        # No partial durable state
+        types = [e["event_type"] for e in store.iter_events()]
+        assert resolution_types.isdisjoint(types), f"stage {stage} leaked {types}"
+        assert store.social_evidence_links_for(hid) == []
+        store.validate_chain()  # ledger stays consistent after rollback
+        # No partial in-memory state
+        assert engine.pending[p.pending_interaction_id].status == "PENDING"
+        assert engine.contingency_cells == {}
+        assert engine.hypotheses[hid].reliability_by_context == {}
+        store.close()
+
+    # Success path commits everything atomically
+    store = _new_store(tmp_path, "commit_ok.db")
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+    p = engine.create_pending(
+        hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+        execution_id="e1", signal_tick=5, recognition_confidence=1.0,
+        governance_admitted=True, capability_executed=True, store=store,
+    )
+    cls = engine.observe_outcome(
+        p.pending_interaction_id, response_tick=8, response_observed=True,
+        store=store, memory=mem,
+    )
+    assert cls == ResponseClass.CONTINGENT
+    types = [e["event_type"] for e in store.iter_events()]
+    for t in resolution_types:
+        assert t in types, f"missing {t}"
+    assert len(store.social_evidence_links_for(hid)) == 1
+    assert engine.pending[p.pending_interaction_id].status == "RESOLVED"
+    cell = engine.contingency_cells[engine._cell_key(hid, "play", "SIGNAL_PLAY")]
+    assert cell.contingent_count == 1
+    assert engine.hypotheses[hid].reliability_by_context["play"] > 0.0
+    store.validate_chain()
+    store.close()
+
+
+def test_pending_survives_restart_or_resolves_deterministically(tmp_path):
+    from umbra_core.social import SocialEngine
+
+    store = _new_store(tmp_path)
+    engine, hid = _familiar_engine()
+    p = engine.create_pending(
+        hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+        execution_id="e1", signal_tick=5, recognition_confidence=1.0,
+        governance_admitted=True, capability_executed=True, store=store,
+    )
+    pid = p.pending_interaction_id
+    state = engine.to_state()
+
+    # Restart within the response window → resume, no settlement event
+    within = SocialEngine.from_state(state)
+    assert pid in within.pending
+    assert within.pending[pid].status == "PENDING"
+    within.resume_pending(store=store, now_tick=8)
+    assert within.pending[pid].status == "PENDING"
+    assert "social_pending_expired" not in [e["event_type"] for e in store.iter_events()]
+
+    # Restart after the window elapsed → deterministic expiry, no partner evidence
+    elapsed = SocialEngine.from_state(state)
+    elapsed.resume_pending(store=store, now_tick=5 + 40)
+    assert elapsed.pending[pid].status == "EXPIRED"
+    assert elapsed.contingency_cells == {}
+    assert elapsed.hypotheses[hid].reliability_by_context == {}
+    assert "social_pending_expired" in [e["event_type"] for e in store.iter_events()]
+    store.close()
+
+
+def test_pending_cannot_become_evidence_twice(tmp_path):
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.social import ResponseClass, SocialEngineError
+
+    store = _new_store(tmp_path)
+    mem = MemoryEngine.create("agent-1", seed=1)
+    engine, hid = _familiar_engine()
+    p = engine.create_pending(
+        hypothesis_id=hid, context="play", signal="SIGNAL_PLAY",
+        execution_id="e1", signal_tick=5, recognition_confidence=1.0,
+        governance_admitted=True, capability_executed=True, store=store,
+    )
+    pid = p.pending_interaction_id
+    assert engine.observe_outcome(
+        pid, response_tick=8, response_observed=True, store=store, memory=mem
+    ) == ResponseClass.CONTINGENT
+    cell = engine.contingency_cells[engine._cell_key(hid, "play", "SIGNAL_PLAY")]
+    assert cell.contingent_count == 1
+
+    with pytest.raises(SocialEngineError):
+        engine.observe_outcome(
+            pid, response_tick=8, response_observed=True, store=store, memory=mem
+        )
+    assert cell.contingent_count == 1
+    assert len(store.social_evidence_links_for(hid)) == 1
+    store.close()
+
+
+def test_missing_authoritative_social_event_fails_closed():
+    from umbra_core.social import SocialEngine, SocialEngineError
+
+    created = {
+        "event_type": "social_pending_created",
+        "payload": {
+            "pending_interaction_id": "pY",
+            "hypothesis_id_at_signal": "h1",
+            "recognition_confidence": 1.0,
+            "context": "play",
+            "signal": "SIGNAL_PLAY",
+            "execution_id": "e1",
+            "signal_tick": 5,
+            "response_window": [1, 32],
+        },
+    }
+    resolved = {
+        "event_type": "social_pending_resolved",
+        "payload": {"pending_interaction_id": "pY", "classification": "CONTINGENT"},
+    }
+
+    # Resolution referencing a pending with no authoritative created event → fail closed
+    with pytest.raises(SocialEngineError, match="missing_authoritative"):
+        SocialEngine.reconstruct_pending([resolved])
+
+    # Created + resolved → settled, nothing unresolved
+    assert SocialEngine.reconstruct_pending([created, resolved]) == {}
+
+    # Created only → survives as unresolved (never silently dropped)
+    unresolved = SocialEngine.reconstruct_pending([created])
+    assert "pY" in unresolved
+    assert unresolved["pY"].status == "PENDING"

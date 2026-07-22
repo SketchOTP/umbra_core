@@ -66,6 +66,19 @@ class Store:
               key TEXT PRIMARY KEY,
               value TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS social_evidence_links (
+              link_id TEXT PRIMARY KEY,
+              agent_id TEXT NOT NULL,
+              hypothesis_id TEXT NOT NULL,
+              context TEXT NOT NULL,
+              signal TEXT NOT NULL,
+              episode_id TEXT NOT NULL,
+              pending_interaction_id TEXT NOT NULL,
+              classification TEXT NOT NULL,
+              relation TEXT NOT NULL,
+              tick INTEGER NOT NULL,
+              UNIQUE(hypothesis_id, context, signal, episode_id, relation)
+            );
             """
         )
 
@@ -292,6 +305,88 @@ class Store:
                 raise PersistenceError(f"event_hash_mismatch:seq_{ev['sequence']}")
             prev_hash = ev["event_hash"]
             expect_seq += 1
+
+    # --- D-006 social evidence links + atomic outcome commit -------------
+
+    def insert_social_evidence_link(
+        self,
+        *,
+        agent_id: str,
+        hypothesis_id: str,
+        context: str,
+        signal: str,
+        episode_id: str,
+        pending_interaction_id: str,
+        classification: str,
+        relation: str,
+        tick: int,
+    ) -> None:
+        """Normalized provenance row tying an immutable episode to a contingency cell.
+
+        UNIQUE(hypothesis_id, context, signal, episode_id, relation) is the durable
+        guard against double-counting the same episode as evidence twice.
+        """
+        self.conn.execute(
+            """
+            INSERT INTO social_evidence_links(
+              link_id, agent_id, hypothesis_id, context, signal, episode_id,
+              pending_interaction_id, classification, relation, tick
+            ) VALUES (?,?,?,?,?,?,?,?,?,?)
+            """,
+            (
+                new_id(),
+                agent_id,
+                hypothesis_id,
+                context,
+                signal,
+                episode_id,
+                pending_interaction_id,
+                classification,
+                relation,
+                int(tick),
+            ),
+        )
+
+    def social_evidence_links_for(self, hypothesis_id: str) -> list[dict[str, Any]]:
+        rows = self.conn.execute(
+            "SELECT * FROM social_evidence_links WHERE hypothesis_id=? ORDER BY rowid ASC",
+            (hypothesis_id,),
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+    def atomic_social_outcome(
+        self,
+        stages: list[Any],
+        *,
+        on_commit: Any = None,
+        crash_after_stage: int | None = None,
+    ) -> None:
+        """Run ordered durable stage writers in ONE SQLite transaction.
+
+        `stages` is an ordered list of zero-arg callables; each performs the durable
+        writes for one outcome stage (finalize episode event, episode event, evidence
+        links, reliability event, pending/contingency authority events). Everything is
+        wrapped in a single BEGIN IMMEDIATE .. COMMIT, so a crash before COMMIT rolls
+        back every prior stage — no episode without its aggregate, no contingency
+        update without its episode, no reliability pointing at nonexistent evidence.
+
+        `crash_after_stage` (1-based) raises after that stage's writes but before COMMIT
+        to exercise crash injection; the transaction rolls back and PersistenceError
+        propagates. `on_commit` (in-memory model mutation) runs only after COMMIT
+        succeeds, so a rollback never leaves partial in-memory state either.
+        """
+        self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            for i, stage in enumerate(stages, start=1):
+                stage()
+                if crash_after_stage is not None and i == crash_after_stage:
+                    raise PersistenceError(f"crash_injection_after_stage_{crash_after_stage}")
+            self.conn.execute("COMMIT")
+        except BaseException:
+            self.conn.execute("ROLLBACK")
+            raise
+        if on_commit is not None:
+            on_commit()
 
     def corrupt_event_payload(self, sequence: int, new_payload: dict[str, Any]) -> None:
         """Test helper — mutates payload without updating hashes."""

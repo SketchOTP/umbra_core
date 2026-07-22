@@ -58,12 +58,40 @@ CUE_VECTOR_FIELDS = (
 PROTOTYPE_BLEND_ALPHA = 0.3
 CONTINGENCY_EMA_ALPHA = 0.3
 
+# Classification timing windows — frozen in experiments/d006/thresholds.json.
+# ponytail: mirrored as module defaults (same convention as the recognition
+# thresholds above) rather than reading the JSON at import time.
+RESPONSE_WINDOW_CONTINGENT = (1, 8)
+RESPONSE_WINDOW_DELAYED = (9, 24)
+RESPONSE_NONE_TIMEOUT = 32
+MAX_PENDING_INTERACTIONS = 8
+RELIABILITY_GAIN = 0.25
+RELIABILITY_LOSS = 0.30
+
 
 class HypothesisStatus(str, Enum):
     UNKNOWN = "UNKNOWN"
     FAMILIAR = "FAMILIAR"
     CONTESTED = "CONTESTED"
     INACTIVE = "INACTIVE"
+
+
+class ResponseClass(str, Enum):
+    """Contingency classification — precedence order top to bottom."""
+
+    EXTERNAL = "EXTERNAL"
+    AMBIGUOUS = "AMBIGUOUS"
+    CONTINGENT = "CONTINGENT"
+    DELAYED = "DELAYED"
+    COINCIDENTAL = "COINCIDENTAL"
+    NONE = "NONE"
+
+
+class PendingStatus(str, Enum):
+    PENDING = "PENDING"
+    RESOLVED = "RESOLVED"
+    EXPIRED = "EXPIRED"
+    INTERRUPTED = "INTERRUPTED"
 
 
 def _match_score(cue: dict[str, Any], prototype: dict[str, Any]) -> float:
@@ -161,7 +189,11 @@ class PartnerHypothesis:
 
 @dataclass
 class ContingencyCell:
-    """Minimal (hypothesis, context, signal) latency cell — see module docstring."""
+    """(hypothesis, context, signal) contingency evidence — design §2.
+
+    Aggregate counts stay in the cell; complete provenance stays recoverable via the
+    `social_evidence_links` table + event ledger. Active episode-id sets are bounded.
+    """
 
     hypothesis_id: str
     context: str
@@ -169,7 +201,14 @@ class ContingencyCell:
     latency_ema: float = 0.0
     latency_variance: float = 0.0
     contingent_count: int = 0
+    delayed_count: int = 0
+    none_count: int = 0
+    coincidental_count: int = 0
+    ambiguous_count: int = 0
+    external_count: int = 0
     confidence: float = 0.0
+    supporting_episode_ids: list[str] = field(default_factory=list)
+    contradicting_episode_ids: list[str] = field(default_factory=list)
     last_updated: int = 0
 
     def to_dict(self) -> dict[str, Any]:
@@ -184,8 +223,49 @@ class ContingencyCell:
             latency_ema=float(d.get("latency_ema", 0.0)),
             latency_variance=float(d.get("latency_variance", 0.0)),
             contingent_count=int(d.get("contingent_count", 0)),
+            delayed_count=int(d.get("delayed_count", 0)),
+            none_count=int(d.get("none_count", 0)),
+            coincidental_count=int(d.get("coincidental_count", 0)),
+            ambiguous_count=int(d.get("ambiguous_count", 0)),
+            external_count=int(d.get("external_count", 0)),
             confidence=float(d.get("confidence", 0.0)),
+            supporting_episode_ids=list(d.get("supporting_episode_ids") or []),
+            contradicting_episode_ids=list(d.get("contradicting_episode_ids") or []),
             last_updated=int(d.get("last_updated", 0)),
+        )
+
+
+@dataclass
+class PendingInteraction:
+    """Event-sourced pre-episode trace — created only after a governed executed signal."""
+
+    pending_interaction_id: str
+    hypothesis_id_at_signal: str
+    recognition_confidence: float
+    context: str
+    signal: str
+    execution_id: str
+    signal_tick: int
+    response_window: list[int]  # [contingent_lo, none_timeout] durable timing bound
+    status: str = PendingStatus.PENDING.value
+    created_tick: int = 0
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> PendingInteraction:
+        return cls(
+            pending_interaction_id=str(d["pending_interaction_id"]),
+            hypothesis_id_at_signal=str(d["hypothesis_id_at_signal"]),
+            recognition_confidence=float(d.get("recognition_confidence", 0.0)),
+            context=str(d["context"]),
+            signal=str(d["signal"]),
+            execution_id=str(d["execution_id"]),
+            signal_tick=int(d["signal_tick"]),
+            response_window=[int(x) for x in (d.get("response_window") or [1, RESPONSE_NONE_TIMEOUT])],
+            status=str(d.get("status", PendingStatus.PENDING.value)),
+            created_tick=int(d.get("created_tick", 0)),
         )
 
 
@@ -224,6 +304,13 @@ class SocialConfig:
     satiation_rise: float = SATIATION_RISE
     satiation_decay_per_tick: float = SATIATION_DECAY_PER_TICK
     min_encounters_for_familiar: int = MIN_ENCOUNTERS_FOR_FAMILIAR
+    max_pending_interactions: int = MAX_PENDING_INTERACTIONS
+    response_window_contingent: tuple[int, int] = RESPONSE_WINDOW_CONTINGENT
+    response_window_delayed: tuple[int, int] = RESPONSE_WINDOW_DELAYED
+    response_none_timeout: int = RESPONSE_NONE_TIMEOUT
+    contingency_min_recognition_confidence: float = RECOGNITION_MATCH_THRESHOLD
+    reliability_gain: float = RELIABILITY_GAIN
+    reliability_loss: float = RELIABILITY_LOSS
 
 
 def condition_to_social_config(condition: str) -> SocialConfig:
@@ -257,11 +344,13 @@ class SocialEngine:
     hypotheses: dict[str, PartnerHypothesis] = field(default_factory=dict)
     archived_hypotheses: dict[str, PartnerHypothesis] = field(default_factory=dict)
     contingency_cells: dict[str, ContingencyCell] = field(default_factory=dict)
+    pending: dict[str, PendingInteraction] = field(default_factory=dict)
     config: SocialConfig = field(default_factory=SocialConfig)
     seed: int | None = None
     emit_event: Callable[[str, dict[str, Any]], None] | None = None
     metrics: dict[str, Any] = field(default_factory=dict)
     _hypothesis_counter: int = 0
+    _pending_counter: int = 0
     _bounded_initialized: bool = False
 
     @classmethod
@@ -280,6 +369,12 @@ class SocialEngine:
             "recognition_updates": 0,
             "contested_updates": 0,
             "events_emitted": 0,
+            "pending_created": 0,
+            "pending_resolved": 0,
+            "pending_expired": 0,
+            "pending_interrupted": 0,
+            "contingency_updates": 0,
+            "reliability_revisions": 0,
         }
         return eng
 
@@ -582,6 +677,512 @@ class SocialEngine:
             return sum(c.latency_ema for c in cells) / len(cells)
         return sum(c.latency_ema * c.confidence * c.contingent_count for c in cells) / weight_sum
 
+    # --- pending interaction lifecycle ----------------------------------
+
+    def _new_pending_id(self) -> str:
+        self._pending_counter += 1
+        if self.seed is not None:
+            return deterministic_id(self.seed, f"pend:{self.agent_id}:{self._pending_counter}")
+        return new_id()
+
+    def create_pending(
+        self,
+        *,
+        hypothesis_id: str,
+        context: str,
+        signal: str,
+        execution_id: str,
+        signal_tick: int,
+        recognition_confidence: float,
+        governance_admitted: bool,
+        capability_executed: bool,
+        store: Any = None,
+        tick: int | None = None,
+    ) -> PendingInteraction:
+        """Open a pending trace — ONLY after a governance-allowed, executed signal.
+
+        A denied or unexecuted signal creates no trace and therefore no partner
+        evidence (design §5/§7). Fails closed on unknown hypothesis.
+        """
+        if not (governance_admitted and capability_executed):
+            raise SocialEngineError("pending_requires_governed_executed_signal")
+        self._get_hypothesis(hypothesis_id)  # fail closed if the hypothesis is unknown
+        created_tick = int(tick if tick is not None else signal_tick)
+        pending = PendingInteraction(
+            pending_interaction_id=self._new_pending_id(),
+            hypothesis_id_at_signal=hypothesis_id,
+            recognition_confidence=float(recognition_confidence),
+            context=str(context),
+            signal=str(signal),
+            execution_id=str(execution_id),
+            signal_tick=int(signal_tick),
+            response_window=[
+                int(self.config.response_window_contingent[0]),
+                int(self.config.response_none_timeout),
+            ],
+            status=PendingStatus.PENDING.value,
+            created_tick=created_tick,
+        )
+        self.pending[pending.pending_interaction_id] = pending
+        self._bound_pending()
+        payload = {**pending.to_dict(), "tick": created_tick}
+        if store is not None:
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type="social_pending_created",
+                monotonic_time=float(created_tick),
+                wall_time=float(created_tick),
+                payload=payload,
+            )
+        else:
+            self._emit("social_pending_created", payload)
+        self.metrics["pending_created"] = int(self.metrics.get("pending_created", 0)) + 1
+        return pending
+
+    def _bound_pending(self) -> None:
+        cap = self.config.max_pending_interactions
+        if len(self.pending) <= cap:
+            return
+        # Evict settled traces first; never silently drop an open (unresolved) trace.
+        settled = [
+            pid for pid, p in self.pending.items() if p.status != PendingStatus.PENDING.value
+        ]
+        settled.sort(key=lambda pid: self.pending[pid].created_tick)
+        while len(self.pending) > cap and settled:
+            self.pending.pop(settled.pop(0), None)
+        if len(self.pending) > cap:
+            raise SocialEngineError("too_many_open_pending_interactions")
+
+    # --- contingency classification -------------------------------------
+
+    def classify_response(
+        self,
+        *,
+        response_latency: float | None,
+        recognition_confidence: float = 1.0,
+        external_cause: bool = False,
+        overlapping_inseparable: bool = False,
+        contested: bool = False,
+    ) -> ResponseClass:
+        """Classify a response with precedence EXTERNAL→AMBIGUOUS→CONTINGENT→
+        DELAYED→COINCIDENTAL→NONE using the frozen timing windows.
+
+        Overlapping inseparable bids and ambiguous/contested recognition produce no
+        reliability evidence (→ AMBIGUOUS). Timing windows are preregistered in
+        experiments/d006/thresholds.json.
+        """
+        if external_cause:
+            return ResponseClass.EXTERNAL
+        if (
+            contested
+            or overlapping_inseparable
+            or recognition_confidence < self.config.contingency_min_recognition_confidence
+        ):
+            return ResponseClass.AMBIGUOUS
+        if response_latency is None:
+            return ResponseClass.NONE
+        lat = float(response_latency)
+        if lat > self.config.response_none_timeout:
+            return ResponseClass.NONE
+        lo_c, hi_c = self.config.response_window_contingent
+        lo_d, hi_d = self.config.response_window_delayed
+        if lo_c <= lat <= hi_c:
+            return ResponseClass.CONTINGENT
+        if lo_d <= lat <= hi_d:
+            return ResponseClass.DELAYED
+        # Response present but temporally implausible (<=0, or past DELAYED yet within
+        # timeout): a coincidence, not causal evidence.
+        return ResponseClass.COINCIDENTAL
+
+    def _has_inseparable_overlap(self, pending: PendingInteraction, response_tick: int) -> bool:
+        """Another open bid for the same context+signal whose window also covers the
+        response — the response cannot be causally attributed to a single bid."""
+        for other in self.pending.values():
+            if other.pending_interaction_id == pending.pending_interaction_id:
+                continue
+            if other.status != PendingStatus.PENDING.value:
+                continue
+            if other.context != pending.context or other.signal != pending.signal:
+                continue
+            o_lo, o_timeout = other.response_window
+            if other.signal_tick + o_lo <= response_tick <= other.signal_tick + o_timeout:
+                return True
+        return False
+
+    # --- outcome observation + atomic commit ----------------------------
+
+    def observe_outcome(
+        self,
+        pending_id: str,
+        *,
+        response_tick: int,
+        response_observed: bool,
+        store: Any,
+        memory: Any,
+        external_cause: bool = False,
+        occurred_at: float | None = None,
+        crash_after_stage: int | None = None,
+    ) -> ResponseClass:
+        """Classify then atomically commit a pending interaction's outcome."""
+        pending = self.pending.get(pending_id)
+        if pending is None:
+            raise SocialEngineError(f"pending_missing:{pending_id}")
+        if pending.status != PendingStatus.PENDING.value:
+            raise SocialEngineError(f"pending_not_open:{pending_id}:{pending.status}")
+        hyp = self._get_hypothesis(pending.hypothesis_id_at_signal)
+        contested = hyp.status == HypothesisStatus.CONTESTED.value
+        overlapping = self._has_inseparable_overlap(pending, response_tick)
+        latency = (int(response_tick) - pending.signal_tick) if response_observed else None
+        classification = self.classify_response(
+            response_latency=latency,
+            recognition_confidence=pending.recognition_confidence,
+            external_cause=external_cause,
+            overlapping_inseparable=overlapping,
+            contested=contested,
+        )
+        self.resolve_pending(
+            pending_id,
+            classification=classification,
+            response_latency=latency,
+            response_tick=response_tick,
+            store=store,
+            memory=memory,
+            occurred_at=occurred_at,
+            crash_after_stage=crash_after_stage,
+        )
+        return classification
+
+    def resolve_pending(
+        self,
+        pending_id: str,
+        *,
+        classification: ResponseClass | str,
+        response_latency: float | None,
+        response_tick: int,
+        store: Any,
+        memory: Any,
+        occurred_at: float | None = None,
+        crash_after_stage: int | None = None,
+        lifecycle_event: str = "social_pending_resolved",
+    ) -> None:
+        """Finalize an outcome in ONE SQLite transaction (design §1 atomic commit).
+
+        Stages: finalize immutable episode → append episode event → update contingency
+        evidence (+ links) → revise reliability → append social authority events. On
+        crash injection everything rolls back; in-memory model changes apply only after
+        COMMIT. A pending can settle exactly once (no double-evidence).
+        """
+        pending = self.pending.get(pending_id)
+        if pending is None:
+            raise SocialEngineError(f"pending_missing:{pending_id}")
+        if pending.status != PendingStatus.PENDING.value:
+            raise SocialEngineError(f"pending_not_open:{pending_id}:{pending.status}")
+        hyp = self._get_hypothesis(pending.hypothesis_id_at_signal)
+        cls_val = (
+            classification.value if isinstance(classification, ResponseClass) else str(classification)
+        )
+        context, signal = pending.context, pending.signal
+        tick = int(response_tick)
+        occ = float(occurred_at if occurred_at is not None else tick)
+
+        verified = {
+            "success": cls_val == ResponseClass.CONTINGENT.value,
+            "classification": cls_val,
+        }
+        ep = memory.finalize_social_episode(
+            episode_key=f"social|{pending_id}",
+            tick=tick,
+            occurred_at=occ,
+            context={
+                "entity_kind": "partner",
+                "hypothesis_id": hyp.hypothesis_id,
+                "social_context": context,
+                "signal": signal,
+                "classification": cls_val,
+                "rule_tag": "social",
+            },
+            observations=[],
+            internal_state={},
+            goal=None,
+            action=signal,
+            verified_outcome=verified,
+            source_event_ids=[pending.execution_id],
+        )
+        episode_id = ep.episode_id
+
+        cell_after, relation = self._preview_contingency(
+            hyp, context, signal, cls_val, response_latency, episode_id, tick
+        )
+        new_reliability, reliability_changed = self._preview_reliability(hyp, context, cls_val)
+
+        def stage_finalize_episode() -> None:
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type="social_episode_finalized",
+                monotonic_time=float(tick),
+                wall_time=float(tick),
+                payload={"episode": ep.to_dict(), "pending_interaction_id": pending_id},
+            )
+
+        def stage_episode_event() -> None:
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type="social_episode_outcome",
+                monotonic_time=float(tick),
+                wall_time=float(tick),
+                payload={
+                    "episode_id": episode_id,
+                    "pending_interaction_id": pending_id,
+                    "hypothesis_id": hyp.hypothesis_id,
+                    "context": context,
+                    "signal": signal,
+                    "classification": cls_val,
+                },
+            )
+
+        def stage_evidence_links() -> None:
+            if relation is not None:
+                store.insert_social_evidence_link(
+                    agent_id=self.agent_id,
+                    hypothesis_id=hyp.hypothesis_id,
+                    context=context,
+                    signal=signal,
+                    episode_id=episode_id,
+                    pending_interaction_id=pending_id,
+                    classification=cls_val,
+                    relation=relation,
+                    tick=tick,
+                )
+
+        def stage_revise_reliability() -> None:
+            if reliability_changed:
+                store.append_event(
+                    agent_id=self.agent_id,
+                    event_type="social_reliability_revised",
+                    monotonic_time=float(tick),
+                    wall_time=float(tick),
+                    payload={
+                        "hypothesis_id": hyp.hypothesis_id,
+                        "context": context,
+                        "reliability": new_reliability,
+                        "tick": tick,
+                    },
+                )
+
+        def stage_authority_events() -> None:
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type=lifecycle_event,
+                monotonic_time=float(tick),
+                wall_time=float(tick),
+                payload={
+                    "pending_interaction_id": pending_id,
+                    "classification": cls_val,
+                    "episode_id": episode_id,
+                    "tick": tick,
+                },
+            )
+            store.append_event(
+                agent_id=self.agent_id,
+                event_type="social_contingency_updated",
+                monotonic_time=float(tick),
+                wall_time=float(tick),
+                payload={
+                    "hypothesis_id": hyp.hypothesis_id,
+                    "context": context,
+                    "signal": signal,
+                    "classification": cls_val,
+                    "episode_id": episode_id,
+                    "tick": tick,
+                },
+            )
+
+        def on_commit() -> None:
+            memory.attach_episode(ep)
+            key = self._cell_key(hyp.hypothesis_id, context, signal)
+            self.contingency_cells[key] = cell_after
+            self._bound_contingency_cells()
+            if reliability_changed:
+                hyp.reliability_by_context[context] = new_reliability
+                self.metrics["reliability_revisions"] = (
+                    int(self.metrics.get("reliability_revisions", 0)) + 1
+                )
+            if relation == "support":
+                self.add_evidence_ref(hyp.hypothesis_id, episode_id)
+            pending.status = self._status_for_event(lifecycle_event)
+            hyp.last_interaction_tick = tick
+            self.metrics["pending_resolved"] = int(self.metrics.get("pending_resolved", 0)) + 1
+            self.metrics["contingency_updates"] = (
+                int(self.metrics.get("contingency_updates", 0)) + 1
+            )
+
+        store.atomic_social_outcome(
+            [
+                stage_finalize_episode,
+                stage_episode_event,
+                stage_evidence_links,
+                stage_revise_reliability,
+                stage_authority_events,
+            ],
+            on_commit=on_commit,
+            crash_after_stage=crash_after_stage,
+        )
+
+    @staticmethod
+    def _status_for_event(lifecycle_event: str) -> str:
+        return {
+            "social_pending_resolved": PendingStatus.RESOLVED.value,
+            "social_pending_expired": PendingStatus.EXPIRED.value,
+            "social_pending_interrupted": PendingStatus.INTERRUPTED.value,
+        }.get(lifecycle_event, PendingStatus.RESOLVED.value)
+
+    def _preview_contingency(
+        self,
+        hyp: PartnerHypothesis,
+        context: str,
+        signal: str,
+        cls_val: str,
+        latency: float | None,
+        episode_id: str,
+        tick: int,
+    ) -> tuple[ContingencyCell, str | None]:
+        """Compute the post-outcome cell on a COPY (applied only after commit)."""
+        key = self._cell_key(hyp.hypothesis_id, context, signal)
+        existing = self.contingency_cells.get(key)
+        cell = (
+            ContingencyCell.from_dict(existing.to_dict())
+            if existing is not None
+            else ContingencyCell(hypothesis_id=hyp.hypothesis_id, context=context, signal=signal)
+        )
+        relation: str | None = None
+        if cls_val == ResponseClass.CONTINGENT.value:
+            cell.contingent_count += 1
+            self._update_cell_latency(cell, latency)
+            cell.confidence = clamp(cell.confidence + 0.15)
+            self._bounded_append(
+                cell.supporting_episode_ids, episode_id, self.config.max_active_supporting_episodes
+            )
+            relation = "support"
+        elif cls_val == ResponseClass.DELAYED.value:
+            cell.delayed_count += 1
+            self._update_cell_latency(cell, latency)
+            cell.confidence = clamp(cell.confidence + 0.05)
+            self._bounded_append(
+                cell.supporting_episode_ids, episode_id, self.config.max_active_supporting_episodes
+            )
+            relation = "support"
+        elif cls_val == ResponseClass.NONE.value:
+            cell.none_count += 1
+            cell.confidence = clamp(cell.confidence - 0.05)
+            self._bounded_append(
+                cell.contradicting_episode_ids,
+                episode_id,
+                self.config.max_active_contradicting_episodes,
+            )
+            relation = "contradict"
+        elif cls_val == ResponseClass.COINCIDENTAL.value:
+            cell.coincidental_count += 1
+        elif cls_val == ResponseClass.AMBIGUOUS.value:
+            cell.ambiguous_count += 1
+        elif cls_val == ResponseClass.EXTERNAL.value:
+            cell.external_count += 1
+        cell.last_updated = tick
+        return cell, relation
+
+    def _update_cell_latency(self, cell: ContingencyCell, latency: float | None) -> None:
+        if latency is None:
+            return
+        lat = float(latency)
+        if cell.contingent_count + cell.delayed_count <= 1:
+            cell.latency_ema = lat
+            cell.latency_variance = 0.0
+            return
+        prev = cell.latency_ema
+        cell.latency_ema = (1 - CONTINGENCY_EMA_ALPHA) * prev + CONTINGENCY_EMA_ALPHA * lat
+        cell.latency_variance = (
+            1 - CONTINGENCY_EMA_ALPHA
+        ) * cell.latency_variance + CONTINGENCY_EMA_ALPHA * (lat - prev) ** 2
+
+    @staticmethod
+    def _bounded_append(seq: list[str], value: str, cap: int) -> None:
+        if value not in seq:
+            seq.append(value)
+        if len(seq) > cap:
+            del seq[: len(seq) - cap]
+
+    def _preview_reliability(
+        self, hyp: PartnerHypothesis, context: str, cls_val: str
+    ) -> tuple[float, bool]:
+        """Reliability rises only from temporally plausible contingent responses;
+        repeated non-response revises it down. Non-evidence classes never change it."""
+        prev = hyp.reliability_by_context.get(context, 0.0)
+        if cls_val == ResponseClass.CONTINGENT.value:
+            new = clamp(prev + self.config.reliability_gain * (1.0 - prev))
+        elif cls_val == ResponseClass.DELAYED.value:
+            new = clamp(prev + self.config.reliability_gain * 0.3 * (1.0 - prev))
+        elif cls_val == ResponseClass.NONE.value:
+            new = clamp(prev - self.config.reliability_loss * prev)
+        else:
+            return prev, False
+        if abs(new - prev) < 1e-12:
+            return prev, False
+        return new, True
+
+    # --- pending recovery / replay --------------------------------------
+
+    def resume_pending(self, *, store: Any, now_tick: int) -> dict[str, list[str]]:
+        """After restart, resume open traces still inside their window or deterministically
+        expire elapsed ones (design §2). Never silently drops; never double-settles."""
+        resumed: list[str] = []
+        expired: list[str] = []
+        for pid, pending in list(self.pending.items()):
+            if pending.status != PendingStatus.PENDING.value:
+                continue
+            _lo, timeout = pending.response_window
+            if now_tick - pending.signal_tick > timeout:
+                pending.status = PendingStatus.EXPIRED.value
+                self.metrics["pending_expired"] = int(self.metrics.get("pending_expired", 0)) + 1
+                if store is not None:
+                    store.append_event(
+                        agent_id=self.agent_id,
+                        event_type="social_pending_expired",
+                        monotonic_time=float(now_tick),
+                        wall_time=float(now_tick),
+                        payload={
+                            "pending_interaction_id": pid,
+                            "signal_tick": pending.signal_tick,
+                            "now_tick": int(now_tick),
+                        },
+                    )
+                expired.append(pid)
+            else:
+                resumed.append(pid)
+        return {"resumed": resumed, "expired": expired}
+
+    @staticmethod
+    def reconstruct_pending(events: list[dict[str, Any]]) -> dict[str, PendingInteraction]:
+        """Rebuild unresolved pending traces from the event ledger, failing closed if a
+        settlement event references a pending with no authoritative created event."""
+        pending: dict[str, PendingInteraction] = {}
+        settled = {
+            "social_pending_resolved",
+            "social_pending_expired",
+            "social_pending_interrupted",
+        }
+        for ev in events:
+            et = ev.get("event_type")
+            payload = ev.get("payload") or {}
+            pid = payload.get("pending_interaction_id")
+            if et == "social_pending_created":
+                pending[str(pid)] = PendingInteraction.from_dict(payload)
+            elif et in settled:
+                if pid not in pending:
+                    raise SocialEngineError(
+                        f"missing_authoritative_social_pending_created:{pid}"
+                    )
+                pending.pop(pid, None)
+        return pending
+
     # --- persistence -----------------------------------------------------
 
     def counts_bounded(self) -> bool:
@@ -605,7 +1206,9 @@ class SocialEngine:
             "hypotheses": {k: v.to_dict() for k, v in self.hypotheses.items()},
             "archived_hypotheses": {k: v.to_dict() for k, v in self.archived_hypotheses.items()},
             "contingency_cells": {k: v.to_dict() for k, v in self.contingency_cells.items()},
+            "pending": {k: v.to_dict() for k, v in self.pending.items()},
             "hypothesis_counter": self._hypothesis_counter,
+            "pending_counter": self._pending_counter,
             "metrics": dict(self.metrics),
             "config": asdict(self.config),
         }
@@ -637,7 +1240,11 @@ class SocialEngine:
                 k: ContingencyCell.from_dict(v)
                 for k, v in (state.get("contingency_cells") or {}).items()
             }
+            eng.pending = {
+                k: PendingInteraction.from_dict(v) for k, v in (state.get("pending") or {}).items()
+            }
             eng._hypothesis_counter = int(state.get("hypothesis_counter", 0))
+            eng._pending_counter = int(state.get("pending_counter", 0))
         # else: C4 fails closed to a fresh relationship state on restart (design §6).
         eng.metrics = dict(state.get("metrics") or {})
         eng._bounded_initialized = True
