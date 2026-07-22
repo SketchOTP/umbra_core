@@ -187,8 +187,8 @@ OUTCOME_EFFECTS: dict[str, dict[str, float]] = {
     "INSPECT": {"energy": -0.003, "fatigue": 0.002, "stimulation": 0.04},
     "REST": {"energy": 0.015, "fatigue": -0.08, "stimulation": -0.02, "integrity": 0.055},
     "CHARGE": {"energy": 0.14, "fatigue": -0.01, "stimulation": -0.005},
-    "SIGNAL_PLAY": {"energy": -0.001, "stimulation": 0.01},
-    "SIGNAL_ASSISTANCE": {"energy": -0.001, "stimulation": 0.005},
+    "SIGNAL_PLAY": {"energy": -0.001},
+    "SIGNAL_ASSISTANCE": {"energy": -0.001},
     "HAZARD_HIT": {"integrity": -0.04, "stimulation": 0.02, "energy": -0.006},
     "FAILED_MOVE": {"energy": -0.003, "fatigue": 0.003},
 }
