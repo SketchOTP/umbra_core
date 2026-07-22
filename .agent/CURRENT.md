@@ -11,7 +11,7 @@
 
 ## Repo facts needed now
 - Starting commit: 26235fe80ad9db6268aa9a24fca83678eb431f93
-- Ending commit: (set after seal commit)
+- Ending commit: 81f4ff66eccb13b1cf4c84dc1b6a6ae5dd96c151
 - Mimir project: 7777645d52a91b49
 - Mimir task: bfab230a72a245669aeab9010f949e17
 - D-006 AUTHORIZED: YES
