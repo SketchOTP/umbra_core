@@ -54,6 +54,7 @@ from umbra_core.runtime import (
     maybe_migrate_d008_attachment,
     replay_from_birth,
 )
+from umbra_core.social import SocialEngine
 from umbra_core.util import SeededRNG
 
 from ui.reference_companion import diagnostics, habitat_view
@@ -673,8 +674,10 @@ def _expression_view(
     attachment_generation: int = 1,
     source_event_refs: tuple[str, ...] = (),
     developmental_markers: dict | None = None,
+    individuality_summary: dict | None = None,
+    embodiment: Embodiment | None = None,
 ) -> ExpressionView:
-    embodiment = Embodiment()
+    embodiment = embodiment if embodiment is not None else Embodiment()
     return ExpressionView(
         tick=tick,
         physiology=physiology
@@ -693,6 +696,7 @@ def _expression_view(
         attention=attention if attention is not None else AttentionView(None, None),
         last_outcome=last_outcome,
         developmental_markers=developmental_markers or {},
+        individuality_summary=individuality_summary or {},
         source_event_refs=source_event_refs,
     )
 
@@ -1736,3 +1740,220 @@ def test_tkinter_renderer_close_leaves_organism_running(tmp_path):
     finally:
         renderer.close()
         org.close()
+
+
+# ----- Nonverbal signals + individuality presentation (Task 10) -----
+
+
+def test_signal_play_is_visibly_expressed():
+    """A verified `SIGNAL_PLAY` outcome must render as a distinct nonverbal
+    icon + interacting posture — never silently folded into a generic
+    ACTIVE/MOVE presentation (design Gate 9)."""
+    outcome = LastOutcomeView(
+        capability="SIGNAL_PLAY", admitted=True, success=True, target="partner-1"
+    )
+    packet = ExpressionEngine().derive(_expression_view(last_outcome=outcome))
+    ps = packet.presentation_state
+
+    assert ps.nonverbal_signal == "SIGNAL_PLAY"
+    assert ps.posture == "INTERACTING"
+    assert ps.action_phase == "EXECUTED"
+    assert ps.interaction_target == "partner-1"
+
+
+def test_signal_assistance_is_visibly_expressed():
+    outcome = LastOutcomeView(
+        capability="SIGNAL_ASSISTANCE", admitted=True, success=True, target="partner-2"
+    )
+    packet = ExpressionEngine().derive(_expression_view(last_outcome=outcome))
+    ps = packet.presentation_state
+
+    assert ps.nonverbal_signal == "SIGNAL_ASSISTANCE"
+    assert ps.posture == "INTERACTING"
+    assert ps.interaction_target == "partner-2"
+
+
+def test_signal_does_not_directly_change_relationship():
+    """`ExpressionEngine.derive` never receives a `Social`/relationship
+    reference (design ownership table: ExpressionEngine cannot write core
+    state) — deriving a SIGNAL_PLAY frame must leave an independent
+    `SocialEngine`'s state byte-identical."""
+    social = SocialEngine.create("agent-1")
+    before = social.to_state()
+
+    outcome = LastOutcomeView(
+        capability="SIGNAL_PLAY", admitted=True, success=True, target="partner-1"
+    )
+    ExpressionEngine().derive(_expression_view(last_outcome=outcome))
+
+    assert social.to_state() == before
+    sig = inspect.signature(ExpressionEngine.derive)
+    assert "social" not in sig.parameters and "relationship" not in sig.parameters
+
+
+def _disposition_summary(**values: float) -> dict:
+    vec = {dim: 0.0 for dim in IndividualityEngine.create("a").disposition_vector()}
+    vec.update(values)
+    return {"disposition_vector": vec}
+
+
+def test_individuality_history_changes_visible_behavior():
+    """Two organisms with identical physiology and the same executed action
+    but different history-shaped dispositions (D-007) must present visibly
+    differently — individuality is not decoration, but it stays a bounded
+    nudge on existing channels, never a new capability or posture."""
+    outcome = LastOutcomeView(capability="MOVE", admitted=True, success=True)
+    neutral = ExpressionEngine().derive(
+        _expression_view(last_outcome=outcome, individuality_summary=_disposition_summary())
+    )
+    shaped = ExpressionEngine().derive(
+        _expression_view(
+            last_outcome=outcome,
+            individuality_summary=_disposition_summary(
+                persistence_after_failure=0.8, recovery_pacing=0.8, stimulation_tolerance=0.8
+            ),
+        )
+    )
+
+    assert (
+        neutral.presentation_state.visible_condition_channels
+        != shaped.presentation_state.visible_condition_channels
+    )
+    # Same action still visibly the same action — individuality shades, does not author.
+    assert neutral.presentation_state.posture == shaped.presentation_state.posture
+    assert neutral.presentation_state.active_capability == shaped.presentation_state.active_capability
+
+
+def test_renderer_does_not_create_authored_personality():
+    """Individuality/habit/routine influence on presentation must stay a
+    small bounded nudge on the frozen 9 condition channels — it must never
+    add a new `PresentationState` field, change which capability/posture is
+    depicted, or swing a channel outside [0, 1] or past its declared bound."""
+    field_names = {f.name for f in dataclasses.fields(PresentationState)}
+    forbidden = ("personality", "mood", "emotion", "affect", "temperament_profile")
+    for name in field_names:
+        for bad in forbidden:
+            assert bad not in name.lower()
+
+    outcome = LastOutcomeView(capability="MOVE", admitted=True, success=True)
+    baseline = ExpressionEngine().derive(_expression_view(last_outcome=outcome))
+    extreme = ExpressionEngine().derive(
+        _expression_view(
+            last_outcome=outcome,
+            individuality_summary={
+                "disposition_vector": {
+                    dim: 1.0 for dim in IndividualityEngine.create("a").disposition_vector()
+                },
+                "habit_active": True,
+                "routine_active": True,
+            },
+        )
+    )
+
+    assert baseline.presentation_state.posture == extreme.presentation_state.posture
+    assert baseline.presentation_state.active_capability == extreme.presentation_state.active_capability
+    assert baseline.presentation_state.nonverbal_signal == extreme.presentation_state.nonverbal_signal
+    for key, base_val in baseline.presentation_state.visible_condition_channels.items():
+        shaped_val = extreme.presentation_state.visible_condition_channels[key]
+        assert 0.0 <= shaped_val <= 1.0
+        assert abs(shaped_val - base_val) <= 0.30 + 1e-9
+
+
+def test_learned_habit_is_visibly_expressed():
+    """A learned individual habit (bounded D-005 procedural pattern, surfaced
+    read-only via `individuality_summary["habit_active"]`) visibly shows as a
+    steadier, quicker-settling transition compared to unfamiliar action."""
+    outcome = LastOutcomeView(capability="MOVE", admitted=True, success=True)
+    without_habit = ExpressionEngine().derive(_expression_view(last_outcome=outcome))
+    with_habit = ExpressionEngine().derive(
+        _expression_view(last_outcome=outcome, individuality_summary={"habit_active": True})
+    )
+
+    assert (
+        with_habit.presentation_state.visible_condition_channels["transition_speed"]
+        > without_habit.presentation_state.visible_condition_channels["transition_speed"]
+    )
+
+
+def test_shared_routine_is_visibly_expressed():
+    """A partner-scoped shared routine (D-006 `social_routine` procedural
+    promotion, surfaced read-only via `individuality_summary["routine_active"]`)
+    visibly shows as sustained attentional persistence, distinct from an
+    isolated habit."""
+    outcome = LastOutcomeView(capability="SIGNAL_PLAY", admitted=True, success=True, target="p-1")
+    without_routine = ExpressionEngine().derive(_expression_view(last_outcome=outcome))
+    with_routine = ExpressionEngine().derive(
+        _expression_view(last_outcome=outcome, individuality_summary={"routine_active": True})
+    )
+
+    assert (
+        with_routine.presentation_state.visible_condition_channels["attentional_persistence"]
+        > without_routine.presentation_state.visible_condition_channels["attentional_persistence"]
+    )
+    # Habit and routine are independent signals — routine alone must not move transition_speed.
+    assert (
+        with_routine.presentation_state.visible_condition_channels["transition_speed"]
+        == without_routine.presentation_state.visible_condition_channels["transition_speed"]
+    )
+
+
+def test_recovery_restores_visible_activity():
+    """`CHARGE` visibly presents as RECOVERING; once a subsequent action
+    executes, the presentation must visibly resume ACTIVE — recovery is a
+    passing visible state, not a sticky one (design: `CHARGE` presents
+    maintenance/recovery)."""
+    engine = ExpressionEngine()
+    charging = engine.derive(
+        _expression_view(
+            tick=1, last_outcome=LastOutcomeView(capability="CHARGE", admitted=True, success=True)
+        )
+    )
+    assert charging.presentation_state.posture == "RECOVERING"
+    assert charging.presentation_state.rest_activity_state == "RECOVERING"
+
+    resumed = engine.derive(
+        _expression_view(
+            tick=2, last_outcome=LastOutcomeView(capability="MOVE", admitted=True, success=True)
+        )
+    )
+    assert resumed.presentation_state.posture == "ACTIVE"
+    assert resumed.presentation_state.rest_activity_state == "ACTIVE"
+    assert resumed.presentation_state.posture != charging.presentation_state.posture
+
+
+def test_orientation_matches_selected_target():
+    """`orientation` passes through the already-computed body heading
+    (`Embodiment` owns turning physics toward a target — design §1); the
+    presentation must reflect exactly that heading and name the same target
+    the organism actually approached/oriented toward, never a re-derived or
+    invented one."""
+    embodiment = Embodiment()
+    embodiment.body.heading = 1.25  # radians — as if ORIENT already turned to face the target
+    outcome = LastOutcomeView(capability="ORIENT", admitted=True, success=True, target="resource-7")
+
+    packet = ExpressionEngine().derive(_expression_view(last_outcome=outcome, embodiment=embodiment))
+    ps = packet.presentation_state
+
+    assert ps.orientation == pytest.approx(1.25)
+    assert ps.interaction_target == "resource-7"
+
+
+def test_cosmetic_motion_is_non_authoritative():
+    """Cosmetic secondary motion belongs solely to the renderer (design §1
+    ownership table: 'Renderer: ... cosmetic motion (local wall time)').
+    `ExpressionEngine` must derive a deterministic, wall-clock-free semantic
+    presentation — repeated derivation from an unchanged view yields an
+    identical `PresentationState`, and the engine module never touches
+    `time`/`random` to fabricate motion of its own."""
+    import umbra_core.expression.engine as engine_mod
+
+    src = inspect.getsource(engine_mod)
+    assert "time.time" not in src
+    assert "random." not in src
+
+    outcome = LastOutcomeView(capability="INSPECT", admitted=True, success=True)
+    view = _expression_view(tick=1, last_outcome=outcome)
+    first = ExpressionEngine().derive(view)
+    second = ExpressionEngine().derive(view)
+
+    assert first.presentation_state == second.presentation_state

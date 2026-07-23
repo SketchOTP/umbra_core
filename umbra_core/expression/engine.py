@@ -38,6 +38,16 @@ DEFAULT_TRANSITION_DURATION_TICKS_HINT = 4
 
 SIGNAL_CAPABILITIES = frozenset({"SIGNAL_PLAY", "SIGNAL_ASSISTANCE"})
 
+# Bounded, non-authoritative nudges only (Task 10). `individuality_summary` is
+# a read-only bag the caller may populate from D-007 `IndividualityEngine.
+# disposition_vector()` plus D-005/D-006 learned-pattern flags; ExpressionEngine
+# never reaches into those engines itself and never lets these nudges swing a
+# channel outside [0, 1] or change which capability/posture is depicted —
+# individuality shades existing physiology-driven channels, it does not author
+# a personality of its own (see `test_renderer_does_not_create_authored_personality`).
+INDIVIDUALITY_CHANNEL_BIAS_MAX = 0.15
+HABIT_ROUTINE_CHANNEL_BIAS = 0.10
+
 # Capability -> (posture, locomotion_state, rest_activity_state) for a
 # successfully executed (verified, admitted) outcome. Never invents a
 # capability the organism did not actually run.
@@ -113,25 +123,44 @@ class RenderPacket:
 
 
 def _visible_condition_channels(
-    physiology: dict[str, float], attention_confidence: float | None
+    physiology: dict[str, float],
+    attention_confidence: float | None,
+    individuality_summary: dict[str, Any] | None = None,
 ) -> dict[str, float]:
-    """Pure function of already-read physiology/attention — never mutates
-    either. Nine channels named in design §2; deliberately no mood/emotion
-    channel (fatigue/energy/integrity/stimulation only)."""
+    """Pure function of already-read physiology/attention/individuality-summary
+    — never mutates any of them. Nine channels named in design §2; physiology
+    remains the dominant signal, with individuality/habit/routine contributing
+    only small, bounded (`INDIVIDUALITY_CHANNEL_BIAS_MAX` /
+    `HABIT_ROUTINE_CHANNEL_BIAS`) history-shaped nudges — deliberately no
+    mood/emotion channel."""
     energy = clamp(float(physiology.get("energy", 0.0)))
     fatigue = clamp(float(physiology.get("fatigue", 0.0)))
     integrity = clamp(float(physiology.get("integrity", 0.0)))
     stimulation = clamp(float(physiology.get("stimulation", 0.0)))
+    attention = clamp(attention_confidence) if attention_confidence is not None else 0.0
+
+    summary = individuality_summary or {}
+    disposition = summary.get("disposition_vector") or {}
+    persistence_bias = INDIVIDUALITY_CHANNEL_BIAS_MAX * float(
+        disposition.get("persistence_after_failure", 0.0)
+    )
+    recovery_bias = INDIVIDUALITY_CHANNEL_BIAS_MAX * float(disposition.get("recovery_pacing", 0.0))
+    activity_bias = INDIVIDUALITY_CHANNEL_BIAS_MAX * float(
+        disposition.get("stimulation_tolerance", 0.0)
+    )
+    habit_bias = HABIT_ROUTINE_CHANNEL_BIAS if summary.get("habit_active") else 0.0
+    routine_bias = HABIT_ROUTINE_CHANNEL_BIAS if summary.get("routine_active") else 0.0
+
     return {
         "speed": clamp(1.0 - 0.7 * fatigue - 0.3 * (1.0 - energy)),
-        "persistence": energy,
+        "persistence": clamp(energy + persistence_bias),
         "compression": fatigue,
-        "rest_frequency": fatigue,
+        "rest_frequency": clamp(fatigue - recovery_bias),
         "orientation_stability": integrity,
-        "transition_speed": clamp(1.0 - fatigue),
+        "transition_speed": clamp(1.0 - fatigue + habit_bias),
         "maintenance_condition": integrity,
-        "activity_intensity": stimulation,
-        "attentional_persistence": clamp(attention_confidence) if attention_confidence is not None else 0.0,
+        "activity_intensity": clamp(stimulation + activity_bias),
+        "attentional_persistence": clamp(attention + routine_bias),
     }
 
 
@@ -180,7 +209,7 @@ class ExpressionEngine:
                 interaction_target=None,
                 rest_activity_state=None,
                 visible_condition_channels=_visible_condition_channels(
-                    view.physiology, view.attention.confidence
+                    view.physiology, view.attention.confidence, view.individuality_summary
                 ),
                 developmental_markers=dict(view.developmental_markers),
                 nonverbal_signal=None,
@@ -267,7 +296,7 @@ class ExpressionEngine:
             interaction_target=interaction_target,
             rest_activity_state=rest_activity_state,
             visible_condition_channels=_visible_condition_channels(
-                view.physiology, view.attention.confidence
+                view.physiology, view.attention.confidence, view.individuality_summary
             ),
             developmental_markers=dict(view.developmental_markers),
             nonverbal_signal=nonverbal_signal,
