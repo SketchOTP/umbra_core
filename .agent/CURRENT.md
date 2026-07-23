@@ -4,20 +4,20 @@
 - ID: D-20260723-umbra-d008-coherent-digital-embodiment
 - Project directive: UMBRA-D-008
 - Goal: Coherent digital embodiment and nonverbal expression (Phase 2 body/habitat presentation)
-- Status: in_progress — design written; awaiting user review of spec before writing-plans
+- Status: in_progress — design amended+approved; implementation plan ready
 - Acceptance: Gates 0–14; QUALIFIED only with evidence; D-009 only under QUALIFIED
-- Touched files: docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md, docs/directives/UMBRA-D-008-coherent-digital-embodiment.md, .agent/*
-- Next action: User reviews design spec; then writing-plans + freeze preregistration
+- Touched files: docs/superpowers/specs/2026-07-23-umbra-d008-*, docs/directives/UMBRA-D-008-*, docs/superpowers/plans/2026-07-23-umbra-d008-*, .agent/*
+- Next action: Execute implementation plan (Task 1 freeze → … → Task 14 seal)
 
 ## Repo facts needed now
 - Starting commit: bc7bfaa
-- Prerequisite: UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED
-- Design locks: side-car loop; thin EmbodimentAdapter; Tkinter+Headless; bounded non-auth frame ring; 2 prod profiles + CONSTRAINED_TEST_BODY; C10 = perf baseline
-- Mimir task: cbbb61834c98463cb70fb9254ba08ea2
+- Design commits: a2371ab (initial), 40236da (RenderPacket-in-ring + migration + durable reject)
+- Plan: docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md
+- Mimir task: cbbb61834c98463cb70fb9254ba08ea2 (observe v2+)
 
 ## Last validation
-- Command: design self-review (placeholder/consistency scan)
-- Result: no TBD/TODO; Section 1–4 operator refinements incorporated
+- Command: design amendment + plan self-review
+- Result: amendments committed; plan coverage checklist complete
 
 ## Open blockers
-- none — waiting on user review of written design before implementation plan
+- none
