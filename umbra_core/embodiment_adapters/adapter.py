@@ -6,10 +6,20 @@ it delegates the sole world mutation to `Embodiment.execute_primitive`; on
 rejection it returns a failed raw result (`ok_raw=False`) without ever touching
 `Embodiment` — governance verifies and commits that failed outcome through the
 existing `outcome_verified` path exactly like any other executed capability.
+
+Supplement S1 (design doc, 2026-07-23): supported continuous parameters
+(currently `step` for MOVE/APPROACH/RETREAT) that exceed a profile's physical
+limit are clamped to that limit rather than hard-rejected — clamping is not a
+failure. `BODY_LIMIT_REJECTED` stays reserved for malformed/non-finite/
+non-positive requests or limits a profile marks non-clampable via a
+`"<limit>_clampable": False` entry in `physical_limits` (absent means
+clampable). The original `AdapterRequest.params` is never mutated; a
+translated copy is built with provenance back to the request.
 """
 
 from __future__ import annotations
 
+import math
 import time
 from dataclasses import dataclass
 from typing import Any, Callable
@@ -120,6 +130,8 @@ class EmbodimentAdapter:
     The adapter can only narrow what governance already admitted — it can never
     widen it (see `test_adapter_cannot_grant_capabilities`).
     """
+
+    _CONTINUOUS_STEP_CAPABILITIES = ("MOVE", "APPROACH", "RETREAT")
 
     def __init__(
         self,
@@ -247,13 +259,30 @@ class EmbodimentAdapter:
         embodiment: Embodiment,
         rng: SeededRNG,
     ) -> dict[str, Any]:
-        """Validate; on reject return failed raw (no Embodiment.execute); else delegate."""
-        rejection = self._validate(request)
+        """Validate; on reject return failed raw (no Embodiment.execute); else
+        clamp supported continuous parameters (Supplement S1) and delegate the
+        translated request — the original `request.params` is never mutated."""
+        rejection = self._validate_attachment(request)
         if rejection is not None:
             return rejection
-        return embodiment.execute_primitive(request.capability, request.params, rng)
+        profile = self.profile
+        assert profile is not None  # ATTACHED implies a resolvable profile
+        translated_params, provenance, constraint = self._translate_continuous_limits(
+            request, profile
+        )
+        if constraint is not None:
+            return self._reject(request, "BODY_LIMIT_REJECTED", constraint, profile=profile)
+        raw = embodiment.execute_primitive(request.capability, translated_params, rng)
+        raw["body_profile_id"] = self.state.body_profile_id
+        raw["profile_definition_hash"] = profile_definition_hash(profile)
+        raw["translation_applied"] = provenance is not None
+        if provenance is not None:
+            raw.update(provenance)
+        return raw
 
-    def _validate(self, request: AdapterRequest) -> dict[str, Any] | None:
+    def _validate_attachment(self, request: AdapterRequest) -> dict[str, Any] | None:
+        """Non-continuous admission checks: attachment/generation/hash/capability
+        support. Continuous physical-limit clamping is `_translate_continuous_limits`."""
         if self.state.attachment_status != "ATTACHED":
             return self._reject(request, "BODY_DETACHED", None)
         if request.attachment_generation != self.state.attachment_generation:
@@ -262,36 +291,85 @@ class EmbodimentAdapter:
         assert profile is not None  # ATTACHED implies a resolvable profile
         if request.expected_profile_hash is not None:
             if request.expected_profile_hash != profile_definition_hash(profile):
-                return self._reject(request, "PROFILE_HASH_MISMATCH", None)
+                return self._reject(request, "PROFILE_HASH_MISMATCH", None, profile=profile)
         if request.capability not in profile.supported_capabilities:
-            return self._reject(request, "UNSUPPORTED_BODY_CAPABILITY", None)
-        constraint = self._limit_violation(request, profile)
-        if constraint is not None:
-            return self._reject(request, "BODY_LIMIT_REJECTED", constraint)
+            return self._reject(request, "UNSUPPORTED_BODY_CAPABILITY", None, profile=profile)
         return None
 
-    def _limit_violation(
+    def _translate_continuous_limits(
         self, request: AdapterRequest, profile: BodyProfile
-    ) -> dict[str, Any] | None:
-        if request.capability in ("MOVE", "APPROACH", "RETREAT"):
-            max_step = profile.physical_limits.get("max_step")
-            if max_step is None:
-                return None
-            default_step = 1.2 if request.capability == "RETREAT" else 1.0
-            requested_step = float(request.params.get("step", default_step))
-            if requested_step > max_step:
-                return {
+    ) -> tuple[dict[str, Any], dict[str, Any] | None, dict[str, Any] | None]:
+        """Returns `(translated_params, translation_provenance, reject_constraint)`.
+
+        Exactly one of `translation_provenance` / `reject_constraint` is non-None
+        when clamping applied / hard-rejected; both are `None` when the request
+        needed no translation. Never mutates `request.params`."""
+        if request.capability not in self._CONTINUOUS_STEP_CAPABILITIES:
+            return request.params, None, None
+        max_step = profile.physical_limits.get("max_step")
+        if max_step is None:
+            return request.params, None, None
+        default_step = 1.2 if request.capability == "RETREAT" else 1.0
+        raw_step = request.params.get("step", default_step)
+        try:
+            requested_step = float(raw_step)
+        except (TypeError, ValueError):
+            return (
+                request.params,
+                None,
+                {"limit": "max_step", "requested": raw_step, "max": max_step, "reason": "malformed"},
+            )
+        if not math.isfinite(requested_step):
+            return (
+                request.params,
+                None,
+                {
                     "limit": "max_step",
                     "requested": requested_step,
                     "max": max_step,
-                }
-        return None
+                    "reason": "non_finite",
+                },
+            )
+        if requested_step <= 0:
+            return (
+                request.params,
+                None,
+                {
+                    "limit": "max_step",
+                    "requested": requested_step,
+                    "max": max_step,
+                    "reason": "non_positive",
+                },
+            )
+        if requested_step <= max_step:
+            return request.params, None, None
+        if not bool(profile.physical_limits.get("max_step_clampable", True)):
+            return (
+                request.params,
+                None,
+                {
+                    "limit": "max_step",
+                    "requested": requested_step,
+                    "max": max_step,
+                    "reason": "non_clampable",
+                },
+            )
+        translated = dict(request.params)
+        translated["step"] = max_step
+        provenance = {
+            "requested_parameters": dict(request.params),
+            "applied_parameters": translated,
+            "translation_reason": "max_step_exceeded_clamped_to_profile_limit",
+        }
+        return translated, provenance, None
 
     def _reject(
         self,
         request: AdapterRequest,
         failure_code: str,
         profile_constraint: Any,
+        *,
+        profile: BodyProfile | None = None,
     ) -> dict[str, Any]:
         return {
             "ok_raw": False,
@@ -301,9 +379,11 @@ class EmbodimentAdapter:
             "request_id": request.request_id,
             "body_instance_id": self.state.body_instance_id,
             "body_profile_id": self.state.body_profile_id,
+            "profile_definition_hash": profile_definition_hash(profile) if profile else None,
             "attachment_generation": self.state.attachment_generation,
             "capability": request.capability,
             "profile_constraint": profile_constraint,
+            "translation_applied": False,
             "tick": request.tick,
             "adapter_certified": False,
         }

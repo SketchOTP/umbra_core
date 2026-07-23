@@ -96,8 +96,13 @@ class OrganismConfig:
     individuality_history: str = "H0"
     individuality_config: IndividualityConfig | None = None
     # D-008: opt-in, like the flags above — default False preserves D-001..D-007
-    # behavior exactly (body-profile limits, e.g. ABSTRACT_SHAPE_BODY max_step,
-    # would otherwise reject pre-D008 arbitration's larger exploration steps).
+    # behavior exactly. Supplement S1 (design doc) has the adapter clamp
+    # continuous limits (e.g. ABSTRACT_SHAPE_BODY.max_step) rather than hard-
+    # reject, so pre-D008 arbitration's larger fallback steps (1.2-1.8) now
+    # succeed when enabled — see tests/test_d008.py Supplement S1 regression.
+    # Kept opt-in (not default-True) because flipping the default would break
+    # the explicit invariant test
+    # `test_embodiment_adapter_disabled_by_default_preserves_prior_behavior`.
     embodiment_adapter_enabled: bool = False
 
 

@@ -18,6 +18,10 @@ CONSTRAINED_TEST_BODY = BodyProfile(
     ),
     physical_limits={
         "max_step": 0.4,
+        # Supplement S1: explicitly non-clampable so the hard-reject path
+        # (BODY_LIMIT_REJECTED) stays exercised by an isolated experimental
+        # profile even though production profiles now clamp oversize step.
+        "max_step_clampable": False,
         "turn_rate": 60.0,
         "attention_radius": 4.0,
     },

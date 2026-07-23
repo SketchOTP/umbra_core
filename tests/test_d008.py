@@ -336,6 +336,103 @@ def test_body_detached_stale_generation_and_hash_mismatch_fail_closed(tmp_path):
     store.close()
 
 
+# ----- Supplement S1: adapter continuous-limit clamping (Task 4 fix) -----
+
+
+def test_production_adapter_clamps_oversize_step_and_still_moves(tmp_path):
+    """ABSTRACT_SHAPE_BODY.max_step=1.0; a governance-admitted MOVE requesting
+    more (arbitration's real fallback candidates are 1.2/1.4/1.8 — see
+    umbra_core/arbitration.py) clamps to the profile limit instead of hard-
+    rejecting, and the body still actually moves."""
+    adapter, store = _adapter(tmp_path, "clamp.sqlite", ABSTRACT_SHAPE_BODY.profile_id)
+    embodiment = Embodiment()
+    rng = SeededRNG(1)
+    gov = Governance()
+
+    max_step = ABSTRACT_SHAPE_BODY.physical_limits["max_step"]
+    over_step = 1.4
+    assert over_step > max_step
+    proposal = gov.propose("MOVE", {"step": over_step, "heading": 0.0})
+    decision = gov.admit(proposal, tick=1)
+    assert decision.admitted
+
+    before = embodiment.to_state()
+    outcome = gov.execute_and_verify(proposal, decision, embodiment, rng, adapter=adapter, tick=1)
+
+    assert outcome is not None
+    assert outcome.verified is True
+    assert outcome.success is True  # clamping is not a failure
+    assert outcome.raw.get("failure_code") is None
+    assert outcome.raw["translation_applied"] is True
+    assert outcome.raw["requested_parameters"]["step"] == over_step
+    assert outcome.raw["applied_parameters"]["step"] == max_step
+    assert outcome.raw["translation_reason"]
+    assert outcome.raw["body_profile_id"] == ABSTRACT_SHAPE_BODY.profile_id
+    assert outcome.raw["profile_definition_hash"] == profile_definition_hash(ABSTRACT_SHAPE_BODY)
+    assert embodiment.to_state() != before  # body actually moved (clamped distance)
+    store.close()
+
+
+def test_constrained_non_clampable_limit_still_hard_rejects_without_world_mutation(tmp_path):
+    """CONSTRAINED_TEST_BODY marks `max_step` non-clampable — oversize step must
+    still hard-reject (BODY_LIMIT_REJECTED) with zero world mutation, proving the
+    hard-reject path stays exercised even though production profiles clamp."""
+    assert CONSTRAINED_TEST_BODY.physical_limits.get("max_step_clampable") is False
+    adapter, store = _adapter(tmp_path, "non_clampable.sqlite", CONSTRAINED_TEST_BODY.profile_id)
+    embodiment = Embodiment()
+    rng = SeededRNG(6)
+    gov = Governance()
+
+    over_step = CONSTRAINED_TEST_BODY.physical_limits["max_step"] + 5.0
+    proposal = gov.propose("MOVE", {"step": over_step, "heading": 0.0})
+    decision = gov.admit(proposal, tick=1)
+    assert decision.admitted
+
+    before = embodiment.to_state()
+    outcome = gov.execute_and_verify(proposal, decision, embodiment, rng, adapter=adapter, tick=1)
+
+    assert outcome.success is False
+    assert outcome.raw["failure_code"] == "BODY_LIMIT_REJECTED"
+    assert outcome.raw["profile_constraint"]["limit"] == "max_step"
+    assert outcome.raw["profile_constraint"]["reason"] == "non_clampable"
+    assert outcome.raw["translation_applied"] is False
+    assert embodiment.to_state() == before  # no Embodiment.execute call happened
+    store.close()
+
+
+def test_embodiment_adapter_enabled_regression_fallback_move_steps_work(tmp_path):
+    """Regression for the max_step-vs-arbitration conflict logged in Task 4
+    review (.agent/CURRENT.md): with `embodiment_adapter_enabled=True` on the
+    default ABSTRACT_SHAPE_BODY profile, D-001-era arbitration fallback MOVE
+    steps (1.2, 1.4, 1.8 — umbra_core/arbitration.py) must succeed via clamping
+    rather than being rejected on ~100% of proposals."""
+    cfg = OrganismConfig(
+        db_path=str(tmp_path / "regression.sqlite"),
+        seed=1,
+        embodiment_adapter_enabled=True,
+        wall_time_fn=lambda: 0.0,
+    )
+    org = create_organism(cfg)
+    try:
+        assert org.embodiment_adapter is not None
+        assert org.embodiment_adapter.state.body_profile_id == "ABSTRACT_SHAPE_BODY"
+        gov = Governance()
+        for fallback_step in (1.2, 1.4, 1.8):
+            rng = SeededRNG(1)
+            before = org.embodiment.to_state()
+            proposal = gov.propose("MOVE", {"step": fallback_step, "heading": 0.0})
+            decision = gov.admit(proposal, tick=1)
+            outcome = gov.execute_and_verify(
+                proposal, decision, org.embodiment, rng, adapter=org.embodiment_adapter, tick=1
+            )
+            assert outcome.success is True, f"fallback step {fallback_step} must not hard-reject"
+            assert outcome.raw.get("failure_code") is None
+            assert outcome.raw["translation_applied"] is True
+            assert org.embodiment.to_state() != before
+    finally:
+        org.close()
+
+
 # ----- D-007 -> D-008 attachment migration (Task 4) -----
 
 
