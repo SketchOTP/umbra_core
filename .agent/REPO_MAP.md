@@ -71,6 +71,14 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-007 evidence: `docs/evidence/d007/`
 - Runtime: `OrganismConfig.individuality_enabled` + history plant `Embodiment.apply_individuality_history`; arbitration `individuality_apply` modifiers; authoritative individuality events in `events.py`
 
+## Digital embodiment (D-008) — design frozen; implementation pending
+- Design: `docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md`
+- Directive: `docs/directives/UMBRA-D-008-coherent-digital-embodiment.md`
+- Planned packages: `umbra_core/expression/` (PresentationState, ExpressionEngine, FrameRing, ReferenceRenderer, HeadlessRenderer), `umbra_core/embodiment_adapters/` (thin wrap → Embodiment), `ui/reference_companion/` (Tkinter only; core never imports ui/)
+- Experiments: `experiments/d008/` (C0–C10; CONSTRAINED_TEST_BODY; freeze thresholds/matrix/scenario-suite before formal run)
+- Runtime shape: governance → EmbodimentAdapter.execute → Embodiment.execute → ExpressionEngine.derive → frame ring; renderers poll non-destructively
+- Caps: IDLE/ORIENT/MOVE/APPROACH/RETREAT/INSPECT/REST/CHARGE/SIGNAL_* (no MAINTAIN/PRACTICE aliases)
+
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)
   - `identity.py` — constitutional birth / commitment

@@ -1,23 +1,23 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260722-umbra-d007-lived-individuality
-- Project directive: UMBRA-D-007
-- Goal: Implement and validate lived individuality / history-shaped temperament
-- Status: done — acceptance MET; UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED
-- Acceptance: MET — experiment gates pass; soak 7200.3s rss_p95 41.41 (<=180) slope 0.223 (<=1.0) cpu 0.0030 (<=0.05); 100k restart_continuity; zero-skip suite; evidence hashed; D-008 AUTHORIZED
-- Touched files: umbra_core/individuality/, experiments/d007/, tests/test_d007.py, docs/evidence/d007/, umbra_core/{runtime,arbitration,events,embodiment}.py, .agent/*
-- Next action: none — UMBRA-D-007 closed QUALIFIED; D-008 authorized when opened
+- ID: D-20260723-umbra-d008-coherent-digital-embodiment
+- Project directive: UMBRA-D-008
+- Goal: Coherent digital embodiment and nonverbal expression (Phase 2 body/habitat presentation)
+- Status: in_progress — design written; awaiting user review of spec before writing-plans
+- Acceptance: Gates 0–14; QUALIFIED only with evidence; D-009 only under QUALIFIED
+- Touched files: docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md, docs/directives/UMBRA-D-008-coherent-digital-embodiment.md, .agent/*
+- Next action: User reviews design spec; then writing-plans + freeze preregistration
 
 ## Repo facts needed now
-- Ending/seal commit: 9589822
-- Tip: cbd4391
-- Soak: rss_p95 41.41 MiB, slope 0.223 MiB/h, cpu 0.0030 frac
-- 100k: rss_p95 136.9 MiB, restart_continuity True
+- Starting commit: bc7bfaa
+- Prerequisite: UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED
+- Design locks: side-car loop; thin EmbodimentAdapter; Tkinter+Headless; bounded non-auth frame ring; 2 prod profiles + CONSTRAINED_TEST_BODY; C10 = perf baseline
+- Mimir task: cbbb61834c98463cb70fb9254ba08ea2
 
 ## Last validation
-- Command: python experiments/d007/run_seal.py 9589822
-- Result: UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED
+- Command: design self-review (placeholder/consistency scan)
+- Result: no TBD/TODO; Section 1–4 operator refinements incorporated
 
 ## Open blockers
-- none
+- none — waiting on user review of written design before implementation plan
