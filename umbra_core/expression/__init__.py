@@ -21,7 +21,6 @@ from umbra_core.expression.frame_ring import (
     FRAME_RING_RETENTION_TICKS,
     FrameRing,
     FrameRingEntry,
-    FrameRingReader,
     RendererCursor,
 )
 from umbra_core.expression.habitat_read_model import FrozenEntity, HabitatReadModel
@@ -46,7 +45,6 @@ __all__ = [
     "FRAME_RING_RETENTION_TICKS",
     "FrameRing",
     "FrameRingEntry",
-    "FrameRingReader",
     "HeadlessRenderer",
     "LastOutcomeView",
     "ReferenceRenderer",

@@ -1,27 +1,23 @@
 """HeadlessRenderer — the science/CI `ReferenceRenderer` (Task 9's
-`TkinterRenderer` is the visible companion). Polls a `FrameRing`
-non-destructively through its own `RendererCursor`: a poll with no new valid
-frame returns `None` and renders nothing, so this renderer can never fake
-continued autonomy when the organism produced no new frame.
+`TkinterRenderer` is the visible companion). Never touches `FrameRing`
+itself (Gate 8): a caller polls the ring with its own `RendererCursor` and
+passes this renderer only the resulting `FrameRingEntry` via `render()`.
 """
 
 from __future__ import annotations
 
-from umbra_core.expression.frame_ring import FrameRingEntry, FrameRingReader, RendererCursor
+from umbra_core.expression.frame_ring import FrameRingEntry
 
 
 class HeadlessRenderer:
     """No window, no canvas, no cosmetic motion — just the render packet."""
 
     def __init__(self, renderer_id: str = "headless") -> None:
-        self._cursor = RendererCursor(renderer_id=renderer_id)
+        self.renderer_id = renderer_id
         self.diagnostics_visible = False
         self.last_rendered: FrameRingEntry | None = None
         self.render_count = 0
         self.last_render_error: BaseException | None = None
-
-    def read_latest(self, ring: FrameRingReader) -> FrameRingEntry | None:
-        return ring.read_latest(self._cursor)
 
     def render(self, entry: FrameRingEntry) -> None:
         """Contains failures locally (design §3) — never propagates into a
@@ -38,5 +34,5 @@ class HeadlessRenderer:
 
     def close(self) -> None:
         """No-op for core: this renderer owns no organism, adapter, or
-        ExpressionEngine resource — only its own cursor/local state."""
+        ExpressionEngine resource — only its own bookkeeping fields."""
         return None

@@ -1,18 +1,25 @@
 """D-008 C7 — hostile renderer test double.
 
-Implements the same shape as `ReferenceRenderer`
-(`umbra_core.expression.renderer`) but every `render()` call attempts a
-battery of prohibited writes using only the channel a real renderer gets: a
-`FrameRing` to poll plus the `FrameRingEntry`/`RenderPacket` objects it
-returns. `HostileRenderer` is never constructed with, and never receives, a
+Implements the exact same shape as `ReferenceRenderer`
+(`umbra_core.expression.renderer`): `render(entry)`, `set_diagnostics_visible`,
+`close`. `HostileRenderer` is never constructed with, and never receives, a
 live `Organism`/`Embodiment`/`Physiology`/`Governance` reference — Gate 8's
-claim ("C7 detected/rejected") is that *this* channel alone grants no write
-authority, not that some other privileged access was denied to a test
-double that never had it.
+claim ("C7 detected/rejected") is that the channel a real renderer actually
+gets grants no write authority, not that some other privileged access was
+denied to a test double that never had it.
 
-Attempted writes are recorded in `attempted_writes`/`rejected_writes`/
-`successful_writes` so a test can assert none of the ordinary field-mutation
-attempts on the derived presentation succeeded.
+Gate 8 follow-up finding: an earlier revision handed renderers a
+`FrameRingReader` wrapping the live `FrameRing`; even with `push`/`clear`
+removed from the reader's own surface, the reader still leaked the live ring
+through a plain `_ring` attribute a stored reference could walk to. The fix
+removes the ring/reader channel entirely — no `ReferenceRenderer` method
+(including `render`) accepts a ring or reader argument, so `HostileRenderer`
+has structurally nothing ring-shaped to receive or store. What remains
+attackable is the `FrameRingEntry`/`RenderPacket` it legitimately reads via
+`render()`; every attempted write there is recorded in
+`attempted_writes`/`rejected_writes`/`successful_writes` so a test can assert
+none of the ordinary field-mutation attempts on the derived presentation
+succeeded.
 """
 
 from __future__ import annotations
@@ -21,7 +28,7 @@ import dataclasses
 from dataclasses import dataclass, field
 from typing import Callable
 
-from umbra_core.expression.frame_ring import FrameRingEntry, FrameRingReader, RendererCursor
+from umbra_core.expression.frame_ring import FrameRingEntry
 
 
 @dataclass
@@ -30,23 +37,15 @@ class HostileRenderer:
     attempted_writes: list[str] = field(default_factory=list)
     rejected_writes: list[str] = field(default_factory=list)
     successful_writes: list[str] = field(default_factory=list)
-    _cursor: RendererCursor = field(init=False, repr=False)
-    _ring: FrameRingReader | None = field(init=False, repr=False, default=None)
-
-    def __post_init__(self) -> None:
-        self._cursor = RendererCursor(renderer_id=self.renderer_id)
-
-    def read_latest(self, ring: FrameRingReader) -> FrameRingEntry | None:
-        # A hostile implementation stores the reader across calls, hoping to
-        # find a write method on it later from `render()` (Gate 8 finding).
-        self._ring = ring
-        return ring.read_latest(self._cursor)
 
     def render(self, entry: FrameRingEntry) -> None:
         """Attempts ordinary attribute writes on every object reachable from
         an entry a real renderer would legitimately hold — no reflection
         tricks (`object.__setattr__` bypass), just what a careless or
-        malicious `render()` implementation would actually try."""
+        malicious `render()` implementation would actually try. `entry` is
+        the only parameter this method (or any `ReferenceRenderer` method)
+        ever receives — there is no ring/reader argument anywhere to also
+        attempt a push/clear through (Gate 8 follow-up)."""
         ps = entry.render_packet.presentation_state
         self._attempt("mutate_presentation_posture", lambda: setattr(ps, "posture", "HACKED"))
         self._attempt(
@@ -74,8 +73,6 @@ class HostileRenderer:
             "mutate_developmental_marker",
             lambda: ps.developmental_markers.__setitem__("hacked", True),
         )
-        self._attempt("push_via_held_ring_reference", lambda: self._ring.push(entry))
-        self._attempt("clear_via_held_ring_reference", lambda: self._ring.clear())
 
     def set_diagnostics_visible(self, visible: bool) -> None:
         return None

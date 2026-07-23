@@ -1,27 +1,30 @@
-"""`ReferenceRenderer` protocol — non-destructive `FrameRing` polling contract.
+"""`ReferenceRenderer` protocol — renderers never touch `FrameRing`.
 
-Renderers (`HeadlessRenderer` here; Task 9's `TkinterRenderer`) only ever read
-`FrameRingEntry` objects the organism already committed. The organism never
-calls into a renderer — a harness/UI loop polls the renderer independently of
-`Organism.tick_once` — so renderer failure, closure, or slowdown structurally
-cannot pause or block the organism.
+Renderers (`HeadlessRenderer` here; Task 9's `TkinterRenderer`) only ever
+render `FrameRingEntry` objects a caller already read from the organism's
+`FrameRing`. The organism never calls into a renderer — a harness/UI loop
+polls the ring itself, independently of `Organism.tick_once`, and hands the
+renderer only the resulting entry — so renderer failure, closure, or
+slowdown structurally cannot pause or block the organism.
 
-Renderers receive a `FrameRingReader` (Task 11 Gate 8), never the live
-`FrameRing`: the reader exposes only `read_latest`, so a renderer cannot
-`push`/`clear` even if it stores the reference across calls.
+Gate 8 (Task 11 finding, and its follow-up): earlier revisions handed
+renderers a `FrameRingReader` wrapping the live `FrameRing` — safe against
+`push`/`clear` calls, but still reachable via the reader's own `_ring`
+attribute. Renderers now receive neither a `FrameRing` nor a reader at all:
+`render()` takes only the already-read `FrameRingEntry`. The poll step
+(`ring.read_latest(cursor)`) belongs to whatever trusted code drives the
+loop, never to the renderer.
 """
 
 from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from umbra_core.expression.frame_ring import FrameRingEntry, FrameRingReader
+from umbra_core.expression.frame_ring import FrameRingEntry
 
 
 @runtime_checkable
 class ReferenceRenderer(Protocol):
-    def read_latest(self, ring: FrameRingReader) -> FrameRingEntry | None: ...
-
     def render(self, entry: FrameRingEntry) -> None: ...
 
     def set_diagnostics_visible(self, visible: bool) -> None: ...

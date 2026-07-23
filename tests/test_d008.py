@@ -49,6 +49,7 @@ from umbra_core.expression import (
     HeadlessRenderer,
     LastOutcomeView,
     PresentationState,
+    ReferenceRenderer,
     RendererCursor,
     condition_to_expression_config,
 )
@@ -1043,20 +1044,24 @@ def test_rest_and_inactivity_are_valid_visible_states(tmp_path):
 def test_renderer_does_not_fake_autonomy(tmp_path):
     """A poll with no new committed frame must return `None` and render
     nothing — the renderer can never replay/duplicate a frame as if the
-    organism had done something new."""
+    organism had done something new. Gate 8: the renderer never touches the
+    ring itself — this test, as the poller, owns the `RendererCursor` and
+    calls `frame_ring.read_latest(cursor)` directly, handing the renderer
+    only the resulting entry."""
     org = _ticked_organism(tmp_path, "no_fake.sqlite", ticks=1)
     try:
         renderer = HeadlessRenderer()
-        first = renderer.read_latest(org.frame_ring.read_only())
+        cursor = RendererCursor(renderer_id="headless")
+        first = org.frame_ring.read_latest(cursor)
         assert first is not None
         renderer.render(first)
         assert renderer.render_count == 1
 
-        again = renderer.read_latest(org.frame_ring.read_only())
+        again = org.frame_ring.read_latest(cursor)
         assert again is None  # no new tick happened — nothing new to render
 
         org.tick_once()
-        second = renderer.read_latest(org.frame_ring.read_only())
+        second = org.frame_ring.read_latest(cursor)
         assert second is not None
         assert second.frame_id > first.frame_id
         renderer.render(second)
@@ -1640,8 +1645,25 @@ def test_renderer_cannot_write_core_state(tmp_path):
         assert list(inspect.signature(fn).parameters) == ["canvas", "packet"]
 
     init_params = inspect.signature(TkinterRenderer.__init__).parameters
-    for forbidden in ("organism", "embodiment", "adapter", "governance", "phys", "physiology", "store"):
+    render_params = inspect.signature(TkinterRenderer.render).parameters
+    for forbidden in (
+        "organism",
+        "embodiment",
+        "adapter",
+        "governance",
+        "phys",
+        "physiology",
+        "store",
+        "ring",
+        "reader",
+        "frame_ring",
+    ):
         assert forbidden not in init_params
+        assert forbidden not in render_params
+    assert list(render_params) == ["self", "entry"]  # Gate 8: render's only channel in
+    assert not hasattr(TkinterRenderer, "read_latest")
+    assert not hasattr(TkinterRenderer, "poll_and_render")
+    assert not hasattr(TkinterRenderer, "schedule")
 
     org = _ticked_organism(tmp_path, "no_write.sqlite", ticks=10)
     try:
@@ -1701,28 +1723,31 @@ def _real_tkinter_renderer(**kwargs) -> TkinterRenderer:
 
 
 def test_reference_interface_runs_without_diagnostics(tmp_path):
-    """The full `ReferenceRenderer` contract (read_latest/render/
-    set_diagnostics_visible/close) must work correctly with diagnostics off
-    by default — diagnostics are optional and removable without changing
-    the inhabited-world canvas or organism behavior (design §3). Only this
-    test needs a real Tk display; it skips honestly when unavailable rather
-    than faking a soak (formal soak requires a real Canvas — brief note)."""
+    """The full `ReferenceRenderer` contract (render/set_diagnostics_visible/
+    close) must work correctly with diagnostics off by default — diagnostics
+    are optional and removable without changing the inhabited-world canvas
+    or organism behavior (design §3). Gate 8: this test, as the poller, owns
+    the `RendererCursor` and calls `frame_ring.read_latest(cursor)` directly
+    — the renderer itself never touches the ring. Only this test needs a
+    real Tk display; it skips honestly when unavailable rather than faking a
+    soak (formal soak requires a real Canvas — brief note)."""
     org = _ticked_organism(tmp_path, "tk_no_diag.sqlite", ticks=3)
     renderer = _real_tkinter_renderer()
+    cursor = RendererCursor(renderer_id="tkinter")
     try:
         assert renderer.diagnostics_visible is False
 
-        entry = renderer.read_latest(org.frame_ring.read_only())
+        entry = org.frame_ring.read_latest(cursor)
         assert entry is not None
         renderer.render(entry)
         assert renderer.render_count == 1
         assert renderer.last_render_error is None
-        assert renderer.read_latest(org.frame_ring.read_only()) is None  # non-destructive, no new frame yet
+        assert org.frame_ring.read_latest(cursor) is None  # non-destructive, no new frame yet
 
         renderer.set_diagnostics_visible(True)
         assert renderer.diagnostics_visible is True
         org.tick_once()
-        entry2 = renderer.read_latest(org.frame_ring.read_only())
+        entry2 = org.frame_ring.read_latest(cursor)
         assert entry2 is not None
         renderer.render(entry2)
         assert renderer.render_count == 2
@@ -1737,17 +1762,22 @@ def test_reference_interface_runs_without_diagnostics(tmp_path):
 
 
 def test_tkinter_renderer_close_leaves_organism_running(tmp_path):
-    """`close()` unregisters the cursor and destroys only window resources —
-    the organism, adapter, and `ExpressionEngine` keep running untouched."""
+    """`close()` destroys only window resources — the organism, adapter, and
+    `ExpressionEngine` keep running untouched. Gate 8: closing the renderer
+    has no bearing on the ring/cursor at all (the renderer never held
+    either) — a closed renderer's `render()` simply becomes a no-op."""
     org = _ticked_organism(tmp_path, "tk_close.sqlite", ticks=1)
     renderer = _real_tkinter_renderer(renderer_id="closing-tk")
+    cursor = RendererCursor(renderer_id="closing-tk")
     try:
-        entry = renderer.read_latest(org.frame_ring.read_only())
+        entry = org.frame_ring.read_latest(cursor)
         assert entry is not None
         renderer.render(entry)
+        assert renderer.render_count == 1
 
         renderer.close()
-        assert renderer.read_latest(org.frame_ring.read_only()) is None  # cursor unregistered
+        renderer.render(entry)  # closed renderer: render() is a no-op, never raises
+        assert renderer.render_count == 1  # did not re-render after close
 
         for _ in range(5):
             org.tick_once()
@@ -2194,12 +2224,28 @@ def test_hostile_renderer_write_attempts_are_rejected(tmp_path):
     """C7 (Gate 8): a hostile renderer implementing the exact same
     `ReferenceRenderer` shape as `HeadlessRenderer` — never constructed with
     an Organism/Embodiment/Physiology/Governance reference — cannot mutate
-    the derived presentation it reads and cannot touch organism core state."""
+    the derived presentation it reads and cannot touch organism core state.
+    Gate 8 follow-up: `render` takes only `entry` (no ring/reader parameter
+    anywhere), so the hostile renderer has no channel to receive or store a
+    live `FrameRing` in the first place — no `_ring` attribute exists after
+    a real read+render cycle."""
     init_params = inspect.signature(HostileRenderer).parameters
     render_params = inspect.signature(HostileRenderer.render).parameters
-    for forbidden in ("organism", "embodiment", "adapter", "governance", "phys", "physiology", "store"):
+    for forbidden in (
+        "organism",
+        "embodiment",
+        "adapter",
+        "governance",
+        "phys",
+        "physiology",
+        "store",
+        "ring",
+        "reader",
+        "frame_ring",
+    ):
         assert forbidden not in init_params
         assert forbidden not in render_params
+    assert list(render_params) == ["self", "entry"]  # the only channel in
 
     org = _ticked_organism(tmp_path, "hostile.sqlite", ticks=10)
     try:
@@ -2208,20 +2254,20 @@ def test_hostile_renderer_write_attempts_are_rejected(tmp_path):
         phys_before = org.phys.to_state()
         ring_len_before = len(org.frame_ring)
 
-        entry = hostile.read_latest(org.frame_ring.read_only())
+        cursor = RendererCursor(renderer_id="hostile")
+        entry = org.frame_ring.read_latest(cursor)
         assert entry is not None
         hostile.render(entry)
 
         assert hostile.attempted_writes
         assert hostile.successful_writes == []
         assert set(hostile.rejected_writes) == set(hostile.attempted_writes)
-        # Gate 8: pushing/clearing through the reader the renderer stored
-        # from `read_latest`, and mutating either nested presentation
-        # mapping in place, are among the attempted-and-rejected writes.
-        assert "push_via_held_ring_reference" in hostile.rejected_writes
-        assert "clear_via_held_ring_reference" in hostile.rejected_writes
         assert "mutate_visible_condition_channel" in hostile.rejected_writes
         assert "mutate_developmental_marker" in hostile.rejected_writes
+        # No path to push a forged frame into the organism's ring exists at
+        # all: no stored ring/reader reference, no ring-shaped attribute.
+        assert not hasattr(hostile, "_ring")
+        assert not hasattr(hostile, "ring")
 
         assert org.embodiment.to_state() == embodiment_before
         assert org.phys.to_state() == phys_before
@@ -2230,25 +2276,22 @@ def test_hostile_renderer_write_attempts_are_rejected(tmp_path):
         org.close()
 
 
-def test_frame_ring_reader_has_no_push_or_clear(tmp_path):
-    """Gate 8: the object renderers receive structurally lacks `push`/
-    `clear` — not merely a convention, an `AttributeError` on any caller
-    (renderer or otherwise) that tries."""
-    org = _ticked_organism(tmp_path, "reader_shape.sqlite", ticks=1)
-    try:
-        reader = org.frame_ring.read_only()
-        assert not hasattr(reader, "push")
-        assert not hasattr(reader, "clear")
-        with pytest.raises(AttributeError):
-            reader.push(list(org.frame_ring)[-1])
-        with pytest.raises(AttributeError):
-            reader.clear()
-        # Non-destructive reads still work through the reader.
-        cursor = RendererCursor(renderer_id="shape-check")
-        assert reader.read_latest(cursor) is not None
-        assert len(reader) == len(org.frame_ring)
-    finally:
-        org.close()
+def test_reference_renderer_protocol_has_no_ring_channel():
+    """Gate 8 follow-up: neither the `ReferenceRenderer` protocol nor any
+    concrete renderer has a method that accepts a `FrameRing`/reader
+    argument — `render` takes only the already-read `FrameRingEntry`, so no
+    conforming renderer can be handed the live ring at all (not even a
+    read-only wrapper, closing the `reader._ring` leak the prior revision
+    left open)."""
+    for renderer_cls in (HeadlessRenderer, HostileRenderer, TkinterRenderer):
+        params = inspect.signature(renderer_cls.render).parameters
+        assert list(params) == ["self", "entry"]
+        assert not hasattr(renderer_cls, "read_latest")
+        assert not hasattr(renderer_cls, "poll_from")
+
+    protocol_params = inspect.signature(ReferenceRenderer.render).parameters
+    assert list(protocol_params) == ["self", "entry"]
+    assert not hasattr(ReferenceRenderer, "read_latest")
 
 
 def test_presentation_state_nested_mappings_are_frozen(tmp_path):

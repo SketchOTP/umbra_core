@@ -1,9 +1,15 @@
 """TkinterRenderer — the visible reference-companion `ReferenceRenderer`
 (design §3), sitting over the same headless `FrameRing`/`RenderPacket`
 presentation model as `umbra_core.expression.headless_renderer.HeadlessRenderer`.
-It only ever reads `FrameRingEntry` objects the organism already committed
-via `read_latest`; it holds no reference to the organism, adapter, or
+It only ever renders `FrameRingEntry` objects a caller already read from the
+organism's `FrameRing`; it holds no reference to the organism, adapter, or
 `ExpressionEngine`, so it structurally cannot write core state.
+
+Gate 8 follow-up: this renderer has no `FrameRing`/reader-typed parameter
+anywhere (not even to poll on its own behalf, per §1 module note in
+`umbra_core.expression.renderer`) — a driving harness owns the ring, owns a
+`RendererCursor`, calls `FrameRing.read_latest(cursor)` itself, and passes
+only the resulting entry to `render()`.
 
 `tkinter` is imported lazily inside `__init__` — never at module import
 time — so importing this module (e.g. for the import-isolation test, or for
@@ -14,32 +20,22 @@ does.
 
 from __future__ import annotations
 
-import threading
 from typing import TYPE_CHECKING, Any
 
 from ui.reference_companion import diagnostics, habitat_view
-from umbra_core.expression.frame_ring import FrameRingEntry, FrameRingReader, RendererCursor
+from umbra_core.expression.frame_ring import FrameRingEntry
 
 if TYPE_CHECKING:
     import tkinter as tk
 
 HABITAT_CANVAS_SIZE = (480, 480)
 DIAGNOSTICS_CANVAS_SIZE = (480, 160)
-DEFAULT_POLL_INTERVAL_MS = 66  # renderer-local cadence; never tied to organism tick rate
 
 
 class TkinterRenderer:
-    """`close()` unregisters this renderer's cursor, destroys only the
-    window resources it created, and leaves the organism, adapter,
-    `ExpressionEngine`, and any other renderer (e.g. `HeadlessRenderer`)
-    completely untouched and running.
-
-    Thread-safety: the organism is expected to tick on a thread other than
-    the Tk main thread (Tkinter itself is not thread-safe). `ring_lock` is
-    exposed so a driving harness wraps `Organism.tick_once()` in the same
-    lock this renderer uses around `FrameRing.read_latest` calls — an
-    explicit thread-safe handoff boundary without adding any locking to
-    `FrameRing` itself.
+    """`close()` destroys only the window resources this renderer created
+    and leaves the organism, adapter, `ExpressionEngine`, and any other
+    renderer (e.g. `HeadlessRenderer`) completely untouched and running.
     """
 
     def __init__(
@@ -53,8 +49,7 @@ class TkinterRenderer:
 
         self._tk = tk
         self._closed = False
-        self._cursor: RendererCursor | None = RendererCursor(renderer_id=renderer_id)
-        self.ring_lock = threading.Lock()
+        self.renderer_id = renderer_id
 
         self._owns_root = master is None
         self.root: Any = master if master is not None else tk.Tk()
@@ -76,12 +71,6 @@ class TkinterRenderer:
         self.last_render_error: BaseException | None = None
 
         self.set_diagnostics_visible(diagnostics_visible)
-
-    def read_latest(self, ring: FrameRingReader) -> FrameRingEntry | None:
-        if self._closed or self._cursor is None:
-            return None
-        with self.ring_lock:
-            return ring.read_latest(self._cursor)
 
     def render(self, entry: FrameRingEntry) -> None:
         """Contains failures locally (design §3) — a rendering exception
@@ -108,31 +97,13 @@ class TkinterRenderer:
         else:
             self.diagnostics_canvas.pack_forget()
 
-    def poll_and_render(self, ring: FrameRingReader) -> FrameRingEntry | None:
-        """One non-blocking poll step, suitable for a Tk `after()`-scheduled
-        loop. Never calls into the organism — only `read_latest`/`render` on
-        frames it already committed."""
-        entry = self.read_latest(ring)
-        if entry is not None:
-            self.render(entry)
-        return entry
-
-    def schedule(self, ring: FrameRingReader, *, interval_ms: int = DEFAULT_POLL_INTERVAL_MS) -> None:
-        """Schedules recurring polling on the Tk main loop. Cadence is
-        renderer-local wall time and independent of organism ticks."""
-        if self._closed:
-            return
-        self.poll_and_render(ring)
-        self.root.after(interval_ms, lambda: self.schedule(ring, interval_ms=interval_ms))
-
     def close(self) -> None:
-        """Idempotent. Unregisters the frame cursor and destroys only the
-        window resources this renderer created — the organism, adapter,
-        `ExpressionEngine`, and `HeadlessRenderer` keep running untouched."""
+        """Idempotent. Destroys only the window resources this renderer
+        created — the organism, adapter, `ExpressionEngine`, and
+        `HeadlessRenderer` keep running untouched."""
         if self._closed:
             return
         self._closed = True
-        self._cursor = None
         self.habitat_canvas.destroy()
         self.diagnostics_canvas.destroy()
         if self._owns_root:
