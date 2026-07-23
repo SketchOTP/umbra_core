@@ -1,29 +1,32 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260723-1141-d008-task7-runtime-wire
+- ID: D-20260723-1200-d008-task8-continuity
 - Project directive: UMBRA-D-008
-- Goal: Wire ExpressionEngine side-car (derive->FrameRing.push) into Organism.tick_once after outcome commit using copied snapshots; expose frame_ring; ReferenceRenderer protocol + HeadlessRenderer; gate on OrganismConfig.expression_enabled/C10; no Tkinter (Task 9)
-- Status: complete — 5 brief-named tests + 4 supporting tests pass (43 in test_d008.py); full suite green (353 passed)
+- Goal: Prove restart, replay, and body-swap continuity contracts listed in Task 8 brief; fix Task 7 inline-import lint
+- Status: complete — 12 new tests + Task 7 import fix; full suite green (365 passed, zero skips)
 - Acceptance: met
-- Touched files: `umbra_core/runtime.py`, `umbra_core/expression/{renderer,headless_renderer,__init__}.py` (new/modified), `tests/test_d008.py`, `.superpowers/sdd/task-7-report.md`
-- Next action: Task 8 — restart, replay, body-swap continuity (controller-owned parent D-008 Mimir task remains open)
+- Touched files: `tests/test_d008.py` (Task 7 inline-import moved to top; 12 new Task 8 tests appended)
+- Next action: Task 9 — Tkinter reference companion (parent D-008 Mimir task remains open, per controller ownership)
 
 ## Repo facts needed now
-- `Organism.__init__` always builds `self.expression_engine = ExpressionEngine()` and `self.frame_ring = FrameRing.from_thresholds()` — cheap, read-only, never in `authoritative_state()`/snapshots.
-- `Organism._push_expression_frame(last_outcome)` is the only writer to `frame_ring`; it is called at both `tick_once` return sites (external-displacement early return, and the main end-of-tick return), guarded by `self._expression_active()` and wrapped in try/except (side-car failure never pauses the tick loop — same containment pattern as D-005 memory consolidation).
-- `ExpressionView` is built from `self.phys.as_dict()` and `self.embodiment.to_state()` — both fresh dict copies (verified by `to_state()` source read), never live subsystem references (Task 5 review watch item, now exercised at the runtime wire by `test_expression_view_is_built_from_copied_snapshots_not_live_aliases`).
-- A local `committed_outcome` in `tick_once` tracks whichever `VerifiedOutcome` was actually committed this tick (a delayed-from-last-tick completion via `Embodiment.tick_actuation`, or this tick's own immediate `execute_and_verify`) — a plain governance denial is rendered as `LastOutcomeView(capability=cand.capability, admitted=False)`, never as executed; an admitted-but-still-delayed candidate renders as `None` (nothing verified yet).
-- `FrameRingEntry.active_execution_id` is always `None` for runtime-pushed frames. Setting it to the outcome's execution id would break ordinary polling: `FrameRing._is_valid_for_cursor` requires an exact match on `cursor.active_execution_id` whenever `entry.active_execution_id` is non-None, and a default `RendererCursor` never pre-knows same-tick execution ids. That field is reserved for a still-pending multi-tick actuation.
-- `OrganismConfig.expression_enabled: bool = True` (unlike `embodiment_adapter_enabled`, which stays opt-in) — safe default because the side-car is strictly additive/read-only and appends zero authoritative events (proven by `test_habitat_state_is_not_duplicated` comparing event-type sequences with the flag on vs off). Condition `"C10"` (design §4 frozen performance baseline) always forces expression off regardless of the flag, via `Organism._expression_active()`.
-- `ReferenceRenderer` (`umbra_core/expression/renderer.py`, a `Protocol`) and `HeadlessRenderer` (`umbra_core/expression/headless_renderer.py`) are structurally decoupled from the organism: `Organism`/`tick_once` never call a renderer, so renderer failure/closure/slowdown cannot pause the organism by construction. `HeadlessRenderer.read_latest` returns `None` (renders nothing) when no new valid frame exists — it can never fake continued autonomy.
-- Plan: docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md
-- Mimir task: 0218a285ae1d4f8cb1e62256569c2c03 (Task 7 sub-task; parent D-008 task cbbb61834c98463cb70fb9254ba08ea2 not closed — controller owns lifecycle)
+- All nine Task 8 continuity contracts held with **zero production code changes** — only tests were needed:
+  - `test_restart_preserves_body_position` / `test_snapshot_replay_matches`: `Embodiment.to_state()/from_state()` (D-001) + `EmbodimentAdapter` ledger-authoritative reconstruction (Task 4's `attachment_state_from_event` off `store.last_event_of_types`) already round-trip byte-identically.
+  - `test_restart_preserves_visible_condition`: `visible_condition_channels` is a pure function of already-restored physiology/attention (`umbra_core/expression/engine.py::_visible_condition_channels`) — a fresh `ExpressionEngine` post-restart derives the same channels as one derived pre-close, with no dependency on the (intentionally non-persisted) `ExpressionEngine._last_presentation` in-memory field.
+  - `test_interrupted_action_resolves_after_restart`: `_push_expression_frame`'s `last_outcome` is derived fresh every tick from that tick's own `committed_outcome`/`decision` — never carried state — so a forced `movement_reliability=0.0` INTERRUPTED frame pre-restart never leaks into the freshly-rebuilt (empty) frame ring post-restart; the next successful outcome renders EXECUTED normally.
+  - `test_birth_replay_matches_authoritative_transitions`: attach + 2 swaps (3 authoritative `embodiment_body_*` events) replay through the same `attachment_state_from_event` helper `load_organism` uses and reconstruct the live adapter's exact `AttachmentState`.
+  - `test_missing_embodiment_event_fails_closed`: deleting the `embodiment_body_attached` row breaks `Store.validate_chain()`'s ordinary sequence-gap check (same mechanism as D-002V/D-006's own "missing authoritative event" tests) — attachment integrity rides the same hash chain as every other authoritative event, no bespoke embodiment-specific validation needed.
+  - `test_body_profile_swap_preserves_{identity,memory,relationships,individuality}`: `EmbodimentAdapter.swap_profile` only appends its own authoritative event + updates `AttachmentState` — it has no code path touching `ConstitutionalIdentity`, `MemoryEngine`, `SocialEngine`, or `IndividualityEngine`, confirmed by exact before/after state equality.
+  - `test_avatar_identifier_absent_from_constitutional_identity`: `ConstitutionalIdentity` dataclass fields are fixed (agent_id/lineage_id/birth_event_id/schema_version/created_at/lifecycle_sequence/identity_commitment) — none avatar/body/UI-named; swap leaves `agent_id`/`identity_commitment` unchanged.
+  - `test_ui_identifier_absent_from_individuality_state`: `IndividualityEngine.FORBIDDEN_STATE_KEYS` (from D-007) already contains `avatar_id`/`ui_component_id`/`screen_coordinates`/`animation_name` and is enforced on every `to_state()` call via `assert_no_forbidden_fields` — this test exercises that pre-existing guarantee explicitly for D-008.
+- Task 7 fix: the inline `from umbra_core.expression.presentation_state import RESULT_ACTIVITY_STATES` inside `test_rest_and_inactivity_are_valid_visible_states` moved to the top-level import block (no-inline-imports rule).
+- Plan: docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md (Task 8 checklist)
+- Mimir task: 8e126637c1c942b4ad688d6b3c3ee6b0 (Task 8 sub-task, closed); parent D-008 task cbbb61834c98463cb70fb9254ba08ea2 intentionally left open — controller owns lifecycle.
 
 ## Last validation
-- Command: pytest tests/test_d008.py -q; pytest -q
-- Result: pass (43 passed; 353 passed full suite) — reproduced locally; `mimir_validation_run` blocked (see below)
+- Command: `pytest tests/test_d008.py -q` (55 passed) then `pytest tests/ -q` (365 passed, zero skips) — reproduced locally.
+- `mimir_validation_run` rejected allowlisted `pytest -q` with "validation requires an active observed task" even after an intervening `mimir_task_observe` — same recurring precedent as Tasks 2-7. Validated locally instead.
 
 ## Open blockers
-- `mimir_validation_run` rejected allowlisted `pytest -q` with "validation requires an active observed task" (same recurring precedent as Tasks 2-6); validated locally instead.
-- Parent Mimir task `cbbb61834c98463cb70fb9254ba08ea2` intentionally left open.
+- `mimir_validation_run` remains blocked by "validation requires an active observed task" (recurring across Tasks 2-7 and now 8).
+- Parent Mimir task `cbbb61834c98463cb70fb9254ba08ea2` intentionally left open (do not close per directive).

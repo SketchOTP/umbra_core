@@ -20,8 +20,11 @@ from umbra_core.embodiment_adapters import (
 )
 from umbra_core.embodiment_adapters.adapter import (
     ADAPTER_FAILURE_CODES,
+    ATTACHMENT_EVENT_TYPES,
     AdapterRequest,
+    AttachmentState,
     EmbodimentAdapter,
+    attachment_state_from_event,
 )
 from umbra_core.events import AUTHORITATIVE_EVENT_TYPES
 from umbra_core.expression import (
@@ -39,8 +42,11 @@ from umbra_core.expression import (
     PresentationState,
     RendererCursor,
 )
+from umbra_core.expression.presentation_state import RESULT_ACTIVITY_STATES
 from umbra_core.governance import Governance
-from umbra_core.persistence import Store
+from umbra_core.identity import ConstitutionalIdentity
+from umbra_core.individuality import FORBIDDEN_STATE_KEYS, IndividualityEngine
+from umbra_core.persistence import PersistenceError, Store
 from umbra_core.physiology import Physiology
 from umbra_core.runtime import (
     OrganismConfig,
@@ -991,8 +997,6 @@ def test_autonomous_activity_continues_without_user(tmp_path):
 def test_rest_and_inactivity_are_valid_visible_states(tmp_path):
     """Gate 5: rest/inactivity are legitimate, correctly-vocabularied visible
     states — never a missing/invalid frame, and never silently dropped."""
-    from umbra_core.expression.presentation_state import RESULT_ACTIVITY_STATES
-
     org = _ticked_organism(tmp_path, "rest.sqlite", ticks=0)
     org.phys.fatigue = 0.9  # drives arbitration's fatigue-recovery focus toward REST
     try:
@@ -1164,3 +1168,318 @@ def test_expression_view_is_built_from_copied_snapshots_not_live_aliases(tmp_pat
         assert entry.render_packet.habitat_read_model.entities == habitat_before
     finally:
         org.close()
+
+
+# ----- Restart, replay, and body-swap continuity (Task 8) -----
+
+
+def test_restart_preserves_body_position(tmp_path):
+    """Gate 6/11: the authoritative body (habitat + embodiment adapter
+    attachment) survives a restart byte-identically — no cosmetic frame-ring
+    state is involved in body position continuity."""
+    db_path = str(tmp_path / "position.sqlite")
+    org = create_organism(
+        OrganismConfig(db_path=db_path, seed=31, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0)
+    )
+    org.run_ticks(30)
+    live_body = org.embodiment.body.to_state()
+    live_attachment = org.embodiment_adapter.state.to_state()
+    org.snapshot_if_due(force=True)
+    org.close()
+
+    loaded = load_organism(
+        OrganismConfig(db_path=db_path, seed=31, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0)
+    )
+    assert loaded.embodiment.body.to_state() == live_body
+    assert loaded.embodiment_adapter.state.to_state() == live_attachment
+    loaded.close()
+
+
+def test_restart_preserves_visible_condition(tmp_path):
+    """Gate 6: `visible_condition_channels` is a pure function of restored
+    physiology/attention — restart clears the (non-authoritative) frame ring
+    and constructs a fresh `ExpressionEngine`, so a freshly derived frame
+    right after restart must still show the same visible condition as one
+    derived immediately before restart, from a like-new engine either way."""
+    db_path = str(tmp_path / "condition.sqlite")
+    org = create_organism(
+        OrganismConfig(
+            db_path=db_path, seed=32, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
+        )
+    )
+    org.run_ticks(30)
+
+    def _channels(o) -> dict[str, float]:
+        view = ExpressionView(
+            tick=o.tick,
+            physiology=o.phys.as_dict(),
+            attachment=AttachmentView(
+                attachment_status=o.embodiment_adapter.state.attachment_status,
+                body_instance_id=o.embodiment_adapter.state.body_instance_id,
+                body_profile_id=o.embodiment_adapter.state.body_profile_id,
+                attachment_generation=o.embodiment_adapter.state.attachment_generation,
+            ),
+            embodiment_state=o.embodiment.to_state(),
+            source_state_version=o.tick,
+            habitat_state_version=o.tick,
+        )
+        return ExpressionEngine().derive(view).presentation_state.visible_condition_channels
+
+    live_channels = _channels(org)
+    org.snapshot_if_due(force=True)
+    org.close()
+
+    loaded = load_organism(
+        OrganismConfig(
+            db_path=db_path, seed=32, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
+        )
+    )
+    assert _channels(loaded) == live_channels
+    loaded.close()
+
+
+def test_interrupted_action_resolves_after_restart(tmp_path):
+    """A verified-failed (INTERRUPTED) outcome is derived fresh every tick from
+    the current outcome, never from carried-forward frame-ring state. Restart
+    clears the non-authoritative ring and builds a fresh `ExpressionEngine`, so
+    the very next real outcome is rendered on its own merits — the organism
+    must never appear permanently stuck showing a pre-restart interruption."""
+    db_path = str(tmp_path / "interrupted.sqlite")
+    org = create_organism(
+        OrganismConfig(
+            db_path=db_path, seed=33, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
+        )
+    )
+    org.embodiment.body.movement_reliability = 0.0  # guarantee the next MOVE slips
+    proposal = org.governance.propose("MOVE", {"step": 1.0, "heading": 0.0})
+    decision = org.governance.admit(proposal, tick=org.tick)
+    outcome = org.governance.execute_and_verify(
+        proposal, decision, org.embodiment, org.rng, adapter=org.embodiment_adapter, tick=org.tick
+    )
+    assert outcome is not None
+    assert outcome.success is False  # movement slip -> verified failure, not a crash
+    org._push_expression_frame(org._outcome_to_last_outcome_view(outcome))
+    pre_restart_entry = list(org.frame_ring)[-1]
+    assert pre_restart_entry.render_packet.presentation_state.action_phase == "INTERRUPTED"
+
+    org.snapshot_if_due(force=True)
+    org.close()
+
+    loaded = load_organism(
+        OrganismConfig(
+            db_path=db_path, seed=33, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
+        )
+    )
+    assert len(loaded.frame_ring) == 0  # non-authoritative ring rebuilt empty on restart
+    loaded.embodiment.body.movement_reliability = 1.0  # let the next attempt actually succeed
+
+    resolved = False
+    for _ in range(80):
+        result = loaded.tick_once()
+        if result["outcome"] is not None and result["outcome"]["success"]:
+            entry = list(loaded.frame_ring)[-1]
+            assert entry.render_packet.presentation_state.action_phase == "EXECUTED"
+            resolved = True
+            break
+    assert resolved  # the organism resumes normally, never stuck post-restart
+    loaded.close()
+
+
+def test_snapshot_replay_matches(tmp_path):
+    """Gate 6/11: snapshot-accelerated restart reproduces the live adapter
+    attachment and body state exactly (same ledger, same organism)."""
+    db_path = str(tmp_path / "replay.sqlite")
+    org = create_organism(
+        OrganismConfig(
+            db_path=db_path,
+            seed=34,
+            embodiment_adapter_enabled=True,
+            expression_enabled=True,
+            snapshot_every=10,
+            wall_time_fn=lambda: 0.0,
+        )
+    )
+    org.run_ticks(40)
+    live_attachment = org.embodiment_adapter.state.to_state()
+    live_body = org.embodiment.body.to_state()
+    live_phys = org.phys.to_state()
+    org.snapshot_if_due(force=True)
+    org.close()
+
+    loaded = load_organism(
+        OrganismConfig(
+            db_path=db_path,
+            seed=34,
+            embodiment_adapter_enabled=True,
+            expression_enabled=True,
+            wall_time_fn=lambda: 0.0,
+        )
+    )
+    assert loaded.embodiment_adapter.state.to_state() == live_attachment
+    assert loaded.embodiment.body.to_state() == live_body
+    assert loaded.phys.to_state() == live_phys
+    loaded.close()
+
+
+def test_birth_replay_matches_authoritative_transitions(tmp_path):
+    """Gate 11: attachment is reconstructible purely from the authoritative
+    `embodiment_body_*` ledger events — replaying just the latest one through
+    `attachment_state_from_event` (the same helper `load_organism` uses)
+    reconstructs the identical `AttachmentState` the live adapter holds after
+    an attach + two swaps, with no other channel involved."""
+    db_path = str(tmp_path / "transitions.sqlite")
+    org = create_organism(
+        OrganismConfig(db_path=db_path, seed=35, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0)
+    )
+    org.embodiment_adapter.swap_profile(MINIMAL_CREATURE_BODY.profile_id)
+    org.run_ticks(5)
+    org.embodiment_adapter.swap_profile(ABSTRACT_SHAPE_BODY.profile_id)
+    live_state = org.embodiment_adapter.state.to_state()
+    latest_attachment_event = org.store.last_event_of_types(ATTACHMENT_EVENT_TYPES)
+    attach_events = [e for e in org.store.iter_events() if e["event_type"] in ATTACHMENT_EVENT_TYPES]
+    org.close()
+
+    assert len(attach_events) == 3  # attach + swap + swap, each an authoritative transition
+    reconstructed = attachment_state_from_event(latest_attachment_event)
+    assert reconstructed.to_state() == live_state
+
+
+def test_missing_embodiment_event_fails_closed(tmp_path):
+    """Gate 11: deleting the authoritative attach event breaks the same
+    hash-chained ledger integrity every other D-00x authoritative event relies
+    on — replay must fail closed, never silently reconstruct a plausible
+    attachment from a corrupted chain."""
+    db_path = str(tmp_path / "missing_event.sqlite")
+    org = create_organism(
+        OrganismConfig(db_path=db_path, seed=36, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0)
+    )
+    org.run_ticks(5)
+    org.close()
+
+    store = Store(db_path)
+    attach_row = next(e for e in store.iter_events() if e["event_type"] == "embodiment_body_attached")
+    store.conn.execute("DELETE FROM events WHERE sequence=?", (attach_row["sequence"],))
+    with pytest.raises(PersistenceError):
+        store.validate_chain()
+    store.close()
+
+
+# ----- Body-swap preserves identity/memory/relationships/individuality (Task 8) -----
+
+
+def _swap_org(tmp_path: Path, name: str, seed: int = 37):
+    cfg = OrganismConfig(
+        db_path=str(tmp_path / name),
+        seed=seed,
+        embodiment_adapter_enabled=True,
+        memory_enabled=True,
+        social_enabled=True,
+        individuality_enabled=True,
+        individuality_history="H1",
+        wall_time_fn=lambda: 0.0,
+    )
+    org = create_organism(cfg)
+    org.social.recognize(
+        [
+            {
+                "relative_position": [1.0, 0.5],
+                "motion_signature": [0.2, 0.3, 0.1],
+                "appearance_signature": [0.5, 0.4, 0.2],
+                "response_timing_pattern": [0.3, 0.5, 0.1],
+                "interaction_style_cues": [0.6, 0.3, 0.5],
+                "cue_confidence": 0.7,
+                "cue_uncertainty": 0.3,
+                "observed_at": 1.0,
+                "expires_at": 13.0,
+                "source": "partner_cue",
+            }
+        ],
+        tick=1,
+    )
+    org.run_ticks(15)
+    return org
+
+
+def test_body_profile_swap_preserves_identity(tmp_path):
+    org = _swap_org(tmp_path, "swap_identity.sqlite")
+    try:
+        agent_id = org.identity.agent_id
+        commitment = org.identity.identity_commitment
+        org.embodiment_adapter.swap_profile(MINIMAL_CREATURE_BODY.profile_id)
+        assert org.identity.agent_id == agent_id
+        assert org.identity.identity_commitment == commitment
+    finally:
+        org.close()
+
+
+def test_body_profile_swap_preserves_memory(tmp_path):
+    org = _swap_org(tmp_path, "swap_memory.sqlite")
+    try:
+        before = org.memory.to_state()
+        assert org.memory.episodes  # non-trivial state actually exists to preserve
+        org.embodiment_adapter.swap_profile(MINIMAL_CREATURE_BODY.profile_id)
+        assert org.memory.to_state() == before
+    finally:
+        org.close()
+
+
+def test_body_profile_swap_preserves_relationships(tmp_path):
+    org = _swap_org(tmp_path, "swap_relationships.sqlite")
+    try:
+        before = org.social.to_state()
+        assert before["hypotheses"]  # non-trivial relationship state exists to preserve
+        org.embodiment_adapter.swap_profile(MINIMAL_CREATURE_BODY.profile_id)
+        assert org.social.to_state() == before
+    finally:
+        org.close()
+
+
+def test_body_profile_swap_preserves_individuality(tmp_path):
+    org = _swap_org(tmp_path, "swap_individuality.sqlite")
+    try:
+        before = org.individuality.accepted_state()
+        assert before["dispositions"]  # non-trivial disposition state exists to preserve
+        org.embodiment_adapter.swap_profile(MINIMAL_CREATURE_BODY.profile_id)
+        assert org.individuality.accepted_state() == before
+    finally:
+        org.close()
+
+
+# ----- Avatar/UI identifiers absent from identity + individuality (Task 8) -----
+
+
+def test_avatar_identifier_absent_from_constitutional_identity(tmp_path):
+    """Gate 6/7: avatar/body/UI identifiers must never enter constitutional
+    identity — swapping the body must not change `agent_id` or the
+    commitment hash, and no identity field names avatar/body/render/UI."""
+    forbidden_substrings = ("avatar", "body_instance", "body_profile", "render", "ui_id", "display")
+    field_names = {f.name for f in dataclasses.fields(ConstitutionalIdentity)}
+    for name in field_names:
+        lowered = name.lower()
+        for bad in forbidden_substrings:
+            assert bad not in lowered, f"forbidden identity field: {name}"
+
+    org = create_organism(
+        OrganismConfig(db_path=str(tmp_path / "avatar.sqlite"), seed=38, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0)
+    )
+    try:
+        agent_id = org.identity.agent_id
+        commitment = org.identity.identity_commitment
+        org.embodiment_adapter.swap_profile(MINIMAL_CREATURE_BODY.profile_id)
+        assert org.identity.agent_id == agent_id
+        assert org.identity.identity_commitment == commitment
+    finally:
+        org.close()
+
+
+def test_ui_identifier_absent_from_individuality_state():
+    """Gate 6/7: `IndividualityEngine` already enforces `FORBIDDEN_STATE_KEYS`
+    (avatar_id, ui_component_id, screen_coordinates, animation_name, ...) on
+    every `to_state()` call — this exercises that guarantee explicitly for
+    D-008's avatar/UI-identifier continuity requirement."""
+    assert {"avatar_id", "ui_component_id", "screen_coordinates", "animation_name"} <= FORBIDDEN_STATE_KEYS
+    engine = IndividualityEngine.create("agent-ui-check", seed=1)
+    state = engine.to_state()  # raises IndividualityEngineError if any forbidden key is present
+    blob = json.dumps(state, default=str)
+    for bad in FORBIDDEN_STATE_KEYS:
+        assert bad not in blob
