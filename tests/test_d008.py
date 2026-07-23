@@ -2434,18 +2434,33 @@ def test_100k_tick_boundedness(tmp_path):
 
 
 def test_two_hour_visible_runtime_soak():
-    """Seal-time soak lives in experiments/d008/run_performance.py (Task 14,
-    not executed here). Unit check validates the harness threshold contract
-    always, and reads evidence only if the performance harness has already
-    written it — same interim pattern as test_d007.py's
-    test_two_hour_performance_soak. Do not skip."""
-    assert THR["soak_seconds_min"] >= 7200
+    """Seal-time soak lives in experiments/d008/run_performance.py (Task 14).
+
+    Supplement S3 replaces the fixed two-hour soak with an adaptive protocol
+    (warm-up 300s + ≥1800s measurement, extend only when ambiguous, max 3600s).
+    This unit check validates the frozen absolute limits always, and reads
+    evidence only if the performance harness has already written it.
+    """
     assert THR["rss_p95_mib_max"] == 180
+    assert THR["rss_slope_mib_per_hour_max"] == 1.0
+    assert THR["cpu_mean_frac_max"] == 0.05
+    # Legacy key retained in frozen thresholds; S3 supersedes duration.
+    assert THR["soak_seconds_min"] >= 7200
+    proto = json.loads((ROOT / "experiments/d008/performance-protocol.json").read_text())
+    assert proto["supplement"] == "S3"
+    assert int(proto["initial_measurement_seconds"]) >= 1800
+    assert int(proto["max_measurement_seconds"]) <= 3600
     perf = ROOT / "docs/evidence/d008/performance-results.json"
     if perf.exists():
         data = json.loads(perf.read_text())
+        assert data.get("adaptive_soak_supplement") == "S3"
         if data.get("soak"):
             assert data["soak"]["rss_p95_mib"] <= THR["rss_p95_mib_max"]
-            assert data["soak"]["duration_s"] >= THR["soak_seconds_min"]
+            assert float(data["soak"]["duration_s"]) >= float(proto["initial_measurement_seconds"]) * 0.99
         if data.get("ui_incremental"):
             assert data["ui_incremental"]["rss_p95_mib"] <= THR["ui_incremental_rss_p95_mib_max"]
+        for mode in ("P0", "P1", "P2"):
+            if data.get("modes") and mode in data["modes"]:
+                assert float(data["modes"][mode]["total_measurement_seconds"]) >= float(
+                    proto["initial_measurement_seconds"]
+                ) * 0.99

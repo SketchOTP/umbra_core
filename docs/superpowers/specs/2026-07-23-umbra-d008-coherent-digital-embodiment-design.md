@@ -548,3 +548,66 @@ Clamping must not be reported as failure. The verified outcome reflects the actu
 > **Renderers never receive a writable `FrameRing`. A trusted caller polls `ring.read_latest(cursor)` and passes only `FrameRingEntry` into `renderer.render(entry)`. This preserves non-destructive multi-consumer cursors while preventing hostile or buggy renderers from injecting competing presentation truth.**
 
 Frozen design §3 originally described `read_latest(frame_ring, …)` on the renderer protocol. Gate 8 requires that the expression system and renderer cannot invent competing frame authority. Trusted-caller poll is the authoritative contract going forward.
+
+---
+
+## Supplement S3 — Adaptive soak replacement for Task 14 (2026-07-23)
+
+**Status:** Authorized performance-observation supplement (Task 14).  
+**Prerequisite:** `UMBRA_D008_TASK13_GATES_1_11_PASS`.
+
+> **The fixed two-hour D-008 soak is replaced by a preregistered adaptive protocol. Gates 1–11 and absolute/incremental RSS/CPU limits are unchanged. Qualification remains valid only if the shorter protocol produces decisive boundedness evidence.**
+
+### Unchanged
+
+* 100,000 accelerated ticks;
+* real `Tkinter.Canvas` + actual Tk event loop for the visible mode;
+* same seed/scenario/tick rate/diagnostics/warmup/`RUNTIME_READY` across modes;
+* current VmRSS after `RUNTIME_READY`;
+* zero-skip final suite; full evidence hashing and sealing;
+* host must provide `python3-tk` (or equivalent) and a real display or preregistered Xvfb — missing display fails closed; headless substitution is not allowed for visible-runtime measurement.
+
+### Modes (fresh process each)
+
+```text
+P0  Core only, C10
+P1  Core + ExpressionEngine + HeadlessRenderer
+P2  Core + ExpressionEngine + TkinterRenderer
+```
+
+### Timing
+
+```text
+warm-up:                 300 s   (excluded from pass calculations)
+initial measurement:    1800 s
+sample interval:           5 s
+minimum samples:         360
+per-mode max measurement: 3600 s (extend only when ambiguous, in 900 s steps)
+```
+
+Do not run a fixed two-hour soak. Do not automatically extend every mode. If evidence remains ambiguous after 60 minutes of measurement, the performance gate fails as inconclusive.
+
+### Reporting
+
+Each mode reports sample_count, rss p50/p95/peak, robust RSS slope + CI, CPU mean/p95, database growth, frame-ring max occupancy, renderer cursor/callback/frame/drop/exception counts, and three equal-segment median RSS values (must not show sustained monotonic growth across all three).
+
+Incremental deltas: `expression_over_core`, `tkinter_over_headless`, `tkinter_over_core` from matched modes.
+
+Absolute limits remain those in `experiments/d008/thresholds.json` (`rss_p95_mib_max`, `rss_slope_mib_per_hour_max`, `cpu_mean_frac_max`, and the `ui_incremental_*` counterparts). The frozen `soak_seconds_min: 7200` key is superseded for D-008 Task 14 duration by this supplement; evidence must state `adaptive_soak_supplement: "S3"`.
+
+### Renderer lifecycle stress
+
+≥100 open → process events → close cycles; verify cursor/callback/window cleanup and that the organism continues.
+
+### Evidence files
+
+```text
+docs/evidence/d008/performance-results.json
+docs/evidence/d008/performance-core.json
+docs/evidence/d008/performance-headless.json
+docs/evidence/d008/performance-tkinter.json
+docs/evidence/d008/renderer-lifecycle-results.json
+docs/evidence/d008/accelerated-100k-results.json
+```
+
+Final verdict must state that D-008 used the authorized adaptive-soak supplement rather than the original fixed two-hour duration.

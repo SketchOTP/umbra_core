@@ -466,25 +466,26 @@ git commit -m "Run D-008 experiment matrix and record gate evidence."
 
 ---
 
-### Task 14: Performance — 100k + 2h visible soak + seal
+### Task 14: Performance — 100k + Supplement S3 adaptive soak + seal
 
 **Files:**
 - Create: `experiments/d008/run_performance.py`
 - Create: `experiments/d008/run_seal.py`
-- Modify: `tests/test_d008.py` (unskip Gate 12 if needed)
-- Create: `docs/evidence/d008/performance-*.json`, `soak-2h*`, `prior-seals.json`, `schema-manifest.json`, `evidence-hashes.json`, `final-verdict.md`
+- Create: `experiments/d008/performance-protocol.json` (S3 timing; does not alter Gate 1–11 frozen hashes)
+- Modify: `tests/test_d008.py` (Gate 12 reads S3 evidence)
+- Create: `docs/evidence/d008/performance-*.json`, `accelerated-100k-results.json`, `renderer-lifecycle-results.json`, `prior-seals.json`, `schema-manifest.json`, `evidence-hashes.json`, `final-verdict.md`
 - Modify: `.agent/PROJECT_GOAL.md`, `.agent/PROJECT_PROFILE.md`, `.agent/CURRENT.md`, `.agent/OUTCOMES.md`, `.agent/REPO_MAP.md`
 
-**Soak methodology (frozen):** same seed/scenario/tick rate/duration/diagnostics/warmup/`RUNTIME_READY` for:
+**Soak methodology (Supplement S3 — authorized):** same seed/scenario/tick rate/diagnostics/warmup/`RUNTIME_READY` for:
 
-1. C10 core only  
-2. core + ExpressionEngine + HeadlessRenderer  
-3. core + ExpressionEngine + TkinterRenderer (real Canvas + event loop)
+1. P0 — C10 core only  
+2. P1 — core + ExpressionEngine + HeadlessRenderer  
+3. P2 — core + ExpressionEngine + TkinterRenderer (real Canvas + event loop)
 
-Report `expression_over_core`, `tkinter_over_headless`, `tkinter_over_core`. No display → fail closed or preregistered Xvfb — never silent headless substitute.
+Per mode: warm-up 300s (excluded) + initial 1800s measurement; extend only when ambiguous in 900s steps up to 3600s measurement. Report `expression_over_core`, `tkinter_over_headless`, `tkinter_over_core`. No display → fail closed or preregistered Xvfb — never silent headless substitute. Do **not** run a fixed two-hour soak.
 
 - [ ] **Step 1: Run 100k boundedness**
-- [ ] **Step 2: Run 2h triple comparison soak**
+- [ ] **Step 2: Run S3 triple-mode adaptive soak + renderer lifecycle (≥100 cycles)**
 - [ ] **Step 3: `run_seal.py` — prior seals, zero-skip `pytest tests/`, hashes, verdict**
 - [ ] **Step 4: Commit seal; close Mimir against final commit; confirm clean worktree**
 
