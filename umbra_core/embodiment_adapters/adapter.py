@@ -19,6 +19,12 @@ from umbra_core.embodiment_adapters.profiles import BodyProfile, get_profile, pr
 from umbra_core.persistence import Store
 from umbra_core.util import SeededRNG, new_id
 
+ATTACHMENT_EVENT_TYPES = (
+    "embodiment_body_attached",
+    "embodiment_body_detached",
+    "embodiment_body_profile_swapped",
+)
+
 ADAPTER_FAILURE_CODES = frozenset(
     {
         "UNSUPPORTED_BODY_CAPABILITY",
@@ -73,6 +79,40 @@ class AttachmentState:
         )
 
 
+def attachment_state_from_event(event: dict[str, Any] | None) -> AttachmentState:
+    """Reconstruct authoritative `AttachmentState` from the latest ledger
+    attach/detach/swap event — the ledger, not the snapshot, is the source of
+    truth for attachment (a snapshot may lag behind a crash-before-snapshot
+    attach/detach/swap). `None` (no attachment event ever recorded) means a
+    pre-D-008 organism awaiting migration."""
+    if event is None:
+        return AttachmentState()
+    event_type = event["event_type"]
+    payload = event["payload"]
+    if event_type == "embodiment_body_attached":
+        return AttachmentState(
+            body_instance_id=payload["new_body_instance_id"],
+            body_profile_id=payload["new_profile_id"],
+            attachment_status="ATTACHED",
+            attachment_generation=int(payload["new_generation"]),
+        )
+    if event_type == "embodiment_body_profile_swapped":
+        return AttachmentState(
+            body_instance_id=payload["body_instance_id"],
+            body_profile_id=payload["new_profile_id"],
+            attachment_status="ATTACHED",
+            attachment_generation=int(payload["new_generation"]),
+        )
+    if event_type == "embodiment_body_detached":
+        return AttachmentState(
+            body_instance_id=payload["body_instance_id"],
+            body_profile_id=None,
+            attachment_status="DETACHED",
+            attachment_generation=int(payload["new_generation"]),
+        )
+    raise ValueError(f"not_an_attachment_event:{event_type}")
+
+
 class EmbodimentAdapter:
     """Enforces body-profile capability/limit constraints; never grants authority.
 
@@ -107,27 +147,36 @@ class EmbodimentAdapter:
     # --- attach / detach / swap (authoritative; single-statement commits are ---
     # --- already atomic — Store.append_event is one INSERT) ---------------
 
-    def attach(self, profile_id: str, *, origin: str = "NORMAL") -> None:
+    def attach(
+        self,
+        profile_id: str,
+        *,
+        origin: str = "NORMAL",
+        migrated_from_schema_version: str | None = None,
+    ) -> None:
         if self.state.attachment_status == "ATTACHED":
             raise AdapterError("already_attached")
         profile = self._resolve_profile(profile_id)
         new_generation = self.state.attachment_generation + 1
         new_instance_id = self.state.body_instance_id or new_id()
+        payload: dict[str, Any] = {
+            "old_status": self.state.attachment_status,
+            "new_status": "ATTACHED",
+            "new_body_instance_id": new_instance_id,
+            "new_profile_id": profile.profile_id,
+            "new_generation": new_generation,
+            "profile_schema_version": profile.schema_version,
+            "profile_definition_hash": profile_definition_hash(profile),
+            "origin": origin,
+        }
+        if migrated_from_schema_version is not None:
+            payload["migrated_from_schema_version"] = migrated_from_schema_version
         self.store.append_event(
             agent_id=self.agent_id,
             event_type="embodiment_body_attached",
             monotonic_time=self._monotonic_time_fn(),
             wall_time=self._wall_time_fn(),
-            payload={
-                "old_status": self.state.attachment_status,
-                "new_status": "ATTACHED",
-                "new_body_instance_id": new_instance_id,
-                "new_profile_id": profile.profile_id,
-                "new_generation": new_generation,
-                "profile_schema_version": profile.schema_version,
-                "profile_definition_hash": profile_definition_hash(profile),
-                "origin": origin,
-            },
+            payload=payload,
         )
         self.state = AttachmentState(
             body_instance_id=new_instance_id,

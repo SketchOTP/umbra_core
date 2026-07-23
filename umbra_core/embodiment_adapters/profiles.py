@@ -5,9 +5,12 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Any
 
 from umbra_core.embodiment import CAPABILITIES
+
+_THRESHOLDS_PATH = Path(__file__).resolve().parents[2] / "experiments" / "d008" / "thresholds.json"
 
 BODY_PROFILE_SCHEMA_VERSION = "d008.body-profile.v1"
 
@@ -100,3 +103,8 @@ _PROFILES = {
 
 def get_profile(profile_id: str) -> BodyProfile:
     return _PROFILES[profile_id]
+
+
+def default_migration_profile_id() -> str:
+    """Frozen D-007→D-008 migration default from `experiments/d008/thresholds.json`."""
+    return str(json.loads(_THRESHOLDS_PATH.read_text())["default_migration_profile_id"])

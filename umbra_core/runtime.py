@@ -22,7 +22,12 @@ from umbra_core.development import (
     condition_to_development_config,
 )
 from umbra_core.embodiment import Embodiment
-from umbra_core.embodiment_adapters.adapter import EmbodimentAdapter
+from umbra_core.embodiment_adapters.adapter import (
+    ATTACHMENT_EVENT_TYPES,
+    EmbodimentAdapter,
+    attachment_state_from_event,
+)
+from umbra_core.embodiment_adapters.profiles import default_migration_profile_id
 from umbra_core.events import (
     AUTHORITATIVE_EVENT_TYPES,
     DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS,
@@ -90,6 +95,10 @@ class OrganismConfig:
     individuality_enabled: bool = False
     individuality_history: str = "H0"
     individuality_config: IndividualityConfig | None = None
+    # D-008: opt-in, like the flags above — default False preserves D-001..D-007
+    # behavior exactly (body-profile limits, e.g. ABSTRACT_SHAPE_BODY max_step,
+    # would otherwise reject pre-D008 arbitration's larger exploration steps).
+    embodiment_adapter_enabled: bool = False
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -239,6 +248,9 @@ class Organism:
             "memory": self.memory.to_state() if self.memory else None,
             "social": self.social.to_state() if self.social else None,
             "individuality": self.individuality.to_state() if self.individuality else None,
+            "embodiment_adapter": (
+                self.embodiment_adapter.state.to_state() if self.embodiment_adapter else None
+            ),
             "monotonic_time": self.monotonic_time,
             "tick": self.tick,
             "session_id": self.session_id,
@@ -1479,6 +1491,14 @@ def create_organism(config: OrganismConfig) -> Organism:
         individuality = IndividualityEngine.create(
             identity.agent_id, config=indiv_cfg, seed=config.seed
         )
+    embodiment_adapter = None
+    if config.embodiment_adapter_enabled:
+        embodiment_adapter = EmbodimentAdapter(
+            store=store,
+            agent_id=identity.agent_id,
+            wall_time_fn=config.wall_time_fn,
+            monotonic_time_fn=lambda: org.monotonic_time,
+        )
     org = Organism(
         identity=identity,
         store=store,
@@ -1495,7 +1515,12 @@ def create_organism(config: OrganismConfig) -> Organism:
         memory=memory,
         social=social,
         individuality=individuality,
+        embodiment_adapter=embodiment_adapter,
     )
+    if embodiment_adapter is not None:
+        # Fresh birth — always a normal attach, never a migration (D-007→D-008
+        # migration is for pre-D008 organisms restored via load_organism).
+        embodiment_adapter.attach(default_migration_profile_id(), origin="NORMAL")
     if individuality is not None:
         for ev in individuality.drain_events():
             store.append_event(
@@ -1639,6 +1664,23 @@ def load_organism(config: OrganismConfig) -> Organism:
             raise PersistenceError("individuality_agent_mismatch")
         # C8: explicit reset already handled inside from_state via config
 
+    # D-008: opt-in (see OrganismConfig.embodiment_adapter_enabled). When enabled,
+    # attachment is reconstructed from the ledger (authoritative), never from a
+    # snapshot that may lag behind a crash-before-snapshot attach/detach/swap.
+    # No attachment event ever recorded means a pre-D-008 organism —
+    # `maybe_migrate_d008_attachment` migrates it once, below.
+    embodiment_adapter = None
+    if config.embodiment_adapter_enabled:
+        last_attachment_event = store.last_event_of_types(ATTACHMENT_EVENT_TYPES)
+        attachment_state = attachment_state_from_event(last_attachment_event)
+        embodiment_adapter = EmbodimentAdapter(
+            store=store,
+            agent_id=identity.agent_id,
+            state=attachment_state,
+            wall_time_fn=config.wall_time_fn,
+            monotonic_time_fn=lambda: org.monotonic_time,
+        )
+
     org = Organism(
         identity=identity,
         store=store,
@@ -1655,6 +1697,7 @@ def load_organism(config: OrganismConfig) -> Organism:
         memory=memory,
         social=social,
         individuality=individuality,
+        embodiment_adapter=embodiment_adapter,
         monotonic_time=float(state.get("monotonic_time", 0.0)),
         tick=int(state.get("tick", 0)),
         session_id=new_id(),
@@ -1724,6 +1767,8 @@ def load_organism(config: OrganismConfig) -> Organism:
     if org.individuality is not None:
         org.individuality._bounded_initialized = False
         org.individuality.initialize_bounded_collections()
+    if org.embodiment_adapter is not None:
+        maybe_migrate_d008_attachment(store, org)
     wall = float(config.wall_time_fn())
     org.store.warm_runtime_residency()
     if org.tick == 0:
@@ -1750,6 +1795,36 @@ def load_organism(config: OrganismConfig) -> Organism:
         )
         org._runtime_ready = True
     return org
+
+
+def maybe_migrate_d008_attachment(store: Store, organism: Organism) -> bool:
+    """Idempotent D-007→D-008 body attachment migration.
+
+    A qualified pre-D-008 organism has no `embodiment_body_*` events. First
+    D-008 load attaches the frozen default profile once, with
+    `origin=D008_MIGRATION`, so replay treats it as one ordinary
+    authoritative attachment event rather than corruption. Touches nothing
+    else — physiology, memory, social, individuality, and habitat state are
+    left exactly as they were.
+
+    Idempotent: returns False (no-op) once the organism is ATTACHED, or once
+    any attach/detach/swap event already exists (covers a legitimately
+    DETACHED organism and a crash between migration and the next snapshot —
+    neither should ever get a second, different `body_instance_id`).
+    """
+    adapter = organism.embodiment_adapter
+    if adapter is None:
+        raise RuntimeError("embodiment_adapter_not_wired")
+    if adapter.state.attachment_status == "ATTACHED":
+        return False
+    if store.last_event_of_types(ATTACHMENT_EVENT_TYPES) is not None:
+        return False
+    adapter.attach(
+        default_migration_profile_id(),
+        origin="D008_MIGRATION",
+        migrated_from_schema_version=SCHEMA_VERSION,
+    )
+    return True
 
 
 def replay_from_birth(db_path: str, until_sequence: int | None = None) -> dict[str, Any]:

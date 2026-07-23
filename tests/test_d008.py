@@ -22,6 +22,13 @@ from umbra_core.embodiment_adapters.adapter import (
 from umbra_core.events import AUTHORITATIVE_EVENT_TYPES
 from umbra_core.governance import Governance
 from umbra_core.persistence import Store
+from umbra_core.runtime import (
+    OrganismConfig,
+    create_organism,
+    load_organism,
+    maybe_migrate_d008_attachment,
+    replay_from_birth,
+)
 from umbra_core.util import SeededRNG
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -327,3 +334,202 @@ def test_body_detached_stale_generation_and_hash_mismatch_fail_closed(tmp_path):
 
     assert embodiment.to_state() == before  # nothing above ever mutated the world
     store.close()
+
+
+# ----- D-007 -> D-008 attachment migration (Task 4) -----
+
+
+def _create_legacy_pre_d008_db(tmp_path: Path, name: str, **config_kwargs) -> str:
+    """A D-007-era organism: `embodiment_adapter_enabled=False` means
+    `create_organism` never attaches a body — exactly the pre-D-008
+    ledger/snapshot shape (zero `embodiment_body_*` events)."""
+    db_path = str(tmp_path / name)
+    cfg = OrganismConfig(
+        db_path=db_path,
+        embodiment_adapter_enabled=False,
+        wall_time_fn=lambda: 0.0,
+        **config_kwargs,
+    )
+    org = create_organism(cfg)
+    assert not [e for e in org.store.iter_events() if e["event_type"] == "embodiment_body_attached"]
+    org.close()
+    return db_path
+
+
+def test_embodiment_adapter_disabled_by_default_preserves_prior_behavior(tmp_path):
+    """D-001..D-007 configs never set `embodiment_adapter_enabled` — the adapter
+    must stay None so pre-D-008 arbitration/body behavior is unaffected."""
+    org = create_organism(OrganismConfig(db_path=str(tmp_path / "default.sqlite"), seed=9))
+    assert org.embodiment_adapter is None
+    attach_events = [e for e in org.store.iter_events() if e["event_type"] == "embodiment_body_attached"]
+    assert attach_events == []
+    org.close()
+
+
+def test_create_organism_attaches_default_profile_with_normal_origin(tmp_path):
+    cfg = OrganismConfig(
+        db_path=str(tmp_path / "fresh.sqlite"),
+        seed=2,
+        embodiment_adapter_enabled=True,
+        wall_time_fn=lambda: 0.0,
+    )
+    org = create_organism(cfg)
+    assert org.embodiment_adapter is not None
+    assert org.embodiment_adapter.state.attachment_status == "ATTACHED"
+    assert org.embodiment_adapter.state.body_profile_id == THR["default_migration_profile_id"]
+    attach_events = [e for e in org.store.iter_events() if e["event_type"] == "embodiment_body_attached"]
+    assert len(attach_events) == 1
+    assert attach_events[0]["payload"]["origin"] == "NORMAL"
+    org.close()
+
+    # A brand-new organism is already ATTACHED — reload must never migrate it.
+    org2 = load_organism(cfg)
+    assert org2.embodiment_adapter.state.attachment_status == "ATTACHED"
+    attach_events2 = [
+        e for e in org2.store.iter_events() if e["event_type"] == "embodiment_body_attached"
+    ]
+    assert len(attach_events2) == 1
+    org2.close()
+
+
+def test_d008_migration_attaches_frozen_default_profile_once(tmp_path):
+    db_path = _create_legacy_pre_d008_db(tmp_path, "legacy1.sqlite", seed=1)
+    cfg = OrganismConfig(
+        db_path=db_path, seed=1, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
+    )
+
+    org = load_organism(cfg)
+    try:
+        assert org.embodiment_adapter is not None
+        assert org.embodiment_adapter.state.attachment_status == "ATTACHED"
+        assert org.embodiment_adapter.state.body_profile_id == THR["default_migration_profile_id"]
+        attach_events = [
+            e for e in org.store.iter_events() if e["event_type"] == "embodiment_body_attached"
+        ]
+        assert len(attach_events) == 1
+        assert attach_events[0]["payload"]["origin"] == "D008_MIGRATION"
+        assert attach_events[0]["payload"]["migrated_from_schema_version"]
+        # Calling migration again on an already-attached organism is a no-op.
+        assert maybe_migrate_d008_attachment(org.store, org) is False
+    finally:
+        org.close()
+
+
+def test_d008_migration_second_load_is_noop(tmp_path):
+    """No new snapshot is taken between the two loads — the second load must
+    reconstruct attachment from the ledger and never re-attach a fresh
+    `body_instance_id` (crash-before-snapshot idempotency)."""
+    db_path = _create_legacy_pre_d008_db(tmp_path, "legacy2.sqlite", seed=1)
+    cfg = OrganismConfig(
+        db_path=db_path, seed=1, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
+    )
+
+    org1 = load_organism(cfg)
+    instance_id_1 = org1.embodiment_adapter.state.body_instance_id
+    generation_1 = org1.embodiment_adapter.state.attachment_generation
+    org1.close()
+
+    org2 = load_organism(cfg)
+    try:
+        assert org2.embodiment_adapter.state.attachment_status == "ATTACHED"
+        assert org2.embodiment_adapter.state.body_instance_id == instance_id_1
+        assert org2.embodiment_adapter.state.attachment_generation == generation_1
+        attach_events = [
+            e for e in org2.store.iter_events() if e["event_type"] == "embodiment_body_attached"
+        ]
+        assert len(attach_events) == 1  # no duplicate attach on second load
+    finally:
+        org2.close()
+
+
+def test_d008_migration_event_is_part_of_valid_replay_chain(tmp_path):
+    """Birth replay includes the migration event as an ordinary authoritative
+    event — no special-cased re-inference of attachment on replay."""
+    db_path = _create_legacy_pre_d008_db(tmp_path, "legacy3.sqlite", seed=1)
+    cfg = OrganismConfig(
+        db_path=db_path, seed=1, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
+    )
+    org = load_organism(cfg)
+    org.close()
+
+    replay = replay_from_birth(db_path)
+    assert replay["chain_valid"] is True
+
+    store = Store(db_path)
+    store.validate_chain()  # migration event participates in ordinary hash chaining
+    event_types = [e["event_type"] for e in store.iter_events()]
+    assert "embodiment_body_attached" in event_types
+    assert replay["events"] == len(event_types)
+    store.close()
+
+
+def test_d008_migration_does_not_reset_other_subsystems(tmp_path):
+    """Migration touches only attachment — physiology, memory, social,
+    individuality, and habitat are untouched (byte-identical to a load of the
+    same ledger with the adapter disabled)."""
+    db_path = _create_legacy_pre_d008_db(
+        tmp_path,
+        "legacy4.sqlite",
+        seed=3,
+        memory_enabled=True,
+        social_enabled=True,
+        individuality_enabled=True,
+    )
+    common = dict(
+        db_path=db_path,
+        seed=3,
+        memory_enabled=True,
+        social_enabled=True,
+        individuality_enabled=True,
+        wall_time_fn=lambda: 0.0,
+    )
+
+    org_no_migration = load_organism(OrganismConfig(**common, embodiment_adapter_enabled=False))
+    baseline = {
+        "physiology": org_no_migration.phys.to_state(),
+        "habitat": org_no_migration.embodiment.habitat.to_state(),
+        "body": org_no_migration.embodiment.body.to_state(),
+        "memory": org_no_migration.memory.to_state(),
+        "social": org_no_migration.social.to_state(),
+        "individuality": org_no_migration.individuality.to_state(),
+    }
+    org_no_migration.close()
+
+    org_migrated = load_organism(OrganismConfig(**common, embodiment_adapter_enabled=True))
+    try:
+        assert org_migrated.embodiment_adapter.state.attachment_status == "ATTACHED"
+        assert org_migrated.phys.to_state() == baseline["physiology"]
+        assert org_migrated.embodiment.habitat.to_state() == baseline["habitat"]
+        assert org_migrated.embodiment.body.to_state() == baseline["body"]
+        assert org_migrated.memory.to_state() == baseline["memory"]
+        assert org_migrated.social.to_state() == baseline["social"]
+        assert org_migrated.individuality.to_state() == baseline["individuality"]
+    finally:
+        org_migrated.close()
+
+
+def test_d008_post_migration_missing_attachment_fails_closed(tmp_path):
+    """Once migrated, if attachment later goes missing (e.g. detached), the
+    adapter must fail closed — never fall back to unconstrained execution."""
+    db_path = _create_legacy_pre_d008_db(tmp_path, "legacy5.sqlite", seed=5)
+    cfg = OrganismConfig(
+        db_path=db_path, seed=5, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
+    )
+    org = load_organism(cfg)
+    assert org.embodiment_adapter.state.attachment_status == "ATTACHED"
+
+    org.embodiment_adapter.detach("test_missing_attachment")
+    embodiment_before = org.embodiment.to_state()
+    request = AdapterRequest(
+        request_id="req-post-migration",
+        capability="IDLE",
+        params={},
+        attachment_generation=org.embodiment_adapter.state.attachment_generation,
+        tick=1,
+    )
+    raw = org.embodiment_adapter.execute(request, org.embodiment, org.rng)
+
+    assert raw["ok_raw"] is False
+    assert raw["failure_code"] == "BODY_DETACHED"
+    assert org.embodiment.to_state() == embodiment_before  # no world mutation
+    org.close()

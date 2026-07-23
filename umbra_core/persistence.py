@@ -88,6 +88,7 @@ class Store:
               tick INTEGER NOT NULL,
               UNIQUE(operation, result_hypothesis_id, source_hypothesis_id)
             );
+            CREATE INDEX IF NOT EXISTS idx_events_event_type ON events(event_type);
             """
         )
 
@@ -260,30 +261,41 @@ class Store:
             "state_hash": row["state_hash"],
         }
 
+    @staticmethod
+    def _row_to_event(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "event_id": row["event_id"],
+            "agent_id": row["agent_id"],
+            "sequence": row["sequence"],
+            "event_type": row["event_type"],
+            "schema_version": row["schema_version"],
+            "monotonic_time": row["monotonic_time"],
+            "wall_time": row["wall_time"],
+            "causal_parent_ids": json.loads(row["causal_parent_ids"]),
+            "payload": json.loads(row["payload"]),
+            "payload_hash": row["payload_hash"],
+            "previous_event_hash": row["previous_event_hash"],
+            "event_hash": row["event_hash"],
+        }
+
     def iter_events(self, from_sequence: int = 1) -> list[dict[str, Any]]:
         rows = self.conn.execute(
             "SELECT * FROM events WHERE sequence >= ? ORDER BY sequence ASC",
             (from_sequence,),
         ).fetchall()
-        out = []
-        for r in rows:
-            out.append(
-                {
-                    "event_id": r["event_id"],
-                    "agent_id": r["agent_id"],
-                    "sequence": r["sequence"],
-                    "event_type": r["event_type"],
-                    "schema_version": r["schema_version"],
-                    "monotonic_time": r["monotonic_time"],
-                    "wall_time": r["wall_time"],
-                    "causal_parent_ids": json.loads(r["causal_parent_ids"]),
-                    "payload": json.loads(r["payload"]),
-                    "payload_hash": r["payload_hash"],
-                    "previous_event_hash": r["previous_event_hash"],
-                    "event_hash": r["event_hash"],
-                }
-            )
-        return out
+        return [self._row_to_event(r) for r in rows]
+
+    def last_event_of_types(self, event_types: tuple[str, ...]) -> dict[str, Any] | None:
+        """Indexed lookup for the newest event among `event_types` — avoids
+        loading the full ledger to check for a rare authoritative event
+        (e.g. D-008 body attachment) on every organism load."""
+        placeholders = ",".join("?" for _ in event_types)
+        row = self.conn.execute(
+            f"SELECT * FROM events WHERE event_type IN ({placeholders}) "
+            "ORDER BY sequence DESC LIMIT 1",
+            tuple(event_types),
+        ).fetchone()
+        return self._row_to_event(row) if row is not None else None
 
     def validate_chain(self) -> None:
         events = self.iter_events(1)
