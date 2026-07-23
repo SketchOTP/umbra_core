@@ -3,22 +3,21 @@
 ## Active directive
 - ID: D-20260723-1845-d008-task13-inline-gates
 - Project directive: UMBRA-D-008
-- Goal: Task 13 Gates 1–11 full-schema evidence (≥100 paired seeds); no QUALIFIED
-- Status: in_progress — full matrix run after smoke (Gates 1/4/5 metrics green at 2 seeds)
-- Acceptance: all Gate 1–11 + render-coherence + regression pass; schema-compliant; validator OK; commit only on pass; Task 14 NOT authorized until independent review
-- Touched files: experiments/d008/{run_experiment.py,evidence.py,validate_evidence.py}, docs/evidence/d008/*, .agent/*
-- Next action: complete 100-seed `run_experiment` → validate_evidence → pytest → commit if pass → independent review
+- Goal: Task 13 Gates 1–11 evidence
+- Status: done — UMBRA_D008_TASK13_GATES_1_11_PASS; Task 14 blocked on independent review
+- Acceptance: met (local); independent review pending
+- Touched files: experiments/d008/{run_experiment,evidence,validate_evidence}.py, docs/evidence/d008/*
+- Next action: Independent review of committed evidence → then Task 14 if AUTHORIZED
 
 ## Repo facts needed now
-- Tip before Task 13 evidence: 1506fa8
-- Mimir task: 23f68202600c401c9efb42740622b73e (parent D-008: cbbb61834c98463cb70fb9254ba08ea2 — do not close)
-- Smoke: D008_SEEDS=2 metrics would pass thresholds; file pass=false until seeds≥100
+- Tip: de9fc10 (evidence); harness: 425e2c8
+- software_commit in evidence: 425e2c8
+- Parent Mimir: cbbb61834c98463cb70fb9254ba08ea2 (open)
 
 ## Last validation
-- Command: D008_SEEDS=2 D008_TICKS=40 D008_ALLOW_SMOKE=1 python3 -m experiments.d008.run_experiment
-- Result: exit 1 (incomplete seeds by design); Gate1 c0=1.0 c9=0; Gate4 sep≈0.31; Gate5 vocab=1.0
+- Command: run_experiment 100 seeds + validate_evidence + pytest d008 + d001–d007
+- Result: all pass (2 tkinter skips remain for Task 14)
 
 ## Open blockers
-- Full 100-seed matrix in progress
-- Independent review required before TASK 14 AUTHORIZED
+- Independent review pending → TASK 14 AUTHORIZED: NO
 - python3-tk missing for Task 14 soak
