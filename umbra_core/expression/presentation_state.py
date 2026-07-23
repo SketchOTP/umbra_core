@@ -9,7 +9,8 @@ writer; everything else treats it as a read-only render input.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from types import MappingProxyType
+from typing import Any, Mapping
 
 # Postures are purely descriptive presentation labels — never a command, mood,
 # or emotion. Ordering matches design §2.
@@ -63,8 +64,8 @@ class PresentationState:
     interaction_target: str | None
     rest_activity_state: str | None
 
-    visible_condition_channels: dict[str, float]
-    developmental_markers: dict[str, Any]
+    visible_condition_channels: Mapping[str, float]
+    developmental_markers: Mapping[str, Any]
     nonverbal_signal: str | None  # null when DETACHED
 
     previous_posture: str | None
@@ -75,3 +76,20 @@ class PresentationState:
     transition_duration_ticks_hint: int | None
 
     source_event_refs: tuple[str, ...] = field(default_factory=tuple)
+
+    def __post_init__(self) -> None:
+        # Gate 8/C7 (Task 11): freeze both nested mappings to a defensive
+        # copy wrapped in `MappingProxyType` so no caller — including a
+        # renderer holding this same frozen instance — can silently mutate
+        # a channel/marker in place; only top-level reassignment was blocked
+        # by `frozen=True`, not in-place dict mutation.
+        object.__setattr__(
+            self,
+            "visible_condition_channels",
+            MappingProxyType(dict(self.visible_condition_channels)),
+        )
+        object.__setattr__(
+            self,
+            "developmental_markers",
+            MappingProxyType(dict(self.developmental_markers)),
+        )

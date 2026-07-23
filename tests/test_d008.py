@@ -1047,16 +1047,16 @@ def test_renderer_does_not_fake_autonomy(tmp_path):
     org = _ticked_organism(tmp_path, "no_fake.sqlite", ticks=1)
     try:
         renderer = HeadlessRenderer()
-        first = renderer.read_latest(org.frame_ring)
+        first = renderer.read_latest(org.frame_ring.read_only())
         assert first is not None
         renderer.render(first)
         assert renderer.render_count == 1
 
-        again = renderer.read_latest(org.frame_ring)
+        again = renderer.read_latest(org.frame_ring.read_only())
         assert again is None  # no new tick happened — nothing new to render
 
         org.tick_once()
-        second = renderer.read_latest(org.frame_ring)
+        second = renderer.read_latest(org.frame_ring.read_only())
         assert second is not None
         assert second.frame_id > first.frame_id
         renderer.render(second)
@@ -1712,17 +1712,17 @@ def test_reference_interface_runs_without_diagnostics(tmp_path):
     try:
         assert renderer.diagnostics_visible is False
 
-        entry = renderer.read_latest(org.frame_ring)
+        entry = renderer.read_latest(org.frame_ring.read_only())
         assert entry is not None
         renderer.render(entry)
         assert renderer.render_count == 1
         assert renderer.last_render_error is None
-        assert renderer.read_latest(org.frame_ring) is None  # non-destructive, no new frame yet
+        assert renderer.read_latest(org.frame_ring.read_only()) is None  # non-destructive, no new frame yet
 
         renderer.set_diagnostics_visible(True)
         assert renderer.diagnostics_visible is True
         org.tick_once()
-        entry2 = renderer.read_latest(org.frame_ring)
+        entry2 = renderer.read_latest(org.frame_ring.read_only())
         assert entry2 is not None
         renderer.render(entry2)
         assert renderer.render_count == 2
@@ -1742,12 +1742,12 @@ def test_tkinter_renderer_close_leaves_organism_running(tmp_path):
     org = _ticked_organism(tmp_path, "tk_close.sqlite", ticks=1)
     renderer = _real_tkinter_renderer(renderer_id="closing-tk")
     try:
-        entry = renderer.read_latest(org.frame_ring)
+        entry = renderer.read_latest(org.frame_ring.read_only())
         assert entry is not None
         renderer.render(entry)
 
         renderer.close()
-        assert renderer.read_latest(org.frame_ring) is None  # cursor unregistered
+        assert renderer.read_latest(org.frame_ring.read_only()) is None  # cursor unregistered
 
         for _ in range(5):
             org.tick_once()
@@ -2208,17 +2208,69 @@ def test_hostile_renderer_write_attempts_are_rejected(tmp_path):
         phys_before = org.phys.to_state()
         ring_len_before = len(org.frame_ring)
 
-        entry = hostile.read_latest(org.frame_ring)
+        entry = hostile.read_latest(org.frame_ring.read_only())
         assert entry is not None
         hostile.render(entry)
 
         assert hostile.attempted_writes
         assert hostile.successful_writes == []
         assert set(hostile.rejected_writes) == set(hostile.attempted_writes)
+        # Gate 8: pushing/clearing through the reader the renderer stored
+        # from `read_latest`, and mutating either nested presentation
+        # mapping in place, are among the attempted-and-rejected writes.
+        assert "push_via_held_ring_reference" in hostile.rejected_writes
+        assert "clear_via_held_ring_reference" in hostile.rejected_writes
+        assert "mutate_visible_condition_channel" in hostile.rejected_writes
+        assert "mutate_developmental_marker" in hostile.rejected_writes
 
         assert org.embodiment.to_state() == embodiment_before
         assert org.phys.to_state() == phys_before
         assert len(org.frame_ring) == ring_len_before
+    finally:
+        org.close()
+
+
+def test_frame_ring_reader_has_no_push_or_clear(tmp_path):
+    """Gate 8: the object renderers receive structurally lacks `push`/
+    `clear` — not merely a convention, an `AttributeError` on any caller
+    (renderer or otherwise) that tries."""
+    org = _ticked_organism(tmp_path, "reader_shape.sqlite", ticks=1)
+    try:
+        reader = org.frame_ring.read_only()
+        assert not hasattr(reader, "push")
+        assert not hasattr(reader, "clear")
+        with pytest.raises(AttributeError):
+            reader.push(list(org.frame_ring)[-1])
+        with pytest.raises(AttributeError):
+            reader.clear()
+        # Non-destructive reads still work through the reader.
+        cursor = RendererCursor(renderer_id="shape-check")
+        assert reader.read_latest(cursor) is not None
+        assert len(reader) == len(org.frame_ring)
+    finally:
+        org.close()
+
+
+def test_presentation_state_nested_mappings_are_frozen(tmp_path):
+    """Gate 8: `visible_condition_channels`/`developmental_markers` are
+    frozen at construction — in-place mutation raises, and does not affect
+    the ring's stored truth or the next read."""
+    org = _ticked_organism(tmp_path, "nested_frozen.sqlite", ticks=1)
+    try:
+        entry = list(org.frame_ring)[-1]
+        ps = entry.render_packet.presentation_state
+        with pytest.raises(TypeError):
+            ps.visible_condition_channels["persistence"] = 999.0
+        with pytest.raises(TypeError):
+            ps.developmental_markers["hacked"] = True
+
+        channels_before = dict(ps.visible_condition_channels)
+        org.tick_once()
+        next_entry = list(org.frame_ring)[-1]
+        assert next_entry.render_packet.presentation_state.visible_condition_channels != {
+            "persistence": 999.0
+        }
+        assert dict(ps.visible_condition_channels) == channels_before
     finally:
         org.close()
 

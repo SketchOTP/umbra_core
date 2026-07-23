@@ -21,7 +21,7 @@ import dataclasses
 from dataclasses import dataclass, field
 from typing import Callable
 
-from umbra_core.expression.frame_ring import FrameRing, FrameRingEntry, RendererCursor
+from umbra_core.expression.frame_ring import FrameRingEntry, FrameRingReader, RendererCursor
 
 
 @dataclass
@@ -31,11 +31,15 @@ class HostileRenderer:
     rejected_writes: list[str] = field(default_factory=list)
     successful_writes: list[str] = field(default_factory=list)
     _cursor: RendererCursor = field(init=False, repr=False)
+    _ring: FrameRingReader | None = field(init=False, repr=False, default=None)
 
     def __post_init__(self) -> None:
         self._cursor = RendererCursor(renderer_id=self.renderer_id)
 
-    def read_latest(self, ring: FrameRing) -> FrameRingEntry | None:
+    def read_latest(self, ring: FrameRingReader) -> FrameRingEntry | None:
+        # A hostile implementation stores the reader across calls, hoping to
+        # find a write method on it later from `render()` (Gate 8 finding).
+        self._ring = ring
         return ring.read_latest(self._cursor)
 
     def render(self, entry: FrameRingEntry) -> None:
@@ -62,6 +66,16 @@ class HostileRenderer:
             lambda: setattr(entry.render_packet, "source_state_version", -1),
         )
         self._attempt("mutate_frame_ring_entry_id", lambda: setattr(entry, "frame_id", -1))
+        self._attempt(
+            "mutate_visible_condition_channel",
+            lambda: ps.visible_condition_channels.__setitem__("persistence", 999.0),
+        )
+        self._attempt(
+            "mutate_developmental_marker",
+            lambda: ps.developmental_markers.__setitem__("hacked", True),
+        )
+        self._attempt("push_via_held_ring_reference", lambda: self._ring.push(entry))
+        self._attempt("clear_via_held_ring_reference", lambda: self._ring.clear())
 
     def set_diagnostics_visible(self, visible: bool) -> None:
         return None

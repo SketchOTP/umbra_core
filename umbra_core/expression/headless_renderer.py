@@ -7,7 +7,7 @@ continued autonomy when the organism produced no new frame.
 
 from __future__ import annotations
 
-from umbra_core.expression.frame_ring import FrameRing, FrameRingEntry, RendererCursor
+from umbra_core.expression.frame_ring import FrameRingEntry, FrameRingReader, RendererCursor
 
 
 class HeadlessRenderer:
@@ -20,7 +20,7 @@ class HeadlessRenderer:
         self.render_count = 0
         self.last_render_error: BaseException | None = None
 
-    def read_latest(self, ring: FrameRing) -> FrameRingEntry | None:
+    def read_latest(self, ring: FrameRingReader) -> FrameRingEntry | None:
         return ring.read_latest(self._cursor)
 
     def render(self, entry: FrameRingEntry) -> None:

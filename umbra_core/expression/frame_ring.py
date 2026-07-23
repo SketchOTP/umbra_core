@@ -96,6 +96,12 @@ class FrameRing:
             return None
         return self._entries[0].frame_id
 
+    def read_only(self) -> "FrameRingReader":
+        """Read-only view for renderers (Gate 8 finding, Task 11): renderers
+        must never hold the live ring's `push`/`clear`, only non-destructive
+        `read_latest`/introspection."""
+        return FrameRingReader(self)
+
     def _drop_retired(self, current_tick: int) -> None:
         minimum_tick = current_tick - self.retention_ticks
         self._entries = [
@@ -127,3 +133,31 @@ class FrameRing:
         if entry.active_execution_id is not None:
             return entry.active_execution_id == cursor.active_execution_id
         return True
+
+
+class FrameRingReader:
+    """Read-only, non-destructive view over a `FrameRing`. This — never the
+    live `FrameRing` itself — is what renderers receive (Task 11 Gate 8
+    finding: renderers previously received the live ring, whose public
+    `push`/`clear` a renderer implementation could store and call). Exposes
+    only `read_latest` plus harmless introspection; has no `push` or
+    `clear`, so even a renderer that stores this reference across calls has
+    no method to call to write into the ring."""
+
+    __slots__ = ("_ring",)
+
+    def __init__(self, ring: FrameRing) -> None:
+        self._ring = ring
+
+    def read_latest(self, cursor: RendererCursor) -> FrameRingEntry | None:
+        return self._ring.read_latest(cursor)
+
+    def __len__(self) -> int:
+        return len(self._ring)
+
+    def __iter__(self) -> Iterator[FrameRingEntry]:
+        return iter(self._ring)
+
+    @property
+    def oldest_frame_id(self) -> int | None:
+        return self._ring.oldest_frame_id

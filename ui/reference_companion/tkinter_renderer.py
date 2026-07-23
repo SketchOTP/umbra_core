@@ -18,7 +18,7 @@ import threading
 from typing import TYPE_CHECKING, Any
 
 from ui.reference_companion import diagnostics, habitat_view
-from umbra_core.expression.frame_ring import FrameRing, FrameRingEntry, RendererCursor
+from umbra_core.expression.frame_ring import FrameRingEntry, FrameRingReader, RendererCursor
 
 if TYPE_CHECKING:
     import tkinter as tk
@@ -77,7 +77,7 @@ class TkinterRenderer:
 
         self.set_diagnostics_visible(diagnostics_visible)
 
-    def read_latest(self, ring: FrameRing) -> FrameRingEntry | None:
+    def read_latest(self, ring: FrameRingReader) -> FrameRingEntry | None:
         if self._closed or self._cursor is None:
             return None
         with self.ring_lock:
@@ -108,7 +108,7 @@ class TkinterRenderer:
         else:
             self.diagnostics_canvas.pack_forget()
 
-    def poll_and_render(self, ring: FrameRing) -> FrameRingEntry | None:
+    def poll_and_render(self, ring: FrameRingReader) -> FrameRingEntry | None:
         """One non-blocking poll step, suitable for a Tk `after()`-scheduled
         loop. Never calls into the organism — only `read_latest`/`render` on
         frames it already committed."""
@@ -117,7 +117,7 @@ class TkinterRenderer:
             self.render(entry)
         return entry
 
-    def schedule(self, ring: FrameRing, *, interval_ms: int = DEFAULT_POLL_INTERVAL_MS) -> None:
+    def schedule(self, ring: FrameRingReader, *, interval_ms: int = DEFAULT_POLL_INTERVAL_MS) -> None:
         """Schedules recurring polling on the Tk main loop. Cadence is
         renderer-local wall time and independent of organism ticks."""
         if self._closed:
