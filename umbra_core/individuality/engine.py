@@ -30,6 +30,7 @@ MAX_CONTEXT_SCOPES = 24
 MAX_SUPPORTING_EVIDENCE_REFS = 24
 MAX_CONTRADICTING_EVIDENCE_REFS = 24
 MAX_ACTIVE_EVIDENCE_REFS = 32
+MAX_EVENT_LOG = 256  # in-memory ring; SQLite ledger remains authoritative
 GENERALIZATION_WITHIN_FAMILY_MAX = 0.35
 GENERALIZATION_CROSS_FAMILY = 0.0
 
@@ -390,6 +391,8 @@ class IndividualityEngine:
         rec = {"event_type": event_type, "payload": dict(payload), "event_id": new_id()}
         self._pending_events.append(rec)
         self._event_log.append(rec)
+        while len(self._event_log) > MAX_EVENT_LOG:
+            self._event_log.pop(0)
         self.metrics["events_emitted"] = int(self.metrics["events_emitted"]) + 1
 
     def drain_events(self) -> list[dict[str, Any]]:
@@ -684,7 +687,8 @@ class IndividualityEngine:
             "config": self.config.to_state(),
             "dispositions": [d.to_state() for d in self.dispositions.values()],
             "metrics": dict(self.metrics),
-            "event_log": list(self._event_log),
+            # Ledger is authoritative; do not embed event history in snapshots (RSS).
+            "event_log": [],
             "last_modifiers": dict(self._last_modifiers),
             # seed stored only for paired replay of stochastic arbitration elsewhere —
             # never exposed as personality.

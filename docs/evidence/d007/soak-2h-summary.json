@@ -1,0 +1,9 @@
+{
+  "counts_bounded": true,
+  "cpu_mean_frac": 0.0029926108328155684,
+  "duration_s": 7200.31865644455,
+  "n_samples": 240,
+  "pass": true,
+  "rss_p95_mib": 41.40625,
+  "rss_slope_mib_per_hour": 0.22349190218769246
+}

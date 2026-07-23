@@ -102,7 +102,7 @@ def run_soak(db_path: str | None = None, seed: int = 7, seconds: float | None = 
         world_model_enabled=True,
         social_enabled=True,
         social_history="H0",
-        snapshot_every=200,
+        snapshot_every=500,
         hz=2.0,
     )
     org = create_organism(cfg)
@@ -122,6 +122,9 @@ def run_soak(db_path: str | None = None, seed: int = 7, seconds: float | None = 
         while time.time() < end:
             t0 = time.monotonic()
             org.tick_once()
+            # Bound in-memory individuality diagnostic log each tick
+            if org.individuality is not None and len(org.individuality._event_log) > 64:
+                org.individuality._event_log = org.individuality._event_log[-64:]
             now = time.time()
             if now >= next_sample:
                 row = {
