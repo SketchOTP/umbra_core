@@ -1,0 +1,248 @@
+{
+  "version": 1,
+  "directive": "UMBRA-D-008",
+  "frozen_before_execution": true,
+  "minimum_gate_critical_paired_seeds": 100,
+  "thresholds_ref": "experiments/d008/thresholds.json",
+  "scenario_suite_ref": "experiments/d008/scenario-suite.json",
+  "design_ref": "docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md",
+  "conditions": {
+    "C0": "Full causal embodiment + expression (production path)",
+    "C1": "Scripted animation scheduler disconnected from core",
+    "C2": "Random presentation changes",
+    "C3": "Direct scalar mood→animation controller",
+    "C4": "Actions execute; presentation ignores them",
+    "C5": "Presentation ignores learned individuality",
+    "C6": "Presentation ignores physiology",
+    "C7": "Isolated hostile renderer/test-double attempting prohibited writes",
+    "C8": "Body-profile change resets presentation and organism history (disposable experimental DBs only)",
+    "C9": "Expression frames temporally shuffled",
+    "C10": "Performance baseline: ExpressionEngine and renderers disabled; core-only CPU/RSS measurement"
+  },
+  "scenarios": {
+    "S0": "Autonomous inhabited habitat baseline",
+    "S1": "Fatigue → rest → recovery physiology arc",
+    "S2": "Explore and inspect action-rich environment",
+    "S3": "Failed or blocked capability via constrained body",
+    "S4": "Uncertain observation; ambiguous distant cues",
+    "S5": "Partner signal play/assistance cues",
+    "S6": "Overstimulation then withdrawal recovery",
+    "S7": "Habit and routine time-window opportunities",
+    "S8": "D-007 individuality history contrast (H1 vs H7)",
+    "S9": "Partner absence mid-episode",
+    "S10": "Restart mid-activity for continuity/replay",
+    "S11": "Production body swap mid-episode",
+    "S12": "Extended no-user autonomous presence"
+  },
+  "gate_critical_cells": [
+    {
+      "condition": "C0",
+      "scenario": "S2",
+      "paired_seeds": 100,
+      "gates": [1],
+      "role": "Gate 1 baseline — action–expression alignment on explore/inspect"
+    },
+    {
+      "condition": "C1",
+      "scenario": "S2",
+      "paired_seeds": 100,
+      "gates": [1],
+      "role": "Gate 1 ablation — scripted animation; materially worse than C0×S2"
+    },
+    {
+      "condition": "C2",
+      "scenario": "S2",
+      "paired_seeds": 100,
+      "gates": [1],
+      "role": "Gate 1 ablation — random presentation; materially worse than C0×S2"
+    },
+    {
+      "condition": "C4",
+      "scenario": "S2",
+      "paired_seeds": 100,
+      "gates": [1],
+      "role": "Gate 1 ablation — presentation ignores actions; materially worse than C0×S2"
+    },
+    {
+      "condition": "C9",
+      "scenario": "S2",
+      "paired_seeds": 100,
+      "gates": [1],
+      "role": "Gate 1 ablation — shuffled frames; materially worse than C0×S2"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S1",
+      "paired_seeds": 100,
+      "gates": [2],
+      "role": "Gate 2 baseline — physiology-conditioned visible recovery"
+    },
+    {
+      "condition": "C6",
+      "scenario": "S1",
+      "paired_seeds": 100,
+      "gates": [2],
+      "role": "Gate 2 ablation — presentation ignores physiology; worse than C0×S1"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S4",
+      "paired_seeds": 100,
+      "gates": [3],
+      "role": "Gate 3 — attention stays ambiguous under uncertain observation"
+    },
+    {
+      "condition": "C3",
+      "scenario": "S4",
+      "paired_seeds": 100,
+      "gates": [3],
+      "role": "Gate 3 contrast — mood controller must not resolve ambiguity as C0"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S8",
+      "individuality_histories": ["H1", "H7"],
+      "paired_seeds": 100,
+      "gates": [4],
+      "role": "Gate 4 baseline — individuality history visible separation"
+    },
+    {
+      "condition": "C5",
+      "scenario": "S8",
+      "individuality_histories": ["H1", "H7"],
+      "paired_seeds": 100,
+      "gates": [4],
+      "role": "Gate 4 ablation — presentation ignores individuality; reduced separation"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S0",
+      "paired_seeds": 100,
+      "gates": [5],
+      "role": "Gate 5 — autonomous presence in inhabited habitat"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S12",
+      "paired_seeds": 100,
+      "gates": [5],
+      "role": "Gate 5 — extended no-user; rest/inactivity valid visible states"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S10",
+      "paired_seeds": 100,
+      "gates": [6],
+      "role": "Gate 6 — habitat and presentation continuity across restart/replay"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S11",
+      "paired_seeds": 100,
+      "gates": [7],
+      "role": "Gate 7 baseline — production body swap continuity"
+    },
+    {
+      "condition": "C8",
+      "scenario": "S11",
+      "paired_seeds": 100,
+      "gates": [7],
+      "role": "Gate 7 ablation — C8 resets history; must fail continuity claim"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S3",
+      "paired_seeds": 100,
+      "gates": [7],
+      "role": "Gate 7 — constrained body fail-closed; no world mutation on rejection"
+    },
+    {
+      "condition": "C7",
+      "scenario": "S0",
+      "paired_seeds": 100,
+      "gates": [8],
+      "role": "Gate 8 — hostile renderer write attempts detected/rejected"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S5",
+      "paired_seeds": 100,
+      "gates": [9],
+      "role": "Gate 9 — SIGNAL_* visibly expressed; no direct relationship/physiology write"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S0",
+      "paired_seeds": 100,
+      "gates": [10],
+      "role": "Gate 10 baseline — no scripted personality dependency in production path"
+    },
+    {
+      "condition": "C3",
+      "scenario": "S0",
+      "paired_seeds": 100,
+      "gates": [10],
+      "role": "Gate 10 contrast — scalar mood controller isolated; must not qualify as C0"
+    }
+  ],
+  "exploratory_cells": [
+    {
+      "condition": "C0",
+      "scenario": "S6",
+      "paired_seeds": 25,
+      "gates": [],
+      "rationale": "Withdrawal presentation under overstimulation — supplementary physiology channel probe"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S7",
+      "paired_seeds": 25,
+      "gates": [],
+      "rationale": "Routine/habit visible expression — supplementary developmental and social routine probe"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S9",
+      "paired_seeds": 25,
+      "gates": [],
+      "rationale": "Partner absence autonomy — supplementary social absence expression probe"
+    },
+    {
+      "condition": "C10",
+      "scenario": "S12",
+      "paired_seeds": 25,
+      "gates": [12],
+      "rationale": "Performance baseline only — core CPU/RSS without expression/renderers; not Gate 1–10 science"
+    }
+  ],
+  "exclusions": [
+    {
+      "pattern": "C1/C2/C3/C7/C8 × production persistence",
+      "rationale": "Experimental ablations must not share production authority or persistence schemas with C0"
+    },
+    {
+      "pattern": "C10 × Gates 1–10 qualification",
+      "rationale": "C10 is performance baseline only; Gates 1–10 primarily use C0–C9"
+    },
+    {
+      "pattern": "full C0–C10 × S0–S12 factorial",
+      "rationale": "156 cells exceeds bounded experiment budget; gate-critical and listed exploratory cells are preregistered"
+    },
+    {
+      "pattern": "post-execution matrix or threshold edits without supplement",
+      "rationale": "Frozen preregistration; modifications require recorded supplement per design §4"
+    }
+  ],
+  "forbidden_interventions": [
+    "set mood",
+    "set posture",
+    "set expression",
+    "play animation",
+    "force happy",
+    "force sad",
+    "force attention target",
+    "set personality",
+    "command rest",
+    "command play"
+  ]
+}

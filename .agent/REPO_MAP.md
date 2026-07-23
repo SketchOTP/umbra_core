@@ -4,7 +4,7 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 - `.agent/PROJECT_GOAL.md` — product SoT (companion organism core; chemistry optional/non-gating)
-- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-007 in progress)
+- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-008 in progress)
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
 - `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`)
@@ -71,11 +71,12 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-007 evidence: `docs/evidence/d007/`
 - Runtime: `OrganismConfig.individuality_enabled` + history plant `Embodiment.apply_individuality_history`; arbitration `individuality_apply` modifiers; authoritative individuality events in `events.py`
 
-## Digital embodiment (D-008) — design frozen; implementation pending
+## Digital embodiment (D-008) — preregistration frozen; implementation in progress
 - Design: `docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md`
 - Directive: `docs/directives/UMBRA-D-008-coherent-digital-embodiment.md`
+- Preregistration (frozen Task 1): `experiments/d008/thresholds.json`, `experiments/d008/experiment-matrix.json`, `experiments/d008/scenario-suite.json` — profile definition hashes remain `PLACEHOLDER_COMPUTE_AT_FREEZE` until Task 2; formal experiments blocked until real hashes
 - Planned packages: `umbra_core/expression/` (PresentationState, ExpressionEngine, FrameRing, ReferenceRenderer, HeadlessRenderer), `umbra_core/embodiment_adapters/` (thin wrap → Embodiment), `ui/reference_companion/` (Tkinter only; core never imports ui/)
-- Experiments: `experiments/d008/` (C0–C10; CONSTRAINED_TEST_BODY; freeze thresholds/matrix/scenario-suite before formal run)
+- Experiments: `experiments/d008/` (C0–C10; CONSTRAINED_TEST_BODY; harnesses pending Tasks 2–14)
 - Runtime shape: governance → EmbodimentAdapter.execute → Embodiment.execute → ExpressionEngine.derive → frame ring; renderers poll non-destructively
 - Caps: IDLE/ORIENT/MOVE/APPROACH/RETREAT/INSPECT/REST/CHARGE/SIGNAL_* (no MAINTAIN/PRACTICE aliases)
 

@@ -1,0 +1,278 @@
+{
+  "version": 1,
+  "directive": "UMBRA-D-008",
+  "frozen_before_execution": true,
+  "note": "Environment and opportunity manipulations only. Never command expression state, mood, posture, or animation.",
+  "default_tick_rate_hz": 10,
+  "default_warmup_ticks": 120,
+  "paired_seed_range": [1, 100000],
+  "scenarios": [
+    {
+      "id": "S0",
+      "name": "autonomous_habitat",
+      "description": "Baseline inhabited habitat with routine affordances; no partner; organism runs autonomously.",
+      "tick_budget": 2400,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": null,
+      "partner_present": false,
+      "environment": {
+        "zones": ["rest", "explore", "inspect"],
+        "objects": ["neutral_a", "neutral_b"],
+        "stimulation_level": "low"
+      },
+      "manipulations": []
+    },
+    {
+      "id": "S1",
+      "name": "fatigue_rest_recovery",
+      "description": "Elevated activity demand followed by rest opportunity; physiology must drive visible recovery pacing.",
+      "tick_budget": 1800,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": null,
+      "partner_present": false,
+      "environment": {
+        "zones": ["rest", "charge"],
+        "objects": [],
+        "stimulation_level": "high_then_low"
+      },
+      "manipulations": [
+        {"tick_start": 0, "tick_end": 600, "type": "activity_demand", "intensity": 0.85},
+        {"tick_start": 600, "tick_end": 1800, "type": "rest_opportunity", "intensity": 1.0}
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "explore_inspect",
+      "description": "Novel objects and exploration affordances; action-rich for action–expression alignment probes.",
+      "tick_budget": 1600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": null,
+      "partner_present": false,
+      "environment": {
+        "zones": ["explore", "inspect"],
+        "objects": ["novel_a", "novel_b", "distant_c"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 200, "type": "spawn_object", "object_id": "novel_b"},
+        {"tick_start": 800, "type": "relocate_object", "object_id": "distant_c"}
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "failed_blocked_capability",
+      "description": "Constrained body profile or blocked path forces adapter rejection and inability presentation.",
+      "tick_budget": 1200,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": null,
+      "partner_present": false,
+      "body_profile": "CONSTRAINED_TEST_BODY",
+      "environment": {
+        "zones": ["narrow_passage"],
+        "objects": ["blocked_target"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 400, "type": "require_capability", "capability": "SIGNAL_ASSISTANCE"}
+      ]
+    },
+    {
+      "id": "S4",
+      "name": "uncertain_observation",
+      "description": "Ambiguous distant cues; attention must remain low-confidence without mood authority resolving ambiguity.",
+      "tick_budget": 1400,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": "H9",
+      "partner_present": true,
+      "environment": {
+        "zones": ["observe"],
+        "objects": ["ambiguous_cue"],
+        "stimulation_level": "low",
+        "observation_noise_sigma": 0.22
+      },
+      "manipulations": [
+        {"tick_start": 300, "type": "cue_visibility", "visibility": 0.35},
+        {"tick_start": 900, "type": "cue_visibility", "visibility": 0.45}
+      ]
+    },
+    {
+      "id": "S5",
+      "name": "partner_signal",
+      "description": "Reliable partner play/assistance cues; SIGNAL_* must be visibly expressed without relationship writes.",
+      "tick_budget": 1600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": "H0",
+      "partner_present": true,
+      "environment": {
+        "zones": ["social", "play"],
+        "objects": ["shared_object"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 400, "type": "partner_cue", "cue": "play_invitation"},
+        {"tick_start": 1000, "type": "partner_cue", "cue": "assistance_offer"}
+      ]
+    },
+    {
+      "id": "S6",
+      "name": "withdrawal",
+      "description": "Overstimulation then recovery window; withdrawal posture must emerge from physiology not commands.",
+      "tick_budget": 1500,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H6",
+      "social_history": null,
+      "partner_present": false,
+      "environment": {
+        "zones": ["high_stim", "withdraw"],
+        "objects": [],
+        "stimulation_level": "high_then_silent"
+      },
+      "manipulations": [
+        {"tick_start": 0, "tick_end": 500, "type": "stimulation_burst", "intensity": 0.95},
+        {"tick_start": 500, "tick_end": 1500, "type": "stimulation_off", "intensity": 0.0}
+      ]
+    },
+    {
+      "id": "S7",
+      "name": "habit_routine",
+      "description": "Recurring time-window opportunities to express learned routines without scripted animation.",
+      "tick_budget": 2000,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H11",
+      "social_history": "H10",
+      "partner_present": false,
+      "environment": {
+        "zones": ["routine_a", "routine_b"],
+        "objects": ["routine_object"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 400, "type": "routine_window", "window_id": "morning"},
+        {"tick_start": 1200, "type": "routine_window", "window_id": "evening"}
+      ]
+    },
+    {
+      "id": "S8",
+      "name": "individuality_history_contrast",
+      "description": "Contrasting D-007 histories (H1 safe exploration vs H7 specialization A) for visible individuality separation.",
+      "tick_budget": 1800,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": ["H1", "H7"],
+      "social_history": null,
+      "partner_present": false,
+      "environment": {
+        "zones": ["explore", "object_family_a"],
+        "objects": ["family_a_object", "family_b_object"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 600, "type": "object_family_emphasis", "family": "A"},
+        {"tick_start": 1200, "type": "object_family_emphasis", "family": "B"}
+      ]
+    },
+    {
+      "id": "S9",
+      "name": "partner_absence",
+      "description": "Partner departs mid-episode; autonomy continues without escalation or punishment expression.",
+      "tick_budget": 1700,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": "H7",
+      "partner_present": true,
+      "environment": {
+        "zones": ["social", "solo"],
+        "objects": ["shared_object"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 0, "tick_end": 700, "type": "partner_present", "present": true},
+        {"tick_start": 700, "tick_end": 1700, "type": "partner_present", "present": false}
+      ]
+    },
+    {
+      "id": "S10",
+      "name": "restart_mid_activity",
+      "description": "Snapshot/restart during active movement for habitat and presentation continuity across replay.",
+      "tick_budget": 1400,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": null,
+      "partner_present": false,
+      "environment": {
+        "zones": ["move", "inspect"],
+        "objects": ["mobile_target"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 700, "type": "restart_snapshot"},
+        {"tick_start": 701, "type": "resume_from_snapshot"}
+      ]
+    },
+    {
+      "id": "S11",
+      "name": "body_swap",
+      "description": "Atomic production profile swap (ABSTRACT_SHAPE_BODY ↔ MINIMAL_CREATURE_BODY) mid-episode.",
+      "tick_budget": 1600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": null,
+      "partner_present": false,
+      "body_profile_sequence": ["ABSTRACT_SHAPE_BODY", "MINIMAL_CREATURE_BODY"],
+      "environment": {
+        "zones": ["move", "signal"],
+        "objects": ["swap_probe_object"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 800, "type": "body_swap", "target_profile": "MINIMAL_CREATURE_BODY"}
+      ]
+    },
+    {
+      "id": "S12",
+      "name": "extended_no_user",
+      "description": "Long autonomous run with no observer interaction; rest/inactivity must be valid visible states.",
+      "tick_budget": 3600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "social_history": null,
+      "partner_present": false,
+      "environment": {
+        "zones": ["rest", "explore", "inspect"],
+        "objects": ["neutral_a"],
+        "stimulation_level": "low"
+      },
+      "manipulations": []
+    }
+  ],
+  "forbidden_interventions": [
+    "set mood",
+    "set posture",
+    "set expression",
+    "play animation",
+    "force happy",
+    "force sad",
+    "force attention target",
+    "set personality",
+    "command rest",
+    "command play"
+  ]
+}
