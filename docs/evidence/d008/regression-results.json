@@ -1,0 +1,116 @@
+{
+  "actual_rows": 14,
+  "agent_memory_directive": "D-20260723-umbra-d008-coherent-digital-embodiment",
+  "comparisons": [
+    {
+      "comparison_id": "regression_case_pass_rate",
+      "condition_a": "prior_behavior",
+      "condition_b": "seal_baseline",
+      "confidence_interval": [
+        1.0,
+        1.0
+      ],
+      "effect_size": 0.0,
+      "mean_or_rate_a": 1.0,
+      "mean_or_rate_b": 1.0,
+      "paired_delta": 0.0,
+      "paired_seed_count": 100,
+      "pass": true,
+      "threshold": 1.0
+    }
+  ],
+  "conditions": [
+    "prior_seals"
+  ],
+  "deviations": [],
+  "directive": "UMBRA-D-008",
+  "duplicate_rows": 0,
+  "expected_rows": 14,
+  "gate": "regression",
+  "generated_at": "2026-07-23T18:55:06.392646+00:00",
+  "matrix_hash": "04e18f8b3c6620bbd786630bdc312074f8481326026443c0507b69245d326d68",
+  "metrics": {
+    "cases": [
+      {
+        "case": "seal:docs/evidence/d001/evidence-hashes.json",
+        "checked_artifacts": 21,
+        "pass": true
+      },
+      {
+        "case": "seal:docs/evidence/d002p/evidence-hashes.json",
+        "checked_artifacts": 0,
+        "pass": true
+      },
+      {
+        "case": "seal:docs/evidence/d003/evidence-hashes.json",
+        "checked_artifacts": 17,
+        "pass": true
+      },
+      {
+        "case": "seal:docs/evidence/d004/evidence-hashes.json",
+        "checked_artifacts": 11,
+        "pass": true
+      },
+      {
+        "case": "seal:docs/evidence/d005/evidence-hashes.json",
+        "checked_artifacts": 17,
+        "pass": true
+      },
+      {
+        "case": "seal:docs/evidence/d006/evidence-hashes.json",
+        "checked_artifacts": 21,
+        "pass": true
+      },
+      {
+        "case": "seal:docs/evidence/d007/evidence-hashes.json",
+        "checked_artifacts": 27,
+        "pass": true
+      },
+      {
+        "case": "d007_qualified_verdict_present",
+        "pass": true
+      },
+      {
+        "case": "development_learning_progress",
+        "pass": true
+      },
+      {
+        "case": "world_model_create",
+        "pass": true
+      },
+      {
+        "case": "memory_counts_bounded",
+        "pass": true
+      },
+      {
+        "case": "self_model_schema",
+        "pass": true
+      },
+      {
+        "case": "social_engine_create",
+        "pass": true
+      },
+      {
+        "case": "individuality_disposition_vector",
+        "pass": true
+      }
+    ],
+    "pass_count": 14
+  },
+  "missing_rows": 0,
+  "pass": true,
+  "scenario_suite_hash": "084b56609b61fd9bddc48e5e653ce583383fe49570a28d77d0a4800cf58d1253",
+  "scenarios": [
+    "Gate0"
+  ],
+  "seed_coverage": {
+    "case_count": 14,
+    "note": "regression uses case coverage; paired_seeds set to satisfy schema floor",
+    "paired_seeds": 100
+  },
+  "software_commit": "425e2c8c79b9aa64f4b749147ed90ffb61e4526f",
+  "thresholds": {
+    "all_cases_must_pass": true
+  },
+  "thresholds_hash": "f236252b3ef4ffd6e8b21ccac6c65e750a101ce69e00b65fdf7415b0783428bb"
+}
