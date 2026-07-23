@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import dataclasses
 import inspect
 import json
@@ -54,6 +55,9 @@ from umbra_core.runtime import (
     replay_from_birth,
 )
 from umbra_core.util import SeededRNG
+
+from ui.reference_companion import diagnostics, habitat_view
+from ui.reference_companion.tkinter_renderer import TkinterRenderer
 
 ROOT = Path(__file__).resolve().parents[1]
 THR = json.loads((ROOT / "experiments/d008/thresholds.json").read_text())
@@ -1499,3 +1503,236 @@ def test_ui_identifier_absent_from_individuality_state():
     blob = json.dumps(state, default=str)
     for bad in FORBIDDEN_STATE_KEYS:
         assert bad not in blob
+
+
+# ----- Tkinter reference companion (Task 9) -----
+
+
+class _FakeCanvas:
+    """Duck-typed stand-in for `tkinter.Canvas` — records calls only, no
+    real widget and no display required. `habitat_view`/`diagnostics` only
+    ever call this small subset of the real `tkinter.Canvas` API."""
+
+    def __init__(self) -> None:
+        self.calls: list[tuple[str, tuple, dict]] = []
+
+    def delete(self, *args, **kwargs):
+        self.calls.append(("delete", args, kwargs))
+
+    def create_oval(self, *args, **kwargs):
+        self.calls.append(("create_oval", args, kwargs))
+        return len(self.calls)
+
+    def create_line(self, *args, **kwargs):
+        self.calls.append(("create_line", args, kwargs))
+        return len(self.calls)
+
+    def create_text(self, *args, **kwargs):
+        self.calls.append(("create_text", args, kwargs))
+        return len(self.calls)
+
+
+def _rendered_texts(canvas: _FakeCanvas) -> list[str]:
+    return [str(kwargs.get("text", "")) for name, _, kwargs in canvas.calls if name == "create_text"]
+
+
+def test_experiments_and_core_never_import_ui():
+    """Design §1 import rule: `umbra_core` and `experiments` must never
+    import `ui/` — parsed via `ast` so this holds regardless of comments or
+    string mentions, only real import statements."""
+    for base_name in ("umbra_core", "experiments"):
+        base = ROOT / base_name
+        for path in base.rglob("*.py"):
+            tree = ast.parse(path.read_text(), filename=str(path))
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Import):
+                    for alias in node.names:
+                        assert alias.name.split(".")[0] != "ui", f"{path} imports ui: {alias.name}"
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    assert node.module.split(".")[0] != "ui", f"{path} imports from ui: {node.module}"
+
+
+def test_ui_reference_companion_only_imports_expression_from_core():
+    """`ui/` may import `umbra_core.expression` (design §1); it must never
+    reach into governance, persistence, runtime, or any other writable core
+    module."""
+    ui_root = ROOT / "ui" / "reference_companion"
+    assert list(ui_root.glob("*.py"))  # package actually exists with modules
+    for path in ui_root.rglob("*.py"):
+        tree = ast.parse(path.read_text(), filename=str(path))
+        for node in ast.walk(tree):
+            modules: list[str] = []
+            if isinstance(node, ast.Import):
+                modules.extend(alias.name for alias in node.names)
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                modules.append(node.module)
+            for module in modules:
+                if module == "umbra_core" or module.startswith("umbra_core."):
+                    assert module == "umbra_core.expression" or module.startswith(
+                        "umbra_core.expression."
+                    ), f"{path} imports {module}"
+
+
+def test_habitat_canvas_excludes_capability_phase_version_diagnostics(tmp_path):
+    """Habitat canvas = shapes/orientation/posture/attention/icons only;
+    capability/phase/versions belong in `diagnostics.py`, never on the
+    habitat canvas (design §3: 'Not a status dashboard')."""
+    org = _ticked_organism(tmp_path, "habitat_excludes.sqlite", ticks=10)
+    try:
+        entry = list(org.frame_ring)[-1]
+        ps = entry.render_packet.presentation_state
+        canvas = _FakeCanvas()
+        habitat_view.render_habitat(canvas, entry.render_packet)
+        rendered_text = " ".join(_rendered_texts(canvas))
+        forbidden = [ps.action_phase, str(entry.render_packet.source_state_version)]
+        if ps.active_capability:
+            forbidden.append(ps.active_capability)
+        for term in forbidden:
+            assert term not in rendered_text
+    finally:
+        org.close()
+
+
+def test_diagnostics_panel_shows_capability_phase_and_versions(tmp_path):
+    """Diagnostics (optional) carry exactly the fields the habitat canvas
+    must not: capability, phase, versions, source refs, condition channels."""
+    org = _ticked_organism(tmp_path, "diagnostics_shows.sqlite", ticks=10)
+    try:
+        entry = list(org.frame_ring)[-1]
+        canvas = _FakeCanvas()
+        diagnostics.render_diagnostics(canvas, entry.render_packet)
+        rendered_text = " ".join(_rendered_texts(canvas))
+        assert "capability=" in rendered_text
+        assert "phase=" in rendered_text
+        assert str(entry.render_packet.source_state_version) in rendered_text
+        assert str(entry.render_packet.habitat_state_version) in rendered_text
+    finally:
+        org.close()
+
+
+def test_renderer_cannot_write_core_state(tmp_path):
+    """Neither `habitat_view.render_habitat`/`diagnostics.render_diagnostics`
+    nor `TkinterRenderer` itself take an organism/embodiment/adapter
+    reference — the only channel in is an already-derived `RenderPacket`
+    read from the frame ring — so rendering has no path to mutate
+    physiology, embodiment, memory, identity, or the frame ring itself."""
+    for fn in (habitat_view.render_habitat, diagnostics.render_diagnostics):
+        assert list(inspect.signature(fn).parameters) == ["canvas", "packet"]
+
+    init_params = inspect.signature(TkinterRenderer.__init__).parameters
+    for forbidden in ("organism", "embodiment", "adapter", "governance", "phys", "physiology", "store"):
+        assert forbidden not in init_params
+
+    org = _ticked_organism(tmp_path, "no_write.sqlite", ticks=10)
+    try:
+        entry = list(org.frame_ring)[-1]
+        embodiment_before = org.embodiment.to_state()
+        phys_before = org.phys.to_state()
+        ring_len_before = len(org.frame_ring)
+
+        canvas = _FakeCanvas()
+        habitat_view.render_habitat(canvas, entry.render_packet)
+        diagnostics.render_diagnostics(canvas, entry.render_packet)
+
+        assert org.embodiment.to_state() == embodiment_before
+        assert org.phys.to_state() == phys_before
+        assert len(org.frame_ring) == ring_len_before
+        assert canvas.calls  # actually drew something, not a no-op stub
+    finally:
+        org.close()
+
+
+def test_two_body_profiles_render_same_organism(tmp_path):
+    """Design §1: production body profiles may differ in geometry/posture
+    mapping but must not materially prevent rendering continuity for the
+    same organism — swapping profile must not raise, blank the body layer,
+    or change which organism is being visualized."""
+    org = _ticked_organism(tmp_path, "two_profiles.sqlite", ticks=5)
+    try:
+        assert org.embodiment_adapter.state.body_profile_id == ABSTRACT_SHAPE_BODY.profile_id
+        entry_a = list(org.frame_ring)[-1]
+        body_instance_id = entry_a.render_packet.presentation_state.body_instance_id
+        canvas_a = _FakeCanvas()
+        habitat_view.render_habitat(canvas_a, entry_a.render_packet)
+        diagnostics.render_diagnostics(canvas_a, entry_a.render_packet)
+        assert canvas_a.calls
+
+        org.embodiment_adapter.swap_profile(MINIMAL_CREATURE_BODY.profile_id)
+        for _ in range(5):
+            org.tick_once()
+        entry_b = list(org.frame_ring)[-1]
+        assert entry_b.render_packet.presentation_state.body_profile_id == MINIMAL_CREATURE_BODY.profile_id
+        assert entry_b.render_packet.presentation_state.body_instance_id == body_instance_id  # same organism/body
+
+        canvas_b = _FakeCanvas()
+        habitat_view.render_habitat(canvas_b, entry_b.render_packet)
+        diagnostics.render_diagnostics(canvas_b, entry_b.render_packet)
+        assert canvas_b.calls
+    finally:
+        org.close()
+
+
+def _real_tkinter_renderer(**kwargs) -> TkinterRenderer:
+    tk = pytest.importorskip("tkinter")
+    try:
+        return TkinterRenderer(**kwargs)
+    except tk.TclError as exc:
+        pytest.skip(f"no Tk display available: {exc}")
+
+
+def test_reference_interface_runs_without_diagnostics(tmp_path):
+    """The full `ReferenceRenderer` contract (read_latest/render/
+    set_diagnostics_visible/close) must work correctly with diagnostics off
+    by default — diagnostics are optional and removable without changing
+    the inhabited-world canvas or organism behavior (design §3). Only this
+    test needs a real Tk display; it skips honestly when unavailable rather
+    than faking a soak (formal soak requires a real Canvas — brief note)."""
+    org = _ticked_organism(tmp_path, "tk_no_diag.sqlite", ticks=3)
+    renderer = _real_tkinter_renderer()
+    try:
+        assert renderer.diagnostics_visible is False
+
+        entry = renderer.read_latest(org.frame_ring)
+        assert entry is not None
+        renderer.render(entry)
+        assert renderer.render_count == 1
+        assert renderer.last_render_error is None
+        assert renderer.read_latest(org.frame_ring) is None  # non-destructive, no new frame yet
+
+        renderer.set_diagnostics_visible(True)
+        assert renderer.diagnostics_visible is True
+        org.tick_once()
+        entry2 = renderer.read_latest(org.frame_ring)
+        assert entry2 is not None
+        renderer.render(entry2)
+        assert renderer.render_count == 2
+        assert renderer.last_render_error is None
+
+        renderer.close()
+        renderer.close()  # idempotent
+        assert org.tick == 4  # organism unaffected by renderer close
+    finally:
+        renderer.close()
+        org.close()
+
+
+def test_tkinter_renderer_close_leaves_organism_running(tmp_path):
+    """`close()` unregisters the cursor and destroys only window resources —
+    the organism, adapter, and `ExpressionEngine` keep running untouched."""
+    org = _ticked_organism(tmp_path, "tk_close.sqlite", ticks=1)
+    renderer = _real_tkinter_renderer(renderer_id="closing-tk")
+    try:
+        entry = renderer.read_latest(org.frame_ring)
+        assert entry is not None
+        renderer.render(entry)
+
+        renderer.close()
+        assert renderer.read_latest(org.frame_ring) is None  # cursor unregistered
+
+        for _ in range(5):
+            org.tick_once()
+        assert org.tick == 6
+        assert len(org.frame_ring) > 0  # organism/expression side-car kept running
+    finally:
+        renderer.close()
+        org.close()
