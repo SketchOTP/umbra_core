@@ -476,3 +476,65 @@ See directive §16 / `tests/test_d008.py`. Zero skips at seal. Formal soak tests
 * Reuse existing habitat/body state; expression is a view.
 * Bound all rings, refs, caches, and logs.
 * Mark cosmetic shortcuts with `ponytail:` where intentional.
+
+---
+
+## Supplement S1 — Adapter continuous-limit clamping (2026-07-23)
+
+**Status:** Pre-execution design supplement (operator-approved). Does **not** alter frozen production profile definition hashes.
+
+> **Supported continuous body parameters exceeding production profile limits are deterministically clamped by `EmbodimentAdapter` before delegation. Hard rejection is reserved for unsupported capabilities, invalid attachment or profile state, malformed requests, and explicitly non-clampable constraints.**
+
+### Behavior
+
+For supported capabilities whose request exceeds a production profile’s continuous physical limit:
+
+```text
+requested step/turn
+→ clamp to profile limit
+→ delegate translated request to Embodiment
+→ record requested and applied values
+→ verify normal execution outcome
+```
+
+Hard rejection remains limited to:
+
+```text
+UNSUPPORTED_BODY_CAPABILITY
+BODY_DETACHED
+STALE_ATTACHMENT_GENERATION
+PROFILE_HASH_MISMATCH
+BODY_LIMIT_REJECTED
+```
+
+Use `BODY_LIMIT_REJECTED` only when clamping would be semantically invalid or unsafe, such as:
+
+* non-finite or malformed values;
+* zero or negative effective capability;
+* request requiring an indivisible minimum above the body limit;
+* unsupported constraint type;
+* translation would change the requested action category or target;
+* profile explicitly marks the limit as non-clampable.
+
+### Evidence fields on translated / rejected outcomes
+
+```text
+requested_parameters
+applied_parameters
+translation_applied
+translation_reason
+body_profile_id
+profile_definition_hash
+```
+
+Clamping must not be reported as failure. The verified outcome reflects the actual distance or turn executed.
+
+### Constraints
+
+* Clamp only physically continuous parameters (step distance, speed, turn magnitude).
+* Never clamp by changing targets, capability type, intent, or governance decision.
+* Do not mutate the original governed request after admission — create a translated adapter request with provenance back to it.
+* Production profiles may clamp.
+* `CONSTRAINED_TEST_BODY` must still hard-reject at least one capability and may mark selected limits as non-clampable.
+* Translated parameters must replay deterministically.
+* Existing D-001 fallback movement must remain functional through an enabled adapter (regression coverage required).
