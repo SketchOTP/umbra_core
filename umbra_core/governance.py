@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable
 
 from umbra_core.embodiment import CAPABILITIES, Embodiment
+from umbra_core.embodiment_adapters.adapter import AdapterRequest, EmbodimentAdapter
 from umbra_core.physiology import OUTCOME_EFFECTS, Physiology
 from umbra_core.util import SeededRNG, new_id
 
@@ -197,6 +198,8 @@ class Governance:
         rng: SeededRNG,
         *,
         resolve_params: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+        adapter: EmbodimentAdapter | None = None,
+        tick: int = 0,
     ) -> VerifiedOutcome | None:
         if not decision.admitted:
             return None
@@ -205,7 +208,17 @@ class Governance:
         if resolve_params:
             params = resolve_params(params)
 
-        raw = embodiment.execute_primitive(proposal.capability, params, rng)
+        if adapter is not None:
+            request = AdapterRequest(
+                request_id=proposal.proposal_id,
+                capability=proposal.capability,
+                params=params,
+                attachment_generation=adapter.state.attachment_generation,
+                tick=tick,
+            )
+            raw = adapter.execute(request, embodiment, rng)
+        else:
+            raw = embodiment.execute_primitive(proposal.capability, params, rng)
         return self.verify_outcome(proposal.capability, raw)
 
     def verify_outcome(self, capability: str, raw: dict[str, Any]) -> VerifiedOutcome:

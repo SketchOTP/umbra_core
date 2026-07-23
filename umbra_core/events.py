@@ -55,6 +55,10 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "world_model_supersede",
         "runtime_ready",
         "memory_correction",
+        # D-008 embodiment attachment — attach/detach/swap always emitted, never sampled.
+        "embodiment_body_attached",
+        "embodiment_body_detached",
+        "embodiment_body_profile_swapped",
     }
     | {name for name, klass in SOCIAL_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
     | {

@@ -22,6 +22,7 @@ from umbra_core.development import (
     condition_to_development_config,
 )
 from umbra_core.embodiment import Embodiment
+from umbra_core.embodiment_adapters.adapter import EmbodimentAdapter
 from umbra_core.events import (
     AUTHORITATIVE_EVENT_TYPES,
     DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS,
@@ -142,6 +143,7 @@ class Organism:
         memory: MemoryEngine | None = None,
         social: SocialEngine | None = None,
         individuality: IndividualityEngine | None = None,
+        embodiment_adapter: EmbodimentAdapter | None = None,
         monotonic_time: float = 0.0,
         tick: int = 0,
         session_id: str | None = None,
@@ -161,6 +163,9 @@ class Organism:
         self.memory = memory
         self.social = social
         self.individuality = individuality
+        # D-008: optional — when set, governance routes execution through the
+        # adapter's body-profile constraints instead of directly into Embodiment.
+        self.embodiment_adapter = embodiment_adapter
         self.monotonic_time = monotonic_time
         self.tick = tick
         self.session_id = session_id or new_id()
@@ -897,6 +902,8 @@ class Organism:
                 self.embodiment,
                 self.rng,
                 resolve_params=self._resolve_params,
+                adapter=self.embodiment_adapter,
+                tick=self.tick,
             )
             assert outcome is not None
             if outcome.reason == "delayed" or (outcome.raw and outcome.raw.get("delayed")):
