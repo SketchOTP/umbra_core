@@ -28,6 +28,14 @@ from umbra_core.embodiment_adapters.adapter import (
     attachment_state_from_event,
 )
 from umbra_core.embodiment_adapters.profiles import default_migration_profile_id
+from umbra_core.expression import (
+    AttachmentView,
+    ExpressionEngine,
+    ExpressionView,
+    FrameRing,
+    FrameRingEntry,
+    LastOutcomeView,
+)
 from umbra_core.events import (
     AUTHORITATIVE_EVENT_TYPES,
     DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS,
@@ -104,6 +112,12 @@ class OrganismConfig:
     # the explicit invariant test
     # `test_embodiment_adapter_disabled_by_default_preserves_prior_behavior`.
     embodiment_adapter_enabled: bool = False
+    # D-008 expression side-car: purely additive read-only derivation (never
+    # writes physiology/embodiment/governance, never appends authoritative
+    # events) — default True is safe for D-001..D-007 behavior. C10 is the
+    # frozen performance-baseline condition (design §4) and always disables
+    # it regardless of this flag, for core-only CPU/RSS measurement.
+    expression_enabled: bool = True
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -180,6 +194,12 @@ class Organism:
         # D-008: optional — when set, governance routes execution through the
         # adapter's body-profile constraints instead of directly into Embodiment.
         self.embodiment_adapter = embodiment_adapter
+        # D-008 expression side-car: always constructed (cheap, read-only) so a
+        # renderer can attach regardless of `expression_enabled`/condition; it
+        # simply stays empty when `_expression_active()` is False.
+        self.expression_engine = ExpressionEngine()
+        self.frame_ring = FrameRing.from_thresholds()
+        self._frame_id_counter = 0
         self.monotonic_time = monotonic_time
         self.tick = tick
         self.session_id = session_id or new_id()
@@ -520,6 +540,75 @@ class Organism:
             return True
         return False
 
+    def _expression_active(self) -> bool:
+        """C10 (design §4) is the frozen performance-baseline condition and
+        always disables expression, independent of `expression_enabled`."""
+        return self.config.expression_enabled and self.config.condition != "C10"
+
+    @staticmethod
+    def _outcome_to_last_outcome_view(outcome: Any) -> LastOutcomeView:
+        raw = outcome.raw or {}
+        return LastOutcomeView(
+            capability=outcome.capability,
+            admitted=True,
+            success=outcome.success,
+            reason=outcome.reason,
+            failure_code=raw.get("failure_code"),
+            execution_id=outcome.outcome_id,
+            target=raw.get("object_kind"),
+        )
+
+    def _push_expression_frame(self, last_outcome: LastOutcomeView | None) -> None:
+        """Side-car only: reads already-copied state, never writes physiology/
+        embodiment/governance and never appends an authoritative event — a
+        failure here must never pause the organism tick loop (design §1/§3)."""
+        if not self._expression_active():
+            return
+        try:
+            if self.embodiment_adapter is not None:
+                adapter_state = self.embodiment_adapter.state
+                attachment = AttachmentView(
+                    attachment_status=adapter_state.attachment_status,
+                    body_instance_id=adapter_state.body_instance_id,
+                    body_profile_id=adapter_state.body_profile_id,
+                    attachment_generation=adapter_state.attachment_generation,
+                )
+            else:
+                attachment = AttachmentView(
+                    attachment_status="DETACHED",
+                    body_instance_id=None,
+                    body_profile_id=None,
+                    attachment_generation=0,
+                )
+            view = ExpressionView(
+                tick=self.tick,
+                physiology=self.phys.as_dict(),
+                attachment=attachment,
+                embodiment_state=self.embodiment.to_state(),
+                source_state_version=self.tick,
+                habitat_state_version=self.tick,
+                last_outcome=last_outcome,
+            )
+            packet = self.expression_engine.derive(view)
+            self._frame_id_counter += 1
+            entry = FrameRingEntry(
+                frame_id=self._frame_id_counter,
+                derived_at_tick=self.tick,
+                # `active_execution_id` here tracks a still-pending multi-tick
+                # actuation (design's stale-execution rejection, Task 6); this
+                # tick's outcome is already verified/committed by the time a
+                # frame is pushed, so ordinary renderer cursors (execution id
+                # unset) must always accept it.
+                active_execution_id=None,
+                render_packet=packet,
+                source_event_refs=(),
+            )
+            self.frame_ring.push(entry)
+        except Exception:
+            # Core operation continues when the expression side-car fails
+            # (same containment pattern as D-005 memory consolidation above).
+            pass
+
     def _maybe_recover_i9(self) -> None:
         if self.config.intervention != "I9" or self._i9_recovered:
             return
@@ -595,12 +684,14 @@ class Organism:
             )
 
         # Complete delayed actuation if any
+        committed_outcome: Any = None
         delayed_raw = self.embodiment.tick_actuation(self.rng)
         if delayed_raw is not None and self._delayed_proposal is not None:
             outcome = self.governance.verify_outcome(
                 self._delayed_proposal["capability"], delayed_raw
             )
             self._finish_outcome(outcome, wall, obs_dicts, action_issued=True)
+            committed_outcome = outcome
             self._delayed_proposal = None
 
         # Capture body before action / external events for prediction/attribution
@@ -632,6 +723,11 @@ class Organism:
             if self.phys.in_viable():
                 self.metrics["viable_ticks"] += 1
             snap = self.snapshot_if_due()
+            self._push_expression_frame(
+                self._outcome_to_last_outcome_view(committed_outcome)
+                if committed_outcome is not None
+                else None
+            )
             return {
                 "tick": self.tick,
                 "capability": None,
@@ -947,6 +1043,7 @@ class Organism:
                 outcome_payload = self._finish_outcome(
                     outcome, wall, obs_dicts, action_issued=True
                 )
+                committed_outcome = outcome
                 sm_result = outcome_payload.pop("_sm", None) if outcome_payload else None
                 # D-006: a governed, executed signal opens a pending trace (design §5
                 # step 5) — never on proposal alone, never on denial/failure.
@@ -1021,6 +1118,20 @@ class Organism:
                 ctypes.CDLL("libc.so.6").malloc_trim(0)
             except OSError:
                 pass
+
+        # D-008: expression side-car — after this tick's outcome commit(s) (design
+        # §1). `committed_outcome` prefers whichever verified outcome was actually
+        # committed this tick (a delayed-from-last-tick completion, or this tick's
+        # own immediate execution); a plain governance denial is never rendered as
+        # if something executed (`admitted=False`, no verified outcome exists).
+        if committed_outcome is not None:
+            last_outcome_view = self._outcome_to_last_outcome_view(committed_outcome)
+        elif not decision.admitted:
+            last_outcome_view = LastOutcomeView(capability=cand.capability, admitted=False)
+        else:
+            last_outcome_view = None  # admitted this tick but delayed — nothing verified yet
+        self._push_expression_frame(last_outcome_view)
+
         return {
             "tick": self.tick,
             "capability": cand.capability if decision.admitted else None,

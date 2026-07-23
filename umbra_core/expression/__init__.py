@@ -21,11 +21,13 @@ from umbra_core.expression.frame_ring import (
     RendererCursor,
 )
 from umbra_core.expression.habitat_read_model import FrozenEntity, HabitatReadModel
+from umbra_core.expression.headless_renderer import HeadlessRenderer
 from umbra_core.expression.presentation_state import (
     ACTION_PHASES,
     POSTURES,
     PresentationState,
 )
+from umbra_core.expression.renderer import ReferenceRenderer
 
 __all__ = [
     "ATTENTION_CONFIDENCE_DISPLAY_THRESHOLD",
@@ -37,7 +39,9 @@ __all__ = [
     "FRAME_RING_RETENTION_TICKS",
     "FrameRing",
     "FrameRingEntry",
+    "HeadlessRenderer",
     "LastOutcomeView",
+    "ReferenceRenderer",
     "RenderPacket",
     "RendererCursor",
     "FrozenEntity",

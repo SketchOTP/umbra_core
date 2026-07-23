@@ -1,32 +1,29 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260723-1130-d008-task6-frame-ring
+- ID: D-20260723-1141-d008-task7-runtime-wire
 - Project directive: UMBRA-D-008
-- Goal: FrameRing with embedded full RenderPacket snapshots (habitat included at derive time), bounded by frozen D-008 thresholds, non-destructive renderer cursors, stale rejection by generation/state-version/execution; no runtime/Tkinter wiring
-- Status: complete — 6 Task 6 tests pass; full suite green (346 passed)
+- Goal: Wire ExpressionEngine side-car (derive->FrameRing.push) into Organism.tick_once after outcome commit using copied snapshots; expose frame_ring; ReferenceRenderer protocol + HeadlessRenderer; gate on OrganismConfig.expression_enabled/C10; no Tkinter (Task 9)
+- Status: complete — 5 brief-named tests + 4 supporting tests pass (43 in test_d008.py); full suite green (353 passed)
 - Acceptance: met
-- Touched files: `umbra_core/expression/frame_ring.py` (new), `umbra_core/expression/__init__.py`, `tests/test_d008.py`, `.superpowers/sdd/task-6-report.md`
-- Next action: Task 7 — runtime wiring (controller-owned parent D-008 Mimir task remains open)
+- Touched files: `umbra_core/runtime.py`, `umbra_core/expression/{renderer,headless_renderer,__init__}.py` (new/modified), `tests/test_d008.py`, `.superpowers/sdd/task-7-report.md`
+- Next action: Task 8 — restart, replay, body-swap continuity (controller-owned parent D-008 Mimir task remains open)
 
 ## Repo facts needed now
-- `umbra_core/expression/engine.py`: `ExpressionEngine.derive(view: ExpressionView) -> RenderPacket`, stateful only in `_last_presentation` (for posture-transition tracking) — no other side effects, no writes.
-- `ExpressionView` is a frozen dataclass of already-extracted plain data (physiology dict, `AttentionView`, `AttachmentView`, `embodiment_state` dict, `LastOutcomeView | None`) — never a live `Governance`/`Embodiment`/`Physiology` reference.
-- Denied (`LastOutcomeView.admitted=False`) vs failed (`admitted=True, success=False`) are rendered differently: denied -> IDLE/no active_capability; failed -> posture/action_phase=INTERRUPTED with active_capability still set.
-- `HabitatReadModel.from_embodiment_state` reads `Embodiment.to_state()["habitat"]` directly (features + partners), bounded by frozen `habitat_read_model_max_entities` (64).
-- Task 6 must store the full `RenderPacket` on each `FrameRingEntry`; renderers must never rebuild habitat when reading old frames.
-- Stale frames are rejected against current validity predicates: body/profile generation, state version, and active execution.
-- Design Supplement S1 (`docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md:482-541`) authorizes clamping continuous body params on production profiles instead of hard-rejecting; implemented in `umbra_core/embodiment_adapters/adapter.py` (`_translate_continuous_limits`), commits `2460415`/`ca97821`.
-- The prior Important finding (max_step=1.0 vs real 1.2-1.8 arbitration fallback steps causing near-total immobility when `embodiment_adapter_enabled=True`) is now resolved by clamping — independently re-verified by re-running the original failing probe against the fixed code.
-- `OrganismConfig.embodiment_adapter_enabled` stays default `False` (opt-in) — this is now acceptable specifically because the enabled path is proven safe (regression test + independent probe), not because a defect is hidden behind the flag.
-- Non-clampable marker convention: `BodyProfile.physical_limits["<limit>_clampable"] = False` (absent ⇒ clampable) — chosen to avoid changing `profile_definition_hash` for frozen production profiles.
+- `Organism.__init__` always builds `self.expression_engine = ExpressionEngine()` and `self.frame_ring = FrameRing.from_thresholds()` — cheap, read-only, never in `authoritative_state()`/snapshots.
+- `Organism._push_expression_frame(last_outcome)` is the only writer to `frame_ring`; it is called at both `tick_once` return sites (external-displacement early return, and the main end-of-tick return), guarded by `self._expression_active()` and wrapped in try/except (side-car failure never pauses the tick loop — same containment pattern as D-005 memory consolidation).
+- `ExpressionView` is built from `self.phys.as_dict()` and `self.embodiment.to_state()` — both fresh dict copies (verified by `to_state()` source read), never live subsystem references (Task 5 review watch item, now exercised at the runtime wire by `test_expression_view_is_built_from_copied_snapshots_not_live_aliases`).
+- A local `committed_outcome` in `tick_once` tracks whichever `VerifiedOutcome` was actually committed this tick (a delayed-from-last-tick completion via `Embodiment.tick_actuation`, or this tick's own immediate `execute_and_verify`) — a plain governance denial is rendered as `LastOutcomeView(capability=cand.capability, admitted=False)`, never as executed; an admitted-but-still-delayed candidate renders as `None` (nothing verified yet).
+- `FrameRingEntry.active_execution_id` is always `None` for runtime-pushed frames. Setting it to the outcome's execution id would break ordinary polling: `FrameRing._is_valid_for_cursor` requires an exact match on `cursor.active_execution_id` whenever `entry.active_execution_id` is non-None, and a default `RendererCursor` never pre-knows same-tick execution ids. That field is reserved for a still-pending multi-tick actuation.
+- `OrganismConfig.expression_enabled: bool = True` (unlike `embodiment_adapter_enabled`, which stays opt-in) — safe default because the side-car is strictly additive/read-only and appends zero authoritative events (proven by `test_habitat_state_is_not_duplicated` comparing event-type sequences with the flag on vs off). Condition `"C10"` (design §4 frozen performance baseline) always forces expression off regardless of the flag, via `Organism._expression_active()`.
+- `ReferenceRenderer` (`umbra_core/expression/renderer.py`, a `Protocol`) and `HeadlessRenderer` (`umbra_core/expression/headless_renderer.py`) are structurally decoupled from the organism: `Organism`/`tick_once` never call a renderer, so renderer failure/closure/slowdown cannot pause the organism by construction. `HeadlessRenderer.read_latest` returns `None` (renders nothing) when no new valid frame exists — it can never fake continued autonomy.
 - Plan: docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md
-- Mimir task: 134c0977bec34112b5fada9145c06ee5 (Task 6 sub-task; parent D-008 task cbbb61834c98463cb70fb9254ba08ea2 not closed — controller owns lifecycle)
+- Mimir task: 0218a285ae1d4f8cb1e62256569c2c03 (Task 7 sub-task; parent D-008 task cbbb61834c98463cb70fb9254ba08ea2 not closed — controller owns lifecycle)
 
 ## Last validation
 - Command: pytest tests/test_d008.py -q; pytest -q
-- Result: pass (36 passed; 346 passed full suite) — reproduced locally; `mimir_validation_run` blocked (see below)
+- Result: pass (43 passed; 353 passed full suite) — reproduced locally; `mimir_validation_run` blocked (see below)
 
 ## Open blockers
-- `mimir_validation_run` rejected scoped command as not allowlisted and allowlisted `pytest -q` with "validation requires an active observed task"; local pytest validation passed.
+- `mimir_validation_run` rejected allowlisted `pytest -q` with "validation requires an active observed task" (same recurring precedent as Tasks 2-6); validated locally instead.
 - Parent Mimir task `cbbb61834c98463cb70fb9254ba08ea2` intentionally left open.

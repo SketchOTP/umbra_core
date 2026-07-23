@@ -25,13 +25,16 @@ from umbra_core.embodiment_adapters.adapter import (
 )
 from umbra_core.events import AUTHORITATIVE_EVENT_TYPES
 from umbra_core.expression import (
+    ACTION_PHASES,
     ATTENTION_CONFIDENCE_DISPLAY_THRESHOLD,
+    POSTURES,
     AttachmentView,
     AttentionView,
     ExpressionEngine,
     ExpressionView,
     FrameRing,
     FrameRingEntry,
+    HeadlessRenderer,
     LastOutcomeView,
     PresentationState,
     RendererCursor,
@@ -952,3 +955,212 @@ def test_frame_ring_stores_packet_habitat_without_rebuilding_at_read():
     assert read is not None
     assert read.render_packet is entry.render_packet
     assert read.render_packet.habitat_read_model is stored_habitat
+
+
+# ----- HeadlessRenderer + runtime side-car wire (Task 7) -----
+
+
+def _ticked_organism(tmp_path: Path, name: str, *, ticks: int, **config_kwargs):
+    cfg = OrganismConfig(
+        db_path=str(tmp_path / name),
+        seed=1,
+        embodiment_adapter_enabled=True,
+        wall_time_fn=lambda: 0.0,
+        **config_kwargs,
+    )
+    org = create_organism(cfg)
+    for _ in range(ticks):
+        org.tick_once()
+    return org
+
+
+def test_autonomous_activity_continues_without_user(tmp_path):
+    """No renderer, no HeadlessRenderer, no external caller at all beyond
+    `tick_once()` — autonomous ticking and frame production must not require
+    a user, an observer, or anything polling the ring."""
+    org = _ticked_organism(tmp_path, "autonomous.sqlite", ticks=80)
+    try:
+        assert org.tick == 80
+        assert org.running is False  # tick_once never needs a running/observed loop
+        assert len(org.frame_ring) == min(80, org.frame_ring.capacity)
+        assert org.frame_ring.oldest_frame_id is not None
+    finally:
+        org.close()
+
+
+def test_rest_and_inactivity_are_valid_visible_states(tmp_path):
+    """Gate 5: rest/inactivity are legitimate, correctly-vocabularied visible
+    states — never a missing/invalid frame, and never silently dropped."""
+    from umbra_core.expression.presentation_state import RESULT_ACTIVITY_STATES
+
+    org = _ticked_organism(tmp_path, "rest.sqlite", ticks=0)
+    org.phys.fatigue = 0.9  # drives arbitration's fatigue-recovery focus toward REST
+    try:
+        for _ in range(60):
+            org.tick_once()
+        entries = list(org.frame_ring)
+        assert entries
+        inactivity_seen = False
+        for entry in entries:
+            ps = entry.render_packet.presentation_state
+            assert ps.attachment_status == "ATTACHED"
+            assert ps.posture in POSTURES
+            assert ps.action_phase in ACTION_PHASES
+            assert ps.rest_activity_state in RESULT_ACTIVITY_STATES
+            if ps.action_phase == "IDLE" or ps.rest_activity_state in ("IDLE", "RESTING"):
+                inactivity_seen = True
+        assert inactivity_seen  # inactivity actually occurred and rendered validly
+    finally:
+        org.close()
+
+
+def test_renderer_does_not_fake_autonomy(tmp_path):
+    """A poll with no new committed frame must return `None` and render
+    nothing — the renderer can never replay/duplicate a frame as if the
+    organism had done something new."""
+    org = _ticked_organism(tmp_path, "no_fake.sqlite", ticks=1)
+    try:
+        renderer = HeadlessRenderer()
+        first = renderer.read_latest(org.frame_ring)
+        assert first is not None
+        renderer.render(first)
+        assert renderer.render_count == 1
+
+        again = renderer.read_latest(org.frame_ring)
+        assert again is None  # no new tick happened — nothing new to render
+
+        org.tick_once()
+        second = renderer.read_latest(org.frame_ring)
+        assert second is not None
+        assert second.frame_id > first.frame_id
+        renderer.render(second)
+        assert renderer.render_count == 2
+
+        renderer.close()  # no-op for core
+        assert org.tick == 2  # organism unaffected by renderer close
+    finally:
+        org.close()
+
+
+def test_habitat_state_is_not_duplicated(tmp_path):
+    """There is exactly one authoritative habitat (`Embodiment.habitat`); the
+    expression side-car only ever projects it, never persists or maintains a
+    second copy — enabling/disabling expression must not change a single
+    authoritative event, and every rendered habitat entity traces straight
+    back to the live habitat's own features."""
+    cfg_common = dict(seed=4, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0)
+
+    org_with_expression = create_organism(
+        OrganismConfig(db_path=str(tmp_path / "dup_on.sqlite"), expression_enabled=True, **cfg_common)
+    )
+    org_without_expression = create_organism(
+        OrganismConfig(db_path=str(tmp_path / "dup_off.sqlite"), expression_enabled=False, **cfg_common)
+    )
+    try:
+        for _ in range(20):
+            org_with_expression.tick_once()
+            org_without_expression.tick_once()
+
+        # Compare event *types* only (not payloads): body/instance ids are
+        # random per organism (`new_id()`) regardless of `expression_enabled`,
+        # but the count and sequence of authoritative events must be identical
+        # — proving the side-car appends zero extra authoritative events.
+        types_on = [e["event_type"] for e in org_with_expression.store.iter_events()]
+        types_off = [e["event_type"] for e in org_without_expression.store.iter_events()]
+        assert types_on == types_off
+
+        assert len(org_with_expression.frame_ring) == 20
+        assert len(org_without_expression.frame_ring) == 0  # disabled: never populated
+
+        latest = list(org_with_expression.frame_ring)[-1]
+        live_features = org_with_expression.embodiment.habitat.to_state()["features"]
+        rendered_kinds = [
+            ent.kind for ent in latest.render_packet.habitat_read_model.entities if ent.kind != "partner"
+        ]
+        assert rendered_kinds == [f["kind"] for f in live_features]
+    finally:
+        org_with_expression.close()
+        org_without_expression.close()
+
+
+def test_action_expression_alignment(tmp_path):
+    """Every tick's rendered frame must faithfully reflect what `tick_once`
+    actually reports for that same tick: a governed denial never shows an
+    active capability, and an executed/interrupted outcome always names it."""
+    org = _ticked_organism(tmp_path, "alignment.sqlite", ticks=0)
+    try:
+        cursor = RendererCursor(renderer_id="alignment")
+        for _ in range(60):
+            result = org.tick_once()
+            entry = org.frame_ring.read_latest(cursor)
+            assert entry is not None
+            assert entry.derived_at_tick == result["tick"]
+            ps = entry.render_packet.presentation_state
+
+            if result["denied"] or not result["action_issued"]:
+                assert ps.active_capability is None
+                assert ps.action_phase != "EXECUTED"
+            elif result["outcome"] is not None:
+                outcome = result["outcome"]
+                if outcome["success"]:
+                    assert ps.active_capability == outcome["capability"]
+                    assert ps.action_phase == "EXECUTED"
+                else:
+                    assert ps.active_capability == outcome["capability"]
+                    assert ps.action_phase == "INTERRUPTED"
+    finally:
+        org.close()
+
+
+def test_expression_disabled_via_config_or_c10_skips_frame_ring(tmp_path):
+    """`expression_enabled=False` and the frozen C10 performance-baseline
+    condition (design §4) both skip the side-car entirely — the ring stays
+    empty and no `ExpressionEngine.derive` work happens."""
+    org_off = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "expr_off.sqlite"),
+            seed=1,
+            embodiment_adapter_enabled=True,
+            expression_enabled=False,
+            wall_time_fn=lambda: 0.0,
+        )
+    )
+    org_c10 = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "expr_c10.sqlite"),
+            seed=1,
+            embodiment_adapter_enabled=True,
+            condition="C10",
+            wall_time_fn=lambda: 0.0,
+        )
+    )
+    try:
+        for _ in range(10):
+            org_off.tick_once()
+            org_c10.tick_once()
+        assert len(org_off.frame_ring) == 0
+        assert len(org_c10.frame_ring) == 0
+    finally:
+        org_off.close()
+        org_c10.close()
+
+
+def test_expression_view_is_built_from_copied_snapshots_not_live_aliases(tmp_path):
+    """Task 5 review watch item, exercised at the runtime wire: the pushed
+    frame must not hold a live, still-mutable reference into physiology or
+    embodiment — later organism mutation must never retroactively change an
+    already-pushed frame."""
+    org = _ticked_organism(tmp_path, "copy_safety.sqlite", ticks=1)
+    try:
+        entry = list(org.frame_ring)[-1]
+        channels_before = dict(entry.render_packet.presentation_state.visible_condition_channels)
+        habitat_before = entry.render_packet.habitat_read_model.entities
+
+        org.phys.energy = 0.0
+        org.phys.fatigue = 1.0
+        org.embodiment.habitat.features.clear()
+
+        assert entry.render_packet.presentation_state.visible_condition_channels == channels_before
+        assert entry.render_packet.habitat_read_model.entities == habitat_before
+    finally:
+        org.close()
