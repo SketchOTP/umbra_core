@@ -1,28 +1,30 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260723-1219-d008-task8-review-fix
+- ID: D-20260723-1231-d008-task9-tkinter-companion
 - Project directive: UMBRA-D-008
-- Goal: Fix Task 8 review Important findings — load_organism must fail closed on missing/corrupted D-008 attachment events; strengthen birth-replay test to exercise the real migration/restart path instead of re-invoking attachment_state_from_event on its own output
-- Status: complete — 1-line production fix (gated store.validate_chain() call) + 2 tests strengthened; full suite green (365 passed, zero skips)
-- Acceptance: met
-- Touched files: `umbra_core/runtime.py` (load_organism), `tests/test_d008.py` (2 tests rewritten, unused imports removed)
-- Next action: Task 9 — Tkinter reference companion (parent D-008 Mimir task remains open, per controller ownership)
+- Goal: Tkinter reference companion over headless presentation model (`ui/reference_companion/`) — habitat canvas (shapes/orientation/posture/attention/icons only), diagnostics (capability/phase/versions/source-refs/condition-channels), `close()` unregisters cursor + destroys window + leaves organism running, thread-safe handoff for organism ticking off Tk thread, import isolation
+- Status: complete
+- Acceptance: met — 4 brief-named tests + 4 supporting tests pass; stdlib tkinter only; full suite 371 passed, 2 skipped (both skips are genuinely-missing-tkinter, not design gaps)
+- Touched files: `ui/__init__.py`, `ui/reference_companion/{__init__,habitat_view,diagnostics,tkinter_renderer}.py` (new); `tests/test_d008.py` (+8 tests)
+- Next action: Task 10 (per plan `docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md`) — parent D-008 Mimir task remains open, controller owns lifecycle
 
 ## Repo facts needed now
-- Root cause of the Task 8 review finding: `load_organism` never called `store.validate_chain()` before reconstructing D-008 attachment from the ledger. Deleting the sole `embodiment_body_attached` row made `store.last_event_of_types(ATTACHMENT_EVENT_TYPES)` legitimately return `None` — indistinguishable from a genuine pre-D-008 (never-attached) organism — so `attachment_state_from_event(None)` silently returned a fresh `DETACHED`/generation-0 state and `maybe_migrate_d008_attachment` would re-migrate a body that had already executed authoritative actions (fail-open, not fail-closed).
-- Fix: `umbra_core/runtime.py::load_organism` now calls `store.validate_chain()` immediately before the D-008 attachment-reconstruction block, gated on `config.embodiment_adapter_enabled` — a tampered/corrupted chain now raises `PersistenceError` there instead of falling through to the "never attached" default. Only `tests/test_d008.py` sets `embodiment_adapter_enabled=True` anywhere in the repo, so this is zero behavior/perf change for D-001..D-007 callers.
-- `test_missing_embodiment_event_fails_closed` now additionally asserts `load_organism(cfg)` itself raises `PersistenceError` (previously only checked `store.validate_chain()` in isolation).
-- `test_birth_replay_matches_authoritative_transitions` now builds a legacy pre-D-008 DB via `_create_legacy_pre_d008_db`, calls `load_organism` (triggering `maybe_migrate_d008_attachment`, origin `D008_MIGRATION`), performs two swaps, then calls `load_organism` a second time and asserts the reloaded adapter's `AttachmentState` matches the live adapter byte-for-byte, plus `replay_from_birth(db_path)["chain_valid"]`. No longer calls `attachment_state_from_event` directly.
-- Migration idempotency (`test_d008_migration_second_load_is_noop`, `test_d008_migration_event_is_part_of_valid_replay_chain`) reconfirmed unaffected by the new `validate_chain()` call.
-- Plan: docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md (Task 8 checklist)
-- Report: `.superpowers/sdd/task-8-report.md` (fix notes appended under "Review fix — Important findings")
-- Mimir task: d6ce3d9574cf4ffc84c687bce4298324 (this fix sub-task, closed); parent D-008 task cbbb61834c98463cb70fb9254ba08ea2 intentionally left open — controller owns lifecycle.
+- `habitat_view.py`/`diagnostics.py` duck-type against a `CanvasLike` `Protocol` (`delete`/`create_oval`/`create_line`/`create_text`) and never import `tkinter` — fully unit-testable with a fake-canvas double, no display needed.
+- `tkinter_renderer.py` imports `tkinter` lazily, only inside `TkinterRenderer.__init__` — importing `ui.reference_companion` never requires a Tk install; only instantiating a renderer does.
+- Habitat canvas draws entities + body + orientation line + posture color + attention ring (only when `attention_target` non-null, i.e. already past the display-confidence threshold) + nonverbal icon — never capability/phase/version/source-ref/condition-channel text (verified by `test_habitat_canvas_excludes_capability_phase_version_diagnostics`). Diagnostics draws exactly those excluded fields on a separate canvas, hidden by default (`set_diagnostics_visible(False)`).
+- `TkinterRenderer.close()` is idempotent: sets `_closed=True`, drops its `RendererCursor` (further `read_latest` calls return `None`), destroys only the two canvases it created (+ the root `Tk()` window if it created one rather than being handed a `master`) — never touches organism/adapter/`ExpressionEngine`.
+- Thread-safety contract: `TkinterRenderer.ring_lock` (`threading.Lock`) is acquired inside `read_latest`; a harness driving `Organism.tick_once()` on a separate thread is expected to acquire the same lock around each tick — explicit handoff boundary, zero changes to `FrameRing` itself.
+- This dev sandbox has **no `python3-tk` package installed** (`import tkinter` → `ModuleNotFoundError`, independent of `DISPLAY`) and `sudo apt-get install python3-tk` requires interactive auth unavailable here — the 2 tests needing a real `TkinterRenderer` instance (`test_reference_interface_runs_without_diagnostics`, `test_tkinter_renderer_close_leaves_organism_running`) use `pytest.importorskip("tkinter")` (+ `TclError` skip for no-display) and honestly skip here; they run for real wherever tkinter is installed.
+- Plan: `docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md` (Task 9 checklist)
+- Report: `.superpowers/sdd/task-9-report.md`
+- Mimir task: `35bad317472b4204b1c80c12c0670ceb` (Task 9 sub-task, closed); parent D-008 task `cbbb61834c98463cb70fb9254ba08ea2` intentionally left open — controller owns lifecycle.
 
 ## Last validation
-- Command: `pytest tests/test_d008.py -q` (55 passed) then `pytest tests/ -q` (365 passed, zero skips) — reproduced locally.
-- `mimir_validation_run` again rejected allowlisted `pytest -q` with "validation requires an active observed task" even after an intervening `mimir_task_observe` — same recurring precedent as Tasks 2-8. Validated locally instead.
+- Command: `pytest tests/test_d008.py -q` (61 passed, 2 skipped) then `pytest tests/ -q` (371 passed, 2 skipped) — reproduced locally.
+- `mimir_validation_run` again rejected allowlisted `pytest -q` with "validation requires an active observed task" even after an intervening `mimir_task_observe` — same recurring precedent as Tasks 2-8.
 
 ## Open blockers
-- `mimir_validation_run` remains blocked by "validation requires an active observed task" (recurring across Tasks 2-8 and this fix).
+- `mimir_validation_run` remains blocked by "validation requires an active observed task" (recurring across Tasks 2-9).
+- This sandbox lacks `python3-tk`/a display — formal Tkinter soak (design §4 Gate 12 incremental cost) needs a machine/CI with real tkinter + display; not attempted here, not claimed.
 - Parent Mimir task `cbbb61834c98463cb70fb9254ba08ea2` intentionally left open (do not close per directive).
