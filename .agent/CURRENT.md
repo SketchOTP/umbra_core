@@ -1,28 +1,28 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260723-1247-d008-task10-signals-individuality
+- ID: D-20260723-1302-d008-task10-finding-individuality-summary-wiring
 - Project directive: UMBRA-D-008
-- Goal: Map SIGNAL_PLAY/SIGNAL_ASSISTANCE, individuality-history differences, learned habits, shared routines, recovery, orientation, and cosmetic motion into `ExpressionEngine`'s visible expression channels — bounded, non-authoritative nudges only; no invented mood authority; signals never touch relationship state
+- Goal: Fix Important Task 10 finding — `individuality_summary` never populated on the live runtime path. Populate `ExpressionView.individuality_summary` in `Organism._push_expression_frame` from the organism's individuality engine / active habits / routines (copied snapshots only); add a regression test driving a real organism tick.
 - Status: complete
-- Acceptance: met — 10 brief-named tests pass; full suite green (381 passed, 2 skipped — same pre-existing tkinter-display skips)
-- Touched files: `umbra_core/expression/engine.py` (`_visible_condition_channels` now reads `ExpressionView.individuality_summary`), `tests/test_d008.py` (+10 tests, `_expression_view` helper gained `individuality_summary`/`embodiment` params)
+- Acceptance: met — `Organism._individuality_summary()` populates disposition_vector/habit_active/routine_active from live D-007/D-005/D-006 state every tick; new regression test drives two real organisms and passes; full suite green (382 passed, 2 skipped — same pre-existing tkinter-display skips)
+- Touched files: `umbra_core/runtime.py` (`Organism._individuality_summary()` + wiring into `_push_expression_frame`, `HABIT_CONFIDENCE_THRESHOLD` constant), `tests/test_d008.py` (+1 test, `IndividualityConfig`/`VerifiedEvidence` imports)
 - Next action: Task 11 (per plan `docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md`) — parent D-008 Mimir task remains open, controller owns lifecycle
 
 ## Repo facts needed now
-- `ExpressionView.individuality_summary` (existing field, previously unused) is now read by the engine: `{"disposition_vector": {dim: float, ...}}` (from D-007 `IndividualityEngine.disposition_vector()`, values in [-1,1]) plus optional `"habit_active"`/`"routine_active"` booleans. Runtime does NOT populate this field yet (out of Task 10's file scope — brief named only `engine.py` + `tests/test_d008.py`); wiring `Organism._push_expression_frame` to pass real individuality/memory/social state into `individuality_summary` is a natural Task 11+ follow-up if desired, not required by any current test.
-- Bounds: `INDIVIDUALITY_CHANNEL_BIAS_MAX = 0.15` (disposition-driven: persistence/rest_frequency/activity_intensity), `HABIT_ROUTINE_CHANNEL_BIAS = 0.10` (habit→transition_speed, routine→attentional_persistence, independent of each other). All channels stay clamped to [0,1]; individuality/habit/routine never changes `posture`/`active_capability`/`nonverbal_signal` for an identical outcome — verified by `test_renderer_does_not_create_authored_personality`.
-- SIGNAL_PLAY/SIGNAL_ASSISTANCE (nonverbal_signal + INTERACTING posture), CHARGE→RECOVERING→resumed-ACTIVE, and orientation pass-through from `Embodiment.body.heading` were already correct from Tasks 5/7 — Task 10 added regression tests only, zero production changes needed for those three.
-- `ExpressionEngine.derive(self, view)` signature is unchanged (still exactly `["self", "view"]`) — structurally has no path to a Social/relationship object, so signals cannot change relationship state by construction, not just by convention.
-- Plan: `docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md` (Task 10 checklist)
+- `Organism._individuality_summary(last_outcome)` (new, `umbra_core/runtime.py`) builds the dict passed as `ExpressionView.individuality_summary` every tick: `disposition_vector` from `self.individuality.disposition_vector(scope)` where `scope = self._indiv_tags.get("learning_context", "default")` — the SAME scope `_finish_outcome` already writes verified evidence into. Reading a hardcoded `"default"` scope instead would silently return all-zero dispositions for every non-default `individuality_history` (H0 included, since H0 sets `learning_context="safe_explore"`), making the wiring a permanent no-op even though present — this was the actual root cause, not just "field never touched".
+- `habit_active` = `self.memory.select_procedural(action=capability)` returns a skill with `confidence >= HABIT_CONFIDENCE_THRESHOLD` (0.45, matches the existing `tick_once` PROCEDURAL_KNOWLEDGE trust bar). `routine_active` = an `ACTIVE` entry in `self.social.routine_handles` whose `signal` equals this tick's verified `capability`. Both use `capability = last_outcome.capability if (last_outcome is not None and last_outcome.success) else None` — a denial or failed action never fabricates a habit/routine signal.
+- All three summary values are plain copies: `disposition_vector()` already returns a fresh `dict[str,float]` (D-007), booleans are derived facts, not references — `ExpressionView`/`ExpressionEngine` still never hold a live reference into `IndividualityEngine`/`MemoryEngine`/`SocialEngine`.
+- Regression test: `tests/test_d008.py::test_live_organism_populates_individuality_summary_via_push_expression_frame` — two real organisms (`individuality_enabled=True`, `expression_enabled=True`, `IndividualityConfig(modifiers_affect_arbitration=False)` to decouple arbitration from disposition so both pick the same action), one seeded with 75 `observe_verified` calls (public API) at the H0 `learning_context` scope, both ticked once, asserts `frame_ring[-1]` visible_condition_channels differ.
+- Plan: `docs/superpowers/plans/2026-07-23-umbra-d008-coherent-digital-embodiment.md` (Task 10 checklist + finding follow-up)
 - Report: `.superpowers/sdd/task-10-report.md`
-- Mimir task: `aae19ea8b29843348a7eafcc6e7df06b` (Task 10 sub-task, closed); parent D-008 task `cbbb61834c98463cb70fb9254ba08ea2` intentionally left open — controller owns lifecycle.
+- Mimir task: `a8cc684b328f41ba8741d5e81b0c0255` (this fix, closed v3); parent D-008 task `cbbb61834c98463cb70fb9254ba08ea2` intentionally left open — controller owns lifecycle.
 
 ## Last validation
-- Command: `pytest tests/test_d008.py -q` (71 passed, 2 skipped) then `pytest tests/ -q` (381 passed, 2 skipped) — reproduced locally.
-- `mimir_validation_run` again rejected allowlisted `pytest -q` with "validation requires an active observed task" even after an intervening `mimir_task_observe` — same recurring precedent as Tasks 2-9.
+- Command: `pytest tests/test_d008.py -q` (72 passed, 2 skipped) then `pytest tests/ -q` (382 passed, 2 skipped) — reproduced locally.
+- `mimir_validation_run` again rejected allowlisted `pytest -q` with "validation requires an active observed task" even after an intervening `mimir_task_observe` — same recurring precedent as Tasks 2-10.
 
 ## Open blockers
-- `mimir_validation_run` remains blocked by "validation requires an active observed task" (recurring across Tasks 2-10).
+- `mimir_validation_run` remains blocked by "validation requires an active observed task" (recurring across Tasks 2-10 and this fix).
 - This sandbox lacks `python3-tk`/a display — formal Tkinter soak (design §4 Gate 12 incremental cost) needs a machine/CI with real tkinter + display; not attempted here, not claimed.
 - Parent Mimir task `cbbb61834c98463cb70fb9254ba08ea2` intentionally left open (do not close per directive).

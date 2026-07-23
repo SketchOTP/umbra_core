@@ -150,6 +150,13 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
     return c
 
 
+# D-008: a D-005 procedural skill counts as an established "habit" once its
+# confidence reaches the same bar `tick_once` already uses to prefer learned
+# procedural knowledge over a fresh guess (see the `h.score >= 0.45` PROCEDURAL_
+# KNOWLEDGE check below) — not a new threshold invented for presentation.
+HABIT_CONFIDENCE_THRESHOLD = 0.45
+
+
 class Organism:
     """Minimum persistent UMBRA creature core (+ D-002..D-007)."""
 
@@ -545,6 +552,37 @@ class Organism:
         always disables expression, independent of `expression_enabled`."""
         return self.config.expression_enabled and self.config.condition != "C10"
 
+    def _individuality_summary(self, last_outcome: LastOutcomeView | None) -> dict[str, Any]:
+        """Read-only snapshot for `ExpressionView.individuality_summary` —
+        copied values only, never live mutable references into the
+        individuality/memory/social engines. `disposition_vector()` already
+        returns a fresh dict of plain floats (D-007); `habit_active`/
+        `routine_active` are booleans derived from existing D-005/D-006 state
+        matching this tick's verified capability, never invented labels."""
+        summary: dict[str, Any] = {}
+        if self.individuality is not None and self.config.individuality_enabled:
+            # Same scope `_finish_outcome` already learns in below — reading
+            # any other scope would surface dispositions the organism never
+            # actually accrues evidence toward for this history plant.
+            scope = str(self._indiv_tags.get("learning_context", "default"))
+            summary["disposition_vector"] = dict(self.individuality.disposition_vector(scope))
+        capability = (
+            last_outcome.capability
+            if (last_outcome is not None and last_outcome.success)
+            else None
+        )
+        if capability and self.memory is not None and self.config.memory_enabled:
+            skill = self.memory.select_procedural(action=capability)
+            if skill is not None and skill.confidence >= HABIT_CONFIDENCE_THRESHOLD:
+                summary["habit_active"] = True
+        if capability and self.social is not None and self.config.social_enabled:
+            if any(
+                h.status == "ACTIVE" and h.signal == capability
+                for h in self.social.routine_handles.values()
+            ):
+                summary["routine_active"] = True
+        return summary
+
     @staticmethod
     def _outcome_to_last_outcome_view(outcome: Any) -> LastOutcomeView:
         raw = outcome.raw or {}
@@ -588,6 +626,7 @@ class Organism:
                 source_state_version=self.tick,
                 habitat_state_version=self.tick,
                 last_outcome=last_outcome,
+                individuality_summary=self._individuality_summary(last_outcome),
             )
             packet = self.expression_engine.derive(view)
             self._frame_id_counter += 1

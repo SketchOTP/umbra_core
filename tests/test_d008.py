@@ -44,7 +44,12 @@ from umbra_core.expression import (
 from umbra_core.expression.presentation_state import RESULT_ACTIVITY_STATES
 from umbra_core.governance import Governance
 from umbra_core.identity import ConstitutionalIdentity
-from umbra_core.individuality import FORBIDDEN_STATE_KEYS, IndividualityEngine
+from umbra_core.individuality import (
+    FORBIDDEN_STATE_KEYS,
+    IndividualityConfig,
+    IndividualityEngine,
+    VerifiedEvidence,
+)
 from umbra_core.persistence import PersistenceError, Store
 from umbra_core.physiology import Physiology
 from umbra_core.runtime import (
@@ -1957,3 +1962,63 @@ def test_cosmetic_motion_is_non_authoritative():
     second = ExpressionEngine().derive(view)
 
     assert first.presentation_state == second.presentation_state
+
+
+def test_live_organism_populates_individuality_summary_via_push_expression_frame(tmp_path):
+    """Task 10 finding fix: `Organism._push_expression_frame` must populate
+    `ExpressionView.individuality_summary` from the organism's own live
+    `IndividualityEngine` — not leave the field empty on the runtime path
+    (previously only exercised via a manually built `ExpressionView`). Drives
+    two real organism ticks (`individuality_enabled` + `expression_enabled`,
+    `modifiers_affect_arbitration=False` so disposition differences cannot
+    change which action is chosen) and asserts the rendered visible condition
+    channels differ once the organisms' own dispositions differ."""
+
+    def _make(name: str):
+        cfg = OrganismConfig(
+            db_path=str(tmp_path / name),
+            seed=11,
+            individuality_enabled=True,
+            individuality_config=IndividualityConfig(modifiers_affect_arbitration=False),
+            expression_enabled=True,
+            wall_time_fn=lambda: 0.0,
+        )
+        return create_organism(cfg)
+
+    neutral = _make("neutral.sqlite")
+    shaped = _make("shaped.sqlite")
+    try:
+        # H0 (default individuality_history) plants `learning_context =
+        # "safe_explore"` — exactly the scope `_finish_outcome` already learns
+        # in every tick. Seed strong, repeated *verified* evidence there via
+        # the same public `observe_verified` the runtime itself calls, so
+        # `shaped`'s real `disposition_vector()` differs from `neutral`'s
+        # zeroed one before either organism ticks.
+        for i in range(25):
+            for dim in ("persistence_after_failure", "recovery_pacing", "stimulation_tolerance"):
+                shaped.individuality.observe_verified(
+                    VerifiedEvidence(
+                        evidence_id=f"seed-{dim}-{i}",
+                        tick=0,
+                        source_system="outcome",
+                        dimension=dim,
+                        context_scope="safe_explore",
+                        signed_outcome=1.0,
+                        from_episode=True,
+                    )
+                )
+        assert shaped.individuality.disposition_vector("safe_explore") != neutral.individuality.disposition_vector(
+            "safe_explore"
+        )
+
+        neutral.tick_once()
+        shaped.tick_once()
+
+        neutral_channels = list(neutral.frame_ring)[
+            -1
+        ].render_packet.presentation_state.visible_condition_channels
+        shaped_channels = list(shaped.frame_ring)[-1].render_packet.presentation_state.visible_condition_channels
+        assert neutral_channels != shaped_channels
+    finally:
+        neutral.close()
+        shaped.close()
