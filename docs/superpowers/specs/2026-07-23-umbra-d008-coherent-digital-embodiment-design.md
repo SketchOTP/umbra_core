@@ -149,33 +149,27 @@ source_event_refs           # bounded count; prioritized; validated; no payload 
 
 No wall-clock fields in semantic presentation state. No mood/emotion/personality fields.
 
-### Frame ring entry (non-authoritative)
+### Frame ring entry (non-authoritative) — stores coherent RenderPacket
 
 ```text
-frame_id
-derived_at_tick
-source_state_version
-body_attachment_generation
-active_execution_id         # null valid for rest/observe/recover/wait
-presentation_state
-source_event_refs
+FrameRingEntry
+  frame_id
+  derived_at_tick
+  active_execution_id         # null valid for rest/observe/recover/wait
+  render_packet
+    presentation_state
+    habitat_read_model        # immutable, bounded; captured at derive time
+    source_state_version
+    habitat_state_version
+    body_attachment_generation
+  source_event_refs
 ```
 
 Fixed max size and retention. Restart clears or rebuilds from current authoritative state. Backpressure drops stale frames; never blocks core.
 
-**Stale rejection:** generation mismatch always invalidates; state-version mismatch invalidates superseded frames; obsolete execution ID invalidates frames claiming that execution; null execution ID remains valid for state-derived frames.
+The habitat read model is projected **once at derive time** into the packet and stored in the ring. Renderers must **not** reconstruct habitat later when polling — that would risk pairing an older presentation with newer habitat truth.
 
-### RenderPacket (coherent presentation + habitat)
-
-```text
-presentation_state
-habitat_read_model
-source_state_version
-habitat_state_version
-body_attachment_generation
-```
-
-Presentation and habitat projection must share the same committed tick / compatible versions. Attachment-generation mismatch invalidates. Habitat projection once per derivation or from immutable authoritative snapshot. Incoherent packets are dropped, never displayed.
+**Stale rejection:** generation mismatch always invalidates; state-version mismatch invalidates superseded frames; obsolete execution ID invalidates frames claiming that execution; null execution ID remains valid for state-derived frames. Incoherent packets (version/generation mismatch inside the packet) are dropped, never displayed.
 
 ### Authoritative attachment state
 
@@ -207,6 +201,7 @@ embodiment_body_attached
   old_status: DETACHED → ATTACHED
   new_body_instance_id, new_profile_id, new_generation
   profile_schema_version, profile_definition_hash
+  origin                          # e.g. NORMAL | D008_MIGRATION
 
 embodiment_body_detached
   body_instance_id, profile_id
@@ -229,8 +224,71 @@ Rules:
 * invalid generation order fails closed;
 * world mutation and attachment-event commit cannot partially succeed;
 * compatible swap retains `body_instance_id`; true replacement uses detach+attach;
-* missing authoritative embodiment events fail closed on replay;
+* missing authoritative embodiment events fail closed on replay **after** migration (below);
 * expression frames are never authoritative events and never appear in organism snapshots.
+
+### D-007 → D-008 attachment migration
+
+Qualified pre-D-008 organisms lack attachment events. First D-008 startup must migrate once — not treat missing attachment as corruption.
+
+```text
+D008 attachment migration
+  detect pre-D008 schema
+  read existing authoritative Embodiment state
+  select the frozen default production profile
+  create attachment state
+  append embodiment_body_attached (origin = D008_MIGRATION)
+  record migration source version
+  commit atomically
+```
+
+Rules:
+
+* migration is idempotent;
+* runs only for a recognized pre-D008 schema;
+* `body_instance_id` is stable after migration;
+* profile ID, schema version, and definition hash are recorded;
+* no memory, individuality, relationship, physiology, or habitat state resets;
+* after migration, missing attachment events fail closed normally;
+* birth replay includes the migration attachment event rather than rerunning inference;
+* use `embodiment_body_attached` with `origin = D008_MIGRATION` — no separate event type.
+
+### Adapter rejection — durable failed execution outcome
+
+```text
+governance permits request
+→ adapter rejects unsupported capability or physical constraint
+→ commit durable failed execution outcome
+→ no Embodiment.execute call
+→ no world mutation
+→ derive INTERRUPTED / inability presentation
+```
+
+Failed outcome fields:
+
+```text
+execution_id
+request_id
+body_instance_id
+body_profile_id
+attachment_generation
+capability
+failure_code
+profile_constraint
+tick
+```
+
+Stable failure codes:
+
+```text
+UNSUPPORTED_BODY_CAPABILITY
+BODY_LIMIT_REJECTED
+BODY_DETACHED
+STALE_ATTACHMENT_GENERATION
+PROFILE_HASH_MISMATCH
+```
+
+Duplicate replay must be idempotent. A crash must not leave a rejected request without its failed outcome or allow it to execute after restart.
 
 ### Detached derivation
 
@@ -250,13 +308,14 @@ Organism core may continue; renderer shows empty body layer; habitat may still r
 ### ReferenceRenderer protocol (`umbra_core.expression.renderer`)
 
 ```text
-read_latest(frame_ring, renderer_cursor) → newest valid RenderPacket
-render(packet)
+read_latest(frame_ring, renderer_cursor) → newest valid FrameRingEntry
+render(entry.render_packet)
 set_diagnostics_visible(bool)   # UI-only
 close()                         # unregister cursor; destroy local resources only
 ```
 
 * Polling is **non-destructive** (per-renderer cursor / last-seen `frame_id`).
+* Habitat comes from `entry.render_packet.habitat_read_model` — never re-projected at poll time.
 * Cadence independent of organism ticks.
 * Renderer failure/closure/slowdown must not pause the organism.
 * Exceptions contained and recorded diagnostically.
@@ -292,6 +351,18 @@ experiments/d008/scenario-suite.json
 ```
 
 Must include `minimum_gate_critical_paired_seeds = 100` applying **separately** to every Gate 1–10 comparison cell. Exploratory cells may use fewer seeds but cannot support qualification claims.
+
+**Also freeze explicitly:**
+
+* exact hashes of both production body profiles (`ABSTRACT_SHAPE_BODY`, `MINIMAL_CREATURE_BODY`);
+* default migration profile ID;
+* frame-ring capacity and retention;
+* habitat read-model bounds;
+* renderer cadence;
+* attention-confidence display threshold;
+* Tkinter diagnostic-panel state for soak comparison;
+* real-display or virtual-display configuration;
+* adapter rejection failure codes (full set above).
 
 ### Conditions
 
