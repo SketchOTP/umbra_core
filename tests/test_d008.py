@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 import dataclasses
+import hashlib
 import inspect
 import json
 from pathlib import Path
@@ -2331,3 +2332,120 @@ def test_c8_disposable_db_guard_rejects_production_paths():
     ):
         with pytest.raises(ValueError):
             assert_disposable_db_path(bad)
+
+
+# ----- Task 12: directive §16 minimum-list cross-check + prior seals -----
+
+
+def test_d001_through_d007_seals_unchanged():
+    """Gate 0/10: D-001 through D-007 evidence hashes remain unchanged under D-008."""
+    seals = [
+        "docs/evidence/d001/evidence-hashes.json",
+        "docs/evidence/d002p/evidence-hashes.json",
+        "docs/evidence/d003/evidence-hashes.json",
+        "docs/evidence/d004/evidence-hashes.json",
+        "docs/evidence/d005/evidence-hashes.json",
+        "docs/evidence/d006/evidence-hashes.json",
+        "docs/evidence/d007/evidence-hashes.json",
+    ]
+    for rel in seals:
+        data = json.loads((ROOT / rel).read_text())
+        for path, expect in data.items():
+            if not isinstance(expect, str) or not str(path).startswith("docs/"):
+                continue
+            if str(path).endswith("evidence-hashes.json"):
+                continue
+            p = ROOT / path
+            if p.exists():
+                assert hashlib.sha256(p.read_bytes()).hexdigest() == expect, f"seal drift:{path}"
+    assert "UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED" in (
+        ROOT / "docs/evidence/d007/final-verdict.md"
+    ).read_text()
+
+
+def test_prior_behavior_regressions_within_bounds():
+    """Gate 10: D-001 through D-007 qualified behavior remains within accepted
+    bounds under D-008 — key prior-directive assertions still hold."""
+    from umbra_core.development import DevelopmentEngine
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.self_model import SelfModel
+    from umbra_core.social import condition_to_social_config
+    from umbra_core.world_model import WorldModel
+
+    d = DevelopmentEngine.create("x", seed=1)
+    assert d.learning_progress_from_windows(0.8, 0.4) == pytest.approx(0.4)
+    w = WorldModel.create("x", seed=1)
+    assert w is not None
+    m = MemoryEngine.create("x", seed=1)
+    assert m.counts_bounded()
+    sm = SelfModel.create("x", now=0.0, seed=1)
+    assert sm.active.body_schema_id is not None
+    s = SocialEngine.create("reg", config=condition_to_social_config("C0"), seed=1)
+    assert s is not None
+    ind = IndividualityEngine.create("reg-ind", seed=1)
+    assert ind.disposition_vector() is not None
+
+
+def test_no_deferred_modules():
+    """Gate 13: no deferred/foreign-scope modules or invented capabilities added
+    under this directive (forbidden per directive: LLM-as-controller, mood/
+    emotion/personality authority, chemistry/protocell, robotics/camera/
+    microphone/language prerequisites, invented MAINTAIN/PRACTICE capabilities)."""
+    forbidden_dirs = [
+        "umbra_core/language",
+        "umbra_core/mood",
+        "umbra_core/emotion",
+        "umbra_core/personality",
+        "umbra_core/llm",
+        "umbra_core/chemistry",
+        "umbra_core/protocell",
+        "umbra_core/robotics",
+        "umbra_core/camera",
+        "umbra_core/microphone",
+    ]
+    for rel in forbidden_dirs:
+        assert not (ROOT / rel).exists(), rel
+    assert (ROOT / "umbra_core/expression").is_dir()
+    assert (ROOT / "umbra_core/embodiment_adapters").is_dir()
+    assert "MAINTAIN" not in FULL_CAPABILITY_SET
+    assert "PRACTICE" not in FULL_CAPABILITY_SET
+    for profile in (ABSTRACT_SHAPE_BODY, MINIMAL_CREATURE_BODY, CONSTRAINED_TEST_BODY):
+        assert "MAINTAIN" not in profile.supported_capabilities
+        assert "PRACTICE" not in profile.supported_capabilities
+
+
+def test_100k_tick_boundedness(tmp_path):
+    """Accelerated bound check — full 100k formal run is
+    experiments/d008/run_performance.py (Task 14, not executed here)."""
+    org = _ticked_organism(tmp_path, "boundedness.sqlite", ticks=0)
+    try:
+        for _ in range(2000):
+            org.tick_once()
+        assert len(org.frame_ring) <= THR["frame_ring_capacity"]
+        for entry in org.frame_ring:
+            assert (
+                len(entry.render_packet.habitat_read_model.entities)
+                <= THR["habitat_read_model_max_entities"]
+            )
+            assert len(entry.source_event_refs) <= THR["source_event_refs_max"]
+        assert org.embodiment_adapter.state.attachment_generation >= 1
+    finally:
+        org.close()
+
+
+def test_two_hour_visible_runtime_soak():
+    """Seal-time soak lives in experiments/d008/run_performance.py (Task 14,
+    not executed here). Unit check validates the harness threshold contract
+    always, and reads evidence only if the performance harness has already
+    written it — same interim pattern as test_d007.py's
+    test_two_hour_performance_soak. Do not skip."""
+    assert THR["soak_seconds_min"] >= 7200
+    assert THR["rss_p95_mib_max"] == 180
+    perf = ROOT / "docs/evidence/d008/performance-results.json"
+    if perf.exists():
+        data = json.loads(perf.read_text())
+        if data.get("soak"):
+            assert data["soak"]["rss_p95_mib"] <= THR["rss_p95_mib_max"]
+            assert data["soak"]["duration_s"] >= THR["soak_seconds_min"]
+        if data.get("ui_incremental"):
+            assert data["ui_incremental"]["rss_p95_mib"] <= THR["ui_incremental_rss_p95_mib_max"]
