@@ -11,6 +11,14 @@ from pathlib import Path
 import pytest
 
 from experiments.d008.constrained_profile import CONSTRAINED_TEST_BODY
+from experiments.d008.diagnostic_controllers import (
+    RandomPresentationController,
+    ScalarMoodController,
+    ScriptedAnimationScheduler,
+    assert_disposable_db_path,
+    assert_not_production_schema,
+)
+from experiments.d008.hostile_renderer import HostileRenderer
 from umbra_core.embodiment import Embodiment
 from umbra_core.embodiment_adapters import (
     ABSTRACT_SHAPE_BODY,
@@ -32,6 +40,8 @@ from umbra_core.expression import (
     POSTURES,
     AttachmentView,
     AttentionView,
+    ExpressionConfig,
+    ExpressionConfigError,
     ExpressionEngine,
     ExpressionView,
     FrameRing,
@@ -40,6 +50,7 @@ from umbra_core.expression import (
     LastOutcomeView,
     PresentationState,
     RendererCursor,
+    condition_to_expression_config,
 )
 from umbra_core.expression.presentation_state import RESULT_ACTIVITY_STATES
 from umbra_core.governance import Governance
@@ -2022,3 +2033,206 @@ def test_live_organism_populates_individuality_summary_via_push_expression_frame
     finally:
         neutral.close()
         shaped.close()
+
+
+# --- Task 11: isolated ablations C1-C10 ---
+
+
+def test_condition_to_expression_config_maps_c4_c5_c6():
+    assert condition_to_expression_config("C0") == ExpressionConfig()
+    assert condition_to_expression_config("C4") == ExpressionConfig(ignore_actions=True)
+    assert condition_to_expression_config("C5") == ExpressionConfig(ignore_individuality=True)
+    assert condition_to_expression_config("C6") == ExpressionConfig(ignore_physiology=True)
+    # C9 (shuffled frames) and C10 (fully disabled via _expression_active) need
+    # no engine-level switch — same pattern as D-007's C9 harness-level shuffle.
+    assert condition_to_expression_config("C9") == ExpressionConfig()
+    assert condition_to_expression_config("C10") == ExpressionConfig()
+
+
+@pytest.mark.parametrize("condition", ["C1", "C2", "C3", "C7", "C8"])
+def test_condition_to_expression_config_rejects_diagnostic_only_conditions(condition):
+    with pytest.raises(ExpressionConfigError):
+        condition_to_expression_config(condition)
+
+
+def test_scripted_animation_condition_is_isolated():
+    """C1: scripted animation scheduler never shares the production
+    `condition_to_expression_config` schema and never reads organism state —
+    it only advances a fixed schedule by call count."""
+    with pytest.raises(ExpressionConfigError):
+        condition_to_expression_config("C1")
+    ctrl = ScriptedAnimationScheduler()
+    labels = [ctrl.advance() for _ in range(len(ctrl.schedule) + 2)]
+    assert labels[0] == labels[len(ctrl.schedule)]  # deterministic wrap, no core input
+    assert_not_production_schema(ctrl)
+    with pytest.raises(TypeError):
+        assert_not_production_schema(object())
+
+
+def test_random_expression_condition_is_isolated():
+    """C2: presentation drawn from a seeded RNG only — deterministic by seed,
+    with no causal link to action/physiology/attention/individuality."""
+    with pytest.raises(ExpressionConfigError):
+        condition_to_expression_config("C2")
+    a = RandomPresentationController(seed=7)
+    b = RandomPresentationController(seed=7)
+    assert [a.advance() for _ in range(10)] == [b.advance() for _ in range(10)]
+    c = RandomPresentationController(seed=8)
+    assert [RandomPresentationController(seed=7).advance() for _ in range(10)] != [
+        c.advance() for _ in range(10)
+    ]
+
+
+def test_scalar_mood_controller_is_isolated():
+    """C3: a single externally-poked scalar maps directly to a canned label —
+    never derived from real physiology or action history."""
+    with pytest.raises(ExpressionConfigError):
+        condition_to_expression_config("C3")
+    ctrl = ScalarMoodController(mood=0.9)
+    assert ctrl.render() == "ACTIVE"
+    ctrl.mood = 0.5
+    assert ctrl.render() == "NEUTRAL"
+    ctrl.mood = 0.1
+    assert ctrl.render() == "RESTING"
+
+
+def test_ignore_actions_condition_hides_executed_capability():
+    """C4: actions execute (untouched by this presentation-only flag) but
+    the engine renders every tick as if no outcome existed at all."""
+    outcome = LastOutcomeView(capability="MOVE", admitted=True, success=True, execution_id="e1")
+    view = _expression_view(tick=1, last_outcome=outcome)
+
+    baseline = ExpressionEngine().derive(view).presentation_state
+    assert baseline.active_capability == "MOVE"
+    assert baseline.action_phase == "EXECUTED"
+
+    ablated = ExpressionEngine(config=condition_to_expression_config("C4")).derive(view).presentation_state
+    assert ablated.active_capability is None
+    assert ablated.action_phase == "IDLE"
+
+
+def test_ignore_individuality_condition_removes_bias():
+    """C5: presentation ignores learned individuality — the bounded
+    disposition-shaped channel bias disappears while the physiology-driven
+    baseline stays intact."""
+    summary = {
+        "disposition_vector": {
+            "persistence_after_failure": 1.0,
+            "recovery_pacing": 1.0,
+            "stimulation_tolerance": 1.0,
+        }
+    }
+    view = _expression_view(tick=1, individuality_summary=summary)
+
+    baseline = ExpressionEngine().derive(view).presentation_state.visible_condition_channels
+    ablated = (
+        ExpressionEngine(config=condition_to_expression_config("C5"))
+        .derive(view)
+        .presentation_state.visible_condition_channels
+    )
+    assert baseline["persistence"] != ablated["persistence"]
+    assert baseline["activity_intensity"] != ablated["activity_intensity"]
+
+
+def test_ignore_physiology_condition_flattens_channels():
+    """C6: presentation ignores physiology — two views with wildly different
+    energy/fatigue/integrity/stimulation render identical channels once
+    ablated, while the un-ablated baseline visibly differs."""
+    hungry = _expression_view(
+        tick=1, physiology={"energy": 0.1, "fatigue": 0.9, "integrity": 0.2, "stimulation": 0.1}
+    )
+    rested = _expression_view(
+        tick=1, physiology={"energy": 0.9, "fatigue": 0.1, "integrity": 0.9, "stimulation": 0.9}
+    )
+
+    ablated_hungry = (
+        ExpressionEngine(config=condition_to_expression_config("C6"))
+        .derive(hungry)
+        .presentation_state.visible_condition_channels
+    )
+    ablated_rested = (
+        ExpressionEngine(config=condition_to_expression_config("C6"))
+        .derive(rested)
+        .presentation_state.visible_condition_channels
+    )
+    assert ablated_hungry == ablated_rested
+
+    baseline_hungry = ExpressionEngine().derive(hungry).presentation_state.visible_condition_channels
+    baseline_rested = ExpressionEngine().derive(rested).presentation_state.visible_condition_channels
+    assert baseline_hungry != baseline_rested
+
+
+def test_expression_config_override_wires_into_live_organism(tmp_path):
+    """`OrganismConfig.expression_config` (Task 11) reaches the organism's
+    real `ExpressionEngine` — actions keep executing normally (C4 never
+    touches Embodiment/Governance), only the rendered presentation is blind
+    to them."""
+    org = _ticked_organism(
+        tmp_path,
+        "c4_wired.sqlite",
+        ticks=0,
+        expression_config=condition_to_expression_config("C4"),
+    )
+    try:
+        assert org.expression_engine.config.ignore_actions is True
+        executed_for_real = False
+        for _ in range(40):
+            result = org.tick_once()
+            entry = list(org.frame_ring)[-1]
+            ps = entry.render_packet.presentation_state
+            assert ps.active_capability is None
+            assert ps.action_phase != "EXECUTED"
+            outcome = result.get("outcome")
+            if outcome and outcome.get("success"):
+                executed_for_real = True
+        assert executed_for_real  # actions really ran despite blind presentation
+    finally:
+        org.close()
+
+
+def test_hostile_renderer_write_attempts_are_rejected(tmp_path):
+    """C7 (Gate 8): a hostile renderer implementing the exact same
+    `ReferenceRenderer` shape as `HeadlessRenderer` — never constructed with
+    an Organism/Embodiment/Physiology/Governance reference — cannot mutate
+    the derived presentation it reads and cannot touch organism core state."""
+    init_params = inspect.signature(HostileRenderer).parameters
+    render_params = inspect.signature(HostileRenderer.render).parameters
+    for forbidden in ("organism", "embodiment", "adapter", "governance", "phys", "physiology", "store"):
+        assert forbidden not in init_params
+        assert forbidden not in render_params
+
+    org = _ticked_organism(tmp_path, "hostile.sqlite", ticks=10)
+    try:
+        hostile = HostileRenderer()
+        embodiment_before = org.embodiment.to_state()
+        phys_before = org.phys.to_state()
+        ring_len_before = len(org.frame_ring)
+
+        entry = hostile.read_latest(org.frame_ring)
+        assert entry is not None
+        hostile.render(entry)
+
+        assert hostile.attempted_writes
+        assert hostile.successful_writes == []
+        assert set(hostile.rejected_writes) == set(hostile.attempted_writes)
+
+        assert org.embodiment.to_state() == embodiment_before
+        assert org.phys.to_state() == phys_before
+        assert len(org.frame_ring) == ring_len_before
+    finally:
+        org.close()
+
+
+def test_c8_disposable_db_guard_accepts_tmp_and_scratch_paths(tmp_path):
+    assert_disposable_db_path(tmp_path / "c8_scratch.sqlite")
+    assert_disposable_db_path(ROOT / "experiments" / "d008" / "c8_scratch.sqlite")
+
+
+def test_c8_disposable_db_guard_rejects_production_paths():
+    for bad in (
+        ROOT / "docs" / "evidence" / "d008" / "organism.sqlite",
+        ROOT / ".agent" / "organism.sqlite",
+        ROOT / "umbra_core" / "organism.sqlite",
+    ):
+        with pytest.raises(ValueError):
+            assert_disposable_db_path(bad)

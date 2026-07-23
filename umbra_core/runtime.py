@@ -30,6 +30,7 @@ from umbra_core.embodiment_adapters.adapter import (
 from umbra_core.embodiment_adapters.profiles import default_migration_profile_id
 from umbra_core.expression import (
     AttachmentView,
+    ExpressionConfig,
     ExpressionEngine,
     ExpressionView,
     FrameRing,
@@ -118,6 +119,12 @@ class OrganismConfig:
     # frozen performance-baseline condition (design §4) and always disables
     # it regardless of this flag, for core-only CPU/RSS measurement.
     expression_enabled: bool = True
+    # D-008 Task 11: explicit override only (same pattern as social_config/
+    # individuality_config) — `condition` is already shared/overloaded by
+    # D-002..D-007 ablations, so expression's own C4/C5/C6 switches are never
+    # auto-derived from `condition`; callers that want them pass
+    # `condition_to_expression_config(cond)` here directly.
+    expression_config: ExpressionConfig | None = None
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -204,7 +211,7 @@ class Organism:
         # D-008 expression side-car: always constructed (cheap, read-only) so a
         # renderer can attach regardless of `expression_enabled`/condition; it
         # simply stays empty when `_expression_active()` is False.
-        self.expression_engine = ExpressionEngine()
+        self.expression_engine = ExpressionEngine(config=config.expression_config)
         self.frame_ring = FrameRing.from_thresholds()
         self._frame_id_counter = 0
         self.monotonic_time = monotonic_time

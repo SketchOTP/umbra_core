@@ -38,6 +38,48 @@ DEFAULT_TRANSITION_DURATION_TICKS_HINT = 4
 
 SIGNAL_CAPABILITIES = frozenset({"SIGNAL_PLAY", "SIGNAL_ASSISTANCE"})
 
+_EXPRESSION_DIAGNOSTIC_ONLY_CONDITIONS = frozenset({"C1", "C2", "C3", "C7", "C8"})
+
+
+class ExpressionConfigError(Exception):
+    """Raised when a diagnostic-only condition (C1/C2/C3/C7/C8 — isolated
+    under `experiments/d008/`) is asked for a production `ExpressionConfig`."""
+
+
+@dataclass
+class ExpressionConfig:
+    """Ablation switches for D-008 conditions C4/C5/C6 (see
+    `condition_to_expression_config`). C1/C2/C3/C7/C8 never build this —
+    they are isolated experiments-only diagnostic controllers/test doubles
+    (`experiments/d008/diagnostic_controllers.py`,
+    `experiments/d008/hostile_renderer.py`). C9 (frames temporally shuffled)
+    and C10 (expression fully disabled) need no engine-level switch: C9 is
+    harness-level frame reordering applied to already-derived frames, and
+    C10 is enforced by `Organism._expression_active()` before the engine is
+    ever called (same pattern as D-007's C9 shuffle / C2-C3 guard)."""
+
+    ignore_actions: bool = False  # C4 — actions execute; presentation ignores them
+    ignore_individuality: bool = False  # C5 — presentation ignores learned individuality
+    ignore_physiology: bool = False  # C6 — presentation ignores physiology
+
+
+def condition_to_expression_config(condition: str) -> ExpressionConfig:
+    """Map an ablation condition label to a production `ExpressionConfig`.
+    Raises for C1/C2/C3/C7/C8 — those must never share this production
+    schema (mirrors `condition_to_individuality_config`'s C2/C3 guard)."""
+    if condition in _EXPRESSION_DIAGNOSTIC_ONLY_CONDITIONS:
+        raise ExpressionConfigError(
+            f"{condition}_is_experiments_only_diagnostic_not_production_schema"
+        )
+    cfg = ExpressionConfig()
+    if condition == "C4":
+        cfg.ignore_actions = True
+    elif condition == "C5":
+        cfg.ignore_individuality = True
+    elif condition == "C6":
+        cfg.ignore_physiology = True
+    return cfg
+
 # Bounded, non-authoritative nudges only (Task 10). `individuality_summary` is
 # a read-only bag the caller may populate from D-007 `IndividualityEngine.
 # disposition_vector()` plus D-005/D-006 learned-pattern flags; ExpressionEngine
@@ -170,7 +212,8 @@ class ExpressionEngine:
     cannot select actions or write core state (see
     `test_expression_engine_cannot_select_actions`)."""
 
-    def __init__(self) -> None:
+    def __init__(self, config: ExpressionConfig | None = None) -> None:
+        self.config = config or ExpressionConfig()
         self._last_presentation: PresentationState | None = None
 
     def derive(self, view: ExpressionView) -> RenderPacket:
@@ -189,9 +232,22 @@ class ExpressionEngine:
             body_attachment_generation=view.attachment.attachment_generation,
         )
 
+    def _effective_physiology(self, view: ExpressionView) -> dict[str, float]:
+        """C6 (design §4) — presentation ignores physiology: channels fall
+        back to an empty reading (all-neutral defaults inside
+        `_visible_condition_channels`) instead of the organism's actual
+        energy/fatigue/integrity/stimulation."""
+        return {} if self.config.ignore_physiology else view.physiology
+
+    def _effective_individuality_summary(self, view: ExpressionView) -> dict[str, Any]:
+        """C5 (design §4) — presentation ignores learned individuality."""
+        return {} if self.config.ignore_individuality else view.individuality_summary
+
     def _derive_presentation(self, view: ExpressionView) -> PresentationState:
         prior = self._last_presentation
         prior_posture = prior.posture if prior is not None else None
+        physiology = self._effective_physiology(view)
+        individuality_summary = self._effective_individuality_summary(view)
 
         if view.attachment.attachment_status != "ATTACHED":
             return PresentationState(
@@ -209,7 +265,7 @@ class ExpressionEngine:
                 interaction_target=None,
                 rest_activity_state=None,
                 visible_condition_channels=_visible_condition_channels(
-                    view.physiology, view.attention.confidence, view.individuality_summary
+                    physiology, view.attention.confidence, individuality_summary
                 ),
                 developmental_markers=dict(view.developmental_markers),
                 nonverbal_signal=None,
@@ -236,7 +292,12 @@ class ExpressionEngine:
         interaction_target: str | None
         nonverbal_signal: str | None
 
-        outcome = view.last_outcome
+        # C4 (design §4) — actions execute (Embodiment/Governance are
+        # untouched by this flag), but presentation is forced through the
+        # same "nothing happened" branch as a real no-outcome tick, so
+        # visible posture/active_capability never reflects what the
+        # organism actually did.
+        outcome = None if self.config.ignore_actions else view.last_outcome
         if outcome is None or not outcome.admitted:
             # No verified execution happened this tick (including a governed
             # denial) — never rendered as if something executed.
@@ -296,7 +357,7 @@ class ExpressionEngine:
             interaction_target=interaction_target,
             rest_activity_state=rest_activity_state,
             visible_condition_channels=_visible_condition_channels(
-                view.physiology, view.attention.confidence, view.individuality_summary
+                physiology, view.attention.confidence, individuality_summary
             ),
             developmental_markers=dict(view.developmental_markers),
             nonverbal_signal=nonverbal_signal,

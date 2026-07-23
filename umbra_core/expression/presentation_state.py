@@ -32,10 +32,19 @@ ACTION_PHASES = frozenset({"UNAVAILABLE", "IDLE", "EXECUTED", "INTERRUPTED"})
 RESULT_ACTIVITY_STATES = frozenset({"IDLE", "ACTIVE", "RESTING", "RECOVERING"})
 
 
-@dataclass
+@dataclass(frozen=True)
 class PresentationState:
     """Fields per design §2. Deliberately excludes any mood/emotion/personality
-    field and any wall-clock field — see `test_no_mood_or_emotion_authority_fields`."""
+    field and any wall-clock field — see `test_no_mood_or_emotion_authority_fields`.
+
+    Frozen (Task 11, Gate 8/C7): `ExpressionEngine` always constructs a brand
+    new instance per tick rather than mutating an existing one, and the same
+    object a renderer reads back out of the frame ring is also the engine's
+    own `_last_presentation` bookkeeping reference — without freezing, a
+    renderer that merely assigns a field it read (e.g. `posture = "HACKED"`)
+    would silently corrupt the organism's own next-tick transition state.
+    Freezing closes that ordinary-assignment vector (see
+    `experiments/d008/hostile_renderer.py`)."""
 
     body_instance_id: str | None
     body_profile_id: str | None
