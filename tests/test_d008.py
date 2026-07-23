@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
+import dataclasses
+import inspect
 import json
 from pathlib import Path
+
+import pytest
 
 from experiments.d008.constrained_profile import CONSTRAINED_TEST_BODY
 from umbra_core.embodiment import Embodiment
@@ -20,8 +24,18 @@ from umbra_core.embodiment_adapters.adapter import (
     EmbodimentAdapter,
 )
 from umbra_core.events import AUTHORITATIVE_EVENT_TYPES
+from umbra_core.expression import (
+    ATTENTION_CONFIDENCE_DISPLAY_THRESHOLD,
+    AttachmentView,
+    AttentionView,
+    ExpressionEngine,
+    ExpressionView,
+    LastOutcomeView,
+    PresentationState,
+)
 from umbra_core.governance import Governance
 from umbra_core.persistence import Store
+from umbra_core.physiology import Physiology
 from umbra_core.runtime import (
     OrganismConfig,
     create_organism,
@@ -630,3 +644,179 @@ def test_d008_post_migration_missing_attachment_fails_closed(tmp_path):
     assert raw["failure_code"] == "BODY_DETACHED"
     assert org.embodiment.to_state() == embodiment_before  # no world mutation
     org.close()
+
+
+# ----- PresentationState + HabitatReadModel + ExpressionEngine (Task 5) -----
+
+
+def _expression_view(
+    *,
+    tick: int = 1,
+    physiology: dict[str, float] | None = None,
+    attention: AttentionView | None = None,
+    last_outcome: LastOutcomeView | None = None,
+    attachment_status: str = "ATTACHED",
+    developmental_markers: dict | None = None,
+) -> ExpressionView:
+    embodiment = Embodiment()
+    return ExpressionView(
+        tick=tick,
+        physiology=physiology
+        or {"energy": 0.7, "fatigue": 0.2, "integrity": 0.9, "stimulation": 0.5},
+        attachment=AttachmentView(
+            attachment_status=attachment_status,
+            body_instance_id="body-1",
+            body_profile_id=ABSTRACT_SHAPE_BODY.profile_id
+            if attachment_status == "ATTACHED"
+            else None,
+            attachment_generation=1,
+        ),
+        embodiment_state=embodiment.to_state(),
+        source_state_version=tick,
+        habitat_state_version=tick,
+        attention=attention if attention is not None else AttentionView(None, None),
+        last_outcome=last_outcome,
+        developmental_markers=developmental_markers or {},
+    )
+
+
+def test_expression_engine_cannot_select_actions():
+    """The engine has no channel to act — no execute/select_action/propose
+    method, `derive` takes only a read-only view, and passing anything beyond
+    that view is a hard TypeError (there is no Governance/Embodiment param)."""
+    engine = ExpressionEngine()
+    assert not hasattr(engine, "select_action")
+    assert not hasattr(engine, "execute")
+    assert not hasattr(engine, "propose")
+    assert not hasattr(engine, "admit")
+
+    sig = inspect.signature(ExpressionEngine.derive)
+    assert list(sig.parameters) == ["self", "view"]
+
+    with pytest.raises(TypeError):
+        engine.derive(_expression_view(), Governance())  # type: ignore[call-arg]
+
+
+def test_no_mood_or_emotion_authority_fields():
+    field_names = {f.name for f in dataclasses.fields(PresentationState)}
+    forbidden = ("mood", "emotion", "affect", "personality", "feeling", "wall_time", "timestamp")
+    for name in field_names:
+        lowered = name.lower()
+        for bad in forbidden:
+            assert bad not in lowered, f"forbidden authority field: {name}"
+
+
+def test_physiology_is_not_modified_by_expression():
+    phys = Physiology(energy=0.6, fatigue=0.3, integrity=0.9, stimulation=0.5)
+    before = phys.to_state()
+    engine = ExpressionEngine()
+
+    engine.derive(_expression_view(physiology=phys.as_dict()))
+
+    assert phys.to_state() == before
+
+
+def test_fatigue_changes_visible_condition():
+    low_fatigue = ExpressionEngine().derive(
+        _expression_view(
+            physiology={"energy": 0.7, "fatigue": 0.1, "integrity": 0.9, "stimulation": 0.5}
+        )
+    )
+    high_fatigue = ExpressionEngine().derive(
+        _expression_view(
+            physiology={"energy": 0.7, "fatigue": 0.8, "integrity": 0.9, "stimulation": 0.5}
+        )
+    )
+
+    assert (
+        low_fatigue.presentation_state.visible_condition_channels
+        != high_fatigue.presentation_state.visible_condition_channels
+    )
+
+
+def test_rest_changes_posture_and_activity():
+    engine = ExpressionEngine()
+    moved = engine.derive(
+        _expression_view(
+            tick=1, last_outcome=LastOutcomeView(capability="MOVE", admitted=True, success=True)
+        )
+    )
+    assert moved.presentation_state.posture == "ACTIVE"
+
+    rested = engine.derive(
+        _expression_view(
+            tick=2, last_outcome=LastOutcomeView(capability="REST", admitted=True, success=True)
+        )
+    )
+
+    assert rested.presentation_state.posture == "RESTING"
+    assert rested.presentation_state.rest_activity_state == "RESTING"
+    assert rested.presentation_state.posture != moved.presentation_state.posture
+
+
+def test_uncertain_attention_remains_ambiguous():
+    below = ATTENTION_CONFIDENCE_DISPLAY_THRESHOLD - 0.1
+    above = ATTENTION_CONFIDENCE_DISPLAY_THRESHOLD + 0.1
+
+    uncertain = ExpressionEngine().derive(
+        _expression_view(attention=AttentionView(target="resource", confidence=below))
+    )
+    certain = ExpressionEngine().derive(
+        _expression_view(attention=AttentionView(target="resource", confidence=above))
+    )
+
+    assert uncertain.presentation_state.attention_target is None
+    assert uncertain.presentation_state.attention_confidence == below  # raw value still passed
+    assert certain.presentation_state.attention_target == "resource"
+
+
+def test_denied_action_is_not_rendered_as_executed():
+    """Governance denial never reaches `Embodiment.execute_primitive`, so no
+    `VerifiedOutcome` exists — the presentation must not depict it as if the
+    denied capability ran."""
+    denied = LastOutcomeView(capability="SIGNAL_ASSISTANCE", admitted=False)
+
+    packet = ExpressionEngine().derive(_expression_view(last_outcome=denied))
+
+    ps = packet.presentation_state
+    assert ps.active_capability is None
+    assert ps.action_phase != "EXECUTED"
+    assert ps.nonverbal_signal is None
+
+
+def test_failed_action_renders_interruption():
+    failed = LastOutcomeView(
+        capability="MOVE", admitted=True, success=False, failure_code="BODY_LIMIT_REJECTED"
+    )
+
+    packet = ExpressionEngine().derive(_expression_view(last_outcome=failed))
+
+    ps = packet.presentation_state
+    assert ps.action_phase == "INTERRUPTED"
+    assert ps.posture == "INTERRUPTED"
+
+
+def test_detached_body_renders_empty_body_fields():
+    """DETACHED never fabricates a body or replays the last pose as current
+    truth (design §2 detached derivation) — habitat may still render."""
+    packet = ExpressionEngine().derive(_expression_view(attachment_status="DETACHED"))
+
+    ps = packet.presentation_state
+    assert ps.attachment_status == "DETACHED"
+    assert ps.position is None
+    assert ps.orientation is None
+    assert ps.posture is None
+    assert ps.active_capability is None
+    assert ps.action_phase == "UNAVAILABLE"
+    assert ps.nonverbal_signal is None
+    assert packet.habitat_read_model.entities  # habitat itself still renders
+
+
+def test_render_packet_habitat_read_model_is_bounded_and_coherent():
+    packet = ExpressionEngine().derive(_expression_view(tick=5))
+
+    assert packet.habitat_read_model.version == packet.habitat_state_version
+    assert len(packet.habitat_read_model.entities) <= THR["habitat_read_model_max_entities"]
+    assert packet.source_state_version == 5
+    assert packet.habitat_state_version == 5
+    assert packet.body_attachment_generation == 1
