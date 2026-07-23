@@ -1785,8 +1785,16 @@ def load_organism(config: OrganismConfig) -> Organism:
     # snapshot that may lag behind a crash-before-snapshot attach/detach/swap.
     # No attachment event ever recorded means a pre-D-008 organism —
     # `maybe_migrate_d008_attachment` migrates it once, below.
+    #
+    # A deleted/corrupted attach event must never be silently reinterpreted as
+    # "never attached" (which would re-trigger migration on a body that already
+    # executed authoritative actions). Validate the chain first — the same
+    # hash-chain integrity every other authoritative event relies on — so a
+    # tampered ledger fails closed here instead of falling through to
+    # `attachment_state_from_event(None)`.
     embodiment_adapter = None
     if config.embodiment_adapter_enabled:
+        store.validate_chain()
         last_attachment_event = store.last_event_of_types(ATTACHMENT_EVENT_TYPES)
         attachment_state = attachment_state_from_event(last_attachment_event)
         embodiment_adapter = EmbodimentAdapter(

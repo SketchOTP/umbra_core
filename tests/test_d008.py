@@ -22,9 +22,7 @@ from umbra_core.embodiment_adapters.adapter import (
     ADAPTER_FAILURE_CODES,
     ATTACHMENT_EVENT_TYPES,
     AdapterRequest,
-    AttachmentState,
     EmbodimentAdapter,
-    attachment_state_from_event,
 )
 from umbra_core.events import AUTHORITATIVE_EVENT_TYPES
 from umbra_core.expression import (
@@ -1322,37 +1320,52 @@ def test_snapshot_replay_matches(tmp_path):
 
 
 def test_birth_replay_matches_authoritative_transitions(tmp_path):
-    """Gate 11: attachment is reconstructible purely from the authoritative
-    `embodiment_body_*` ledger events — replaying just the latest one through
-    `attachment_state_from_event` (the same helper `load_organism` uses)
-    reconstructs the identical `AttachmentState` the live adapter holds after
-    an attach + two swaps, with no other channel involved."""
-    db_path = str(tmp_path / "transitions.sqlite")
-    org = create_organism(
-        OrganismConfig(db_path=db_path, seed=35, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0)
+    """Gate 11: attachment reconstructed by the real restart path
+    (`load_organism`) — including a D-008 *migration* attach (not just a
+    normal `create_organism` attach), then two ledger swaps — matches the
+    live adapter's exact `AttachmentState` byte-for-byte. Exercises the
+    actual birth/migration/restart machinery rather than re-invoking
+    `attachment_state_from_event` on its own output."""
+    db_path = _create_legacy_pre_d008_db(tmp_path, "transitions.sqlite", seed=35)
+    cfg = OrganismConfig(
+        db_path=db_path, seed=35, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
     )
+
+    org = load_organism(cfg)  # triggers maybe_migrate_d008_attachment
     org.embodiment_adapter.swap_profile(MINIMAL_CREATURE_BODY.profile_id)
     org.run_ticks(5)
     org.embodiment_adapter.swap_profile(ABSTRACT_SHAPE_BODY.profile_id)
     live_state = org.embodiment_adapter.state.to_state()
-    latest_attachment_event = org.store.last_event_of_types(ATTACHMENT_EVENT_TYPES)
     attach_events = [e for e in org.store.iter_events() if e["event_type"] in ATTACHMENT_EVENT_TYPES]
+    org.snapshot_if_due(force=True)
     org.close()
 
-    assert len(attach_events) == 3  # attach + swap + swap, each an authoritative transition
-    reconstructed = attachment_state_from_event(latest_attachment_event)
-    assert reconstructed.to_state() == live_state
+    assert len(attach_events) == 3  # migration attach + swap + swap
+    assert attach_events[0]["payload"]["origin"] == "D008_MIGRATION"
+
+    # Real restart path (ledger-authoritative reconstruction), not the bare helper.
+    reloaded = load_organism(cfg)
+    try:
+        assert reloaded.embodiment_adapter.state.to_state() == live_state
+    finally:
+        reloaded.close()
+
+    replay = replay_from_birth(db_path)
+    assert replay["chain_valid"] is True
 
 
 def test_missing_embodiment_event_fails_closed(tmp_path):
     """Gate 11: deleting the authoritative attach event breaks the same
     hash-chained ledger integrity every other D-00x authoritative event relies
-    on — replay must fail closed, never silently reconstruct a plausible
-    attachment from a corrupted chain."""
+    on. `load_organism` itself — not just `Store.validate_chain()` in
+    isolation — must fail closed: it must never silently fall through
+    `attachment_state_from_event(None)` and re-migrate a plausible-looking
+    "never attached" organism out of a corrupted chain."""
     db_path = str(tmp_path / "missing_event.sqlite")
-    org = create_organism(
-        OrganismConfig(db_path=db_path, seed=36, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0)
+    cfg = OrganismConfig(
+        db_path=db_path, seed=36, embodiment_adapter_enabled=True, wall_time_fn=lambda: 0.0
     )
+    org = create_organism(cfg)
     org.run_ticks(5)
     org.close()
 
@@ -1362,6 +1375,9 @@ def test_missing_embodiment_event_fails_closed(tmp_path):
     with pytest.raises(PersistenceError):
         store.validate_chain()
     store.close()
+
+    with pytest.raises(PersistenceError):
+        load_organism(cfg)
 
 
 # ----- Body-swap preserves identity/memory/relationships/individuality (Task 8) -----
