@@ -30,8 +30,11 @@ from umbra_core.expression import (
     AttentionView,
     ExpressionEngine,
     ExpressionView,
+    FrameRing,
+    FrameRingEntry,
     LastOutcomeView,
     PresentationState,
+    RendererCursor,
 )
 from umbra_core.governance import Governance
 from umbra_core.persistence import Store
@@ -656,6 +659,8 @@ def _expression_view(
     attention: AttentionView | None = None,
     last_outcome: LastOutcomeView | None = None,
     attachment_status: str = "ATTACHED",
+    attachment_generation: int = 1,
+    source_event_refs: tuple[str, ...] = (),
     developmental_markers: dict | None = None,
 ) -> ExpressionView:
     embodiment = Embodiment()
@@ -669,7 +674,7 @@ def _expression_view(
             body_profile_id=ABSTRACT_SHAPE_BODY.profile_id
             if attachment_status == "ATTACHED"
             else None,
-            attachment_generation=1,
+            attachment_generation=attachment_generation,
         ),
         embodiment_state=embodiment.to_state(),
         source_state_version=tick,
@@ -677,6 +682,7 @@ def _expression_view(
         attention=attention if attention is not None else AttentionView(None, None),
         last_outcome=last_outcome,
         developmental_markers=developmental_markers or {},
+        source_event_refs=source_event_refs,
     )
 
 
@@ -820,3 +826,129 @@ def test_render_packet_habitat_read_model_is_bounded_and_coherent():
     assert packet.source_state_version == 5
     assert packet.habitat_state_version == 5
     assert packet.body_attachment_generation == 1
+
+
+# ----- FrameRing with embedded RenderPacket (Task 6) -----
+
+
+def _frame_entry(
+    *,
+    frame_id: int,
+    tick: int | None = None,
+    attachment_generation: int = 1,
+    execution_id: str | None = None,
+    source_event_refs: tuple[str, ...] = (),
+    engine: ExpressionEngine | None = None,
+) -> FrameRingEntry:
+    actual_tick = tick if tick is not None else frame_id
+    expression_engine = engine or ExpressionEngine()
+    packet = expression_engine.derive(
+        _expression_view(
+            tick=actual_tick,
+            attachment_generation=attachment_generation,
+            source_event_refs=source_event_refs,
+            last_outcome=LastOutcomeView(
+                capability="MOVE", admitted=True, success=True, execution_id=execution_id
+            )
+            if execution_id is not None
+            else None,
+        )
+    )
+    return FrameRingEntry(
+        frame_id=frame_id,
+        derived_at_tick=actual_tick,
+        active_execution_id=execution_id,
+        render_packet=packet,
+        source_event_refs=source_event_refs,
+    )
+
+
+def test_expression_transition_buffers_are_bounded():
+    ring = FrameRing.from_thresholds()
+    assert ring.capacity == THR["frame_ring_capacity"] == 64
+    assert ring.retention_ticks == THR["frame_ring_retention_ticks"] == 128
+
+    for frame_id in range(THR["frame_ring_capacity"] + 10):
+        ring.push(_frame_entry(frame_id=frame_id))
+
+    assert len(ring) == THR["frame_ring_capacity"]
+    assert ring.oldest_frame_id == 10
+
+    ring.push(_frame_entry(frame_id=500, tick=500))
+    assert all(entry.derived_at_tick >= 500 - THR["frame_ring_retention_ticks"] for entry in ring)
+
+
+def test_stale_expression_frames_are_rejected():
+    ring = FrameRing(capacity=8, retention_ticks=128)
+    ring.push(_frame_entry(frame_id=1, tick=1, attachment_generation=1, execution_id="old-exec"))
+    ring.push(_frame_entry(frame_id=2, tick=2, attachment_generation=2, execution_id="old-exec"))
+    ring.push(_frame_entry(frame_id=3, tick=3, attachment_generation=2, execution_id="current-exec"))
+
+    cursor = RendererCursor(
+        renderer_id="headless",
+        current_tick=3,
+        body_attachment_generation=2,
+        source_state_version=3,
+        habitat_state_version=3,
+        active_execution_id="current-exec",
+    )
+
+    entry = ring.read_latest(cursor)
+
+    assert entry is not None
+    assert entry.frame_id == 3
+    assert entry.active_execution_id == "current-exec"
+
+
+def test_expression_frame_source_refs_are_valid():
+    refs = tuple(f"event-{i}" for i in range(THR["source_event_refs_max"] + 5))
+    entry = _frame_entry(frame_id=1, source_event_refs=refs)
+
+    assert len(entry.source_event_refs) == THR["source_event_refs_max"]
+    assert entry.source_event_refs == entry.render_packet.presentation_state.source_event_refs
+
+
+def test_frame_ring_cursors_are_non_destructive():
+    ring = FrameRing(capacity=4, retention_ticks=128)
+    ring.push(_frame_entry(frame_id=1))
+    ring.push(_frame_entry(frame_id=2))
+    cursor_a = RendererCursor(renderer_id="headless")
+    cursor_b = RendererCursor(renderer_id="tkinter")
+
+    assert ring.read_latest(cursor_a).frame_id == 2
+    assert len(ring) == 2
+    assert ring.read_latest(cursor_b).frame_id == 2
+    assert ring.read_latest(cursor_a) is None
+
+
+def test_profile_generation_bump_invalidates_pre_swap_frames():
+    ring = FrameRing(capacity=4, retention_ticks=128)
+    pre_swap = _frame_entry(frame_id=1, tick=7, attachment_generation=1)
+    post_swap = _frame_entry(frame_id=2, tick=8, attachment_generation=2)
+    ring.push(pre_swap)
+    ring.push(post_swap)
+
+    cursor = RendererCursor(
+        renderer_id="headless",
+        current_tick=8,
+        body_attachment_generation=2,
+        source_state_version=8,
+        habitat_state_version=8,
+    )
+
+    assert ring.read_latest(cursor) == post_swap
+    assert cursor.last_frame_id == post_swap.frame_id
+
+
+def test_frame_ring_stores_packet_habitat_without_rebuilding_at_read():
+    ring = FrameRing(capacity=4, retention_ticks=128)
+    entry = _frame_entry(frame_id=1, tick=1)
+    stored_habitat = entry.render_packet.habitat_read_model
+    ring.push(entry)
+
+    cursor = RendererCursor(renderer_id="headless", source_state_version=1, habitat_state_version=1)
+    read = ring.read_latest(cursor)
+
+    assert read is not None
+    assert read.render_packet is entry.render_packet
+    assert read.render_packet.habitat_read_model is stored_habitat
