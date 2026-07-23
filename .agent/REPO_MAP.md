@@ -74,9 +74,10 @@ Concise navigation map for agents. Add entries as application code lands.
 ## Digital embodiment (D-008) — preregistration frozen; implementation in progress
 - Design: `docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md`
 - Directive: `docs/directives/UMBRA-D-008-coherent-digital-embodiment.md`
-- Preregistration (frozen Task 1): `experiments/d008/thresholds.json`, `experiments/d008/experiment-matrix.json`, `experiments/d008/scenario-suite.json` — profile definition hashes remain `PLACEHOLDER_COMPUTE_AT_FREEZE` until Task 2; formal experiments blocked until real hashes
-- Planned packages: `umbra_core/expression/` (PresentationState, ExpressionEngine, FrameRing, ReferenceRenderer, HeadlessRenderer), `umbra_core/embodiment_adapters/` (thin wrap → Embodiment), `ui/reference_companion/` (Tkinter only; core never imports ui/)
-- Experiments: `experiments/d008/` (C0–C10; CONSTRAINED_TEST_BODY; harnesses pending Tasks 2–14)
+- Preregistration (frozen Task 1, hash-amended Task 2): `experiments/d008/thresholds.json`, `experiments/d008/experiment-matrix.json`, `experiments/d008/scenario-suite.json` — production profile definition hashes are real SHA-256 values; formal experiment harnesses still pending later tasks
+- Planned packages: `umbra_core/expression/` (PresentationState, ExpressionEngine, FrameRing, ReferenceRenderer, HeadlessRenderer), `ui/reference_companion/` (Tkinter only; core never imports ui/)
+- Body profiles: `umbra_core/embodiment_adapters/profiles.py` — `BodyProfile`, `get_profile`, `profile_definition_hash`, `ABSTRACT_SHAPE_BODY`, `MINIMAL_CREATURE_BODY`
+- Experiments: `experiments/d008/` (C0–C10; `constrained_profile.py` defines `CONSTRAINED_TEST_BODY`; harnesses pending Tasks 3–14)
 - Runtime shape: governance → EmbodimentAdapter.execute → Embodiment.execute → ExpressionEngine.derive → frame ring; renderers poll non-destructively
 - Caps: IDLE/ORIENT/MOVE/APPROACH/RETREAT/INSPECT/REST/CHARGE/SIGNAL_* (no MAINTAIN/PRACTICE aliases)
 

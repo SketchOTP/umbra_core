@@ -30,8 +30,8 @@
   "default_migration_profile_id": "ABSTRACT_SHAPE_BODY",
   "production_profile_ids": ["ABSTRACT_SHAPE_BODY", "MINIMAL_CREATURE_BODY"],
   "production_profile_definition_hashes": {
-    "ABSTRACT_SHAPE_BODY": "PLACEHOLDER_COMPUTE_AT_FREEZE",
-    "MINIMAL_CREATURE_BODY": "PLACEHOLDER_COMPUTE_AT_FREEZE"
+    "ABSTRACT_SHAPE_BODY": "ba3b8ed7905f19dff7e34d7fe5d2e0a06c6f89ddb7382aa36f8a875690334be4",
+    "MINIMAL_CREATURE_BODY": "58275b1327afdc84d23be0af9b540a3c9592d55189861bea361dbe80902d98bc"
   },
   "adapter_failure_codes": [
     "UNSUPPORTED_BODY_CAPABILITY",
