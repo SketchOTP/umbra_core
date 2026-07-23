@@ -538,3 +538,13 @@ Clamping must not be reported as failure. The verified outcome reflects the actu
 * `CONSTRAINED_TEST_BODY` must still hard-reject at least one capability and may mark selected limits as non-clampable.
 * Translated parameters must replay deterministically.
 * Existing D-001 fallback movement must remain functional through an enabled adapter (regression coverage required).
+
+---
+
+## Supplement S2 — Trusted-caller frame poll (2026-07-23)
+
+**Status:** Pre-execution design supplement (Gate 8 hardening).
+
+> **Renderers never receive a writable `FrameRing`. A trusted caller polls `ring.read_latest(cursor)` and passes only `FrameRingEntry` into `renderer.render(entry)`. This preserves non-destructive multi-consumer cursors while preventing hostile or buggy renderers from injecting competing presentation truth.**
+
+Frozen design §3 originally described `read_latest(frame_ring, …)` on the renderer protocol. Gate 8 requires that the expression system and renderer cannot invent competing frame authority. Trusted-caller poll is the authoritative contract going forward.
