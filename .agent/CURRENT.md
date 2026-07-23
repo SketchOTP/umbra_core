@@ -4,10 +4,10 @@
 - ID: D-20260723-0913-d008-task2-profiles
 - Project directive: UMBRA-D-008
 - Goal: Task 2 — production BodyProfile definitions, stable SHA-256 hashes, constrained test body, and thresholds hash amendment
-- Status: complete locally — profile hashes are now real SHA-256 values; commit/report pending in this task close-out
+- Status: complete — committed as 59ff69f; profile hashes are now real SHA-256 values
 - Acceptance: brief-named tests pass; production profile hashes are real; constrained profile rejects at least one capability; commit and report written
 - Touched files: tests/test_d008.py, umbra_core/embodiment_adapters/{__init__,profiles}.py, experiments/d008/{constrained_profile.py,thresholds.json}, .superpowers/sdd/task-2-report.md, .agent/*
-- Next action: Commit Task 2, then continue later D-008 adapter/expression tasks
+- Next action: Continue later D-008 adapter/expression tasks
 
 ## Repo facts needed now
 - Starting commit: bc7bfaa
