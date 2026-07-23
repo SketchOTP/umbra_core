@@ -401,9 +401,9 @@ git commit -m "Add Tkinter reference companion over headless presentation model.
 - Modify: `umbra_core/expression/engine.py`
 - Test: `tests/test_d008.py`
 
-- [ ] **Step 1: Failing tests** — `test_signal_play_is_visibly_expressed`, `test_signal_assistance_is_visibly_expressed`, `test_signal_does_not_directly_change_relationship`, `test_individuality_history_changes_visible_behavior`, `test_renderer_does_not_create_authored_personality`, `test_learned_habit_is_visibly_expressed`, `test_shared_routine_is_visibly_expressed`, `test_recovery_restores_visible_activity`, `test_orientation_matches_selected_target`, `test_cosmetic_motion_is_non_authoritative`
+- [x] **Step 1: Failing tests** — `test_signal_play_is_visibly_expressed`, `test_signal_assistance_is_visibly_expressed`, `test_signal_does_not_directly_change_relationship`, `test_individuality_history_changes_visible_behavior`, `test_renderer_does_not_create_authored_personality`, `test_learned_habit_is_visibly_expressed`, `test_shared_routine_is_visibly_expressed`, `test_recovery_restores_visible_activity`, `test_orientation_matches_selected_target`, `test_cosmetic_motion_is_non_authoritative`
 
-- [ ] **Step 2: Implement channel mapping + green + commit**
+- [x] **Step 2: Implement channel mapping + green + commit**
 
 ```bash
 git commit -m "Map signals, individuality, and habits into visible expression channels."
