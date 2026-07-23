@@ -40,7 +40,7 @@ Digital chemistry, protocells, autopoietic membranes, molecular metabolism, and 
 
 ## Program gate (post D-000S)
 
-**UMBRA-D-000 is closed.** Architecture freeze: `docs/architecture/`. **UMBRA-D-001 is closed** — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`. **UMBRA-D-002 is closed** — `UMBRA_D002_SENSORIMOTOR_SELF_MODEL_QUALIFIED`. **UMBRA-D-002V** — `UMBRA_D002V_PERFORMANCE_FAIL` (preserved). **UMBRA-D-002P** — `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`. **UMBRA-D-003 is closed** — `UMBRA_D003_PREDICTIVE_WORLD_MODEL_QUALIFIED`. **UMBRA-D-004 is closed** — `UMBRA_D004_INTRINSIC_DEVELOPMENT_QUALIFIED`. **UMBRA-D-005 is closed** — `UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED`. **D-006 authorized** under D-005.
+**UMBRA-D-000 is closed.** Architecture freeze: `docs/architecture/`. **UMBRA-D-001 is closed** — `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`. **UMBRA-D-002 is closed** — `UMBRA_D002_SENSORIMOTOR_SELF_MODEL_QUALIFIED`. **UMBRA-D-002V** — `UMBRA_D002V_PERFORMANCE_FAIL` (preserved). **UMBRA-D-002P** — `UMBRA_D002P_PERFORMANCE_REMEDIATION_QUALIFIED`. **UMBRA-D-003 is closed** — `UMBRA_D003_PREDICTIVE_WORLD_MODEL_QUALIFIED`. **UMBRA-D-004 is closed** — `UMBRA_D004_INTRINSIC_DEVELOPMENT_QUALIFIED`. **UMBRA-D-005 is closed** — `UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED`. **UMBRA-D-006 is closed** — `UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED`. **UMBRA-D-007 is closed** — `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED`. **D-008 authorized** under D-007.
 
 Prior-art order completed: MicroPsi → homeostatic RL → Hexis → AEROS → AERA → PEPA. Soar/Hyperon not required. Classifications: `docs/prior-art/SELECTION_LEDGER.md`.
 

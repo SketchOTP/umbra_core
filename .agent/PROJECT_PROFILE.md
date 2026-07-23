@@ -26,7 +26,8 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
-- **UMBRA-D-007 in progress** — lived individuality / history-shaped temperament (Mimir `4bcd3653644446979291482242536ddc`)
+- **UMBRA-D-007 closed** — `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (100k + 2h RUNTIME_READY VmRSS soak; zero-skip suite)
+- **D-008 authorized** under `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED`
 - **UMBRA-D-006 closed** — `UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED` (Task 13 perf seal: 100k + 2h RUNTIME_READY VmRSS soak; zero-skip suite)
 - **D-007 authorized** under `UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED`
 - **UMBRA-D-005 closed** — `UMBRA_D005_MEMORY_CONSOLIDATION_QUALIFIED`
@@ -48,6 +49,10 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-004 evidence: `docs/evidence/d004/` (QUALIFIED)
 - D-005 evidence: `docs/evidence/d005/` (QUALIFIED)
 - D-006 evidence: `docs/evidence/d006/` (QUALIFIED)
+- D-007 evidence: `docs/evidence/d007/` (QUALIFIED)
+- D-007 preregistration: `experiments/d007/thresholds.json`, `experiments/d007/experiment-matrix.json`, `experiments/d007/probe-suite.json`
+- D-007 directive: `docs/directives/UMBRA-D-007-lived-individuality.md`
+- D-007 design: `docs/superpowers/specs/2026-07-22-umbra-d007-lived-individuality-design.md`
 - D-006 preregistration: `experiments/d006/thresholds.json`, `experiments/d006/experiment-matrix.json`
 - D-006 directive: `docs/directives/UMBRA-D-006-social-contingency.md`
 - D-006 design: `docs/superpowers/specs/2026-07-22-umbra-d006-social-contingency-design.md`
@@ -58,7 +63,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Target platform: Linux
 - Persistence: SQLite WAL event/state authority (`HYBRID_PRIMARY`); optional Postgres scale tier
 - Core loop: deterministic non-LLM (see architecture freeze)
-- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`); D-005 QUALIFIED memory (`umbra_core/memory/`); D-006 QUALIFIED social (`umbra_core/social/`); D-007 individuality (`umbra_core/individuality/`) in progress
+- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`); D-005 QUALIFIED memory (`umbra_core/memory/`); D-006 QUALIFIED social (`umbra_core/social/`); D-007 QUALIFIED individuality (`umbra_core/individuality/`)
 - Agent/tooling docs: Markdown, Cursor rules, Mimir V2, Serena
 
 ## Common commands
