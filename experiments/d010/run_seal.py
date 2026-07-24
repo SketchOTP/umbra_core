@@ -1,4 +1,4 @@
-"""Pre-freeze seal harness for UMBRA-D-010 (Task 11 / Task 14)."""
+"""Seal harness for UMBRA-D-010 (Task 14 / Supplement S3 Gate 13)."""
 
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from experiments.d010 import stage_a as sa
+
 OUT = ROOT / "docs/evidence/d010"
 
 PRIOR_SEALS = [
@@ -60,7 +61,14 @@ def validate_prior_seals() -> dict:
             p = ROOT / rel
             if p.is_file() and _sha(p) != expect:
                 all_valid = False
-    out = {"prior_seals_valid": all_valid, "pre_freeze": True}
+    d009_qualified = False
+    d009_verdict = ROOT / "docs/evidence/d009/final-verdict.md"
+    if d009_verdict.is_file():
+        d009_qualified = "UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED" in d009_verdict.read_text()
+    out = {
+        "prior_seals_valid": all_valid,
+        "d009_qualified_present": d009_qualified,
+    }
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "prior-seals.json").write_text(json.dumps(out, indent=2, sort_keys=True) + "\n")
     return out
@@ -92,7 +100,7 @@ def _collect_pytest_ids() -> set[str]:
     return set(re.findall(r"::(test_[a-zA-Z0-9_]+)", text))
 
 
-def run_pytest() -> dict:
+def run_pytest(*, contract_only: bool) -> dict:
     manifest = sa.load_test_manifest()
     required = set(sa.required_test_ids(manifest))
     collected = _collect_pytest_ids()
@@ -123,6 +131,7 @@ def run_pytest() -> dict:
         proc.returncode == 0
         and n_skip == 0
         and not missing_required
+        and not unknown_collected
         and len(collected) >= len(required)
     )
     return {
@@ -136,8 +145,55 @@ def run_pytest() -> dict:
         "unknown_collected": unknown_collected[:8],
         "manifest_ok": manifest_ok,
         "zero_skip": manifest_ok,
+        "contract_only": contract_only,
         "output_tail": text[-2000:],
     }
+
+
+def _load_json(name: str) -> dict:
+    path = OUT / name
+    if not path.is_file():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _gates_ok(*, formal: dict, exp: dict) -> bool:
+    if formal.get("gates_1_12_pass"):
+        return True
+    if formal.get("outcome") == "UMBRA_D010_TASK13_GATES_1_12_PASS":
+        return True
+    metrics = exp.get("metrics") or {}
+    if metrics.get("all_experiment_gates_pass") or exp.get("all_experiment_gates_pass"):
+        return True
+    if metrics.get("task13_outcome") == "UMBRA_D010_TASK13_GATES_1_12_PASS":
+        return True
+    return bool(exp.get("pass"))
+
+
+def _perf_ok(perf: dict) -> bool:
+    if not perf:
+        return False
+    if perf.get("pre_freeze"):
+        return False
+    if perf.get("smoke_scaled"):
+        return False
+    return bool(perf.get("pass")) and perf.get("adaptive_soak_supplement") == "S3"
+
+
+def _qualification_verdict(
+    *,
+    gates_ok: bool,
+    perf_ok: bool,
+    prior_ok: bool,
+    suite_ok: bool,
+) -> str:
+    if gates_ok and perf_ok and prior_ok and suite_ok:
+        return "UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED"
+    if not perf_ok:
+        return "UMBRA_D010_PERFORMANCE_FAIL"
+    if not gates_ok:
+        return "UMBRA_D010_PARTIAL_FOUNDATION"
+    return "UMBRA_D010_PARTIAL_FOUNDATION"
 
 
 def hash_all() -> dict[str, str]:
@@ -152,6 +208,8 @@ def hash_all() -> dict[str, str]:
         hashes[f"docs/evidence/d010/{p.name}"] = _sha(p)
     if (OUT / "test-results.txt").exists():
         hashes["docs/evidence/d010/test-results.txt"] = _sha(OUT / "test-results.txt")
+    if (OUT / "final-verdict.md").exists():
+        hashes["docs/evidence/d010/final-verdict.md"] = _sha(OUT / "final-verdict.md")
     (OUT / "evidence-hashes.json").write_text(
         json.dumps(hashes, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -159,41 +217,101 @@ def hash_all() -> dict[str, str]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="UMBRA-D-010 seal harness (pre-freeze)")
-    parser.add_argument("--contract-only", action="store_true", help="Validate manifests and pytest only")
+    parser = argparse.ArgumentParser(description="UMBRA-D-010 seal harness")
+    parser.add_argument(
+        "--contract-only",
+        action="store_true",
+        help="Validate Stage A manifests and pytest only (pre-freeze contract)",
+    )
     args = parser.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
+
+    ending = sys.argv[2] if len(sys.argv) > 2 and sys.argv[1] != "--contract-only" else "PENDING"
     priors = validate_prior_seals()
     stage = validate_stage_a()
-    tests = run_pytest()
-    perf = (
-        json.loads((OUT / "performance-results.json").read_text())
-        if (OUT / "performance-results.json").exists()
-        else {}
-    )
-    exp = (
-        json.loads((OUT / "experiment-summary.json").read_text())
-        if (OUT / "experiment-summary.json").exists()
-        else {}
-    )
-    contract_ok = bool(stage["stage_a_ok"]) and bool(tests.get("manifest_ok"))
-    perf_contract = bool(perf.get("pre_freeze")) or not perf
-    verdict = "UMBRA_D010_PRE_FREEZE_HARNESS_CONTRACT_PASS" if contract_ok else "UMBRA_D010_PRE_FREEZE_HARNESS_CONTRACT_FAIL"
-    body = f"""# UMBRA-D-010 Pre-freeze Harness Verdict
+    tests = run_pytest(contract_only=args.contract_only)
+
+    if args.contract_only:
+        contract_ok = bool(stage["stage_a_ok"]) and bool(tests.get("manifest_ok"))
+        verdict = (
+            "UMBRA_D010_PRE_FREEZE_HARNESS_CONTRACT_PASS"
+            if contract_ok
+            else "UMBRA_D010_PRE_FREEZE_HARNESS_CONTRACT_FAIL"
+        )
+        body = f"""# UMBRA-D-010 Pre-freeze Harness Verdict
 
 **Verdict:** `{verdict}`
 
-**Stage:** Task 11 pre-freeze (not Stage B qualified)
+**Stage:** contract-only (Stage A + test manifest; no qualification claim)
 
 | Check | Result |
 |-------|--------|
 | Stage A artifacts | `{"PASS" if stage["stage_a_ok"] else "FAIL"}` |
 | Test manifest + pytest | `{"PASS" if tests.get("zero_skip") else "FAIL"}` (passed={tests.get("passed")}, skipped={tests.get("skipped")}) |
 | Prior seals present | `{"PASS" if priors.get("prior_seals_valid") else "PARTIAL"}` |
-| Formal experiment evidence | `{"PRESENT" if exp else "NOT_RUN"}` |
-| Performance evidence | `{"PRESENT" if perf else "NOT_RUN"}` |
 
-No QUALIFIED claim is made at this stage.
+No QUALIFIED claim is made in contract-only mode.
+"""
+        (OUT / "final-verdict.md").write_text(body)
+        hash_all()
+        print(
+            json.dumps(
+                {
+                    "verdict": verdict,
+                    "contract_ok": contract_ok,
+                    "tests": tests,
+                    "stage": stage,
+                    "pre_freeze": True,
+                },
+                indent=2,
+            )
+        )
+        raise SystemExit(0 if contract_ok else 1)
+
+    formal = _load_json("formal-run-outcome.json")
+    exp = _load_json("experiment-summary.json")
+    perf = _load_json("performance-results.json")
+
+    gates_ok = _gates_ok(formal=formal, exp=exp)
+    perf_ok = _perf_ok(perf)
+    prior_ok = bool(priors.get("prior_seals_valid")) and bool(priors.get("d009_qualified_present"))
+    suite_ok = bool(tests.get("zero_skip"))
+    verdict = _qualification_verdict(
+        gates_ok=gates_ok,
+        perf_ok=perf_ok,
+        prior_ok=prior_ok,
+        suite_ok=suite_ok,
+    )
+
+    body = f"""# UMBRA-D-010 Final Verdict
+
+**Verdict:** `{verdict}`
+
+**Ending commit:** `{ending}`
+**Mimir project:** `7777645d52a91b49`
+**Adaptive soak:** Supplement **S3** (authorized replacement for fixed two-hour soak)
+
+## Gate summary
+
+| Check | Result |
+|-------|--------|
+| Task 13 Gates 1–12 | `{"PASS" if gates_ok else "FAIL"}` |
+| Gate 13 performance (S3 adaptive) | `{"PASS" if perf_ok else "FAIL"}` |
+| Prior seals D-001 + D-009 | `{"PASS" if prior_ok else "FAIL"}` |
+| Zero-skip test suite | `{"PASS" if suite_ok else "FAIL"}` (passed={tests.get("passed")}, skipped={tests.get("skipped")}) |
+
+## Evidence surfaces
+
+| Surface | Present |
+|---------|---------|
+| formal-run-outcome.json | `{"yes" if formal else "no"}` |
+| experiment-summary.json | `{"yes" if exp else "no"}` |
+| performance-results.json | `{"yes" if perf else "no"}` |
+
+D-010 Task 14 uses authorized adaptive-soak Supplement S3. Absolute and incremental
+RSS/CPU limits from `experiments/d010/thresholds.json` remain binding.
+
+D-009 `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` prerequisite required.
 """
     (OUT / "final-verdict.md").write_text(body)
     hash_all()
@@ -201,17 +319,16 @@ No QUALIFIED claim is made at this stage.
         json.dumps(
             {
                 "verdict": verdict,
-                "contract_ok": contract_ok,
+                "gates_ok": gates_ok,
+                "perf_ok": perf_ok,
+                "prior_ok": prior_ok,
+                "suite_ok": suite_ok,
                 "tests": tests,
-                "stage": stage,
-                "pre_freeze": True,
             },
             indent=2,
         )
     )
-    if args.contract_only:
-        raise SystemExit(0 if contract_ok else 1)
-    raise SystemExit(0 if contract_ok and perf_contract else 1)
+    raise SystemExit(0 if verdict.endswith("QUALIFIED") else 1)
 
 
 if __name__ == "__main__":

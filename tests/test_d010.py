@@ -2346,3 +2346,69 @@ def test_formal_harness_refuses_placeholder_hashes():
     with pytest.raises(ValueError, match="placeholder"):
         assert_no_placeholder_hashes({"experiments/d010/x.json": "PLACEHOLDER" * 4})
 
+
+def test_seal_refuses_qualified_without_gates():
+    from experiments.d010 import run_seal as seal_mod
+
+    assert seal_mod._qualification_verdict(
+        gates_ok=False,
+        perf_ok=True,
+        prior_ok=True,
+        suite_ok=True,
+    ) == "UMBRA_D010_PARTIAL_FOUNDATION"
+
+
+def test_seal_refuses_qualified_without_perf():
+    from experiments.d010 import run_seal as seal_mod
+
+    assert seal_mod._qualification_verdict(
+        gates_ok=True,
+        perf_ok=False,
+        prior_ok=True,
+        suite_ok=True,
+    ) == "UMBRA_D010_PERFORMANCE_FAIL"
+
+
+def test_seal_emits_qualified_only_when_all_pass():
+    from experiments.d010 import run_seal as seal_mod
+
+    assert seal_mod._qualification_verdict(
+        gates_ok=True,
+        perf_ok=True,
+        prior_ok=True,
+        suite_ok=True,
+    ) == "UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED"
+
+
+def test_seal_gates_ok_reads_formal_run_outcome():
+    from experiments.d010 import run_seal as seal_mod
+
+    assert seal_mod._gates_ok(
+        formal={"gates_1_12_pass": True},
+        exp={},
+    )
+    assert seal_mod._gates_ok(
+        formal={"outcome": "UMBRA_D010_TASK13_GATES_1_12_PASS"},
+        exp={},
+    )
+    assert not seal_mod._gates_ok(formal={}, exp={})
+
+
+def test_seal_perf_ok_rejects_pre_freeze_and_smoke():
+    from experiments.d010 import run_seal as seal_mod
+
+    assert not seal_mod._perf_ok({"pass": True, "adaptive_soak_supplement": "S3", "pre_freeze": True})
+    assert not seal_mod._perf_ok({"pass": True, "adaptive_soak_supplement": "S3", "smoke_scaled": True})
+    assert seal_mod._perf_ok({"pass": True, "adaptive_soak_supplement": "S3", "pre_freeze": False})
+
+
+def test_performance_dry_run_reports_pre_freeze_false_when_not_smoke(monkeypatch):
+    monkeypatch.delenv("D010_PERF_SMOKE", raising=False)
+    import experiments.d010.run_performance as perf_mod
+
+    timing = perf_mod._proto_timing()
+    assert timing["warmup_seconds"] >= float(
+        json.loads((ROOT / "experiments/d010/performance-protocol.json").read_text())["warmup_seconds"]
+    )
+    assert not perf_mod._is_smoke()
+

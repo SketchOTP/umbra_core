@@ -188,6 +188,34 @@
     },
     {
       "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_gate6_c0_s7_promotion_count_meets_threshold"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_gate6_c6_weaker_than_c0_s7"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 10,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_gate10_c0_restart_continuity_high_c8_low"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 11,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_gate11_c12_replay_equivalence_low_after_shuffle"
+    },
+    {
+      "expected_execution_mode": "pytest",
       "gate": 4,
       "required": true,
       "test_file": "tests/test_d010.py",
@@ -454,10 +482,52 @@
     },
     {
       "expected_execution_mode": "pytest",
+      "gate": 13,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_performance_dry_run_reports_pre_freeze_false_when_not_smoke"
+    },
+    {
+      "expected_execution_mode": "pytest",
       "gate": 14,
       "required": true,
       "test_file": "tests/test_d010.py",
       "test_id": "test_scenario_plants_change_timing_opportunity_only"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_seal_emits_qualified_only_when_all_pass"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_seal_gates_ok_reads_formal_run_outcome"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_seal_perf_ok_rejects_pre_freeze_and_smoke"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_seal_refuses_qualified_without_gates"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_seal_refuses_qualified_without_perf"
     },
     {
       "expected_execution_mode": "pytest",
@@ -626,6 +696,20 @@
       "required": true,
       "test_file": "tests/test_d010.py",
       "test_id": "test_test_manifest_enumerates_required_tests"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 15,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_validator_final_verdict_qualified_claim_fails"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 15,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_validator_gate_summary_allowed_verdicts_no_false_positive"
     },
     {
       "expected_execution_mode": "pytest",
