@@ -14,6 +14,7 @@
 - Directive: `docs/directives/UMBRA-D-010-temporal-continuity.md`
 - Starting commit: `bb90e6111f883f58cced7e71b7d452df7f072aa7`
 - Design commits: `ad97ddd` (initial), `03e1269` (eight final amendments)
+- Plan tip: **this amended plan commit** (supersedes `2149297`)
 - D-009 seal: `af35371` / `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`
 - Mimir project: `7777645d52a91b49`; parent task: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
 - Agent directive: `D-20260724-umbra-d010-temporal-continuity`
@@ -21,10 +22,32 @@
 - TemporalEngine never selects/executes actions or launches routines
 - C1–C13 harness-only / production-unreachable
 - Formal experiments only after Stage B freeze (no placeholder hashes)
-- Final sealed suite: zero skips
+- **Nothing may change production/test/harness source after Stage B freeze** except evidence commits
+- Final sealed suite: zero skips (no pre-evidence skipped Gate 13 tests)
 - Do not edit `.agent/RECORD.md`
 - Ponytail: smallest correct diff; reuse D-008/D-009 harness patterns
-- Parent Mimir stays open until final seal; close against seal tip
+- Parent Mimir stays open until final seal after independent Task 14 review
+
+## Execution model (Subagent-Driven)
+
+- Fresh implementation subagent per task
+- Independent review between tasks (spec + quality)
+- No advancement with unresolved Important or Critical findings
+- Tasks 13 and 14 isolated from implementation (evidence-only after freeze)
+- No formal execution before the final Stage B freeze
+- If Task 13/14 reveals a code defect: invalidate freeze → patch source → rerun tests → new Stage B freeze → new `formal_execution_id`
+
+## Regression checkpoints
+
+Require relevant D-001 through D-009 regression suites after:
+
+| After task | Checkpoint |
+|------------|------------|
+| Task 3 | Atomic runtime/persistence integration |
+| Task 6 | Arbitration / governance / WAIT |
+| Task 8 | Downtime and cross-subsystem persistence |
+| Task 9 | `runtime.tick` migration |
+| Task 12 | Final pre-freeze suite (last source-changing commit before Stage B freeze tip) |
 
 ## File map
 
@@ -45,20 +68,20 @@
 | `umbra_core/memory/engine.py` | Relative temporal_binding + BoundRoutineEligibility |
 | `experiments/d010/*` | Allowlists, registry, freeze, harnesses, controls |
 | `tests/test_d010.py` | Full minimum + amendment tests |
-| `docs/evidence/d010/*` | Evidence pack |
+| `docs/evidence/d010/*` | Evidence pack (Tasks 13–14 only after freeze) |
 
 ---
 
-### Task 0: Align governance with design tip
+### Task 0: Align governance with amended plan tip
 
-**Files:** `.agent/CURRENT.md`, `.agent/REPO_MAP.md`, `docs/directives/UMBRA-D-010-temporal-continuity.md` (status), progress ledger
+**Files:** `.agent/CURRENT.md`, `.agent/REPO_MAP.md`, `docs/directives/UMBRA-D-010-temporal-continuity.md` (status), `.superpowers/sdd/progress.md`
 
-- [ ] **Step 1:** Point CURRENT at design tip `03e1269`; status = plan written / implementation starting.
-- [ ] **Step 2:** REPO_MAP: design + plan paths; `umbra_core/temporal/` planned.
+- [ ] **Step 1:** Point `CURRENT.md` at **this amended plan commit** (not design `03e1269`; not superseded `2149297`). Status = plan approved / SDD starting.
+- [ ] **Step 2:** REPO_MAP: design + amended plan paths; `umbra_core/temporal/` planned.
 - [ ] **Step 3:** Commit
 
 ```bash
-git commit -m "Align D-010 governance with amended design tip for planning."
+git commit -m "Align D-010 governance with amended implementation plan tip."
 ```
 
 ---
@@ -95,7 +118,8 @@ git commit -m "Align D-010 governance with amended design tip for planning."
 
 - [ ] **Step 1:** Failing tests: atomic with tick; failed tick no advance record; tick replay reconstructs anchors/mapping; no duplicate anchor event; missing advance fails replay.
 - [ ] **Step 2:** Implement apply + event embedding.
-- [ ] **Step 3:** Commit `Commit TemporalAdvancePlan atomically with replay-complete tick records.`
+- [ ] **Step 3:** Run D-001…D-009 regression checkpoint (atomic runtime/persistence).
+- [ ] **Step 4:** Commit `Commit TemporalAdvancePlan atomically with replay-complete tick records.`
 
 ---
 
@@ -131,7 +155,8 @@ git commit -m "Align D-010 governance with amended design tip for planning."
 
 - [ ] **Step 1:** Failing tests from design §3.
 - [ ] **Step 2:** Implement WAIT path without TemporalEngine owning waits.
-- [ ] **Step 3:** Commit `Add temporal modifiers, governed WAIT, and durable wait suppression.`
+- [ ] **Step 3:** Run D-001…D-009 regression checkpoint (arbitration/governance/WAIT).
+- [ ] **Step 4:** Commit `Add temporal modifiers, governed WAIT, and durable wait suppression.`
 
 ---
 
@@ -155,7 +180,8 @@ git commit -m "Align D-010 governance with amended design tip for planning."
 
 - [ ] **Step 1:** Failing tests from design §4.
 - [ ] **Step 2:** Implement reconcile + atomic apply.
-- [ ] **Step 3:** Commit `Add TemporalEngine downtime reconciliation and elapsed-time contracts.`
+- [ ] **Step 3:** Run D-001…D-009 regression checkpoint (downtime / cross-subsystem persistence).
+- [ ] **Step 4:** Commit `Add TemporalEngine downtime reconciliation and elapsed-time contracts.`
 
 ---
 
@@ -167,7 +193,8 @@ git commit -m "Align D-010 governance with amended design tip for planning."
 
 - [ ] **Step 1:** Failing test `test_all_production_runtime_tick_uses_are_classified`.
 - [ ] **Step 2:** Scanner + migrate critical T/B sites.
-- [ ] **Step 3:** Commit `Classify and migrate production runtime.tick temporal dependencies.`
+- [ ] **Step 3:** Run D-001…D-009 regression checkpoint (`runtime.tick` migration).
+- [ ] **Step 4:** Commit `Classify and migrate production runtime.tick temporal dependencies.`
 
 ---
 
@@ -181,13 +208,56 @@ git commit -m "Align D-010 governance with amended design tip for planning."
 
 ---
 
-### Task 11: Stage A definitions + hashes; Stage B freeze bundle
+### Task 11: Stage A definitions + complete formal harnesses (pre-freeze)
 
-**Files:** Stage A/B JSON artifacts per spec §5.5 including `formal-execution-contract.json`, `test-manifest.json`, `development-seed-manifest.json`, `runtime-tick-classification.json`
+**Files:** Stage A artifacts + **all** formal runners (source must be complete before Stage B)
 
-- [ ] **Step 1:** Complete Stage A; compute hashes; no placeholders.
-- [ ] **Step 2:** Commit Stage B freeze (content-addressed hashes; no self-referential freeze_commit inside bundle).
-- [ ] **Step 3:** Record freeze tip; harness refuses dirty freeze.
+**Complete in this task (no later source edits after Task 12 freeze):**
+
+```text
+experiments/d010/
+  authoritative-event-allowlist.json
+  observable-evidence-allowlist.json
+  elapsed-contract-registry.json
+  failure-code registry / temporal event schemas (as needed)
+  development-seed-manifest.json
+  formal-seed-manifest.json          # uninspected until Stage B; disjoint from development
+  formal-seed-nonoverlap rule (in thresholds or dedicated freeze field)
+  test-manifest.json                 # all required test IDs
+  run_experiment.py
+  validate_evidence.py
+  run_performance.py
+  run_seal.py
+  with_tk_display.sh
+  runtime-tick classification scanner (final)
+```
+
+- [ ] **Step 1:** Complete Stage A definitions; compute Stage A hashes; no placeholders.
+- [ ] **Step 2:** Complete experiment/performance/seal harnesses and `with_tk_display.sh`.
+- [ ] **Step 3:** Produce `development-seed-manifest.json` and `formal-seed-manifest.json` with explicit nonoverlap rule; formal seeds remain uninspected before Stage B.
+- [ ] **Step 4:** Complete `test-manifest.json` enumerating every required test ID (including Gate 13 harness-contract tests — **not** skipped placeholders).
+- [ ] **Step 5:** Commit Stage A + harnesses (still pre-freeze; Task 12 freezes Stage B).
+
+```bash
+git commit -m "Complete D-010 Stage A definitions and formal harnesses."
+```
+
+---
+
+### Task 12: Complete tests + final Stage B freeze (last source-changing commit)
+
+**Files:** `tests/test_d010.py`; Stage B freeze JSON; thresholds; matrix; scenario-suite; formal-execution-contract.json; runtime-tick-classification.json
+
+**Critical rules:**
+
+- **No skipped / placeholder Gate 13 tests.** Code-level tests validate performance and seal **harness contracts**. Evidence-dependent qualification runs only through the frozen seal harness after evidence exists (Tasks 13–14).
+- Final Stage B freeze is the **last production/test/harness source-changing commit**.
+- After this freeze tip: Tasks 13–14 may commit **evidence only**.
+
+- [ ] **Step 1:** Complete all directive §14 + amendment tests; zero skips in `test_d010.py`.
+- [ ] **Step 2:** Run final pre-freeze regression (D-001…D-009 + full D-010 suite).
+- [ ] **Step 3:** Commit Stage B freeze bundle (`thresholds`, matrix, scenarios, formal-execution-contract, classification, seed manifests hashes, Stage A hashes, test-manifest hash, `implementation_source_hash`, allowed verdicts). No self-referential `freeze_commit` inside the bundle.
+- [ ] **Step 4:** Record freeze tip; harness refuses dirty freeze / placeholder hashes / unclassified production ticks.
 
 ```bash
 git commit -m "Freeze D-010 Stage B preregistration bundle."
@@ -195,39 +265,52 @@ git commit -m "Freeze D-010 Stage B preregistration bundle."
 
 ---
 
-### Task 12: Complete `tests/test_d010.py` minimum list (zero skips)
+### Task 13: Formal experiments Gates 1–12 (isolated; evidence only)
 
-- [ ] **Step 1:** Ensure all directive §14 + amendment tests present; artifact-reading Gate 13 until evidence exists.
-- [ ] **Step 2:** Full suite green (allow pre-existing non-D010 skips only if any; prefer zero in test_d010).
-- [ ] **Step 3:** Commit `Complete D-010 minimum test coverage.`
+**Constraint:** Frozen source tip from Task 12. **Evidence commits only.** No harness/test/code edits.
 
----
+**Files:** `docs/evidence/d010/*` (and evidence formal-execution-manifest.json recording `freeze_commit` at run start)
 
-### Task 13: Formal experiments Gates 1–12 (isolated)
-
-**Files:** `experiments/d010/run_experiment.py`, `validate_evidence.py`, `docs/evidence/d010/*`
-
-- [ ] **Step 1:** Harness: ≥100 paired seeds; raw-results.jsonl; formal-execution-manifest at run start records freeze_commit; validator recomputes from raw.
-- [ ] **Step 2:** Run Gates 1–12; no QUALIFIED; Gate 13 deferred.
-- [ ] **Step 3:** Commit evidence; independent review before Task 14.
+- [ ] **Step 1:** Run frozen Gates 1–12 harness (≥100 paired formal seeds); raw-results.jsonl; validator recomputes from raw.
+- [ ] **Step 2:** No QUALIFIED; Gate 13 deferred to Task 14.
+- [ ] **Step 3:** Commit evidence only.
+- [ ] **Step 4:** Independent review; fix Critical/Important only via freeze-invalidate path if code defects found.
 
 ---
 
-### Task 14: Adaptive S3 performance + seal (isolated)
+### Task 14: Adaptive S3 performance + seal (isolated; evidence then review then seal close)
 
-**Files:** `run_performance.py`, `run_seal.py`, `with_tk_display.sh`, evidence performance/*, `final-verdict.md`
+**Constraint:** Same frozen source tip. Evidence + seal artifacts only unless freeze invalidated.
 
-- [ ] **Step 1:** 100k + lifecycle + P0/P1/P2 (comparability rules); recompose.
-- [ ] **Step 2:** Zero-skip seal under `with_tk_display.sh`.
-- [ ] **Step 3:** QUALIFIED only if earned: `UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED`.
-- [ ] **Step 4:** Close parent Mimir against seal commit; clean worktree; no leftover processes.
-- [ ] **Step 5:** Independent review before operator-final.
+**Order (mandatory):**
+
+```text
+1. Execute frozen 100k + lifecycle + P0/P1/P2 + recompose
+2. Produce provisional seal artifacts / final-verdict draft
+3. Independent Task 14 review
+4. Resolve all Important/Critical findings
+   (code defects → invalidate freeze → patch → tests → new Stage B → new formal_execution_id)
+5. Commit final seal
+6. Close parent Mimir against that seal commit
+7. Verify clean worktree and zero leftover processes
+```
+
+- [ ] **Step 1:** Run frozen performance matrix (comparability rules); commit evidence.
+- [ ] **Step 2:** Run frozen seal under `with_tk_display.sh`; zero skips; every required test-manifest ID executed.
+- [ ] **Step 3:** Independent review; resolve Critical/Important.
+- [ ] **Step 4:** Commit final seal (`UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED` only if earned).
+- [ ] **Step 5:** Close parent Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3` against seal tip.
+- [ ] **Step 6:** Clean worktree; no leftover soak/Xvfb/runtime processes.
 
 ---
 
 ## Plan self-review
 
-- Spec amendments reflected: advance record complete; transaction envelope; fitted prediction; IN_TICK/POST_HOC; formal contract vs evidence manifest; TimeAnchor trust; seed split; test-manifest.
-- Tasks ordered so Stage B freeze precedes formal experiments; Task 13/14 isolated.
-- No TemporalEngine action ownership; WAIT in execution system.
-- Parent Mimir remains open until Task 14 seal.
+- Task 0 points CURRENT at **amended plan tip**, not design `03e1269` / not `2149297`.
+- Stage A + all runners complete in Task 11; all tests + Stage B freeze in Task 12 (last source change).
+- Tasks 13–14 evidence-only; freeze-invalidate path documented.
+- Separate development/formal seed manifests + nonoverlap; formal seeds uninspected pre-Stage B.
+- No pre-evidence skipped Gate 13 tests; seal runs required IDs with zero skips.
+- Regression checkpoints after Tasks 3, 6, 8, 9, 12.
+- Task 14: provisional evidence → independent review → final seal → Mimir close.
+- Parent Mimir remains open until Task 14 seal after review.
