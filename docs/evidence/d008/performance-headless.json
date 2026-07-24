@@ -1,0 +1,43 @@
+{
+  "adaptive_soak_supplement": "S3",
+  "cpu_mean_fraction": 0.0030401371083038733,
+  "cpu_p95_fraction": 0.0061708977477316585,
+  "database_growth_mib": 10.573089599609375,
+  "directive": "UMBRA-D-008",
+  "display_environment": "n/a",
+  "dropped_stale_frame_count": 0,
+  "duration_s": 3000.7426602840424,
+  "extension_reason": "rss_slope_ci_ambiguous",
+  "extension_seconds": 900.0,
+  "frame_ring_max_occupancy": 64,
+  "initial_measurement_seconds": 1800.0,
+  "mode": "P1",
+  "pass": true,
+  "pending_callback_count": 0,
+  "profile_hashes": {
+    "ABSTRACT_SHAPE_BODY": "ba3b8ed7905f19dff7e34d7fe5d2e0a06c6f89ddb7382aa36f8a875690334be4"
+  },
+  "rendered_frame_count": 5999,
+  "renderer_cursor_count": 1,
+  "renderer_exception_count": 0,
+  "rss_p50_mib": 42.234375,
+  "rss_p95_mib": 42.4140625,
+  "rss_peak_mib": 42.4140625,
+  "rss_segment_medians_mib": [
+    42.03125,
+    42.234375,
+    42.37109375
+  ],
+  "rss_slope_confidence_interval": [
+    0.0,
+    1.8749999999999984
+  ],
+  "rss_slope_mib_per_hour": 0.5978260869565216,
+  "sample_count": 541,
+  "sample_interval_seconds": 5.0,
+  "smoke_scaled": false,
+  "software_commit": "e33dd2bef00bd2f3d4c1536e44d54480e428285e",
+  "tkinter_version": null,
+  "total_measurement_seconds": 2700.7426602840424,
+  "warmup_seconds": 300.0
+}

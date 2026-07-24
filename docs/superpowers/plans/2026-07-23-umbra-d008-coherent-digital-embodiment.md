@@ -484,9 +484,9 @@ git commit -m "Run D-008 experiment matrix and record gate evidence."
 
 Per mode: warm-up 300s (excluded) + initial 1800s measurement; extend only when ambiguous in 900s steps up to 3600s measurement. Report `expression_over_core`, `tkinter_over_headless`, `tkinter_over_core`. No display → fail closed or preregistered Xvfb — never silent headless substitute. Do **not** run a fixed two-hour soak.
 
-- [ ] **Step 1: Run 100k boundedness**
-- [ ] **Step 2: Run S3 triple-mode adaptive soak + renderer lifecycle (≥100 cycles)**
-- [ ] **Step 3: `run_seal.py` — prior seals, zero-skip `pytest tests/`, hashes, verdict**
+- [x] **Step 1: Run 100k boundedness**
+- [x] **Step 2: Run S3 triple-mode adaptive soak + renderer lifecycle (≥100 cycles)**
+- [x] **Step 3: `run_seal.py` — prior seals, zero-skip `pytest tests/`, hashes, verdict**
 - [ ] **Step 4: Commit seal; close Mimir against final commit; confirm clean worktree**
 
 ```bash

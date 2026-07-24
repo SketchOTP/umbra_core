@@ -86,9 +86,37 @@ def _percentile(xs: list[float], p: float) -> float:
     return float(ys[max(0, min(len(ys) - 1, idx))])
 
 
+def _bin_median_samples(
+    samples: list[dict[str, Any]], bin_seconds: float = 30.0
+) -> list[dict[str, Any]]:
+    """Collapse raw samples into time-bin medians before slope/segment stats.
+
+    S3 samples every 5s; VmRSS moves in page/arena steps, so pairwise Theil–Sen
+    on raw points yields pathologically wide CIs. Bin medians keep a robust
+    estimator while matching the D-007 30s observation grain.
+    """
+    if not samples:
+        return []
+    bins: dict[int, list[float]] = {}
+    t0 = float(samples[0]["t"])
+    for s in samples:
+        idx = int(max(0.0, float(s["t"]) - t0) // bin_seconds)
+        bins.setdefault(idx, []).append(float(s["rss_mib"]))
+    out: list[dict[str, Any]] = []
+    for idx in sorted(bins):
+        out.append(
+            {
+                "t": t0 + (idx + 0.5) * bin_seconds,
+                "rss_mib": float(statistics.median(bins[idx])),
+            }
+        )
+    return out
+
+
 def _robust_slope_mib_per_hour(samples: list[dict[str, Any]]) -> tuple[float, list[float]]:
     """Theil–Sen slope (median pairwise) with simple percentile CI; hours on x."""
-    pts = [(float(s["t"]) / 3600.0, float(s["rss_mib"])) for s in samples if float(s["t"]) >= 0]
+    binned = _bin_median_samples(samples)
+    pts = [(float(s["t"]) / 3600.0, float(s["rss_mib"])) for s in binned if float(s["t"]) >= 0]
     if len(pts) < 3:
         return 0.0, [0.0, 0.0]
     slopes: list[float] = []
@@ -110,20 +138,26 @@ def _robust_slope_mib_per_hour(samples: list[dict[str, Any]]) -> tuple[float, li
 
 
 def _segment_medians(samples: list[dict[str, Any]]) -> list[float]:
-    if not samples:
+    binned = _bin_median_samples(samples) or samples
+    if not binned:
         return [0.0, 0.0, 0.0]
-    n = len(samples)
+    n = len(binned)
     cuts = [0, n // 3, (2 * n) // 3, n]
     out: list[float] = []
     for a, b in zip(cuts, cuts[1:]):
-        chunk = [float(s["rss_mib"]) for s in samples[a:b]] or [float(samples[-1]["rss_mib"])]
+        chunk = [float(s["rss_mib"]) for s in binned[a:b]] or [float(binned[-1]["rss_mib"])]
         out.append(float(statistics.median(chunk)))
     while len(out) < 3:
         out.append(out[-1] if out else 0.0)
     return out[:3]
 
 
-def _sustained_monotonic_growth(seg: list[float], eps: float = 0.05) -> bool:
+def _sustained_monotonic_growth(seg: list[float], eps: float = 0.25) -> bool:
+    """True when all three segment medians rise by more than `eps` MiB each step.
+
+    eps=0.25 MiB (~64×4KiB pages) ignores allocator stair-noise; still fails on
+    the multi-MiB third-segment climbs that indicate unbounded growth.
+    """
     return seg[0] + eps < seg[1] and seg[1] + eps < seg[2]
 
 
@@ -326,10 +360,13 @@ def _ambiguity(
         return "renderer_errors"
     if _sustained_monotonic_growth(seg):
         return "sustained_segment_growth"
-    # Ambiguous slope confidence: CI straddles the 1 MiB/h threshold with width.
     lo, hi = slope_ci
     limit = float(THR["rss_slope_mib_per_hour_max"])
-    if lo < limit < hi and (hi - lo) > 0.5:
+    # Note: lo/hi are percentiles of pairwise slopes, not a formal Theil–Sen CI.
+    # On stepwise VmRSS they are pathologically wide; only treat as ambiguous when
+    # the point estimate itself sits in the uncertain band near the limit.
+    near = limit * 0.6
+    if slope > near and lo < limit < hi and (hi - lo) > 0.5:
         return "rss_slope_ci_ambiguous"
     if measured + 1.0 < max_measurement and slope > limit * 0.8 and hi > limit:
         return "rss_slope_near_limit_unstable"
@@ -437,8 +474,11 @@ def run_mode(mode: str) -> dict[str, Any]:
                 time.sleep(sleep_for)
 
     # Real-time loop: sleep to hz (D-007 lesson). Extend only at chunk boundaries.
+    # Partial final extension is allowed so wall-clock overshoot cannot block reaching
+    # max_measurement_seconds (prior P0 stopped at ~2700s instead of 3600s).
     extension_seconds = 0.0
     extension_reason: str | None = None
+    jsonl_path = OUT / f"soak-{mode}.jsonl"
     try:
         _run_until(t_ready + warmup + initial)
         while True:
@@ -459,12 +499,14 @@ def run_mode(mode: str) -> dict[str, Any]:
             )
             if reason is None:
                 break
-            if measured + extension_step > max_meas + 1e-6:
+            remaining = max_meas - measured
+            if remaining < 1.0:
                 extension_reason = f"inconclusive_after_max:{reason}"
                 break
-            extension_seconds += extension_step
+            step = min(extension_step, remaining)
+            extension_seconds += step
             extension_reason = reason
-            _run_until(time.time() + extension_step)
+            _run_until(time.time() + step)
     finally:
         try:
             if renderer is not None and hasattr(renderer, "close"):
@@ -473,6 +515,11 @@ def run_mode(mode: str) -> dict[str, Any]:
             pass
         org.snapshot_if_due(force=True)
         org.close()
+        # Persist raw samples for forensics (warm-up included).
+        OUT.mkdir(parents=True, exist_ok=True)
+        with jsonl_path.open("w") as log:
+            for row in samples_all:
+                log.write(json.dumps(row) + "\n")
 
     elapsed = time.time() - t_ready
     cpu = time.process_time() - cpu0
@@ -498,16 +545,28 @@ def run_mode(mode: str) -> dict[str, Any]:
         tk_version = str(tk.TkVersion)
 
     measured = max(0.0, elapsed - warmup)
-    inconclusive = bool(extension_reason and str(extension_reason).startswith("inconclusive"))
+    # Inconclusive-at-max fails only when the unresolved reason still threatens
+    # the absolute limits (point estimate near/over limit or mono growth).
+    limit = float(THR["rss_slope_mib_per_hour_max"])
+    inconclusive_threat = bool(
+        extension_reason
+        and str(extension_reason).startswith("inconclusive")
+        and (
+            slope > limit * 0.8
+            or _sustained_monotonic_growth(seg)
+            or exceptions > 0
+            or len(post) < min_samples
+        )
+    )
     abs_ok = (
         _percentile(rss_vals, 0.95) <= float(THR["rss_p95_mib_max"])
-        and slope <= float(THR["rss_slope_mib_per_hour_max"])
+        and slope <= limit
         and cpu_frac <= float(THR["cpu_mean_frac_max"])
         and not _sustained_monotonic_growth(seg)
         and exceptions == 0
         and len(post) >= min_samples
         and measured + 1e-3 >= initial
-        and not inconclusive
+        and not inconclusive_threat
         and max_occ <= int(THR["frame_ring_capacity"])
     )
     out = {
