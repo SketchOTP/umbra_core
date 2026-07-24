@@ -26,8 +26,8 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
+- **UMBRA-D-009 in progress** — design `79a00f2` (A1–A6 on `da60f20`); starting commit `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task `06b5b59709864e11bddb8c1da56dd66e`
 - **UMBRA-D-008 closed** — `UMBRA_D008_COHERENT_DIGITAL_EMBODIMENT_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; renderer lifecycle; zero-skip suite)
-- **D-009 authorized** under `UMBRA_D008_COHERENT_DIGITAL_EMBODIMENT_QUALIFIED`
 - **UMBRA-D-007 closed** — `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (100k + 2h RUNTIME_READY VmRSS soak; zero-skip suite)
 - **D-008 authorized** under `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (closed)
 - **UMBRA-D-006 closed** — `UMBRA_D006_SOCIAL_CONTINGENCY_QUALIFIED` (Task 13 perf seal: 100k + 2h RUNTIME_READY VmRSS soak; zero-skip suite)
@@ -56,6 +56,9 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-008 preregistration: `experiments/d008/thresholds.json`, `experiments/d008/experiment-matrix.json`, `experiments/d008/scenario-suite.json`, `experiments/d008/performance-protocol.json` (S3)
 - D-008 directive: `docs/directives/UMBRA-D-008-coherent-digital-embodiment.md`
 - D-008 design: `docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md`
+- D-009 directive: `docs/directives/UMBRA-D-009-persistent-habitat-agency.md`
+- D-009 design: `docs/superpowers/specs/2026-07-23-umbra-d009-persistent-habitat-agency-design.md` (`79a00f2`)
+- D-009 plan: `docs/superpowers/plans/2026-07-23-umbra-d009-persistent-habitat-agency.md`
 - D-007 preregistration: `experiments/d007/thresholds.json`, `experiments/d007/experiment-matrix.json`, `experiments/d007/probe-suite.json`
 - D-007 directive: `docs/directives/UMBRA-D-007-lived-individuality.md`
 - D-007 design: `docs/superpowers/specs/2026-07-22-umbra-d007-lived-individuality-design.md`
@@ -69,7 +72,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Target platform: Linux
 - Persistence: SQLite WAL event/state authority (`HYBRID_PRIMARY`); optional Postgres scale tier
 - Core loop: deterministic non-LLM (see architecture freeze)
-- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`); D-005 QUALIFIED memory (`umbra_core/memory/`); D-006 QUALIFIED social (`umbra_core/social/`); D-007 QUALIFIED individuality (`umbra_core/individuality/`); D-008 QUALIFIED expression/embodiment (`umbra_core/expression/`, `umbra_core/embodiment_adapters/`, `ui/reference_companion/`)
+- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`); D-005 QUALIFIED memory (`umbra_core/memory/`); D-006 QUALIFIED social (`umbra_core/social/`); D-007 QUALIFIED individuality (`umbra_core/individuality/`); D-008 QUALIFIED expression/embodiment (`umbra_core/expression/`, `umbra_core/embodiment_adapters/`, `ui/reference_companion/`); D-009 in progress habitat/agency (`umbra_core/habitat/`, `umbra_core/habitat_affordances/`, `experiments/d009/`)
 - Agent/tooling docs: Markdown, Cursor rules, Mimir V2, Serena
 
 ## Common commands

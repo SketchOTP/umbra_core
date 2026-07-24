@@ -299,3 +299,7 @@ Its initial body is a user interface and virtual environment. Its future bodies 
 The organism core comes first. Embodiment expands what the individual can perceive and do, but it does not create the individual.
 
 The project succeeds when UMBRA becomes a persistent, autonomous, developing, individually recognizable companion that can begin life digitally and later inhabit a physical body without losing who it has become.
+
+# Program gate (post D-000S)
+
+**UMBRA-D-000 closed** via D-000S. **UMBRA-D-001 through D-008 closed** with qualified seals. **UMBRA-D-009 in progress** under frozen design `79a00f2` (persistent digital habitat and autonomous environmental agency). Architecture freeze: `docs/architecture/`. D-010 authorized only under `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`.

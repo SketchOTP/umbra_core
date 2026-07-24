@@ -4,7 +4,7 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 - `.agent/PROJECT_GOAL.md` — product SoT (companion organism core; chemistry optional/non-gating)
-- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-008 QUALIFIED; D-009 authorized)
+- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-008 QUALIFIED; D-009 in progress)
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
 - `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`)
@@ -90,6 +90,17 @@ Concise navigation map for agents. Add entries as application code lands.
 - Task 13 status: local `UMBRA_D008_TASK13_GATES_1_11_PASS`; Task 14 AUTHORIZED: NO until independent review
 - Runtime shape: governance → EmbodimentAdapter.execute → Embodiment.execute → ExpressionEngine.derive → frame ring; renderers poll non-destructively
 - Caps: IDLE/ORIENT/MOVE/APPROACH/RETREAT/INSPECT/REST/CHARGE/SIGNAL_* (no MAINTAIN/PRACTICE aliases)
+
+## Persistent habitat and environmental agency (D-009) — IN PROGRESS
+- Directive: `docs/directives/UMBRA-D-009-persistent-habitat-agency.md`
+- Design: `docs/superpowers/specs/2026-07-23-umbra-d009-persistent-habitat-agency-design.md` (`79a00f2`)
+- Plan: `docs/superpowers/plans/2026-07-23-umbra-d009-persistent-habitat-agency.md`
+- Packages (planned): `umbra_core/habitat/` (HabitatEngine sole writer), `umbra_core/habitat_affordances/` (pure AffordanceEngine)
+- Preregistration (Stage B, not yet frozen): `experiments/d009/{thresholds,experiment-matrix,scenario-suite,habitat-definition,affordance-definitions}.json`
+- Tests: `tests/test_d009.py` (to be created Task 1+)
+- Evidence: `docs/evidence/d009/` (to be created)
+- Starting commit: `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task: `06b5b59709864e11bddb8c1da56dd66e`
+- Authority: own-and-delegate — HabitatEngine mutates; Embodiment.habitat read-only projection; MANIPULATE address-only candidates; PREPARED→COMMITTED execution journal; P0 compatibility mode on same D-009 commit
 
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)
