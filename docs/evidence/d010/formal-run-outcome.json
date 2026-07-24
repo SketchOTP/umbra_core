@@ -1,34 +1,19 @@
 {
-  "agent_memory_directive": "D-20260724-1544-d010-task13b-gates-v2",
-  "directive": "UMBRA-D-010",
-  "formal_execution_id": "d010-fe-stage-b-v2",
-  "freeze_commit": "5d218d6fa1da8c49d2a6326037bbd10f3a457726",
-  "freeze_invalidate_path": "Fix experiments/d010/run_experiment.py _aggregate_gate gate 3: gate-critical cells are C2/C7/C10 on S0 only (no C0); aggregation must not pair C0 future_leakage against C2 with synthetic length-1 values_a. Add regression test that formal aggregation completes for all gates 0-12 on minimal fixture or post-run smoke. Rerun full test suite; new Stage B freeze; new formal_execution_id; rerun Task 13b.",
-  "gate_results": {
-    "gate0": "PASS",
-    "gate1": "PASS",
-    "gate2": "FAIL",
-    "gate3": "NOT_AGGREGATED",
-    "gate4": "NOT_AGGREGATED",
-    "gate5": "NOT_AGGREGATED",
-    "gate6": "NOT_AGGREGATED",
-    "gate7": "NOT_AGGREGATED",
-    "gate8": "NOT_AGGREGATED",
-    "gate9": "NOT_AGGREGATED",
-    "gate10": "NOT_AGGREGATED",
-    "gate11": "NOT_AGGREGATED",
-    "gate12": "NOT_AGGREGATED"
-  },
-  "gate2_detail": {
-    "comparison_id": "g2_c0_recurrence",
-    "mean_or_rate_a": 0.0,
-    "mean_or_rate_b": 0.0,
-    "threshold": 0.55,
-    "note": "recurrence_learning_signal zero for C0 and C11 on S1 at 100 seeds; may indicate metric/organism gap separate from aggregation defect"
-  },
-  "notes": "All 1900 matrix jobs completed (raw-results.jsonl). Aggregation crashed at gate 3 before gates 3-12 summaries written. C11 create_organism smoke passed pre-run. No QUALIFIED claim. Gate 13 deferred to Task 14.",
-  "pre_freeze": false,
-  "raw_rows": 1900,
-  "root_cause": "Harness gate 3 aggregation assumes C0 rows in gate-critical set; matrix assigns only diagnostic conditions C2/C7/C10 to gate 3.",
-  "terminal_status": "failed_harness_defect"
+  "formal_execution_id": "d010-fe-stage-b-v3",
+  "freeze_commit": "582b7605a2a803fdd3f394dbe4b6c99687248aca",
+  "agent_memory_directive": "D-20260724-1557-d010-task13c-gates-v3",
+  "jobs": 1900,
+  "paired_seeds": 100,
+  "duration_seconds": 217,
+  "all_experiment_gates_pass": false,
+  "gates_pass_count": 9,
+  "gates_fail_count": 3,
+  "failed_gates": [
+    6,
+    10,
+    11
+  ],
+  "validator_pass": false,
+  "qualified_claim": false,
+  "log_path": "/tmp/d010-task13c-formal-run.log"
 }

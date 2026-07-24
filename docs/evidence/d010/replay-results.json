@@ -3,44 +3,62 @@
   "agent_memory_directive": "D-20260724-1551-d010-freeze-invalidate-v3",
   "comparisons": [
     {
-      "comparison_id": "g2_c0_recurrence",
+      "comparison_id": "g11_replay_equivalence",
       "condition_a": "C0",
-      "condition_b": "C11",
+      "condition_b": "min",
       "confidence_interval": [
-        0.6666666666666666,
-        0.6666666666666666
+        1.0,
+        1.0
       ],
       "effect_size": 0.0,
       "higher_is_better_for_a": true,
-      "material_gap_min": 0.05,
-      "mean_or_rate_a": 0.6666666666666666,
+      "material_gap_min": null,
+      "mean_or_rate_a": 1.0,
       "mean_or_rate_b": 0.0,
-      "paired_delta": 0.6666666666666666,
+      "paired_delta": 1.0,
       "paired_seed_count": 100,
       "pass": true,
-      "threshold": 0.55
+      "threshold": 0.9
+    },
+    {
+      "comparison_id": "g11_shuffle_ablation",
+      "condition_a": "C0",
+      "condition_b": "C12",
+      "confidence_interval": [
+        -0.007578237650712777,
+        0.04757823765071278
+      ],
+      "effect_size": 0.14214106244380287,
+      "higher_is_better_for_a": true,
+      "material_gap_min": 0.05,
+      "mean_or_rate_a": 1.0,
+      "mean_or_rate_b": 0.98,
+      "paired_delta": 0.020000000000000018,
+      "paired_seed_count": 100,
+      "pass": false,
+      "threshold": 0.9
     }
   ],
   "conditions": [
     "C0",
-    "C11"
+    "C12"
   ],
   "deviations": [],
   "directive": "UMBRA-D-010",
   "duplicate_rows": 0,
   "expected_rows": 200,
   "failure_code_registry_hash": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
-  "gate": 2,
-  "generated_at": "2026-07-24T16:02:46.155157+00:00",
+  "gate": 11,
+  "generated_at": "2026-07-24T16:02:46.188218+00:00",
   "matrix_hash": "05fbbeae83fcf6b965f8b677adfcdbec01c3dbbac2f351ee2aab2e876ee8b64c",
   "metrics": {
     "row_count": 200
   },
   "missing_rows": 0,
-  "pass": true,
+  "pass": false,
   "scenario_suite_hash": "15904c1fbfea39cad86bef0afd846b851f231bf0033c841cdfbf82cdf62ba94f",
   "scenarios": [
-    "S1"
+    "S11"
   ],
   "seed_coverage": {
     "cells": 2,

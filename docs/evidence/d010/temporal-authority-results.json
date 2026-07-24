@@ -1,6 +1,6 @@
 {
   "actual_rows": 300,
-  "agent_memory_directive": "D-20260724-1527-d010-task12-stage-b-freeze",
+  "agent_memory_directive": "D-20260724-1551-d010-freeze-invalidate-v3",
   "comparisons": [
     {
       "comparison_id": "g1_c0_authority",
@@ -32,8 +32,8 @@
   "expected_rows": 300,
   "failure_code_registry_hash": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
   "gate": 1,
-  "generated_at": "2026-07-24T15:48:47.132372+00:00",
-  "matrix_hash": "885b5417961ab6f781b20bbd776055bd4b4069ae115206f3b126665b869592c1",
+  "generated_at": "2026-07-24T16:02:46.151244+00:00",
+  "matrix_hash": "05fbbeae83fcf6b965f8b677adfcdbec01c3dbbac2f351ee2aab2e876ee8b64c",
   "metrics": {
     "row_count": 300
   },
@@ -47,7 +47,7 @@
     "cells": 3,
     "paired_seeds": 100
   },
-  "software_commit": "5d218d6fa1da8c49d2a6326037bbd10f3a457726",
+  "software_commit": "582b7605a2a803fdd3f394dbe4b6c99687248aca",
   "stage_a_bundle_hash": "9dbf75686acfdc9d9dc434016a9e79a21df21cfef923c231e962327107cb7b58",
   "thresholds": {
     "absence_safety_violation_max": 0.0,
@@ -141,12 +141,12 @@
     },
     "temporal_authority_alignment_min": 0.95,
     "temporal_routine_promotion_min": 2,
-    "threshold_freeze_timestamp": "2026-07-24T15:41:38+00:00",
+    "threshold_freeze_timestamp": "2026-07-24T15:54:03+00:00",
     "ticks_accelerated_min": 100000,
     "ui_incremental_cpu_mean_frac_max": 0.05,
     "ui_incremental_rss_p95_mib_max": 128,
     "ui_incremental_rss_slope_mib_per_hour_max": 1.0,
     "version": 1
   },
-  "thresholds_hash": "0867834db383064059d72b2c10981efc65a7204aef77ad403120db7806501e98"
+  "thresholds_hash": "b9ff3c83ed34f7b5c5775b31a5c9e786124808d540d68da136ed4a2b447b0e60"
 }
