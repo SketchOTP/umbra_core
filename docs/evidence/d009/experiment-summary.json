@@ -12,35 +12,33 @@
       "condition_a": "all",
       "condition_b": "required",
       "confidence_interval": [
-        0.0,
-        0.0
+        1.0,
+        1.0
       ],
       "effect_size": 0.0,
       "higher_is_better_for_a": true,
       "material_gap_min": null,
-      "mean_or_rate_a": 0.0,
+      "mean_or_rate_a": 1.0,
       "mean_or_rate_b": 0.0,
-      "paired_delta": 0.0,
+      "paired_delta": 1.0,
       "paired_seed_count": 100,
-      "pass": false,
+      "pass": true,
       "threshold": 1.0
     }
   ],
   "conditions": [
     "C0"
   ],
-  "deviations": [
-    "D009_TICK_CAP=240"
-  ],
+  "deviations": [],
   "directive": "UMBRA-D-009",
   "duplicate_rows": 0,
   "expected_rows": 100,
   "gate": "summary",
-  "generated_at": "2026-07-24T05:22:25.521805+00:00",
+  "generated_at": "2026-07-24T05:59:09.550599+00:00",
   "habitat_definition_hash": "3d148c5e1e1de63688a4ea8954d97d47e921b89d30496eb4b22ef5906f3dcc38",
   "matrix_hash": "7723e63c57b1f200047ed1ba7c5e21f7b7bf6a1f52f815660e00ac3b701cc700",
   "metrics": {
-    "all_experiment_gates_pass": false,
+    "all_experiment_gates_pass": true,
     "freeze_commit": "4e6c769f916fb7e8d0ca9ce42ddd0462c8654f3b",
     "gate13_deferred": true,
     "gates": {
@@ -55,14 +53,14 @@
       "gate5": true,
       "gate6": true,
       "gate7": true,
-      "gate8": false,
+      "gate8": true,
       "gate9": true
     },
     "paired_seeds": 100,
-    "task13_outcome": "UMBRA_D009_TASK13_EXPERIMENT_INCOMPLETE"
+    "task13_outcome": "UMBRA_D009_TASK13_GATES_1_12_PASS"
   },
   "missing_rows": 0,
-  "pass": false,
+  "pass": true,
   "scenario_suite_hash": "7fc9c8df4bfe998c35e244b9e98016c13b5f4e9e5eddf1ca3033fbb2d8288fcb",
   "scenarios": [
     "S0"
@@ -70,7 +68,7 @@
   "seed_coverage": {
     "paired_seeds": 100
   },
-  "software_commit": "363fa6c2e6b38a9f05c12dda349352abf73ab151",
+  "software_commit": "0d5cffa0a8ca0415f5c4ffe77f0f9a106df8df3a",
   "thresholds": {
     "all_gates": true
   },

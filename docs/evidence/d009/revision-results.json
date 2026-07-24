@@ -12,17 +12,17 @@
       "condition_a": "C0",
       "condition_b": "min",
       "confidence_interval": [
-        0.026558654828519018,
-        0.13344134517148099
+        1.0,
+        1.0
       ],
-      "effect_size": 0.2934057881530955,
+      "effect_size": 0.0,
       "higher_is_better_for_a": true,
       "material_gap_min": null,
-      "mean_or_rate_a": 0.08,
+      "mean_or_rate_a": 1.0,
       "mean_or_rate_b": 0.0,
-      "paired_delta": 0.08,
+      "paired_delta": 1.0,
       "paired_seed_count": 100,
-      "pass": false,
+      "pass": true,
       "threshold": 0.1
     },
     {
@@ -47,21 +47,19 @@
   "conditions": [
     "C0"
   ],
-  "deviations": [
-    "D009_TICK_CAP=240"
-  ],
+  "deviations": [],
   "directive": "UMBRA-D-009",
   "duplicate_rows": 0,
   "expected_rows": 200,
   "gate": 8,
-  "generated_at": "2026-07-24T05:22:22.621946+00:00",
+  "generated_at": "2026-07-24T05:59:06.689293+00:00",
   "habitat_definition_hash": "3d148c5e1e1de63688a4ea8954d97d47e921b89d30496eb4b22ef5906f3dcc38",
   "matrix_hash": "7723e63c57b1f200047ed1ba7c5e21f7b7bf6a1f52f815660e00ac3b701cc700",
   "metrics": {
-    "revision": 0.08
+    "revision": 1.0
   },
   "missing_rows": 0,
-  "pass": false,
+  "pass": true,
   "scenario_suite_hash": "7fc9c8df4bfe998c35e244b9e98016c13b5f4e9e5eddf1ca3033fbb2d8288fcb",
   "scenarios": [
     "S16",
@@ -71,7 +69,7 @@
     "cells": 2,
     "paired_seeds": 100
   },
-  "software_commit": "363fa6c2e6b38a9f05c12dda349352abf73ab151",
+  "software_commit": "0d5cffa0a8ca0415f5c4ffe77f0f9a106df8df3a",
   "thresholds": {
     "active_in_memory_history_refs_max": 128,
     "affordance_definitions_ref": "experiments/d009/affordance-definitions.json",

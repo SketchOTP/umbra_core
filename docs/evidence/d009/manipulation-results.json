@@ -122,14 +122,12 @@
     "C2",
     "C3"
   ],
-  "deviations": [
-    "D009_TICK_CAP=240"
-  ],
+  "deviations": [],
   "directive": "UMBRA-D-009",
   "duplicate_rows": 0,
   "expected_rows": 700,
   "gate": 2,
-  "generated_at": "2026-07-24T05:22:22.578174+00:00",
+  "generated_at": "2026-07-24T05:59:06.638268+00:00",
   "habitat_definition_hash": "3d148c5e1e1de63688a4ea8954d97d47e921b89d30496eb4b22ef5906f3dcc38",
   "matrix_hash": "7723e63c57b1f200047ed1ba7c5e21f7b7bf6a1f52f815660e00ac3b701cc700",
   "metrics": {
@@ -151,7 +149,7 @@
     "cells": 7,
     "paired_seeds": 100
   },
-  "software_commit": "363fa6c2e6b38a9f05c12dda349352abf73ab151",
+  "software_commit": "0d5cffa0a8ca0415f5c4ffe77f0f9a106df8df3a",
   "thresholds": {
     "active_in_memory_history_refs_max": 128,
     "affordance_definitions_ref": "experiments/d009/affordance-definitions.json",

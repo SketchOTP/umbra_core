@@ -123,8 +123,10 @@ Concise navigation map for agents. Add entries as application code lands.
 - `experiments/d009/governance_bypass.py` (Task 10): C10 bypass payload helpers
 - `experiments/d009/scenario_plants.py` (Task 10): S0–S16 environmental opportunity plants (`apply_scenario_plants`)
 - Preregistration freeze (Task 11, commit `4e6c769f916fb7e8d0ca9ce42ddd0462c8654f3b`): `experiments/d009/thresholds.json`, `experiment-matrix.json`, `scenario-suite.json`, `habitat-definition.json`, `affordance-definitions.json`, `performance-protocol.json`, `seed-manifest.json` (template) — formal experiments start from this commit
-- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5; Task 5: 15; Task 6: 8; Task 7: 15; Task 8: 11; Task 9: 8; Task 10: 13)
-- Evidence: `docs/evidence/d009/` (to be created)
+- Task 13 harness (Gates 1–12): `experiments/d009/run_experiment.py`, `experiments/d009/evidence.py`, `experiments/d009/validate_evidence.py` — ProcessPool paired-seed matrix; preflight refuse rules; raw ledger + independent validator (cell-filtered mean recompute; Gate 2 C0×S2–S5; 100-restart probe; integrated routine/revision probes); **Gate 8 S16 requires full preregistered tick budget (1800 ticks) — do not use `D009_TICK_CAP` for qualification evidence**
+- Task 13 harness tests: `tests/test_d009_task13_harness.py` — Gate 2 unauthorized semantics + validator cell spec
+- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5; Task 5: 15; Task 6: 8; Task 7: 15; Task 8: 11; Task 9: 8; Task 10: 13; Task 12: 108 total)
+- Evidence (Task 13 Gates 1–12): `docs/evidence/d009/` — `*-results.json`, `raw-results.jsonl`, `seed-manifest.json`, `evidence-validation.json`, `experiment-summary.json` (`UMBRA_D009_TASK13_GATES_1_12_PASS`; Gate 13 deferred)
 - Starting commit: `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task: `06b5b59709864e11bddb8c1da56dd66e`
 - Authority: own-and-delegate — HabitatEngine mutates; Embodiment.habitat read-only projection; MANIPULATE address-only candidates; PREPARED→COMMITTED execution journal; P0 compatibility mode on same D-009 commit
 
