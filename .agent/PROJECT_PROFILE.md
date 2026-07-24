@@ -27,7 +27,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 
 ## Program status
 - **UMBRA-D-009 closed** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; zero-skip suite; seal `af35371`; independent review Approve)
-- **D-010** — **authorized** under `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`; **not started**
+- **UMBRA-D-010 in progress** — Temporal Continuity; starting commit `bb90e61`; Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3`; prerequisite `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (`af35371`)
 - **UMBRA-D-008 closed** — `UMBRA_D008_COHERENT_DIGITAL_EMBODIMENT_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; renderer lifecycle; zero-skip suite)
 - **UMBRA-D-007 closed** — `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (100k + 2h RUNTIME_READY VmRSS soak; zero-skip suite)
 - **D-008 authorized** under `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (closed)

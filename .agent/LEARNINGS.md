@@ -78,3 +78,5 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 
 - D-009 Gate 8 revision_adaptation requires full preregistered S16 tick budget (1800); D009_TICK_CAP=240 yields honest FAIL (~0.08); full budget saturates to 1.0 — do not qualify under tick cap.
 - D-009 seal suite must run under experiments/d009/with_tk_display.sh or D-008 Tkinter tests skip (zero-skip seal fails).
+
+- D-010 Decision A: TemporalEngine is sole durable temporal authority. Runtime supplies trusted monotonic observations and orchestration order but cannot independently advance organism age. Age advances only on committed ticks; downtime reconciliation enters TemporalEngine; subsystems get immutable TemporalState views.

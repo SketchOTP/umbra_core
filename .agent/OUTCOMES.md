@@ -140,3 +140,5 @@ Format:
 - 2026-07-24T08:22Z | END | D-20260724-task14-independent-review | UMBRA-D-009 | status:Approve | reviewer:d3c30751-b318-4ba2-b25f-7d1b7f1610c2 | verdict:UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED operator-final | seal:af35371 | tip:474ce97 | parent_mimir:06b5b59709864e11bddb8c1da56dd66e closed v17 | D-010:not-started | note:review-host disk I/O blocked independent suite re-run; sealed test-results hash-verified
 
 - 2026-07-24T12:30Z | NOTE | D-009 governance tip commit | D-010 authorized under UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED; not started | seal preserved af35371
+
+- 2026-07-24T13:03Z | DECISION | D-20260724-umbra-d010-temporal-continuity | TemporalEngine sole durable temporal authority (Decision A); Runtime orchestration-only for tick; age advances only on committed ticks

@@ -4,7 +4,7 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 - `.agent/PROJECT_GOAL.md` — product SoT (companion organism core; chemistry optional/non-gating)
-- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-009 QUALIFIED; D-010 authorized, not started)
+- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-009 QUALIFIED; D-010 in progress)
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
 - `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`)
@@ -159,3 +159,10 @@ Concise navigation map for agents. Add entries as application code lands.
 - MCP: `~/.cursor/mcp.json` (Mimir, Serena) — repo `.cursor/mcp.json` empty
 - `.serena/project.yml` — Serena `UMBRA-CORE`
 - Mimir SSH connection name `UMBRA-CORE` → `/home/sketch/Projects/UMBRA-CORE`
+
+## Temporal continuity (D-010) — IN PROGRESS
+- Directive: `docs/directives/UMBRA-D-010-temporal-continuity.md`
+- Starting commit: `bb90e61`
+- Prerequisite seal: D-009 `af35371`
+- Package (planned): `umbra_core/temporal/`
+- Experiments (planned): `experiments/d010/`, `tests/test_d010.py`, `docs/evidence/d010/`

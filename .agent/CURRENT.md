@@ -1,24 +1,25 @@
 # CURRENT.md
 
 ## Active directive
-- ID: (none — idle)
-- Project directive: UMBRA-D-009 **CLOSED**
-- Goal: —
-- Status: idle
-- Acceptance: —
-- Next action: D-010 authorized under D-009 QUALIFIED; not started
+- ID: D-20260724-umbra-d010-temporal-continuity
+- Project directive: UMBRA-D-010
+- Goal: Temporal continuity (design → implement → seal)
+- Status: design brainstorming — Decision A locked (TemporalEngine sole temporal authority)
+- Acceptance: Design approved + plan + QUALIFIED only if Gates 0–15 pass
+- Next action: Continue design questions; no temporal implementation until design+plan approved
 
-## Authoritative state
-- Verdict: `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`
-- Seal commit: `af35371` (hash-bind `2084be8`)
-- Task 13: `UMBRA_D009_TASK13_GATES_1_12_PASS` @ `3657420`
-- Independent Task 14 review: **Approve** ([Review D-009 Task 14 seal](d3c30751-b318-4ba2-b25f-7d1b7f1610c2))
-- Parent Mimir `06b5b59709864e11bddb8c1da56dd66e`: CLOSED v17
-- D-010: **authorized** under `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`; **not started**
+## Locked design decisions
+- **A — TemporalEngine sole durable temporal authority.** Runtime supplies trusted monotonic sample → `TemporalEngine.advance(...)` → committed `TemporalState`. `Runtime.tick` = orchestration sequence only. Age advances only on committed ticks; failed/rolled-back ticks do not advance age. Downtime via TemporalEngine. Immutable temporal views to other subsystems.
+
+## Repo facts needed now
+- Starting commit (pre-bootstrap): `bb90e6111f883f58cced7e71b7d452df7f072aa7`
+- D-009 seal: `af35371` / `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`
+- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
+- Directive: `docs/directives/UMBRA-D-010-temporal-continuity.md`
 
 ## Last validation
-- Gate 13 S3: 100k + lifecycle + P0/P1/P2 PASS; seal 519 passed / 0 skipped
-- Review: all seven qualification blockers Pass
+- Command: Decision A recorded; bootstrap commit pending
+- Result: —
 
 ## Open blockers
-- None for D-009
+- Design not fully approved

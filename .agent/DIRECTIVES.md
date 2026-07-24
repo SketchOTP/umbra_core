@@ -91,3 +91,5 @@ Format:
 - 2026-07-24T05:30Z | START | D-20260724-0530-task13-gate8-remediation | UMBRA-D-009 | Remediate Task 13 Gate 8 revision_adaptation (≥0.10 at 100 seeds); full S16 tick budget first; regenerate Gates 1–12 evidence without D009_TICK_CAP; parent Mimir 06b5b59709864e11bddb8c1da56dd66e stays open
 
 - 2026-07-24T06:01Z | START | D-20260724-task14-d009-perf-seal | UMBRA-D-009 | Task 14 adaptive P0/P1/P2 soak + seal; close parent Mimir only after QUALIFIED seal
+
+- 2026-07-24T12:36Z | START | D-20260724-umbra-d010-temporal-continuity | UMBRA-D-010 | Temporal Continuity, Anticipation, and Autonomous Daily Life | starting_commit:bb90e6111f883f58cced7e71b7d452df7f072aa7 | d009_seal:af35371 | prerequisite:UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED | mimir:9adf61b087ea4fa6a90a1c3bd401a9b3 | accept:Gates 0-15 + allowed QUALIFIED | constraint:no implementation before design approval
