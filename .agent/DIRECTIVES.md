@@ -98,3 +98,4 @@ Format:
 
 - 2026-07-24T13:39Z | START | D-20260724-d010-task1-temporal-state | UMBRA-D-010 | Task 1 TemporalState/TrustedSample/epoch init
 - 2026-07-24T13:40Z | START | D-20260724-0940-d010-task1-temporal-state | UMBRA-D-010 | Task 1 TemporalState, TrustedSample, TimeAnchor trust, canonical hashing, epoch init | accept:tests pass; commit Add D-010 TemporalState...; parent Mimir 9adf61b087ea4fa6a90a1c3bd401a9b3 stays open | mimir_subtask:cb1671bb7b1f4922aa75c1dc2fdeb0c0
+- 2026-07-24T13:43Z | START | D-20260724-1343-d010-task2-prepare-advance | UMBRA-D-010 | Task 2 TemporalEngine.prepare_advance + TickTemporalContext + TemporalAdvancePlan + abandon_advance | accept:5 brief tests GREEN; age/state_version unchanged on prepare+abandon; runtime attach stub only; commit; parent Mimir 9adf61b087ea4fa6a90a1c3bd401a9b3 stays open | base:cc54556

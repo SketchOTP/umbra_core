@@ -74,6 +74,8 @@ from umbra_core.individuality import (
     infer_evidence_from_outcome,
 )
 from umbra_core.habitat.config import HabitatConfig, condition_to_habitat_config
+from umbra_core.temporal.engine import TemporalEngine
+from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
 from umbra_core.world_model import WorldModel, WorldModelConfig, condition_to_world_model_config
 
 
@@ -140,6 +142,8 @@ class OrganismConfig:
     habitat_config: HabitatConfig | None = None
     habitat_scenario_id: str | None = None
     habitat_scenario_hook: Any = field(default=None, repr=False)
+    # D-010 temporal continuity — opt-in like other directive flags.
+    temporal_enabled: bool = False
 
 
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, new_id
@@ -182,6 +186,20 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
 HABIT_CONFIDENCE_THRESHOLD = 0.45
 
 
+def _create_temporal_engine(*, session_id: str) -> TemporalEngine:
+    """ponytail: genesis-only attach until Task 3 persists TemporalState in snapshots."""
+    ctx = TemporalMigrationContext(
+        migration_id="d010.genesis.v1",
+        source_commit="af35371",
+        source_seal="UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED",
+        pre_temporal_history_ref="event-log:pre-d010",
+        genesis_session_id=session_id,
+        genesis_monotonic_ns=1_000_000,
+        genesis_sample_sequence=0,
+    )
+    return TemporalEngine(initialize_temporal_epoch(None, ctx=ctx))
+
+
 class Organism:
     """Minimum persistent UMBRA creature core (+ D-002..D-007)."""
 
@@ -204,6 +222,7 @@ class Organism:
         social: SocialEngine | None = None,
         individuality: IndividualityEngine | None = None,
         embodiment_adapter: EmbodimentAdapter | None = None,
+        temporal: TemporalEngine | None = None,
         monotonic_time: float = 0.0,
         tick: int = 0,
         session_id: str | None = None,
@@ -229,6 +248,7 @@ class Organism:
         self.memory = memory
         self.social = social
         self.individuality = individuality
+        self.temporal = temporal
         # D-008: optional — when set, governance routes execution through the
         # adapter's body-profile constraints instead of directly into Embodiment.
         self.embodiment_adapter = embodiment_adapter
@@ -1887,6 +1907,9 @@ def create_organism(config: OrganismConfig) -> Organism:
         individuality = IndividualityEngine.create(
             identity.agent_id, config=indiv_cfg, seed=config.seed
         )
+    temporal = None
+    if config.temporal_enabled:
+        temporal = _create_temporal_engine(session_id=new_id())
     embodiment_adapter = None
     if config.embodiment_adapter_enabled:
         embodiment_adapter = EmbodimentAdapter(
@@ -1912,6 +1935,7 @@ def create_organism(config: OrganismConfig) -> Organism:
         social=social,
         individuality=individuality,
         embodiment_adapter=embodiment_adapter,
+        temporal=temporal,
     )
     if embodiment_adapter is not None:
         # Fresh birth — always a normal attach, never a migration (D-007→D-008
@@ -2085,6 +2109,11 @@ def load_organism(config: OrganismConfig) -> Organism:
             monotonic_time_fn=lambda: org.monotonic_time,
         )
 
+    session_id = new_id()
+    temporal = None
+    if config.temporal_enabled:
+        temporal = _create_temporal_engine(session_id=session_id)
+
     org = Organism(
         identity=identity,
         store=store,
@@ -2102,9 +2131,10 @@ def load_organism(config: OrganismConfig) -> Organism:
         social=social,
         individuality=individuality,
         embodiment_adapter=embodiment_adapter,
+        temporal=temporal,
         monotonic_time=float(state.get("monotonic_time", 0.0)),
         tick=int(state.get("tick", 0)),
-        session_id=new_id(),
+        session_id=session_id,
     )
     org._intervention_applied = True  # plant already in embodiment state
     org._world_intervention_applied = True
