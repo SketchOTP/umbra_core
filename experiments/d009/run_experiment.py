@@ -65,6 +65,8 @@ ALLOW_SMOKE = os.environ.get("D009_ALLOW_SMOKE", "") == "1"
 TICK_SCALE = float(os.environ.get("D009_TICK_SCALE", "1.0"))
 TICK_CAP = int(os.environ.get("D009_TICK_CAP", "0"))
 
+GATE2_C0_SCENARIOS = ("S2", "S3", "S4", "S5")
+
 GATE_RESULT_FILES = {
     0: "regression-results.json",
     1: "habitat-authority-results.json",
@@ -260,9 +262,13 @@ def _governed_manipulation_probe(scenario: str, seed: int, workdir: str) -> dict
                         failed_mutations = 1
     finally:
         store.close()
-    unauthorized = 1.0 if engine.snapshot_view().state_hash != before and scenario != "S4" else 0.0
+    state_changed = engine.snapshot_view().state_hash != before
+    governed_ok = successes > 0
+    # Successful governed mutation is authorized; only ungoverned or failed-request mutations count.
     if scenario == "S4":
-        unauthorized = float(engine.snapshot_view().state_hash != before)
+        unauthorized = float(state_changed)
+    else:
+        unauthorized = float(state_changed and not governed_ok)
     align = successes / max(1, attempts)
     return {
         "governed_action_to_mutation_alignment": align,
@@ -273,24 +279,109 @@ def _governed_manipulation_probe(scenario: str, seed: int, workdir: str) -> dict
     }
 
 
-def _routine_promotion_probe(seed: int, workdir: str, *, routines_enabled: bool) -> float:
-    """Gate 6: non-authored environmental routine from multiple episodes."""
-    if not routines_enabled:
+def _integrated_routine_episodes(org: Any, engine: HabitatEngine) -> float:
+    """Gate 6: count supporting episodes from governed MANIPULATE outcomes on live organism."""
+    if org.memory is None:
         return 0.0
-    from umbra_core.memory import EnvironmentalRoutineSpec
-
-    mem = MemoryEngine.create(f"agent:rt:{seed}", seed=seed)
-    mem.promote_environmental_routine(
-        EnvironmentalRoutineSpec(
-            object_kind="resource",
-            affordance_ref="affordance:resource:use",
-            zone_id="zone:general",
-            soft_proposals=[],
-            supporting_episode_ids=["ep:1", "ep:2", "ep:3"],
-        ),
-        tick=1,
+    for tick in (80, 120, 160):
+        if not _governed_mutate_once(org, engine):
+            continue
+        org.memory.consider_event(
+            tick=tick,
+            occurred_at=float(tick),
+            context={
+                "entity_kind": "resource",
+                "affordance": "affordance:resource:use",
+                "zone_id": "zone:general",
+            },
+            observations=[],
+            internal_state={
+                "energy": org.phys.energy,
+                "fatigue": org.phys.fatigue,
+                "integrity": org.phys.integrity,
+            },
+            goal=None,
+            action="MANIPULATE",
+            verified_outcome={"success": True, "verified": True},
+            prediction_error=0.4,
+            force=True,
+        )
+    pattern_eps = org.memory.environmental_pattern_episodes.get(
+        "resource|affordance:resource:use|zone:general",
+        [],
     )
-    return 3.0
+    promoted = sum(
+        1
+        for sk in org.memory.procedural.values()
+        if sk.applicability.get("kind") == "environmental_routine"
+    )
+    return float(max(len(pattern_eps), promoted))
+
+
+def _revision_score_from_world_model(org: Any) -> float:
+    """Gate 8 S8: measure actual environmental prediction revision."""
+    wm = org.world_model
+    if wm is None:
+        return 0.0
+    if int(wm.metrics.get("supersessions", 0)) > 0 or wm.live_supersessions():
+        return 1.0
+    revised = any(
+        m.status in ("WEAKENED", "SUPERSEDED")
+        for m in wm.models.values()
+        if m.action == "MANIPULATE"
+    )
+    return float(revised)
+
+
+def _restart_continuity_probe(seed: int, workdir: str) -> dict[str, float]:
+    """Gate 11: preregistered minimum successive restarts preserve identity and habitat."""
+    n = int(THR["restarts_continuity_min"])
+    db = os.path.join(workdir, f"g11_restart_{seed}.db")
+    cfg = _organism_cfg(db, seed, "C0", "S10", "H0")
+    org = create_organism(cfg)
+    org._ensure_development_intervention()
+    org._ensure_memory_history()
+    org._ensure_social_history()
+    org._ensure_individuality_history()
+    engine = HabitatEngine(_habitat_state_for_scenario("S10"))
+    org.embodiment.attach_habitat_engine(engine)
+    org.embodiment.body.x = 4.0
+    org.embodiment.body.y = 3.0
+    org.perception.perceive_habitat_objects(org.embodiment, 1.0, org.rng)
+    _governed_mutate_once(org, engine)
+    pre_hash = engine.snapshot_view().state_hash
+    agent_id = org.identity.agent_id
+    org.snapshot_if_due(force=True)
+    org.close()
+    stable = True
+    max_l2 = 0.0
+    for _ in range(n):
+        org = load_organism(cfg)
+        org._ensure_development_intervention()
+        org._ensure_memory_history()
+        org._ensure_social_history()
+        org._ensure_individuality_history()
+        engine = _habitat_engine_after_restart(org, "C0", "S10")
+        org.embodiment.attach_habitat_engine(engine)
+        if org.identity.agent_id != agent_id:
+            stable = False
+        max_l2 = max(
+            max_l2,
+            _l2_habitat(
+                {"state_hash": pre_hash, "state_version": 0},
+                {
+                    "state_hash": engine.snapshot_view().state_hash,
+                    "state_version": engine.snapshot_view().state_version,
+                },
+            ),
+        )
+        org.snapshot_if_due(force=True)
+        org.close()
+    return {
+        "restart_count": float(n),
+        "restart_stable": float(stable),
+        "habitat_continuity_l2": max_l2,
+    }
 
 
 def _profile_migration_probe(seed: int, workdir: str) -> float:
@@ -629,14 +720,17 @@ def _run_integrated_trace(
             live = engine.snapshot_view()
             metrics["birth_replay_l2"] = _birth_replay_l2_from_ledger(org, live)
         if scenario == "S8":
-            metrics["revision_score"] = min(
-                1.0,
-                float(org.world_model.metrics.get("environmental_revisions", 0) > 0)
-                if org.world_model
-                else 0.5,
-            )
+            metrics["revision_score"] = _revision_score_from_world_model(org)
         if scenario == "S16":
-            metrics["revision_score"] = min(1.0, metrics["manipulate_success"] / max(1, metrics["manipulate_attempts"]))
+            metrics["revision_score"] = min(
+                1.0, metrics["manipulate_success"] / max(1, metrics["manipulate_attempts"])
+            )
+        if scenario == "S7":
+            hcfg = d009_condition_configs(condition).habitat
+            if not hcfg.environmental_routines_enabled:
+                metrics["routine_promotions"] = 0.0
+            else:
+                metrics["routine_promotions"] = _integrated_routine_episodes(org, engine)
         if scenario == "S12":
             metrics["profile_migration_ok"] = _profile_migration_probe(seed, workdir)
         if scenario == "S14":
@@ -653,18 +747,8 @@ def _run_integrated_trace(
         if org is not None:
             org.close()
 
-    if condition == "C0" and scenario in ("S2", "S3", "S4", "S5"):
+    if condition == "C0" and scenario in GATE2_C0_SCENARIOS:
         metrics.update(_governed_manipulation_probe(scenario, seed, workdir))
-    if scenario == "S7":
-        hcfg = d009_condition_configs(condition).habitat
-        if condition == "C11":
-            metrics["routine_promotions"] = 0.0
-        else:
-            metrics["routine_promotions"] = _routine_promotion_probe(
-                seed, workdir, routines_enabled=hcfg.environmental_routines_enabled
-            )
-    if scenario in ("S8", "S16") and metrics.get("revision_score", 0) == 0:
-        metrics["revision_score"] = 0.15
     if scenario == "S0" and condition == "C0":
         metrics["governed_alignments"] = 1
     return {"metrics": metrics, "terminal_outcome": terminal}
@@ -845,6 +929,18 @@ def _aggregate_gate(
             out.append(float(r["metrics"].get(key, 0.0)))
         return out
 
+    def vals_multi(
+        key: str,
+        *,
+        cond: str,
+        scenarios: tuple[str, ...],
+        pool: list[dict[str, Any]] | None = None,
+    ) -> list[float]:
+        out: list[float] = []
+        for scen in scenarios:
+            out.extend(vals(key, cond=cond, scen=scen, pool=pool))
+        return out
+
     def paired_vals(
         key: str, cond_a: str, scen_a: str, cond_b: str, scen_b: str
     ) -> tuple[list[float], list[float]]:
@@ -864,6 +960,8 @@ def _aggregate_gate(
     comparisons: list[dict[str, Any]] = []
     metrics: dict[str, Any] = {}
     deviations: list[str] = []
+    if TICK_CAP > 0:
+        deviations.append(f"D009_TICK_CAP={TICK_CAP}")
     ci = float(THR.get("ci_confidence", 0.95))
 
     if gate == 1:
@@ -896,7 +994,18 @@ def _aggregate_gate(
         c2 = vals("governed_action_to_mutation_alignment", cond="C2", scen="S2")
         c3 = vals("governed_action_to_mutation_alignment", cond="C3", scen="S2")
         c10 = vals("unauthorized_mutation_rate", cond="C10", scen="S0", pool=results)
-        c0_unauth = vals("unauthorized_mutation_rate", cond="C0", scen="S0", pool=results)
+        c0_unauth = vals_multi(
+            "unauthorized_mutation_rate",
+            cond="C0",
+            scenarios=GATE2_C0_SCENARIOS,
+            pool=results,
+        )
+        c0_failed = vals_multi(
+            "failed_request_world_mutation_rate",
+            cond="C0",
+            scenarios=GATE2_C0_SCENARIOS,
+            pool=results,
+        )
         comparisons = [
             ev.comparison(
                 comparison_id="g2_c0_alignment",
@@ -914,6 +1023,16 @@ def _aggregate_gate(
                 values_a=c0_unauth,
                 values_b=[0.0] * len(c0_unauth),
                 threshold=0.0,
+                higher_is_better_for_a=False,
+                ci_confidence=ci,
+            ),
+            ev.comparison(
+                comparison_id="g2_c0_failed_request_zero",
+                condition_a="C0",
+                condition_b="zero",
+                values_a=c0_failed,
+                values_b=[0.0] * len(c0_failed),
+                threshold=float(THR["failed_request_world_mutation_rate_max"]),
                 higher_is_better_for_a=False,
                 ci_confidence=ci,
             ),
@@ -951,6 +1070,7 @@ def _aggregate_gate(
         metrics = {
             "c0_governed_alignment": ev.mean(c0s2),
             "c0_unauthorized_rate": ev.mean(c0_unauth),
+            "c0_failed_request_rate": ev.mean(c0_failed),
         }
     elif gate == 3:
         c0 = vals("environmental_prediction_accuracy", cond="C0", scen="S8")
@@ -1179,6 +1299,13 @@ def _aggregate_gate(
     elif gate == 11:
         birth = vals("birth_replay_l2", cond="C0", scen="S11")
         cont = vals("habitat_continuity_l2", cond="C0", scen="S10")
+        with tempfile.TemporaryDirectory() as tmp:
+            restart_probe = _restart_continuity_probe(1, tmp)
+        restart_pass = (
+            restart_probe["restart_stable"] == 1.0
+            and restart_probe["restart_count"] >= THR["restarts_continuity_min"]
+            and restart_probe["habitat_continuity_l2"] <= THR["habitat_continuity_l2_max"]
+        )
         comparisons = [
             ev.comparison(
                 comparison_id="g11_birth_replay",
@@ -1198,8 +1325,24 @@ def _aggregate_gate(
                 threshold=1.0 - float(THR["habitat_continuity_l2_max"]),
                 ci_confidence=ci,
             ),
+            ev.comparison(
+                comparison_id="g11_restart_continuity",
+                condition_a="C0",
+                condition_b="required",
+                values_a=[1.0 if restart_pass else 0.0] * n,
+                values_b=[0.0] * n,
+                threshold=1.0,
+                ci_confidence=ci,
+            ),
         ]
-        metrics = {"birth_replay_l2": ev.mean(birth)}
+        if restart_probe["restart_count"] < THR["restarts_continuity_min"]:
+            deviations.append("restart_count_below_preregistration")
+        if not restart_probe["restart_stable"]:
+            deviations.append("restart_idempotency_fail")
+        metrics = {
+            "birth_replay_l2": ev.mean(birth),
+            "restart_continuity": restart_probe,
+        }
     elif gate == 12:
         ok = vals("boundedness_ok", cond="C0", scen="S15")
         comparisons = [
@@ -1369,6 +1512,9 @@ def run_all() -> dict[str, Any]:
         "freeze_commit": ev.FREEZE_COMMIT,
         "gate13_deferred": True,
     }
+    summary_deviations: list[str] = []
+    if TICK_CAP > 0:
+        summary_deviations.append(f"D009_TICK_CAP={TICK_CAP}")
     summary_payload = ev.envelope(
         gate="summary",
         conditions=["C0"],
@@ -1391,6 +1537,7 @@ def run_all() -> dict[str, Any]:
         ],
         hashes=FROZEN_HASHES,
         commit=commit,
+        deviations=summary_deviations,
     )
     summary_payload["pass"] = bool(all_pass and PAIRED_SEEDS >= 100 and not ALLOW_SMOKE)
     ev.dump("experiment-summary.json", summary_payload)

@@ -55,10 +55,253 @@ COMPARISON_FIELDS = (
     "pass",
 )
 
+# comparison_id -> raw-ledger cell filter for mean_or_rate recomputation
+COMPARISON_SPEC: dict[str, dict[str, Any]] = {
+    "g1_c0_authority": {
+        "gate": 1,
+        "metric_a": "governed_action_to_mutation_alignment",
+        "cells_a": [("C0", "S0")],
+    },
+    "g1_c9_ui_rejected": {
+        "gate": 1,
+        "metric_a": "ui_projection_writes",
+        "cells_a": [("C9", "S0")],
+    },
+    "g2_c0_alignment": {
+        "gate": 2,
+        "metric_a": "governed_action_to_mutation_alignment",
+        "cells_a": [("C0", "S2")],
+    },
+    "g2_c0_unauthorized_zero": {
+        "gate": 2,
+        "metric_a": "unauthorized_mutation_rate",
+        "cells_a": [("C0", "S2"), ("C0", "S3"), ("C0", "S4"), ("C0", "S5")],
+    },
+    "g2_c0_failed_request_zero": {
+        "gate": 2,
+        "metric_a": "failed_request_world_mutation_rate",
+        "cells_a": [("C0", "S2"), ("C0", "S3"), ("C0", "S4"), ("C0", "S5")],
+    },
+    "g2_c2_vs_c0": {
+        "gate": 2,
+        "metric_a": "governed_action_to_mutation_alignment",
+        "cells_a": [("C0", "S2")],
+        "metric_b": "governed_action_to_mutation_alignment",
+        "cells_b": [("C2", "S2")],
+    },
+    "g2_c3_vs_c0": {
+        "gate": 2,
+        "metric_a": "governed_action_to_mutation_alignment",
+        "cells_a": [("C0", "S2")],
+        "metric_b": "governed_action_to_mutation_alignment",
+        "cells_b": [("C3", "S2")],
+    },
+    "g2_c10_bypass": {
+        "gate": 2,
+        "metric_a": "unauthorized_mutation_rate",
+        "cells_a": [("C10", "S0")],
+    },
+    "g3_c0_prediction": {
+        "gate": 3,
+        "metric_a": "environmental_prediction_accuracy",
+        "cells_a": [("C0", "S8")],
+    },
+    "g3_c4_weaker": {
+        "gate": 3,
+        "metric_a": "environmental_prediction_accuracy",
+        "cells_a": [("C0", "S8")],
+        "metric_b": "environmental_prediction_accuracy",
+        "cells_b": [("C4", "S8")],
+    },
+    "g3_leakage_zero": {
+        "gate": 3,
+        "metric_a": "hidden_object_candidate_leakage",
+        "cells_a": [("C0", "S8")],
+    },
+    "g3_c11_not_learning": {
+        "gate": 3,
+        "metric_a": "routine_promotion_episodes",
+        "cells_a": [("C0", "S7")],
+        "metric_b": "routine_promotion_episodes",
+        "cells_b": [("C11", "S7")],
+    },
+    "g4_autonomy_coverage": {
+        "gate": 4,
+        "metric_a": "autonomous_environmental_action_coverage",
+        "cells_a": [("C0", "S13")],
+    },
+    "g4_no_scripted": {
+        "gate": 4,
+        "metric_a": "autonomous_environmental_action_coverage",
+        "cells_a": [("C0", "S13")],
+        "metric_b": "scripted_schedule_detection",
+        "cells_b": [("C2", "S2")],
+    },
+    "g5_c0_continuity": {
+        "gate": 5,
+        "metric_a": "habitat_continuity_l2",
+        "cells_a": [("C0", "S10")],
+        "transform_a": "one_minus",
+    },
+    "g5_birth_replay": {
+        "gate": 5,
+        "metric_a": "birth_replay_l2",
+        "cells_a": [("C0", "S11")],
+        "transform_a": "one_minus",
+    },
+    "g5_c1_weaker": {
+        "gate": 5,
+        "metric_a": "habitat_continuity_l2",
+        "cells_a": [("C0", "S10")],
+        "metric_b": "habitat_continuity_l2",
+        "cells_b": [("C1", "S10")],
+        "transform_a": "one_minus",
+        "transform_b": "one_minus",
+    },
+    "g5_c8_fail": {
+        "gate": 5,
+        "metric_a": "habitat_continuity_l2",
+        "cells_a": [("C0", "S10")],
+        "metric_b": "habitat_continuity_l2",
+        "cells_b": [("C8", "S10")],
+        "transform_a": "one_minus",
+        "transform_b": "one_minus",
+    },
+    "g6_c0_routines": {
+        "gate": 6,
+        "metric_a": "routine_promotion_episodes",
+        "cells_a": [("C0", "S7")],
+    },
+    "g6_c6_weaker": {
+        "gate": 6,
+        "metric_a": "routine_promotion_episodes",
+        "cells_a": [("C0", "S7")],
+        "metric_b": "routine_promotion_episodes",
+        "cells_b": [("C6", "S7")],
+    },
+    "g7_c0_separation": {
+        "gate": 7,
+        "metric_a": "habitat_individuality_separation",
+        "cells_a": [("C0", "S14")],
+        "histories": ("H1", "H7"),
+    },
+    "g7_c7_reduced": {
+        "gate": 7,
+        "metric_a": "habitat_individuality_separation",
+        "cells_a": [("C0", "S14")],
+        "metric_b": "habitat_individuality_separation",
+        "cells_b": [("C7", "S14")],
+        "histories": ("H1", "H7"),
+    },
+    "g8_revision": {
+        "gate": 8,
+        "metric_a": "revision_adaptation",
+        "cells_a": [("C0", "S16")],
+    },
+    "g8_no_erase": {
+        "gate": 8,
+        "metric_a": "single_anomaly_erase",
+        "cells_a": [("C0", "S8")],
+        "transform_a": "one_minus",
+    },
+    "g9_migration": {
+        "gate": 9,
+        "metric_a": "profile_migration_ok",
+        "cells_a": [("C0", "S12")],
+    },
+    "g10_bypass_rejected": {
+        "gate": 10,
+        "metric_a": "governance_bypass_admitted",
+        "cells_a": [("C10", "S0")],
+    },
+    "g11_birth_replay": {
+        "gate": 11,
+        "metric_a": "birth_replay_l2",
+        "cells_a": [("C0", "S11")],
+        "transform_a": "one_minus",
+    },
+    "g11_restart": {
+        "gate": 11,
+        "metric_a": "habitat_continuity_l2",
+        "cells_a": [("C0", "S10")],
+        "transform_a": "one_minus",
+    },
+}
+
+STRUCTURAL_COMPARISONS = frozenset(
+    {
+        "regression_pass_rate",
+        "summary_all_gates",
+        "g11_restart_continuity",
+    }
+)
+
 
 def _fail(msg: str) -> None:
     print(f"FAIL: {msg}", file=sys.stderr)
     raise SystemExit(1)
+
+
+def _transform_values(values: list[float], transform: str | None) -> list[float]:
+    if transform == "one_minus":
+        return [1.0 - v for v in values]
+    return values
+
+
+def _raw_metric_values(
+    rows: list[dict[str, Any]],
+    *,
+    gate: int,
+    metric: str,
+    cells: list[tuple[str, str]],
+    histories: tuple[str, ...] | None = None,
+) -> list[float]:
+    out: list[float] = []
+    for row in rows:
+        if row.get("gate") != gate:
+            continue
+        if (row.get("condition"), row.get("scenario")) not in cells:
+            continue
+        hist = row.get("individuality_history", "H0")
+        if histories and hist not in histories:
+            continue
+        if gate == 7 and hist not in ("H1", "H7"):
+            continue
+        out.append(float((row.get("metrics") or {}).get(metric, 0.0)))
+    return out
+
+
+def _recompute_comparison_means(
+    comparison_id: str,
+    rows: list[dict[str, Any]],
+) -> tuple[float | None, float | None]:
+    if comparison_id in STRUCTURAL_COMPARISONS:
+        return None, None
+    spec = COMPARISON_SPEC.get(comparison_id)
+    if spec is None:
+        return None, None
+    gate = int(spec["gate"])
+    vals_a = _raw_metric_values(
+        rows,
+        gate=gate,
+        metric=spec["metric_a"],
+        cells=spec["cells_a"],
+        histories=spec.get("histories"),
+    )
+    vals_a = _transform_values(vals_a, spec.get("transform_a"))
+    ma = ev.mean(vals_a) if vals_a else None
+    mb = None
+    if spec.get("cells_b"):
+        vals_b = _raw_metric_values(
+            rows,
+            gate=gate,
+            metric=spec.get("metric_b", spec["metric_a"]),
+            cells=spec["cells_b"],
+            histories=spec.get("histories"),
+        )
+        vals_b = _transform_values(vals_b, spec.get("transform_b"))
+        mb = ev.mean(vals_b) if vals_b else None
+    return ma, mb
 
 
 def _recompute_comparison_pass(c: dict[str, Any]) -> bool:
@@ -151,7 +394,7 @@ def _recompute_gate_from_raw(gate: int | str, rows: list[dict[str, Any]]) -> dic
     return out
 
 
-def validate_file(path: Path, hashes: dict[str, str], thr: dict[str, Any]) -> None:
+def validate_file(path: Path, hashes: dict[str, str], thr: dict[str, Any], raw_rows: list[dict[str, Any]]) -> None:
     data = json.loads(path.read_text(encoding="utf-8"))
     text = path.read_text(encoding="utf-8")
     for bad in FORBIDDEN_SUBSTRINGS:
@@ -183,6 +426,20 @@ def validate_file(path: Path, hashes: dict[str, str], thr: dict[str, Any]) -> No
                 _fail(f"{path.name}: comparison missing {f}")
         if gate not in ("regression", "summary") and int(c["paired_seed_count"]) < 100:
             _fail(f"{path.name}: comparison paired_seed_count < 100")
+        cid = str(c.get("comparison_id", ""))
+        ma_raw, mb_raw = _recompute_comparison_means(cid, raw_rows)
+        if ma_raw is not None:
+            if abs(float(c["mean_or_rate_a"]) - ma_raw) > 1e-9:
+                _fail(
+                    f"{path.name}: comparison {cid} mean_or_rate_a "
+                    f"summary={c['mean_or_rate_a']} raw={ma_raw}"
+                )
+        if mb_raw is not None:
+            if abs(float(c["mean_or_rate_b"]) - mb_raw) > 1e-9:
+                _fail(
+                    f"{path.name}: comparison {cid} mean_or_rate_b "
+                    f"summary={c['mean_or_rate_b']} raw={mb_raw}"
+                )
         if gate not in ("regression", "summary") and "mean_or_rate_a" in c:
             recomputed = _recompute_comparison_pass(c)
             if bool(c["pass"]) and not recomputed:
@@ -199,16 +456,16 @@ def main() -> None:
     thr, _matrix, _scen, hashes = ev.load_frozen()
     if not OUT.is_dir():
         _fail(f"missing evidence dir {OUT}")
-    for name in REQUIRED_FILES:
-        p = OUT / name
-        if not p.exists():
-            _fail(f"missing evidence file {name}")
-        validate_file(p, hashes, thr)
-
     raw_rows = _load_raw()
     raw_report = _validate_raw_ledger(raw_rows, hashes, thr)
     if raw_report["issues"]:
         _fail("; ".join(raw_report["issues"][:20]))
+
+    for name in REQUIRED_FILES:
+        p = OUT / name
+        if not p.exists():
+            _fail(f"missing evidence file {name}")
+        validate_file(p, hashes, thr, raw_rows)
 
     summary = json.loads((OUT / "experiment-summary.json").read_text(encoding="utf-8"))
     if summary.get("metrics", {}).get("task13_outcome") == "UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED":
