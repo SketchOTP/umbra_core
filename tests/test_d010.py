@@ -13,6 +13,14 @@ from umbra_core.temporal.engine import (
     build_tick_temporal_context,
 )
 from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
+from umbra_core.temporal.recurrence import (
+    EvidenceLane,
+    HypothesisStatus,
+    RecurrenceHypothesis,
+    compute_next_index,
+    compute_recurrence_key,
+    recurrence_id_from_key,
+)
 from umbra_core.temporal.state import (
     AnchorTrustClass,
     TemporalState,
@@ -334,3 +342,147 @@ def test_missing_advance_record_fails_replay(tmp_path):
         bad.append({**event, "payload": payload})
     with pytest.raises(TemporalReplayError, match="missing_temporal_advance_record"):
         replay_temporal_state_from_events(genesis, bad)
+
+
+def _observe_periodic(
+    engine: TemporalEngine,
+    *,
+    period: int,
+    count: int,
+    start: int = 0,
+    event_kind: str = "habitat.feeder_cycle",
+    context_key: str = "feeder:a",
+) -> RecurrenceHypothesis:
+    hypothesis: RecurrenceHypothesis | None = None
+    for i in range(count):
+        hypothesis = engine.observe_recurrence_occurrence(
+            event_kind=event_kind,
+            internal_context_key=context_key,
+            occurrence_id=f"occ:{i}",
+            evidence_identity=f"evidence:{i}",
+            tick=start + i * period,
+            lane=EvidenceLane.ORGANISM_OBSERVABLE,
+        )
+    assert hypothesis is not None
+    return hypothesis
+
+
+def test_stable_periodic_occurrences_learn_true_period():
+    engine = _engine_with_age()
+    hypothesis = _observe_periodic(engine, period=10, count=4)
+    assert hypothesis.status == HypothesisStatus.ACTIVE
+    assert hypothesis.period_estimate == pytest.approx(10.0)
+    assert hypothesis.observation_count == 4
+
+
+def test_jittered_series_learns_usable_period_and_jitter():
+    engine = _engine_with_age()
+    ticks = [0, 11, 19, 31, 39]
+    hypothesis: RecurrenceHypothesis | None = None
+    for i, tick in enumerate(ticks):
+        hypothesis = engine.observe_recurrence_occurrence(
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:b",
+            occurrence_id=f"occ:{i}",
+            evidence_identity=f"evidence:{i}",
+            tick=tick,
+            lane=EvidenceLane.ORGANISM_OBSERVABLE,
+        )
+    assert hypothesis is not None
+    assert hypothesis.status == HypothesisStatus.ACTIVE
+    assert hypothesis.period_estimate == pytest.approx(10.0, abs=2.0)
+    assert hypothesis.jitter_estimate > 0.0
+
+
+def test_frequency_only_authoritative_lane_does_not_promote_to_active():
+    engine = _engine_with_age()
+    hypothesis: RecurrenceHypothesis | None = None
+    for i in range(6):
+        hypothesis = engine.observe_recurrence_occurrence(
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:auth",
+            occurrence_id=f"occ:{i}",
+            evidence_identity=f"evidence:{i}",
+            tick=i * 10,
+            lane=EvidenceLane.AUTHORITATIVE,
+        )
+    assert hypothesis is not None
+    assert hypothesis.status == HypothesisStatus.CANDIDATE
+    assert hypothesis.o_lane_occurrence_count == 0
+    assert hypothesis.a_lane_seed_count == 6
+
+
+def test_single_miss_does_not_erase_active_hypothesis():
+    engine = _engine_with_age()
+    hypothesis = _observe_periodic(engine, period=10, count=4)
+    assert hypothesis.status == HypothesisStatus.ACTIVE
+    after_miss = engine.record_recurrence_miss(hypothesis.recurrence_id)
+    assert after_miss.status == HypothesisStatus.ACTIVE
+    assert after_miss.miss_count == 1
+    assert after_miss.period_estimate == hypothesis.period_estimate
+
+
+def test_fitted_phase_anchor_next_index_prediction_matches_formula():
+    engine = _engine_with_age()
+    hypothesis = _observe_periodic(engine, period=10, count=4, start=5)
+    assert hypothesis.phase_anchor_stable is True
+    assert hypothesis.phase_anchor_tick == pytest.approx(5.0)
+
+    current_age = 27
+    prediction = engine.predict_recurrence(
+        hypothesis.recurrence_id,
+        current_age=current_age,
+    )
+    assert prediction is not None
+    expected_index = compute_next_index(
+        hypothesis.phase_anchor_tick,
+        hypothesis.period_estimate,
+        current_age,
+    )
+    expected_center = hypothesis.phase_anchor_tick + expected_index * hypothesis.period_estimate
+    assert prediction.next_index == expected_index
+    assert prediction.predicted_center == pytest.approx(expected_center)
+    assert prediction.phase_anchor_stable is True
+
+
+def test_multiple_evidence_envelopes_for_one_occurrence_count_once():
+    engine = _engine_with_age()
+    recurrence_key = compute_recurrence_key(
+        "habitat.feeder_cycle",
+        "feeder:dedup",
+        "d010.recurrence-context.v1",
+    )
+    recurrence_id = recurrence_id_from_key(recurrence_key)
+
+    engine.observe_recurrence_occurrence(
+        event_kind="habitat.feeder_cycle",
+        internal_context_key="feeder:dedup",
+        occurrence_id="occ:shared",
+        evidence_identity="evidence:perception",
+        tick=10,
+        lane=EvidenceLane.ORGANISM_OBSERVABLE,
+    )
+    engine.observe_recurrence_occurrence(
+        event_kind="habitat.feeder_cycle",
+        internal_context_key="feeder:dedup",
+        occurrence_id="occ:shared",
+        evidence_identity="evidence:social",
+        tick=10,
+        lane=EvidenceLane.ORGANISM_OBSERVABLE,
+    )
+    hypothesis = engine.observe_recurrence_occurrence(
+        event_kind="habitat.feeder_cycle",
+        internal_context_key="feeder:dedup",
+        occurrence_id="occ:second",
+        evidence_identity="evidence:second",
+        tick=20,
+        lane=EvidenceLane.ORGANISM_OBSERVABLE,
+    )
+    assert hypothesis.observation_count == 2
+    assert hypothesis.o_lane_occurrence_count == 2
+    assert len(hypothesis.evidence_identities) == 3
+    assert hypothesis.period_estimate == pytest.approx(10.0)
+
+    reloaded = engine.predict_recurrence(recurrence_id, current_age=25)
+    assert reloaded is not None
+    assert reloaded.period_estimate == pytest.approx(10.0)

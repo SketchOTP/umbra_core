@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any
 
 from umbra_core.temporal.clock import TrustedSample, compute_sample_hash
@@ -12,7 +12,17 @@ from umbra_core.temporal.events import (
     apply_advance_plan,
     build_advance_record,
 )
-from umbra_core.temporal.state import TemporalState
+from umbra_core.temporal.recurrence import (
+    CONTEXT_SCHEMA_VERSION,
+    EvidenceLane,
+    RecurrenceHypothesis,
+    RecurrencePrediction,
+    RecurrenceTracker,
+    compute_recurrence_key,
+    get_hypothesis_from_index,
+    upsert_recurrence_index,
+)
+from umbra_core.temporal.state import TemporalState, with_state_hash
 from umbra_core.util import new_id
 
 
@@ -141,3 +151,68 @@ class TemporalEngine:
         self._state = state
         self._in_flight = None
         self._committed_advance_ids = {state.last_advance_id}
+
+    def observe_recurrence_occurrence(
+        self,
+        *,
+        event_kind: str,
+        internal_context_key: str,
+        occurrence_id: str,
+        evidence_identity: str,
+        tick: int,
+        lane: EvidenceLane,
+        context_schema_version: str = CONTEXT_SCHEMA_VERSION,
+    ) -> RecurrenceHypothesis:
+        """Thin observe stub for Task 4 tests; full observation plans are Task 5."""
+        recurrence_key = compute_recurrence_key(
+            event_kind,
+            internal_context_key,
+            context_schema_version,
+        )
+        existing = get_hypothesis_from_index(
+            self._state.recurrence_index,
+            f"rec:{recurrence_key[:16]}",
+        )
+        hypothesis = RecurrenceTracker().observe(
+            existing,
+            recurrence_key=recurrence_key,
+            event_kind=event_kind,
+            internal_context_key=internal_context_key,
+            occurrence_id=occurrence_id,
+            evidence_identity=evidence_identity,
+            tick=tick,
+            lane=lane,
+            context_schema_version=context_schema_version,
+        )
+        new_index = upsert_recurrence_index(self._state.recurrence_index, hypothesis)
+        self._state = with_state_hash(
+            replace(self._state, recurrence_index=new_index)
+        )
+        return hypothesis
+
+    def predict_recurrence(
+        self,
+        recurrence_id: str,
+        *,
+        current_age: int | None = None,
+    ) -> RecurrencePrediction | None:
+        hypothesis = get_hypothesis_from_index(self._state.recurrence_index, recurrence_id)
+        if hypothesis is None:
+            return None
+        age = (
+            self._state.organism_age_ticks
+            if current_age is None
+            else int(current_age)
+        )
+        return RecurrenceTracker().predict(hypothesis, age)
+
+    def record_recurrence_miss(self, recurrence_id: str) -> RecurrenceHypothesis:
+        hypothesis = get_hypothesis_from_index(self._state.recurrence_index, recurrence_id)
+        if hypothesis is None:
+            raise TemporalEngineError("recurrence_hypothesis_missing")
+        updated = RecurrenceTracker().record_miss(hypothesis)
+        new_index = upsert_recurrence_index(self._state.recurrence_index, updated)
+        self._state = with_state_hash(
+            replace(self._state, recurrence_index=new_index)
+        )
+        return updated
