@@ -32,6 +32,7 @@ from umbra_core.temporal.downtime import (
     compute_wait_recovery_deltas,
     new_reconciliation_id,
     plan_identity_payload,
+    verify_plan_canonical_hash,
     reconciliation_policy_hash,
 )
 from umbra_core.temporal.events import (
@@ -268,7 +269,11 @@ class TemporalEngine:
         snaps.setdefault("physiology", {"state_version": 0, "state_hash": "physiology:genesis"})
         snaps.setdefault("needs", {"state_version": 0, "state_hash": "needs:genesis"})
 
-        trust = classify_downtime_trust(prior_anchor=prior_anchor, sample=effective_sample)
+        trust = classify_downtime_trust(
+            prior_anchor=prior_anchor,
+            sample=effective_sample,
+            wall_clock_mapping=self._state.wall_clock_mapping,
+        )
         effect_plans, skipped, required_failure = calculate_all_effects(
             reg,
             subsystem_snapshots=snaps,
@@ -400,6 +405,10 @@ class TemporalEngine:
             raise TemporalEngineError("no_reconciliation_prepared")
         if self._in_flight_reconciliation.reconciliation_id != plan.reconciliation_id:
             raise TemporalEngineError("reconciliation_id_mismatch")
+        if plan.canonical_plan_hash != self._in_flight_reconciliation.canonical_plan_hash:
+            raise DowntimeReconciliationError("RECONCILIATION_PAYLOAD_MISMATCH")
+        if not verify_plan_canonical_hash(plan):
+            raise DowntimeReconciliationError("RECONCILIATION_PAYLOAD_MISMATCH")
 
         sticky = self._prepared_reconciliation_samples.get(interval_id, sample)
         if compute_sample_hash(sticky) != plan.trusted_sample_hash:

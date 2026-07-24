@@ -104,3 +104,9 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - D-010 design §5 approved with 8 revisions: TemporalAdvanceRecord in committed-tick event; D-009→D-010 epoch init age=0; standardized temporal envelopes; separate runtime caps vs ledger; formal-execution-manifest; harness-only controls; corrected Stage A/B freeze; P0/P1/P2 comparability.
 
 - D-010 design: eight final amendments (replay-complete advance record; TemporalTransactionEnvelope; fitted next_index prediction; IN_TICK/POST_HOC observation; formal-execution-contract vs evidence manifest; TimeAnchor trust provenance; formal/dev seed split; test-manifest.json).
+
+- D-010 Task 4 recurrence: `occurrence_by_id` stores lane per occurrence; period/jitter/phase_anchor/last_observed_tick derive from O-lane ticks only; A-lane seed upgraded by later O-lane envelope on same `occurrence_id` promotes `o_lane_occurrence_count` once (decrements `a_lane_seed_count`).
+
+- D-010 Task 7 re-promote: `promote_environmental_routine` / `promote_social_routine` must call `_merge_temporal_binding_on_repromote` on existing skills — attach fresh binding or refresh params while preserving `strength`, `disabled`, and `last_bound_expectation_version`.
+
+- D-010 Task 8 commit: `commit_downtime_reconciliation` must verify `verify_plan_canonical_hash(plan)` and match `_in_flight_reconciliation.canonical_plan_hash` before apply; tampered plan body fields fail closed with `RECONCILIATION_PAYLOAD_MISMATCH`.

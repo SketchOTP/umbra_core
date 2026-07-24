@@ -1683,15 +1683,13 @@ def test_same_downtime_interval_payload_mismatch_fails_closed():
     engine = _engine_with_trusted_anchor(age=6)
     sample = _wall_sample(wall_time=1180.0)
     plan = engine.reconcile_downtime(sample, session_id="session:restart")
-    engine.abandon_downtime_reconciliation(plan.reconciliation_id)
-    engine2 = _engine_with_trusted_anchor(age=6)
-    sample2 = _wall_sample(wall_time=1240.0)
-    plan2 = engine2.reconcile_downtime(sample2, session_id="session:restart")
-    if plan2.downtime_interval_id == plan.downtime_interval_id:
-        tampered = replace(plan2, age_advance=plan2.age_advance + 1, next_age_ticks=plan2.next_age_ticks + 1)
-        engine2._in_flight_reconciliation = tampered
-        with pytest.raises(DowntimeReconciliationError, match="RECONCILIATION_PAYLOAD_MISMATCH"):
-            engine2.commit_downtime_reconciliation(tampered, sample2, transaction_id="txn:bad")
+    tampered = replace(
+        plan,
+        age_advance=plan.age_advance + 1,
+        next_age_ticks=plan.next_age_ticks + 1,
+    )
+    with pytest.raises(DowntimeReconciliationError, match="RECONCILIATION_PAYLOAD_MISMATCH"):
+        engine.commit_downtime_reconciliation(tampered, sample, transaction_id="txn:bad")
 
 
 def test_prepared_reconciliation_sample_is_sticky():
@@ -1851,6 +1849,27 @@ def test_replay_does_not_read_wall_clock():
     assert replayed.organism_age_ticks == 3
     assert record.trust_class == "UNCERTAIN"
     assert record.age_advance == 0
+
+
+def test_stale_wall_sample_fails_trust_classification():
+    from umbra_core.temporal.downtime import SAMPLE_FRESHNESS_SECONDS
+    from umbra_core.temporal.state import WallClockMapping, with_state_hash
+
+    engine = _engine_with_trusted_anchor(age=10)
+    mapping = WallClockMapping(
+        schema_version="d010.wall-mapping.v1",
+        session_id="session:prior",
+        monotonic_ns_at_mapping=9_000_000,
+        wall_time_seconds=1000.0,
+        wall_time_source="runtime.wall_time_fn",
+        uncertainty=0.0,
+    )
+    engine._state = with_state_hash(replace(engine.state, wall_clock_mapping=mapping))
+    stale_wall = 1000.0 + SAMPLE_FRESHNESS_SECONDS + 10.0
+    sample = _wall_sample(wall_time=stale_wall)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart")
+    assert plan.trust_class == AnchorTrustClass.UNCERTAIN
+    assert "sample_not_fresh" in plan.trust_reason_codes
 
 
 def test_no_downtime_derived_occurrence_or_miss():

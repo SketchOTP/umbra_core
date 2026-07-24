@@ -568,6 +568,12 @@ def apply_downtime_reconciled_record(
         raise TemporalReplayError("prior_age_mismatch")
     from dataclasses import replace
 
+    from umbra_core.temporal.downtime import apply_expectation_recovery_deltas
+
+    expectation_deltas = tuple(
+        _expectation_delta_from_dict(raw) if isinstance(raw, dict) else raw
+        for raw in record.expectation_recovery_deltas
+    )
     new_state = replace(
         state,
         organism_age_ticks=record.new_age_ticks,
@@ -577,8 +583,12 @@ def apply_downtime_reconciled_record(
         state_version=record.new_state_version,
         state_hash=record.new_state_hash,
     )
+    if expectation_deltas:
+        new_state = apply_expectation_recovery_deltas(new_state, expectation_deltas)
     if new_state.state_hash != record.new_state_hash:
         raise TemporalReplayError("new_state_hash_mismatch")
+    # ponytail: wait_recovery_deltas replay requires WaitJournal coupling outside TemporalState;
+    # upgrade path: runtime replay hook applies recorded wait deltas atomically with event.
     return new_state
 
 

@@ -11,6 +11,7 @@ from umbra_core.temporal.state import (
     AnchorTrustClass,
     TemporalState,
     TimeAnchor,
+    WallClockMapping,
     canonical_serialize,
     with_anchor_state_hash,
     with_state_hash,
@@ -191,10 +192,35 @@ def compute_canonical_plan_hash(plan_fields: dict[str, Any]) -> str:
     return sha256_hex(canon_json(canonical_serialize(plan_fields)))
 
 
+def plan_canonical_identity(plan: DowntimeReconciliationPlan) -> dict[str, Any]:
+    return plan_identity_payload(
+        downtime_interval_id=plan.downtime_interval_id,
+        trust_class=plan.trust_class,
+        trust_reason_codes=plan.trust_reason_codes,
+        elapsed_seconds=plan.elapsed_seconds,
+        age_advance=plan.age_advance,
+        fractional_remainder=plan.fractional_remainder,
+        prior_age_ticks=plan.prior_age_ticks,
+        next_age_ticks=plan.next_age_ticks,
+        registry_hash=plan.registry_hash,
+        effect_plan_hashes=plan.effect_plan_hashes,
+        skipped_contract_ids=plan.skipped_contract_ids,
+        expectation_recovery_deltas=plan.expectation_recovery_deltas,
+        wait_recovery_deltas=plan.wait_recovery_deltas,
+        conservative=plan.conservative,
+        trusted_sample_hash=plan.trusted_sample_hash,
+    )
+
+
+def verify_plan_canonical_hash(plan: DowntimeReconciliationPlan) -> bool:
+    return compute_canonical_plan_hash(plan_canonical_identity(plan)) == plan.canonical_plan_hash
+
+
 def classify_downtime_trust(
     *,
     prior_anchor: TimeAnchor,
     sample: TrustedSample,
+    wall_clock_mapping: WallClockMapping | None = None,
 ) -> TrustClassification:
     reasons: list[str] = []
 
@@ -242,6 +268,22 @@ def classify_downtime_trust(
             conservative=True,
         )
 
+    if wall_clock_mapping is not None and wall_clock_mapping.wall_time_seconds is not None:
+        monotonic_elapsed_s = (
+            sample.monotonic_ns - wall_clock_mapping.monotonic_ns_at_mapping
+        ) / 1e9
+        estimated_wall = wall_clock_mapping.wall_time_seconds + monotonic_elapsed_s
+        if abs(float(sample.optional_wall_time) - estimated_wall) > SAMPLE_FRESHNESS_SECONDS:
+            reasons.append("sample_not_fresh")
+            return TrustClassification(
+                trust_class=AnchorTrustClass.UNCERTAIN,
+                reason_codes=tuple(reasons),
+                elapsed_seconds=0.0,
+                age_advance=0,
+                fractional_remainder=0.0,
+                conservative=True,
+            )
+
     elapsed = float(sample.optional_wall_time) - float(prior_anchor.wall_time)
     if elapsed < 0.0:
         reasons.append("wall_time_backward_jump")
@@ -278,6 +320,21 @@ def classify_downtime_trust(
             fractional_remainder=0.0,
             conservative=True,
         )
+
+    if wall_clock_mapping is not None and wall_clock_mapping.wall_time_seconds is not None:
+        monotonic_elapsed_s = (
+            sample.monotonic_ns - wall_clock_mapping.monotonic_ns_at_mapping
+        ) / 1e9
+        if abs(elapsed - monotonic_elapsed_s) > SAMPLE_FRESHNESS_SECONDS:
+            reasons.append("wall_monotonic_implausible")
+            return TrustClassification(
+                trust_class=AnchorTrustClass.UNCERTAIN,
+                reason_codes=tuple(reasons),
+                elapsed_seconds=elapsed,
+                age_advance=0,
+                fractional_remainder=0.0,
+                conservative=True,
+            )
 
     tick_equiv = elapsed / SECONDS_PER_AGE_TICK
     age_advance = min(int(tick_equiv), MAX_DOWNTIME_AGE_ADVANCE)
@@ -326,6 +383,47 @@ def build_downtime_anchor(
     return with_anchor_state_hash(anchor)
 
 
+def apply_expectation_recovery_deltas(
+    state: TemporalState,
+    deltas: tuple[ExpectationRecoveryDelta, ...],
+) -> TemporalState:
+    from umbra_core.temporal.recurrence import (
+        HypothesisStatus,
+        get_hypothesis_from_index,
+        upsert_recurrence_index,
+    )
+
+    current = state
+    for delta in deltas:
+        hypothesis = get_hypothesis_from_index(current.recurrence_index, delta.recurrence_id)
+        if hypothesis is None:
+            raise DowntimeReconciliationError(RECONCILIATION_PAYLOAD_MISMATCH)
+        if hypothesis.hypothesis_version != delta.expected_hypothesis_version:
+            raise DowntimeReconciliationError(RECONCILIATION_PAYLOAD_MISMATCH)
+        if delta.expected_expectation_version != hypothesis.hypothesis_version:
+            raise DowntimeReconciliationError(RECONCILIATION_PAYLOAD_MISMATCH)
+
+        if delta.action == "EXPIRE":
+            updated = replace(
+                hypothesis,
+                status=HypothesisStatus.INACTIVE,
+                hypothesis_version=hypothesis.hypothesis_version + 1,
+            )
+        elif delta.action == "DECAY_CONFIDENCE":
+            updated = replace(
+                hypothesis,
+                miss_count=hypothesis.miss_count + 1,
+                hypothesis_version=hypothesis.hypothesis_version + 1,
+            )
+        elif delta.action in {"INVALIDATE", "PRESERVE"}:
+            continue
+        else:
+            continue
+        new_index = upsert_recurrence_index(current.recurrence_index, updated)
+        current = replace(current, recurrence_index=new_index)
+    return current
+
+
 def apply_downtime_plan_to_state(
     state: TemporalState,
     plan: DowntimeReconciliationPlan,
@@ -363,6 +461,10 @@ def apply_downtime_plan_to_state(
         state_version=new_version,
         state_hash="",
     )
+    if plan.expectation_recovery_deltas:
+        base = apply_expectation_recovery_deltas(base, plan.expectation_recovery_deltas)
+    # ponytail: ElapsedEffectPlan declarative effects are recorded on the plan; subsystem
+    # apply hooks for physiology/needs are deferred until Task 9+ exposes elapsed reconciliation.
     return with_state_hash(base)
 
 
