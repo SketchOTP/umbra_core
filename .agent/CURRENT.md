@@ -1,22 +1,22 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260724-1544-d010-task13b-gates-v2
+- ID: D-20260724-1620-d010-freeze-invalidate-v5
 - Project directive: UMBRA-D-010
-- Goal: Task 13b — formal Gates 1–12 evidence under Stage B freeze v2
-- Status: ended — failed_harness_defect (aggregation gate 3)
-- Freeze tip: `5d218d6fa1da8c49d2a6326037bbd10f3a457726`
-- formal_execution_id: `d010-fe-stage-b-v2`
-- Next action: freeze invalidate gate 3 aggregation (+ gate 2 metric review) → new Stage B → rerun Task 13b
+- Goal: Freeze invalidate v5 — Task 14 QUALIFIED seal path + Stage B v5
+- Status: complete
+- Acceptance: met — seal can QUALIFY when earned; perf protocol honest; manifest complete; pytest+contract green; d010-fe-stage-b-v5 frozen; no QUALIFIED claim
+- Fix commit: `5911cdd`
+- Freeze tip: `3178815` / `d010-fe-stage-b-v5`
+- Invalidated: `f13d976` / `d010-fe-stage-b-v4`
+- Preserved Task 13d evidence: `c52f311` (must re-run under v5 before QUALIFIED)
 
 ## Locked
-- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (OPEN until seal)
-- Constraint: evidence commits only; no source edits under freeze tip
+- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (OPEN)
 
 ## Last validation
-- Command: `python experiments/d010/validate_evidence.py`
-- Result: FAIL (missing gates 3–12 summaries; partial gate files)
+- Command: `python -m pytest tests/test_d010.py -q` + `python -m pytest -q` + `run_seal.py --contract-only`
+- Result: 126 passed; 643 passed 2 skipped; contract_ok true
 
 ## Open blockers
-- Harness gate 3 aggregation defect (`paired_length_mismatch:g3_future_leakage_zero:1!=100`)
-- Gate 2 recurrence_learning_signal 0.0 (investigate after harness fix)
+- None for invalidate v5; Gates 1–12 + Gate 13 formal campaigns remain before QUALIFIED

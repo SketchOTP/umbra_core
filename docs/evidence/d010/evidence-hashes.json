@@ -1,0 +1,19 @@
+{
+  "docs/evidence/d010/absence-safety-results.json": "067bbc31f063e993dfed5b366dbdd166b67fccd74d406a9a3022ba4494cf95c7",
+  "docs/evidence/d010/anticipation-results.json": "aba52c7f4e6405acdd9f54f94a16d0c77547645eab0eaf3c3c9d13e406a0de2c",
+  "docs/evidence/d010/autonomy-results.json": "e0f92eff76b0640aaa392dc546ef4cea2267843389b395b7e677ea1209b4bdde",
+  "docs/evidence/d010/boundedness-results.json": "b30347888159a22781d11efd55f65f12c0b2f77feb3fd0fb8c960caa4fba5399",
+  "docs/evidence/d010/evidence-validation.json": "496236d8e3f45d2a021abf0afefe07c4afb6a1a968176ce8e3415e651847a5c8",
+  "docs/evidence/d010/experiment-summary.json": "3881ece33d12253c651e84665125085f5c14e3e9fa5640cf50dc07c2bc511a7c",
+  "docs/evidence/d010/formal-execution-manifest.json": "9f12185984bdf1a5ba87d19b8bc2d8525bccea9b8923e08db5875faaa04c764d",
+  "docs/evidence/d010/formal-run-outcome.json": "7e5613e92eb222ca45c58a171ebaff6f8def03c6a7825e1cef7f1a6818191f8d",
+  "docs/evidence/d010/future-leakage-results.json": "666d2577c9beb385c41c85a48dfb8e25d236d7a7850a1b168850de99651a417c",
+  "docs/evidence/d010/individuality-timing-results.json": "b47cd90f7d54199fa74c952c44713e358452fcb7cceb4d7cd29788e0fc4f8828",
+  "docs/evidence/d010/recurrence-results.json": "0cc44d3438e57e268c382d9dbb64002f321a690830393ccfa692717838b04f3a",
+  "docs/evidence/d010/regression-results.json": "dbd05363be5446b726f9b097b05d1baab66453bd84006b459b974f639b0ca443",
+  "docs/evidence/d010/replay-results.json": "b964162d77b25566f5497314ce7b7eb52d599942e0cde1c39bbc7458b19bc6c6",
+  "docs/evidence/d010/restart-downtime-results.json": "1ef9370d7b274c2f23df3e23f789945537d25236221414317ac1d5b17695f7c3",
+  "docs/evidence/d010/revision-results.json": "ee9a80b461749d38d37f254c688ec0c5915cfe97679511c831b0a422337799ae",
+  "docs/evidence/d010/temporal-authority-results.json": "69197b4b0c2df00d2dc8d9aa01bddde5318799f0d3346e4c873e91f5c1d55eb7",
+  "docs/evidence/d010/temporal-routine-results.json": "22c6dc9d9a2f085cc407eb238f23516b868d8f4e455e1fbfa22b139d81bb93c1"
+}

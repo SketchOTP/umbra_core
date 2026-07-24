@@ -1,7 +1,7 @@
 {
   "directive": "UMBRA-D-010",
-  "formal_execution_id": "d010-fe-stage-b-v4",
-  "freeze_commit": "f13d976907bd4b110c4f4a5b1c07550fbe8c9b3f",
+  "formal_execution_id": "d010-fe-stage-b-v5",
+  "freeze_commit": "317881537f0991914949d92659231ba79d52aec1",
   "outcome": "UMBRA_D010_TASK13_GATES_1_12_PASS",
   "gates_1_12_pass": true,
   "qualification_claimed": false,

@@ -68,8 +68,8 @@
   "expected_rows": 300,
   "failure_code_registry_hash": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
   "gate": 3,
-  "generated_at": "2026-07-24T16:18:23.660084+00:00",
-  "matrix_hash": "0c092d18b824da24ffb7c224587c047befc8e43adb837a42924aea93d9afc655",
+  "generated_at": "2026-07-24T16:33:18.860008+00:00",
+  "matrix_hash": "b172e36486829ee01e9c5a1918068ef81117a5741bf5c30c502d725341fe4566",
   "metrics": {
     "row_count": 300
   },
@@ -83,7 +83,7 @@
     "cells": 3,
     "paired_seeds": 100
   },
-  "software_commit": "f13d976907bd4b110c4f4a5b1c07550fbe8c9b3f",
+  "software_commit": "317881537f0991914949d92659231ba79d52aec1",
   "stage_a_bundle_hash": "9dbf75686acfdc9d9dc434016a9e79a21df21cfef923c231e962327107cb7b58",
   "thresholds": {
     "absence_safety_violation_max": 0.0,
@@ -177,12 +177,12 @@
     },
     "temporal_authority_alignment_min": 0.95,
     "temporal_routine_promotion_min": 2,
-    "threshold_freeze_timestamp": "2026-07-24T16:10:45+00:00",
+    "threshold_freeze_timestamp": "2026-07-24T16:24:11+00:00",
     "ticks_accelerated_min": 100000,
     "ui_incremental_cpu_mean_frac_max": 0.05,
     "ui_incremental_rss_p95_mib_max": 128,
     "ui_incremental_rss_slope_mib_per_hour_max": 1.0,
     "version": 1
   },
-  "thresholds_hash": "e32a7fbf57a54b0e8ab693d783235de12c4aaec6bdde232a581d7947c9138be4"
+  "thresholds_hash": "6e8ce9874ba6c902cbdfc772a151b8aa6a22f9b1a0830fba75fa9c0ffc20fb97"
 }
