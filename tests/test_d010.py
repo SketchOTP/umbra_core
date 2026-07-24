@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import replace
+from pathlib import Path
 
 import pytest
 
@@ -2117,4 +2119,68 @@ def test_temporal_control_code_not_imported_by_umbra_core_temporal():
                 assert not module.startswith("experiments.d010"), (
                     f"{path} imports experiments.d010: {module}"
                 )
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_development_formal_seed_manifests_disjoint():
+    from experiments.d010.stage_a import validate_seed_nonoverlap
+
+    validate_seed_nonoverlap()
+
+
+def test_test_manifest_enumerates_required_tests():
+    from experiments.d010.stage_a import collect_pytest_test_ids, load_test_manifest, required_test_ids
+
+    manifest = load_test_manifest()
+    present = collect_pytest_test_ids()
+    missing = set(required_test_ids(manifest)) - present
+    assert not missing, sorted(missing)[:5]
+
+
+def test_stage_a_hashes_have_no_placeholders():
+    from experiments.d010.stage_a import assert_no_placeholder_hashes, compute_stage_a_hashes
+
+    hashes = compute_stage_a_hashes()
+    assert_no_placeholder_hashes(hashes)
+    payload = json.loads((ROOT / "experiments/d010/stage-a-hashes.json").read_text(encoding="utf-8"))
+    assert payload.get("bundle_hash")
+    assert "PLACEHOLDER" not in json.dumps(payload)
+
+
+def test_adaptive_performance_protocol_contract():
+    thr = json.loads((ROOT / "experiments/d010/thresholds.json").read_text(encoding="utf-8"))
+    proto = json.loads((ROOT / "experiments/d010/performance-protocol.json").read_text(encoding="utf-8"))
+    assert thr["rss_p95_mib_max"] == 180
+    assert thr["ticks_accelerated_min"] >= 100000
+    assert proto["supplement"] == "S3"
+    assert int(proto["initial_measurement_seconds"]) >= 1800
+    perf = ROOT / "docs/evidence/d010/performance-results.json"
+    if perf.exists():
+        data = json.loads(perf.read_text(encoding="utf-8"))
+        assert data.get("adaptive_soak_supplement") == "S3"
+
+
+def test_d010_harness_runners_smoke():
+    import subprocess
+    import sys
+
+    runners = [
+        [sys.executable, "experiments/d010/run_experiment.py", "--dry-run"],
+        [sys.executable, "experiments/d010/run_performance.py", "--dry-run"],
+    ]
+    for cmd in runners:
+        proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+        assert proc.returncode == 0, proc.stderr[-500:]
+    import experiments.d010.run_seal as seal_mod
+
+    assert callable(seal_mod.main)
+
+
+def test_formal_harness_refuses_placeholder_hashes():
+    from experiments.d010.stage_a import assert_no_placeholder_hashes
+
+    with pytest.raises(ValueError, match="placeholder"):
+        assert_no_placeholder_hashes({"experiments/d010/x.json": "PLACEHOLDER" * 4})
 

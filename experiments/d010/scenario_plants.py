@@ -70,7 +70,12 @@ def apply_scenario_plants(
     *,
     opportunity_hook: Callable[[ScenarioPlant], bool] | None = None,
 ) -> int:
-    """Apply timing/opportunity plants for `tick`. Returns plants applied."""
+    """Apply timing/opportunity plants for `tick`.
+
+    When wired as `OrganismConfig.temporal_scenario_hook`, `tick` is the organism's
+    committed ``organism_age_ticks`` (semantic age units), not orchestration sequence.
+    Habitat hooks still receive orchestration ``self.tick``.
+    """
     applied = 0
     for plant in plants_for_scenario(scenario_id):
         if plant.tick != tick:

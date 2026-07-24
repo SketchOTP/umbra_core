@@ -1,0 +1,25 @@
+{
+  "schema_version": "d010.scenario-suite.v1",
+  "directive": "UMBRA-D-010",
+  "frozen_before_execution": false,
+  "scenarios": [
+    {"id": "S0", "description": "Baseline autonomous temporal activity", "tick_budget": 120},
+    {"id": "S1", "description": "Periodic resource availability window", "tick_budget": 180},
+    {"id": "S2", "description": "Delayed partner cue timing", "tick_budget": 160},
+    {"id": "S3", "description": "Overlapping recurrence opportunity A", "tick_budget": 200},
+    {"id": "S4", "description": "Overlapping recurrence opportunity B", "tick_budget": 200},
+    {"id": "S5", "description": "Restart mid expectation window", "tick_budget": 220},
+    {"id": "S6", "description": "Downtime gap opportunity", "tick_budget": 200},
+    {"id": "S7", "description": "Absence stretch and temporal routine eligibility", "tick_budget": 240},
+    {"id": "S8", "description": "Relocate object timing shift", "tick_budget": 160},
+    {"id": "S9", "description": "Temporary unavailability", "tick_budget": 180},
+    {"id": "S10", "description": "Schedule revision opportunity", "tick_budget": 200},
+    {"id": "S11", "description": "Replay equivalence after temporal activity", "tick_budget": 180},
+    {"id": "S12", "description": "Schema migration continuity", "tick_budget": 120},
+    {"id": "S13", "description": "Extended no-user autonomous operation", "tick_budget": 300},
+    {"id": "S14", "description": "Individuality timing separation", "tick_budget": 220},
+    {"id": "S15", "description": "Boundedness stress", "tick_budget": 250},
+    {"id": "S16", "description": "Affordance block revision", "tick_budget": 180},
+    {"id": "S17", "description": "Clutter spawn timing", "tick_budget": 200}
+  ]
+}

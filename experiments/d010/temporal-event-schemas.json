@@ -1,0 +1,40 @@
+{
+  "schema_version": "d010.temporal-event-schemas.v1",
+  "envelope_version": 1,
+  "required_envelope_fields": [
+    "event_id",
+    "event_kind",
+    "transaction_id",
+    "transaction_event_index",
+    "temporal_epoch_id",
+    "prior_state_version",
+    "new_state_version",
+    "prior_state_hash",
+    "new_state_hash",
+    "effective_age_ticks",
+    "orchestration_sequence",
+    "definition_hash",
+    "payload_hash"
+  ],
+  "authoritative_event_kinds": [
+    "temporal_initialized",
+    "temporal_anchor_committed",
+    "temporal_clock_discontinuity_detected",
+    "temporal_recurrence_created",
+    "temporal_recurrence_updated",
+    "temporal_recurrence_revised",
+    "temporal_recurrence_retired",
+    "temporal_downtime_reconciled"
+  ],
+  "transaction_envelope": {
+    "schema_id": "d010.temporal-transaction-envelope.v1",
+    "one_state_version_step_per_transaction": true,
+    "events_indexed_inside_transaction": true
+  },
+  "advance_record": {
+    "schema_id": "d010.temporal-advance-record.v1",
+    "embedded_in": "orchestration_tick_committed",
+    "includes_anchors_and_clock_mapping": true,
+    "no_duplicate_anchor_event_on_ordinary_tick": true
+  }
+}

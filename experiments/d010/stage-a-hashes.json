@@ -1,0 +1,14 @@
+{
+  "artifacts": {
+    "experiments/d010/authoritative-event-allowlist.json": "3c59c42f3ff75c0d9783e6f04b66c6d574086444392dccc85390bf4e2b2ec729",
+    "experiments/d010/elapsed-contract-registry.json": "35708b8d0c8f6734df5c37e16c5dbbb1cdbb1660e22444bd825dadd5c6d802a2",
+    "experiments/d010/failure-code-registry.json": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
+    "experiments/d010/observable-evidence-allowlist.json": "d3505ab24c9d666d4a2a8c8db1c33d7471aa4b97cb4952624bc7e4ab3ea82df3",
+    "experiments/d010/runtime-tick-classification.json": "e667b03eb3ecbd9897e15bf87cea841f3ebc7ce8261ce70e46f5bc7ed739ae58",
+    "experiments/d010/temporal-event-schemas.json": "06257ab955f617f2b54b796bfe1f711d9a199f7e577559eca8b546ed6df2f737"
+  },
+  "bundle_hash": "de4d8dcde8c0b78f27c7d88e4e10e0a2a206ddc0ea3d914c730314a3db873878",
+  "directive": "UMBRA-D-010",
+  "frozen_before_execution": false,
+  "schema_version": "d010.stage-a-hashes.v1"
+}

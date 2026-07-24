@@ -1,0 +1,21 @@
+{
+  "supplement": "S3",
+  "directive": "UMBRA-D-010",
+  "applies_to": "Task 14 performance and seal",
+  "replaces": "fixed two-hour soak",
+  "warmup_seconds": 300,
+  "initial_measurement_seconds": 1800,
+  "extension_seconds": 900,
+  "max_measurement_seconds": 3600,
+  "sample_interval_seconds": 5,
+  "minimum_samples": 360,
+  "tick_hz": 2.0,
+  "seed": 42,
+  "scenario": "S0",
+  "condition": "C13",
+  "diagnostics_visible": false,
+  "lifecycle_cycles_min": 100,
+  "modes": ["P0", "P1", "P2"],
+  "p0_config_ref": "experiments/d010/thresholds.json#p0_performance_mode",
+  "notes": "P0 disables anticipation and temporal routine eligibility; P1 HeadlessRenderer; P2 TkinterRenderer. Absolute limits remain in thresholds.json."
+}

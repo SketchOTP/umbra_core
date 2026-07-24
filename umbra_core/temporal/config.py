@@ -26,8 +26,8 @@ class TemporalConfig:
     temporal_routine_eligibility_enabled: bool = True
     temporal_score_modifiers_enabled: bool = True
     wait_generation_enabled: bool = True
-    reset_on_restart: bool = False  # C8 — disposable paths only at harness layer
-    frequency_only_recurrence: bool = False  # C11
+    reset_on_restart: bool = False  # C8 — harness calls assert_disposable_db_path before restart
+    frequency_only_recurrence: bool = False  # C11 — harness metrics only; ponytail: no engine lane switch yet
     p0_performance_mode: bool = False  # C13 / Gate 13 P0 baseline
 
 

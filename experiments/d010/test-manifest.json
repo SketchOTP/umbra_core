@@ -1,0 +1,707 @@
+{
+  "directive": "UMBRA-D-010",
+  "frozen_before_execution": false,
+  "schema_version": "d010.test-manifest.v1",
+  "tests": [
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_abandoned_tick_does_not_advance_age"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_active_view_applies_capped_modifier_uncertain_smaller_only"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 13,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_adaptive_performance_protocol_contract"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_advance_id_unique_across_prepare_abandon_cycles"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 0,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_all_production_runtime_tick_uses_are_classified"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_authoritative_first_then_o_lane_upgrades_occurrence_credit"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_authoritative_prepare_seeds_candidate_only"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 13,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_c13_p0_mode_disables_anticipation_and_temporal_routine_eligibility"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_c8_disposable_db_guard_accepts_tmp_and_scratch_paths"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_c8_disposable_db_guard_rejects_production_paths"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_committed_tick_contains_temporal_advance_record"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_condition_to_temporal_config_rejects_diagnostic_only_conditions"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_conservative_anchor_not_eligible_as_downtime_baseline"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_control_rows_cannot_enter_c0_summaries"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 15,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_d010_harness_runners_smoke"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_dedup_eviction_does_not_allow_recount"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 15,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_development_formal_seed_manifests_disjoint"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_disallowed_event_and_evidence_kinds_rejected_by_allowlist"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_downtime_reconciliation_commits_new_session_anchor"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_experimental_controls_are_production_unreachable"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_failed_reconciliation_leaves_waits_unchanged"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_failed_tick_has_no_temporal_advance_record"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_fallback_bias_bounded_delta_is_capped"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_fallback_bias_reenters_arbitration_and_expires"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_fitted_phase_anchor_next_index_prediction_matches_formula"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 15,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_formal_harness_refuses_placeholder_hashes"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_frequency_only_authoritative_lane_does_not_promote_to_active"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_governance_reject_creates_suppression_without_fake_wait_execution"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_hazard_urgency_outranks_temporal_modifiers"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_hostile_temporal_clock_rejected"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_in_tick_commit_applies_hypothesis_delta_and_abandon_is_rollback_safe"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_jittered_series_learns_usable_period_and_jitter"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_missing_advance_record_fails_replay"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_mixed_lane_intervals_use_o_lane_only"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_modifier_caps_apply_before_signed_cancellation"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_multiple_evidence_envelopes_for_one_occurrence_count_once"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_no_downtime_derived_occurrence_or_miss"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_o_lane_occurrence_observed_a_lane_alone_cannot"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_observation_window_miss_is_idempotent_and_single_miss_keeps_active"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_ordinary_tick_does_not_emit_duplicate_anchor_event"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_organism_age_never_decreases"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_partial_observation_coverage_does_not_register_miss"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_physiology_urgency_outranks_temporal_modifiers"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_policy_view_excludes_candidates_and_raw_authoritative_events"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_post_hoc_cannot_alter_historical_occurrence_age"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_post_hoc_missing_or_stale_anchors_fail_closed"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_post_hoc_prepare_uses_committed_age_for_immutability"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_prepare_advance_does_not_mutate_state"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_prepare_while_in_flight_raises"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_prepared_reconciliation_sample_is_sticky"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 11,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_replay_does_not_read_wall_clock"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 10,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_replay_uses_recorded_downtime_deltas"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 10,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_required_contract_failure_replans_conservatively"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_rollback_abandon_creates_no_active_wait_execution"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_runtime_attaches_temporal_engine_when_enabled"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_runtime_subsystem_uses_effective_organism_age_not_orchestration_tick"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 10,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_same_downtime_interval_idempotent_retry"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 10,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_same_downtime_interval_payload_mismatch_fails_closed"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_same_observation_plan_cannot_commit_twice"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_same_occurrence_id_across_in_tick_and_post_hoc_counts_once"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_scenario_plants_change_timing_opportunity_only"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_scripted_future_schedule_is_isolated_diagnostic"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_second_load_does_not_reset_age"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_single_miss_does_not_erase_active_hypothesis"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_snapshot_on_due_tick_matches_committed_temporal_state"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_stable_periodic_occurrences_learn_true_period"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 15,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_stage_a_hashes_have_no_placeholders"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 12,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_stale_wall_sample_fails_trust_classification"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_advance_commits_atomically_with_tick"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_advance_id_cannot_commit_twice"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_interruptible_no_timer_launch"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_maximum_start_delay_exceeded"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_miss_weakens_binding_not_physiology"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_multi_episode_promote_eligible_under_active_expectation"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_repromote_attaches_binding_to_existing_skill"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_repromote_updates_binding_preserves_runtime_state"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_retired_recurrence_disables_binding_retains_provenance"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 5,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_schedule_revision_updates_eligibility"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 6,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_stale_expectation_version_blocked"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_binding_uncertain_no_activation_or_wait_chain"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_control_code_not_imported_by_umbra_core_temporal"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_init_is_idempotent"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 8,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_miss_cannot_write_relationships_or_physiology"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_temporal_state_hash_is_canonical"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 15,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_test_manifest_enumerates_required_tests"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_tick_context_uses_proposed_age"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_tick_replay_reconstructs_anchor_and_clock_mapping"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_time_anchor_has_trust_provenance_fields"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 14,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_trusted_sample_hash_is_stable"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_trusted_short_downtime_advances_age"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_uncertain_downtime_has_zero_age_advance"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_uncertain_expectation_cannot_generate_wait"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 1,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_unstable_phase_anchor_predicts_from_last_observed_plus_period"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_wait_admitted_only_inside_window_with_bounded_deadline"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_wait_anti_reentry_survives_restart_and_revised_expectation_may_bypass"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_wait_execution_has_one_terminal_outcome_and_retry_returns_same"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_wait_governance_bypass_rejected"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_wait_recovery_delta_resolves_active_waits"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_wait_rejected_outside_open_window"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 4,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_waiting_is_bounded"
+    }
+  ]
+}
