@@ -1,19 +1,12 @@
 {
-  "formal_execution_id": "d010-fe-stage-b-v3",
-  "freeze_commit": "582b7605a2a803fdd3f394dbe4b6c99687248aca",
-  "agent_memory_directive": "D-20260724-1557-d010-task13c-gates-v3",
-  "jobs": 1900,
+  "directive": "UMBRA-D-010",
+  "formal_execution_id": "d010-fe-stage-b-v4",
+  "freeze_commit": "f13d976907bd4b110c4f4a5b1c07550fbe8c9b3f",
+  "outcome": "UMBRA_D010_TASK13_GATES_1_12_PASS",
+  "gates_1_12_pass": true,
+  "qualification_claimed": false,
+  "gate_13_deferred": true,
   "paired_seeds": 100,
-  "duration_seconds": 217,
-  "all_experiment_gates_pass": false,
-  "gates_pass_count": 9,
-  "gates_fail_count": 3,
-  "failed_gates": [
-    6,
-    10,
-    11
-  ],
-  "validator_pass": false,
-  "qualified_claim": false,
-  "log_path": "/tmp/d010-task13c-formal-run.log"
+  "raw_rows": 1900,
+  "validator_pass": true
 }

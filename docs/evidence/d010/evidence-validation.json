@@ -1,22 +1,7 @@
 {
   "directive": "UMBRA-D-010",
-  "errors": [
-    "forbidden_claim:anticipation-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:regression-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:temporal-routine-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:individuality-timing-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:temporal-authority-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:absence-safety-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:future-leakage-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:restart-downtime-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:revision-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:recurrence-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:autonomy-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:experiment-summary.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:boundedness-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
-    "forbidden_claim:replay-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED"
-  ],
-  "pass": false,
+  "errors": [],
+  "pass": true,
   "pre_freeze": true,
   "raw_rows": 1900
 }

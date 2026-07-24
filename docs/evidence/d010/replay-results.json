@@ -25,17 +25,17 @@
       "condition_a": "C0",
       "condition_b": "C12",
       "confidence_interval": [
-        -0.007578237650712777,
-        0.04757823765071278
+        0.9524217623492872,
+        1.0075782376507127
       ],
-      "effect_size": 0.14214106244380287,
+      "effect_size": 6.96491205974634,
       "higher_is_better_for_a": true,
       "material_gap_min": 0.05,
       "mean_or_rate_a": 1.0,
-      "mean_or_rate_b": 0.98,
-      "paired_delta": 0.020000000000000018,
+      "mean_or_rate_b": 0.02,
+      "paired_delta": 0.98,
       "paired_seed_count": 100,
-      "pass": false,
+      "pass": true,
       "threshold": 0.9
     }
   ],
@@ -49,13 +49,13 @@
   "expected_rows": 200,
   "failure_code_registry_hash": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
   "gate": 11,
-  "generated_at": "2026-07-24T16:02:46.188218+00:00",
-  "matrix_hash": "05fbbeae83fcf6b965f8b677adfcdbec01c3dbbac2f351ee2aab2e876ee8b64c",
+  "generated_at": "2026-07-24T16:18:23.690664+00:00",
+  "matrix_hash": "0c092d18b824da24ffb7c224587c047befc8e43adb837a42924aea93d9afc655",
   "metrics": {
     "row_count": 200
   },
   "missing_rows": 0,
-  "pass": false,
+  "pass": true,
   "scenario_suite_hash": "15904c1fbfea39cad86bef0afd846b851f231bf0033c841cdfbf82cdf62ba94f",
   "scenarios": [
     "S11"
@@ -64,7 +64,7 @@
     "cells": 2,
     "paired_seeds": 100
   },
-  "software_commit": "582b7605a2a803fdd3f394dbe4b6c99687248aca",
+  "software_commit": "f13d976907bd4b110c4f4a5b1c07550fbe8c9b3f",
   "stage_a_bundle_hash": "9dbf75686acfdc9d9dc434016a9e79a21df21cfef923c231e962327107cb7b58",
   "thresholds": {
     "absence_safety_violation_max": 0.0,
@@ -158,12 +158,12 @@
     },
     "temporal_authority_alignment_min": 0.95,
     "temporal_routine_promotion_min": 2,
-    "threshold_freeze_timestamp": "2026-07-24T15:54:03+00:00",
+    "threshold_freeze_timestamp": "2026-07-24T16:10:45+00:00",
     "ticks_accelerated_min": 100000,
     "ui_incremental_cpu_mean_frac_max": 0.05,
     "ui_incremental_rss_p95_mib_max": 128,
     "ui_incremental_rss_slope_mib_per_hour_max": 1.0,
     "version": 1
   },
-  "thresholds_hash": "b9ff3c83ed34f7b5c5775b31a5c9e786124808d540d68da136ed4a2b447b0e60"
+  "thresholds_hash": "e32a7fbf57a54b0e8ab693d783235de12c4aaec6bdde232a581d7947c9138be4"
 }
