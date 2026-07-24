@@ -1,0 +1,9 @@
+{
+  "adaptive_soak_supplement": "S3",
+  "cycles": 100,
+  "directive": "UMBRA-D-009",
+  "failures": [],
+  "organism_continued": true,
+  "pass": true,
+  "software_commit": "a93cc551a9c30b97d4ad5929214ef5648a735d44"
+}

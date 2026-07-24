@@ -1,0 +1,207 @@
+{
+  "accelerated_100k": {
+    "pass": true,
+    "ticks": 100000
+  },
+  "adaptive_soak_supplement": "S3",
+  "directive": "UMBRA-D-009",
+  "habitat_agency_over_core": {
+    "cpu_mean_fraction": -0.0019906570313561285,
+    "rss_p95_mib": -0.04296875,
+    "rss_slope_mib_per_hour": -0.517578125
+  },
+  "modes": {
+    "P0": {
+      "adaptive_soak_supplement": "S3",
+      "cpu_mean_fraction": 0.006882254776362776,
+      "cpu_p95_fraction": 0.01579566705355884,
+      "database_growth_mib": 9.342506408691406,
+      "directive": "UMBRA-D-009",
+      "display_environment": "n/a",
+      "dropped_stale_frame_count": 0,
+      "duration_s": 3000.244677066803,
+      "extension_reason": "rss_slope_ci_ambiguous",
+      "extension_seconds": 900.0,
+      "frame_ring_max_occupancy": 0,
+      "initial_measurement_seconds": 1800.0,
+      "mode": "P0",
+      "pass": true,
+      "pending_callback_count": 0,
+      "profile_hashes": {
+        "ABSTRACT_SHAPE_BODY": "d39289c923f051a87db629c078bcab50b0de50dcbb1c86b552d8c6646aecc430"
+      },
+      "rendered_frame_count": 0,
+      "renderer_cursor_count": 0,
+      "renderer_exception_count": 0,
+      "rss_p50_mib": 46.6484375,
+      "rss_p95_mib": 47.125,
+      "rss_peak_mib": 47.1484375,
+      "rss_segment_medians_mib": [
+        46.408203125,
+        47.025390625,
+        46.6484375
+      ],
+      "rss_slope_confidence_interval": [
+        -31.406249999999943,
+        36.17187500000005
+      ],
+      "rss_slope_mib_per_hour": 0.517578125,
+      "sample_count": 540,
+      "sample_interval_seconds": 5.0,
+      "smoke_scaled": false,
+      "software_commit": "a93cc551a9c30b97d4ad5929214ef5648a735d44",
+      "tkinter_version": null,
+      "total_measurement_seconds": 2700.244677066803,
+      "warmup_seconds": 300.0
+    },
+    "P1": {
+      "adaptive_soak_supplement": "S3",
+      "cpu_mean_fraction": 0.004891597745006648,
+      "cpu_p95_fraction": 0.010099731106859185,
+      "database_growth_mib": 4.944068908691406,
+      "directive": "UMBRA-D-009",
+      "display_environment": "n/a",
+      "dropped_stale_frame_count": 0,
+      "duration_s": 2100.2215127944946,
+      "extension_reason": null,
+      "extension_seconds": 0.0,
+      "frame_ring_max_occupancy": 64,
+      "initial_measurement_seconds": 1800.0,
+      "mode": "P1",
+      "pass": true,
+      "pending_callback_count": 0,
+      "profile_hashes": {
+        "ABSTRACT_SHAPE_BODY": "d39289c923f051a87db629c078bcab50b0de50dcbb1c86b552d8c6646aecc430"
+      },
+      "rendered_frame_count": 4199,
+      "renderer_cursor_count": 1,
+      "renderer_exception_count": 0,
+      "rss_p50_mib": 46.59375,
+      "rss_p95_mib": 47.08203125,
+      "rss_peak_mib": 47.10546875,
+      "rss_segment_medians_mib": [
+        46.59375,
+        46.59765625,
+        46.59375
+      ],
+      "rss_slope_confidence_interval": [
+        -50.625000000000014,
+        45.42187499999998
+      ],
+      "rss_slope_mib_per_hour": 0.0,
+      "sample_count": 360,
+      "sample_interval_seconds": 5.0,
+      "smoke_scaled": false,
+      "software_commit": "a93cc551a9c30b97d4ad5929214ef5648a735d44",
+      "tkinter_version": null,
+      "total_measurement_seconds": 1800.2215127944946,
+      "warmup_seconds": 300.0
+    },
+    "P2": {
+      "adaptive_soak_supplement": "S3",
+      "cpu_mean_fraction": 0.0063645355079852885,
+      "cpu_p95_fraction": 0.013042794761226235,
+      "database_growth_mib": 4.967506408691406,
+      "directive": "UMBRA-D-009",
+      "display_environment": ":99",
+      "dropped_stale_frame_count": 0,
+      "duration_s": 2100.2828731536865,
+      "extension_reason": null,
+      "extension_seconds": 0.0,
+      "frame_ring_max_occupancy": 64,
+      "initial_measurement_seconds": 1800.0,
+      "mode": "P2",
+      "pass": true,
+      "pending_callback_count": 0,
+      "profile_hashes": {
+        "ABSTRACT_SHAPE_BODY": "d39289c923f051a87db629c078bcab50b0de50dcbb1c86b552d8c6646aecc430"
+      },
+      "rendered_frame_count": 4199,
+      "renderer_cursor_count": 1,
+      "renderer_exception_count": 0,
+      "rss_p50_mib": 55.578125,
+      "rss_p95_mib": 56.29296875,
+      "rss_peak_mib": 56.29296875,
+      "rss_segment_medians_mib": [
+        55.75,
+        55.5,
+        55.578125
+      ],
+      "rss_slope_confidence_interval": [
+        -37.968749999999964,
+        36.23437500000001
+      ],
+      "rss_slope_mib_per_hour": -0.3587330638111888,
+      "sample_count": 360,
+      "sample_interval_seconds": 5.0,
+      "smoke_scaled": false,
+      "software_commit": "a93cc551a9c30b97d4ad5929214ef5648a735d44",
+      "tkinter_version": "8.6",
+      "total_measurement_seconds": 1800.2828731536865,
+      "warmup_seconds": 300.0
+    }
+  },
+  "pass": true,
+  "protocol": {
+    "applies_to": "Task 14 performance and seal",
+    "condition": "C13",
+    "diagnostics_visible": false,
+    "directive": "UMBRA-D-009",
+    "extension_seconds": 900,
+    "initial_measurement_seconds": 1800,
+    "lifecycle_cycles_min": 100,
+    "max_measurement_seconds": 3600,
+    "minimum_samples": 360,
+    "modes": [
+      "P0",
+      "P1",
+      "P2"
+    ],
+    "notes": "Absolute RSS/CPU limits remain in thresholds.json; this file only governs adaptive observation duration for Gate 13.",
+    "p0_config_ref": "experiments/d009/thresholds.json#p0_compatibility_mode",
+    "replaces": "fixed soak_seconds_min=7200 two-hour soak",
+    "sample_interval_seconds": 5,
+    "scenario": "S0",
+    "seed": 42,
+    "supplement": "S3",
+    "tick_hz": 2.0,
+    "warmup_seconds": 300
+  },
+  "renderer_lifecycle": {
+    "cycles": 100,
+    "pass": true
+  },
+  "smoke_scaled": false,
+  "soak": {
+    "cpu_mean_frac": 0.006882254776362776,
+    "duration_s": 1800.2215127944946,
+    "protocol": "S3",
+    "rss_p95_mib": 56.29296875,
+    "rss_slope_mib_per_hour": 0.517578125
+  },
+  "software_commit": "a93cc551a9c30b97d4ad5929214ef5648a735d44",
+  "supplement_note": "D-009 Task 14 used authorized adaptive-soak Supplement S3 (warm-up 300s + initial 1800s measurement, adaptive extension to max 3600s per mode) rather than the original fixed two-hour duration.",
+  "thresholds": {
+    "cpu_mean_frac_max": 0.05,
+    "rss_p95_mib_max": 180,
+    "rss_slope_mib_per_hour_max": 1.0,
+    "ui_incremental_cpu_mean_frac_max": 0.05,
+    "ui_incremental_rss_p95_mib_max": 128,
+    "ui_incremental_rss_slope_mib_per_hour_max": 1.0
+  },
+  "tkinter_over_core": {
+    "cpu_mean_fraction": -0.0005177192683774876,
+    "rss_p95_mib": 9.16796875,
+    "rss_slope_mib_per_hour": -0.8763111888111887
+  },
+  "tkinter_over_headless": {
+    "cpu_mean_fraction": 0.0014729377629786409,
+    "rss_p95_mib": 9.2109375,
+    "rss_slope_mib_per_hour": -0.3587330638111888
+  },
+  "ui_incremental": {
+    "cpu_mean_frac": -0.0005177192683774876,
+    "rss_p95_mib": 9.16796875,
+    "rss_slope_mib_per_hour": -0.8763111888111887
+  }
+}
