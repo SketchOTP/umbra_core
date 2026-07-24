@@ -11,7 +11,7 @@
 
 ## Repo facts
 - Start `bb90e61` | Bootstrap `4770b5f` | Seal `af35371`
-- Design tip: (pending commit)
+- Design tip: `ad97ddd`
 - Parent Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3`
 
 ## Open blockers
