@@ -1,22 +1,31 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260724-1620-d010-freeze-invalidate-v5
+- ID: D-20260724-1947-d010-perf-fail-preserve-diagnose
 - Project directive: UMBRA-D-010
-- Goal: Freeze invalidate v5 — Task 14 QUALIFIED seal path + Stage B v5
-- Status: complete
-- Acceptance: met — seal can QUALIFY when earned; perf protocol honest; manifest complete; pytest+contract green; d010-fe-stage-b-v5 frozen; no QUALIFIED claim
-- Fix commit: `5911cdd`
-- Freeze tip: `3178815` / `d010-fe-stage-b-v5`
-- Invalidated: `f13d976` / `d010-fe-stage-b-v4`
-- Preserved Task 13d evidence: `c52f311` (must re-run under v5 before QUALIFIED)
+- Goal: Preserve Gate 13 PERFORMANCE_FAIL; diagnose shared RSS slope (no source edit)
+- Status: diagnosis recorded — awaiting root-cause confirmation before invalidate
+- Freeze tip: `3178815` / `d010-fe-stage-b-v5` (still current; **not** invalidated yet)
+- Outcome: `UMBRA_D010_PERFORMANCE_FAIL`
+- QUALIFIED: **not claimed**
+
+## Gate 13 campaign (preserved)
+- 100k/lifecycle: PASS
+- P0/P1/P2: all FAIL — `sustained_segment_growth`; slopes ~1.9–2.1 > 1.0; RSS p95 OK
+- P2 distinguishes Tkinter: **+~9 MiB level**, same growth family (not Tk-specific)
+- Common signal: SQLite `database_growth_mib` ≈ **39 MiB** all modes; stepwise RSS jumps ~100s then ~500s
+- Artifacts: `formal-performance-outcome.json`, `gate13-rss-diagnosis.md`
+
+## Note on seal
+- Task 14 agent ran seal and wrote `final-verdict.md` = `UMBRA_D010_PERFORMANCE_FAIL` (no QUALIFIED). Operator asked not to seal; treat as FAIL record only.
+
+## Next (do not skip)
+1. Deepen diagnosis (tracemalloc/smaps + sqlite accounting) if needed
+2. Patch + test → review → **new Stage B** + new `formal_execution_id` → rerun Gate 13
 
 ## Locked
 - Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (OPEN)
-
-## Last validation
-- Command: `python -m pytest tests/test_d010.py -q` + `python -m pytest -q` + `run_seal.py --contract-only`
-- Result: 126 passed; 643 passed 2 skipped; contract_ok true
+- Diagnose subtask: `70cba7b7829240d39216d87e561c09e3`
 
 ## Open blockers
-- None for invalidate v5; Gates 1–12 + Gate 13 formal campaigns remain before QUALIFIED
+- Gate 13 FAIL blocks QUALIFIED; root cause not yet patched
