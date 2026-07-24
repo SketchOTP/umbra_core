@@ -26,7 +26,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
-- **UMBRA-D-009 in progress** — design `79a00f2` (A1–A6 on `da60f20`); starting commit `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task `06b5b59709864e11bddb8c1da56dd66e`
+- **UMBRA-D-009 closed** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; zero-skip suite)
 - **UMBRA-D-008 closed** — `UMBRA_D008_COHERENT_DIGITAL_EMBODIMENT_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; renderer lifecycle; zero-skip suite)
 - **UMBRA-D-007 closed** — `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (100k + 2h RUNTIME_READY VmRSS soak; zero-skip suite)
 - **D-008 authorized** under `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (closed)
