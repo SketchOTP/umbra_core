@@ -3,29 +3,35 @@
 ## Active directive
 - ID: D-20260724-1947-d010-perf-fail-preserve-diagnose
 - Project directive: UMBRA-D-010
-- Goal: Preserve Gate 13 PERFORMANCE_FAIL; diagnose shared RSS slope (no source edit)
-- Status: diagnosis recorded — awaiting root-cause confirmation before invalidate
-- Freeze tip: `3178815` / `d010-fe-stage-b-v5` (still current; **not** invalidated yet)
+- Goal: Gate 13 PERFORMANCE_FAIL preserved; diagnosis done; await invalidate/patch authorization
+- Status: **independent review Approve** (honest FAIL package) — parent Mimir OPEN
+- Freeze tip: `3178815` / `d010-fe-stage-b-v5` (**not** invalidated yet)
+- Master tip: `be23da6`
 - Outcome: `UMBRA_D010_PERFORMANCE_FAIL`
 - QUALIFIED: **not claimed**
 
-## Gate 13 campaign (preserved)
-- 100k/lifecycle: PASS
-- P0/P1/P2: all FAIL — `sustained_segment_growth`; slopes ~1.9–2.1 > 1.0; RSS p95 OK
-- P2 distinguishes Tkinter: **+~9 MiB level**, same growth family (not Tk-specific)
-- Common signal: SQLite `database_growth_mib` ≈ **39 MiB** all modes; stepwise RSS jumps ~100s then ~500s
-- Artifacts: `formal-performance-outcome.json`, `gate13-rss-diagnosis.md`
+## Gate 13 (preserved)
+- P0/P1/P2 FAIL (`sustained_segment_growth`, slopes ~1.9–2.1)
+- 100k + lifecycle PASS
+- Common-path: SQLite ~39 MiB growth; stepwise RSS; not Tkinter-driven
+- Diagnosis: `docs/evidence/d010/gate13-rss-diagnosis.md`
 
-## Note on seal
-- Task 14 agent ran seal and wrote `final-verdict.md` = `UMBRA_D010_PERFORMANCE_FAIL` (no QUALIFIED). Operator asked not to seal; treat as FAIL record only.
+## Reviews
+- Task 14 FAIL package: Approve ([Review D-010 Task 14 FAIL](8268b3b1-7549-4d04-96c2-b3235478d6bb))
+- Task 14 implementer: [Run D-010 Task 14 perf seal](c50f8db9-cea9-4847-8eb4-d94427d64118)
 
-## Next (do not skip)
-1. Deepen diagnosis (tracemalloc/smaps + sqlite accounting) if needed
-2. Patch + test → review → **new Stage B** + new `formal_execution_id` → rerun Gate 13
+## Next
+```text
+deepen diagnosis if needed
+→ patch + test
+→ independent review
+→ new Stage B + formal_execution_id
+→ rerun Gate 13
+```
+Do **not** close parent Mimir until QUALIFIED seal tip (or explicit operator close).
 
 ## Locked
 - Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (OPEN)
-- Diagnose subtask: `70cba7b7829240d39216d87e561c09e3`
 
 ## Open blockers
-- Gate 13 FAIL blocks QUALIFIED; root cause not yet patched
+- Gate 13 FAIL blocks QUALIFIED; no source patch until invalidate path authorized
