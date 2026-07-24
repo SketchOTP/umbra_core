@@ -1,27 +1,42 @@
 {
-  "agent_memory_directive": "D-20260724-1626-d010-task13e-gates-v5",
+  "agent_memory_directive": "D-20260724-1607-d010-r1-rss-remediation",
   "allow_smoke": false,
   "directive": "UMBRA-D-010",
   "d010_tick_cap": null,
   "expected_jobs": 1900,
-  "formal_execution_id": "d010-fe-stage-b-v5",
-  "freeze_commit": "317881537f0991914949d92659231ba79d52aec1",
+  "formal_execution_id": "d010-fe-stage-b-v6",
+  "freeze_commit": "f3883ba765f05ea3b97532ad7e73cb06585b6eb2",
   "freeze_contract_ref": "experiments/d010/formal-execution-contract.json",
-  "gates_in_scope": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  "gates_in_scope": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
   "invalidated_prior": {
-    "evidence_commit": "c52f311",
-    "formal_execution_id": "d010-fe-stage-b-v4",
-    "freeze_commit": "f13d976907bd4b110c4f4a5b1c07550fbe8c9b3f",
-    "notes": "v5 invalidate: QUALIFIED seal path + performance protocol honesty"
+    "evidence_commit": "aee03e7",
+    "formal_execution_id": "d010-fe-stage-b-v5",
+    "freeze_commit": "317881537f0991914949d92659231ba79d52aec1",
+    "notes": "v6 invalidate: Gate 13 RSS remediation (bounded advance-id retention)",
+    "preserved_failure_verdict": "UMBRA_D010_PERFORMANCE_FAIL"
   },
   "paired_seeds": 100,
-  "software_commit_at_start": "317881537f0991914949d92659231ba79d52aec1",
-  "started_at": "2026-07-24T16:29:41+00:00",
-  "completed_at": "2026-07-24T16:33:31+00:00",
+  "software_commit_at_start": "029791a1d0844c30e8263126a840cfc5da6a2604",
+  "started_at": "2026-07-24T21:50:42+00:00",
   "workers": 4,
-  "log_path": "/tmp/d010-task13e-formal-run.log",
-  "jobs_completed": 1900,
+  "log_path": "/tmp/d010-r1-gates-v6.log",
   "terminal_status": "gates_complete",
+  "completed_at": "2026-07-24T21:55:49+00:00",
+  "jobs_completed": 1900,
   "gate_summary": {
     "gate0": true,
     "gate1": true,
@@ -38,7 +53,6 @@
     "gate12": true
   },
   "all_experiment_gates_pass": true,
-  "validator_pass": true,
-  "validator_notes": "1900 raw rows; hash consistency OK; no forbidden QUALIFIED claims",
-  "freeze_invalidate_recommended": false
+  "software_commit_at_end": "029791a1d0844c30e8263126a840cfc5da6a2604",
+  "evidence_validation_pass": true
 }
