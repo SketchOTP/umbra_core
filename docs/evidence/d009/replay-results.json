@@ -42,21 +42,46 @@
       "paired_seed_count": 100,
       "pass": true,
       "threshold": 0.95
+    },
+    {
+      "comparison_id": "g11_restart_continuity",
+      "condition_a": "C0",
+      "condition_b": "required",
+      "confidence_interval": [
+        1.0,
+        1.0
+      ],
+      "effect_size": 0.0,
+      "higher_is_better_for_a": true,
+      "material_gap_min": null,
+      "mean_or_rate_a": 1.0,
+      "mean_or_rate_b": 0.0,
+      "paired_delta": 1.0,
+      "paired_seed_count": 100,
+      "pass": true,
+      "threshold": 1.0
     }
   ],
   "conditions": [
     "C0"
   ],
-  "deviations": [],
+  "deviations": [
+    "D009_TICK_CAP=240"
+  ],
   "directive": "UMBRA-D-009",
   "duplicate_rows": 0,
   "expected_rows": 200,
   "gate": 11,
-  "generated_at": "2026-07-24T05:00:14.022101+00:00",
+  "generated_at": "2026-07-24T05:22:25.513050+00:00",
   "habitat_definition_hash": "3d148c5e1e1de63688a4ea8954d97d47e921b89d30496eb4b22ef5906f3dcc38",
   "matrix_hash": "7723e63c57b1f200047ed1ba7c5e21f7b7bf6a1f52f815660e00ac3b701cc700",
   "metrics": {
-    "birth_replay_l2": 0.0
+    "birth_replay_l2": 0.0,
+    "restart_continuity": {
+      "habitat_continuity_l2": 0.002,
+      "restart_count": 100.0,
+      "restart_stable": 1.0
+    }
   },
   "missing_rows": 0,
   "pass": true,
@@ -69,7 +94,7 @@
     "cells": 2,
     "paired_seeds": 100
   },
-  "software_commit": "2b3221dbae9ace9af00c69c4d8d31c9694336a9b",
+  "software_commit": "363fa6c2e6b38a9f05c12dda349352abf73ab151",
   "thresholds": {
     "active_in_memory_history_refs_max": 128,
     "affordance_definitions_ref": "experiments/d009/affordance-definitions.json",

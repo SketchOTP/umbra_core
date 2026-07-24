@@ -71,7 +71,12 @@
     },
     "11": {
       "file": {
-        "birth_replay_l2": 0.0
+        "birth_replay_l2": 0.0,
+        "restart_continuity": {
+          "habitat_continuity_l2": 0.002,
+          "restart_count": 100.0,
+          "restart_stable": 1.0
+        }
       },
       "raw_recomputed": {
         "ambiguous_address_execution": 0.0,
@@ -133,6 +138,7 @@
     },
     "2": {
       "file": {
+        "c0_failed_request_rate": 0.0,
         "c0_governed_alignment": 1.0,
         "c0_unauthorized_rate": 0.0
       },
@@ -159,7 +165,7 @@
         "single_anomaly_erase": 0.0,
         "stale_address_candidate_execution": 0.0,
         "ui_projection_writes": 0.0,
-        "unauthorized_mutation_rate": 0.42857142857142855,
+        "unauthorized_mutation_rate": 0.0,
         "verified_outcome_alignment": 0.42857142857142855
       }
     },
@@ -186,7 +192,7 @@
         "hidden_object_candidate_leakage": 0.0,
         "profile_migration_ok": 0.0,
         "replay_equivalence_l2": 0.0,
-        "revision_adaptation": 0.11249999999999999,
+        "revision_adaptation": 0.07,
         "routine_promotion_episodes": 0.0,
         "scripted_schedule_detection": 0.0,
         "single_anomaly_erase": 0.0,
@@ -274,7 +280,7 @@
         "failed_request_world_mutation_rate": 0.0,
         "frequency_only_routine_blocked": 0.0,
         "governance_bypass_admitted": 0.0,
-        "governed_action_to_mutation_alignment": 0.0,
+        "governed_action_to_mutation_alignment": 0.5,
         "habitat_continuity_l2": 0.0,
         "habitat_individuality_separation": 0.0,
         "hidden_object_candidate_leakage": 0.0,
@@ -323,7 +329,7 @@
     },
     "8": {
       "file": {
-        "revision": 0.15
+        "revision": 0.08
       },
       "raw_recomputed": {
         "ambiguous_address_execution": 0.0,
@@ -342,7 +348,7 @@
         "hidden_object_candidate_leakage": 0.0,
         "profile_migration_ok": 0.0,
         "replay_equivalence_l2": 0.0,
-        "revision_adaptation": 0.15,
+        "revision_adaptation": 0.09,
         "routine_promotion_episodes": 0.0,
         "scripted_schedule_detection": 0.0,
         "single_anomaly_erase": 0.0,

@@ -39,7 +39,25 @@
       "mean_or_rate_a": 0.0,
       "mean_or_rate_b": 0.0,
       "paired_delta": 0.0,
-      "paired_seed_count": 100,
+      "paired_seed_count": 400,
+      "pass": true,
+      "threshold": 0.0
+    },
+    {
+      "comparison_id": "g2_c0_failed_request_zero",
+      "condition_a": "C0",
+      "condition_b": "zero",
+      "confidence_interval": [
+        0.0,
+        0.0
+      ],
+      "effect_size": 0.0,
+      "higher_is_better_for_a": false,
+      "material_gap_min": null,
+      "mean_or_rate_a": 0.0,
+      "mean_or_rate_b": 0.0,
+      "paired_delta": 0.0,
+      "paired_seed_count": 400,
       "pass": true,
       "threshold": 0.0
     },
@@ -104,15 +122,18 @@
     "C2",
     "C3"
   ],
-  "deviations": [],
+  "deviations": [
+    "D009_TICK_CAP=240"
+  ],
   "directive": "UMBRA-D-009",
   "duplicate_rows": 0,
   "expected_rows": 700,
   "gate": 2,
-  "generated_at": "2026-07-24T05:00:13.945170+00:00",
+  "generated_at": "2026-07-24T05:22:22.578174+00:00",
   "habitat_definition_hash": "3d148c5e1e1de63688a4ea8954d97d47e921b89d30496eb4b22ef5906f3dcc38",
   "matrix_hash": "7723e63c57b1f200047ed1ba7c5e21f7b7bf6a1f52f815660e00ac3b701cc700",
   "metrics": {
+    "c0_failed_request_rate": 0.0,
     "c0_governed_alignment": 1.0,
     "c0_unauthorized_rate": 0.0
   },
@@ -130,7 +151,7 @@
     "cells": 7,
     "paired_seeds": 100
   },
-  "software_commit": "2b3221dbae9ace9af00c69c4d8d31c9694336a9b",
+  "software_commit": "363fa6c2e6b38a9f05c12dda349352abf73ab151",
   "thresholds": {
     "active_in_memory_history_refs_max": 128,
     "affordance_definitions_ref": "experiments/d009/affordance-definitions.json",
