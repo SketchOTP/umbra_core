@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from umbra_core.util import SeededRNG, clamp, angle_diff
+
+if TYPE_CHECKING:
+    from umbra_core.habitat.engine import HabitatEngine
 
 
 CAPABILITIES = (
@@ -348,6 +351,18 @@ class Habitat:
         )
 
 
+@dataclass(frozen=True)
+class BodyOccupancyView:
+    """Immutable body facts for habitat occupancy — not persisted in HabitatState."""
+
+    body_instance_id: str
+    body_pose_version: int
+    position_x: float
+    position_y: float
+    collision_radius: float
+    attachment_generation: int
+
+
 @dataclass
 class Body:
     x: float = 5.0
@@ -397,11 +412,56 @@ class Embodiment:
     attribution or verify outcomes (governance owns verification).
     """
 
-    habitat: Habitat = field(default_factory=Habitat.default)
+    _habitat: Habitat = field(default_factory=Habitat.default, repr=False)
     body: Body = field(default_factory=Body)
     last_raw: dict[str, Any] = field(default_factory=dict)
     _pending_actuation: dict[str, Any] | None = field(default=None, repr=False)
     _delay_remaining: int = 0
+    _habitat_engine: HabitatEngine | None = field(default=None, repr=False)
+    _body_instance_id: str = field(default="body:default", repr=False)
+    _body_pose_version: int = field(default=0, repr=False)
+    _attachment_generation: int = field(default=0, repr=False)
+
+    @property
+    def habitat(self) -> Habitat | Any:
+        """Read-only projection when HabitatEngine is attached; legacy mutable Habitat otherwise."""
+        if self._habitat_engine is not None:
+            from umbra_core.habitat.projection import HabitatProjectionFacade
+
+            body_pose = self._body_pose_view()
+            return HabitatProjectionFacade(
+                self._habitat_engine.project(
+                    body_pose=body_pose,
+                    width=self._habitat.width,
+                    height=self._habitat.height,
+                )
+            )
+        return self._habitat
+
+    def attach_habitat_engine(self, engine: HabitatEngine) -> None:
+        self._habitat_engine = engine
+
+    def body_occupancy_view(self) -> BodyOccupancyView:
+        return BodyOccupancyView(
+            body_instance_id=self._body_instance_id,
+            body_pose_version=self._body_pose_version,
+            position_x=self.body.x,
+            position_y=self.body.y,
+            collision_radius=self.body.body_radius,
+            attachment_generation=self._attachment_generation,
+        )
+
+    def _body_pose_view(self):
+        from umbra_core.habitat.engine import BodyCollisionShape, BodyPoseView, Position
+
+        occ = self.body_occupancy_view()
+        return BodyPoseView(
+            body_instance_id=occ.body_instance_id,
+            body_pose_version=occ.body_pose_version,
+            position=Position(occ.position_x, occ.position_y),
+            collision_shape=BodyCollisionShape(max(occ.collision_radius, 0.01)),
+            attachment_generation=occ.attachment_generation,
+        )
 
     def world_truth(self) -> dict[str, Any]:
         """Authority-only — must not be passed to policy/arbitration."""
@@ -455,7 +515,7 @@ class Embodiment:
 
     def apply_world_intervention(self, code: str) -> None:
         """D-003 environment interventions I0–I10 (habitat plant only)."""
-        h = self.habitat
+        h = self._habitat
         if code == "I0":
             return
         if code == "I1":
@@ -506,7 +566,7 @@ class Embodiment:
 
     def apply_development_intervention(self, code: str) -> dict[str, Any]:
         """D-004 practice-environment plant (habitat/body truth — not policy-visible as truth)."""
-        h = self.habitat
+        h = self._habitat
         tags: dict[str, Any] = {"code": code}
         if code == "I0":
             tags["stable"] = True
@@ -571,7 +631,7 @@ class Embodiment:
 
     def apply_memory_history(self, code: str) -> dict[str, Any]:
         """D-005 history plant H0–H9 (habitat/body truth — not narrative)."""
-        h = self.habitat
+        h = self._habitat
         tags: dict[str, Any] = {"code": code, "rule_tag": "default", "body_compatibility": 1.0}
         if code == "H0":
             tags["repeated_success"] = True
@@ -622,7 +682,7 @@ class Embodiment:
 
     def apply_social_history(self, code: str) -> dict[str, Any]:
         """D-006 social history plant H0–H10 (habitat partner truth — not policy-visible)."""
-        h = self.habitat
+        h = self._habitat
         tags: dict[str, Any] = {"code": code}
         partners: list[PartnerEntity] = []
         if code == "H0":
@@ -663,7 +723,7 @@ class Embodiment:
         Alters opportunities and verified-consequence contexts only.
         Never sets personality labels or forces internal disposition values.
         """
-        h = self.habitat
+        h = self._habitat
         tags: dict[str, Any] = {
             "code": code,
             "learning_context": "default",
@@ -782,18 +842,18 @@ class Embodiment:
                 "history": p.response_policy.history_code,
                 "true_cues": p.true_cues.to_dict(),
             }
-            for p in self.habitat.partners
+            for p in self._habitat.partners
         ]
 
     def plant_partner(self, partner: PartnerEntity) -> None:
-        self.habitat.partners.append(partner)
+        self._habitat.partners.append(partner)
 
     def move_feature_external(self, kind: str, x: float, y: float) -> None:
         """I8: external object relocation (not self-caused)."""
-        self.habitat.relocate(kind, x, y)
+        self._habitat.relocate(kind, x, y)
 
     def set_occlusion(self, kind: str, occluded: bool) -> None:
-        feat = self.habitat.feature(kind)
+        feat = self._habitat.feature(kind)
         if feat:
             feat.occluded = occluded
 
@@ -811,8 +871,8 @@ class Embodiment:
     def clamp_body(self) -> None:
         # Body radius shrinks effective habitat slightly (collision with walls)
         r = self.body.body_radius
-        self.body.x = clamp(self.body.x, r, self.habitat.width - r)
-        self.body.y = clamp(self.body.y, r, self.habitat.height - r)
+        self.body.x = clamp(self.body.x, r, self._habitat.width - r)
+        self.body.y = clamp(self.body.y, r, self._habitat.height - r)
         self.body.heading = (self.body.heading + math.pi) % (2 * math.pi) - math.pi
 
     def execute_primitive(
@@ -858,7 +918,7 @@ class Embodiment:
         rng: SeededRNG,
     ) -> dict[str, Any]:
         b = self.body
-        h = self.habitat
+        h = self._habitat
         ok = True
         reason = "ok"
         detail: dict[str, Any] = {"capability": capability, "params": dict(params)}
@@ -994,7 +1054,7 @@ class Embodiment:
     @classmethod
     def from_state(cls, d: dict[str, Any]) -> Embodiment:
         emb = cls(
-            habitat=Habitat.from_state(d.get("habitat", {})),
+            _habitat=Habitat.from_state(d.get("habitat", {})),
             body=Body.from_state(d.get("body", {})),
         )
         emb._pending_actuation = d.get("pending_actuation")

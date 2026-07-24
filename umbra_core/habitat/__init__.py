@@ -1,5 +1,29 @@
 """D-009 persistent habitat authority types."""
 
+from umbra_core.habitat.engine import (
+    BodyCollisionShape,
+    BodyPoseView,
+    HabitatEngine,
+    HabitatSnapshot,
+    Position,
+    ReachProfile,
+)
+from umbra_core.habitat.migration import (
+    feature_kind_from_object,
+    habitat_object_from_legacy_feature,
+    legacy_object_id_for_feature,
+    object_kind_for_feature_kind,
+)
+from umbra_core.habitat.projection import (
+    HabitatProjectionFacade,
+    HabitatWriteRejected,
+    ImmutableHabitatFeature,
+    ImmutableHabitatProjection,
+    ImmutablePartnerView,
+    ProjectionMismatchError,
+    project_features,
+    validate_projection,
+)
 from umbra_core.habitat.state import (
     ActivatableState,
     EnvironmentalTransition,
@@ -30,15 +54,27 @@ from umbra_core.habitat.state import (
 
 __all__ = [
     "ActivatableState",
+    "BodyCollisionShape",
+    "BodyPoseView",
     "EnvironmentalTransition",
     "FreeLocation",
+    "HabitatEngine",
     "HabitatObject",
+    "HabitatProjectionFacade",
+    "HabitatSnapshot",
     "HabitatState",
+    "HabitatWriteRejected",
     "HeldByLocation",
     "IdleState",
+    "ImmutableHabitatFeature",
+    "ImmutableHabitatProjection",
+    "ImmutablePartnerView",
     "MutationRejected",
     "ObjectKind",
     "ObjectState",
+    "Position",
+    "ProjectionMismatchError",
+    "ReachProfile",
     "ResourceState",
     "SocialEntitySpatialState",
     "StationState",
@@ -52,6 +88,12 @@ __all__ = [
     "compute_object_definition_hash",
     "compute_object_state_hash",
     "compute_state_hash",
+    "feature_kind_from_object",
+    "habitat_object_from_legacy_feature",
+    "legacy_object_id_for_feature",
     "migrate_object_definition",
+    "object_kind_for_feature_kind",
+    "project_features",
     "sample_habitat_state",
+    "validate_projection",
 ]
