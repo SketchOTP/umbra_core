@@ -53,7 +53,20 @@ CAPABILITY_TO_AFFORDANCE = {
     "REST": "rest_near",
     "CHARGE": "charge_from",
     "MOVE": "pass_through",
+    "MANIPULATE": "use",
 }
+
+REQUIRED_ENVIRONMENTAL_ANCHOR_KEYS = (
+    "execution_id",
+    "request_id",
+    "target_object_id",
+    "target_address_ref",
+    "perception_evidence_ref",
+    "object_definition_hash",
+    "affordance_definition_hash",
+    "committed_habitat_version",
+)
+MAX_PROCESSED_ENVIRONMENTAL_EXECUTIONS = 256
 
 
 class ModelStatus(str, Enum):
@@ -307,6 +320,9 @@ class WorldModel:
         default_factory=lambda: BoundedRing(MAX_PREDICTION_HISTORY), repr=False
     )
     _external_move_ticks: list[int] = field(default_factory=list)
+    _processed_environmental_executions: dict[str, dict[str, Any]] = field(
+        default_factory=dict, repr=False
+    )
     metrics: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
@@ -698,6 +714,120 @@ class WorldModel:
                 self._update_affordance(action, entity_kind, success, tick)
 
         self._pending_prediction = None
+        return result
+
+    def observe_environmental_outcome(
+        self,
+        *,
+        anchors: dict[str, Any],
+        verified_outcome: dict[str, Any] | None,
+        tick: int,
+        terminal: bool = True,
+        denied: bool = False,
+        stale_binding: bool = False,
+        object_kind: str | None = None,
+        current_habitat_version: int | None = None,
+        current_object_definition_hash: str | None = None,
+        current_affordance_definition_hash: str | None = None,
+    ) -> dict[str, Any]:
+        """Learn from governed MANIPULATE outcomes with full evidence anchors.
+
+        Idempotent by execution_id. Rejects incomplete, denied, stale, or
+        non-terminal bindings. Does not treat action frequency as preference.
+        """
+        result: dict[str, Any] = {
+            "adapted": False,
+            "rejected": False,
+            "reason": None,
+            "duplicate": False,
+        }
+        if denied:
+            result["rejected"] = True
+            result["reason"] = "denied_proposal"
+            return result
+        if not terminal:
+            result["rejected"] = True
+            result["reason"] = "nonterminal_execution"
+            return result
+        if stale_binding:
+            result["rejected"] = True
+            result["reason"] = "stale_binding"
+            return result
+
+        missing = [k for k in REQUIRED_ENVIRONMENTAL_ANCHOR_KEYS if not anchors.get(k)]
+        if missing:
+            result["rejected"] = True
+            result["reason"] = f"incomplete_anchors:{','.join(missing)}"
+            return result
+
+        execution_id = str(anchors["execution_id"])
+        if execution_id in self._processed_environmental_executions:
+            result["duplicate"] = True
+            result["prior"] = dict(self._processed_environmental_executions[execution_id])
+            return result
+
+        if verified_outcome is None or not verified_outcome.get("verified", True):
+            result["rejected"] = True
+            result["reason"] = "unverified_outcome"
+            return result
+
+        committed_version = int(anchors["committed_habitat_version"])
+        if (
+            current_habitat_version is not None
+            and committed_version != current_habitat_version
+        ):
+            result["rejected"] = True
+            result["reason"] = "stale_habitat_version"
+            return result
+        if (
+            current_object_definition_hash is not None
+            and str(anchors["object_definition_hash"])
+            != str(current_object_definition_hash)
+        ):
+            result["rejected"] = True
+            result["reason"] = "obsolete_object_definition"
+            return result
+        if (
+            current_affordance_definition_hash is not None
+            and str(anchors["affordance_definition_hash"])
+            != str(current_affordance_definition_hash)
+        ):
+            result["rejected"] = True
+            result["reason"] = "obsolete_affordance_definition"
+            return result
+
+        success = bool(verified_outcome.get("success"))
+        kind = object_kind or str(anchors.get("perceived_object_kind") or "habitat_object")
+        verified = dict(verified_outcome)
+        verified["fact_kind"] = FactKind.VERIFIED_OUTCOME.value
+        verified["execution_id"] = execution_id
+
+        models_before = len(self.models)
+        if self.config.learning_enabled and not self.config.fixed_authored:
+            self._update_transition(
+                action="MANIPULATE",
+                entity_kind=kind,
+                success=success,
+                verified=verified,
+                error=0.0 if success else 1.0,
+                tick=tick,
+            )
+            if self.config.affordance_learning:
+                self._update_affordance("MANIPULATE", kind, success, tick)
+
+        record = {
+            "tick": tick,
+            "success": success,
+            "entity_kind": kind,
+            "models_delta": len(self.models) - models_before,
+        }
+        self._processed_environmental_executions[execution_id] = record
+        if len(self._processed_environmental_executions) > MAX_PROCESSED_ENVIRONMENTAL_EXECUTIONS:
+            oldest = next(iter(self._processed_environmental_executions))
+            self._processed_environmental_executions.pop(oldest, None)
+
+        result["adapted"] = record["models_delta"] != 0 or success
+        result["record"] = record
         return result
 
     def _infer_kind_from_obs(self, observations: list[dict[str, Any]]) -> str | None:
@@ -1102,6 +1232,9 @@ class WorldModel:
             "observation_log": [o for o in self.observation_log if o.get("tick", -1) >= 0],
             "prediction_errors": [e for e in self._prediction_errors if e >= 0.0],
             "plan_retries": dict(self._plan_retries),
+            "processed_environmental_executions": dict(
+                self._processed_environmental_executions
+            ),
             "metrics": dict(self.metrics),
             "seed": self.seed,
             "state_hash": None,  # filled by caller via state_hash()
@@ -1196,5 +1329,8 @@ class WorldModel:
         for e in d.get("prediction_errors", []):
             wm._prediction_errors.append(float(e))
         wm._plan_retries = dict(d.get("plan_retries", {}))
+        wm._processed_environmental_executions = dict(
+            d.get("processed_environmental_executions") or {}
+        )
         wm.metrics = dict(d.get("metrics", {}))
         return wm

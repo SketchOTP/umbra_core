@@ -45,6 +45,28 @@ DISPOSITION_DIMENSIONS = (
     "social_initiative_by_context",
 )
 
+HABITAT_DISPOSITION_DIMENSIONS = (
+    "exploration_breadth",
+    "environmental_persistence",
+    "object_preference",
+    "zone_preference",
+    "organization_tendency",
+    "recovery_location_preference",
+    "uncertainty_response",
+    "routine_selection",
+)
+
+HABITAT_DIM_CAP_WEIGHTS: dict[str, dict[str, float]] = {
+    "exploration_breadth": {"MOVE": 0.7, "APPROACH": 0.8, "MANIPULATE": 0.35},
+    "environmental_persistence": {"MANIPULATE": 1.0, "APPROACH": 0.5, "INSPECT": 0.4},
+    "object_preference": {"MANIPULATE": 1.0, "APPROACH": 0.6},
+    "zone_preference": {"MOVE": 0.8, "APPROACH": 0.5, "REST": 0.4},
+    "organization_tendency": {"MANIPULATE": 0.9, "INSPECT": 0.3},
+    "recovery_location_preference": {"REST": 1.0, "IDLE": 0.5},
+    "uncertainty_response": {"RETREAT": 0.9, "IDLE": 0.6, "MANIPULATE": -0.5},
+    "routine_selection": {"MANIPULATE": 0.8, "APPROACH": 0.4},
+}
+
 # Preregistered context families — cross-family generalization = 0.
 CONTEXT_FAMILIES: dict[str, frozenset[str]] = {
     "explore": frozenset({"safe_explore", "novelty_probe", "default"}),
@@ -614,11 +636,153 @@ class IndividualityEngine:
             total += contrib
 
         total = clamp(total, -self.config.modifier_abs_max, self.config.modifier_abs_max)
+        habitat_mod = self.habitat_modifier_for_candidate(
+            cand,
+            context_scope=context_scope,
+            critical_physiology=critical_physiology,
+        )
+        total = clamp(
+            total + habitat_mod,
+            -self.config.modifier_abs_max,
+            self.config.modifier_abs_max,
+        )
         self._last_modifiers[cand.capability] = total
         self.metrics["modifiers_applied"] = int(self.metrics["modifiers_applied"]) + 1
         if not self.config.modifiers_affect_arbitration:
             return 0.0  # C10: recorded but unused
         return total
+
+    def habitat_modifier_for_candidate(
+        self,
+        cand: Candidate,
+        *,
+        context_scope: str = "default",
+        critical_physiology: bool = False,
+        zone_id: str | None = None,
+        object_kind: str | None = None,
+        routine_active: bool = False,
+    ) -> float:
+        """Bounded D-009 habitat scoring modifiers — never authoritative."""
+        if not self.config.enabled or critical_physiology:
+            return 0.0
+        params = cand.params or {}
+        zone_id = zone_id or params.get("zone_id")
+        object_kind = object_kind or params.get("perceived_object_kind")
+        if params.get("source") == "PROCEDURAL_ROUTINE":
+            routine_active = True
+        total = 0.0
+        for dim, weights in HABITAT_DIM_CAP_WEIGHTS.items():
+            w = weights.get(cand.capability)
+            if not w:
+                continue
+            scope = context_scope
+            if dim in ("object_preference", "environmental_persistence") and object_kind:
+                scope = f"habitat:object:{object_kind}"
+            elif dim == "zone_preference" and zone_id:
+                scope = f"habitat:zone:{zone_id}"
+            elif dim == "routine_selection" and routine_active:
+                scope = "habitat:routine"
+            elif not scope.startswith("habitat:"):
+                scope = f"habitat:{context_scope}"
+            est = self._ensure_habitat(dim, scope, tick=0, emit_created=False)
+            contrib = est.value * w * (0.25 + 0.75 * est.confidence)
+            if dim == "routine_selection" and routine_active:
+                contrib += 0.08
+            total += contrib
+        return clamp(total, -self.config.modifier_abs_max, self.config.modifier_abs_max)
+
+    def _ensure_habitat(
+        self,
+        dimension: str,
+        context_scope: str,
+        *,
+        tick: int,
+        emit_created: bool,
+    ) -> DispositionEstimate:
+        if dimension not in HABITAT_DISPOSITION_DIMENSIONS:
+            raise IndividualityEngineError(f"unknown_habitat_dimension:{dimension}")
+        key = (f"habitat:{dimension}", context_scope)
+        if key not in self.dispositions:
+            if len(self.dispositions) >= MAX_DISPOSITION_RECORDS:
+                victims = sorted(
+                    self.dispositions.values(),
+                    key=lambda d: (d.context_scope == "default", d.confidence),
+                )
+                if victims:
+                    v = victims[0]
+                    self.dispositions.pop((v.dimension, v.context_scope), None)
+            est = DispositionEstimate(
+                dimension=f"habitat:{dimension}",
+                context_scope=context_scope,
+            )
+            self.dispositions[key] = est
+            if emit_created:
+                self._emit(
+                    "individuality_disposition_created",
+                    {
+                        "dimension": est.dimension,
+                        "context_scope": est.context_scope,
+                        "prior_anchor": 0.0,
+                        "new_anchor": 0.0,
+                        "confidence": 0.0,
+                        "uncertainty": 1.0,
+                        "causal_evidence_refs": [],
+                        "source_system": "habitat",
+                        "update_reason": "habitat_anchor",
+                        "tick": tick,
+                        "schema_version": self.SCHEMA_VERSION,
+                    },
+                )
+        return self.dispositions[key]
+
+    def observe_habitat_verified(self, evidence: VerifiedEvidence) -> dict[str, Any] | None:
+        """Update habitat disposition estimates from verified environmental outcomes only."""
+        if evidence.dimension not in HABITAT_DISPOSITION_DIMENSIONS:
+            return None
+        if not self.config.enabled or not self.config.learning_enabled:
+            return None
+        if not evidence.verified or not evidence.executed:
+            self.metrics["unverified_rejected"] = int(self.metrics["unverified_rejected"]) + 1
+            return None
+        if evidence.from_frequency_only and not self.config.frequency_only:
+            self.metrics["frequency_rejected"] = int(self.metrics["frequency_rejected"]) + 1
+            return None
+        scope = evidence.context_scope
+        if not scope.startswith("habitat:"):
+            scope = f"habitat:{scope}"
+        est = self._ensure_habitat(
+            evidence.dimension, scope, tick=evidence.tick, emit_created=True
+        )
+        prior = est.value
+        signed = clamp(float(evidence.signed_outcome), -1.0, 1.0)
+        lr = self.config.learning_rate_base * est.plasticity * (1.0 - 0.5 * est.confidence)
+        delta = clamp(lr * (signed - est.value), -SINGLE_ANOMALY_VALUE_DELTA_MAX, SINGLE_ANOMALY_VALUE_DELTA_MAX)
+        est.value = clamp(est.value + delta, -1.0, 1.0)
+        est.support_count += 1
+        _ring_append(est.supporting_evidence_refs, evidence.evidence_id, MAX_SUPPORTING_EVIDENCE_REFS)
+        est.confidence = clamp(est.confidence + 0.04 * abs(signed))
+        est.uncertainty = clamp(1.0 - est.confidence)
+        est.last_update_tick = evidence.tick
+        if evidence.source_system not in est.source_systems:
+            est.source_systems.append(evidence.source_system)
+        self._emit(
+            "individuality_disposition_updated",
+            {
+                "dimension": est.dimension,
+                "context_scope": est.context_scope,
+                "prior_anchor": prior,
+                "new_anchor": est.value,
+                "confidence": est.confidence,
+                "uncertainty": est.uncertainty,
+                "causal_evidence_refs": [evidence.evidence_id],
+                "source_system": "habitat",
+                "update_reason": "habitat_verified_outcome",
+                "tick": evidence.tick,
+                "schema_version": self.SCHEMA_VERSION,
+            },
+        )
+        self.metrics["updates"] = int(self.metrics["updates"]) + 1
+        return {"reason": "habitat_verified_outcome", "value": est.value, "prior": prior}
 
     def apply_modifiers(
         self,

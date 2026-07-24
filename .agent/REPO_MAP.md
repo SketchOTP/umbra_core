@@ -110,11 +110,14 @@ Concise navigation map for agents. Add entries as application code lands.
 - `umbra_core/governance.py` (Task 5): `verify_manipulation_outcome` for MANIPULATE VerifiedOutcome with execution/request correlation in raw
 - `umbra_core/governance.py` (Task 7): `execute_manipulation` — admit → `resolve_manipulation_address` → adapter.validate_manipulation → affordance.validate → journal commit; `MANIPULATE` in PREAUTHORIZED; rejects `target_object_id` in proposal params
 - `umbra_core/perception.py` (Task 7): `ObjectAddressBinding`, `ResolvedManipulationTarget`, `resolve_manipulation_address`, `perceive_habitat_objects` (HIDDEN/occluded filtered); policy_view `manipulation_bindings` address-only
-- `umbra_core/arbitration.py` (Task 7): `ManipulationCandidate` + `generate_manipulation_candidates` (no authoritative object_id)
+- `umbra_core/arbitration.py` (Task 7–8): `ManipulationCandidate` + `generate_manipulation_candidates`; Task 8: `select(manipulation_bindings=, routine_proposals=)`; MANIPULATE scoring
+- `umbra_core/world_model/engine.py` (Task 8): `observe_environmental_outcome` idempotent by `execution_id`
+- `umbra_core/memory/engine.py` (Task 8): `EnvironmentalRoutineSpec`, `RoutineLifecycle`, environmental routine promote/select/lifecycle/soft_proposals
+- `umbra_core/individuality/engine.py` (Task 8): `habitat_modifier_for_candidate`, `observe_habitat_verified`, `HABITAT_DISPOSITION_DIMENSIONS`
 - `umbra_core/runtime.py` (Task 5): `Organism.commit_manipulation` delegates to execution journal (trusted-resolved requests only)
-- `umbra_core/runtime.py` (Task 7): `execute_manipulation_from_candidate`, `_get_affordance_engine`, tick MANIPULATE routing
+- `umbra_core/runtime.py` (Task 7–8): `execute_manipulation_from_candidate`, bindings/routines → arbitration; environmental learning hooks on MANIPULATE outcomes
 - `umbra_core/events.py` (Task 5): `organism_effect_applied` AUTHORITATIVE
-- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5; Task 5: 15; Task 6: 8; Task 7: 15 address-resolve tests)
+- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5; Task 5: 15; Task 6: 8; Task 7: 15; Task 8: 11)
 - Evidence: `docs/evidence/d009/` (to be created)
 - Starting commit: `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task: `06b5b59709864e11bddb8c1da56dd66e`
 - Authority: own-and-delegate — HabitatEngine mutates; Embodiment.habitat read-only projection; MANIPULATE address-only candidates; PREPARED→COMMITTED execution journal; P0 compatibility mode on same D-009 commit

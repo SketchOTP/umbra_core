@@ -33,6 +33,9 @@ SEMANTIC_MIN_INDEPENDENT = 2
 BELIEF_DECAY = 0.004
 PROCEDURAL_DECAY = 0.003
 WORKING_TTL = 24
+ROUTINE_PROMOTION_SUPPORT_MINIMUM = 3
+ROUTINE_ACTIVE_COUNT_MAXIMUM = 8
+ROUTINE_WEAKEN_FAILURE_THRESHOLD = 3
 
 PROTECTED_KINDS = frozenset(
     {
@@ -54,6 +57,16 @@ class MemoryStatus(str, Enum):
     CONTESTED = "CONTESTED"
     SUPERSEDED = "SUPERSEDED"
     ARCHIVED = "ARCHIVED"
+
+
+class RoutineLifecycle(str, Enum):
+    """D-009 environmental routine lifecycle — not FIFO deletion."""
+
+    CANDIDATE = "CANDIDATE"
+    ACTIVE = "ACTIVE"
+    WEAKENED = "WEAKENED"
+    INACTIVE = "INACTIVE"
+    RETIRED = "RETIRED"
 
 
 class RetrievalKind(str, Enum):
@@ -219,6 +232,25 @@ class SemanticBelief:
 
 
 @dataclass
+class EnvironmentalRoutineSpec:
+    """D-009 environmental procedural routine — memory proposes only; never mutates habitat."""
+
+    object_kind: str
+    affordance_ref: str
+    zone_id: str | None
+    soft_proposals: list[dict[str, Any]]
+    supporting_episode_ids: list[str]
+    interrupt_conditions: list[str] = field(
+        default_factory=lambda: [
+            "object_missing",
+            "binding_stale",
+            "physiology_critical",
+        ]
+    )
+    authored: bool = False
+
+
+@dataclass
 class SocialRoutineSpec:
     """Partner-scoped D-005 procedural routine — persisted by MemoryEngine only."""
 
@@ -365,6 +397,7 @@ class MemoryEngine:
     replay_counts: dict[str, int] = field(default_factory=dict)
     pattern_counts: dict[str, int] = field(default_factory=dict)
     encoding_fingerprint_seen: dict[str, int] = field(default_factory=dict)
+    environmental_pattern_episodes: dict[str, list[str]] = field(default_factory=dict)
     last_consolidation_tick: int = -10_000
     _bounded_initialized: bool = False
     metrics: dict[str, Any] = field(default_factory=dict)
@@ -585,7 +618,245 @@ class MemoryEngine:
         self.pattern_counts[pattern_key] = pattern_n + 1
         self.metrics["episodes_encoded"] = int(self.metrics.get("episodes_encoded", 0)) + 1
         self._bound_active_episodes()
+        if action == "MANIPULATE" and context.get("entity_kind"):
+            self._track_environmental_episode(ep)
         return ep
+
+    def _environmental_pattern_key(self, ctx: dict[str, Any]) -> str:
+        return (
+            f"{ctx.get('entity_kind')}|{ctx.get('affordance')}|{ctx.get('zone_id', 'any')}"
+        )
+
+    def _track_environmental_episode(self, ep: Episode) -> None:
+        ctx = dict(ep.context)
+        if ctx.get("frequency_only"):
+            return
+        key = self._environmental_pattern_key(ctx)
+        eps = self.environmental_pattern_episodes.setdefault(key, [])
+        if ep.episode_id not in eps:
+            eps.append(ep.episode_id)
+        eps[:] = eps[-MAX_ROUTINE_SUPPORTING_EPISODES:]
+        if len(eps) >= ROUTINE_PROMOTION_SUPPORT_MINIMUM:
+            self._maybe_promote_environmental_routine(key, eps, ctx, tick=ep.tick)
+
+    def _maybe_promote_environmental_routine(
+        self,
+        pattern_key: str,
+        episode_ids: list[str],
+        ctx: dict[str, Any],
+        *,
+        tick: int,
+    ) -> str | None:
+        skill_id = _stable_id(
+            "env_routine",
+            f"{self.agent_id}|{pattern_key}",
+        )
+        if skill_id in self.procedural:
+            return skill_id
+        active_count = sum(
+            1
+            for sk in self.procedural.values()
+            if sk.applicability.get("kind") == "environmental_routine"
+            and sk.applicability.get("lifecycle")
+            in (RoutineLifecycle.CANDIDATE.value, RoutineLifecycle.ACTIVE.value)
+        )
+        if active_count >= ROUTINE_ACTIVE_COUNT_MAXIMUM:
+            return None
+        spec = EnvironmentalRoutineSpec(
+            object_kind=str(ctx.get("entity_kind", "unknown")),
+            affordance_ref=str(ctx.get("affordance", "MANIPULATE")),
+            zone_id=ctx.get("zone_id"),
+            soft_proposals=[],
+            supporting_episode_ids=list(episode_ids),
+        )
+        return self.promote_environmental_routine(spec, tick=tick, lifecycle=RoutineLifecycle.CANDIDATE.value)
+
+    def promote_environmental_routine(
+        self,
+        spec: EnvironmentalRoutineSpec | dict[str, Any],
+        *,
+        tick: int = 0,
+        lifecycle: str = RoutineLifecycle.ACTIVE.value,
+    ) -> str:
+        """Promote an environmental routine into procedural memory (proposals only)."""
+        if isinstance(spec, dict):
+            spec = EnvironmentalRoutineSpec(
+                **{
+                    k: v
+                    for k, v in spec.items()
+                    if k in EnvironmentalRoutineSpec.__dataclass_fields__
+                }
+            )
+        if spec.authored:
+            raise ValueError("authored_environmental_routine_not_learned")
+        if lifecycle not in {s.value for s in RoutineLifecycle}:
+            raise ValueError(f"invalid_routine_lifecycle:{lifecycle}")
+        skill_id = _stable_id(
+            "env_routine",
+            f"{self.agent_id}|{spec.object_kind}|{spec.affordance_ref}|{spec.zone_id or 'any'}",
+        )
+        support = list(spec.supporting_episode_ids)[-MAX_ROUTINE_SUPPORTING_EPISODES:]
+        existing = self.procedural.get(skill_id)
+        if existing is not None:
+            app = existing.applicability
+            if len(support) > len(existing.source_episode_ids):
+                existing.source_episode_ids = support
+            if (
+                lifecycle == RoutineLifecycle.ACTIVE.value
+                and app.get("lifecycle") == RoutineLifecycle.CANDIDATE.value
+                and len(support) >= ROUTINE_PROMOTION_SUPPORT_MINIMUM
+            ):
+                app["lifecycle"] = RoutineLifecycle.ACTIVE.value
+                existing.confidence = clamp(existing.confidence + 0.1)
+            return skill_id
+        applicability: dict[str, Any] = {
+            "kind": "environmental_routine",
+            "object_kind": spec.object_kind,
+            "affordance_ref": spec.affordance_ref,
+            "zone_id": spec.zone_id,
+            "soft_proposals": list(spec.soft_proposals),
+            "interrupt_conditions": list(spec.interrupt_conditions),
+            "lifecycle": lifecycle,
+        }
+        sk = ProceduralMemory(
+            skill_id=skill_id,
+            applicability=applicability,
+            body_compatibility=1.0,
+            attempts=0,
+            success_count=len(support),
+            failure_count=0,
+            confidence=clamp(0.3 + 0.08 * len(support)),
+            source_episode_ids=support,
+            last_updated_tick=tick,
+        )
+        self.procedural[skill_id] = sk
+        self._bound_procedural()
+        self.metrics["environmental_routines_promoted"] = int(
+            self.metrics.get("environmental_routines_promoted", 0)
+        ) + 1
+        if (
+            lifecycle == RoutineLifecycle.CANDIDATE.value
+            and len(support) >= ROUTINE_PROMOTION_SUPPORT_MINIMUM
+        ):
+            return self.promote_environmental_routine(
+                EnvironmentalRoutineSpec(
+                    object_kind=spec.object_kind,
+                    affordance_ref=spec.affordance_ref,
+                    zone_id=spec.zone_id,
+                    soft_proposals=list(spec.soft_proposals),
+                    supporting_episode_ids=support,
+                    interrupt_conditions=list(spec.interrupt_conditions),
+                ),
+                tick=tick,
+                lifecycle=RoutineLifecycle.ACTIVE.value,
+            )
+        return skill_id
+
+    def select_environmental_routine(
+        self,
+        *,
+        object_kind: str | None = None,
+        zone_id: str | None = None,
+    ) -> ProceduralMemory | None:
+        cands: list[ProceduralMemory] = []
+        for sk in self.procedural.values():
+            app = sk.applicability
+            if app.get("kind") != "environmental_routine":
+                continue
+            lifecycle = str(app.get("lifecycle", RoutineLifecycle.INACTIVE.value))
+            if lifecycle not in (
+                RoutineLifecycle.ACTIVE.value,
+                RoutineLifecycle.WEAKENED.value,
+            ):
+                continue
+            if object_kind and app.get("object_kind") != object_kind:
+                continue
+            if zone_id and app.get("zone_id") not in (None, zone_id):
+                continue
+            cands.append(sk)
+        if not cands:
+            return None
+        cands.sort(key=lambda s: (-s.confidence, -s.success_count, s.skill_id))
+        return cands[0]
+
+    def update_environmental_routine_lifecycle(
+        self,
+        skill_id: str,
+        *,
+        success: bool,
+        interrupted: bool = False,
+        object_missing: bool = False,
+        tick: int,
+    ) -> str | None:
+        sk = self.procedural.get(skill_id)
+        if sk is None or sk.applicability.get("kind") != "environmental_routine":
+            return None
+        app = sk.applicability
+        lifecycle = str(app.get("lifecycle", RoutineLifecycle.CANDIDATE.value))
+        if object_missing or interrupted:
+            sk.failure_count += 1
+            if lifecycle == RoutineLifecycle.ACTIVE.value:
+                app["lifecycle"] = RoutineLifecycle.WEAKENED.value
+                sk.confidence = clamp(sk.confidence - 0.12)
+            elif lifecycle == RoutineLifecycle.WEAKENED.value:
+                if sk.failure_count >= ROUTINE_WEAKEN_FAILURE_THRESHOLD:
+                    app["lifecycle"] = RoutineLifecycle.INACTIVE.value
+            sk.last_updated_tick = tick
+            return app["lifecycle"]
+        if success:
+            sk.success_count += 1
+            sk.confidence = clamp(sk.confidence + 0.05)
+            if lifecycle == RoutineLifecycle.WEAKENED.value:
+                app["lifecycle"] = RoutineLifecycle.ACTIVE.value
+            elif lifecycle == RoutineLifecycle.CANDIDATE.value and sk.success_count >= ROUTINE_PROMOTION_SUPPORT_MINIMUM:
+                app["lifecycle"] = RoutineLifecycle.ACTIVE.value
+        else:
+            sk.failure_count += 1
+            if lifecycle == RoutineLifecycle.ACTIVE.value:
+                app["lifecycle"] = RoutineLifecycle.WEAKENED.value
+        if (
+            app.get("lifecycle") == RoutineLifecycle.INACTIVE.value
+            and sk.confidence < 0.15
+            and sk.failure_count > sk.success_count + 2
+        ):
+            app["lifecycle"] = RoutineLifecycle.RETIRED.value
+            sk.status = MemoryStatus.ARCHIVED.value
+        sk.last_updated_tick = tick
+        return app.get("lifecycle")
+
+    def routine_soft_proposals(
+        self,
+        routine: ProceduralMemory,
+        bindings: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        """Address-only soft proposals for an environmental routine step."""
+        app = routine.applicability
+        if app.get("kind") != "environmental_routine":
+            return []
+        proposals = list(app.get("soft_proposals") or [])
+        if proposals:
+            return proposals
+        kind = str(app.get("object_kind", ""))
+        affordance = str(app.get("affordance_ref", ""))
+        out: list[dict[str, Any]] = []
+        for binding in bindings:
+            if binding.get("perceived_object_kind") != kind:
+                continue
+            refs = binding.get("perceived_affordance_refs") or []
+            if affordance and affordance not in refs:
+                continue
+            out.append(
+                {
+                    "target_address_ref": binding["target_address_ref"],
+                    "perception_evidence_ref": binding["perception_evidence_ref"],
+                    "perception_state_version": binding["perception_state_version"],
+                    "perceived_object_kind": binding["perceived_object_kind"],
+                    "perceived_affordance_ref": affordance or refs[0],
+                    "parameters": {"kind": "USE"},
+                    "source": "PROCEDURAL_ROUTINE",
+                }
+            )
+        return out
 
     def correct_episode(
         self,
@@ -1417,6 +1688,9 @@ class MemoryEngine:
             "replay_counts": dict(sorted(self.replay_counts.items())),
             "pattern_counts": dict(sorted(self.pattern_counts.items())),
             "encoding_fingerprint_seen": dict(sorted(self.encoding_fingerprint_seen.items())),
+            "environmental_pattern_episodes": {
+                k: list(v) for k, v in sorted(self.environmental_pattern_episodes.items())
+            },
             "last_consolidation_tick": self.last_consolidation_tick,
             "metrics": {
                 k: self.metrics[k]
@@ -1450,6 +1724,9 @@ class MemoryEngine:
             "replay_counts": dict(self.replay_counts),
             "pattern_counts": dict(self.pattern_counts),
             "encoding_fingerprint_seen": dict(self.encoding_fingerprint_seen),
+            "environmental_pattern_episodes": {
+                k: list(v) for k, v in self.environmental_pattern_episodes.items()
+            },
             "last_consolidation_tick": self.last_consolidation_tick,
             "metrics": dict(self.metrics),
             "config": asdict(self.config),
@@ -1490,6 +1767,10 @@ class MemoryEngine:
         eng.encoding_fingerprint_seen = {
             str(k): int(v)
             for k, v in (state.get("encoding_fingerprint_seen") or {}).items()
+        }
+        eng.environmental_pattern_episodes = {
+            str(k): list(v)
+            for k, v in (state.get("environmental_pattern_episodes") or {}).items()
         }
         eng.last_consolidation_tick = int(state.get("last_consolidation_tick", -10_000))
         eng.metrics = dict(state.get("metrics") or {})

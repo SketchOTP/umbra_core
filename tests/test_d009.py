@@ -2284,3 +2284,404 @@ def test_profile_definition_mismatch_fails_closed(tmp_path):
     assert outcome is not None and outcome.success is False
     assert outcome.reason == "PROFILE_HASH_MISMATCH"
     store.close()
+
+
+# --- Task 8: learning, routines, individuality environmental scoring ----------
+
+
+def _environmental_anchors(**overrides):
+    base = {
+        "execution_id": "exec:env:1",
+        "request_id": "req:env:1",
+        "target_object_id": "resource:0",
+        "target_address_ref": "addr:resource:0",
+        "perception_evidence_ref": "pev:1",
+        "object_definition_hash": "a" * 64,
+        "affordance_definition_hash": "b" * 64,
+        "committed_habitat_version": 1,
+        "perceived_object_kind": "resource",
+    }
+    base.update(overrides)
+    return base
+
+
+def test_world_model_update_is_idempotent_by_execution():
+    from umbra_core.world_model import WorldModel
+
+    wm = WorldModel.create("agent:test")
+    anchors = _environmental_anchors()
+    verified = {"success": True, "verified": True}
+    first = wm.observe_environmental_outcome(
+        anchors=anchors,
+        verified_outcome=verified,
+        tick=1,
+    )
+    models_after_first = len(wm.models)
+    second = wm.observe_environmental_outcome(
+        anchors=anchors,
+        verified_outcome=verified,
+        tick=2,
+    )
+    assert first.get("adapted") is True
+    assert second.get("duplicate") is True
+    assert len(wm.models) == models_after_first
+
+
+def test_environmental_learning_requires_verified_outcome():
+    from umbra_core.world_model import WorldModel
+
+    wm = WorldModel.create("agent:test")
+    denied = wm.observe_environmental_outcome(
+        anchors=_environmental_anchors(),
+        verified_outcome=None,
+        tick=1,
+        denied=True,
+    )
+    incomplete = wm.observe_environmental_outcome(
+        anchors=_environmental_anchors(execution_id="exec:missing"),
+        verified_outcome=None,
+        tick=1,
+    )
+    stale = wm.observe_environmental_outcome(
+        anchors=_environmental_anchors(execution_id="exec:stale"),
+        verified_outcome={"success": True, "verified": True},
+        tick=1,
+        stale_binding=True,
+    )
+    assert denied["rejected"] and denied["reason"] == "denied_proposal"
+    assert incomplete["rejected"] and incomplete["reason"] == "unverified_outcome"
+    assert stale["rejected"] and stale["reason"] == "stale_binding"
+    assert len(wm._processed_environmental_executions) == 0
+
+
+def test_frequency_alone_does_not_create_environmental_preference():
+    from umbra_core.individuality import IndividualityEngine, VerifiedEvidence
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.util import SeededRNG
+
+    indiv = IndividualityEngine.create("agent:test")
+    mem = MemoryEngine.create("agent:test")
+    rng = SeededRNG(1)
+    for i in range(12):
+        mem.consider_event(
+            tick=i,
+            occurred_at=float(i),
+            context={
+                "entity_kind": "resource",
+                "affordance": "affordance:resource:use",
+                "frequency_only": True,
+            },
+            observations=[],
+            internal_state={"energy": 0.5},
+            goal=None,
+            action="MANIPULATE",
+            verified_outcome=None,
+            prediction_error=0.0,
+            force=True,
+        )
+        indiv.observe_habitat_verified(
+            VerifiedEvidence(
+                evidence_id=f"freq-{i}",
+                tick=i,
+                source_system="habitat",
+                dimension="object_preference",
+                context_scope="habitat:object:resource",
+                signed_outcome=1.0,
+                verified=True,
+                executed=True,
+                from_frequency_only=True,
+            )
+        )
+    _ = rng
+    assert indiv.metrics.get("frequency_rejected", 0) >= 1
+    assert not any(
+        sk.applicability.get("kind") == "environmental_routine"
+        for sk in mem.procedural.values()
+    )
+
+
+def test_environmental_learning_revises_on_contradiction():
+    from umbra_core.world_model import WorldModel
+    from umbra_core.world_model.engine import (
+        SUPERSEDE_CONTRADICTION_THRESHOLD,
+        SUPERSEDE_SUPPORT_MIN,
+    )
+
+    wm = WorldModel.create("agent:test")
+    kind = "resource"
+    for i in range(SUPERSEDE_SUPPORT_MIN + 2):
+        wm.observe_environmental_outcome(
+            anchors=_environmental_anchors(execution_id=f"exec:ok:{i}"),
+            verified_outcome={"success": True, "verified": True},
+            tick=i,
+            object_kind=kind,
+        )
+    active = [
+        m
+        for m in wm.models.values()
+        if m.action == "MANIPULATE" and m.conditions.get("entity_kind") == kind
+    ]
+    assert active
+    before_support = active[0].support_count
+    for i in range(SUPERSEDE_CONTRADICTION_THRESHOLD):
+        wm.observe_environmental_outcome(
+            anchors=_environmental_anchors(execution_id=f"exec:fail:{i}"),
+            verified_outcome={"success": False, "verified": True},
+            tick=100 + i,
+            object_kind=kind,
+        )
+    revised = [
+        m
+        for m in wm.models.values()
+        if m.action == "MANIPULATE"
+        and m.conditions.get("entity_kind") == kind
+        and m.status in ("WEAKENED", "SUPERSEDED", "ACTIVE")
+    ]
+    assert revised
+    assert before_support >= SUPERSEDE_SUPPORT_MIN
+    assert wm.live_supersessions() or any(m.status == "WEAKENED" for m in revised)
+
+
+def test_environmental_routine_promoted_from_multiple_episodes():
+    from umbra_core.memory import MemoryEngine, RoutineLifecycle
+    from umbra_core.memory.engine import EnvironmentalRoutineSpec
+
+    mem = MemoryEngine.create("agent:test")
+    ep_ids: list[str] = []
+    for i in range(3):
+        ep = mem.consider_event(
+            tick=i,
+            occurred_at=float(i),
+            context={
+                "entity_kind": "resource",
+                "affordance": "affordance:resource:use",
+                "zone_id": "zone:general",
+            },
+            observations=[],
+            internal_state={"energy": 0.5},
+            goal=None,
+            action="MANIPULATE",
+            verified_outcome={"success": True},
+            prediction_error=0.4,
+            force=True,
+        )
+        assert ep is not None
+        ep_ids.append(ep.episode_id)
+    rid = mem.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id="zone:general",
+            soft_proposals=[],
+            supporting_episode_ids=ep_ids,
+        ),
+        tick=5,
+        lifecycle=RoutineLifecycle.ACTIVE.value,
+    )
+    sk = mem.procedural[rid]
+    assert sk.applicability["lifecycle"] == RoutineLifecycle.ACTIVE.value
+    assert len(sk.source_episode_ids) >= 3
+
+
+def test_environmental_routine_interruptible_and_missing_object_safe():
+    from umbra_core.memory import MemoryEngine, RoutineLifecycle
+    from umbra_core.memory.engine import EnvironmentalRoutineSpec
+
+    mem = MemoryEngine.create("agent:test")
+    rid = mem.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id="zone:general",
+            soft_proposals=[],
+            supporting_episode_ids=["ep:1", "ep:2", "ep:3"],
+        ),
+        tick=1,
+    )
+    lifecycle = mem.update_environmental_routine_lifecycle(
+        rid, success=False, interrupted=True, tick=2
+    )
+    assert lifecycle == RoutineLifecycle.WEAKENED.value
+    lifecycle = mem.update_environmental_routine_lifecycle(
+        rid, success=False, object_missing=True, tick=3
+    )
+    assert lifecycle in (
+        RoutineLifecycle.WEAKENED.value,
+        RoutineLifecycle.INACTIVE.value,
+    )
+    proposals = mem.routine_soft_proposals(mem.procedural[rid], bindings=[])
+    assert proposals == []
+
+
+def test_environmental_routine_lifecycle_not_fifo():
+    from umbra_core.memory import MemoryEngine, RoutineLifecycle
+    from umbra_core.memory.engine import EnvironmentalRoutineSpec
+
+    mem = MemoryEngine.create("agent:test")
+    rid = mem.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id=None,
+            soft_proposals=[],
+            supporting_episode_ids=["ep:a", "ep:b", "ep:c"],
+        ),
+        tick=1,
+    )
+    sk = mem.procedural[rid]
+    sk.confidence = 0.05
+    sk.failure_count = 10
+    sk.success_count = 1
+    mem.update_environmental_routine_lifecycle(
+        rid, success=False, interrupted=True, tick=2
+    )
+    mem.update_environmental_routine_lifecycle(
+        rid, success=False, object_missing=True, tick=3
+    )
+    mem.update_environmental_routine_lifecycle(
+        rid, success=False, object_missing=True, tick=4
+    )
+    assert sk.applicability["lifecycle"] in (
+        RoutineLifecycle.INACTIVE.value,
+        RoutineLifecycle.RETIRED.value,
+    )
+    assert rid in mem.procedural
+
+
+def test_different_histories_produce_different_environmental_bias():
+    from umbra_core.individuality import IndividualityEngine, VerifiedEvidence
+
+    a = IndividualityEngine.create("agent:a")
+    b = IndividualityEngine.create("agent:b")
+    for eng, sign in ((a, 1.0), (b, -1.0)):
+        for i in range(6):
+            eng.observe_habitat_verified(
+                VerifiedEvidence(
+                    evidence_id=f"hist-{i}",
+                    tick=i,
+                    source_system="habitat",
+                    dimension="object_preference",
+                    context_scope="habitat:object:resource",
+                    signed_outcome=sign,
+                    verified=True,
+                    executed=True,
+                )
+            )
+    va = a.dispositions[("habitat:object_preference", "habitat:object:resource")].value
+    vb = b.dispositions[("habitat:object_preference", "habitat:object:resource")].value
+    assert va * vb < 0
+
+
+def test_individuality_disabled_reduces_separation():
+    from umbra_core.arbitration import Arbitrator, Candidate
+    from umbra_core.individuality import IndividualityEngine, VerifiedEvidence
+    from umbra_core.physiology import Physiology
+
+    def separation(enabled: bool) -> float:
+        eng = IndividualityEngine.create(
+            "agent:test",
+            config=__import__(
+                "umbra_core.individuality",
+                fromlist=["IndividualityConfig"],
+            ).IndividualityConfig(
+                enabled=enabled,
+                modifiers_affect_arbitration=enabled,
+            ),
+        )
+        for i in range(8):
+            eng.observe_habitat_verified(
+                VerifiedEvidence(
+                    evidence_id=f"sep-{i}",
+                    tick=i,
+                    source_system="habitat",
+                    dimension="environmental_persistence",
+                    context_scope="habitat:object:resource",
+                    signed_outcome=1.0 if i % 2 == 0 else -1.0,
+                    verified=True,
+                    executed=True,
+                )
+            )
+        arb = Arbitrator()
+        phys = Physiology()
+        obs = [{"kind": "resource", "relative_direction": 0.1, "estimated_distance": 1.0}]
+        cands = [
+            Candidate(
+                "MANIPULATE",
+                {
+                    "perceived_object_kind": "resource",
+                    "source": "NEED_RELEVANCE",
+                },
+            ),
+            Candidate("IDLE", {}),
+        ]
+        scored = [
+            arb.score_candidate(c, phys, obs, 1) for c in cands
+        ]
+        eng.apply_modifiers(scored, context_scope="habitat:default")
+        return abs(scored[0].total - scored[1].total)
+
+    assert separation(True) > separation(False)
+
+
+def test_manipulation_candidates_compete_in_arbitration():
+    from umbra_core.arbitration import Arbitrator
+    from umbra_core.physiology import Physiology
+
+    _, _, perception, _, _ = _task7_habitat_setup()
+    bindings = perception.policy_view()["manipulation_bindings"]
+    phys = Physiology()
+    phys.energy = 0.31
+    arb = Arbitrator()
+    obs = [{"kind": "resource", "relative_direction": 0.0, "estimated_distance": 1.0}]
+    chosen = arb.select(
+        phys,
+        obs,
+        tick=1,
+        rng=__import__("umbra_core.util", fromlist=["SeededRNG"]).SeededRNG(7),
+        manipulation_bindings=bindings,
+    )
+    assert chosen.capability == "MANIPULATE"
+    assert chosen.params.get("target_address_ref")
+
+
+def test_routine_proposals_require_governance_each_step(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+    from umbra_core.memory import EnvironmentalRoutineSpec, MemoryEngine
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mem = MemoryEngine.create("agent:test")
+    rid = mem.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id="zone:general",
+            soft_proposals=[],
+            supporting_episode_ids=["ep:1", "ep:2", "ep:3"],
+        ),
+        tick=1,
+    )
+    proposals = mem.routine_soft_proposals(mem.procedural[rid], perception.policy_view()["manipulation_bindings"])
+    assert proposals
+    assert "target_object_id" not in proposals[0]
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", proposals[0])
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=perception.object_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None
+    assert outcome.verified is True
+    store.close()

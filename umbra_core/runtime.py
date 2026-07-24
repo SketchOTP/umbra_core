@@ -69,6 +69,7 @@ from umbra_core.individuality import (
     IndividualityConfig,
     IndividualityEngine,
     IndividualityEngineError,
+    VerifiedEvidence,
     condition_to_individuality_config,
     infer_evidence_from_outcome,
 )
@@ -899,6 +900,14 @@ class Organism:
             phase_hint = float((self.tick % 100) / 100.0)
         if self.individuality is not None and self.config.individuality_enabled:
             indiv_apply = self.individuality.apply_modifiers
+        routine_proposals: list[dict[str, Any]] = []
+        if self.memory is not None and self.config.memory_enabled:
+            bindings_for_routine = policy_view.get("manipulation_bindings") or []
+            routine = self.memory.select_environmental_routine()
+            if routine is not None:
+                routine_proposals = self.memory.routine_soft_proposals(
+                    routine, bindings_for_routine
+                )
         cand = self.arbitrator.select(
             self.phys,
             obs_dicts,
@@ -907,6 +916,8 @@ class Organism:
             individuality_apply=indiv_apply,
             context_scope=indiv_scope,
             phase_hint=phase_hint,
+            manipulation_bindings=policy_view.get("manipulation_bindings"),
+            routine_proposals=routine_proposals,
         )
 
         # D-004: practice goal generation + arbitration (propose only; no authority)
@@ -1407,6 +1418,45 @@ class Organism:
                 action_issued=action_issued,
                 now=self.monotonic_time,
             )
+            if outcome.capability == "MANIPULATE" and outcome.raw:
+                raw = dict(outcome.raw)
+                anchors = {
+                    "execution_id": raw.get("execution_id") or pending_params.get("execution_id"),
+                    "request_id": raw.get("request_id") or pending_params.get("request_id"),
+                    "target_object_id": raw.get("target_object_id"),
+                    "target_address_ref": pending_params.get("target_address_ref"),
+                    "perception_evidence_ref": pending_params.get("perception_evidence_ref"),
+                    "object_definition_hash": raw.get("target_object_definition_hash")
+                    or pending_params.get("object_definition_hash"),
+                    "affordance_definition_hash": raw.get("affordance_definition_hash")
+                    or pending_params.get("affordance_definition_hash"),
+                    "committed_habitat_version": raw.get("expected_habitat_version")
+                    or pending_params.get("committed_habitat_version"),
+                    "perceived_object_kind": pending_params.get("perceived_object_kind"),
+                }
+                habitat_engine = self.embodiment._habitat_engine
+                current_version = None
+                current_obj_hash = None
+                current_aff_hash = None
+                if habitat_engine is not None:
+                    snap = habitat_engine.snapshot_view()
+                    current_version = snap.state_version
+                    obj_id = anchors.get("target_object_id")
+                    if obj_id and obj_id in snap.objects:
+                        current_obj_hash = snap.objects[obj_id].definition_hash
+                env_wm = self.world_model.observe_environmental_outcome(
+                    anchors=anchors,
+                    verified_outcome=dict(outcome_payload),
+                    tick=self.tick,
+                    terminal=True,
+                    denied=False,
+                    stale_binding=bool(pending_params.get("binding_stale")),
+                    object_kind=str(pending_params.get("perceived_object_kind") or ""),
+                    current_habitat_version=current_version,
+                    current_object_definition_hash=current_obj_hash,
+                    current_affordance_definition_hash=current_aff_hash,
+                )
+                wm_result = {**(wm_result or {}), "environmental": env_wm}
             if wm_result.get("prediction_error"):
                 self.metrics["last_world_prediction_error"] = wm_result["prediction_error"][
                     "error"
@@ -1510,6 +1560,9 @@ class Organism:
                 "body_compatibility": body_compat,
                 "history": hist,
             }
+            if outcome.capability == "MANIPULATE":
+                ctx["affordance"] = pending_params.get("perceived_affordance_ref") or "MANIPULATE"
+                ctx["zone_id"] = pending_params.get("zone_id")
             if hist == "H9":
                 ctx["unobserved"] = True
             ep = self.memory.consider_event(
@@ -1557,6 +1610,17 @@ class Organism:
                 "episodes": len(self.memory.episodes),
                 "beliefs": len(self.memory.beliefs),
             }
+            if outcome.capability == "MANIPULATE":
+                for sk in list(self.memory.procedural.values()):
+                    if sk.applicability.get("kind") != "environmental_routine":
+                        continue
+                    self.memory.update_environmental_routine_lifecycle(
+                        sk.skill_id,
+                        success=bool(outcome.success),
+                        interrupted=bool(pending_params.get("binding_stale")),
+                        object_missing=outcome.reason in ("OBJECT_NOT_PERCEIVED", "OBJECT_MISSING"),
+                        tick=self.tick,
+                    )
             assert self.memory.try_grant_authority({"grant_capability": True}) is False
 
         # D-007: individuality learns only from verified executed outcomes
@@ -1589,6 +1653,22 @@ class Organism:
             )
             for ev in evid_list:
                 self.individuality.observe_verified(ev)
+            if outcome.capability == "MANIPULATE" and outcome.success:
+                kind = str(pending_params.get("perceived_object_kind") or "resource")
+                for dim in ("environmental_persistence", "object_preference"):
+                    self.individuality.observe_habitat_verified(
+                        VerifiedEvidence(
+                            evidence_id=f"hab-{self.tick}-{dim}",
+                            tick=self.tick,
+                            source_system="habitat",
+                            dimension=dim,
+                            context_scope=f"habitat:object:{kind}",
+                            signed_outcome=1.0,
+                            verified=True,
+                            executed=True,
+                            action="MANIPULATE",
+                        )
+                    )
             self.metrics["individuality_updates"] = int(
                 self.individuality.metrics.get("updates", 0)
             )

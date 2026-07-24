@@ -240,6 +240,15 @@ class Arbitrator:
             gain += urg["fatigue"] * 1.4 - phys.satiation_penalty("fatigue") * 1.2
         elif cap == "INSPECT":
             gain += urg["stimulation"] * 1.2 - phys.satiation_penalty("stimulation") * 0.8
+        elif cap == "MANIPULATE":
+            kind = str(cand.params.get("perceived_object_kind", ""))
+            if kind == "resource" or "resource" in str(
+                cand.params.get("perceived_affordance_ref", "")
+            ):
+                gain += urg["energy"] * 1.6
+            gain += urg["stimulation"] * 0.35
+            if cand.params.get("source") == "PROCEDURAL_ROUTINE":
+                gain += 0.15
         elif cap == "RETREAT":
             gain += urg["integrity"] * 1.5
         elif cap in ("APPROACH", "MOVE", "ORIENT"):
@@ -341,6 +350,8 @@ class Arbitrator:
         *,
         context_scope: str = "default",
         phase_hint: float | None = None,
+        manipulation_bindings: list[dict[str, Any]] | None = None,
+        routine_proposals: list[dict[str, Any]] | None = None,
     ) -> Candidate:
         mode = self.state.mode
         if mode == "random":
@@ -536,6 +547,22 @@ class Arbitrator:
                 return chosen
 
         cands = self.generate_candidates(phys, observations, tick)
+        if manipulation_bindings:
+            for mc in self.generate_manipulation_candidates(
+                manipulation_bindings, phys, tick
+            ):
+                cands.append(mc.to_candidate())
+        if routine_proposals:
+            for proposal in routine_proposals:
+                cands.append(
+                    Candidate(
+                        "MANIPULATE",
+                        {
+                            **dict(proposal),
+                            "source": proposal.get("source", "PROCEDURAL_ROUTINE"),
+                        },
+                    )
+                )
         scored = [self.score_candidate(c, phys, observations, tick) for c in cands]
         if individuality_apply is not None:
             individuality_apply(
