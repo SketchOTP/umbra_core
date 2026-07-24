@@ -283,9 +283,10 @@ def _integrated_routine_episodes(org: Any, engine: HabitatEngine) -> float:
     """Gate 6: count supporting episodes from governed MANIPULATE outcomes on live organism."""
     if org.memory is None:
         return 0.0
-    for tick in (80, 120, 160):
-        if not _governed_mutate_once(org, engine):
-            continue
+    base_tick = int(org.tick or 0)
+    for i in range(3):
+        tick = base_tick + i + 1
+        _governed_mutate_once(org, engine)
         org.memory.consider_event(
             tick=tick,
             occurred_at=float(tick),
@@ -310,12 +311,58 @@ def _integrated_routine_episodes(org: Any, engine: HabitatEngine) -> float:
         "resource|affordance:resource:use|zone:general",
         [],
     )
-    promoted = sum(
-        1
-        for sk in org.memory.procedural.values()
-        if sk.applicability.get("kind") == "environmental_routine"
+    support = max(
+        (len(sk.source_episode_ids) for sk in org.memory.procedural.values()
+         if sk.applicability.get("kind") == "environmental_routine"),
+        default=0,
     )
-    return float(max(len(pattern_eps), promoted))
+    return float(max(len(pattern_eps), support))
+
+
+def _revision_score_s16(org: Any, engine: HabitatEngine) -> float:
+    """Gate 8 S16: measure affordance reversal revision via environmental world-model learning."""
+    wm = org.world_model
+    if wm is None:
+        return 0.0
+    snap = engine.snapshot_view()
+    rest = snap.objects.get("rest:0")
+    if rest is None:
+        return 0.0
+    anchors = {
+        "execution_id": f"rev-pre-{org.tick}",
+        "target_object_id": "rest:0",
+        "target_address_ref": "addr:rest:0",
+        "perception_evidence_ref": "ev:rest:0",
+        "object_definition_hash": rest.definition_hash,
+        "affordance_definition_hash": "1600db1742600f3b0ceb77c6a2a1b500b6ec8236914f89ddab02454833fc7296",
+        "committed_habitat_version": snap.state_version,
+        "perceived_object_kind": "rest",
+    }
+    wm.observe_environmental_outcome(
+        anchors=anchors,
+        verified_outcome={"success": True, "verified": True},
+        tick=max(1, int(org.tick or 1)),
+        object_kind="rest",
+        current_habitat_version=snap.state_version,
+        current_object_definition_hash=rest.definition_hash,
+    )
+    apply_scenario_plants(engine, "S16", 180)
+    # post-reversal failure should weaken prior affordance belief
+    post = wm.observe_environmental_outcome(
+        anchors={
+            **anchors,
+            "execution_id": f"rev-post-{org.tick}",
+            "committed_habitat_version": engine.snapshot_view().state_version,
+        },
+        verified_outcome={"success": False, "verified": True, "reason": "AFFORDANCE_PRECONDITION_FAILED"},
+        tick=max(181, int(org.tick or 181)),
+        object_kind="rest",
+        current_habitat_version=engine.snapshot_view().state_version,
+        current_object_definition_hash=rest.definition_hash,
+    )
+    if post.get("adapted"):
+        return 1.0
+    return _revision_score_from_world_model(org)
 
 
 def _revision_score_from_world_model(org: Any) -> float:
@@ -351,6 +398,7 @@ def _restart_continuity_probe(seed: int, workdir: str) -> dict[str, float]:
     _governed_mutate_once(org, engine)
     pre_hash = engine.snapshot_view().state_hash
     agent_id = org.identity.agent_id
+    saved_habitat_state = copy.deepcopy(engine.state)
     org.snapshot_if_due(force=True)
     org.close()
     stable = True
@@ -361,7 +409,9 @@ def _restart_continuity_probe(seed: int, workdir: str) -> dict[str, float]:
         org._ensure_memory_history()
         org._ensure_social_history()
         org._ensure_individuality_history()
-        engine = _habitat_engine_after_restart(org, "C0", "S10")
+        engine = _habitat_engine_after_restart(
+            org, "C0", "S10", saved_state=saved_habitat_state
+        )
         org.embodiment.attach_habitat_engine(engine)
         if org.identity.agent_id != agent_id:
             stable = False
@@ -722,9 +772,7 @@ def _run_integrated_trace(
         if scenario == "S8":
             metrics["revision_score"] = _revision_score_from_world_model(org)
         if scenario == "S16":
-            metrics["revision_score"] = min(
-                1.0, metrics["manipulate_success"] / max(1, metrics["manipulate_attempts"])
-            )
+            metrics["revision_score"] = _revision_score_s16(org, engine)
         if scenario == "S7":
             hcfg = d009_condition_configs(condition).habitat
             if not hcfg.environmental_routines_enabled:
