@@ -17,9 +17,14 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from typing import TYPE_CHECKING
+
 from umbra_core.expression.habitat_read_model import HabitatReadModel
 from umbra_core.expression.presentation_state import PresentationState
 from umbra_core.util import clamp
+
+if TYPE_CHECKING:
+    from umbra_core.habitat.engine import BodyPoseView, HabitatSnapshot
 
 _THRESHOLDS_PATH = Path(__file__).resolve().parents[2] / "experiments" / "d008" / "thresholds.json"
 
@@ -148,6 +153,9 @@ class ExpressionView:
     embodiment_state: dict[str, Any]
     source_state_version: int
     habitat_state_version: int
+    habitat_snapshot: HabitatSnapshot | None = None
+    body_pose: BodyPoseView | None = None
+    body_pose_version: int | None = None
     attention: AttentionView = field(default_factory=lambda: AttentionView(None, None))
     last_outcome: LastOutcomeView | None = None
     individuality_summary: dict[str, Any] = field(default_factory=dict)
@@ -162,6 +170,10 @@ class RenderPacket:
     source_state_version: int
     habitat_state_version: int
     body_attachment_generation: int
+    habitat_state_hash: str = ""
+    organism_state_version: int = 0
+    execution_id: str | None = None
+    body_pose_version: int | None = None
 
 
 def _visible_condition_channels(
@@ -219,17 +231,39 @@ class ExpressionEngine:
     def derive(self, view: ExpressionView) -> RenderPacket:
         presentation = self._derive_presentation(view)
         self._last_presentation = presentation
-        habitat_read_model = HabitatReadModel.from_embodiment_state(
-            view.embodiment_state,
-            version=view.habitat_state_version,
-            max_entities=HABITAT_READ_MODEL_MAX_ENTITIES,
-        )
+        if view.habitat_snapshot is not None:
+            habitat_read_model = HabitatReadModel.from_habitat_snapshot(
+                view.habitat_snapshot,
+                body_pose=view.body_pose,
+                max_entities=HABITAT_READ_MODEL_MAX_ENTITIES,
+            )
+            habitat_state_hash = view.habitat_snapshot.state_hash
+            habitat_state_version = view.habitat_snapshot.state_version
+        else:
+            habitat_read_model = HabitatReadModel.from_embodiment_state(
+                view.embodiment_state,
+                version=view.habitat_state_version,
+                max_entities=HABITAT_READ_MODEL_MAX_ENTITIES,
+            )
+            habitat_state_hash = habitat_read_model.state_hash
+            habitat_state_version = view.habitat_state_version
+        body_pose_version = view.body_pose_version
+        if body_pose_version is None and view.body_pose is not None:
+            body_pose_version = view.body_pose.body_pose_version
+        execution_id = None
+        if view.last_outcome is not None and view.last_outcome.admitted:
+            execution_id = view.last_outcome.execution_id
+        organism_state_version = view.source_state_version
         return RenderPacket(
             presentation_state=presentation,
             habitat_read_model=habitat_read_model,
             source_state_version=view.source_state_version,
-            habitat_state_version=view.habitat_state_version,
+            habitat_state_version=habitat_state_version,
             body_attachment_generation=view.attachment.attachment_generation,
+            habitat_state_hash=habitat_state_hash,
+            organism_state_version=organism_state_version,
+            execution_id=execution_id,
+            body_pose_version=body_pose_version,
         )
 
     def _effective_physiology(self, view: ExpressionView) -> dict[str, float]:

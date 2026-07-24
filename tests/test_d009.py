@@ -2747,4 +2747,356 @@ def test_routine_proposals_require_governance_each_step(tmp_path):
     )
     assert outcome is not None
     assert outcome.verified is True
-    store.close()
+
+
+# --- Task 9: expression HabitatReadModel + coherent held render + Tk overlays ---
+
+
+def _task9_expression_view(
+    engine: HabitatEngine,
+    emb: Embodiment,
+    *,
+    tick: int = 1,
+    attachment_generation: int = 0,
+    last_outcome=None,
+):
+    from umbra_core.embodiment_adapters import ABSTRACT_SHAPE_BODY
+    from umbra_core.expression.engine import (
+        AttachmentView,
+        ExpressionEngine,
+        ExpressionView,
+        LastOutcomeView,
+    )
+
+    snapshot = engine.snapshot_view()
+    body_pose = emb._body_pose_view()
+    return ExpressionView(
+        tick=tick,
+        physiology={"energy": 0.7, "fatigue": 0.2, "integrity": 0.9, "stimulation": 0.5},
+        attachment=AttachmentView(
+            attachment_status="ATTACHED",
+            body_instance_id=body_pose.body_instance_id,
+            body_profile_id=ABSTRACT_SHAPE_BODY.profile_id,
+            attachment_generation=attachment_generation,
+        ),
+        embodiment_state=emb.to_state(),
+        source_state_version=tick,
+        habitat_state_version=snapshot.state_version,
+        habitat_snapshot=snapshot,
+        body_pose=body_pose,
+        body_pose_version=body_pose.body_pose_version,
+        last_outcome=last_outcome,
+    )
+
+
+def test_expression_reads_habitat_engine_snapshot():
+    from umbra_core.expression.engine import ExpressionEngine
+
+    engine = _engine_with_sample()
+    engine.commit_free_location("resource:0", 9.0, 8.0)
+    emb = Embodiment()
+    emb.attach_habitat_engine(engine)
+    emb.body.x = 5.0
+    emb.body.y = 5.0
+
+    stale_state = {
+        "body": emb.body.to_state(),
+        "habitat": {
+            "features": [{"kind": "resource", "x": 1.0, "y": 1.0, "radius": 1.0}],
+            "partners": [],
+        },
+    }
+    view = _task9_expression_view(engine, emb, tick=3)
+    view = replace(view, embodiment_state=stale_state)
+    packet = ExpressionEngine().derive(view)
+    resource = next(e for e in packet.habitat_read_model.entities if e.object_id == "resource:0")
+    assert resource.x == 9.0
+    assert resource.y == 8.0
+    assert packet.habitat_state_version == engine.snapshot_view().state_version
+    assert packet.habitat_state_hash == engine.snapshot_view().state_hash
+
+
+def test_habitat_read_model_matches_authoritative_state():
+    from umbra_core.expression.habitat_read_model import HabitatReadModel
+
+    engine = _engine_with_sample()
+    snapshot = engine.snapshot_view()
+    projection = project_features(snapshot)
+    read_model = HabitatReadModel.from_habitat_snapshot(snapshot)
+    projected_by_id = {f.object_id: f for f in projection.features}
+    for entity in read_model.entities:
+        if entity.kind == "partner":
+            continue
+        assert entity.object_id is not None
+        feat = projected_by_id[entity.object_id]
+        assert entity.x == feat.x
+        assert entity.y == feat.y
+    assert read_model.version == snapshot.state_version
+    assert read_model.state_hash == snapshot.state_hash
+
+
+def test_render_packet_uses_coherent_habitat_and_body_versions():
+    from umbra_core.expression.engine import ExpressionEngine, LastOutcomeView
+
+    engine = _engine_with_sample()
+    emb = Embodiment()
+    emb.attach_habitat_engine(engine)
+    outcome = LastOutcomeView(
+        capability="MOVE",
+        admitted=True,
+        success=True,
+        execution_id="exec:task9",
+    )
+    packet = ExpressionEngine().derive(
+        _task9_expression_view(engine, emb, tick=4, last_outcome=outcome)
+    )
+    snap = engine.snapshot_view()
+    assert packet.habitat_read_model.version == packet.habitat_state_version == snap.state_version
+    assert packet.habitat_state_hash == snap.state_hash
+    assert packet.organism_state_version == packet.source_state_version == 4
+    assert packet.body_attachment_generation == 0
+    assert packet.execution_id == "exec:task9"
+    assert packet.body_pose_version == emb.body_occupancy_view().body_pose_version
+
+
+def test_held_object_render_requires_matching_generation():
+    from umbra_core.expression.engine import ExpressionEngine, RenderPacket
+    from umbra_core.expression.habitat_read_model import HabitatReadModel
+    from umbra_core.expression.presentation_state import PresentationState
+    from ui.reference_companion import habitat_view
+
+    state = _state_with_portable()
+    body_id = "body:default"
+    portable = state.objects["portable:0"]
+    held_state = with_state_hash(
+        replace(
+            state,
+            objects={
+                **state.objects,
+                "portable:0": with_object_state_hash(
+                    replace(
+                        portable,
+                        location=HeldByLocation(
+                            body_instance_id=body_id,
+                            attachment_generation=1,
+                            hold_slot=0,
+                        ),
+                    )
+                ),
+            },
+        )
+    )
+    engine = HabitatEngine(held_state)
+    emb = Embodiment()
+    emb.attach_habitat_engine(engine)
+    pose = BodyPoseView(
+        body_instance_id=body_id,
+        body_pose_version=2,
+        position=Position(5.0, 5.0),
+        collision_shape=BodyCollisionShape(0.5),
+        attachment_generation=1,
+    )
+    read_model = HabitatReadModel.from_habitat_snapshot(engine.snapshot_view(), body_pose=pose)
+    held_entity = next(e for e in read_model.entities if e.object_id == "portable:0")
+    assert held_entity.held_attachment_generation == 1
+
+    class _Canvas:
+        def __init__(self) -> None:
+            self.calls: list[tuple] = []
+
+        def delete(self, *args, **kwargs):
+            self.calls.append(("delete", args, kwargs))
+
+        def create_oval(self, *args, **kwargs):
+            self.calls.append(("create_oval", args, kwargs))
+            return len(self.calls)
+
+        def create_line(self, *args, **kwargs):
+            self.calls.append(("create_line", args, kwargs))
+            return len(self.calls)
+
+        def create_text(self, *args, **kwargs):
+            self.calls.append(("create_text", args, kwargs))
+            return len(self.calls)
+
+    ps = PresentationState(
+        body_instance_id=body_id,
+        body_profile_id="ABSTRACT_SHAPE_BODY",
+        attachment_status="ATTACHED",
+        position=(5.0, 5.0),
+        orientation=0.0,
+        locomotion_state="STATIONARY",
+        posture="NEUTRAL",
+        attention_target=None,
+        attention_confidence=None,
+        active_capability=None,
+        action_phase="IDLE",
+        interaction_target=None,
+        rest_activity_state="IDLE",
+        visible_condition_channels={},
+        developmental_markers={},
+        nonverbal_signal=None,
+        previous_posture=None,
+        target_posture="NEUTRAL",
+        transition_kind="STEADY",
+        transition_started_tick=1,
+        transition_source_state_version=1,
+        transition_duration_ticks_hint=4,
+        source_event_refs=(),
+    )
+    packet_match = RenderPacket(
+        presentation_state=ps,
+        habitat_read_model=read_model,
+        source_state_version=1,
+        habitat_state_version=read_model.version,
+        body_attachment_generation=1,
+        habitat_state_hash=read_model.state_hash,
+        organism_state_version=1,
+        body_pose_version=2,
+    )
+    packet_stale = replace(packet_match, body_attachment_generation=0)
+
+    canvas_match = _Canvas()
+    habitat_view.render_habitat(canvas_match, packet_match)
+    held_ovals_match = [c for c in canvas_match.calls if c[0] == "create_oval" and "held_overlay" in c[2].get("tags", ())]
+    assert held_ovals_match
+
+    canvas_stale = _Canvas()
+    habitat_view.render_habitat(canvas_stale, packet_stale)
+    held_ovals_stale = [c for c in canvas_stale.calls if c[0] == "create_oval" and "held_overlay" in c[2].get("tags", ())]
+    assert not held_ovals_stale
+
+    stale_pose = replace(pose, attachment_generation=0)
+    stale_model = HabitatReadModel.from_habitat_snapshot(engine.snapshot_view(), body_pose=stale_pose)
+    assert not any(e.object_id == "portable:0" for e in stale_model.entities)
+
+
+def test_renderer_does_not_invent_motion():
+    from umbra_core.expression.engine import ExpressionEngine, RenderPacket
+    from umbra_core.expression.habitat_read_model import HabitatReadModel
+    from umbra_core.expression.presentation_state import PresentationState
+    from ui.reference_companion import habitat_view
+
+    read_model = HabitatReadModel(entities=(), version=1, state_hash="abc")
+    ps = PresentationState(
+        body_instance_id="body:1",
+        body_profile_id="ABSTRACT_SHAPE_BODY",
+        attachment_status="ATTACHED",
+        position=(3.0, 4.0),
+        orientation=0.0,
+        locomotion_state="MOVING",
+        posture="ACTIVE",
+        attention_target=None,
+        attention_confidence=None,
+        active_capability="MOVE",
+        action_phase="EXECUTED",
+        interaction_target=None,
+        rest_activity_state="ACTIVE",
+        visible_condition_channels={},
+        developmental_markers={},
+        nonverbal_signal=None,
+        previous_posture="NEUTRAL",
+        target_posture="ACTIVE",
+        transition_kind="POSTURE_CHANGE",
+        transition_started_tick=1,
+        transition_source_state_version=1,
+        transition_duration_ticks_hint=4,
+        source_event_refs=(),
+    )
+    packet = RenderPacket(
+        presentation_state=ps,
+        habitat_read_model=read_model,
+        source_state_version=1,
+        habitat_state_version=1,
+        body_attachment_generation=1,
+        habitat_state_hash="abc",
+        organism_state_version=1,
+    )
+
+    class _Canvas:
+        def __init__(self) -> None:
+            self.calls: list[tuple] = []
+
+        def delete(self, *args, **kwargs):
+            self.calls.append(("delete", args, kwargs))
+
+        def create_oval(self, *args, **kwargs):
+            self.calls.append(("create_oval", args, kwargs))
+            return 1
+
+        def create_line(self, *args, **kwargs):
+            self.calls.append(("create_line", args, kwargs))
+            return 2
+
+        def create_text(self, *args, **kwargs):
+            self.calls.append(("create_text", args, kwargs))
+            return 3
+
+    canvas = _Canvas()
+    habitat_view.render_habitat(canvas, packet)
+    entity_ovals = [c for c in canvas.calls if c[0] == "create_oval" and c[2].get("tags", ("",))[0] != "body"]
+    assert entity_ovals == []
+
+
+def test_failed_affordance_does_not_render_as_success():
+    from umbra_core.expression.engine import ExpressionEngine, LastOutcomeView
+
+    engine = _engine_with_sample()
+    emb = Embodiment()
+    emb.attach_habitat_engine(engine)
+    outcome = LastOutcomeView(
+        capability="MANIPULATE",
+        admitted=True,
+        success=False,
+        failure_code="TARGET_OUT_OF_RANGE",
+        execution_id="exec:fail",
+    )
+    packet = ExpressionEngine().derive(
+        _task9_expression_view(engine, emb, tick=2, last_outcome=outcome)
+    )
+    ps = packet.presentation_state
+    assert ps.action_phase == "INTERRUPTED"
+    assert ps.posture == "INTERRUPTED"
+    assert ps.nonverbal_signal is None
+
+
+def test_incoherent_render_packet_is_dropped_by_frame_ring():
+    from umbra_core.expression.engine import ExpressionEngine, RenderPacket
+    from umbra_core.expression.frame_ring import FrameRing, FrameRingEntry, RendererCursor
+
+    engine = _engine_with_sample()
+    emb = Embodiment()
+    emb.attach_habitat_engine(engine)
+    packet = ExpressionEngine().derive(_task9_expression_view(engine, emb, tick=1))
+    bad = RenderPacket(
+        presentation_state=packet.presentation_state,
+        habitat_read_model=packet.habitat_read_model,
+        source_state_version=packet.source_state_version,
+        habitat_state_version=packet.habitat_state_version + 99,
+        body_attachment_generation=packet.body_attachment_generation,
+        habitat_state_hash=packet.habitat_state_hash,
+        organism_state_version=packet.organism_state_version,
+        execution_id=packet.execution_id,
+        body_pose_version=packet.body_pose_version,
+    )
+    ring = FrameRing(capacity=4, retention_ticks=128)
+    ring.push(
+        FrameRingEntry(
+            frame_id=1,
+            derived_at_tick=1,
+            active_execution_id=None,
+            render_packet=bad,
+            source_event_refs=(),
+        )
+    )
+    cursor = RendererCursor(renderer_id="headless")
+    assert ring.read_latest(cursor) is None
+
+
+def test_ui_cannot_write_habitat():
+    engine = _engine_with_sample()
+    emb = Embodiment()
+    emb.attach_habitat_engine(engine)
+    with pytest.raises(HabitatWriteRejected):
+        emb.habitat.relocate("resource", 1.0, 1.0)
+    assert not any(name.startswith("write_") for name in dir(__import__("ui.reference_companion.habitat_view", fromlist=["habitat_view"])))

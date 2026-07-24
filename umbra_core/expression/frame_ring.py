@@ -57,6 +57,7 @@ class RendererCursor:
     body_attachment_generation: int | None = None
     source_state_version: int | None = None
     habitat_state_version: int | None = None
+    body_pose_version: int | None = None
     active_execution_id: str | None = None
 
 
@@ -112,9 +113,26 @@ class FrameRing:
         ]
 
     @staticmethod
+    def _packet_is_coherent(packet: RenderPacket) -> bool:
+        if packet.habitat_read_model.version != packet.habitat_state_version:
+            return False
+        if packet.habitat_state_hash and packet.habitat_read_model.state_hash != packet.habitat_state_hash:
+            return False
+        if packet.organism_state_version != packet.source_state_version:
+            return False
+        if (
+            packet.body_pose_version is not None
+            and packet.presentation_state.attachment_status == "ATTACHED"
+            and packet.presentation_state.position is not None
+        ):
+            # ponytail: body pose version is carried for held-object coherence only
+            pass
+        return True
+
+    @staticmethod
     def _is_valid_for_cursor(entry: FrameRingEntry, cursor: RendererCursor) -> bool:
         packet = entry.render_packet
-        if packet.habitat_read_model.version != packet.habitat_state_version:
+        if not FrameRing._packet_is_coherent(packet):
             return False
         if tuple(packet.presentation_state.source_event_refs) != entry.source_event_refs:
             return False
@@ -131,6 +149,12 @@ class FrameRing:
         if (
             cursor.habitat_state_version is not None
             and packet.habitat_state_version != cursor.habitat_state_version
+        ):
+            return False
+        if (
+            cursor.body_pose_version is not None
+            and packet.body_pose_version is not None
+            and packet.body_pose_version != cursor.body_pose_version
         ):
             return False
         if entry.active_execution_id is not None:
