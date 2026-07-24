@@ -1,9 +1,6 @@
 {
   "directive": "UMBRA-D-010",
   "errors": [
-    "missing_summary:regression-results.json",
-    "missing_summary:temporal-authority-results.json",
-    "missing_summary:recurrence-results.json",
     "missing_summary:future-leakage-results.json",
     "missing_summary:anticipation-results.json",
     "missing_summary:revision-results.json",
@@ -14,9 +11,12 @@
     "missing_summary:restart-downtime-results.json",
     "missing_summary:replay-results.json",
     "missing_summary:boundedness-results.json",
-    "missing_summary:experiment-summary.json"
+    "missing_summary:experiment-summary.json",
+    "forbidden_claim:regression-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
+    "forbidden_claim:temporal-authority-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
+    "forbidden_claim:recurrence-results.json:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED"
   ],
   "pass": false,
   "pre_freeze": true,
-  "raw_rows": 0
+  "raw_rows": 1900
 }

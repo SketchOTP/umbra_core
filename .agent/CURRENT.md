@@ -1,29 +1,22 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260724-1536-d010-task13-gates-1-12
+- ID: D-20260724-1544-d010-task13b-gates-v2
 - Project directive: UMBRA-D-010
-- Goal: Task 13 — formal Gates 1–12 evidence-only under Stage B freeze
-- Status: **BLOCKED — freeze invalidate required**
-- Freeze tip: `694398166b772b41f962bdb7afc90b3871a02c08`
-- Task 12: complete / Approved @ `6943981`
-- Next action: patch harness `_organism_cfg` condition wiring → new Stage B freeze → rerun Task 13
+- Goal: Task 13b — formal Gates 1–12 evidence under Stage B freeze v2
+- Status: ended — failed_harness_defect (aggregation gate 3)
+- Freeze tip: `5d218d6fa1da8c49d2a6326037bbd10f3a457726`
+- formal_execution_id: `d010-fe-stage-b-v2`
+- Next action: freeze invalidate gate 3 aggregation (+ gate 2 metric review) → new Stage B → rerun Task 13b
 
 ## Locked
-- Design tip: `03e1269`
-- Plan tip: `c1f71bb7e6ae58459c08585558a491fcae8b8bea`
-- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
+- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (OPEN until seal)
 - Constraint: evidence commits only; no source edits under freeze tip
 
-## Task 13 outcome
-- Formal run aborted: `TemporalConfigError` on C11 integrated trace
-- Root cause: harness passes C1–C13 as `OrganismConfig.condition`; production guard rejects
-- Evidence: `docs/evidence/d010/formal-execution-manifest.json`, `formal-run-outcome.json`
-- Gates 0–12: NOT_RUN; validator FAIL (0 raw rows)
-
 ## Last validation
-- Command: `python experiments/d010/run_experiment.py` (full formal, no D010_TICK_CAP)
-- Result: FAILED @ ~27s — harness/production guard mismatch on first ablation cell
+- Command: `python experiments/d010/validate_evidence.py`
+- Result: FAIL (missing gates 3–12 summaries; partial gate files)
 
 ## Open blockers
-- Freeze invalidate: fix `experiments/d010/run_experiment.py` `_organism_cfg` + integration test; new Stage B freeze; rerun Task 13
+- Harness gate 3 aggregation defect (`paired_length_mismatch:g3_future_leakage_zero:1!=100`)
+- Gate 2 recurrence_learning_signal 0.0 (investigate after harness fix)

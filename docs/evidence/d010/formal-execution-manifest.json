@@ -1,40 +1,30 @@
 {
-  "agent_memory_directive": "D-20260724-1536-d010-task13-gates-1-12",
+  "agent_memory_directive": "D-20260724-1544-d010-task13b-gates-v2",
   "allow_smoke": false,
-  "completed_at": "2026-07-24T15:38:12+00:00",
+  "completed_at": "2026-07-24T15:48:47+00:00",
   "directive": "UMBRA-D-010",
   "d010_tick_cap": null,
   "expected_jobs": 1900,
   "failure": {
-    "class": "harness_production_guard_mismatch",
-    "detail": "run_experiment._organism_cfg passes ablation labels (e.g. C11) as OrganismConfig.condition while temporal_enabled=True; create_organism rejects C1-C13 per assert_no_d010_control_via_organism_condition (test_experimental_controls_are_production_unreachable).",
-    "example_condition": "C11",
-    "example_error": "C11_d010_control_requires_explicit_temporal_config_not_organism_condition",
+    "class": "harness_gate_aggregation_defect",
+    "detail": "Gate 3 aggregation compares C0 future_leakage_detection against C2, but C0 is not in gate-critical cells for gate 3 (only C2/C7/C10 on S0). values_a becomes length 1 while values_b is length 100.",
+    "example_error": "ValueError: paired_length_mismatch:g3_future_leakage_zero:1!=100",
     "freeze_invalidate_required": true,
-    "jobs_completed_before_failure": 0,
-    "log_path": "/tmp/d010-task13-formal-run.log"
+    "jobs_completed": 1900,
+    "log_path": "/tmp/d010-task13b-formal-run.log"
   },
-  "formal_execution_id": "d010-fe-stage-b-v1",
-  "freeze_commit": "694398166b772b41f962bdb7afc90b3871a02c08",
+  "formal_execution_id": "d010-fe-stage-b-v2",
+  "freeze_commit": "5d218d6fa1da8c49d2a6326037bbd10f3a457726",
   "freeze_contract_ref": "experiments/d010/formal-execution-contract.json",
-  "gates_in_scope": [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-  ],
+  "gates_in_scope": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  "invalidated_prior": {
+    "evidence_commit": "095d72f",
+    "formal_execution_id": "d010-fe-stage-b-v1",
+    "freeze_commit": "694398166b772b41f962bdb7afc90b3871a02c08"
+  },
   "paired_seeds": 100,
-  "software_commit_at_start": "8527f73579303f0956e04221082575df3e0ae79c",
-  "started_at": "2026-07-24T15:37:00+00:00",
+  "software_commit_at_start": "5d218d6fa1da8c49d2a6326037bbd10f3a457726",
+  "started_at": "2026-07-24T15:44:00+00:00",
   "terminal_status": "failed_harness_defect",
   "workers": 4
 }
