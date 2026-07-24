@@ -1,5 +1,5 @@
 {
-  "agent_memory_directive": "D-20260724-1539-d010-freeze-invalidate-harness",
+  "agent_memory_directive": "D-20260724-1551-d010-freeze-invalidate-v3",
   "allowed_verdicts": [
     "UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
     "UMBRA_D010_PARTIAL_FOUNDATION",
@@ -19,22 +19,22 @@
   ],
   "artifact_hashes": {
     "experiments/d010/development-seed-manifest.json": "c05edb25689f1731ff25272df15c1d586134736b054d3aa2fb0e885fd8ff73ca",
-    "experiments/d010/experiment-matrix.json": "885b5417961ab6f781b20bbd776055bd4b4069ae115206f3b126665b869592c1",
+    "experiments/d010/experiment-matrix.json": "05fbbeae83fcf6b965f8b677adfcdbec01c3dbbac2f351ee2aab2e876ee8b64c",
     "experiments/d010/failure-code-registry.json": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
     "experiments/d010/formal-seed-manifest.json": "4c0a5472e364a9d33e8cb7f29802d0897d07473ccbb20cd56320de54254ed32a",
-    "experiments/d010/performance-protocol.json": "029c3edc70b230857b9cb6d0ea32632717c2accdcd84958c2b13892f832ba394",
+    "experiments/d010/performance-protocol.json": "d49f6a9ab47f44b8400a8c08770c9269d27f7850c4279fd5d9bfa133175001d6",
     "experiments/d010/runtime-tick-classification.json": "bc6e20ee9ea7c1559a96947fa3adda67e1f246971a2878625c242e6b843655f1",
     "experiments/d010/scenario-suite.json": "15904c1fbfea39cad86bef0afd846b851f231bf0033c841cdfbf82cdf62ba94f",
     "experiments/d010/stage-a-hashes.json": "a063f8630b030f2df34bad501a56a779c82f28376d9670207396485b4f95d2a3",
     "experiments/d010/temporal-event-schemas.json": "06257ab955f617f2b54b796bfe1f711d9a199f7e577559eca8b546ed6df2f737",
-    "experiments/d010/test-manifest.json": "b454d0f44f3e2a753709d767e9b52025c56c1705305b140b5052dcf483bce760",
-    "experiments/d010/thresholds.json": "0867834db383064059d72b2c10981efc65a7204aef77ad403120db7806501e98"
+    "experiments/d010/test-manifest.json": "bc4c9e2162fd8dc305c05ff3468d9755fa1453e9d383777df1129756bc3e877d",
+    "experiments/d010/thresholds.json": "b9ff3c83ed34f7b5c5775b31a5c9e786124808d540d68da136ed4a2b447b0e60"
   },
   "development_seed_manifest_hash": "4db7dd603a602dc8628823acf4fb77fd1c46541096edfae9563f019b518006a5",
   "directive": "UMBRA-D-010",
   "event_registry_hash": "06257ab955f617f2b54b796bfe1f711d9a199f7e577559eca8b546ed6df2f737",
   "failure_code_registry_hash": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
-  "formal_execution_id": "d010-fe-stage-b-v2",
+  "formal_execution_id": "d010-fe-stage-b-v3",
   "formal_seed_nonoverlap_rule": {
     "development_ranges": [
       [
@@ -51,14 +51,14 @@
       ]
     ]
   },
-  "freeze_bundle_hash": "6caf298bfabc065f956ea5578fbb0639f04e3dbd633fd70b9da7b8103a583eaa",
+  "freeze_bundle_hash": "35bd5c53e992ff6f11a49adba00b6dd80c6008f35560a3bd96d04781e025fb0f",
   "frozen_before_execution": true,
-  "implementation_source_hash": "86b1e66a624222b384aa41310f2b9e09cb09cbd4aca270354d1215ac52da835e",
+  "implementation_source_hash": "13d817ecf19412dadb04e3238cf9192c6684f84495cf23288644fa35e392814c",
   "notes": "freeze_commit is recorded in docs/evidence/d010/formal-execution-manifest.json at Task 13 run start",
-  "runner_hash": "229fb18c512bfd4f2498d3843025b80991fd2df05c6f3e483771bf381181d90e",
+  "runner_hash": "7b266766eb2cb441941b74fdbdf05e3e549563bd7088d3a8b82bfdf2f8a2c551",
   "schema_version": "d010.formal-execution-contract.v1",
   "seed_manifest_hash": "af3474cf8e995fc4cde3a89acf5195d46b40a194b0e54ce5a2c10b468e699ec3",
   "stage_a_bundle_hash": "9dbf75686acfdc9d9dc434016a9e79a21df21cfef923c231e962327107cb7b58",
-  "test_manifest_hash": "10060d4782d027763e219e835237a7a466eefe2c9a6a109d5e4e92e9259c7410",
-  "threshold_freeze_timestamp": "2026-07-24T15:41:38+00:00"
+  "test_manifest_hash": "463fed02b5f5f7c7506a003f5095916b48930e20072e9692fd6b780390a47ea9",
+  "threshold_freeze_timestamp": "2026-07-24T15:54:03+00:00"
 }

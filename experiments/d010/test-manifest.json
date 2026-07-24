@@ -1,7 +1,7 @@
 {
   "directive": "UMBRA-D-010",
   "frozen_before_execution": true,
-  "manifest_hash": "10060d4782d027763e219e835237a7a466eefe2c9a6a109d5e4e92e9259c7410",
+  "manifest_hash": "463fed02b5f5f7c7506a003f5095916b48930e20072e9692fd6b780390a47ea9",
   "schema_version": "d010.test-manifest.v1",
   "tests": [
     {
@@ -136,6 +136,27 @@
       "required": true,
       "test_file": "tests/test_d010.py",
       "test_id": "test_downtime_reconciliation_commits_new_session_anchor"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 3,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_aggregate_gates_0_through_12_no_paired_length_mismatch"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_s1_integrated_c0_recurrence_learning_signal_positive"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 2,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_s1_integrated_c11_recurrence_weaker_than_c0"
     },
     {
       "expected_execution_mode": "pytest",

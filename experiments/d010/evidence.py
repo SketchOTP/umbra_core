@@ -18,7 +18,7 @@ EXP = ROOT / "experiments" / "d010"
 OUT = ROOT / "docs" / "evidence" / "d010"
 
 DIRECTIVE = "UMBRA-D-010"
-AGENT_MEMORY = "D-20260724-1527-d010-task12-stage-b-freeze"
+AGENT_MEMORY = "D-20260724-1551-d010-freeze-invalidate-v3"
 FREEZE_COMMIT: str | None = None  # Stage B Task 12 records freeze tip
 
 REQUIRED_RESULT_FIELDS = (
