@@ -26,7 +26,8 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Digital chemistry / protocell research is optional and non-gating
 
 ## Program status
-- **UMBRA-D-009 closed** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; zero-skip suite)
+- **UMBRA-D-009 closed** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; zero-skip suite; seal `af35371`; independent review Approve)
+- **D-010** — **authorized** under `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`; **not started**
 - **UMBRA-D-008 closed** — `UMBRA_D008_COHERENT_DIGITAL_EMBODIMENT_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; renderer lifecycle; zero-skip suite)
 - **UMBRA-D-007 closed** — `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (100k + 2h RUNTIME_READY VmRSS soak; zero-skip suite)
 - **D-008 authorized** under `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (closed)
@@ -53,6 +54,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-006 evidence: `docs/evidence/d006/` (QUALIFIED)
 - D-007 evidence: `docs/evidence/d007/` (QUALIFIED)
 - D-008 evidence: `docs/evidence/d008/` (QUALIFIED)
+- D-009 evidence: `docs/evidence/d009/` (QUALIFIED)
 - D-008 preregistration: `experiments/d008/thresholds.json`, `experiments/d008/experiment-matrix.json`, `experiments/d008/scenario-suite.json`, `experiments/d008/performance-protocol.json` (S3)
 - D-008 directive: `docs/directives/UMBRA-D-008-coherent-digital-embodiment.md`
 - D-008 design: `docs/superpowers/specs/2026-07-23-umbra-d008-coherent-digital-embodiment-design.md`
@@ -72,7 +74,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Target platform: Linux
 - Persistence: SQLite WAL event/state authority (`HYBRID_PRIMARY`); optional Postgres scale tier
 - Core loop: deterministic non-LLM (see architecture freeze)
-- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`); D-005 QUALIFIED memory (`umbra_core/memory/`); D-006 QUALIFIED social (`umbra_core/social/`); D-007 QUALIFIED individuality (`umbra_core/individuality/`); D-008 QUALIFIED expression/embodiment (`umbra_core/expression/`, `umbra_core/embodiment_adapters/`, `ui/reference_companion/`); D-009 in progress habitat/agency (`umbra_core/habitat/`, `umbra_core/habitat_affordances/`, `experiments/d009/`)
+- Organism kernel: D-001 QUALIFIED (`umbra_core/`); D-002 QUALIFIED self-model (`umbra_core/self_model/`); D-003 QUALIFIED world model (`umbra_core/world_model/`); D-004 QUALIFIED development (`umbra_core/development/`); D-005 QUALIFIED memory (`umbra_core/memory/`); D-006 QUALIFIED social (`umbra_core/social/`); D-007 QUALIFIED individuality (`umbra_core/individuality/`); D-008 QUALIFIED expression/embodiment (`umbra_core/expression/`, `umbra_core/embodiment_adapters/`, `ui/reference_companion/`); D-009 QUALIFIED habitat/agency (`umbra_core/habitat/`, `umbra_core/habitat_affordances/`, `experiments/d009/`, `docs/evidence/d009/`)
 - Agent/tooling docs: Markdown, Cursor rules, Mimir V2, Serena
 
 ## Common commands

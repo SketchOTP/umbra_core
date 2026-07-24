@@ -302,4 +302,4 @@ The project succeeds when UMBRA becomes a persistent, autonomous, developing, in
 
 # Program gate (post D-000S)
 
-**UMBRA-D-000 closed** via D-000S. **UMBRA-D-001 through D-008 closed** with qualified seals. **UMBRA-D-009 in progress** under frozen design `79a00f2` (persistent digital habitat and autonomous environmental agency). Architecture freeze: `docs/architecture/`. D-010 authorized only under `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`.
+**UMBRA-D-000 closed** via D-000S. **UMBRA-D-001 through D-009 closed** with qualified seals (`UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` at seal `af35371`, Supplement S3). Architecture freeze: `docs/architecture/`. **D-010 authorized** under that seal; **not started**.

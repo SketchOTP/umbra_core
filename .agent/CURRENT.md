@@ -1,21 +1,24 @@
 # CURRENT.md
 
 ## Active directive
-- ID: (none — D-009 Task 14 complete)
-- Project directive: UMBRA-D-009 closed
+- ID: (none — idle)
+- Project directive: UMBRA-D-009 **CLOSED**
 - Goal: —
-- Status: `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` at `2084be8`
-- Acceptance: met
-- Next action: Independent review per operator note
+- Status: idle
+- Acceptance: —
+- Next action: D-010 authorized under D-009 QUALIFIED; not started
 
-## Repo facts needed now
-- Seal commit: `2084be8` (verdict `af35371` seal + hash bind)
-- Parent Mimir `06b5b59709864e11bddb8c1da56dd66e` CLOSED v17
-- Task 14 sub-task `d52577c3dfca4bbfaf774e62b662cb51` CLOSED v2
+## Authoritative state
+- Verdict: `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`
+- Seal commit: `af35371` (hash-bind `2084be8`)
+- Task 13: `UMBRA_D009_TASK13_GATES_1_12_PASS` @ `3657420`
+- Independent Task 14 review: **Approve** ([Review D-009 Task 14 seal](d3c30751-b318-4ba2-b25f-7d1b7f1610c2))
+- Parent Mimir `06b5b59709864e11bddb8c1da56dd66e`: CLOSED v17
+- D-010: **authorized** under `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`; **not started**
 
 ## Last validation
-- Command: `bash experiments/d009/with_tk_display.sh python -m experiments.d009.run_seal af35371`
-- Result: QUALIFIED; 519 passed, 0 skipped
+- Gate 13 S3: 100k + lifecycle + P0/P1/P2 PASS; seal 519 passed / 0 skipped
+- Review: all seven qualification blockers Pass
 
 ## Open blockers
-- None
+- None for D-009

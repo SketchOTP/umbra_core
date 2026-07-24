@@ -75,3 +75,6 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 
 - 2026-07-24 | area:experiments/d008/run_performance | lesson:S3 adaptive soak early-window VmRSS rise matches D-007 first-45min (theil~1.4) and decelerates; pairwise-slope 2.5/97.5 percentiles are not a formal Theil-Sen CI and stay pathologically wide on stepwise RSS — only treat CI-straddle as ambiguous when the point estimate is near the limit (>0.6*limit). Extension gate must allow a partial final step up to max_measurement_seconds (measured+step>max blocked P0 at ~2700s). Bin raw 5s samples to 30s medians before Theil-Sen/segments. | evidence:docs/evidence/d008/performance-core.json,docs/evidence/d008/soak-P0.jsonl,docs/evidence/d007/soak-2h.jsonl
 
+
+- D-009 Gate 8 revision_adaptation requires full preregistered S16 tick budget (1800); D009_TICK_CAP=240 yields honest FAIL (~0.08); full budget saturates to 1.0 — do not qualify under tick cap.
+- D-009 seal suite must run under experiments/d009/with_tk_display.sh or D-008 Tkinter tests skip (zero-skip seal fails).

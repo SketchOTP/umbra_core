@@ -4,7 +4,7 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 - `.agent/PROJECT_GOAL.md` — product SoT (companion organism core; chemistry optional/non-gating)
-- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-008 QUALIFIED; D-009 in progress)
+- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-009 QUALIFIED; D-010 authorized, not started)
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
 - `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`)
@@ -91,7 +91,8 @@ Concise navigation map for agents. Add entries as application code lands.
 - Runtime shape: governance → EmbodimentAdapter.execute → Embodiment.execute → ExpressionEngine.derive → frame ring; renderers poll non-destructively
 - Caps: IDLE/ORIENT/MOVE/APPROACH/RETREAT/INSPECT/REST/CHARGE/SIGNAL_* (no MAINTAIN/PRACTICE aliases)
 
-## Persistent habitat and environmental agency (D-009) — IN PROGRESS
+## Persistent habitat and environmental agency (D-009) — QUALIFIED
+- Seal: `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` @ `af35371` (tip governance `474ce97`; independent review Approve)
 - Directive: `docs/directives/UMBRA-D-009-persistent-habitat-agency.md`
 - Design: `docs/superpowers/specs/2026-07-23-umbra-d009-persistent-habitat-agency-design.md` (`79a00f2`)
 - Plan: `docs/superpowers/plans/2026-07-23-umbra-d009-persistent-habitat-agency.md`
