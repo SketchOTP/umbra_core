@@ -122,6 +122,7 @@ Concise navigation map for agents. Add entries as application code lands.
 - `experiments/d009/hostile_habitat_view.py` (Task 10): C9 `HostileHabitatProjection` write-attempt recorder
 - `experiments/d009/governance_bypass.py` (Task 10): C10 bypass payload helpers
 - `experiments/d009/scenario_plants.py` (Task 10): S0–S16 environmental opportunity plants (`apply_scenario_plants`)
+- Preregistration freeze (Task 11, commit `4e6c769f916fb7e8d0ca9ce42ddd0462c8654f3b`): `experiments/d009/thresholds.json`, `experiment-matrix.json`, `scenario-suite.json`, `habitat-definition.json`, `affordance-definitions.json`, `performance-protocol.json`, `seed-manifest.json` (template) — formal experiments start from this commit
 - Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5; Task 5: 15; Task 6: 8; Task 7: 15; Task 8: 11; Task 9: 8; Task 10: 13)
 - Evidence: `docs/evidence/d009/` (to be created)
 - Starting commit: `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task: `06b5b59709864e11bddb8c1da56dd66e`
