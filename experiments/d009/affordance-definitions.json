@@ -1,0 +1,111 @@
+{
+  "schema_version": "d009.affordance-definitions.v1",
+  "definitions": [
+    {
+      "affordance_id": "affordance:resource:use",
+      "target_object_kind": "RESOURCE",
+      "operation": "USE",
+      "required_capability": "MANIPULATE",
+      "preconditions": {
+        "schema_version": "d009.affordance-preconditions.v1",
+        "requires_free_location": true,
+        "requires_not_held": true,
+        "requires_remaining_yield_min": 0.01
+      },
+      "body_requirements": {
+        "schema_version": "d009.body-requirements.v1",
+        "required_capabilities": ["MANIPULATE"]
+      },
+      "environmental_cost": {
+        "schema_version": "d009.environmental-cost.v1",
+        "effort": 0.2
+      },
+      "organism_effect_contract": {
+        "schema_version": "d009.organism-effect-contract.v1",
+        "effects": [
+          {"effect_kind": "RESOURCE_YIELD", "magnitude": 0.1}
+        ]
+      },
+      "world_effect_contract": {
+        "schema_version": "d009.world-effect-contract.v1",
+        "mutations": [
+          {"field": "state.remaining_yield", "delta": -0.1}
+        ]
+      },
+      "reversibility": "PARTIAL",
+      "cooldown_ticks": 10,
+      "failure_modes": [],
+      "definition_version": 1,
+      "definition_hash": "3d19203956ac8b3f4d1fccc2bbf9633d4d6e7ec347c041bb3d1b72daa4221522"
+    },
+    {
+      "affordance_id": "affordance:portable:pick_up",
+      "target_object_kind": "PORTABLE_OBJECT",
+      "operation": "PICK_UP",
+      "required_capability": "MANIPULATE",
+      "preconditions": {
+        "schema_version": "d009.affordance-preconditions.v1",
+        "requires_free_location": true,
+        "requires_not_held": true,
+        "requires_portable": true
+      },
+      "body_requirements": {
+        "schema_version": "d009.body-requirements.v1",
+        "required_capabilities": ["MANIPULATE"],
+        "maximum_held_mass_class": "LIGHT"
+      },
+      "environmental_cost": {
+        "schema_version": "d009.environmental-cost.v1",
+        "effort": 0.35
+      },
+      "organism_effect_contract": {
+        "schema_version": "d009.organism-effect-contract.v1",
+        "effects": []
+      },
+      "world_effect_contract": {
+        "schema_version": "d009.world-effect-contract.v1",
+        "mutations": []
+      },
+      "reversibility": "REVERSIBLE",
+      "cooldown_ticks": 0,
+      "failure_modes": [],
+      "definition_version": 1,
+      "definition_hash": "e532abe76d155989e2bc7ec13683304900d274d31dfdbd8f441e296a1f1715e3"
+    },
+    {
+      "affordance_id": "affordance:activatable:activate",
+      "target_object_kind": "ACTIVATABLE_OBJECT",
+      "operation": "ACTIVATE",
+      "required_capability": "MANIPULATE",
+      "preconditions": {
+        "schema_version": "d009.affordance-preconditions.v1",
+        "requires_free_location": true,
+        "requires_not_held": true,
+        "requires_activatable_active": false
+      },
+      "body_requirements": {
+        "schema_version": "d009.body-requirements.v1",
+        "required_capabilities": ["MANIPULATE"]
+      },
+      "environmental_cost": {
+        "schema_version": "d009.environmental-cost.v1",
+        "effort": 0.15
+      },
+      "organism_effect_contract": {
+        "schema_version": "d009.organism-effect-contract.v1",
+        "effects": []
+      },
+      "world_effect_contract": {
+        "schema_version": "d009.world-effect-contract.v1",
+        "mutations": [
+          {"field": "state.active", "delta": true}
+        ]
+      },
+      "reversibility": "REVERSIBLE",
+      "cooldown_ticks": 5,
+      "failure_modes": [],
+      "definition_version": 1,
+      "definition_hash": "1600db1742600f3b0ceb77c6a2a1b500b6ec8236914f89ddab02454833fc7296"
+    }
+  ]
+}

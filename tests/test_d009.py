@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import FrozenInstanceError, replace
 
 import pytest
@@ -46,6 +47,7 @@ from umbra_core.habitat.state import (
     ActivatableState,
     FreeLocation,
     HabitatObject,
+    HabitatState,
     HeldByLocation,
     IdleState,
     MutationRejected,
@@ -62,8 +64,22 @@ from umbra_core.habitat.state import (
     compute_state_hash,
     migrate_object_definition,
     sample_habitat_state,
+    with_object_state_hash,
     with_state_hash,
 )
+from umbra_core.habitat_affordances import (
+    AdapterValidatedManipulation,
+    HabitatAffordanceEngine,
+    ManipulationRequest,
+    PickUpParameters,
+    PlaceParameters,
+    PushParameters,
+    UseParameters,
+    definition_hash,
+    load_affordance_definitions_file,
+)
+from umbra_core.habitat_affordances.engine import validate_manipulation_parameters
+from umbra_core.util import canon_json, sha256_hex
 
 
 def test_habitat_definitions_have_stable_hashes():
@@ -474,3 +490,148 @@ def test_habitat_events_are_authoritative_in_registry():
         assert habitat_event_authority_class(event_type) == "AUTHORITATIVE"
         assert is_authoritative(event_type)
         assert event_type in AUTHORITATIVE_EVENT_TYPES
+
+
+_AFFORDANCE_DEFINITIONS_PATH = (
+    __import__("pathlib").Path(__file__).resolve().parents[1]
+    / "experiments"
+    / "d009"
+    / "affordance-definitions.json"
+)
+_HABITAT_DEFINITION_PATH = (
+    __import__("pathlib").Path(__file__).resolve().parents[1]
+    / "experiments"
+    / "d009"
+    / "habitat-definition.json"
+)
+
+
+def test_affordance_definitions_have_stable_hashes():
+    definitions = load_affordance_definitions_file(_AFFORDANCE_DEFINITIONS_PATH)
+    assert set(definitions) == {
+        "affordance:resource:use",
+        "affordance:portable:pick_up",
+        "affordance:activatable:activate",
+    }
+    assert definition_hash(definitions["affordance:resource:use"]) == (
+        "3d19203956ac8b3f4d1fccc2bbf9633d4d6e7ec347c041bb3d1b72daa4221522"
+    )
+    assert definition_hash(definitions["affordance:portable:pick_up"]) == (
+        "e532abe76d155989e2bc7ec13683304900d274d31dfdbd8f441e296a1f1715e3"
+    )
+    assert definition_hash(definitions["affordance:activatable:activate"]) == (
+        "1600db1742600f3b0ceb77c6a2a1b500b6ec8236914f89ddab02454833fc7296"
+    )
+    habitat_def = json.loads(_HABITAT_DEFINITION_PATH.read_text(encoding="utf-8"))
+    payload = {
+        key: habitat_def[key]
+        for key in ("schema_version", "habitat_id", "zones", "objects")
+    }
+    assert sha256_hex(canon_json(payload)) == habitat_def["definition_hash"]
+
+
+def test_manipulation_parameters_are_typed_and_bounded():
+    assert validate_manipulation_parameters(PickUpParameters(hold_slot=0)) is None
+    assert validate_manipulation_parameters(PickUpParameters(hold_slot=1)) == "HOLD_SLOT_UNAVAILABLE"
+    assert validate_manipulation_parameters(PlaceParameters(target_x=5.0, target_y=4.0, expected_zone_id="zone:general")) is None
+    assert validate_manipulation_parameters(PlaceParameters(target_x=99.0, target_y=4.0, expected_zone_id="zone:general")) == (
+        "PLACEMENT_POSITION_INVALID"
+    )
+    assert validate_manipulation_parameters(PushParameters(direction_x=1.0, direction_y=0.0, requested_distance=1.0)) is None
+    assert validate_manipulation_parameters(PushParameters(direction_x=0.0, direction_y=0.0, requested_distance=1.0)) == (
+        "MALFORMED_MANIPULATION_REQUEST"
+    )
+    assert validate_manipulation_parameters(UseParameters()) is None
+
+
+def _affordance_engine() -> HabitatAffordanceEngine:
+    return HabitatAffordanceEngine(load_affordance_definitions_file(_AFFORDANCE_DEFINITIONS_PATH))
+
+
+def _adapter_for(params) -> AdapterValidatedManipulation:
+    return AdapterValidatedManipulation(
+        body_pose_view=BodyPoseView(
+            body_instance_id="body:default",
+            body_pose_version=1,
+            position=Position(4.0, 3.0),
+            collision_shape=BodyCollisionShape(0.5),
+            attachment_generation=0,
+        ),
+        reach_profile=ReachProfile(reach_radius=3.0),
+        requested_parameters=params,
+        applied_parameters=params,
+    )
+
+
+def _use_request_for_resource(state, obj) -> ManipulationRequest:
+    defn = _affordance_engine().get_definition("affordance:resource:use")
+    assert defn is not None
+    engine = HabitatEngine(state)
+    snapshot = engine.snapshot_view()
+    return ManipulationRequest(
+        request_id="req:use",
+        execution_id="exec:use",
+        capability="MANIPULATE",
+        target_object_id=obj.object_id,
+        affordance_id=defn.affordance_id,
+        expected_habitat_version=snapshot.state_version,
+        expected_habitat_state_hash=snapshot.state_hash,
+        target_object_version=obj.object_version,
+        target_object_definition_version=obj.definition_version,
+        target_object_definition_hash=obj.definition_hash,
+        affordance_definition_version=defn.definition_version,
+        affordance_definition_hash=definition_hash(defn),
+        body_instance_id="body:default",
+        body_profile_id="ABSTRACT_SHAPE_BODY",
+        attachment_generation=0,
+        parameters=UseParameters(),
+    )
+
+
+def test_validate_rejects_precondition_failure_with_stable_code():
+    state = sample_habitat_state()
+    obj = replace(
+        state.objects["resource:0"],
+        affordance_ids=("affordance:resource:use",),
+        state=ResourceState(remaining_yield=0.0),
+    )
+    obj = with_object_state_hash(obj)
+    state = with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}))
+    request = _use_request_for_resource(state, obj)
+    result = _affordance_engine().validate(request, HabitatEngine(state).snapshot_view(), _adapter_for(UseParameters()))
+    assert result.allowed is False
+    assert result.failure_code == "AFFORDANCE_PRECONDITION_FAILED"
+    assert result.effect_plan is None
+    assert HabitatEngine(state).snapshot_view().state_hash == state.state_hash
+
+
+def test_validate_rejects_cooldown_with_stable_code():
+    state = sample_habitat_state()
+    obj = replace(
+        state.objects["resource:0"],
+        affordance_ids=("affordance:resource:use",),
+        cooldowns=(("affordance:resource:use", 25),),
+    )
+    obj = with_object_state_hash(obj)
+    state = with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}, habitat_tick=10))
+    request = _use_request_for_resource(state, obj)
+    result = _affordance_engine().validate(request, HabitatEngine(state).snapshot_view(), _adapter_for(UseParameters()))
+    assert result.allowed is False
+    assert result.failure_code == "AFFORDANCE_COOLDOWN"
+    assert result.effect_plan is None
+
+
+def test_validate_success_returns_effect_plan_without_mutating_habitat():
+    state = sample_habitat_state()
+    obj = replace(state.objects["resource:0"], affordance_ids=("affordance:resource:use",))
+    obj = with_object_state_hash(obj)
+    state = with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}))
+    engine = HabitatEngine(state)
+    snapshot_before = engine.snapshot_view()
+    request = _use_request_for_resource(state, obj)
+    result = _affordance_engine().validate(request, snapshot_before, _adapter_for(UseParameters()))
+    assert result.allowed is True
+    assert result.failure_code is None
+    assert result.effect_plan is not None
+    assert result.effect_plan.requested_organism_effects
+    assert engine.snapshot_view().state_hash == snapshot_before.state_hash

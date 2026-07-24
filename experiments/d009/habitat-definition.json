@@ -1,0 +1,35 @@
+{
+  "schema_version": "d009.habitat-definition.v1",
+  "habitat_id": "habitat:sample",
+  "zones": [
+    {"zone_id": "zone:general", "zone_kind": "GENERAL", "rest_support": false},
+    {"zone_id": "zone:rest", "zone_kind": "REST", "rest_support": true}
+  ],
+  "objects": [
+    {
+      "object_id": "resource:0",
+      "object_kind": "RESOURCE",
+      "affordance_ids": ["affordance:resource:use"],
+      "portable": false
+    },
+    {
+      "object_id": "rest:0",
+      "object_kind": "REST_STATION",
+      "affordance_ids": [],
+      "portable": false
+    },
+    {
+      "object_id": "portable:0",
+      "object_kind": "PORTABLE_OBJECT",
+      "affordance_ids": ["affordance:portable:pick_up"],
+      "portable": true
+    },
+    {
+      "object_id": "switch:0",
+      "object_kind": "ACTIVATABLE_OBJECT",
+      "affordance_ids": ["affordance:activatable:activate"],
+      "portable": false
+    }
+  ],
+  "definition_hash": "3d148c5e1e1de63688a4ea8954d97d47e921b89d30496eb4b22ef5906f3dcc38"
+}

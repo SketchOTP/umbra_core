@@ -103,8 +103,10 @@ Concise navigation map for agents. Add entries as application code lands.
 - `umbra_core/events.py` (Task 3): `HABITAT_EVENT_AUTHORITY` + registry union for all habitat event types
 - `umbra_core/embodiment.py` (Task 2): `BodyOccupancyView`, `attach_habitat_engine`, read-only `habitat` projection when engine attached; `_reject_habitat_mutation_when_engine_attached` fail-closed on legacy writers; `_habitat_read` routes primitives through projection; plant overlay (`blocked_cells`/delayed/misleading) passthrough to projection; legacy `_habitat` for D-008 compat without engine
 - Packages (planned): `umbra_core/habitat_affordances/` (pure AffordanceEngine)
-- Preregistration (Stage B, not yet frozen): `experiments/d009/{thresholds,experiment-matrix,scenario-suite,habitat-definition,affordance-definitions}.json`
-- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7 named engine/projection tests)
+- `umbra_core/habitat_affordances/definitions.py` (Task 4): `AffordanceDefinition`, `definition_hash`, `load_affordance_definitions_file`, typed precondition/effect contracts
+- `umbra_core/habitat_affordances/engine.py` (Task 4): pure `HabitatAffordanceEngine.validate` → `AffordanceValidationResult` + `HabitatEffectPlan`; typed `ManipulationParameters` union; no habitat/WM/memory mutation
+- Preregistration (Stage A draft, Stage B freeze): `experiments/d009/affordance-definitions.json`, `experiments/d009/habitat-definition.json` (real content + computed hashes; formal freeze in Task 11)
+- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5 affordance tests)
 - Evidence: `docs/evidence/d009/` (to be created)
 - Starting commit: `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task: `06b5b59709864e11bddb8c1da56dd66e`
 - Authority: own-and-delegate — HabitatEngine mutates; Embodiment.habitat read-only projection; MANIPULATE address-only candidates; PREPARED→COMMITTED execution journal; P0 compatibility mode on same D-009 commit
