@@ -8,6 +8,12 @@ from umbra_core.habitat.events import (
     build_initialized_event,
     replay_habitat_from_events,
 )
+from umbra_core.habitat.config import (
+    HabitatConfig,
+    HabitatConfigError,
+    condition_to_habitat_config,
+    p0_compatibility_config,
+)
 from umbra_core.habitat.engine import (
     BodyCollisionShape,
     BodyPoseView,
@@ -67,7 +73,8 @@ __all__ = [
     "BodyPoseView",
     "EnvironmentalTransition",
     "FreeLocation",
-    "HabitatEngine",
+    "HabitatConfig",
+    "HabitatConfigError",
     "HABITAT_EVENT_TYPES",
     "HabitatEventError",
     "HabitatObject",
@@ -96,6 +103,8 @@ __all__ = [
     "apply_habitat_event",
     "apply_rejected_object_mutation",
     "canonical_serialize",
+    "condition_to_habitat_config",
+    "p0_compatibility_config",
     "compute_habitat_definition_hash",
     "compute_object_definition_hash",
     "compute_object_state_hash",

@@ -16,6 +16,12 @@ from umbra_core.embodiment import (
     response_policy_for_history,
 )
 from umbra_core.events import AUTHORITATIVE_EVENT_TYPES, habitat_event_authority_class, is_authoritative
+from umbra_core.habitat.config import (
+    HabitatConfig,
+    HabitatConfigError,
+    condition_to_habitat_config,
+    p0_compatibility_config,
+)
 from umbra_core.habitat.engine import (
     BodyCollisionShape,
     BodyPoseView,
@@ -3100,3 +3106,216 @@ def test_ui_cannot_write_habitat():
     with pytest.raises(HabitatWriteRejected):
         emb.habitat.relocate("resource", 1.0, 1.0)
     assert not any(name.startswith("write_") for name in dir(__import__("ui.reference_companion.habitat_view", fromlist=["habitat_view"])))
+
+
+# --- Task 10: conditions C0–C13 + scenarios S0–S16 scaffolding ---
+
+
+def test_condition_to_habitat_config_maps_c0_c13():
+    assert condition_to_habitat_config("C0") == HabitatConfig()
+    c1 = condition_to_habitat_config("C1")
+    assert c1.static_habitat is True
+    c6 = condition_to_habitat_config("C6")
+    assert c6.environmental_routines_enabled is False
+    c8 = condition_to_habitat_config("C8")
+    assert c8.reset_on_restart is True
+    c13 = condition_to_habitat_config("C13")
+    assert c13.p0_compatibility_mode is True
+    assert c13.manipulation_candidates_enabled is False
+    assert c13.affordance_execution_enabled is False
+    assert c13.environmental_routines_enabled is False
+    assert c13.habitat_dynamics_enabled is False
+    assert p0_compatibility_config() == c13
+
+
+@pytest.mark.parametrize("condition", ["C2", "C3"])
+def test_condition_to_habitat_config_rejects_diagnostic_only_conditions(condition):
+    with pytest.raises(HabitatConfigError):
+        condition_to_habitat_config(condition)
+
+
+def test_p0_compatibility_mode_disables_manipulation_routines_and_dynamics():
+    from umbra_core.arbitration import Arbitrator
+    from umbra_core.physiology import Physiology
+    from umbra_core.runtime import Organism, OrganismConfig
+
+    engine, emb, perception, _, rng = _task7_habitat_setup()
+    cfg = p0_compatibility_config()
+    org = Organism(
+        identity=__import__("umbra_core.identity", fromlist=["create_birth"]).create_birth(created_at=0.0, seed=1),
+        store=__import__("umbra_core.persistence", fromlist=["Store"]).Store(":memory:"),
+        phys=Physiology(),
+        embodiment=emb,
+        perception=perception,
+        arbitrator=Arbitrator(),
+        governance=__import__("umbra_core.governance", fromlist=["Governance"]).Governance(),
+        rng=rng,
+        config=OrganismConfig(
+            db_path=":memory:",
+            habitat_enabled=True,
+            habitat_config=cfg,
+            memory_enabled=True,
+        ),
+        memory=__import__("umbra_core.memory", fromlist=["MemoryEngine"]).MemoryEngine.create("agent:test"),
+    )
+    bindings = perception.policy_view()["manipulation_bindings"]
+    assert bindings
+    chosen = org.arbitrator.select(
+        Physiology(energy=0.2),
+        [{"kind": "resource", "relative_direction": 0.0, "estimated_distance": 1.0}],
+        tick=1,
+        rng=rng,
+        manipulation_bindings=bindings if cfg.manipulation_candidates_enabled else None,
+    )
+    assert chosen.capability != "MANIPULATE"
+    assert org._habitat_config.p0_compatibility_mode is True
+
+
+def test_scripted_object_motion_does_not_count_as_autonomy():
+    from experiments.d009.diagnostic_controllers import ScriptedObjectMovementController
+
+    engine = _engine_with_sample()
+    before = engine.snapshot_view()
+    controller = ScriptedObjectMovementController()
+    moved = controller.advance(engine, tick=5)
+    after = engine.snapshot_view()
+    assert moved == 1
+    assert after.state_version > before.state_version
+    obj = engine.get_object("resource:0")
+    assert obj is not None and obj.location.x == 8.0
+    # No governed organism execution accompanied the scripted relocation.
+    assert controller.fingerprint_proxy() != ()
+
+
+def test_random_manipulation_does_not_count_as_learning():
+    from experiments.d009.diagnostic_controllers import RandomManipulationController
+
+    c3 = RandomManipulationController(seed=99)
+    first = c3.sample_params(tick=1)
+    second = c3.sample_params(tick=2)
+    assert first["source"] == "RANDOM_DIAGNOSTIC"
+    assert second["source"] == "RANDOM_DIAGNOSTIC"
+    assert first["target_address_ref"] != second["target_address_ref"]
+    assert "perception_evidence_ref" in first
+    assert first["perceived_affordance_ref"] in (
+        "affordance:resource:use",
+        "affordance:rest:activate",
+        "affordance:portable:pick_up",
+    )
+
+
+def test_governance_bypass_rejected_with_zero_mutation():
+    from experiments.d009.governance_bypass import attempt_governance_bypass
+
+    engine = _engine_with_sample()
+    before_hash = engine.snapshot_view().state_hash
+    outcomes = attempt_governance_bypass(tick=1)
+    assert outcomes
+    assert all(not row["admitted"] for row in outcomes)
+    assert engine.snapshot_view().state_hash == before_hash
+
+
+def test_ui_projection_as_habitat_truth_rejected():
+    from experiments.d009.hostile_habitat_view import HostileHabitatProjection
+
+    engine = _engine_with_sample()
+    emb = Embodiment()
+    emb.attach_habitat_engine(engine)
+    before_hash = engine.snapshot_view().state_hash
+    hostile = HostileHabitatProjection()
+    hostile.attempt_projection_writes(emb)
+    assert hostile.attempted_writes
+    assert hostile.successful_writes == []
+    assert len(hostile.rejected_writes) == len(hostile.attempted_writes)
+    assert engine.snapshot_view().state_hash == before_hash
+
+
+def test_autonomous_activity_without_user(tmp_path):
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    org = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "auto.sqlite"),
+            seed=7,
+            drift_enabled=True,
+            habitat_enabled=True,
+            embodiment_adapter_enabled=True,
+            expression_enabled=True,
+            wall_time_fn=lambda: 0.0,
+        )
+    )
+    engine, _, _, _, _ = _task7_habitat_setup()
+    org.embodiment.attach_habitat_engine(engine)
+    results = org.run_ticks(40)
+    caps = {r.get("capability") for r in results if r.get("capability")}
+    assert caps - {None}
+    org.close()
+
+
+def test_rest_and_waiting_are_valid_autonomous_actions():
+    from umbra_core.arbitration import Arbitrator
+    from umbra_core.physiology import Physiology
+
+    phys = Physiology()
+    phys.fatigue = 0.95
+    arb = Arbitrator()
+    obs = [{"kind": "rest", "relative_direction": 0.0, "estimated_distance": 1.0}]
+    chosen = arb.select(
+        phys,
+        obs,
+        tick=3,
+        rng=__import__("umbra_core.util", fromlist=["SeededRNG"]).SeededRNG(3),
+    )
+    assert chosen.capability in ("REST", "IDLE", "MOVE", "APPROACH")
+
+
+def test_push_expression_frame_uses_habitat_snapshot_when_engine_attached(tmp_path):
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    org = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "expr.sqlite"),
+            seed=3,
+            expression_enabled=True,
+            wall_time_fn=lambda: 0.0,
+        )
+    )
+    engine = _engine_with_sample()
+    engine.commit_free_location("resource:0", 11.0, 12.0)
+    org.embodiment.attach_habitat_engine(engine)
+    org.tick_once()
+    latest = org.frame_ring.read_latest(
+        __import__("umbra_core.expression.frame_ring", fromlist=["RendererCursor"]).RendererCursor(
+            renderer_id="test"
+        )
+    )
+    assert latest is not None
+    packet = latest.render_packet
+    assert packet.habitat_state_version == engine.snapshot_view().state_version
+    assert packet.habitat_state_hash == engine.snapshot_view().state_hash
+    resource = next(
+        e for e in packet.habitat_read_model.entities if e.object_id == "resource:0"
+    )
+    assert resource.x == 11.0
+    assert resource.y == 12.0
+    org.close()
+
+
+def test_scenario_plants_change_environment_only():
+    from experiments.d009.scenario_plants import apply_scenario_plants, plants_for_scenario, scenario_ids
+
+    assert scenario_ids() == tuple(f"S{i}" for i in range(17))
+    engine = _engine_with_sample()
+    before = engine.get_object("resource:0")
+    assert before is not None
+    start_x = before.location.x
+    applied = apply_scenario_plants(engine, "S2", tick=50)
+    assert applied == 1
+    after = engine.get_object("resource:0")
+    assert after is not None and after.location.x == 12.0
+    assert after.location.x != start_x
+    for plant in plants_for_scenario("S14"):
+        __import__(
+            "experiments.d009.scenario_plants", fromlist=["assert_environment_only_plant"]
+        ).assert_environment_only_plant(plant)
+

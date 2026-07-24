@@ -116,8 +116,13 @@ Concise navigation map for agents. Add entries as application code lands.
 - `umbra_core/individuality/engine.py` (Task 8): `habitat_modifier_for_candidate`, `observe_habitat_verified`, `HABITAT_DISPOSITION_DIMENSIONS`
 - `umbra_core/runtime.py` (Task 5): `Organism.commit_manipulation` delegates to execution journal (trusted-resolved requests only)
 - `umbra_core/runtime.py` (Task 7–8): `execute_manipulation_from_candidate`, bindings/routines → arbitration; environmental learning hooks on MANIPULATE outcomes
-- `umbra_core/events.py` (Task 5): `organism_effect_applied` AUTHORITATIVE
-- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5; Task 5: 15; Task 6: 8; Task 7: 15; Task 8: 11)
+- `umbra_core/runtime.py` (Task 10): `HabitatConfig`/`habitat_enabled`/`habitat_scenario_hook`; P0/C13 gating disables MANIPULATE candidates, affordance execution, environmental routines, dynamics; `_push_expression_frame` wires `habitat_snapshot`+`body_pose` when engine attached
+- `umbra_core/habitat/config.py` (Task 10): `HabitatConfig`, `condition_to_habitat_config` (C2/C3 diagnostic-only raise), `p0_compatibility_config`
+- `experiments/d009/diagnostic_controllers.py` (Task 10): C2 `ScriptedObjectMovementController`, C3 `RandomManipulationController`
+- `experiments/d009/hostile_habitat_view.py` (Task 10): C9 `HostileHabitatProjection` write-attempt recorder
+- `experiments/d009/governance_bypass.py` (Task 10): C10 bypass payload helpers
+- `experiments/d009/scenario_plants.py` (Task 10): S0–S16 environmental opportunity plants (`apply_scenario_plants`)
+- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5; Task 5: 15; Task 6: 8; Task 7: 15; Task 8: 11; Task 9: 8; Task 10: 13)
 - Evidence: `docs/evidence/d009/` (to be created)
 - Starting commit: `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task: `06b5b59709864e11bddb8c1da56dd66e`
 - Authority: own-and-delegate — HabitatEngine mutates; Embodiment.habitat read-only projection; MANIPULATE address-only candidates; PREPARED→COMMITTED execution journal; P0 compatibility mode on same D-009 commit

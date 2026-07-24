@@ -73,7 +73,7 @@ from umbra_core.individuality import (
     condition_to_individuality_config,
     infer_evidence_from_outcome,
 )
-from umbra_core.util import SCHEMA_VERSION, SeededRNG, new_id
+from umbra_core.habitat.config import HabitatConfig, condition_to_habitat_config
 from umbra_core.world_model import WorldModel, WorldModelConfig, condition_to_world_model_config
 
 
@@ -135,6 +135,14 @@ class OrganismConfig:
     # auto-derived from `condition`; callers that want them pass
     # `condition_to_expression_config(cond)` here directly.
     expression_config: ExpressionConfig | None = None
+    # D-009 habitat agency — opt-in like other directive flags.
+    habitat_enabled: bool = False
+    habitat_config: HabitatConfig | None = None
+    habitat_scenario_id: str | None = None
+    habitat_scenario_hook: Any = field(default=None, repr=False)
+
+
+from umbra_core.util import SCHEMA_VERSION, SeededRNG, new_id
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -209,6 +217,12 @@ class Organism:
         self.governance = governance
         self.rng = rng
         self.config = config
+        if config.habitat_config is not None:
+            self._habitat_config = config.habitat_config
+        elif config.habitat_enabled:
+            self._habitat_config = condition_to_habitat_config(config.condition)
+        else:
+            self._habitat_config = HabitatConfig()
         self.self_model = self_model
         self.world_model = world_model
         self.development = development
@@ -621,6 +635,14 @@ class Organism:
         if not self._expression_active():
             return
         try:
+            habitat_engine = self.embodiment._habitat_engine
+            habitat_snapshot = None
+            body_pose = None
+            habitat_state_version = self.tick
+            if habitat_engine is not None:
+                habitat_snapshot = habitat_engine.snapshot_view()
+                body_pose = self.embodiment._body_pose_view()
+                habitat_state_version = habitat_snapshot.state_version
             if self.embodiment_adapter is not None:
                 adapter_state = self.embodiment_adapter.state
                 attachment = AttachmentView(
@@ -642,7 +664,12 @@ class Organism:
                 attachment=attachment,
                 embodiment_state=self.embodiment.to_state(),
                 source_state_version=self.tick,
-                habitat_state_version=self.tick,
+                habitat_state_version=habitat_state_version,
+                habitat_snapshot=habitat_snapshot,
+                body_pose=body_pose,
+                body_pose_version=(
+                    body_pose.body_pose_version if body_pose is not None else None
+                ),
                 last_outcome=last_outcome,
                 individuality_summary=self._individuality_summary(last_outcome),
             )
@@ -901,13 +928,33 @@ class Organism:
         if self.individuality is not None and self.config.individuality_enabled:
             indiv_apply = self.individuality.apply_modifiers
         routine_proposals: list[dict[str, Any]] = []
-        if self.memory is not None and self.config.memory_enabled:
+        if (
+            self.memory is not None
+            and self.config.memory_enabled
+            and self._habitat_config.environmental_routines_enabled
+        ):
             bindings_for_routine = policy_view.get("manipulation_bindings") or []
             routine = self.memory.select_environmental_routine()
             if routine is not None:
                 routine_proposals = self.memory.routine_soft_proposals(
                     routine, bindings_for_routine
                 )
+        manipulation_bindings = (
+            policy_view.get("manipulation_bindings")
+            if self._habitat_config.manipulation_candidates_enabled
+            else None
+        )
+        if (
+            self.config.habitat_scenario_hook
+            and self.config.habitat_scenario_id
+            and self.embodiment._habitat_engine is not None
+            and self._habitat_config.habitat_dynamics_enabled
+        ):
+            self.config.habitat_scenario_hook(
+                self.embodiment._habitat_engine,
+                self.config.habitat_scenario_id,
+                self.tick,
+            )
         cand = self.arbitrator.select(
             self.phys,
             obs_dicts,
@@ -916,7 +963,7 @@ class Organism:
             individuality_apply=indiv_apply,
             context_scope=indiv_scope,
             phase_hint=phase_hint,
-            manipulation_bindings=policy_view.get("manipulation_bindings"),
+            manipulation_bindings=manipulation_bindings,
             routine_proposals=routine_proposals,
         )
 
@@ -1156,6 +1203,7 @@ class Organism:
                 cand.capability == "MANIPULATE"
                 and self.embodiment._habitat_engine is not None
                 and self.embodiment_adapter is not None
+                and self._habitat_config.affordance_execution_enabled
             ):
                 outcome = self.execute_manipulation_from_candidate(
                     cand,
