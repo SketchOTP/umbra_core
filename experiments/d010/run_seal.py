@@ -80,9 +80,22 @@ def validate_stage_a() -> dict:
     return {"stage_a_ok": not errors, "errors": errors}
 
 
+def _collect_pytest_ids() -> set[str]:
+    proc = subprocess.run(
+        [sys.executable, "-m", "pytest", "tests/test_d010.py", "--collect-only", "-q"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    text = proc.stdout + "\n" + proc.stderr
+    return set(re.findall(r"::(test_[a-zA-Z0-9_]+)", text))
+
+
 def run_pytest() -> dict:
     manifest = sa.load_test_manifest()
-    required = sa.required_test_ids(manifest)
+    required = set(sa.required_test_ids(manifest))
+    collected = _collect_pytest_ids()
     proc = subprocess.run(
         [
             sys.executable,
@@ -91,8 +104,6 @@ def run_pytest() -> dict:
             "tests/test_d010.py",
             "-q",
             "--tb=no",
-            "-k",
-            "not harness_runners_smoke",
         ],
         cwd=ROOT,
         capture_output=True,
@@ -106,12 +117,25 @@ def run_pytest() -> dict:
     passed = int(m.group(1)) if m else 0
     skip_m = re.search(r"(\d+) skipped", text)
     n_skip = int(skip_m.group(1)) if skip_m else 0
+    missing_required = sorted(required - collected)
+    unknown_collected = sorted(collected - required)
+    manifest_ok = (
+        proc.returncode == 0
+        and n_skip == 0
+        and not missing_required
+        and len(collected) >= len(required)
+    )
     return {
         "returncode": proc.returncode,
         "passed": passed,
         "skipped": n_skip,
         "required_count": len(required),
-        "zero_skip": n_skip == 0 and proc.returncode == 0,
+        "collected_count": len(collected),
+        "executed_required_count": len(required & collected),
+        "missing_required": missing_required,
+        "unknown_collected": unknown_collected[:8],
+        "manifest_ok": manifest_ok,
+        "zero_skip": manifest_ok,
         "output_tail": text[-2000:],
     }
 
@@ -152,7 +176,7 @@ def main() -> None:
         if (OUT / "experiment-summary.json").exists()
         else {}
     )
-    contract_ok = bool(stage["stage_a_ok"]) and bool(tests.get("zero_skip"))
+    contract_ok = bool(stage["stage_a_ok"]) and bool(tests.get("manifest_ok"))
     perf_contract = bool(perf.get("pre_freeze")) or not perf
     verdict = "UMBRA_D010_PRE_FREEZE_HARNESS_CONTRACT_PASS" if contract_ok else "UMBRA_D010_PRE_FREEZE_HARNESS_CONTRACT_FAIL"
     body = f"""# UMBRA-D-010 Pre-freeze Harness Verdict

@@ -2077,7 +2077,8 @@
     }
   ],
   "directive": "UMBRA-D-010",
-  "frozen_before_execution": false,
+  "frozen_before_execution": true,
+  "manifest_hash": "af3474cf8e995fc4cde3a89acf5195d46b40a194b0e54ce5a2c10b468e699ec3",
   "minimum_gate_critical_paired_seeds": 100,
   "nonoverlap_rule": {
     "development_ranges": [

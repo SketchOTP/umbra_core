@@ -1,48 +1,28 @@
 {
-  "version": 1,
-  "directive": "UMBRA-D-010",
-  "frozen_before_execution": false,
-  "draft": true,
-  "minimum_gate_critical_paired_seeds": 100,
-  "ci_confidence": 0.95,
-  "temporal_authority_alignment_min": 0.95,
-  "recurrence_learning_signal_min": 0.55,
-  "future_leakage_detection_max": 0.0,
-  "anticipation_coverage_min": 0.20,
-  "revision_adaptation_min": 0.10,
-  "temporal_routine_promotion_min": 2,
-  "autonomous_action_coverage_min": 0.25,
   "absence_safety_violation_max": 0.0,
-  "individuality_timing_separation_min": 0.08,
-  "restart_age_continuity_min": 0.90,
-  "replay_equivalence_min": 0.90,
-  "boundedness_ok_rate_min": 1.0,
-  "rss_p95_mib_max": 180,
-  "rss_slope_mib_per_hour_max": 1.0,
-  "cpu_mean_frac_max": 0.05,
-  "ui_incremental_rss_p95_mib_max": 128,
-  "ui_incremental_rss_slope_mib_per_hour_max": 1.0,
-  "ui_incremental_cpu_mean_frac_max": 0.05,
-  "ticks_accelerated_min": 100000,
-  "max_recurrence_hypotheses": 64,
-  "max_active_waits": 8,
-  "max_temporal_routines": 32,
-  "formal_seed_nonoverlap_rule": {
-    "development_ranges": [[1, 10000]],
-    "formal_ranges": [[50001, 60000]],
-    "forbidden_intersection": true,
-    "development_rows_excluded_from_formal_summaries": true
-  },
-  "stable_failure_codes": [
-    "DOWNTIME_INTERVAL_ALREADY_RECONCILED",
-    "RECONCILIATION_PAYLOAD_MISMATCH",
-    "TEMPORAL_ANCHOR_MISMATCH",
-    "WALL_TIME_UNTRUSTED",
-    "RECONCILIATION_STATE_CONFLICT",
-    "ELAPSED_CONTRACT_REGISTRY_MISMATCH",
-    "ELAPSED_CONTRACT_PLAN_INVALID",
-    "REQUIRED_ELAPSED_CONTRACT_UNAVAILABLE"
+  "allowed_verdicts": [
+    "UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
+    "UMBRA_D010_PARTIAL_FOUNDATION",
+    "UMBRA_D010_TEMPORAL_AUTHORITY_FAIL",
+    "UMBRA_D010_RECURRENCE_LEARNING_FAIL",
+    "UMBRA_D010_FUTURE_LEAKAGE_FAIL",
+    "UMBRA_D010_ANTICIPATION_FAIL",
+    "UMBRA_D010_REVISION_FAIL",
+    "UMBRA_D010_TEMPORAL_ROUTINE_FAIL",
+    "UMBRA_D010_AUTONOMY_FAIL",
+    "UMBRA_D010_ABSENCE_SAFETY_FAIL",
+    "UMBRA_D010_DOWNTIME_CONTINUITY_FAIL",
+    "UMBRA_D010_REPLAY_FAIL",
+    "UMBRA_D010_BOUNDEDNESS_FAIL",
+    "UMBRA_D010_REGRESSION_FAIL",
+    "UMBRA_D010_PERFORMANCE_FAIL"
   ],
+  "anticipation_coverage_min": 0.2,
+  "autonomous_action_coverage_min": 0.25,
+  "boundedness_ok_rate_min": 1.0,
+  "ci_confidence": 0.95,
+  "cpu_mean_frac_max": 0.05,
+  "directive": "UMBRA-D-010",
   "downtime_failure_codes": [
     "DOWNTIME_INTERVAL_ALREADY_RECONCILED",
     "RECONCILIATION_PAYLOAD_MISMATCH",
@@ -55,18 +35,65 @@
     "ELAPSED_CONTRACT_PLAN_INVALID",
     "REQUIRED_ELAPSED_CONTRACT_UNAVAILABLE"
   ],
-  "stage_a_refs": {
-    "authoritative_event_allowlist": "experiments/d010/authoritative-event-allowlist.json",
-    "observable_evidence_allowlist": "experiments/d010/observable-evidence-allowlist.json",
-    "elapsed_contract_registry": "experiments/d010/elapsed-contract-registry.json",
-    "failure_code_registry": "experiments/d010/failure-code-registry.json",
-    "temporal_event_schemas": "experiments/d010/temporal-event-schemas.json",
-    "runtime_tick_classification": "experiments/d010/runtime-tick-classification.json"
+  "formal_seed_nonoverlap_rule": {
+    "development_ranges": [
+      [
+        1,
+        10000
+      ]
+    ],
+    "development_rows_excluded_from_formal_summaries": true,
+    "forbidden_intersection": true,
+    "formal_ranges": [
+      [
+        50001,
+        60000
+      ]
+    ]
   },
+  "frozen_before_execution": true,
+  "future_leakage_detection_max": 0.0,
+  "individuality_timing_separation_min": 0.08,
+  "max_active_waits": 8,
+  "max_recurrence_hypotheses": 64,
+  "max_temporal_routines": 32,
+  "minimum_gate_critical_paired_seeds": 100,
   "p0_performance_mode": {
     "anticipation_enabled": false,
     "temporal_routine_eligibility_enabled": false,
-    "wait_generation_enabled": false,
-    "temporal_score_modifiers_enabled": false
-  }
+    "temporal_score_modifiers_enabled": false,
+    "wait_generation_enabled": false
+  },
+  "recurrence_learning_signal_min": 0.55,
+  "replay_equivalence_min": 0.9,
+  "restart_age_continuity_min": 0.9,
+  "revision_adaptation_min": 0.1,
+  "rss_p95_mib_max": 180,
+  "rss_slope_mib_per_hour_max": 1.0,
+  "stable_failure_codes": [
+    "DOWNTIME_INTERVAL_ALREADY_RECONCILED",
+    "RECONCILIATION_PAYLOAD_MISMATCH",
+    "TEMPORAL_ANCHOR_MISMATCH",
+    "WALL_TIME_UNTRUSTED",
+    "RECONCILIATION_STATE_CONFLICT",
+    "ELAPSED_CONTRACT_REGISTRY_MISMATCH",
+    "ELAPSED_CONTRACT_PLAN_INVALID",
+    "REQUIRED_ELAPSED_CONTRACT_UNAVAILABLE"
+  ],
+  "stage_a_refs": {
+    "authoritative_event_allowlist": "experiments/d010/authoritative-event-allowlist.json",
+    "elapsed_contract_registry": "experiments/d010/elapsed-contract-registry.json",
+    "failure_code_registry": "experiments/d010/failure-code-registry.json",
+    "observable_evidence_allowlist": "experiments/d010/observable-evidence-allowlist.json",
+    "runtime_tick_classification": "experiments/d010/runtime-tick-classification.json",
+    "temporal_event_schemas": "experiments/d010/temporal-event-schemas.json"
+  },
+  "temporal_authority_alignment_min": 0.95,
+  "temporal_routine_promotion_min": 2,
+  "threshold_freeze_timestamp": "2026-07-24T15:31:53+00:00",
+  "ticks_accelerated_min": 100000,
+  "ui_incremental_cpu_mean_frac_max": 0.05,
+  "ui_incremental_rss_p95_mib_max": 128,
+  "ui_incremental_rss_slope_mib_per_hour_max": 1.0,
+  "version": 1
 }

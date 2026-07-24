@@ -308,6 +308,7 @@ def _aggregate_gate(gate: int, results: list[dict[str, Any]], *, commit: str) ->
         return out
 
     comparisons: list[dict[str, Any]] = []
+    ci = float(THR.get("ci_confidence", 0.95))
     if gate == 1:
         comparisons.append(
             ev.comparison(
@@ -352,6 +353,151 @@ def _aggregate_gate(gate: int, results: list[dict[str, Any]], *, commit: str) ->
                 values_a=vals("anticipation_coverage", cond="C0", scen="S2"),
                 values_b=vals("anticipation_coverage", cond="C5", scen="S2"),
                 threshold=float(THR["anticipation_coverage_min"]),
+                ci_confidence=ci,
+            )
+        )
+    elif gate == 5:
+        c0 = vals("revision_adaptation", cond="C0", scen="S10")
+        comparisons.append(
+            ev.comparison(
+                comparison_id="g5_revision_adaptation",
+                condition_a="C0",
+                condition_b="min",
+                values_a=c0,
+                values_b=[0.0] * len(c0),
+                threshold=float(THR["revision_adaptation_min"]),
+                ci_confidence=ci,
+            )
+        )
+    elif gate == 6:
+        c0 = vals("temporal_routine_promotion", cond="C0", scen="S7")
+        c6 = vals("temporal_routine_promotion", cond="C6", scen="S7")
+        comparisons.extend(
+            [
+                ev.comparison(
+                    comparison_id="g6_c0_routine_promotion",
+                    condition_a="C0",
+                    condition_b="min",
+                    values_a=c0,
+                    values_b=[0.0] * len(c0),
+                    threshold=float(THR["temporal_routine_promotion_min"]),
+                    ci_confidence=ci,
+                ),
+                ev.comparison(
+                    comparison_id="g6_c6_ablation",
+                    condition_a="C0",
+                    condition_b="C6",
+                    values_a=c0,
+                    values_b=c6,
+                    threshold=float(THR["temporal_routine_promotion_min"]),
+                    material_gap_min=0.05,
+                    ci_confidence=ci,
+                ),
+            ]
+        )
+    elif gate == 7:
+        c0 = vals("autonomous_action_coverage", cond="C0", scen="S13")
+        comparisons.append(
+            ev.comparison(
+                comparison_id="g7_autonomous_coverage",
+                condition_a="C0",
+                condition_b="min",
+                values_a=c0,
+                values_b=[0.0] * len(c0),
+                threshold=float(THR["autonomous_action_coverage_min"]),
+                ci_confidence=ci,
+            )
+        )
+    elif gate == 8:
+        c0 = vals("absence_safety_violation", cond="C0", scen="S7")
+        comparisons.append(
+            ev.comparison(
+                comparison_id="g8_absence_safety",
+                condition_a="C0",
+                condition_b="max",
+                values_a=c0,
+                values_b=[0.0] * len(c0),
+                threshold=float(THR["absence_safety_violation_max"]),
+                higher_is_better_for_a=False,
+                ci_confidence=ci,
+            )
+        )
+    elif gate == 9:
+        c0 = vals("individuality_timing_separation", cond="C0", scen="S14")
+        comparisons.append(
+            ev.comparison(
+                comparison_id="g9_individuality_timing",
+                condition_a="C0",
+                condition_b="min",
+                values_a=c0,
+                values_b=[0.0] * len(c0),
+                threshold=float(THR["individuality_timing_separation_min"]),
+                ci_confidence=ci,
+            )
+        )
+    elif gate == 10:
+        c0 = vals("restart_age_continuity", cond="C0", scen="S5")
+        c8 = vals("restart_age_continuity", cond="C8", scen="S5")
+        comparisons.extend(
+            [
+                ev.comparison(
+                    comparison_id="g10_restart_continuity",
+                    condition_a="C0",
+                    condition_b="min",
+                    values_a=c0,
+                    values_b=[0.0] * len(c0),
+                    threshold=float(THR["restart_age_continuity_min"]),
+                    ci_confidence=ci,
+                ),
+                ev.comparison(
+                    comparison_id="g10_c8_disposable_reset",
+                    condition_a="C0",
+                    condition_b="C8",
+                    values_a=c0,
+                    values_b=c8,
+                    threshold=float(THR["restart_age_continuity_min"]),
+                    material_gap_min=0.05,
+                    ci_confidence=ci,
+                ),
+            ]
+        )
+    elif gate == 11:
+        c0 = vals("replay_equivalence", cond="C0", scen="S11")
+        c12 = vals("replay_equivalence", cond="C12", scen="S11")
+        comparisons.extend(
+            [
+                ev.comparison(
+                    comparison_id="g11_replay_equivalence",
+                    condition_a="C0",
+                    condition_b="min",
+                    values_a=c0,
+                    values_b=[0.0] * len(c0),
+                    threshold=float(THR["replay_equivalence_min"]),
+                    ci_confidence=ci,
+                ),
+                ev.comparison(
+                    comparison_id="g11_shuffle_ablation",
+                    condition_a="C0",
+                    condition_b="C12",
+                    values_a=c0,
+                    values_b=c12,
+                    threshold=float(THR["replay_equivalence_min"]),
+                    material_gap_min=0.05,
+                    ci_confidence=ci,
+                ),
+            ]
+        )
+    elif gate == 12:
+        ok = vals("boundedness_ok", cond="C0", scen="S15")
+        comparisons.append(
+            ev.comparison(
+                comparison_id="g12_boundedness",
+                condition_a="C0",
+                condition_b="min",
+                values_a=ok,
+                values_b=[0.0] * len(ok),
+                threshold=float(THR["boundedness_ok_rate_min"]),
+                ci_confidence=ci,
             )
         )
 

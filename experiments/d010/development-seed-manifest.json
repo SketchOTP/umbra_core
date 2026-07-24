@@ -1,6 +1,7 @@
 {
   "directive": "UMBRA-D-010",
-  "frozen_before_execution": false,
+  "frozen_before_execution": true,
+  "manifest_hash": "4db7dd603a602dc8628823acf4fb77fd1c46541096edfae9563f019b518006a5",
   "nonoverlap_rule": {
     "development_ranges": [
       [

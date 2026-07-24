@@ -2156,6 +2156,16 @@ def test_adaptive_performance_protocol_contract():
     assert thr["ticks_accelerated_min"] >= 100000
     assert proto["supplement"] == "S3"
     assert int(proto["initial_measurement_seconds"]) >= 1800
+    if thr.get("frozen_before_execution"):
+        assert thr.get("threshold_freeze_timestamp")
+        assert thr.get("allowed_verdicts")
+        contract = json.loads(
+            (ROOT / "experiments/d010/formal-execution-contract.json").read_text(encoding="utf-8")
+        )
+        assert contract.get("frozen_before_execution") is True
+        assert contract.get("freeze_bundle_hash")
+        assert contract.get("implementation_source_hash")
+        assert "freeze_commit" not in contract
     perf = ROOT / "docs/evidence/d010/performance-results.json"
     if perf.exists():
         data = json.loads(perf.read_text(encoding="utf-8"))

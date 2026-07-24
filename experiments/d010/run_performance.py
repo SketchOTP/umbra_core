@@ -99,8 +99,11 @@ def _run_soak(mode: str) -> dict[str, Any]:
         cursor = RendererCursor(renderer_id="P1")
     elif mode == "P2":
         try:
-            from ui.reference_companion.tkinter_renderer import TkinterRenderer
+            import importlib
 
+            TkinterRenderer = importlib.import_module(
+                "ui.reference_companion.tkinter_renderer"
+            ).TkinterRenderer
             renderer = TkinterRenderer()
             cursor = RendererCursor(renderer_id="P2")
         except Exception as exc:  # ponytail: optional display stack

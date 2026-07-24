@@ -1,14 +1,11 @@
 {
-  "version": 1,
-  "directive": "UMBRA-D-010",
-  "frozen_before_execution": false,
-  "minimum_gate_critical_paired_seeds": 100,
-  "thresholds_ref": "experiments/d010/thresholds.json",
-  "scenario_suite_ref": "experiments/d010/scenario-suite.json",
-  "design_ref": "docs/superpowers/specs/2026-07-24-umbra-d010-temporal-continuity-design.md",
   "conditions": {
     "C0": "Full temporal continuity",
     "C1": "TemporalEngine disabled",
+    "C10": "Governance bypass attempt",
+    "C11": "Frequency-only recurrence lane",
+    "C12": "Temporal event shuffle during replay",
+    "C13": "P0 performance baseline",
     "C2": "Scripted future schedule (experiments-only diagnostic)",
     "C3": "Random WAIT injection (experiments-only diagnostic)",
     "C4": "Temporal score modifiers disabled",
@@ -16,31 +13,191 @@
     "C6": "Temporal routine eligibility disabled",
     "C7": "Hidden schedule injection (experiments-only diagnostic)",
     "C8": "Temporal state reset on restart (disposable DB only)",
-    "C9": "Hostile temporal clock view",
-    "C10": "Governance bypass attempt",
-    "C11": "Frequency-only recurrence lane",
-    "C12": "Temporal event shuffle during replay",
-    "C13": "P0 performance baseline"
+    "C9": "Hostile temporal clock view"
   },
+  "design_ref": "docs/superpowers/specs/2026-07-24-umbra-d010-temporal-continuity-design.md",
+  "directive": "UMBRA-D-010",
+  "frozen_before_execution": true,
   "gate_critical_cells": [
-    {"condition": "C0", "scenario": "S0", "paired_seeds": 100, "gates": [0, 1, 7], "role": "Baseline temporal authority and autonomy"},
-    {"condition": "C1", "scenario": "S0", "paired_seeds": 100, "gates": [1], "role": "Temporal disabled ablation"},
-    {"condition": "C0", "scenario": "S1", "paired_seeds": 100, "gates": [2], "role": "Recurrence learning from periodic resource"},
-    {"condition": "C11", "scenario": "S1", "paired_seeds": 100, "gates": [2], "role": "Frequency-only recurrence weaker than C0"},
-    {"condition": "C2", "scenario": "S0", "paired_seeds": 100, "gates": [3], "role": "Scripted future schedule must not qualify"},
-    {"condition": "C7", "scenario": "S0", "paired_seeds": 100, "gates": [3], "role": "Hidden schedule rejected"},
-    {"condition": "C0", "scenario": "S2", "paired_seeds": 100, "gates": [4], "role": "Anticipation and bounded WAIT"},
-    {"condition": "C5", "scenario": "S2", "paired_seeds": 100, "gates": [4], "role": "WAIT disabled ablation"},
-    {"condition": "C0", "scenario": "S10", "paired_seeds": 100, "gates": [5], "role": "Schedule revision adaptation"},
-    {"condition": "C0", "scenario": "S7", "paired_seeds": 100, "gates": [6, 8], "role": "Temporal routine promotion and absence safety"},
-    {"condition": "C6", "scenario": "S7", "paired_seeds": 100, "gates": [6], "role": "Temporal routine eligibility disabled"},
-    {"condition": "C0", "scenario": "S13", "paired_seeds": 100, "gates": [7], "role": "Autonomous coverage without scheduler"},
-    {"condition": "C0", "scenario": "S14", "paired_seeds": 100, "gates": [9], "role": "Individuality timing separation"},
-    {"condition": "C0", "scenario": "S5", "paired_seeds": 100, "gates": [10], "role": "Restart mid window continuity"},
-    {"condition": "C8", "scenario": "S5", "paired_seeds": 100, "gates": [10], "role": "C8 reset on disposable restart path"},
-    {"condition": "C0", "scenario": "S11", "paired_seeds": 100, "gates": [11], "role": "Replay equivalence"},
-    {"condition": "C12", "scenario": "S11", "paired_seeds": 100, "gates": [11], "role": "Replay shuffle ablation"},
-    {"condition": "C0", "scenario": "S15", "paired_seeds": 100, "gates": [12], "role": "Boundedness stress"},
-    {"condition": "C10", "scenario": "S0", "paired_seeds": 100, "gates": [1, 3], "role": "Governance bypass rejected"}
-  ]
+    {
+      "condition": "C0",
+      "gates": [
+        0,
+        1,
+        7
+      ],
+      "paired_seeds": 100,
+      "role": "Baseline temporal authority and autonomy",
+      "scenario": "S0"
+    },
+    {
+      "condition": "C1",
+      "gates": [
+        1
+      ],
+      "paired_seeds": 100,
+      "role": "Temporal disabled ablation",
+      "scenario": "S0"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        2
+      ],
+      "paired_seeds": 100,
+      "role": "Recurrence learning from periodic resource",
+      "scenario": "S1"
+    },
+    {
+      "condition": "C11",
+      "gates": [
+        2
+      ],
+      "paired_seeds": 100,
+      "role": "Frequency-only recurrence weaker than C0",
+      "scenario": "S1"
+    },
+    {
+      "condition": "C2",
+      "gates": [
+        3
+      ],
+      "paired_seeds": 100,
+      "role": "Scripted future schedule must not qualify",
+      "scenario": "S0"
+    },
+    {
+      "condition": "C7",
+      "gates": [
+        3
+      ],
+      "paired_seeds": 100,
+      "role": "Hidden schedule rejected",
+      "scenario": "S0"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        4
+      ],
+      "paired_seeds": 100,
+      "role": "Anticipation and bounded WAIT",
+      "scenario": "S2"
+    },
+    {
+      "condition": "C5",
+      "gates": [
+        4
+      ],
+      "paired_seeds": 100,
+      "role": "WAIT disabled ablation",
+      "scenario": "S2"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        5
+      ],
+      "paired_seeds": 100,
+      "role": "Schedule revision adaptation",
+      "scenario": "S10"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        6,
+        8
+      ],
+      "paired_seeds": 100,
+      "role": "Temporal routine promotion and absence safety",
+      "scenario": "S7"
+    },
+    {
+      "condition": "C6",
+      "gates": [
+        6
+      ],
+      "paired_seeds": 100,
+      "role": "Temporal routine eligibility disabled",
+      "scenario": "S7"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        7
+      ],
+      "paired_seeds": 100,
+      "role": "Autonomous coverage without scheduler",
+      "scenario": "S13"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        9
+      ],
+      "paired_seeds": 100,
+      "role": "Individuality timing separation",
+      "scenario": "S14"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        10
+      ],
+      "paired_seeds": 100,
+      "role": "Restart mid window continuity",
+      "scenario": "S5"
+    },
+    {
+      "condition": "C8",
+      "gates": [
+        10
+      ],
+      "paired_seeds": 100,
+      "role": "C8 reset on disposable restart path",
+      "scenario": "S5"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        11
+      ],
+      "paired_seeds": 100,
+      "role": "Replay equivalence",
+      "scenario": "S11"
+    },
+    {
+      "condition": "C12",
+      "gates": [
+        11
+      ],
+      "paired_seeds": 100,
+      "role": "Replay shuffle ablation",
+      "scenario": "S11"
+    },
+    {
+      "condition": "C0",
+      "gates": [
+        12
+      ],
+      "paired_seeds": 100,
+      "role": "Boundedness stress",
+      "scenario": "S15"
+    },
+    {
+      "condition": "C10",
+      "gates": [
+        1,
+        3
+      ],
+      "paired_seeds": 100,
+      "role": "Governance bypass rejected",
+      "scenario": "S0"
+    }
+  ],
+  "minimum_gate_critical_paired_seeds": 100,
+  "scenario_suite_ref": "experiments/d010/scenario-suite.json",
+  "threshold_freeze_timestamp": "2026-07-24T15:31:53+00:00",
+  "thresholds_ref": "experiments/d010/thresholds.json",
+  "version": 1
 }
