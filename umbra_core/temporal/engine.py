@@ -11,6 +11,29 @@ from umbra_core.temporal.allowlists import (
     assert_observable_evidence_allowed,
 )
 from umbra_core.temporal.clock import TrustedSample, compute_sample_hash
+from umbra_core.temporal.contracts import (
+    ElapsedContractError,
+    ElapsedTimeContractRegistry,
+    calculate_all_effects,
+    load_elapsed_contract_registry,
+)
+from umbra_core.temporal.downtime import (
+    DowntimeReconciliationError,
+    DowntimeReconciliationPlan,
+    DowntimeReconciliationRecord,
+    DowntimeReconciliationResult,
+    ReconciliationStatus,
+    apply_downtime_plan_to_state,
+    build_downtime_anchor,
+    classify_downtime_trust,
+    compute_canonical_plan_hash,
+    compute_downtime_interval_id,
+    compute_expectation_recovery_deltas,
+    compute_wait_recovery_deltas,
+    new_reconciliation_id,
+    plan_identity_payload,
+    reconciliation_policy_hash,
+)
 from umbra_core.temporal.events import (
     TemporalAdvanceRecord,
     TemporalEngineError,
@@ -101,6 +124,12 @@ class TemporalEngine:
         self._in_flight_observation: TemporalObservationPlan | None = None
         self._committed_observation_plan_ids: set[str] = set()
         self._post_hoc_anchor_registry: dict[str, dict[str, Any]] = {}
+        self._reconciliation_journal: dict[str, DowntimeReconciliationRecord] = {}
+        self._in_flight_reconciliation: DowntimeReconciliationPlan | None = None
+        self._prepared_reconciliation_samples: dict[str, TrustedSample] = {}
+        self._prepared_context_index: dict[str, str] = {}
+        self._committed_reconciliation_ids: set[str] = set()
+        self._committed_reconciliation_plans: dict[str, DowntimeReconciliationPlan] = {}
 
     @property
     def state(self) -> TemporalState:
@@ -191,6 +220,210 @@ class TemporalEngine:
         self._committed_advance_ids.add(plan.advance_id)
         return new_state, record
 
+    @property
+    def in_flight_reconciliation_plan(self) -> DowntimeReconciliationPlan | None:
+        return self._in_flight_reconciliation
+
+    def reconcile_downtime(
+        self,
+        sample: TrustedSample,
+        *,
+        session_id: str,
+        wait_journal: Any | None = None,
+        registry: ElapsedTimeContractRegistry | None = None,
+        subsystem_snapshots: dict[str, dict[str, Any]] | None = None,
+    ) -> DowntimeReconciliationPlan:
+        if self._in_flight_reconciliation is not None:
+            return self._in_flight_reconciliation
+
+        prior_anchor = self._state.last_time_anchor
+        context_key = f"{prior_anchor.state_hash}:{session_id}"
+        sticky_interval = self._prepared_context_index.get(context_key)
+        if sticky_interval is not None:
+            interval_id = sticky_interval
+            sticky = self._prepared_reconciliation_samples[interval_id]
+            effective_sample = sticky
+        else:
+            effective_sample = sample
+            interval_id = compute_downtime_interval_id(
+                prior_anchor=prior_anchor,
+                sample=effective_sample,
+            )
+            self._prepared_reconciliation_samples[interval_id] = effective_sample
+            self._prepared_context_index[context_key] = interval_id
+
+        existing = self._reconciliation_journal.get(interval_id)
+        if existing is not None and existing.status == ReconciliationStatus.COMMITTED:
+            committed_plan = self._committed_reconciliation_plans.get(interval_id)
+            if committed_plan is None:
+                raise TemporalEngineError("committed_plan_missing")
+            return committed_plan
+
+        reg = registry or load_elapsed_contract_registry()
+        snaps = dict(subsystem_snapshots or {})
+        snaps.setdefault("temporal", {
+            "state_version": self._state.state_version,
+            "state_hash": self._state.state_hash,
+        })
+        snaps.setdefault("physiology", {"state_version": 0, "state_hash": "physiology:genesis"})
+        snaps.setdefault("needs", {"state_version": 0, "state_hash": "needs:genesis"})
+
+        trust = classify_downtime_trust(prior_anchor=prior_anchor, sample=effective_sample)
+        effect_plans, skipped, required_failure = calculate_all_effects(
+            reg,
+            subsystem_snapshots=snaps,
+            elapsed_seconds=trust.elapsed_seconds,
+            uncertainty=effective_sample.wall_time_uncertainty,
+            trust_class=trust.trust_class,
+        )
+        conservative = trust.conservative or required_failure
+        age_advance = 0 if conservative else trust.age_advance
+        fractional = 0.0 if conservative else trust.fractional_remainder
+
+        prior_age = self._state.organism_age_ticks
+        next_age = prior_age + age_advance
+        reconciliation_id = new_reconciliation_id()
+
+        def _predict(recurrence_id: str, *, current_age: int) -> Any:
+            return self.predict_recurrence(recurrence_id, current_age=current_age)
+
+        expectation_deltas = compute_expectation_recovery_deltas(
+            self._state,
+            new_age_ticks=next_age,
+            predict_fn=_predict,
+        )
+        wait_deltas: tuple[Any, ...] = ()
+        if wait_journal is not None:
+            wait_deltas = compute_wait_recovery_deltas(wait_journal, new_age_ticks=next_age)
+
+        effective_trust = replace(
+            trust,
+            conservative=conservative,
+            age_advance=age_advance,
+            fractional_remainder=fractional,
+        )
+        new_anchor = build_downtime_anchor(
+            sample=effective_sample,
+            session_id=session_id,
+            age_ticks=next_age,
+            active_ticks=self._state.organism_active_ticks,
+            state_version=self._state.state_version + 1,
+            trust=effective_trust,
+            reconciliation_id=reconciliation_id,
+        )
+
+        identity = plan_identity_payload(
+            downtime_interval_id=interval_id,
+            trust_class=trust.trust_class,
+            trust_reason_codes=trust.reason_codes,
+            elapsed_seconds=trust.elapsed_seconds,
+            age_advance=age_advance,
+            fractional_remainder=fractional,
+            prior_age_ticks=prior_age,
+            next_age_ticks=next_age,
+            registry_hash=reg.registry_hash,
+            effect_plan_hashes=tuple(p.effect_plan_hash for p in effect_plans),
+            skipped_contract_ids=tuple(skipped),
+            expectation_recovery_deltas=expectation_deltas,
+            wait_recovery_deltas=wait_deltas,
+            conservative=conservative,
+            trusted_sample_hash=compute_sample_hash(effective_sample),
+        )
+        canonical_hash = compute_canonical_plan_hash(identity)
+
+        if existing is not None and existing.canonical_plan_hash != canonical_hash:
+            raise DowntimeReconciliationError("RECONCILIATION_PAYLOAD_MISMATCH")
+
+        plan = DowntimeReconciliationPlan(
+            downtime_interval_id=interval_id,
+            reconciliation_id=reconciliation_id,
+            canonical_plan_hash=canonical_hash,
+            expected_state_version=self._state.state_version,
+            expected_state_hash=self._state.state_hash,
+            session_id=session_id,
+            trusted_sample_hash=compute_sample_hash(effective_sample),
+            trust_class=trust.trust_class,
+            trust_reason_codes=trust.reason_codes,
+            elapsed_seconds=trust.elapsed_seconds,
+            age_advance=age_advance,
+            fractional_remainder=fractional,
+            prior_age_ticks=prior_age,
+            next_age_ticks=next_age,
+            prior_active_ticks=self._state.organism_active_ticks,
+            next_active_ticks=self._state.organism_active_ticks,
+            prior_time_anchor=prior_anchor,
+            new_time_anchor=new_anchor,
+            registry_hash=reg.registry_hash,
+            effect_plan_ids=tuple(p.effect_plan_id for p in effect_plans),
+            effect_plan_hashes=tuple(p.effect_plan_hash for p in effect_plans),
+            skipped_contract_ids=tuple(skipped),
+            expectation_recovery_deltas=expectation_deltas,
+            wait_recovery_deltas=wait_deltas,
+            conservative=conservative,
+        )
+        self._in_flight_reconciliation = plan
+        self._reconciliation_journal[interval_id] = DowntimeReconciliationRecord(
+            downtime_interval_id=interval_id,
+            reconciliation_id=reconciliation_id,
+            canonical_plan_hash=canonical_hash,
+            status=ReconciliationStatus.PREPARED,
+            sticky_sample_hash=compute_sample_hash(effective_sample),
+        )
+        return plan
+
+    def abandon_downtime_reconciliation(self, reconciliation_id: str) -> None:
+        if self._in_flight_reconciliation is None:
+            raise TemporalEngineError("no_reconciliation_prepared")
+        if self._in_flight_reconciliation.reconciliation_id != reconciliation_id:
+            raise TemporalEngineError("reconciliation_id_mismatch")
+        self._in_flight_reconciliation = None
+
+    def commit_downtime_reconciliation(
+        self,
+        plan: DowntimeReconciliationPlan,
+        sample: TrustedSample,
+        *,
+        transaction_id: str,
+    ) -> DowntimeReconciliationResult:
+        interval_id = plan.downtime_interval_id
+        existing = self._reconciliation_journal.get(interval_id)
+        if existing is not None and existing.status == ReconciliationStatus.COMMITTED:
+            if existing.canonical_plan_hash != plan.canonical_plan_hash:
+                raise DowntimeReconciliationError("RECONCILIATION_PAYLOAD_MISMATCH")
+            return DowntimeReconciliationResult(
+                plan=plan,
+                new_state=self._state,
+                record=existing,
+            )
+
+        if self._in_flight_reconciliation is None:
+            raise TemporalEngineError("no_reconciliation_prepared")
+        if self._in_flight_reconciliation.reconciliation_id != plan.reconciliation_id:
+            raise TemporalEngineError("reconciliation_id_mismatch")
+
+        sticky = self._prepared_reconciliation_samples.get(interval_id, sample)
+        if compute_sample_hash(sticky) != plan.trusted_sample_hash:
+            raise DowntimeReconciliationError("RECONCILIATION_PAYLOAD_MISMATCH")
+
+        new_state = apply_downtime_plan_to_state(self._state, plan, sticky)
+        record = DowntimeReconciliationRecord(
+            downtime_interval_id=interval_id,
+            reconciliation_id=plan.reconciliation_id,
+            canonical_plan_hash=plan.canonical_plan_hash,
+            status=ReconciliationStatus.COMMITTED,
+            transaction_id=transaction_id,
+            sticky_sample_hash=plan.trusted_sample_hash,
+        )
+        self._state = new_state
+        self._reconciliation_journal[interval_id] = record
+        self._committed_reconciliation_ids.add(plan.reconciliation_id)
+        self._committed_reconciliation_plans[interval_id] = plan
+        self._in_flight_reconciliation = None
+        return DowntimeReconciliationResult(plan=plan, new_state=new_state, record=record)
+
+    def get_reconciliation_record(self, downtime_interval_id: str) -> DowntimeReconciliationRecord | None:
+        return self._reconciliation_journal.get(downtime_interval_id)
+
     def replace_state(self, state: TemporalState) -> None:
         """Restore durable temporal state after restart (snapshot authority)."""
         self._state = state
@@ -198,6 +431,12 @@ class TemporalEngine:
         self._committed_advance_ids = {state.last_advance_id}
         self._in_flight_observation = None
         self._committed_observation_plan_ids = set()
+        self._reconciliation_journal = {}
+        self._in_flight_reconciliation = None
+        self._prepared_reconciliation_samples = {}
+        self._prepared_context_index = {}
+        self._committed_reconciliation_ids = set()
+        self._committed_reconciliation_plans = {}
 
     def prepare_finalized_evidence(
         self,

@@ -1563,3 +1563,302 @@ def test_temporal_binding_maximum_start_delay_exceeded():
     assert not eligibility.eligible
     assert eligibility.reason == "maximum_start_delay_exceeded"
 
+
+# --- Task 8: downtime reconciliation + elapsed contracts ---
+
+
+def _trusted_wall_anchor(
+    *,
+    wall_time: float = 1000.0,
+    age: int = 10,
+    session_id: str = "session:prior",
+) -> TimeAnchor:
+    from umbra_core.temporal.state import with_anchor_state_hash
+
+    anchor = TimeAnchor(
+        organism_age_ticks=age,
+        organism_active_ticks=age,
+        state_version=1,
+        state_hash="",
+        wall_time=wall_time,
+        wall_time_source="runtime.wall_time_fn",
+        wall_time_uncertainty=0.0,
+        session_id_at_commit=session_id,
+        advance_id="advance:prior",
+        anchor_trust_class=AnchorTrustClass.TRUSTED_SHORT,
+        trust_reason_codes=("trusted_short_gap",),
+        eligible_as_downtime_baseline=True,
+        source_sample_hash="abc123",
+    )
+    return with_anchor_state_hash(anchor)
+
+
+def _engine_with_trusted_anchor(*, age: int = 10) -> TemporalEngine:
+    state = sample_temporal_state()
+    anchor = _trusted_wall_anchor(age=age)
+    state = with_state_hash(
+        replace(
+            state,
+            organism_age_ticks=age,
+            organism_active_ticks=age,
+            last_time_anchor=anchor,
+            state_version=2,
+        )
+    )
+    return TemporalEngine(state)
+
+
+def _wall_sample(
+    *,
+    wall_time: float,
+    session_id: str = "session:restart",
+    uncertainty: float = 0.0,
+    source: str = "runtime.wall_time_fn",
+) -> TrustedSample:
+    return TrustedSample(
+        session_id=session_id,
+        monotonic_ns=9_000_000,
+        optional_wall_time=wall_time,
+        wall_time_source=source,
+        wall_time_uncertainty=uncertainty,
+        sample_sequence=1,
+    )
+
+
+def test_trusted_short_downtime_advances_age():
+    from umbra_core.temporal.downtime import SECONDS_PER_AGE_TICK
+
+    engine = _engine_with_trusted_anchor(age=10)
+    elapsed = 120.0
+    sample = _wall_sample(wall_time=1000.0 + elapsed)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart")
+    assert plan.trust_class == AnchorTrustClass.TRUSTED_SHORT
+    assert plan.age_advance == int(elapsed / SECONDS_PER_AGE_TICK)
+    assert plan.next_age_ticks == 10 + plan.age_advance
+    assert plan.conservative is False
+
+
+def test_uncertain_downtime_has_zero_age_advance():
+    engine = _engine_with_trusted_anchor(age=5)
+    sample = _wall_sample(wall_time=1000.0, uncertainty=2.0)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart")
+    assert plan.age_advance == 0
+    assert plan.next_age_ticks == 5
+    assert plan.conservative is True
+
+
+def test_conservative_anchor_not_eligible_as_downtime_baseline():
+    engine = _engine_with_trusted_anchor(age=3)
+    sample = _wall_sample(wall_time=1060.0, uncertainty=2.0)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart")
+    result = engine.commit_downtime_reconciliation(plan, sample, transaction_id="txn:1")
+    assert result.new_state.last_time_anchor.eligible_as_downtime_baseline is False
+
+
+def test_downtime_reconciliation_commits_new_session_anchor():
+    engine = _engine_with_trusted_anchor(age=4)
+    sample = _wall_sample(wall_time=1120.0, session_id="session:new")
+    plan = engine.reconcile_downtime(sample, session_id="session:new")
+    result = engine.commit_downtime_reconciliation(plan, sample, transaction_id="txn:2")
+    anchor = result.new_state.last_time_anchor
+    assert anchor.session_id_at_commit == "session:new"
+    assert anchor.advance_id.startswith("reconcile:")
+
+
+def test_same_downtime_interval_idempotent_retry():
+    engine = _engine_with_trusted_anchor(age=6)
+    sample = _wall_sample(wall_time=1180.0)
+    plan1 = engine.reconcile_downtime(sample, session_id="session:restart")
+    plan2 = engine.reconcile_downtime(sample, session_id="session:restart")
+    assert plan2.downtime_interval_id == plan1.downtime_interval_id
+    assert plan2.canonical_plan_hash == plan1.canonical_plan_hash
+    result1 = engine.commit_downtime_reconciliation(plan1, sample, transaction_id="txn:3")
+    result2 = engine.commit_downtime_reconciliation(plan1, sample, transaction_id="txn:3b")
+    assert result2.new_state.organism_age_ticks == result1.new_state.organism_age_ticks
+
+
+def test_same_downtime_interval_payload_mismatch_fails_closed():
+    from umbra_core.temporal.downtime import DowntimeReconciliationError
+
+    engine = _engine_with_trusted_anchor(age=6)
+    sample = _wall_sample(wall_time=1180.0)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart")
+    engine.abandon_downtime_reconciliation(plan.reconciliation_id)
+    engine2 = _engine_with_trusted_anchor(age=6)
+    sample2 = _wall_sample(wall_time=1240.0)
+    plan2 = engine2.reconcile_downtime(sample2, session_id="session:restart")
+    if plan2.downtime_interval_id == plan.downtime_interval_id:
+        tampered = replace(plan2, age_advance=plan2.age_advance + 1, next_age_ticks=plan2.next_age_ticks + 1)
+        engine2._in_flight_reconciliation = tampered
+        with pytest.raises(DowntimeReconciliationError, match="RECONCILIATION_PAYLOAD_MISMATCH"):
+            engine2.commit_downtime_reconciliation(tampered, sample2, transaction_id="txn:bad")
+
+
+def test_prepared_reconciliation_sample_is_sticky():
+    engine = _engine_with_trusted_anchor(age=8)
+    sample1 = _wall_sample(wall_time=1300.0, session_id="session:restart")
+    plan1 = engine.reconcile_downtime(sample1, session_id="session:restart")
+    engine.abandon_downtime_reconciliation(plan1.reconciliation_id)
+    sample2 = _wall_sample(wall_time=1400.0, session_id="session:restart")
+    plan2 = engine.reconcile_downtime(sample2, session_id="session:restart")
+    assert plan2.trusted_sample_hash == plan1.trusted_sample_hash
+    assert plan2.elapsed_seconds == plan1.elapsed_seconds
+
+
+def test_required_contract_failure_replans_conservatively():
+    engine = _engine_with_trusted_anchor(age=12)
+    sample = _wall_sample(wall_time=1120.0)
+    plan = engine.reconcile_downtime(
+        sample,
+        session_id="session:restart",
+        subsystem_snapshots={"physiology": None},  # type: ignore[arg-type]
+    )
+    assert plan.conservative is True
+    assert plan.age_advance == 0
+
+
+def test_wait_recovery_delta_resolves_active_waits():
+    from umbra_core.wait_execution import WaitJournal, apply_wait_recovery_deltas
+
+    journal = WaitJournal()
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=0.0,
+        window_end=20.0,
+        started_age_tick=5,
+        execution_id="wait:1",
+    )
+    journal.admit_prepared(prepared.execution_id)
+    engine = _engine_with_trusted_anchor(age=5)
+    sample = _wall_sample(wall_time=1600.0)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart", wait_journal=journal)
+    assert plan.wait_recovery_deltas
+    updated = apply_wait_recovery_deltas(journal, plan.wait_recovery_deltas)
+    assert updated.get_execution("wait:1").status == "EXPIRED"
+
+
+def test_failed_reconciliation_leaves_waits_unchanged():
+    from umbra_core.wait_execution import WaitJournal
+
+    engine = _engine_with_trusted_anchor(age=5)
+    journal = WaitJournal()
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=0.0,
+        window_end=100.0,
+        started_age_tick=5,
+        execution_id="wait:2",
+    )
+    journal.admit_prepared(prepared.execution_id)
+    sample = _wall_sample(wall_time=1060.0)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart", wait_journal=journal)
+    engine.abandon_downtime_reconciliation(plan.reconciliation_id)
+    assert journal.get_execution("wait:2").status == "ACTIVE"
+
+
+def test_replay_uses_recorded_downtime_deltas():
+    from umbra_core.temporal.events import (
+        TEMPORAL_DOWNTIME_RECONCILED,
+        apply_downtime_reconciled_record,
+        build_downtime_reconciled_record,
+        downtime_reconciled_record_from_dict,
+        downtime_reconciled_record_to_dict,
+        replay_temporal_state_from_events,
+    )
+
+    engine = _engine_with_trusted_anchor(age=7)
+    prior_state = engine.state
+    sample = _wall_sample(wall_time=1420.0)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart")
+    result = engine.commit_downtime_reconciliation(plan, sample, transaction_id="txn:replay")
+    record = build_downtime_reconciled_record(prior_state, result.new_state, plan)
+    replayed = apply_downtime_reconciled_record(prior_state, record)
+    assert replayed.organism_age_ticks == result.new_state.organism_age_ticks
+    assert replayed.last_time_anchor.session_id_at_commit == "session:restart"
+
+    events = [
+        {
+            "event_type": TEMPORAL_DOWNTIME_RECONCILED,
+            "payload": {
+                "downtime_reconciled_record": downtime_reconciled_record_to_dict(record),
+            },
+        }
+    ]
+    from_events = replay_temporal_state_from_events(prior_state, events, require_advance_record=False)
+    assert from_events.organism_age_ticks == result.new_state.organism_age_ticks
+
+
+def test_replay_does_not_read_wall_clock():
+    from umbra_core.temporal.events import (
+        apply_downtime_reconciled_record,
+        downtime_reconciled_record_to_dict,
+        build_downtime_reconciled_record,
+    )
+
+    prior = _trusted_wall_anchor(age=3)
+    new_anchor = _trusted_wall_anchor(age=3, wall_time=99999.0)
+    state = with_state_hash(
+        replace(
+            sample_temporal_state(),
+            organism_age_ticks=3,
+            organism_active_ticks=3,
+            state_version=2,
+            state_hash="prior",
+            last_time_anchor=prior,
+        )
+    )
+    new_state = with_state_hash(
+        replace(
+            state,
+            organism_age_ticks=3,
+            last_time_anchor=new_anchor,
+            state_version=3,
+        )
+    )
+    from umbra_core.temporal.downtime import DowntimeReconciliationPlan
+
+    plan = DowntimeReconciliationPlan(
+        downtime_interval_id="downtime:test",
+        reconciliation_id="rec:test",
+        canonical_plan_hash="hash",
+        expected_state_version=2,
+        expected_state_hash="prior",
+        session_id="session:restart",
+        trusted_sample_hash="sample",
+        trust_class=AnchorTrustClass.UNCERTAIN,
+        trust_reason_codes=("conservative",),
+        elapsed_seconds=0.0,
+        age_advance=0,
+        fractional_remainder=0.0,
+        prior_age_ticks=3,
+        next_age_ticks=3,
+        prior_active_ticks=3,
+        next_active_ticks=3,
+        prior_time_anchor=prior,
+        new_time_anchor=new_anchor,
+        registry_hash="reg",
+        effect_plan_ids=(),
+        effect_plan_hashes=(),
+        skipped_contract_ids=(),
+        expectation_recovery_deltas=(),
+        wait_recovery_deltas=(),
+        conservative=True,
+    )
+    record = build_downtime_reconciled_record(state, new_state, plan)
+    replayed = apply_downtime_reconciled_record(state, record)
+    assert replayed.organism_age_ticks == 3
+    assert record.trust_class == "UNCERTAIN"
+    assert record.age_advance == 0
+
+
+def test_no_downtime_derived_occurrence_or_miss():
+    engine = _engine_with_trusted_anchor(age=9)
+    sample = _wall_sample(wall_time=1540.0)
+    plan = engine.reconcile_downtime(sample, session_id="session:restart")
+    for delta in plan.expectation_recovery_deltas:
+        assert delta.action in {"EXPIRE", "INVALIDATE", "DECAY_CONFIDENCE", "PRESERVE"}
+    assert not any("occurrence" in d.action.lower() for d in plan.expectation_recovery_deltas)
+    assert not any("miss" in d.action.lower() for d in plan.expectation_recovery_deltas)
+

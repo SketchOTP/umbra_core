@@ -75,12 +75,16 @@ def canonical_serialize(value: Any) -> Any:
 
 
 def _canonical_value(value: Any) -> Any:
-    if value is None or isinstance(value, (bool, int, str)):
+    if value is None or isinstance(value, bool):
+        return value
+    if isinstance(value, Enum):
+        return value.value
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
         return value
     if isinstance(value, float):
         return float(value)
-    if isinstance(value, Enum):
-        return value.value
     if isinstance(value, dict):
         return {str(key): _canonical_value(value[key]) for key in sorted(value)}
     if isinstance(value, (list, tuple)):

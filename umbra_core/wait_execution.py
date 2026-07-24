@@ -391,3 +391,53 @@ class WaitJournal:
                 )
             )
         return journal
+
+
+def apply_wait_recovery_delta(journal: WaitJournal, delta: Any) -> WaitJournal:
+    """Apply a recorded WaitRecoveryDelta without re-reading wall clock."""
+    execution = journal.executions.get(delta.execution_id)
+    if execution is None:
+        raise WaitExecutionError("wait_execution_missing")
+    if execution.status != delta.expected_status:
+        raise WaitExecutionError("wait_status_mismatch")
+    if execution.is_terminal():
+        return journal
+    updated = journal.finalize(
+        delta.execution_id,
+        delta.terminal_status,
+        terminal_reason=delta.terminal_reason,
+    )
+    _ = updated
+    return journal
+
+
+def apply_wait_recovery_deltas(journal: WaitJournal, deltas: tuple[Any, ...]) -> WaitJournal:
+    current = journal
+    for delta in deltas:
+        current = apply_wait_recovery_delta(current, delta)
+    return current
+
+
+def apply_wait_recovery_delta(journal: WaitJournal, delta: Any) -> WaitJournal:
+    """Apply a recorded WaitRecoveryDelta without re-reading wall clock."""
+    execution = journal.executions.get(delta.execution_id)
+    if execution is None:
+        raise WaitExecutionError("wait_execution_missing")
+    if execution.status != delta.expected_status:
+        raise WaitExecutionError("wait_status_mismatch")
+    if execution.is_terminal():
+        return journal
+    updated = journal.finalize(
+        delta.execution_id,
+        delta.terminal_status,
+        terminal_reason=delta.terminal_reason,
+    )
+    _ = updated
+    return journal
+
+
+def apply_wait_recovery_deltas(journal: WaitJournal, deltas: tuple[Any, ...]) -> WaitJournal:
+    current = journal
+    for delta in deltas:
+        current = apply_wait_recovery_delta(current, delta)
+    return current

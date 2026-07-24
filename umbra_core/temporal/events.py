@@ -19,6 +19,11 @@ from umbra_core.temporal.state import (
 from umbra_core.util import canon_json, new_id, sha256_hex
 
 if TYPE_CHECKING:
+    from umbra_core.temporal.downtime import (
+        DowntimeReconciliationPlan,
+        ExpectationRecoveryDelta,
+        WaitRecoveryDelta,
+    )
     from umbra_core.temporal.engine import TemporalAdvancePlan
 
 
@@ -33,6 +38,7 @@ class TemporalReplayError(Exception):
 ORCHESTRATION_TICK_COMMITTED = "orchestration_tick_committed"
 TEMPORAL_ANCHOR_COMMITTED = "temporal_anchor_committed"
 TEMPORAL_INITIALIZED = "temporal_initialized"
+TEMPORAL_DOWNTIME_RECONCILED = "temporal_downtime_reconciled"
 
 
 @dataclass(frozen=True)
@@ -54,6 +60,35 @@ class TemporalAdvanceRecord:
     new_wall_clock_mapping: WallClockMapping | None
     prior_clock_uncertainty: float
     new_clock_uncertainty: float
+
+
+@dataclass(frozen=True)
+class DowntimeReconciledRecord:
+    downtime_interval_id: str
+    reconciliation_id: str
+    canonical_plan_hash: str
+    prior_state_version: int
+    new_state_version: int
+    prior_state_hash: str
+    new_state_hash: str
+    trust_class: str
+    trust_reason_codes: tuple[str, ...]
+    elapsed_seconds: float
+    age_advance: int
+    fractional_remainder: float
+    registry_hash: str
+    effect_plan_ids: tuple[str, ...]
+    effect_plan_hashes: tuple[str, ...]
+    skipped_contract_ids: tuple[str, ...]
+    expectation_recovery_deltas: tuple[dict[str, Any], ...]
+    wait_recovery_deltas: tuple[dict[str, Any], ...]
+    prior_time_anchor: TimeAnchor
+    new_time_anchor: TimeAnchor
+    prior_age_ticks: int
+    new_age_ticks: int
+    prior_active_ticks: int
+    new_active_ticks: int
+    conservative: bool
 
 
 @dataclass(frozen=True)
@@ -395,6 +430,195 @@ def _state_from_record_tail(state: TemporalState, record: TemporalAdvanceRecord)
     )
 
 
+def _recovery_delta_to_dict(delta: Any) -> dict[str, Any]:
+    return canonical_serialize(delta)
+
+
+def _expectation_delta_from_dict(data: dict[str, Any]) -> Any:
+    from umbra_core.temporal.downtime import ExpectationRecoveryDelta
+
+    return ExpectationRecoveryDelta(
+        recurrence_id=str(data["recurrence_id"]),
+        expected_hypothesis_version=int(data["expected_hypothesis_version"]),
+        expected_expectation_version=int(data["expected_expectation_version"]),
+        action=str(data["action"]),
+        bounded_delta=float(data["bounded_delta"]),
+    )
+
+
+def _wait_delta_from_dict(data: dict[str, Any]) -> Any:
+    from umbra_core.temporal.downtime import WaitRecoveryDelta
+
+    return WaitRecoveryDelta(
+        execution_id=str(data["execution_id"]),
+        expected_status=str(data["expected_status"]),
+        terminal_status=str(data["terminal_status"]),
+        terminal_reason=str(data["terminal_reason"]),
+        suppression_plan=data.get("suppression_plan"),
+    )
+
+
+def downtime_reconciled_record_to_dict(record: DowntimeReconciledRecord) -> dict[str, Any]:
+    return {
+        "downtime_interval_id": record.downtime_interval_id,
+        "reconciliation_id": record.reconciliation_id,
+        "canonical_plan_hash": record.canonical_plan_hash,
+        "prior_state_version": record.prior_state_version,
+        "new_state_version": record.new_state_version,
+        "prior_state_hash": record.prior_state_hash,
+        "new_state_hash": record.new_state_hash,
+        "trust_class": record.trust_class,
+        "trust_reason_codes": list(record.trust_reason_codes),
+        "elapsed_seconds": record.elapsed_seconds,
+        "age_advance": record.age_advance,
+        "fractional_remainder": record.fractional_remainder,
+        "registry_hash": record.registry_hash,
+        "effect_plan_ids": list(record.effect_plan_ids),
+        "effect_plan_hashes": list(record.effect_plan_hashes),
+        "skipped_contract_ids": list(record.skipped_contract_ids),
+        "expectation_recovery_deltas": list(record.expectation_recovery_deltas),
+        "wait_recovery_deltas": list(record.wait_recovery_deltas),
+        "prior_time_anchor": _anchor_to_dict(record.prior_time_anchor),
+        "new_time_anchor": _anchor_to_dict(record.new_time_anchor),
+        "prior_age_ticks": record.prior_age_ticks,
+        "new_age_ticks": record.new_age_ticks,
+        "prior_active_ticks": record.prior_active_ticks,
+        "new_active_ticks": record.new_active_ticks,
+        "conservative": record.conservative,
+    }
+
+
+def downtime_reconciled_record_from_dict(data: dict[str, Any]) -> DowntimeReconciledRecord:
+    return DowntimeReconciledRecord(
+        downtime_interval_id=str(data["downtime_interval_id"]),
+        reconciliation_id=str(data["reconciliation_id"]),
+        canonical_plan_hash=str(data["canonical_plan_hash"]),
+        prior_state_version=int(data["prior_state_version"]),
+        new_state_version=int(data["new_state_version"]),
+        prior_state_hash=str(data["prior_state_hash"]),
+        new_state_hash=str(data["new_state_hash"]),
+        trust_class=str(data["trust_class"]),
+        trust_reason_codes=tuple(str(x) for x in data["trust_reason_codes"]),
+        elapsed_seconds=float(data["elapsed_seconds"]),
+        age_advance=int(data["age_advance"]),
+        fractional_remainder=float(data["fractional_remainder"]),
+        registry_hash=str(data["registry_hash"]),
+        effect_plan_ids=tuple(str(x) for x in data["effect_plan_ids"]),
+        effect_plan_hashes=tuple(str(x) for x in data["effect_plan_hashes"]),
+        skipped_contract_ids=tuple(str(x) for x in data.get("skipped_contract_ids") or []),
+        expectation_recovery_deltas=tuple(data.get("expectation_recovery_deltas") or ()),
+        wait_recovery_deltas=tuple(data.get("wait_recovery_deltas") or ()),
+        prior_time_anchor=_anchor_from_dict(data["prior_time_anchor"]),
+        new_time_anchor=_anchor_from_dict(data["new_time_anchor"]),
+        prior_age_ticks=int(data["prior_age_ticks"]),
+        new_age_ticks=int(data["new_age_ticks"]),
+        prior_active_ticks=int(data["prior_active_ticks"]),
+        new_active_ticks=int(data["new_active_ticks"]),
+        conservative=bool(data["conservative"]),
+    )
+
+
+def build_downtime_reconciled_record(
+    prior_state: TemporalState,
+    new_state: TemporalState,
+    plan: Any,
+) -> DowntimeReconciledRecord:
+    return DowntimeReconciledRecord(
+        downtime_interval_id=plan.downtime_interval_id,
+        reconciliation_id=plan.reconciliation_id,
+        canonical_plan_hash=plan.canonical_plan_hash,
+        prior_state_version=prior_state.state_version,
+        new_state_version=new_state.state_version,
+        prior_state_hash=prior_state.state_hash,
+        new_state_hash=new_state.state_hash,
+        trust_class=plan.trust_class.value,
+        trust_reason_codes=plan.trust_reason_codes,
+        elapsed_seconds=plan.elapsed_seconds,
+        age_advance=plan.age_advance,
+        fractional_remainder=plan.fractional_remainder,
+        registry_hash=plan.registry_hash,
+        effect_plan_ids=plan.effect_plan_ids,
+        effect_plan_hashes=plan.effect_plan_hashes,
+        skipped_contract_ids=plan.skipped_contract_ids,
+        expectation_recovery_deltas=tuple(
+            _recovery_delta_to_dict(d) for d in plan.expectation_recovery_deltas
+        ),
+        wait_recovery_deltas=tuple(
+            _recovery_delta_to_dict(d) for d in plan.wait_recovery_deltas
+        ),
+        prior_time_anchor=plan.prior_time_anchor,
+        new_time_anchor=new_state.last_time_anchor,
+        prior_age_ticks=plan.prior_age_ticks,
+        new_age_ticks=plan.next_age_ticks,
+        prior_active_ticks=plan.prior_active_ticks,
+        new_active_ticks=plan.next_active_ticks,
+        conservative=plan.conservative,
+    )
+
+
+def apply_downtime_reconciled_record(
+    state: TemporalState,
+    record: DowntimeReconciledRecord,
+) -> TemporalState:
+    if record.prior_state_version != state.state_version:
+        raise TemporalReplayError("prior_state_version_mismatch")
+    if record.prior_state_hash != state.state_hash:
+        raise TemporalReplayError("prior_state_hash_mismatch")
+    if record.prior_age_ticks != state.organism_age_ticks:
+        raise TemporalReplayError("prior_age_mismatch")
+    from dataclasses import replace
+
+    new_state = replace(
+        state,
+        organism_age_ticks=record.new_age_ticks,
+        organism_active_ticks=record.new_active_ticks,
+        last_advance_id=record.new_time_anchor.advance_id,
+        last_time_anchor=record.new_time_anchor,
+        state_version=record.new_state_version,
+        state_hash=record.new_state_hash,
+    )
+    if new_state.state_hash != record.new_state_hash:
+        raise TemporalReplayError("new_state_hash_mismatch")
+    return new_state
+
+
+def build_downtime_reconciled_payload(
+    *,
+    transaction_id: str,
+    record: DowntimeReconciledRecord,
+    envelope: TemporalTransactionEnvelope,
+) -> dict[str, Any]:
+    return {
+        "transaction_id": transaction_id,
+        "downtime_reconciled_record": downtime_reconciled_record_to_dict(record),
+        "temporal_transaction": envelope_to_dict(envelope),
+    }
+
+
+def build_downtime_transaction_envelope(
+    *,
+    transaction_id: str,
+    prior_state: TemporalState,
+    new_state: TemporalState,
+    record: DowntimeReconciledRecord,
+) -> TemporalTransactionEnvelope:
+    record_payload = downtime_reconciled_record_to_dict(record)
+    return TemporalTransactionEnvelope(
+        transaction_id=transaction_id,
+        prior_state_version=prior_state.state_version,
+        new_state_version=new_state.state_version,
+        prior_state_hash=prior_state.state_hash,
+        new_state_hash=new_state.state_hash,
+        ordered_events=(
+            TemporalContainedEvent(
+                event_kind=TEMPORAL_DOWNTIME_RECONCILED,
+                transaction_event_index=0,
+                payload_hash=_payload_hash(record_payload),
+            ),
+        ),
+    )
+
+
 def replay_temporal_state_from_events(
     genesis: TemporalState,
     events: list[dict[str, Any]],
@@ -403,8 +627,21 @@ def replay_temporal_state_from_events(
 ) -> TemporalState:
     state = genesis
     seen_advance_ids: set[str] = set()
+    seen_interval_ids: set[str] = set()
     for event in events:
-        if event.get("event_type") != ORCHESTRATION_TICK_COMMITTED:
+        event_type = event.get("event_type")
+        if event_type == TEMPORAL_DOWNTIME_RECONCILED:
+            payload = event.get("payload") or {}
+            raw_record = payload.get("downtime_reconciled_record")
+            if raw_record is None:
+                raise TemporalReplayError("missing_downtime_reconciled_record")
+            record = downtime_reconciled_record_from_dict(raw_record)
+            if record.downtime_interval_id in seen_interval_ids:
+                raise TemporalReplayError("duplicate_downtime_interval")
+            seen_interval_ids.add(record.downtime_interval_id)
+            state = apply_downtime_reconciled_record(state, record)
+            continue
+        if event_type != ORCHESTRATION_TICK_COMMITTED:
             continue
         payload = event.get("payload") or {}
         raw_record = payload.get("temporal_advance_record")

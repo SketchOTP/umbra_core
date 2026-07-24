@@ -78,9 +78,13 @@ from umbra_core.temporal.clock import TrustedSample
 from umbra_core.temporal.engine import TemporalEngine
 from umbra_core.temporal.events import (
     ORCHESTRATION_TICK_COMMITTED,
+    TEMPORAL_DOWNTIME_RECONCILED,
     TEMPORAL_INITIALIZED,
     apply_advance_plan,
     build_advance_record,
+    build_downtime_reconciled_payload,
+    build_downtime_reconciled_record,
+    build_downtime_transaction_envelope,
     build_orchestration_tick_payload,
     build_tick_transaction_envelope,
     new_transaction_id,
@@ -443,6 +447,64 @@ class Organism:
             self.temporal.commit_advance(plan, sample, self.session_id)
 
         self.store.atomic_orchestration_tick_commit([stage], on_commit=on_commit)
+
+    def apply_downtime_reconciliation(
+        self,
+        plan: Any,
+        sample: TrustedSample,
+        *,
+        wait_journal: Any | None = None,
+    ) -> Any:
+        """Validate elapsed contracts and atomically commit downtime reconciliation."""
+        if self.temporal is None or not self.config.temporal_enabled:
+            raise RuntimeError("temporal_not_enabled")
+        from umbra_core.temporal.contracts import load_elapsed_contract_registry
+        from umbra_core.temporal.downtime import apply_downtime_plan_to_state
+        from umbra_core.wait_execution import apply_wait_recovery_deltas
+
+        registry = load_elapsed_contract_registry()
+        if plan.registry_hash != registry.registry_hash:
+            raise RuntimeError("elapsed_contract_registry_mismatch")
+
+        prior = self.temporal.state
+        preview_state = apply_downtime_plan_to_state(prior, plan, sample)
+        record = build_downtime_reconciled_record(prior, preview_state, plan)
+        txn_id = new_transaction_id()
+        envelope = build_downtime_transaction_envelope(
+            transaction_id=txn_id,
+            prior_state=prior,
+            new_state=preview_state,
+            record=record,
+        )
+        payload = build_downtime_reconciled_payload(
+            transaction_id=txn_id,
+            record=record,
+            envelope=envelope,
+        )
+        committed: dict[str, Any] = {}
+
+        def stage() -> None:
+            self.store.append_event(
+                agent_id=self.identity.agent_id,
+                event_type=TEMPORAL_DOWNTIME_RECONCILED,
+                monotonic_time=self.monotonic_time,
+                wall_time=float(sample.optional_wall_time or 0.0),
+                payload=payload,
+            )
+
+        def on_commit() -> None:
+            committed["result"] = self.temporal.commit_downtime_reconciliation(
+                plan,
+                sample,
+                transaction_id=txn_id,
+            )
+            if wait_journal is not None and plan.wait_recovery_deltas:
+                updated = apply_wait_recovery_deltas(wait_journal, plan.wait_recovery_deltas)
+                wait_journal.executions = updated.executions
+                wait_journal.suppressions = updated.suppressions
+
+        self.store.atomic_downtime_reconciliation_commit([stage], on_commit=on_commit)
+        return committed["result"]
 
     def _cell(self) -> tuple[int, int]:
         return (int(self.embodiment.body.x), int(self.embodiment.body.y))

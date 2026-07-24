@@ -1,0 +1,62 @@
+{
+  "schema_version": "d010.elapsed-contract-registry.v1",
+  "registry_version": 1,
+  "registry_hash": "f97a2c1bc43d72b318528d5d5cfc3eb7a25c417a4704a07a7c6143cca88a7185",
+  "contracts": [
+    {
+      "contract_id": "physiology.decay_recovery",
+      "contract_version": 1,
+      "subsystem": "physiology",
+      "maximum_elapsed": 3600.0,
+      "maximum_uncertainty": 1.0,
+      "supported_trust_classes": ["TRUSTED_SHORT", "UNCERTAIN", "EXCESSIVE", "MISSING_WALL"],
+      "required_for_trust_classes": ["TRUSTED_SHORT"],
+      "effect_schema_id": "d010.elapsed-effect.v1",
+      "supported_effects": ["decay", "recovery"]
+    },
+    {
+      "contract_id": "needs.satiation_drift",
+      "contract_version": 1,
+      "subsystem": "needs",
+      "maximum_elapsed": 3600.0,
+      "maximum_uncertainty": 1.0,
+      "supported_trust_classes": ["TRUSTED_SHORT", "UNCERTAIN", "EXCESSIVE", "MISSING_WALL"],
+      "required_for_trust_classes": ["TRUSTED_SHORT"],
+      "effect_schema_id": "d010.elapsed-effect.v1",
+      "supported_effects": ["satiation_drift", "need_drift"]
+    },
+    {
+      "contract_id": "temporal.confidence_decay",
+      "contract_version": 1,
+      "subsystem": "temporal",
+      "maximum_elapsed": 3600.0,
+      "maximum_uncertainty": 1.0,
+      "supported_trust_classes": ["TRUSTED_SHORT", "UNCERTAIN", "EXCESSIVE", "MISSING_WALL"],
+      "required_for_trust_classes": [],
+      "effect_schema_id": "d010.elapsed-effect.v1",
+      "supported_effects": ["confidence_decay"]
+    },
+    {
+      "contract_id": "expectation.window_expiration",
+      "contract_version": 1,
+      "subsystem": "expectation",
+      "maximum_elapsed": 3600.0,
+      "maximum_uncertainty": 1.0,
+      "supported_trust_classes": ["TRUSTED_SHORT", "UNCERTAIN", "EXCESSIVE", "MISSING_WALL"],
+      "required_for_trust_classes": [],
+      "effect_schema_id": "d010.elapsed-effect.v1",
+      "supported_effects": ["window_expiration"]
+    },
+    {
+      "contract_id": "habitat.elapsed_dynamics",
+      "contract_version": 1,
+      "subsystem": "habitat",
+      "maximum_elapsed": 3600.0,
+      "maximum_uncertainty": 1.0,
+      "supported_trust_classes": ["TRUSTED_SHORT"],
+      "required_for_trust_classes": [],
+      "effect_schema_id": "d010.elapsed-effect.v1",
+      "supported_effects": ["elapsed_dynamics"]
+    }
+  ]
+}
