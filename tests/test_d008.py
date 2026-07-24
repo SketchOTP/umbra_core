@@ -25,6 +25,7 @@ from umbra_core.embodiment_adapters import (
     ABSTRACT_SHAPE_BODY,
     MINIMAL_CREATURE_BODY,
     BodyProfile,
+    get_d008_profile,
     get_profile,
     profile_definition_hash,
 )
@@ -97,15 +98,19 @@ FULL_CAPABILITY_SET = frozenset(
 
 
 def test_two_production_profiles_support_full_capability_set():
-    profiles = (ABSTRACT_SHAPE_BODY, MINIMAL_CREATURE_BODY)
+    d008_profiles = (ABSTRACT_SHAPE_BODY, MINIMAL_CREATURE_BODY)
 
-    assert {p.profile_id for p in profiles} == set(THR["production_profile_ids"])
-    assert get_profile("ABSTRACT_SHAPE_BODY") is ABSTRACT_SHAPE_BODY
-    assert get_profile("MINIMAL_CREATURE_BODY") is MINIMAL_CREATURE_BODY
-    for profile in profiles:
+    assert {p.profile_id for p in d008_profiles} == set(THR["production_profile_ids"])
+    assert get_d008_profile("ABSTRACT_SHAPE_BODY") is ABSTRACT_SHAPE_BODY
+    assert get_d008_profile("MINIMAL_CREATURE_BODY") is MINIMAL_CREATURE_BODY
+    for profile in d008_profiles:
         assert profile.supported_capabilities == FULL_CAPABILITY_SET
+        assert "MANIPULATE" not in profile.supported_capabilities
         assert "MAINTAIN" not in profile.supported_capabilities
         assert "PRACTICE" not in profile.supported_capabilities
+    d009_abstract = get_profile("ABSTRACT_SHAPE_BODY")
+    assert d009_abstract.profile_id == ABSTRACT_SHAPE_BODY.profile_id
+    assert "MANIPULATE" in d009_abstract.supported_capabilities
 
 
 def test_constrained_profile_rejects_at_least_one_capability():
@@ -415,7 +420,9 @@ def test_production_adapter_clamps_oversize_step_and_still_moves(tmp_path):
     assert outcome.raw["applied_parameters"]["step"] == max_step
     assert outcome.raw["translation_reason"]
     assert outcome.raw["body_profile_id"] == ABSTRACT_SHAPE_BODY.profile_id
-    assert outcome.raw["profile_definition_hash"] == profile_definition_hash(ABSTRACT_SHAPE_BODY)
+    assert outcome.raw["profile_definition_hash"] == profile_definition_hash(
+        get_profile(ABSTRACT_SHAPE_BODY.profile_id)
+    )
     assert embodiment.to_state() != before  # body actually moved (clamped distance)
     store.close()
 
@@ -1370,8 +1377,9 @@ def test_birth_replay_matches_authoritative_transitions(tmp_path):
     org.snapshot_if_due(force=True)
     org.close()
 
-    assert len(attach_events) == 3  # migration attach + swap + swap
+    assert len(attach_events) == 4  # d008 migration attach + d009 profile swap + 2 manual swaps
     assert attach_events[0]["payload"]["origin"] == "D008_MIGRATION"
+    assert attach_events[1]["payload"]["origin"] == "D009_PROFILE_MIGRATION"
 
     # Real restart path (ledger-authoritative reconstruction), not the bare helper.
     reloaded = load_organism(cfg)

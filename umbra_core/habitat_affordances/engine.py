@@ -110,12 +110,11 @@ class ManipulationRequest:
 
 @dataclass(frozen=True)
 class AdapterValidatedManipulation:
-    """Stage A minimal adapter output — Task 6 expands this."""
-
     body_pose_view: BodyPoseView
     reach_profile: ReachProfile
     requested_parameters: ManipulationParameters
     applied_parameters: ManipulationParameters
+    validated_profile: Any
     translation_applied: bool = False
 
 

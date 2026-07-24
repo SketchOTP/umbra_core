@@ -615,6 +615,20 @@ class Store:
         if on_commit is not None:
             on_commit()
 
+    def atomic_profile_migration(
+        self,
+        stages: list[Any],
+        *,
+        on_commit: Any = None,
+        crash_after_stage: int | None = None,
+    ) -> None:
+        """Atomic D-009 profile swap + optional held-binding rebase commit."""
+        self.atomic_manipulation_outcome(
+            stages,
+            on_commit=on_commit,
+            crash_after_stage=crash_after_stage,
+        )
+
     def atomic_social_outcome(
         self,
         stages: list[Any],

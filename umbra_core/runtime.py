@@ -27,7 +27,16 @@ from umbra_core.embodiment_adapters.adapter import (
     EmbodimentAdapter,
     attachment_state_from_event,
 )
-from umbra_core.embodiment_adapters.profiles import default_migration_profile_id
+from umbra_core.embodiment_adapters.profiles import (
+    default_migration_profile_id,
+    get_d008_profile,
+    get_profile,
+    is_d008_profile_hash,
+    is_d009_profile_hash,
+    mass_class_supported,
+    maximum_held_mass_class,
+    profile_definition_hash,
+)
 from umbra_core.expression import (
     AttachmentView,
     ExpressionConfig,
@@ -1966,6 +1975,7 @@ def load_organism(config: OrganismConfig) -> Organism:
         org.individuality.initialize_bounded_collections()
     if org.embodiment_adapter is not None:
         maybe_migrate_d008_attachment(store, org)
+        maybe_migrate_d009_profile(store, org)
     wall = float(config.wall_time_fn())
     org.store.warm_runtime_residency()
     if org.tick == 0:
@@ -2020,7 +2030,184 @@ def maybe_migrate_d008_attachment(store: Store, organism: Organism) -> bool:
         default_migration_profile_id(),
         origin="D008_MIGRATION",
         migrated_from_schema_version=SCHEMA_VERSION,
+        profile_resolver=get_d008_profile,
     )
+    return True
+
+
+def _profile_hash_from_attachment_event(event: dict[str, Any]) -> str:
+    return str(event["payload"]["profile_definition_hash"])
+
+
+def _habitat_events_from_store(store: Store, agent_id: str) -> list[dict[str, Any]]:
+    return [
+        event
+        for event in store.iter_events()
+        if event["agent_id"] == agent_id and event["event_type"].startswith("habitat_")
+    ]
+
+
+def _held_objects_for_body(habitat_state: Any, body_instance_id: str) -> list[tuple[str, Any]]:
+    from umbra_core.habitat.state import HeldByLocation
+
+    held: list[tuple[str, Any]] = []
+    for object_id, obj in habitat_state.objects.items():
+        if isinstance(obj.location, HeldByLocation) and obj.location.body_instance_id == body_instance_id:
+            held.append((object_id, obj.location))
+    return held
+
+
+def maybe_migrate_d009_profile(store: Store, organism: Organism) -> bool:
+    """Idempotent D-008→D-009 body profile migration."""
+    from umbra_core.embodiment_adapters.adapter import AttachmentState, ProfileMigrationError
+    from umbra_core.habitat.events import (
+        HABITAT_EVENT_TYPES,
+        build_held_binding_rebased_event,
+        replay_habitat_from_events,
+    )
+    from umbra_core.habitat.state import HeldByLocation
+    from dataclasses import replace
+    from umbra_core.persistence import PersistenceError
+
+    adapter = organism.embodiment_adapter
+    if adapter is None:
+        raise RuntimeError("embodiment_adapter_not_wired")
+    if adapter.state.attachment_status != "ATTACHED":
+        return False
+    profile_id = adapter.state.body_profile_id
+    if profile_id is None:
+        return False
+    last_attachment_event = store.last_event_of_types(ATTACHMENT_EVENT_TYPES)
+    if last_attachment_event is None:
+        return False
+    current_hash = _profile_hash_from_attachment_event(last_attachment_event)
+    if is_d009_profile_hash(profile_id, current_hash):
+        return False
+    if not is_d008_profile_hash(profile_id, current_hash):
+        raise ProfileMigrationError("UMBRA_D009_PROFILE_MIGRATION_FAIL")
+    d009_profile = get_profile(profile_id)
+    old_generation = adapter.state.attachment_generation
+    new_generation = old_generation + 1
+    body_instance_id = adapter.state.body_instance_id
+    assert body_instance_id is not None
+
+    habitat_events = _habitat_events_from_store(store, organism.identity.agent_id)
+    habitat_state = None
+    engine = organism.embodiment._habitat_engine
+    if engine is not None:
+        habitat_state = engine.state
+    elif habitat_events:
+        habitat_state = replay_habitat_from_events(habitat_events, fail_closed_missing=True)
+    held_objects: list[tuple[str, HeldByLocation]] = []
+    if habitat_state is not None:
+        held_objects = [
+            (object_id, loc)
+            for object_id, loc in _held_objects_for_body(habitat_state, body_instance_id)
+        ]
+
+    max_mass = maximum_held_mass_class(d009_profile)
+    if held_objects and max_mass is not None:
+        for object_id, _loc in held_objects:
+            obj = habitat_state.objects[object_id]  # type: ignore[union-attr]
+            if not mass_class_supported(obj.mass_class, max_mass):
+                raise ProfileMigrationError("UMBRA_D009_PROFILE_MIGRATION_FAIL")
+
+    swap_payload: dict[str, Any] = {
+        "body_instance_id": body_instance_id,
+        "old_profile_id": profile_id,
+        "new_profile_id": d009_profile.profile_id,
+        "old_generation": old_generation,
+        "new_generation": new_generation,
+        "profile_schema_version": d009_profile.schema_version,
+        "profile_definition_hash": profile_definition_hash(d009_profile),
+        "old_profile_definition_hash": current_hash,
+        "origin": "D009_PROFILE_MIGRATION",
+    }
+
+    rebase_events: list[dict[str, Any]] = []
+    habitat_state_after = habitat_state
+    if held_objects and habitat_state is not None:
+        from umbra_core.habitat.state import apply_committed_object_mutation, with_state_hash
+
+        state_cursor = habitat_state
+        for object_id, loc in held_objects:
+            state_before = state_cursor
+
+            def rebase(obj: Any) -> Any:
+                if not isinstance(obj.location, HeldByLocation):
+                    raise ProfileMigrationError("UMBRA_D009_PROFILE_MIGRATION_FAIL")
+                return replace(
+                    obj,
+                    location=HeldByLocation(
+                        body_instance_id=body_instance_id,
+                        attachment_generation=new_generation,
+                        hold_slot=loc.hold_slot,
+                    ),
+                )
+
+            updated = apply_committed_object_mutation(state_cursor.objects[object_id], rebase)
+            new_objects = dict(state_cursor.objects)
+            new_objects[object_id] = updated
+            state_cursor = with_state_hash(
+                replace(state_cursor, objects=new_objects, state_version=state_cursor.state_version + 1)
+            )
+            rebase_events.append(
+                build_held_binding_rebased_event(
+                    state_before,
+                    state_cursor,
+                    object_id=object_id,
+                    body_instance_id=body_instance_id,
+                    old_attachment_generation=loc.attachment_generation,
+                    new_attachment_generation=new_generation,
+                    hold_slot=loc.hold_slot,
+                    habitat_tick=state_cursor.habitat_tick,
+                )
+            )
+        habitat_state_after = state_cursor
+
+    def stage_profile_swap() -> None:
+        store.append_event(
+            agent_id=organism.identity.agent_id,
+            event_type="embodiment_body_profile_swapped",
+            monotonic_time=organism.monotonic_time,
+            wall_time=float(organism.config.wall_time_fn()),
+            payload=swap_payload,
+        )
+
+    def stage_held_rebases() -> None:
+        for event in rebase_events:
+            if event["event_type"] not in HABITAT_EVENT_TYPES:
+                raise PersistenceError("invalid_habitat_event")
+            store.append_event(
+                agent_id=organism.identity.agent_id,
+                event_type=event["event_type"],
+                monotonic_time=organism.monotonic_time,
+                wall_time=float(organism.config.wall_time_fn()),
+                payload=event["payload"],
+                event_id=event.get("event_id"),
+            )
+
+    stages = [stage_profile_swap]
+    if rebase_events:
+        stages.append(stage_held_rebases)
+
+    def on_commit() -> None:
+        adapter.state = AttachmentState(
+            body_instance_id=body_instance_id,
+            body_profile_id=d009_profile.profile_id,
+            attachment_status="ATTACHED",
+            attachment_generation=new_generation,
+        )
+        engine = organism.embodiment._habitat_engine
+        if habitat_state_after is not None and engine is not None:
+            engine._state = habitat_state_after
+            engine._rebuild_indexes()
+
+    if len(stages) == 1:
+        stage_profile_swap()
+        on_commit()
+    else:
+        store.atomic_manipulation_outcome(stages, on_commit=on_commit)
     return True
 
 

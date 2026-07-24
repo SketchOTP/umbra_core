@@ -408,6 +408,34 @@ def build_body_zone_transition_event(
     }
 
 
+def build_held_binding_rebased_event(
+    state_before: HabitatState,
+    state_after: HabitatState,
+    *,
+    object_id: str,
+    body_instance_id: str,
+    old_attachment_generation: int,
+    new_attachment_generation: int,
+    hold_slot: int,
+    **kwargs: Any,
+) -> dict[str, Any]:
+    payload = _envelope_fields(state_before, state_after, **kwargs)
+    payload.update(
+        {
+            "object_id": object_id,
+            "body_instance_id": body_instance_id,
+            "old_attachment_generation": old_attachment_generation,
+            "new_attachment_generation": new_attachment_generation,
+            "hold_slot": hold_slot,
+        }
+    )
+    return {
+        "event_id": kwargs.get("event_id") or new_id(),
+        "event_type": HABITAT_HELD_BINDING_REBASED,
+        "payload": payload,
+    }
+
+
 def _bump_state(state: HabitatState, **updates: Any) -> HabitatState:
     bumped = replace(state, state_version=state.state_version + 1, **updates)
     return with_state_hash(bumped)

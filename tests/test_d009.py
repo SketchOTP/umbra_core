@@ -550,7 +550,10 @@ def _affordance_engine() -> HabitatAffordanceEngine:
     return HabitatAffordanceEngine(load_affordance_definitions_file(_AFFORDANCE_DEFINITIONS_PATH))
 
 
-def _adapter_for(params) -> AdapterValidatedManipulation:
+def _adapter_for(params, *, profile=None) -> AdapterValidatedManipulation:
+    from umbra_core.embodiment_adapters import ABSTRACT_SHAPE_BODY_D009
+
+    validated = profile or ABSTRACT_SHAPE_BODY_D009
     return AdapterValidatedManipulation(
         body_pose_view=BodyPoseView(
             body_instance_id="body:default",
@@ -562,6 +565,7 @@ def _adapter_for(params) -> AdapterValidatedManipulation:
         reach_profile=ReachProfile(reach_radius=3.0),
         requested_parameters=params,
         applied_parameters=params,
+        validated_profile=validated,
     )
 
 
@@ -1463,3 +1467,275 @@ def test_crash_during_manipulation_cannot_partially_commit(tmp_path):
         assert habitat_types == set()
         assert engine_s.snapshot_view().state_hash == hash_before
     store.close()
+
+
+# --- Task 6: D-009 profiles + validate_manipulation + migration ----------------
+
+
+def test_d008_profile_definitions_remain_unchanged():
+    import json
+    from pathlib import Path
+
+    from umbra_core.embodiment_adapters import (
+        ABSTRACT_SHAPE_BODY,
+        MINIMAL_CREATURE_BODY,
+        profile_definition_hash,
+    )
+
+    thresholds = json.loads(
+        Path("experiments/d008/thresholds.json").read_text(encoding="utf-8")
+    )
+    for profile in (ABSTRACT_SHAPE_BODY, MINIMAL_CREATURE_BODY):
+        digest = profile_definition_hash(profile)
+        assert thresholds["production_profile_definition_hashes"][profile.profile_id] == digest
+        assert profile.schema_version == "d008.body-profile.v1"
+        assert "MANIPULATE" not in profile.supported_capabilities
+
+
+def test_d009_profiles_add_manipulate_and_hold_fields():
+    from umbra_core.embodiment_adapters import (
+        ABSTRACT_SHAPE_BODY_D009,
+        hold_anchor,
+        hold_slot_count,
+        maximum_held_mass_class,
+        profile_definition_hash,
+    )
+
+    profile = ABSTRACT_SHAPE_BODY_D009
+    assert profile.schema_version == "d009.body-profile.v1"
+    assert "MANIPULATE" in profile.supported_capabilities
+    assert hold_slot_count(profile) == 1
+    assert maximum_held_mass_class(profile) == "LIGHT"
+    assert hold_anchor(profile) == {"x": 0.4, "y": 0.2}
+    assert profile_definition_hash(profile) != profile_definition_hash(
+        __import__("umbra_core.embodiment_adapters", fromlist=["ABSTRACT_SHAPE_BODY"]).ABSTRACT_SHAPE_BODY
+    )
+
+
+def test_manipulate_requires_supported_body_profile(tmp_path):
+    from umbra_core.embodiment_adapters import (
+        ABSTRACT_SHAPE_BODY,
+        EmbodimentAdapter,
+        ManipulationValidationError,
+    )
+    from umbra_core.persistence import Store
+
+    store = Store(str(tmp_path / "adapter.sqlite"))
+    adapter = EmbodimentAdapter(
+        store=store,
+        agent_id="agent:test",
+        profile_resolver=lambda _: ABSTRACT_SHAPE_BODY,
+        wall_time_fn=lambda: 0.0,
+        monotonic_time_fn=lambda: 0.0,
+    )
+    adapter.attach(ABSTRACT_SHAPE_BODY.profile_id, profile_resolver=lambda _: ABSTRACT_SHAPE_BODY)
+    emb = Embodiment()
+    with pytest.raises(ManipulationValidationError) as exc:
+        adapter.validate_manipulation(
+            capability="MANIPULATE",
+            parameters=UseParameters(),
+            attachment_generation=adapter.state.attachment_generation,
+            body_instance_id=adapter.state.body_instance_id,
+            embodiment=emb,
+        )
+    assert exc.value.failure_code == "UNSUPPORTED_BODY_CAPABILITY"
+    store.close()
+
+
+def test_adapter_cannot_change_operation_or_target(tmp_path):
+    from umbra_core.embodiment_adapters import ABSTRACT_SHAPE_BODY_D009, EmbodimentAdapter
+    from umbra_core.persistence import Store
+
+    store = Store(str(tmp_path / "validate.sqlite"))
+    adapter = EmbodimentAdapter(
+        store=store,
+        agent_id="agent:test",
+        wall_time_fn=lambda: 0.0,
+        monotonic_time_fn=lambda: 0.0,
+    )
+    adapter.attach(ABSTRACT_SHAPE_BODY_D009.profile_id)
+    emb = Embodiment()
+    emb.body.x = 4.0
+    emb.body.y = 3.0
+    params = PickUpParameters(hold_slot=0)
+    validated = adapter.validate_manipulation(
+        capability="MANIPULATE",
+        parameters=params,
+        attachment_generation=adapter.state.attachment_generation,
+        body_instance_id=adapter.state.body_instance_id,
+        embodiment=emb,
+    )
+    assert validated.requested_parameters == params
+    assert validated.applied_parameters == params
+    assert validated.requested_parameters.kind == "PICK_UP"
+    assert validated.translation_applied is False
+    store.close()
+
+
+def _attach_d008_adapter(store, agent_id: str = "agent:test") -> EmbodimentAdapter:
+    from umbra_core.embodiment_adapters import ABSTRACT_SHAPE_BODY, EmbodimentAdapter, get_d008_profile
+
+    adapter = EmbodimentAdapter(
+        store=store,
+        agent_id=agent_id,
+        wall_time_fn=lambda: 0.0,
+        monotonic_time_fn=lambda: 0.0,
+    )
+    adapter.attach(ABSTRACT_SHAPE_BODY.profile_id, profile_resolver=get_d008_profile)
+    return adapter
+
+
+def test_d009_profile_migration_swaps_d008_hash_once(tmp_path):
+    from umbra_core.embodiment_adapters import (
+        ABSTRACT_SHAPE_BODY,
+        get_d008_profile,
+        is_d009_profile_hash,
+        profile_definition_hash,
+    )
+    from umbra_core.runtime import maybe_migrate_d009_profile
+    from umbra_core.persistence import Store
+
+    store = Store(str(tmp_path / "migrate.sqlite"))
+    adapter = _attach_d008_adapter(store)
+    org = _minimal_organism_for_migration(store, adapter)
+    assert maybe_migrate_d009_profile(store, org) is True
+    swap_events = [e for e in store.iter_events() if e["event_type"] == "embodiment_body_profile_swapped"]
+    assert len(swap_events) == 1
+    assert swap_events[0]["payload"]["origin"] == "D009_PROFILE_MIGRATION"
+    assert is_d009_profile_hash(
+        ABSTRACT_SHAPE_BODY.profile_id,
+        swap_events[0]["payload"]["profile_definition_hash"],
+    )
+    assert swap_events[0]["payload"]["old_profile_definition_hash"] == profile_definition_hash(
+        get_d008_profile(ABSTRACT_SHAPE_BODY.profile_id)
+    )
+    assert maybe_migrate_d009_profile(store, org) is False
+    assert len([e for e in store.iter_events() if e["event_type"] == "embodiment_body_profile_swapped"]) == 1
+    store.close()
+
+
+def test_d009_profile_migration_unknown_source_fails_closed(tmp_path):
+    from umbra_core.embodiment_adapters import ProfileMigrationError
+    from umbra_core.runtime import maybe_migrate_d009_profile
+    from umbra_core.persistence import Store
+
+    store = Store(str(tmp_path / "unknown.sqlite"))
+    adapter = _attach_d008_adapter(store)
+    events = list(store.iter_events())
+    attach = events[-1]
+    store.corrupt_event_payload(
+        attach["sequence"],
+        {**attach["payload"], "profile_definition_hash": "deadbeef" * 8},
+    )
+    org = _minimal_organism_for_migration(store, adapter)
+    with pytest.raises(ProfileMigrationError, match="UMBRA_D009_PROFILE_MIGRATION_FAIL"):
+        maybe_migrate_d009_profile(store, org)
+    store.close()
+
+
+def test_profile_swap_rebases_held_object_generation_atomically(tmp_path):
+    from umbra_core.embodiment_adapters import get_d008_profile, profile_definition_hash
+    from umbra_core.runtime import maybe_migrate_d009_profile
+    from umbra_core.persistence import Store
+
+    store = Store(str(tmp_path / "held.sqlite"))
+    adapter = _attach_d008_adapter(store)
+    state = _state_with_portable()
+    body_id = adapter.state.body_instance_id
+    portable = state.objects["portable:0"]
+    held_state = with_state_hash(
+        replace(
+            state,
+            objects={
+                **state.objects,
+                "portable:0": with_object_state_hash(
+                    replace(
+                        portable,
+                        location=HeldByLocation(
+                            body_instance_id=body_id,
+                            attachment_generation=adapter.state.attachment_generation,
+                            hold_slot=0,
+                        ),
+                    )
+                ),
+            },
+        )
+    )
+    org = _minimal_organism_for_migration(store, adapter)
+    engine = HabitatEngine(held_state)
+    org.embodiment.attach_habitat_engine(engine)
+    assert maybe_migrate_d009_profile(store, org) is True
+    swap_events = [e for e in store.iter_events() if e["event_type"] == "embodiment_body_profile_swapped"]
+    rebase_events = [e for e in store.iter_events() if e["event_type"] == "habitat_held_binding_rebased"]
+    assert len(swap_events) == 1
+    assert len(rebase_events) == 1
+    assert rebase_events[0]["payload"]["new_attachment_generation"] == swap_events[0]["payload"]["new_generation"]
+    held = engine.get_object("portable:0")
+    assert held is not None and isinstance(held.location, HeldByLocation)
+    assert held.location.attachment_generation == adapter.state.attachment_generation
+    assert swap_events[0]["payload"]["profile_definition_hash"] != profile_definition_hash(
+        get_d008_profile("ABSTRACT_SHAPE_BODY")
+    )
+    store.close()
+
+
+def test_incompatible_profile_swap_with_held_object_fails(tmp_path):
+    from umbra_core.embodiment_adapters import ProfileMigrationError
+    from umbra_core.runtime import maybe_migrate_d009_profile
+    from umbra_core.persistence import Store
+
+    store = Store(str(tmp_path / "heavy.sqlite"))
+    adapter = _attach_d008_adapter(store)
+    state = _state_with_portable()
+    body_id = adapter.state.body_instance_id
+    portable = replace(state.objects["portable:0"], mass_class="HEAVY")
+    held_state = with_state_hash(
+        replace(
+            state,
+            objects={
+                **state.objects,
+                "portable:0": with_object_state_hash(
+                    replace(
+                        portable,
+                        location=HeldByLocation(
+                            body_instance_id=body_id,
+                            attachment_generation=adapter.state.attachment_generation,
+                            hold_slot=0,
+                        ),
+                    )
+                ),
+            },
+        )
+    )
+    org = _minimal_organism_for_migration(store, adapter)
+    engine = HabitatEngine(held_state)
+    org.embodiment.attach_habitat_engine(engine)
+    with pytest.raises(ProfileMigrationError, match="UMBRA_D009_PROFILE_MIGRATION_FAIL"):
+        maybe_migrate_d009_profile(store, org)
+    assert [e for e in store.iter_events() if e["event_type"] == "embodiment_body_profile_swapped"] == []
+    store.close()
+
+
+def _minimal_organism_for_migration(store, adapter):
+    from types import SimpleNamespace
+
+    from umbra_core.runtime import Organism, OrganismConfig
+
+    identity = SimpleNamespace(agent_id="agent:test")
+    config = OrganismConfig(db_path="unused", wall_time_fn=lambda: 0.0)
+    return Organism(
+        identity=identity,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        embodiment=Embodiment(),
+        perception=__import__("umbra_core.perception", fromlist=["PerceptionMembrane"]).PerceptionMembrane(),
+        arbitrator=__import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator(
+            __import__("umbra_core.arbitration", fromlist=["ArbitrationState"]).ArbitrationState()
+        ),
+        governance=__import__("umbra_core.governance", fromlist=["Governance"]).Governance(
+            __import__("umbra_core.governance", fromlist=["GovernanceState"]).GovernanceState()
+        ),
+        rng=__import__("umbra_core.util", fromlist=["SeededRNG"]).SeededRNG(1),
+        config=config,
+        embodiment_adapter=adapter,
+    )

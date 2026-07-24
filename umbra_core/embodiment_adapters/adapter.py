@@ -25,7 +25,19 @@ from dataclasses import dataclass
 from typing import Any, Callable
 
 from umbra_core.embodiment import Embodiment
-from umbra_core.embodiment_adapters.profiles import BodyProfile, get_profile, profile_definition_hash
+from umbra_core.embodiment_adapters.profiles import (
+    BodyProfile,
+    get_profile,
+    hold_slot_count,
+    maximum_held_mass_class,
+    profile_definition_hash,
+)
+from umbra_core.habitat.engine import BodyCollisionShape, BodyPoseView, Position, ReachProfile
+from umbra_core.habitat_affordances.engine import (
+    ManipulationParameters,
+    PickUpParameters,
+    validate_manipulation_parameters,
+)
 from umbra_core.persistence import Store
 from umbra_core.util import SeededRNG, new_id
 
@@ -48,6 +60,18 @@ ADAPTER_FAILURE_CODES = frozenset(
 
 class AdapterError(Exception):
     """Fail-closed attach/detach/swap error."""
+
+
+class ManipulationValidationError(Exception):
+    """Fail-closed adapter manipulation validation error."""
+
+    def __init__(self, failure_code: str) -> None:
+        self.failure_code = failure_code
+        super().__init__(failure_code)
+
+
+class ProfileMigrationError(Exception):
+    """Fail-closed D-008→D-009 profile migration error."""
 
 
 @dataclass
@@ -165,10 +189,12 @@ class EmbodimentAdapter:
         *,
         origin: str = "NORMAL",
         migrated_from_schema_version: str | None = None,
+        profile_resolver: Callable[[str], BodyProfile] | None = None,
     ) -> None:
         if self.state.attachment_status == "ATTACHED":
             raise AdapterError("already_attached")
-        profile = self._resolve_profile(profile_id)
+        resolve = profile_resolver or self._resolve_profile
+        profile = resolve(profile_id)
         new_generation = self.state.attachment_generation + 1
         new_instance_id = self.state.body_instance_id or new_id()
         payload: dict[str, Any] = {
@@ -222,26 +248,40 @@ class EmbodimentAdapter:
             attachment_generation=new_generation,
         )
 
-    def swap_profile(self, new_profile_id: str) -> None:
+    def swap_profile(
+        self,
+        new_profile_id: str,
+        *,
+        origin: str = "NORMAL",
+        old_profile_definition_hash: str | None = None,
+    ) -> None:
         if self.state.attachment_status != "ATTACHED":
             raise AdapterError("not_attached")
+        old_profile = self.profile
+        assert old_profile is not None
         new_profile = self._resolve_profile(new_profile_id)
         old_generation = self.state.attachment_generation
         new_generation = old_generation + 1
+        payload: dict[str, Any] = {
+            "body_instance_id": self.state.body_instance_id,
+            "old_profile_id": self.state.body_profile_id,
+            "new_profile_id": new_profile.profile_id,
+            "old_generation": old_generation,
+            "new_generation": new_generation,
+            "profile_schema_version": new_profile.schema_version,
+            "profile_definition_hash": profile_definition_hash(new_profile),
+            "origin": origin,
+        }
+        if old_profile_definition_hash is not None:
+            payload["old_profile_definition_hash"] = old_profile_definition_hash
+        else:
+            payload["old_profile_definition_hash"] = profile_definition_hash(old_profile)
         self.store.append_event(
             agent_id=self.agent_id,
             event_type="embodiment_body_profile_swapped",
             monotonic_time=self._monotonic_time_fn(),
             wall_time=self._wall_time_fn(),
-            payload={
-                "body_instance_id": self.state.body_instance_id,
-                "old_profile_id": self.state.body_profile_id,
-                "new_profile_id": new_profile.profile_id,
-                "old_generation": old_generation,
-                "new_generation": new_generation,
-                "profile_schema_version": new_profile.schema_version,
-                "profile_definition_hash": profile_definition_hash(new_profile),
-            },
+            payload=payload,
         )
         # Compatible swap retains body_instance_id; true replacement is detach+attach.
         self.state = AttachmentState(
@@ -249,6 +289,61 @@ class EmbodimentAdapter:
             body_profile_id=new_profile.profile_id,
             attachment_status="ATTACHED",
             attachment_generation=new_generation,
+        )
+
+    def validate_manipulation(
+        self,
+        *,
+        capability: str,
+        parameters: ManipulationParameters,
+        attachment_generation: int,
+        body_instance_id: str,
+        embodiment: Embodiment,
+        expected_profile_hash: str | None = None,
+    ) -> "AdapterValidatedManipulation":
+        """Validate MANIPULATE against attachment + profile constraints only.
+
+        Does not coordinate habitat commit — runtime owns commit orchestration.
+        """
+        from umbra_core.habitat_affordances.engine import AdapterValidatedManipulation
+
+        if self.state.attachment_status != "ATTACHED":
+            raise ManipulationValidationError("BODY_DETACHED")
+        if attachment_generation != self.state.attachment_generation:
+            raise ManipulationValidationError("STALE_ATTACHMENT_GENERATION")
+        if body_instance_id != self.state.body_instance_id:
+            raise ManipulationValidationError("BODY_DETACHED")
+        profile = self.profile
+        assert profile is not None
+        if expected_profile_hash is not None:
+            if expected_profile_hash != profile_definition_hash(profile):
+                raise ManipulationValidationError("PROFILE_HASH_MISMATCH")
+        if capability != "MANIPULATE":
+            raise ManipulationValidationError("UNSUPPORTED_BODY_CAPABILITY")
+        if "MANIPULATE" not in profile.supported_capabilities:
+            raise ManipulationValidationError("UNSUPPORTED_BODY_CAPABILITY")
+        param_failure = validate_manipulation_parameters(parameters)
+        if param_failure is not None:
+            raise ManipulationValidationError(param_failure)
+        if isinstance(parameters, PickUpParameters):
+            if parameters.hold_slot >= hold_slot_count(profile):
+                raise ManipulationValidationError("HOLD_SLOT_UNAVAILABLE")
+        occ = embodiment.body_occupancy_view()
+        body_pose = BodyPoseView(
+            body_instance_id=occ.body_instance_id,
+            body_pose_version=occ.body_pose_version,
+            position=Position(occ.position_x, occ.position_y),
+            collision_shape=BodyCollisionShape(max(occ.collision_radius, 0.5)),
+            attachment_generation=occ.attachment_generation,
+        )
+        reach = ReachProfile(reach_radius=embodiment.body.sensor_range)
+        return AdapterValidatedManipulation(
+            body_pose_view=body_pose,
+            reach_profile=reach,
+            requested_parameters=parameters,
+            applied_parameters=parameters,
+            validated_profile=profile,
+            translation_applied=False,
         )
 
     # --- execution --------------------------------------------------------
