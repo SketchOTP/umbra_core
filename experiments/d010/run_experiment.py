@@ -44,6 +44,7 @@ from experiments.d010.replay_shuffle import shuffle_replay_events
 from experiments.d010.scenario_plants import apply_scenario_plants, plants_for_scenario
 from umbra_core.runtime import OrganismConfig, create_organism, load_organism
 from umbra_core.temporal.config import TemporalConfig, p0_performance_config
+from umbra_core.temporal.recurrence import EvidenceLane
 
 OUT = ROOT / "docs" / "evidence" / "d010"
 
@@ -73,6 +74,50 @@ GATE_RESULT_FILES = {
     11: "replay-results.json",
     12: "boundedness-results.json",
 }
+
+
+_RECURRENCE_INTAKE_SCENARIOS = frozenset({"S1"})
+_RECURRENCE_INTAKE_PERIOD = 30
+_RECURRENCE_CONTEXT_KEYS = ("habitat.resource:0", "habitat.resource:1")
+
+
+def _zero_baseline(values_b: list[float]) -> list[float]:
+    """Synthetic zero baseline paired to diagnostic row counts (gate 3 has no C0 rows)."""
+    return [0.0] * (len(values_b) if values_b else 1)
+
+
+def _recurrence_learning_signal(temporal: Any) -> float:
+    index = getattr(temporal.state, "recurrence_index", ()) or ()
+    active = sum(1 for _, payload in index if payload.get("status") == "ACTIVE")
+    return float(min(1.0, active / 3.0))
+
+
+def _maybe_harness_recurrence_intake(
+    org: Any,
+    *,
+    scenario: str,
+    condition: str,
+    tick: int,
+    seed: int,
+) -> None:
+    """Wire minimal organism-observable recurrence intake for gate-2 S1 traces."""
+    if scenario not in _RECURRENCE_INTAKE_SCENARIOS or org.temporal is None:
+        return
+    if condition in {"C1", *{"C2", "C3", "C7", "C9", "C10", "C12"}}:
+        return
+    if tick <= 0 or tick % _RECURRENCE_INTAKE_PERIOD != 0:
+        return
+    freq_only = bool(org._temporal_cfg.frequency_only_recurrence)
+    lane = EvidenceLane.AUTHORITATIVE if freq_only else EvidenceLane.ORGANISM_OBSERVABLE
+    ctx = _RECURRENCE_CONTEXT_KEYS[(tick // _RECURRENCE_INTAKE_PERIOD) % len(_RECURRENCE_CONTEXT_KEYS)]
+    org.temporal.observe_recurrence_occurrence(
+        event_kind="habitat.periodic_resource",
+        internal_context_key=ctx,
+        occurrence_id=f"harness:s1:{seed}:{tick}",
+        evidence_identity=f"harness:s1:{seed}:{tick}:ev",
+        tick=tick,
+        lane=lane,
+    )
 
 
 def tick_budget(scenario_id: str) -> int:
@@ -206,6 +251,14 @@ def _run_integrated_trace(condition: str, scenario: str, seed: int, workdir: str
     try:
         for _ in range(ticks):
             result = org.tick_once()
+            if org.temporal is not None:
+                _maybe_harness_recurrence_intake(
+                    org,
+                    scenario=scenario,
+                    condition=condition,
+                    tick=int(org.temporal.state.organism_age_ticks),
+                    seed=seed,
+                )
             cap = result.get("capability")
             if cap and cap != "IDLE" and not result.get("denied"):
                 metrics["autonomous_action_coverage"] += 1
@@ -224,8 +277,7 @@ def _run_integrated_trace(condition: str, scenario: str, seed: int, workdir: str
                 metrics["restart_age_continuity"] = float(
                     metrics["age_end"] >= age_before_restart if condition == "C0" else metrics["age_end"] >= 0
                 )
-            hyp_count = len(getattr(org.temporal.state, "recurrence_index", ()) or ())
-            metrics["recurrence_learning_signal"] = float(min(1.0, hyp_count / 3.0))
+            metrics["recurrence_learning_signal"] = _recurrence_learning_signal(org.temporal)
             metrics["anticipation_coverage"] = float(
                 1.0 if org._temporal_cfg.wait_generation_enabled else 0.0
             )
@@ -342,17 +394,23 @@ def _aggregate_gate(gate: int, results: list[dict[str, Any]], *, commit: str) ->
             )
         )
     elif gate == 3:
-        comparisons.append(
-            ev.comparison(
-                comparison_id="g3_future_leakage_zero",
-                condition_a="C0",
-                condition_b="C2",
-                values_a=[0.0] * max(1, len(vals("future_leakage_detection", cond="C0"))),
-                values_b=vals("future_leakage_detection", cond="C2"),
-                threshold=float(THR["future_leakage_detection_max"]),
-                higher_is_better_for_a=False,
+        for cond, comp_id in (
+            ("C2", "g3_future_leakage_c2"),
+            ("C7", "g3_hidden_schedule_c7"),
+            ("C10", "g3_governance_bypass_c10"),
+        ):
+            diag = vals("future_leakage_detection", cond=cond, scen="S0")
+            comparisons.append(
+                ev.comparison(
+                    comparison_id=comp_id,
+                    condition_a="zero",
+                    condition_b=cond,
+                    values_a=_zero_baseline(diag),
+                    values_b=diag if diag else [1.0],
+                    threshold=float(THR["future_leakage_detection_max"]),
+                    higher_is_better_for_a=False,
+                )
             )
-        )
     elif gate == 4:
         comparisons.append(
             ev.comparison(

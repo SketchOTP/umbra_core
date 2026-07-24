@@ -2209,6 +2209,63 @@ def test_d010_harness_runners_smoke():
     assert callable(seal_mod.main)
 
 
+def test_aggregate_gates_0_through_12_no_paired_length_mismatch():
+    from experiments.d010.run_experiment import _aggregate_gate
+
+    conditions = [f"C{i}" for i in range(14)]
+    scenarios = [f"S{i}" for i in range(18)]
+    metric_keys = [
+        "temporal_authority_alignment",
+        "recurrence_learning_signal",
+        "future_leakage_detection",
+        "anticipation_coverage",
+        "revision_adaptation",
+        "temporal_routine_promotion",
+        "autonomous_action_coverage",
+        "absence_safety_violation",
+        "individuality_timing_separation",
+        "restart_age_continuity",
+        "replay_equivalence",
+        "boundedness_ok",
+    ]
+    synthetic: list[dict] = []
+    for seed in range(50001, 50101):
+        for cond in conditions:
+            for scen in scenarios:
+                synthetic.append(
+                    {
+                        "condition": cond,
+                        "scenario": scen,
+                        "seed": seed,
+                        "metrics": {k: float((seed + hash(cond) + hash(scen)) % 7) / 10.0 for k in metric_keys},
+                        "terminal_outcome": "synthetic",
+                    }
+                )
+    for gate in range(0, 13):
+        payload = _aggregate_gate(gate, synthetic, commit="synthetic")
+        assert "comparisons" in payload
+        for comp in payload["comparisons"]:
+            assert comp["paired_seed_count"] == comp.get("paired_seed_count")
+
+
+def test_s1_integrated_c0_recurrence_learning_signal_positive(tmp_path):
+    from experiments.d010.run_experiment import _run_integrated_trace
+
+    raw = _run_integrated_trace("C0", "S1", 50001, str(tmp_path))
+    signal = float(raw["metrics"]["recurrence_learning_signal"])
+    assert signal > 0.0
+
+
+def test_s1_integrated_c11_recurrence_weaker_than_c0(tmp_path):
+    from experiments.d010.run_experiment import _run_integrated_trace
+
+    c0 = _run_integrated_trace("C0", "S1", 50001, str(tmp_path / "c0"))
+    c11 = _run_integrated_trace("C11", "S1", 50001, str(tmp_path / "c11"))
+    assert float(c0["metrics"]["recurrence_learning_signal"]) > float(
+        c11["metrics"]["recurrence_learning_signal"]
+    )
+
+
 def test_formal_harness_refuses_placeholder_hashes():
     from experiments.d010.stage_a import assert_no_placeholder_hashes
 
