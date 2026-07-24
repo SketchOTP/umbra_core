@@ -3,16 +3,13 @@
 ## Active directive
 - ID: D-20260724-umbra-d010-temporal-continuity
 - Project directive: UMBRA-D-010
-- Status: design §§1–5 APPROVED; written spec awaiting operator review
-- Next action: Operator review `docs/superpowers/specs/2026-07-24-umbra-d010-temporal-continuity-design.md`; then writing-plans
+- Status: design approved; implementation plan written — awaiting operator plan approval before SDD
+- Next action: Operator review plan; then Subagent-Driven Task 0+
 
 ## Locked
-- Decisions A, C–G; Approach 1; Design §§1–5 with all revisions
-
-## Repo facts
-- Start `bb90e61` | Bootstrap `4770b5f` | Seal `af35371`
-- Design tip: `ad97ddd`
-- Parent Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3`
+- Spec tip: `03e1269` (eight final amendments)
+- Plan: `docs/superpowers/plans/2026-07-24-umbra-d010-temporal-continuity.md`
+- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
 
 ## Open blockers
-- Spec operator review before plan/implementation
+- Operator plan approval before implementation
