@@ -1000,13 +1000,13 @@ class Organism:
                     )
             if self.phys.in_viable():
                 self.metrics["viable_ticks"] += 1
-            snap = self.snapshot_if_due()
             self._push_expression_frame(
                 self._outcome_to_last_outcome_view(committed_outcome)
                 if committed_outcome is not None
                 else None
             )
             self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
+            snap = self.snapshot_if_due()
             return {
                 "tick": self.tick,
                 "capability": None,
@@ -1436,7 +1436,6 @@ class Organism:
                 # Core operation continues when consolidation fails
                 pass
 
-        snap = self.snapshot_if_due()
         if self.tick % WAL_CHECKPOINT_EVERY_TICKS == 0:
             self.store.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
             # ponytail: return freed arenas to OS; ceiling = glibc-only, no-op elsewhere
@@ -1459,6 +1458,7 @@ class Organism:
         self._push_expression_frame(last_outcome_view)
 
         self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
+        snap = self.snapshot_if_due()
         return {
             "tick": self.tick,
             "capability": cand.capability if decision.admitted else None,

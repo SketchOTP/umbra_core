@@ -296,6 +296,23 @@ def test_ordinary_tick_does_not_emit_duplicate_anchor_event(tmp_path):
     assert anchors == []
 
 
+def test_snapshot_on_due_tick_matches_committed_temporal_state(tmp_path):
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    config = OrganismConfig(
+        db_path=str(tmp_path / "temporal.db"),
+        temporal_enabled=True,
+        snapshot_every=1,
+    )
+    org = create_organism(config)
+    org.tick_once()
+    snap = org.store.load_snapshot()
+    live = org.temporal.state
+    snap_temporal = snap["state"]["temporal"]
+    assert snap_temporal["organism_age_ticks"] == live.organism_age_ticks == 1
+    assert snap_temporal["state_version"] == live.state_version
+
+
 def test_missing_advance_record_fails_replay(tmp_path):
     from umbra_core.temporal.events import (
         ORCHESTRATION_TICK_COMMITTED,
