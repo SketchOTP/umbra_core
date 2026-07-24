@@ -1,0 +1,9 @@
+{
+  "schema_version": "d010.observable-evidence-allowlist.v1",
+  "allowed_evidence_kinds": [
+    "habitat.feeder_cycle",
+    "perception.habitat_cue",
+    "social.partner_response",
+    "habitat.object_state_changed"
+  ]
+}

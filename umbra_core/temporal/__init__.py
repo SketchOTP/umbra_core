@@ -1,6 +1,12 @@
 """D-010 temporal continuity authority types."""
 
-from umbra_core.temporal.clock import TrustedSample, compute_sample_hash
+from umbra_core.temporal.allowlists import (
+    AllowlistError,
+    assert_authoritative_event_allowed,
+    assert_observable_evidence_allowed,
+    load_authoritative_event_allowlist,
+    load_observable_evidence_allowlist,
+)
 from umbra_core.temporal.engine import (
     AnchorDelta,
     TemporalAdvancePlan,
@@ -31,6 +37,17 @@ from umbra_core.temporal.events import (
     temporal_state_from_dict,
     temporal_state_to_dict,
 )
+from umbra_core.temporal.observations import (
+    CommitMode,
+    DedupSummary,
+    HypothesisDelta,
+    ObservationWindowEvidence,
+    TemporalObservationPlan,
+    empty_dedup_summary,
+    identity_seen,
+    miss_eligible,
+    register_identities,
+)
 from umbra_core.temporal.recurrence import (
     CONTEXT_SCHEMA_VERSION,
     ESTIMATOR_SCHEMA_VERSION,
@@ -47,6 +64,8 @@ from umbra_core.temporal.recurrence import (
     robust_center,
     robust_spread,
 )
+from umbra_core.temporal.clock import TrustedSample, compute_sample_hash
+from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
 from umbra_core.temporal.state import (
     AnchorTrustClass,
     TemporalState,
@@ -61,12 +80,17 @@ from umbra_core.temporal.state import (
 )
 
 __all__ = [
+    "AllowlistError",
     "AnchorDelta",
     "AnchorTrustClass",
+    "CommitMode",
     "CONTEXT_SCHEMA_VERSION",
+    "DedupSummary",
     "ESTIMATOR_SCHEMA_VERSION",
     "EvidenceLane",
+    "HypothesisDelta",
     "HypothesisStatus",
+    "ObservationWindowEvidence",
     "ORCHESTRATION_TICK_COMMITTED",
     "RecurrenceHypothesis",
     "RecurrencePrediction",
@@ -79,6 +103,7 @@ __all__ = [
     "TemporalEngine",
     "TemporalEngineError",
     "TemporalMigrationContext",
+    "TemporalObservationPlan",
     "TemporalReplayError",
     "TemporalState",
     "TemporalTransactionEnvelope",
@@ -91,6 +116,8 @@ __all__ = [
     "apply_advance_plan",
     "apply_advance_record",
     "assert_age_never_decreases",
+    "assert_authoritative_event_allowed",
+    "assert_observable_evidence_allowed",
     "build_advance_record",
     "build_orchestration_tick_payload",
     "build_tick_temporal_context",
@@ -101,13 +128,19 @@ __all__ = [
     "compute_recurrence_key",
     "compute_sample_hash",
     "compute_state_hash",
+    "empty_dedup_summary",
     "envelope_from_dict",
     "envelope_to_dict",
     "estimator_definition_hash",
+    "identity_seen",
     "initialize_temporal_epoch",
+    "load_authoritative_event_allowlist",
+    "load_observable_evidence_allowlist",
+    "miss_eligible",
     "new_transaction_id",
     "predict_center",
     "recurrence_id_from_key",
+    "register_identities",
     "replay_temporal_state_from_events",
     "robust_center",
     "robust_spread",

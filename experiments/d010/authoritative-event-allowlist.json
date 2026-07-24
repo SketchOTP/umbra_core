@@ -1,0 +1,10 @@
+{
+  "schema_version": "d010.authoritative-event-allowlist.v1",
+  "allowed_event_kinds": [
+    "habitat.feeder_cycle",
+    "habitat.object_state_changed",
+    "physiology.need_drift",
+    "physiology.recovery_tick",
+    "temporal.expectation_window_expired"
+  ]
+}

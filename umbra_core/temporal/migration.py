@@ -15,6 +15,7 @@ from umbra_core.temporal.state import (
     with_anchor_state_hash,
     with_state_hash,
 )
+from umbra_core.temporal.observations import empty_dedup_summary
 from umbra_core.util import sha256_hex
 
 
@@ -85,6 +86,8 @@ def initialize_temporal_epoch(
         wall_clock_mapping=None,
         clock_uncertainty=0.0,
         recurrence_index=(),
+        dedup_summary=empty_dedup_summary(),
+        observation_miss_keys=(),
         state_version=0,
         definition_hash="",
         state_hash="",

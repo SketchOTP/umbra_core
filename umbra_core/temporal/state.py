@@ -8,6 +8,8 @@ from typing import Any
 
 from umbra_core.util import canon_json, sha256_hex
 
+from umbra_core.temporal.observations import DedupSummary, empty_dedup_summary
+
 TEMPORAL_SCHEMA_VERSION = "d010.temporal-state.v1"
 GENESIS_ADVANCE_ID = "advance:genesis"
 
@@ -60,6 +62,8 @@ class TemporalState:
     wall_clock_mapping: WallClockMapping | None
     clock_uncertainty: float
     recurrence_index: tuple[tuple[str, dict[str, Any]], ...]
+    dedup_summary: DedupSummary
+    observation_miss_keys: tuple[str, ...]
     state_version: int
     definition_hash: str
     state_hash: str

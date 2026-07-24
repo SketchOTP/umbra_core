@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 from umbra_core.temporal.clock import TrustedSample
+from umbra_core.temporal.observations import DedupSummary
 from umbra_core.temporal.state import (
     AnchorTrustClass,
     TemporalState,
@@ -440,6 +441,10 @@ def temporal_state_from_dict(data: dict[str, Any]) -> TemporalState:
         clock_uncertainty=float(data["clock_uncertainty"]),
         recurrence_index=tuple(
             (str(k), dict(v)) for k, v in (data.get("recurrence_index") or [])
+        ),
+        dedup_summary=DedupSummary.from_dict(data.get("dedup_summary")),
+        observation_miss_keys=tuple(
+            str(x) for x in (data.get("observation_miss_keys") or [])
         ),
         state_version=int(data["state_version"]),
         definition_hash=str(data["definition_hash"]),

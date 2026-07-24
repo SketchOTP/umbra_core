@@ -12,6 +12,15 @@ from umbra_core.temporal.engine import (
     TemporalEngineError,
     build_tick_temporal_context,
 )
+from umbra_core.temporal.observations import (
+    CommitMode,
+    ObservationWindowEvidence,
+    MAX_RECENT_EVIDENCE_IDENTITIES,
+    empty_dedup_summary,
+    identity_seen,
+    register_identities,
+)
+from umbra_core.temporal.allowlists import AllowlistError, assert_observable_evidence_allowed
 from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
 from umbra_core.temporal.recurrence import (
     EvidenceLane,
@@ -574,3 +583,277 @@ def test_unstable_phase_anchor_predicts_from_last_observed_plus_period():
     assert prediction.predicted_center == pytest.approx(
         float(hypothesis.last_observed_tick) + hypothesis.period_estimate
     )
+
+
+def _commit_in_tick_observation(
+    engine: TemporalEngine,
+    *,
+    event_kind: str = "habitat.feeder_cycle",
+    context_key: str = "feeder:plan",
+    occurrence_id: str,
+    evidence_identity: str,
+    tick: int,
+    txn_id: str = "txn:test",
+) -> None:
+    plan = engine.prepare_finalized_evidence(
+        source_transaction_id=txn_id,
+        event_kind=event_kind,
+        internal_context_key=context_key,
+        occurrence_id=occurrence_id,
+        evidence_identity=evidence_identity,
+        tick=tick,
+    )
+    engine.commit_observation_plan(plan)
+
+
+def test_in_tick_commit_applies_hypothesis_delta_and_abandon_is_rollback_safe():
+    engine = _engine_with_age()
+    before = engine.state
+    plan = engine.prepare_finalized_evidence(
+        source_transaction_id="txn:a",
+        event_kind="habitat.feeder_cycle",
+        internal_context_key="feeder:rollback",
+        occurrence_id="occ:0",
+        evidence_identity="evidence:0",
+        tick=0,
+    )
+    engine.abandon_observation_plan(plan.observation_plan_id)
+    after = engine.state
+    assert after is before
+    assert after.recurrence_index == ()
+
+    plan2 = engine.prepare_finalized_evidence(
+        source_transaction_id="txn:b",
+        event_kind="habitat.feeder_cycle",
+        internal_context_key="feeder:rollback",
+        occurrence_id="occ:0",
+        evidence_identity="evidence:0",
+        tick=0,
+    )
+    hypothesis = engine.commit_observation_plan(plan2)
+    assert hypothesis.observation_count == 1
+    assert hypothesis.o_lane_occurrence_count == 1
+
+
+def test_same_observation_plan_cannot_commit_twice():
+    engine = _engine_with_age()
+    plan = engine.prepare_finalized_evidence(
+        source_transaction_id="txn:dup",
+        event_kind="habitat.feeder_cycle",
+        internal_context_key="feeder:dup",
+        occurrence_id="occ:0",
+        evidence_identity="evidence:0",
+        tick=0,
+    )
+    engine.commit_observation_plan(plan)
+    with pytest.raises(TemporalEngineError, match="observation_plan_already_committed"):
+        engine.commit_observation_plan(plan)
+
+
+def test_post_hoc_missing_or_stale_anchors_fail_closed():
+    engine = _engine_with_age()
+    engine.register_post_hoc_anchor(
+        source_event_id="evt:1",
+        source_event_hash="hash:1",
+        committed_advance_id=engine.state.last_advance_id,
+        committed_age_ticks=0,
+        committed_temporal_state_version=engine.state.state_version,
+    )
+    with pytest.raises(TemporalEngineError, match="post_hoc_source_anchor_missing"):
+        engine.prepare_finalized_evidence(
+            source_transaction_id="txn:post",
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:post",
+            occurrence_id="occ:post",
+            evidence_identity="evidence:post",
+            tick=5,
+            commit_mode=CommitMode.POST_HOC,
+            source_event_id="evt:missing",
+            source_event_hash="hash:missing",
+            committed_advance_id=engine.state.last_advance_id,
+            committed_age_ticks=5,
+            committed_temporal_state_version=engine.state.state_version,
+        )
+
+    with pytest.raises(TemporalEngineError, match="post_hoc_source_event_hash_mismatch"):
+        engine.prepare_finalized_evidence(
+            source_transaction_id="txn:post",
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:post",
+            occurrence_id="occ:post2",
+            evidence_identity="evidence:post2",
+            tick=5,
+            commit_mode=CommitMode.POST_HOC,
+            source_event_id="evt:1",
+            source_event_hash="hash:stale",
+            committed_advance_id=engine.state.last_advance_id,
+            committed_age_ticks=5,
+            committed_temporal_state_version=engine.state.state_version,
+        )
+
+
+def test_post_hoc_cannot_alter_historical_occurrence_age():
+    engine = _engine_with_age()
+    _commit_in_tick_observation(
+        engine,
+        context_key="feeder:immutable",
+        occurrence_id="occ:fixed",
+        evidence_identity="evidence:fixed",
+        tick=10,
+    )
+    engine.register_post_hoc_anchor(
+        source_event_id="evt:hist",
+        source_event_hash="hash:hist",
+        committed_advance_id=engine.state.last_advance_id,
+        committed_age_ticks=10,
+        committed_temporal_state_version=engine.state.state_version,
+    )
+    with pytest.raises(TemporalEngineError, match="post_hoc_occurrence_age_immutable"):
+        engine.prepare_finalized_evidence(
+            source_transaction_id="txn:rewrite",
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:immutable",
+            occurrence_id="occ:fixed",
+            evidence_identity="evidence:rewrite",
+            tick=99,
+            commit_mode=CommitMode.POST_HOC,
+            source_event_id="evt:hist",
+            source_event_hash="hash:hist",
+            committed_advance_id=engine.state.last_advance_id,
+            committed_age_ticks=10,
+            committed_temporal_state_version=engine.state.state_version,
+        )
+
+
+def test_same_occurrence_id_across_in_tick_and_post_hoc_counts_once():
+    engine = _engine_with_age()
+    _commit_in_tick_observation(
+        engine,
+        context_key="feeder:cross",
+        occurrence_id="occ:shared",
+        evidence_identity="evidence:in-tick",
+        tick=10,
+        txn_id="txn:in",
+    )
+    before_count = engine.state.recurrence_index[0][1]["observation_count"]
+    engine.register_post_hoc_anchor(
+        source_event_id="evt:cross",
+        source_event_hash="hash:cross",
+        committed_advance_id=engine.state.last_advance_id,
+        committed_age_ticks=10,
+        committed_temporal_state_version=engine.state.state_version,
+    )
+    plan = engine.prepare_finalized_evidence(
+        source_transaction_id="txn:post",
+        event_kind="habitat.feeder_cycle",
+        internal_context_key="feeder:cross",
+        occurrence_id="occ:shared",
+        evidence_identity="evidence:post-hoc",
+        tick=10,
+        commit_mode=CommitMode.POST_HOC,
+        source_event_id="evt:cross",
+        source_event_hash="hash:cross",
+        committed_advance_id=engine.state.last_advance_id,
+        committed_age_ticks=10,
+        committed_temporal_state_version=engine.state.state_version,
+    )
+    hypothesis = engine.commit_observation_plan(plan)
+    assert hypothesis.observation_count == before_count == 1
+    assert len(hypothesis.evidence_identities) == 2
+
+
+def test_observation_window_miss_is_idempotent_and_single_miss_keeps_active():
+    engine = _engine_with_age()
+    hypothesis = _observe_periodic(engine, period=10, count=4)
+    assert hypothesis.status == HypothesisStatus.ACTIVE
+    evidence = ObservationWindowEvidence(
+        recurrence_id=hypothesis.recurrence_id,
+        expectation_version=hypothesis.hypothesis_version,
+        window_start=40.0,
+        window_end=50.0,
+        coverage_start=40.0,
+        coverage_end=50.0,
+        observability_quality=1.0,
+        supporting_observation_refs=(),
+        matched_occurrence_id=None,
+    )
+    first = engine.record_observation_window_miss(evidence)
+    assert first is not None
+    assert first.status == HypothesisStatus.ACTIVE
+    assert first.miss_count == 1
+    second = engine.record_observation_window_miss(evidence)
+    assert second is not None
+    assert second.miss_count == 1
+    assert len(engine.state.observation_miss_keys) == 1
+
+
+def test_partial_observation_coverage_does_not_register_miss():
+    engine = _engine_with_age()
+    hypothesis = _observe_periodic(engine, period=10, count=4)
+    evidence = ObservationWindowEvidence(
+        recurrence_id=hypothesis.recurrence_id,
+        expectation_version=hypothesis.hypothesis_version,
+        window_start=40.0,
+        window_end=50.0,
+        coverage_start=40.0,
+        coverage_end=42.0,
+        observability_quality=1.0,
+        supporting_observation_refs=(),
+        matched_occurrence_id=None,
+    )
+    result = engine.record_observation_window_miss(evidence)
+    assert result is None
+    assert engine.state.observation_miss_keys == ()
+
+
+def test_dedup_eviction_does_not_allow_recount():
+    summary = empty_dedup_summary()
+    for index in range(MAX_RECENT_EVIDENCE_IDENTITIES + 2):
+        summary = register_identities(
+            summary,
+            evidence_identities=(f"evidence:{index}",),
+        )
+    first_evicted = "evidence:0"
+    assert first_evicted in summary.compacted_identities
+    assert identity_seen(summary, evidence_identity=first_evicted)
+
+
+def test_authoritative_prepare_seeds_candidate_only():
+    engine = _engine_with_age()
+    for index in range(6):
+        plan = engine.prepare_authoritative_event(
+            source_transaction_id=f"txn:auth:{index}",
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:auth-plan",
+            occurrence_id=f"occ:{index}",
+            evidence_identity=f"evidence:{index}",
+            tick=index * 10,
+        )
+        hypothesis = engine.commit_observation_plan(plan)
+    assert hypothesis.status == HypothesisStatus.CANDIDATE
+    assert hypothesis.o_lane_occurrence_count == 0
+    assert hypothesis.a_lane_seed_count == 6
+
+
+def test_disallowed_event_and_evidence_kinds_rejected_by_allowlist():
+    engine = _engine_with_age()
+    with pytest.raises(TemporalEngineError, match="observable_evidence_disallowed"):
+        engine.prepare_finalized_evidence(
+            source_transaction_id="txn:bad",
+            event_kind="forbidden.evidence.kind",
+            internal_context_key="ctx",
+            occurrence_id="occ:bad",
+            evidence_identity="evidence:bad",
+            tick=0,
+        )
+    with pytest.raises(TemporalEngineError, match="authoritative_event_disallowed"):
+        engine.prepare_authoritative_event(
+            source_transaction_id="txn:bad-auth",
+            event_kind="forbidden.authoritative.kind",
+            internal_context_key="ctx",
+            occurrence_id="occ:bad-auth",
+            evidence_identity="evidence:bad-auth",
+            tick=0,
+        )
+    with pytest.raises(AllowlistError, match="observable_evidence_disallowed"):
+        assert_observable_evidence_allowed("forbidden.evidence.kind")
