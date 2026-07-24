@@ -90,7 +90,7 @@
   },
   "temporal_authority_alignment_min": 0.95,
   "temporal_routine_promotion_min": 2,
-  "threshold_freeze_timestamp": "2026-07-24T15:54:03+00:00",
+  "threshold_freeze_timestamp": "2026-07-24T16:10:45+00:00",
   "ticks_accelerated_min": 100000,
   "ui_incremental_cpu_mean_frac_max": 0.05,
   "ui_incremental_rss_p95_mib_max": 128,
