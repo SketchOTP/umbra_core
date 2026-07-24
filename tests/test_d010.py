@@ -1881,3 +1881,33 @@ def test_no_downtime_derived_occurrence_or_miss():
     assert not any("occurrence" in d.action.lower() for d in plan.expectation_recovery_deltas)
     assert not any("miss" in d.action.lower() for d in plan.expectation_recovery_deltas)
 
+
+def test_all_production_runtime_tick_uses_are_classified():
+    from experiments.d010.scan_runtime_tick_uses import validate_inventory
+
+    errors = validate_inventory()
+    assert errors == [], "\n".join(errors)
+
+
+def test_runtime_subsystem_uses_effective_organism_age_not_orchestration_tick(
+    tmp_path, monkeypatch
+):
+    """Migrated T site: social.recognize receives TickTemporalContext effective age."""
+    org = _temporal_org(tmp_path, social_enabled=True)
+    captured: list[int] = []
+    original = org.social.recognize
+
+    def capture(cues, tick, *, store):
+        captured.append(int(tick))
+        return original(cues, tick, store=store)
+
+    monkeypatch.setattr(org.social, "recognize", capture)
+
+    def fake_context(plan):
+        base = build_tick_temporal_context(plan)
+        return replace(base, effective_age_ticks=42)
+
+    monkeypatch.setattr("umbra_core.runtime.build_tick_temporal_context", fake_context)
+    org.tick_once()
+    assert captured == [42]
+    assert org.tick == 1

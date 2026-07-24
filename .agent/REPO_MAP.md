@@ -169,5 +169,6 @@ Concise navigation map for agents. Add entries as application code lands.
 - Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
 - D-010 Task 7: `umbra_core/memory/engine.py` — `TemporalBinding`, `BoundRoutineEligibility`, `evaluate_bound_routine_eligibility`, `record_temporal_binding_miss`, `disable_temporal_binding_for_recurrence`, memory-owned `temporal_routine_promote_events`; extended `EnvironmentalRoutineSpec`/`SocialRoutineSpec` promote paths
 - D-010 Task 8: `umbra_core/temporal/downtime.py` — trust classification, `reconcile_downtime` plan, sticky PREPARED sample, interval idempotency; `umbra_core/temporal/contracts.py` + `experiments/d010/elapsed-contract-registry.json` — ElapsedTimeContractRegistry; `umbra_core/temporal/events.py` — `temporal_downtime_reconciled` replay; `umbra_core/wait_execution.py` — WaitRecoveryDelta apply; `umbra_core/runtime.py` — `apply_downtime_reconciliation`; `umbra_core/persistence.py` — `atomic_downtime_reconciliation_commit`
-- Tests: `tests/test_d010.py` (80 passed after Task 8)
-- Experiments (draft): `experiments/d010/`, `docs/evidence/d010/` (planned)
+- D-010 Task 9: `experiments/d010/scan_runtime_tick_uses.py` — production `self.tick` scanner; `experiments/d010/runtime-tick-classification.json` — O/T/B inventory; `umbra_core/runtime.py` — `_organism_age_tick` + subsystem paths use `TickTemporalContext.effective_age_ticks` when temporal enabled
+- Tests: `tests/test_d010.py` (83 passed after Task 9)
+- Experiments (draft): `experiments/d010/` (`scan_runtime_tick_uses.py`, `runtime-tick-classification.json`), `docs/evidence/d010/` (planned)

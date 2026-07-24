@@ -75,7 +75,7 @@ from umbra_core.individuality import (
 )
 from umbra_core.habitat.config import HabitatConfig, condition_to_habitat_config
 from umbra_core.temporal.clock import TrustedSample
-from umbra_core.temporal.engine import TemporalEngine
+from umbra_core.temporal.engine import TemporalEngine, build_tick_temporal_context
 from umbra_core.temporal.events import (
     ORCHESTRATION_TICK_COMMITTED,
     TEMPORAL_DOWNTIME_RECONCILED,
@@ -330,6 +330,7 @@ class Organism:
         self._mem_body_change_done = False
         self._mem_skill_degrade_done = False
         self._energy_before_action: float | None = None
+        self._tick_organism_age: int = 0
 
     @property
     def dt(self) -> float:
@@ -395,6 +396,13 @@ class Organism:
         )
         plan = self.temporal.prepare_advance(sample, self._orchestration_sequence)
         return plan, sample
+
+    def _organism_age_tick(self, temporal_begin: tuple[Any, TrustedSample] | None) -> int:
+        """Effective organism age for this tick (spec §1.8 T/B migration)."""
+        if temporal_begin is not None and self.config.temporal_enabled and self.temporal is not None:
+            plan, _ = temporal_begin
+            return build_tick_temporal_context(plan).effective_age_ticks
+        return self.tick
 
     def _finish_temporal_tick(
         self,
@@ -692,7 +700,7 @@ class Organism:
             )
             for _ in range(12):
                 self.development.update_competence(
-                    g.goal_id, success=True, prediction_error=0.05, tick=self.tick
+                    g.goal_id, success=True, prediction_error=0.05, tick=self._tick_organism_age
                 )
             self._dev_master_seeded = True
         if (
@@ -702,7 +710,7 @@ class Organism:
         ):
             for gid in list(self.development.goals.keys()):
                 self.development.note_regression(
-                    gid, tick=self.tick, reason="skill_degradation", competence_penalty=0.4
+                    gid, tick=self._tick_organism_age, reason="skill_degradation", competence_penalty=0.4
                 )
             self._dev_degrade_done = True
         if (
@@ -712,7 +720,7 @@ class Organism:
         ):
             self.embodiment.body.movement_gain = 0.4
             self.embodiment.body.movement_reliability = 0.4
-            self.development.on_body_change(tick=self.tick, compatibility_scale=0.5)
+            self.development.on_body_change(tick=self._tick_organism_age, compatibility_scale=0.5)
             self._dev_body_change_done = True
         if (
             tags.get("env_change_at")
@@ -722,7 +730,7 @@ class Organism:
             feat = self.embodiment.habitat.feature("resource")
             if feat:
                 feat.chargeable = False
-            self.development.on_environment_change(tick=self.tick)
+            self.development.on_environment_change(tick=self._tick_organism_age)
             self._dev_env_change_done = True
 
     def _maybe_world_dynamics(self) -> None:
@@ -970,6 +978,8 @@ class Organism:
         temporal_begin: tuple[Any, TrustedSample] | None,
     ) -> dict[str, Any]:
         self.tick += 1
+        self._tick_organism_age = self._organism_age_tick(temporal_begin)
+        organism_age = self._tick_organism_age
         self.monotonic_time += self.dt
         self.metrics["total_ticks"] += 1
         self._ensure_intervention()
@@ -1007,9 +1017,9 @@ class Organism:
 
         # World-model observation ingest (before action) — estimates only
         if self.world_model is not None:
-            self.world_model.metrics["last_tick"] = self.tick
+            self.world_model.metrics["last_tick"] = organism_age
             self.world_model.ingest_observations(
-                obs_dicts, tick=self.tick, now=self.monotonic_time
+                obs_dicts, tick=organism_age, now=self.monotonic_time
             )
 
         # 3. update current state
@@ -1044,7 +1054,7 @@ class Organism:
             sm_result = None
             if self.self_model is not None:
                 sm_result = self.self_model.observe_outcome(
-                    tick=self.tick,
+                    tick=organism_age,
                     capability=None,
                     verified_outcome=None,
                     body_after=self.embodiment.body.to_state(),
@@ -1098,15 +1108,15 @@ class Organism:
                 or (urg_s.get("fatigue", 0) > 0.55)
                 or self.arbitrator.state.recovery_focus
             )
-            self.social.recognize(social_cues, self.tick, store=self.store)
-            self.social.resume_pending(store=self.store, now_tick=self.tick)
+            self.social.recognize(social_cues, organism_age, store=self.store)
+            self.social.resume_pending(store=self.store, now_tick=organism_age)
 
         # 4–5. generate candidates + arbitrate (+ D-007 bounded individuality modifiers)
         indiv_apply = None
         indiv_scope = str(self._indiv_tags.get("arbitration_context", "default"))
         phase_hint = None
         if self._indiv_tags.get("timing_phase"):
-            phase_hint = float((self.tick % 100) / 100.0)
+            phase_hint = float((organism_age % 100) / 100.0)
         if self.individuality is not None and self.config.individuality_enabled:
             indiv_apply = self.individuality.apply_modifiers
         routine_proposals: list[dict[str, Any]] = []
@@ -1147,12 +1157,13 @@ class Organism:
             phase_hint=phase_hint,
             manipulation_bindings=manipulation_bindings,
             routine_proposals=routine_proposals,
+            effective_age_ticks=organism_age,
         )
 
         # D-004: practice goal generation + arbitration (propose only; no authority)
         practice_goal = None
         if self.development is not None and self.config.development_enabled:
-            self.development.metrics["last_tick"] = self.tick
+            self.development.metrics["last_tick"] = organism_age
             wu = 0.0
             if self.world_model is not None:
                 errs = list(self.world_model._prediction_errors)
@@ -1172,7 +1183,7 @@ class Organism:
                 body_capabilities=body_caps or None,
                 intervention_tags=self._dev_tags,
             )
-            self.development.decay_unused(self.tick)
+            self.development.decay_unused(organism_age)
             urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
             critical_rec = bool(
                 self.phys.critical_any()
@@ -1264,7 +1275,7 @@ class Organism:
             and self.arbitrator.state.mode == "full"
         ):
             social_cand = self.social.propose(
-                self.phys, social_cues, self.tick, social_critical, memory=self.memory
+                self.phys, social_cues, organism_age, social_critical, memory=self.memory
             )
             if social_cand is not None:
                 cand = social_cand
@@ -1286,7 +1297,7 @@ class Organism:
                     else:
                         goal = "energy" if urg.get("energy", 0) > 0.4 else "rest"
                         plan = self.world_model.plan(
-                            goal, tick=self.tick, observations=obs_dicts
+                            goal, tick=organism_age, observations=obs_dicts
                         )
                         if plan and plan.actions:
                             self._pending_world_plan = list(plan.actions[1:]) or None
@@ -1337,12 +1348,12 @@ class Organism:
             self.self_model.predict(
                 cand.capability,
                 resolved,
-                self.tick,
+                organism_age,
                 self.embodiment.body.to_state(),
             )
         if self.world_model is not None and self.config.world_model_enabled:
             self.world_model.predict(
-                cand.capability, dict(cand.params), tick=self.tick
+                cand.capability, dict(cand.params), tick=organism_age
             )
 
         # 6. govern
@@ -1355,7 +1366,7 @@ class Organism:
                 for e in proposal.requested_effects
                 if e not in ("grant_capability", "modify_identity", "modify_physiology_direct")
             ]
-        decision = self.governance.admit(proposal, tick=self.tick)
+        decision = self.governance.admit(proposal, tick=organism_age)
         self.store.append_event(
             agent_id=self.identity.agent_id,
             event_type="proposal" if decision.admitted else "denial",
@@ -1404,7 +1415,7 @@ class Organism:
                     self.rng,
                     resolve_params=self._resolve_params,
                     adapter=self.embodiment_adapter,
-                    tick=self.tick,
+                    tick=organism_age,
                 )
             assert outcome is not None
             if outcome.reason == "delayed" or (outcome.raw and outcome.raw.get("delayed")):
@@ -1416,7 +1427,7 @@ class Organism:
                 # Attribution still runs for "intent issued, no body change yet"
                 if self.self_model is not None:
                     sm_result = self.self_model.observe_outcome(
-                        tick=self.tick,
+                        tick=organism_age,
                         capability=cand.capability,
                         verified_outcome=None,
                         body_after=self.embodiment.body.to_state(),
@@ -1425,7 +1436,7 @@ class Organism:
                         now=self.monotonic_time,
                     )
                     self.self_model.record_dimension_evidence(
-                        "actuator_delay", 0.5, self.tick
+                        "actuator_delay", 0.5, organism_age
                     )
             else:
                 outcome_payload = self._finish_outcome(
@@ -1448,14 +1459,14 @@ class Organism:
                             context=social_meta["context"],
                             signal=outcome.capability,
                             execution_id=proposal.proposal_id,
-                            signal_tick=self.tick,
+                            signal_tick=organism_age,
                             recognition_confidence=float(
                                 social_meta.get("recognition_confidence", 0.0)
                             ),
                             governance_admitted=True,
                             capability_executed=True,
                             store=self.store,
-                            tick=self.tick,
+                            tick=organism_age,
                         )
                     except (SocialEngineError, KeyError):
                         # Hypothesis retired/bounded between proposal and execution —
@@ -1465,7 +1476,7 @@ class Organism:
             self.metrics["governance_denials"] += 1
             if self.self_model is not None:
                 sm_result = self.self_model.observe_outcome(
-                    tick=self.tick,
+                    tick=organism_age,
                     capability=None,
                     verified_outcome=None,
                     body_after=self.embodiment.body.to_state(),
@@ -1491,7 +1502,7 @@ class Organism:
                     self._mem_tags.get("force_consolidate_every")
                     and self.tick % int(self._mem_tags["force_consolidate_every"]) == 0
                 ):
-                    cres = self.memory.consolidate(self.tick, self.rng)
+                    cres = self.memory.consolidate(organism_age, self.rng)
                     if cres.get("ran"):
                         self.metrics["memory_consolidations"] += 1
             except Exception:
@@ -1567,13 +1578,14 @@ class Organism:
         if outcome.raw and outcome.raw.get("hazard_contact"):
             self.metrics["collisions"] += 1
 
+        organism_age = self._tick_organism_age
         sm_result = None
         if self.self_model is not None:
             verified = dict(outcome_payload)
             if self.self_model.config.hide_verified_outcomes:
                 verified = None  # type: ignore[assignment]
             sm_result = self.self_model.observe_outcome(
-                tick=self.tick,
+                tick=organism_age,
                 capability=outcome.capability,
                 verified_outcome=verified,
                 body_after=self.embodiment.body.to_state(),
@@ -1614,12 +1626,12 @@ class Organism:
                 )
             # Sensor-range: rolling max observation distance vs believed range
             obs_max = self._obs_summary(obs_dicts).get("max_range_seen", 0.0)
-            self.self_model.note_observation_range(obs_max, self.tick)
+            self.self_model.note_observation_range(obs_max, organism_age)
             if not outcome.success and outcome.capability in ("MOVE", "APPROACH", "RETREAT"):
                 recent = self.self_model.live_errors()[-8:]
                 fails = sum(1 for e in recent if not e.verified_success)
                 if len(recent) >= 8 and fails >= 6:
-                    self.self_model.record_dimension_evidence("reliability", 0.55, self.tick)
+                    self.self_model.record_dimension_evidence("reliability", 0.55, organism_age)
 
         wm_result = None
         if self.world_model is not None:
@@ -1641,7 +1653,7 @@ class Organism:
                     else:
                         params["toward"] = typical
             wm_result = self.world_model.observe_outcome(
-                tick=self.tick,
+                tick=organism_age,
                 action=outcome.capability,
                 params=params,
                 verified_outcome=dict(outcome_payload),
@@ -1678,7 +1690,7 @@ class Organism:
                 env_wm = self.world_model.observe_environmental_outcome(
                     anchors=anchors,
                     verified_outcome=dict(outcome_payload),
-                    tick=self.tick,
+                    tick=organism_age,
                     terminal=True,
                     denied=False,
                     stale_binding=bool(pending_params.get("binding_stale")),
@@ -1730,7 +1742,7 @@ class Organism:
                     gid,
                     success=success,
                     prediction_error=pred_err,
-                    tick=self.tick,
+                    tick=organism_age,
                     body_compatibility=compat,
                 )
                 dev_result = {
@@ -1797,7 +1809,7 @@ class Organism:
             if hist == "H9":
                 ctx["unobserved"] = True
             ep = self.memory.consider_event(
-                tick=self.tick,
+                tick=organism_age,
                 occurred_at=self.monotonic_time,
                 context=ctx,
                 observations=obs_dicts[:4],
@@ -1855,7 +1867,7 @@ class Organism:
                         interrupted=bool(pending_params.get("binding_stale")),
                         object_missing=outcome.reason
                         in ("OBJECT_NOT_PERCEIVED", "OBJECT_MISSING"),
-                        tick=self.tick,
+                        tick=organism_age,
                     )
             assert self.memory.try_grant_authority({"grant_capability": True}) is False
 
@@ -1871,8 +1883,8 @@ class Organism:
             if self._indiv_tags.get("force_context"):
                 ctx = str(self._indiv_tags["force_context"])
             evid_list = infer_evidence_from_outcome(
-                evidence_id=f"out-{self.tick}-{outcome.capability}",
-                tick=self.tick,
+                evidence_id=f"out-{organism_age}-{outcome.capability}",
+                tick=organism_age,
                 capability=outcome.capability,
                 success=bool(outcome.success),
                 context_scope=ctx,
@@ -1894,8 +1906,8 @@ class Organism:
                 for dim in ("environmental_persistence", "object_preference"):
                     self.individuality.observe_habitat_verified(
                         VerifiedEvidence(
-                            evidence_id=f"hab-{self.tick}-{dim}",
-                            tick=self.tick,
+                            evidence_id=f"hab-{organism_age}-{dim}",
+                            tick=organism_age,
                             source_system="habitat",
                             dimension=dim,
                             context_scope=f"habitat:object:{kind}",
