@@ -74,6 +74,11 @@ from umbra_core.individuality import (
     infer_evidence_from_outcome,
 )
 from umbra_core.habitat.config import HabitatConfig, condition_to_habitat_config
+from umbra_core.temporal.config import (
+    TemporalConfig,
+    assert_no_d010_control_via_organism_condition,
+    resolve_temporal_config,
+)
 from umbra_core.temporal.clock import TrustedSample
 from umbra_core.temporal.engine import TemporalEngine, build_tick_temporal_context
 from umbra_core.temporal.events import (
@@ -92,6 +97,7 @@ from umbra_core.temporal.events import (
     temporal_state_to_dict,
 )
 from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
+from umbra_core.wait_execution import WaitJournal
 from umbra_core.world_model import WorldModel, WorldModelConfig, condition_to_world_model_config
 
 
@@ -160,6 +166,11 @@ class OrganismConfig:
     habitat_scenario_hook: Any = field(default=None, repr=False)
     # D-010 temporal continuity — opt-in like other directive flags.
     temporal_enabled: bool = False
+    # D-010 Task 10: explicit override only — D-010 C1–C13 must not be derived
+    # from the shared `condition` label; harness passes `condition_to_temporal_config`.
+    temporal_config: TemporalConfig | None = None
+    temporal_scenario_id: str | None = None
+    temporal_scenario_hook: Any = field(default=None, repr=False)
 
 
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, new_id
@@ -265,6 +276,8 @@ class Organism:
         self.social = social
         self.individuality = individuality
         self.temporal = temporal
+        self._temporal_cfg = resolve_temporal_config(config.temporal_config)
+        self._wait_journal = WaitJournal()
         # D-008: optional — when set, governance routes execution through the
         # adapter's body-profile constraints instead of directly into Embodiment.
         self.embodiment_adapter = embodiment_adapter
@@ -403,6 +416,54 @@ class Organism:
             plan, _ = temporal_begin
             return build_tick_temporal_context(plan).effective_age_ticks
         return self.tick
+
+    def _policy_expectation_views(self, organism_age: int):
+        if self.temporal is None or not self.config.temporal_enabled:
+            return None
+        wait_on, modifiers_on = self._arbitration_temporal_flags()
+        if (
+            not wait_on
+            and not modifiers_on
+            and not self._temporal_cfg.temporal_routine_eligibility_enabled
+        ):
+            return None
+        return self.temporal.build_policy_expectation_views(current_age=organism_age)
+
+    def _temporal_routine_proposals(
+        self,
+        policy_expectations,
+        *,
+        organism_age: int,
+        bindings: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        if (
+            self.memory is None
+            or not self.config.memory_enabled
+            or not self._temporal_cfg.temporal_routine_eligibility_enabled
+            or not policy_expectations
+        ):
+            return []
+        proposals: list[dict[str, Any]] = []
+        for routine in self.memory.procedural.values():
+            if not routine.applicability.get("temporal_binding"):
+                continue
+            for view in policy_expectations:
+                eligibility = self.memory.evaluate_bound_routine_eligibility(
+                    routine.skill_id,
+                    view,
+                    current_age_tick=organism_age,
+                )
+                if eligibility is not None and eligibility.eligible:
+                    proposals.extend(
+                        self.memory.routine_soft_proposals(routine, bindings)
+                    )
+        return proposals
+
+    def _arbitration_temporal_flags(self) -> tuple[bool, bool]:
+        cfg = self._temporal_cfg
+        wait_on = cfg.anticipation_enabled and cfg.wait_generation_enabled
+        modifiers_on = cfg.anticipation_enabled and cfg.temporal_score_modifiers_enabled
+        return wait_on, modifiers_on
 
     def _finish_temporal_tick(
         self,
@@ -1120,17 +1181,26 @@ class Organism:
         if self.individuality is not None and self.config.individuality_enabled:
             indiv_apply = self.individuality.apply_modifiers
         routine_proposals: list[dict[str, Any]] = []
+        bindings_for_routine = policy_view.get("manipulation_bindings") or []
         if (
             self.memory is not None
             and self.config.memory_enabled
             and self._habitat_config.environmental_routines_enabled
         ):
-            bindings_for_routine = policy_view.get("manipulation_bindings") or []
             routine = self.memory.select_environmental_routine()
             if routine is not None:
                 routine_proposals = self.memory.routine_soft_proposals(
                     routine, bindings_for_routine
                 )
+        policy_expectations = self._policy_expectation_views(organism_age)
+        routine_proposals.extend(
+            self._temporal_routine_proposals(
+                policy_expectations,
+                organism_age=organism_age,
+                bindings=bindings_for_routine,
+            )
+        )
+        wait_on, modifiers_on = self._arbitration_temporal_flags()
         manipulation_bindings = (
             policy_view.get("manipulation_bindings")
             if self._habitat_config.manipulation_candidates_enabled
@@ -1147,6 +1217,16 @@ class Organism:
                 self.config.habitat_scenario_id,
                 self.tick,
             )
+        if (
+            self.config.temporal_scenario_hook
+            and self.config.temporal_scenario_id
+            and self.embodiment._habitat_engine is not None
+        ):
+            self.config.temporal_scenario_hook(
+                self.embodiment._habitat_engine,
+                self.config.temporal_scenario_id,
+                organism_age,
+            )
         cand = self.arbitrator.select(
             self.phys,
             obs_dicts,
@@ -1158,6 +1238,10 @@ class Organism:
             manipulation_bindings=manipulation_bindings,
             routine_proposals=routine_proposals,
             effective_age_ticks=organism_age,
+            policy_expectations=policy_expectations,
+            wait_journal=self._wait_journal,
+            wait_generation_enabled=wait_on,
+            temporal_modifiers_enabled=modifiers_on,
         )
 
         # D-004: practice goal generation + arbitration (propose only; no authority)
@@ -1963,6 +2047,10 @@ class Organism:
 
 
 def create_organism(config: OrganismConfig) -> Organism:
+    assert_no_d010_control_via_organism_condition(
+        config.condition,
+        temporal_enabled=config.temporal_enabled,
+    )
     path = Path(config.db_path)
     path.parent.mkdir(parents=True, exist_ok=True)
     store = Store(path)
@@ -2158,6 +2246,10 @@ def create_organism(config: OrganismConfig) -> Organism:
 
 def load_organism(config: OrganismConfig) -> Organism:
     """Restart: load identity + latest snapshot; recover pending action safely."""
+    assert_no_d010_control_via_organism_condition(
+        config.condition,
+        temporal_enabled=config.temporal_enabled,
+    )
     store = Store(config.db_path)
     identity = store.load_identity()
     verify_identity(identity)

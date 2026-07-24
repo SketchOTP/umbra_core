@@ -1911,3 +1911,210 @@ def test_runtime_subsystem_uses_effective_organism_age_not_orchestration_tick(
     org.tick_once()
     assert captured == [42]
     assert org.tick == 1
+
+
+# --- Task 10: conditions C0–C13 + scenarios S0–S17 scaffolding ---
+
+
+def test_experimental_controls_are_production_unreachable(tmp_path):
+    from experiments.d010.conditions import (
+        TemporalConditionError,
+        condition_to_temporal_config,
+    )
+    from umbra_core.runtime import OrganismConfig, create_organism
+    from umbra_core.temporal.config import TemporalConfigError
+
+    for condition in [f"C{i}" for i in range(1, 14)]:
+        with pytest.raises(TemporalConfigError):
+            create_organism(
+                OrganismConfig(
+                    db_path=str(tmp_path / f"{condition}.sqlite"),
+                    condition=condition,
+                    temporal_enabled=True,
+                )
+            )
+    for diagnostic in ("C2", "C3", "C7", "C9", "C10", "C12"):
+        with pytest.raises(TemporalConditionError):
+            condition_to_temporal_config(diagnostic)
+    assert condition_to_temporal_config("C0") == condition_to_temporal_config("C0")
+    c13 = condition_to_temporal_config("C13")
+    assert c13.p0_performance_mode is True
+    assert c13.anticipation_enabled is False
+
+
+@pytest.mark.parametrize("condition", ["C2", "C3", "C7", "C9", "C10", "C12"])
+def test_condition_to_temporal_config_rejects_diagnostic_only_conditions(condition):
+    from experiments.d010.conditions import TemporalConditionError, condition_to_temporal_config
+
+    with pytest.raises(TemporalConditionError):
+        condition_to_temporal_config(condition)
+
+
+def test_c8_disposable_db_guard_accepts_tmp_and_scratch_paths(tmp_path):
+    from pathlib import Path
+
+    from experiments.d010.diagnostic_controllers import assert_disposable_db_path
+
+    root = Path(__file__).resolve().parents[1]
+    assert_disposable_db_path(tmp_path / "c8_scratch.sqlite")
+    assert_disposable_db_path(root / "experiments" / "d010" / "c8_scratch.sqlite")
+
+
+def test_c8_disposable_db_guard_rejects_production_paths():
+    from pathlib import Path
+
+    from experiments.d010.diagnostic_controllers import assert_disposable_db_path
+
+    root = Path(__file__).resolve().parents[1]
+    for bad in (
+        root / "docs" / "evidence" / "d010" / "organism.sqlite",
+        root / ".agent" / "organism.sqlite",
+        root / "umbra_core" / "organism.sqlite",
+    ):
+        with pytest.raises(ValueError):
+            assert_disposable_db_path(bad)
+
+
+def test_control_rows_cannot_enter_c0_summaries():
+    from experiments.d010.control_rows import (
+        assert_row_may_enter_c0_summary,
+        label_experiment_row,
+        rows_eligible_for_c0_summary,
+    )
+
+    rows = [
+        {"condition": "C0", "seed": 1, "metric": 0.9},
+        label_experiment_row({"condition": "C5", "seed": 2, "metric": 0.1}),
+        {"condition": "C0", "seed": 3, "control_row": True, "metric": 0.5},
+    ]
+    eligible = rows_eligible_for_c0_summary(rows)
+    assert eligible == [{"condition": "C0", "seed": 1, "metric": 0.9}]
+    with pytest.raises(ValueError, match="control_row_cannot_enter_c0_summary"):
+        assert_row_may_enter_c0_summary(rows[1])
+    with pytest.raises(ValueError, match="control_row_cannot_enter_c0_summary"):
+        assert_row_may_enter_c0_summary(rows[2])
+
+
+def test_c13_p0_mode_disables_anticipation_and_temporal_routine_eligibility(tmp_path):
+    from experiments.d010.conditions import condition_to_temporal_config
+    from umbra_core.runtime import OrganismConfig, create_organism
+    from umbra_core.temporal.config import p0_performance_config
+    from umbra_core.temporal.policy import PolicyExpectationView
+
+    cfg = p0_performance_config()
+    assert cfg == condition_to_temporal_config("C13")
+    org = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "p0.sqlite"),
+            temporal_enabled=True,
+            temporal_config=cfg,
+            memory_enabled=True,
+            condition="C0",
+        )
+    )
+    assert org.temporal is not None
+    assert org._temporal_cfg.p0_performance_mode is True
+    wait_on, modifiers_on = org._arbitration_temporal_flags()
+    assert wait_on is False
+    assert modifiers_on is False
+    view = PolicyExpectationView(
+        recurrence_id="rec:test",
+        window_start=1.0,
+        window_end=5.0,
+        confidence=0.9,
+        uncertainty=0.1,
+        expected_context="resource",
+        expectation_version=1,
+        status="ACTIVE",
+    )
+    assert org._policy_expectation_views(organism_age=3) is None
+    assert (
+        org._temporal_routine_proposals((view,), organism_age=3, bindings=[]) == []
+    )
+    org.close()
+
+
+def test_scenario_plants_change_timing_opportunity_only():
+    from experiments.d010.scenario_plants import (
+        apply_scenario_plants,
+        assert_timing_opportunity_only_plant,
+        plants_for_scenario,
+        scenario_ids,
+    )
+
+    assert scenario_ids() == tuple(f"S{i}" for i in range(18))
+    assert apply_scenario_plants(None, "S1", tick=60) == 1
+    assert apply_scenario_plants(None, "S10", tick=40) == 1
+    for scenario_id in scenario_ids():
+        for plant in plants_for_scenario(scenario_id):
+            assert_timing_opportunity_only_plant(plant)
+
+
+def test_scripted_future_schedule_is_isolated_diagnostic():
+    from experiments.d010.diagnostic_controllers import (
+        RandomWaitInjectionController,
+        ScriptedFutureScheduleController,
+        assert_not_production_schema,
+    )
+    from experiments.d010.conditions import TemporalConditionError, condition_to_temporal_config
+
+    with pytest.raises(TemporalConditionError):
+        condition_to_temporal_config("C2")
+    scripted = ScriptedFutureScheduleController()
+    assert scripted.entries_for_tick(10)[0]["source"] == "SCRIPTED_DIAGNOSTIC"
+    assert_not_production_schema(scripted)
+    random_wait = RandomWaitInjectionController(seed=11)
+    first = random_wait.sample_wait_params(1)
+    second = random_wait.sample_wait_params(2)
+    assert first["source"] == "RANDOM_DIAGNOSTIC"
+    assert first["recurrence_id"] != second["recurrence_id"]
+
+
+def test_wait_governance_bypass_rejected():
+    from experiments.d010.governance_bypass import attempt_wait_governance_bypass
+
+    outcomes = attempt_wait_governance_bypass(tick=1)
+    assert outcomes
+    assert all(not row["admitted"] for row in outcomes)
+
+
+def test_hostile_temporal_clock_rejected():
+    from experiments.d010.hostile_temporal_view import HostileTemporalClockView
+    from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
+
+    ctx = TemporalMigrationContext(
+        migration_id="d010.genesis.v1",
+        source_commit="af35371",
+        source_seal="UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED",
+        pre_temporal_history_ref="event-log:pre-d010",
+        genesis_session_id="session:hostile",
+        genesis_monotonic_ns=1_000_000,
+        genesis_sample_sequence=0,
+    )
+    engine = __import__(
+        "umbra_core.temporal.engine", fromlist=["TemporalEngine"]
+    ).TemporalEngine(initialize_temporal_epoch(None, ctx=ctx))
+    hostile = HostileTemporalClockView()
+    hostile.attempt_ui_clock_as_truth(engine)
+    assert hostile.attempted_writes
+    assert hostile.successful_writes == []
+
+
+def test_temporal_control_code_not_imported_by_umbra_core_temporal():
+    import ast
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1] / "umbra_core" / "temporal"
+    for path in root.rglob("*.py"):
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        for node in ast.walk(tree):
+            modules: list[str] = []
+            if isinstance(node, ast.Import):
+                modules.extend(alias.name for alias in node.names)
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                modules.append(node.module)
+            for module in modules:
+                assert not module.startswith("experiments.d010"), (
+                    f"{path} imports experiments.d010: {module}"
+                )
+

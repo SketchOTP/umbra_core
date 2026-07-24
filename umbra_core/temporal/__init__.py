@@ -64,6 +64,13 @@ from umbra_core.temporal.recurrence import (
     robust_center,
     robust_spread,
 )
+from umbra_core.temporal.config import (
+    TemporalConfig,
+    TemporalConfigError,
+    assert_no_d010_control_via_organism_condition,
+    p0_performance_config,
+    resolve_temporal_config,
+)
 from umbra_core.temporal.clock import TrustedSample, compute_sample_hash
 from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
 from umbra_core.temporal.state import (
@@ -97,11 +104,16 @@ __all__ = [
     "RecurrenceTracker",
     "TEMPORAL_ANCHOR_COMMITTED",
     "TEMPORAL_INITIALIZED",
+    "TemporalConfig",
+    "TemporalConfigError",
     "TemporalAdvancePlan",
     "TemporalAdvanceRecord",
     "TemporalContainedEvent",
     "TemporalEngine",
     "TemporalEngineError",
+    "assert_no_d010_control_via_organism_condition",
+    "p0_performance_config",
+    "resolve_temporal_config",
     "TemporalMigrationContext",
     "TemporalObservationPlan",
     "TemporalReplayError",

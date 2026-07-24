@@ -502,6 +502,8 @@ class Arbitrator:
         policy_expectations: tuple[PolicyExpectationView, ...] | None = None,
         effective_age_ticks: int | None = None,
         wait_journal: WaitJournal | None = None,
+        wait_generation_enabled: bool = True,
+        temporal_modifiers_enabled: bool = True,
     ) -> Candidate:
         mode = self.state.mode
         if mode == "random":
@@ -714,7 +716,7 @@ class Arbitrator:
                     )
                 )
         age_ticks = effective_age_ticks if effective_age_ticks is not None else tick
-        if policy_expectations:
+        if policy_expectations and wait_generation_enabled:
             cands.extend(
                 propose_wait_candidates(
                     policy_expectations,
@@ -723,7 +725,7 @@ class Arbitrator:
                 )
             )
         scored = [self.score_candidate(c, phys, observations, tick) for c in cands]
-        if policy_expectations:
+        if policy_expectations and temporal_modifiers_enabled:
             apply_temporal_modifiers(
                 scored,
                 policy_expectations,
