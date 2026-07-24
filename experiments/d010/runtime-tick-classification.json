@@ -339,6 +339,24 @@
       "class": "O",
       "notes": "",
       "migrated": false
+    },
+    {
+      "site_id": "umbra_core/runtime.py:2407",
+      "path": "umbra_core/runtime.py",
+      "line": 2407,
+      "symbol": "load_organism",
+      "class": "O",
+      "notes": "load_organism readiness gate on organism orchestration tick",
+      "migrated": false
+    },
+    {
+      "site_id": "umbra_core/runtime.py:2417",
+      "path": "umbra_core/runtime.py",
+      "line": 2417,
+      "symbol": "load_organism",
+      "class": "O",
+      "notes": "restart resume runtime_ready payload tick",
+      "migrated": false
     }
   ]
 }

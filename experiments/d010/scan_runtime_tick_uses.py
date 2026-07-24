@@ -98,13 +98,12 @@ class _TickUseVisitor(ast.NodeVisitor):
         )
 
     def visit_Attribute(self, node: ast.Attribute) -> None:
-        if (
-            isinstance(node.value, ast.Name)
-            and node.value.id == "self"
-            and node.attr == "tick"
-            and self.rel_path == "umbra_core/runtime.py"
-        ):
-            self._record(node, kind="self.tick")
+        if node.attr == "tick" and self.rel_path == "umbra_core/runtime.py":
+            if isinstance(node.value, ast.Name):
+                if node.value.id == "self":
+                    self._record(node, kind="self.tick")
+                elif node.value.id == "org":
+                    self._record(node, kind="org.tick")
         self.generic_visit(node)
 
     def visit_keyword(self, node: ast.keyword) -> None:
