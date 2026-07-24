@@ -2,7 +2,7 @@
 
 **Verdict:** `UMBRA_D010_PERFORMANCE_FAIL`
 
-**Ending commit:** `PENDING`
+**Ending commit:** `aee03e7`
 **Mimir project:** `7777645d52a91b49`
 **Adaptive soak:** Supplement **S3** (authorized replacement for fixed two-hour soak)
 
