@@ -487,7 +487,7 @@ Per mode: warm-up 300s (excluded) + initial 1800s measurement; extend only when 
 - [x] **Step 1: Run 100k boundedness**
 - [x] **Step 2: Run S3 triple-mode adaptive soak + renderer lifecycle (≥100 cycles)**
 - [x] **Step 3: `run_seal.py` — prior seals, zero-skip `pytest tests/`, hashes, verdict**
-- [ ] **Step 4: Commit seal; close Mimir against final commit; confirm clean worktree**
+- [x] **Step 4: Commit seal; close Mimir against final commit; confirm clean worktree**
 
 ```bash
 git commit -m "Seal UMBRA-D-008 coherent digital embodiment with performance evidence."
