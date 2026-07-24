@@ -1,0 +1,186 @@
+{
+  "accelerated_100k": {
+    "pass": true,
+    "ticks": 100000
+  },
+  "adaptive_soak_supplement": "S3",
+  "directive": "UMBRA-D-010",
+  "modes": {
+    "P0": {
+      "adaptive_soak_supplement": "S3",
+      "cpu_mean_fraction": 0.0024996894207397163,
+      "cpu_p95_fraction": 0.004546514502191708,
+      "database_growth_mib": 38.936187744140625,
+      "directive": "UMBRA-D-010",
+      "duration_s": 3900.254181623459,
+      "extension_reason": "inconclusive_after_max:sustained_segment_growth",
+      "extension_seconds": 1799.2903218269348,
+      "frame_ring_max_occupancy": 0,
+      "initial_measurement_seconds": 1800.0,
+      "mode": "P0",
+      "pass": false,
+      "rendered_frame_count": 0,
+      "renderer_exception_count": 0,
+      "rss_p50_mib": 44.11328125,
+      "rss_p95_mib": 45.05859375,
+      "rss_peak_mib": 45.1328125,
+      "rss_segment_medians_mib": [
+        43.40625,
+        44.20703125,
+        44.876953125
+      ],
+      "rss_slope_confidence_interval": [
+        -3.328125000000003,
+        10.468750000000037
+      ],
+      "rss_slope_mib_per_hour": 1.9034090909090908,
+      "sample_count": 779,
+      "sample_interval_seconds": 5.0,
+      "smoke_scaled": false,
+      "software_commit": "a1342ee1b6ad16e66c8475b374e6366f9db13675",
+      "total_measurement_seconds": 3600.254181623459,
+      "warmup_seconds": 300.0
+    },
+    "P1": {
+      "adaptive_soak_supplement": "S3",
+      "cpu_mean_fraction": 0.005258653103586912,
+      "cpu_p95_fraction": 0.015828473999219952,
+      "database_growth_mib": 39.053375244140625,
+      "directive": "UMBRA-D-010",
+      "duration_s": 3900.5452167987823,
+      "extension_reason": "inconclusive_after_max:sustained_segment_growth",
+      "extension_seconds": 1799.2347166538239,
+      "frame_ring_max_occupancy": 64,
+      "initial_measurement_seconds": 1800.0,
+      "mode": "P1",
+      "pass": false,
+      "rendered_frame_count": 7198,
+      "renderer_exception_count": 0,
+      "rss_p50_mib": 44.2578125,
+      "rss_p95_mib": 45.2265625,
+      "rss_peak_mib": 45.328125,
+      "rss_segment_medians_mib": [
+        43.58203125,
+        44.36328125,
+        45.046875
+      ],
+      "rss_slope_confidence_interval": [
+        -3.6562499999999982,
+        10.937500000000002
+      ],
+      "rss_slope_mib_per_hour": 1.913861146907216,
+      "sample_count": 780,
+      "sample_interval_seconds": 5.0,
+      "smoke_scaled": false,
+      "software_commit": "a1342ee1b6ad16e66c8475b374e6366f9db13675",
+      "total_measurement_seconds": 3600.5452167987823,
+      "warmup_seconds": 300.0
+    },
+    "P2": {
+      "adaptive_soak_supplement": "S3",
+      "cpu_mean_fraction": 0.006826967226773733,
+      "cpu_p95_fraction": 0.015273503233869865,
+      "database_growth_mib": 38.799468994140625,
+      "directive": "UMBRA-D-010",
+      "duration_s": 3900.6256518363953,
+      "extension_reason": "inconclusive_after_max:sustained_segment_growth",
+      "extension_seconds": 1799.2669186592102,
+      "frame_ring_max_occupancy": 64,
+      "initial_measurement_seconds": 1800.0,
+      "mode": "P2",
+      "pass": false,
+      "rendered_frame_count": 7160,
+      "renderer_exception_count": 0,
+      "rss_p50_mib": 53.5234375,
+      "rss_p95_mib": 54.4140625,
+      "rss_peak_mib": 54.4453125,
+      "rss_segment_medians_mib": [
+        52.8671875,
+        53.60546875,
+        54.33203125
+      ],
+      "rss_slope_confidence_interval": [
+        -4.242187499999998,
+        11.250000000000002
+      ],
+      "rss_slope_mib_per_hour": 2.077702702702703,
+      "sample_count": 779,
+      "sample_interval_seconds": 5.0,
+      "smoke_scaled": false,
+      "software_commit": "a1342ee1b6ad16e66c8475b374e6366f9db13675",
+      "total_measurement_seconds": 3600.6256518363953,
+      "warmup_seconds": 300.0
+    }
+  },
+  "pass": false,
+  "pre_freeze": false,
+  "protocol": {
+    "applies_to": "Task 14 performance and seal",
+    "condition": "C13",
+    "diagnostics_visible": false,
+    "directive": "UMBRA-D-010",
+    "extension_seconds": 900,
+    "frozen_before_execution": true,
+    "initial_measurement_seconds": 1800,
+    "lifecycle_cycles_min": 100,
+    "max_measurement_seconds": 3600,
+    "minimum_samples": 360,
+    "modes": [
+      "P0",
+      "P1",
+      "P2"
+    ],
+    "notes": "P0 disables anticipation and temporal routine eligibility; P1 HeadlessRenderer; P2 TkinterRenderer. Absolute limits remain in thresholds.json.",
+    "p0_config_ref": "experiments/d010/thresholds.json#p0_performance_mode",
+    "replaces": "fixed two-hour soak",
+    "sample_interval_seconds": 5,
+    "scenario": "S0",
+    "seed": 42,
+    "supplement": "S3",
+    "threshold_freeze_timestamp": "2026-07-24T16:24:11+00:00",
+    "tick_hz": 2.0,
+    "warmup_seconds": 300
+  },
+  "renderer_lifecycle": {
+    "cycles": 100,
+    "pass": true
+  },
+  "smoke_scaled": false,
+  "soak": {
+    "cpu_mean_frac": 0.006826967226773733,
+    "duration_s": 3600.254181623459,
+    "protocol": "S3",
+    "rss_p95_mib": 54.4140625,
+    "rss_slope_mib_per_hour": 2.077702702702703
+  },
+  "software_commit": "a1342ee1b6ad16e66c8475b374e6366f9db13675",
+  "supplement_note": "D-010 Task 14 used authorized adaptive-soak Supplement S3 (warm-up 300s + initial 1800s measurement, adaptive extension to max 3600s per mode) rather than the original fixed two-hour duration.",
+  "temporal_over_core": {
+    "cpu_mean_fraction": 0.0027589636828471956,
+    "rss_p95_mib": 0.16796875,
+    "rss_slope_mib_per_hour": 0.010452055998125154
+  },
+  "thresholds": {
+    "cpu_mean_frac_max": 0.05,
+    "rss_p95_mib_max": 180,
+    "rss_slope_mib_per_hour_max": 1.0,
+    "ui_incremental_cpu_mean_frac_max": 0.05,
+    "ui_incremental_rss_p95_mib_max": 128,
+    "ui_incremental_rss_slope_mib_per_hour_max": 1.0
+  },
+  "tkinter_over_core": {
+    "cpu_mean_fraction": 0.0043272778060340165,
+    "rss_p95_mib": 9.35546875,
+    "rss_slope_mib_per_hour": 0.17429361179361225
+  },
+  "tkinter_over_headless": {
+    "cpu_mean_fraction": 0.0015683141231868213,
+    "rss_p95_mib": 9.1875,
+    "rss_slope_mib_per_hour": 0.1638415557954871
+  },
+  "ui_incremental": {
+    "cpu_mean_frac": 0.0043272778060340165,
+    "rss_p95_mib": 9.35546875,
+    "rss_slope_mib_per_hour": 0.17429361179361225
+  }
+}

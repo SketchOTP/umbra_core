@@ -1,0 +1,35 @@
+{
+  "adaptive_soak_supplement": "S3",
+  "cpu_mean_fraction": 0.006826967226773733,
+  "cpu_p95_fraction": 0.015273503233869865,
+  "database_growth_mib": 38.799468994140625,
+  "directive": "UMBRA-D-010",
+  "duration_s": 3900.6256518363953,
+  "extension_reason": "inconclusive_after_max:sustained_segment_growth",
+  "extension_seconds": 1799.2669186592102,
+  "frame_ring_max_occupancy": 64,
+  "initial_measurement_seconds": 1800.0,
+  "mode": "P2",
+  "pass": false,
+  "rendered_frame_count": 7160,
+  "renderer_exception_count": 0,
+  "rss_p50_mib": 53.5234375,
+  "rss_p95_mib": 54.4140625,
+  "rss_peak_mib": 54.4453125,
+  "rss_segment_medians_mib": [
+    52.8671875,
+    53.60546875,
+    54.33203125
+  ],
+  "rss_slope_confidence_interval": [
+    -4.242187499999998,
+    11.250000000000002
+  ],
+  "rss_slope_mib_per_hour": 2.077702702702703,
+  "sample_count": 779,
+  "sample_interval_seconds": 5.0,
+  "smoke_scaled": false,
+  "software_commit": "a1342ee1b6ad16e66c8475b374e6366f9db13675",
+  "total_measurement_seconds": 3600.6256518363953,
+  "warmup_seconds": 300.0
+}
