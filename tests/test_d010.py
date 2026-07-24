@@ -486,3 +486,91 @@ def test_multiple_evidence_envelopes_for_one_occurrence_count_once():
     reloaded = engine.predict_recurrence(recurrence_id, current_age=25)
     assert reloaded is not None
     assert reloaded.period_estimate == pytest.approx(10.0)
+
+
+def test_mixed_lane_intervals_use_o_lane_only():
+    engine = _engine_with_age()
+    hypothesis: RecurrenceHypothesis | None = None
+    for i in range(4):
+        hypothesis = engine.observe_recurrence_occurrence(
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:mixed",
+            occurrence_id=f"occ:a:{i}",
+            evidence_identity=f"evidence:a:{i}",
+            tick=i * 10,
+            lane=EvidenceLane.AUTHORITATIVE,
+        )
+    for i in range(4):
+        hypothesis = engine.observe_recurrence_occurrence(
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:mixed",
+            occurrence_id=f"occ:o:{i}",
+            evidence_identity=f"evidence:o:{i}",
+            tick=5 + i * 10,
+            lane=EvidenceLane.ORGANISM_OBSERVABLE,
+        )
+    assert hypothesis is not None
+    assert hypothesis.o_lane_occurrence_count == 4
+    assert hypothesis.a_lane_seed_count == 4
+    assert hypothesis.period_estimate == pytest.approx(10.0)
+    assert hypothesis.observation_count == 8
+
+
+def test_authoritative_first_then_o_lane_upgrades_occurrence_credit():
+    engine = _engine_with_age()
+    hypothesis: RecurrenceHypothesis | None = None
+    for i in range(3):
+        hypothesis = engine.observe_recurrence_occurrence(
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:upgrade",
+            occurrence_id=f"occ:{i}",
+            evidence_identity=f"evidence:auth:{i}",
+            tick=i * 10,
+            lane=EvidenceLane.AUTHORITATIVE,
+        )
+        assert hypothesis is not None
+        assert hypothesis.o_lane_occurrence_count == i
+        assert hypothesis.a_lane_seed_count == 1
+        hypothesis = engine.observe_recurrence_occurrence(
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:upgrade",
+            occurrence_id=f"occ:{i}",
+            evidence_identity=f"evidence:o:{i}",
+            tick=i * 10,
+            lane=EvidenceLane.ORGANISM_OBSERVABLE,
+        )
+        assert hypothesis is not None
+        assert hypothesis.o_lane_occurrence_count == i + 1
+        assert hypothesis.a_lane_seed_count == 0
+    assert hypothesis is not None
+    assert hypothesis.observation_count == 3
+    assert hypothesis.status == HypothesisStatus.ACTIVE
+    assert hypothesis.period_estimate == pytest.approx(10.0)
+
+
+def test_unstable_phase_anchor_predicts_from_last_observed_plus_period():
+    engine = _engine_with_age()
+    hypothesis: RecurrenceHypothesis | None = None
+    for i, tick in enumerate((0, 10)):
+        hypothesis = engine.observe_recurrence_occurrence(
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:unstable",
+            occurrence_id=f"occ:{i}",
+            evidence_identity=f"evidence:{i}",
+            tick=tick,
+            lane=EvidenceLane.ORGANISM_OBSERVABLE,
+        )
+    assert hypothesis is not None
+    assert hypothesis.phase_anchor_stable is False
+    assert hypothesis.period_estimate == pytest.approx(10.0)
+    assert hypothesis.last_observed_tick == 10
+
+    prediction = engine.predict_recurrence(
+        hypothesis.recurrence_id,
+        current_age=25,
+    )
+    assert prediction is not None
+    assert prediction.phase_anchor_stable is False
+    assert prediction.predicted_center == pytest.approx(
+        float(hypothesis.last_observed_tick) + hypothesis.period_estimate
+    )

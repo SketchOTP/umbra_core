@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Mapping, Sequence
 
+_OccurrenceMap = dict[str, tuple[int, str]]
+
 from umbra_core.util import canon_json, sha256_hex
 
 # Frozen estimator constants (ponytail: hardened at Stage B freeze).
@@ -143,7 +145,7 @@ class RecurrenceHypothesis:
     context_schema_version: str
     status: HypothesisStatus
     hypothesis_version: int
-    occurrence_by_id: tuple[tuple[str, int], ...]
+    occurrence_by_id: tuple[tuple[str, int, str], ...]
     evidence_identities: tuple[str, ...]
     o_lane_occurrence_count: int
     a_lane_seed_count: int
@@ -180,9 +182,7 @@ class RecurrenceHypothesis:
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> RecurrenceHypothesis:
         raw_occurrences = data.get("occurrence_by_id") or []
-        occurrence_by_id = tuple(
-            (str(occ_id), int(tick)) for occ_id, tick in raw_occurrences
-        )
+        occurrence_by_id = _serialize_occurrence_map(_parse_occurrence_entries(raw_occurrences))
         return cls(
             recurrence_id=str(data["recurrence_id"]),
             recurrence_key=str(data["recurrence_key"]),
@@ -215,7 +215,40 @@ class RecurrenceHypothesis:
         )
 
     def occurrence_ticks(self) -> tuple[int, ...]:
-        return tuple(sorted(tick for _, tick in self.occurrence_by_id))
+        return _o_lane_ticks_from_map(_parse_occurrence_entries(self.occurrence_by_id))
+
+
+def _parse_occurrence_entries(
+    raw_occurrences: Sequence[Sequence[Any]],
+) -> _OccurrenceMap:
+    occurrence_map: _OccurrenceMap = {}
+    for entry in raw_occurrences:
+        if len(entry) == 2:
+            occ_id, tick = entry
+            lane = EvidenceLane.ORGANISM_OBSERVABLE.value
+        else:
+            occ_id, tick, lane = entry
+            lane = str(lane)
+        occurrence_map[str(occ_id)] = (int(tick), lane)
+    return occurrence_map
+
+
+def _serialize_occurrence_map(
+    occurrence_map: Mapping[str, tuple[int, str]],
+) -> tuple[tuple[str, int, str], ...]:
+    return tuple(
+        sorted((occ_id, tick, lane) for occ_id, (tick, lane) in occurrence_map.items())
+    )
+
+
+def _o_lane_ticks_from_map(occurrence_map: Mapping[str, tuple[int, str]]) -> tuple[int, ...]:
+    return tuple(
+        sorted(
+            tick
+            for tick, lane in occurrence_map.values()
+            if lane == EvidenceLane.ORGANISM_OBSERVABLE.value
+        )
+    )
 
 
 def _estimate_period_and_jitter(occurrence_ticks: Sequence[int]) -> tuple[float, float]:
@@ -298,7 +331,9 @@ class RecurrenceTracker:
         context_schema_version: str = CONTEXT_SCHEMA_VERSION,
     ) -> RecurrenceHypothesis:
         recurrence_id = recurrence_id_from_key(recurrence_key)
-        occurrence_map = dict(hypothesis.occurrence_by_id) if hypothesis else {}
+        occurrence_map = (
+            _parse_occurrence_entries(hypothesis.occurrence_by_id) if hypothesis else {}
+        )
         evidence = set(hypothesis.evidence_identities) if hypothesis else set()
         o_lane_count = hypothesis.o_lane_occurrence_count if hypothesis else 0
         a_lane_count = hypothesis.a_lane_seed_count if hypothesis else 0
@@ -307,21 +342,30 @@ class RecurrenceTracker:
         hypothesis_version = hypothesis.hypothesis_version if hypothesis else 1
 
         evidence.add(evidence_identity)
-        new_occurrence = occurrence_id not in occurrence_map
-        if new_occurrence:
-            occurrence_map[occurrence_id] = int(tick)
+        lane_value = lane.value
+        if occurrence_id in occurrence_map:
+            prev_tick, prev_lane = occurrence_map[occurrence_id]
+            if (
+                prev_lane == EvidenceLane.AUTHORITATIVE.value
+                and lane_value == EvidenceLane.ORGANISM_OBSERVABLE.value
+            ):
+                occurrence_map[occurrence_id] = (prev_tick, lane_value)
+                o_lane_count += 1
+                a_lane_count -= 1
+        else:
+            occurrence_map[occurrence_id] = (int(tick), lane_value)
             if lane == EvidenceLane.ORGANISM_OBSERVABLE:
                 o_lane_count += 1
             else:
                 a_lane_count += 1
 
-        occurrence_by_id = tuple(sorted(occurrence_map.items()))
-        occurrence_ticks = tuple(sorted(occurrence_map.values()))
-        intervals = compute_intervals(occurrence_ticks)
-        period_estimate, jitter_estimate = _estimate_period_and_jitter(occurrence_ticks)
-        phase_anchor_tick = _fit_phase_anchor(occurrence_ticks)
-        phase_anchor_stable = _phase_anchor_stable(occurrence_ticks, period_estimate)
-        last_observed_tick = max(occurrence_ticks) if occurrence_ticks else None
+        occurrence_by_id = _serialize_occurrence_map(occurrence_map)
+        o_lane_ticks = _o_lane_ticks_from_map(occurrence_map)
+        intervals = compute_intervals(o_lane_ticks)
+        period_estimate, jitter_estimate = _estimate_period_and_jitter(o_lane_ticks)
+        phase_anchor_tick = _fit_phase_anchor(o_lane_ticks)
+        phase_anchor_stable = _phase_anchor_stable(o_lane_ticks, period_estimate)
+        last_observed_tick = max(o_lane_ticks) if o_lane_ticks else None
         status = _derive_status(
             prior_status=prior_status,
             o_lane_occurrence_count=o_lane_count,
@@ -353,7 +397,7 @@ class RecurrenceTracker:
             phase_anchor_tick=phase_anchor_tick,
             phase_anchor_stable=phase_anchor_stable,
             last_observed_tick=last_observed_tick,
-            observation_count=len(occurrence_map),
+            observation_count=len(occurrence_by_id),
             miss_count=miss_count,
         )
 
