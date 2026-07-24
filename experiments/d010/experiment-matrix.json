@@ -197,7 +197,7 @@
   ],
   "minimum_gate_critical_paired_seeds": 100,
   "scenario_suite_ref": "experiments/d010/scenario-suite.json",
-  "threshold_freeze_timestamp": "2026-07-24T15:31:53+00:00",
+  "threshold_freeze_timestamp": "2026-07-24T15:41:38+00:00",
   "thresholds_ref": "experiments/d010/thresholds.json",
   "version": 1
 }

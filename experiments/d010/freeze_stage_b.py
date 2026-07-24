@@ -24,8 +24,8 @@ if str(ROOT) not in sys.path:
 from experiments.d010 import stage_a as sa
 
 DIRECTIVE = "UMBRA-D-010"
-AGENT_MEMORY = "D-20260724-1527-d010-task12-stage-b-freeze"
-FORMAL_EXECUTION_ID = "d010-fe-stage-b-v1"
+AGENT_MEMORY = "D-20260724-1539-d010-freeze-invalidate-harness"
+FORMAL_EXECUTION_ID = "d010-fe-stage-b-v2"
 
 ALLOWED_VERDICTS = [
     "UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
