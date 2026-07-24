@@ -2,7 +2,7 @@
 
 **Verdict:** `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`
 
-**Ending commit:** `c9090a9`
+**Ending commit:** `af35371`
 **Mimir project:** `7777645d52a91b49`
 **Adaptive soak:** Supplement **S3** (authorized replacement for fixed two-hour soak)
 
