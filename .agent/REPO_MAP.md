@@ -160,7 +160,7 @@ Concise navigation map for agents. Add entries as application code lands.
 - `.serena/project.yml` — Serena `UMBRA-CORE`
 - Mimir SSH connection name `UMBRA-CORE` → `/home/sketch/Projects/UMBRA-CORE`
 
-## Temporal continuity (D-010) — IN PROGRESS (SDD starting)
+## Temporal continuity (D-010) — IN PROGRESS (Stage B frozen)
 - Directive: `docs/directives/UMBRA-D-010-temporal-continuity.md` (plan approved)
 - Design: `docs/superpowers/specs/2026-07-24-umbra-d010-temporal-continuity-design.md` (`03e1269`)
 - Plan: `docs/superpowers/plans/2026-07-24-umbra-d010-temporal-continuity.md` (`c1f71bb7` — amended tip; supersedes `2149297`)
@@ -171,5 +171,6 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-010 Task 8: `umbra_core/temporal/downtime.py` — trust classification, `reconcile_downtime` plan, sticky PREPARED sample, interval idempotency; `umbra_core/temporal/contracts.py` + `experiments/d010/elapsed-contract-registry.json` — ElapsedTimeContractRegistry; `umbra_core/temporal/events.py` — `temporal_downtime_reconciled` replay; `umbra_core/wait_execution.py` — WaitRecoveryDelta apply; `umbra_core/runtime.py` — `apply_downtime_reconciliation`; `umbra_core/persistence.py` — `atomic_downtime_reconciliation_commit`
 - D-010 Task 9: `experiments/d010/scan_runtime_tick_uses.py` — production `self.tick` scanner; `experiments/d010/runtime-tick-classification.json` — O/T/B inventory; `umbra_core/runtime.py` — `_organism_age_tick` + subsystem paths use `TickTemporalContext.effective_age_ticks` when temporal enabled
 - D-010 Task 10: `umbra_core/temporal/config.py` — `TemporalConfig`, `p0_performance_config`, production gate; `experiments/d010/{conditions,control_rows,diagnostic_controllers,scenario_plants,governance_bypass,hostile_temporal_view,replay_shuffle}.py` — C0–C13 harness + S0–S17 plants; `umbra_core/runtime.py` — `temporal_config`, anticipation/routine wiring
-- D-010 Task 11 (pre-freeze): `experiments/d010/{stage_a.py,evidence.py,run_experiment,run_performance,run_seal,validate_evidence,with_tk_display}.py`; Stage A JSON (`authoritative-event-allowlist`, `observable-evidence-allowlist`, `elapsed-contract-registry`, `failure-code-registry`, `temporal-event-schemas`, `runtime-tick-classification`, `stage-a-hashes`); draft `thresholds.json`, `experiment-matrix.json`, `scenario-suite.json`, `performance-protocol.json`; `development-seed-manifest.json`, `formal-seed-manifest.json`, `test-manifest.json`
-- Tests: `tests/test_d010.py` (105 passed after Task 11)
+- D-010 Task 12 (Stage B freeze tip `6943981`): `experiments/d010/freeze_stage_b.py`, `formal-execution-contract.json` (`d010-fe-stage-b-v1`); frozen `thresholds.json`, `experiment-matrix.json`, `scenario-suite.json`, `performance-protocol.json`, seed manifests + `test-manifest.json` (`frozen_before_execution: true`); `run_seal.py` manifest ID cross-check via collect-only; `run_experiment.py` gates 5–12 comparisons; last source-changing commit before Task 13 evidence-only campaign
+- D-010 Task 11 (pre-freeze): `experiments/d010/{stage_a.py,evidence.py,run_experiment,run_performance,run_seal,validate_evidence,with_tk_display}.py`; Stage A JSON (`authoritative-event-allowlist`, `observable-evidence-allowlist`, `elapsed-contract-registry`, `failure-code-registry`, `temporal-event-schemas`, `runtime-tick-classification`, `stage-a-hashes`); draft preregistration artifacts
+- Tests: `tests/test_d010.py` (105 passed, zero skips after Task 12)
