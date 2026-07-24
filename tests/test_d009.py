@@ -14,6 +14,7 @@ from umbra_core.embodiment import (
     PartnerTrueCues,
     response_policy_for_history,
 )
+from umbra_core.events import AUTHORITATIVE_EVENT_TYPES, habitat_event_authority_class, is_authoritative
 from umbra_core.habitat.engine import (
     BodyCollisionShape,
     BodyPoseView,
@@ -22,6 +23,19 @@ from umbra_core.habitat.engine import (
     ReachProfile,
 )
 from umbra_core.habitat.migration import habitat_object_from_legacy_feature, legacy_object_id_for_feature
+from umbra_core.habitat.events import (
+    HABITAT_BODY_ZONE_TRANSITIONED,
+    HABITAT_EVENT_TYPES,
+    HABITAT_OBJECT_MOVED,
+    HABITAT_OBJECT_PICKED_UP,
+    HabitatEventError,
+    apply_habitat_event,
+    build_body_zone_transition_event,
+    build_initialized_event,
+    build_object_moved_event,
+    build_object_picked_up_event,
+    replay_habitat_from_events,
+)
 from umbra_core.habitat.projection import (
     HabitatWriteRejected,
     ProjectionMismatchError,
@@ -337,3 +351,126 @@ def test_zone_held_object_count_populated_from_held_objects():
     engine.project(body_pose=pose)
     assert engine.zone_held_object_count["zone:general"] == 1
     assert engine.zone_held_object_count["zone:rest"] == 0
+
+
+def _initialized_state() -> tuple[dict, HabitatState]:
+    sample = sample_habitat_state()
+    init_event = build_initialized_event(sample)
+    state = apply_habitat_event(None, init_event)
+    return init_event, state
+
+
+def _state_after_move(state: HabitatState, object_id: str, x: float, y: float) -> HabitatState:
+    engine = HabitatEngine(state)
+    engine.commit_free_location(object_id, x, y)
+    return engine.state
+
+
+def _sample_habitat_event_chain() -> tuple[list[dict], HabitatState]:
+    init_event, state = _initialized_state()
+    moved_state = _state_after_move(state, "resource:0", 6.0, 4.0)
+    move_event = build_object_moved_event(state, moved_state, "resource:0")
+    picked_state_engine = HabitatEngine(moved_state)
+    held = HeldByLocation(body_instance_id="body:default", attachment_generation=0, hold_slot=0)
+
+    def pick_up(obj: HabitatObject) -> HabitatObject:
+        return replace(obj, location=held)
+
+    picked_state_engine.commit_object_mutation("resource:0", pick_up)
+    picked_state = picked_state_engine.state
+    pick_event = build_object_picked_up_event(moved_state, picked_state, "resource:0")
+    return [init_event, move_event, pick_event], picked_state
+
+
+def test_habitat_events_are_idempotent():
+    events, final_state = _sample_habitat_event_chain()
+    state = None
+    for event in events:
+        first = apply_habitat_event(state, event)
+        second = apply_habitat_event(first, event)
+        assert second is first
+        state = first
+    assert state is not None
+    assert state.state_hash == final_state.state_hash
+
+
+def test_invalid_habitat_event_order_fails_closed():
+    init_event, state = _initialized_state()
+    moved_state = _state_after_move(state, "resource:0", 6.0, 4.0)
+    move_event = build_object_moved_event(state, moved_state, "resource:0")
+    stale_move = dict(move_event)
+    stale_move["payload"] = dict(move_event["payload"])
+    stale_move["payload"]["prior_state_version"] = moved_state.state_version
+    stale_move["payload"]["prior_state_hash"] = moved_state.state_hash
+    with pytest.raises(HabitatEventError, match="invalid_habitat_event_order"):
+        apply_habitat_event(state, stale_move)
+
+
+def test_missing_habitat_event_fails_closed():
+    events, _ = _sample_habitat_event_chain()
+    gap_events = [events[0], events[2]]
+    with pytest.raises(HabitatEventError, match="invalid_habitat_event_order"):
+        replay_habitat_from_events(gap_events)
+    with pytest.raises(HabitatEventError, match="missing_habitat_events_fail_closed"):
+        replay_habitat_from_events([], fail_closed_missing=True)
+
+
+def test_habitat_state_hash_mismatch_fails_closed():
+    init_event, state = _initialized_state()
+    moved_state = _state_after_move(state, "resource:0", 6.0, 4.0)
+    move_event = build_object_moved_event(state, moved_state, "resource:0")
+    bad_hash = dict(move_event)
+    bad_hash["payload"] = dict(move_event["payload"])
+    bad_hash["payload"]["prior_state_hash"] = "0" * 64
+    with pytest.raises(HabitatEventError, match="habitat_state_hash_mismatch"):
+        apply_habitat_event(state, bad_hash)
+
+
+def test_zone_transition_event_does_not_duplicate_body_authority():
+    init_event, state = _initialized_state()
+    zone_event = build_body_zone_transition_event(
+        state,
+        body_instance_id="body:default",
+        from_zone_id="zone:general",
+        to_zone_id="zone:rest",
+    )
+    after = apply_habitat_event(state, zone_event)
+    assert after.state_version == state.state_version
+    assert after.state_hash == state.state_hash
+    assert zone_event["event_type"] == HABITAT_BODY_ZONE_TRANSITIONED
+    events, _ = _sample_habitat_event_chain()
+    event_types = [event["event_type"] for event in events]
+    assert HABITAT_OBJECT_PICKED_UP in event_types
+    assert event_types.count(HABITAT_OBJECT_MOVED) == 1
+    assert HABITAT_OBJECT_PICKED_UP != HABITAT_OBJECT_MOVED
+
+
+def test_birth_replay_rebuilds_projection_from_habitat_events():
+    events, final_state = _sample_habitat_event_chain()
+    replayed = replay_habitat_from_events(events)
+    assert replayed.state_hash == final_state.state_hash
+    engine = HabitatEngine(replayed)
+    projection = engine.project()
+    engine.validate_projection(projection)
+    assert projection.state_version == replayed.state_version
+    assert projection.state_hash == replayed.state_hash
+    resource = engine.get_object("resource:0")
+    assert resource is not None and isinstance(resource.location, HeldByLocation)
+
+
+def test_replay_reproduces_object_versions_and_hashes():
+    events, final_state = _sample_habitat_event_chain()
+    replayed = replay_habitat_from_events(events)
+    for object_id, obj in final_state.objects.items():
+        replay_obj = replayed.objects[object_id]
+        assert replay_obj.object_version == obj.object_version
+        assert replay_obj.object_state_hash == obj.object_state_hash
+    assert replayed.state_version == final_state.state_version
+    assert replayed.state_hash == final_state.state_hash
+
+
+def test_habitat_events_are_authoritative_in_registry():
+    for event_type in HABITAT_EVENT_TYPES:
+        assert habitat_event_authority_class(event_type) == "AUTHORITATIVE"
+        assert is_authoritative(event_type)
+        assert event_type in AUTHORITATIVE_EVENT_TYPES

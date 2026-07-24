@@ -1,5 +1,13 @@
 """D-009 persistent habitat authority types."""
 
+from umbra_core.habitat.events import (
+    AUTHORITATIVE_HABITAT_EVENTS,
+    HABITAT_EVENT_TYPES,
+    HabitatEventError,
+    apply_habitat_event,
+    build_initialized_event,
+    replay_habitat_from_events,
+)
 from umbra_core.habitat.engine import (
     BodyCollisionShape,
     BodyPoseView,
@@ -53,12 +61,15 @@ from umbra_core.habitat.state import (
 )
 
 __all__ = [
+    "AUTHORITATIVE_HABITAT_EVENTS",
     "ActivatableState",
     "BodyCollisionShape",
     "BodyPoseView",
     "EnvironmentalTransition",
     "FreeLocation",
     "HabitatEngine",
+    "HABITAT_EVENT_TYPES",
+    "HabitatEventError",
     "HabitatObject",
     "HabitatProjectionFacade",
     "HabitatSnapshot",
@@ -82,6 +93,7 @@ __all__ = [
     "ZoneConnection",
     "ZoneKind",
     "apply_committed_object_mutation",
+    "apply_habitat_event",
     "apply_rejected_object_mutation",
     "canonical_serialize",
     "compute_habitat_definition_hash",
@@ -94,6 +106,7 @@ __all__ = [
     "migrate_object_definition",
     "object_kind_for_feature_kind",
     "project_features",
+    "replay_habitat_from_events",
     "sample_habitat_state",
     "validate_projection",
 ]

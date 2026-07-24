@@ -31,6 +31,23 @@ SOCIAL_EVENT_AUTHORITY: dict[str, str] = {
     "social_match_score": "DIAGNOSTIC",
 }
 
+# D-009 habitat conceptual events → authority class.
+HABITAT_EVENT_AUTHORITY: dict[str, str] = {
+    "habitat_initialized": "AUTHORITATIVE",
+    "habitat_zone_added": "AUTHORITATIVE",
+    "habitat_object_created": "AUTHORITATIVE",
+    "habitat_object_state_changed": "AUTHORITATIVE",
+    "habitat_object_moved": "AUTHORITATIVE",
+    "habitat_object_picked_up": "AUTHORITATIVE",
+    "habitat_object_placed": "AUTHORITATIVE",
+    "habitat_affordance_activated": "AUTHORITATIVE",
+    "habitat_affordance_deactivated": "AUTHORITATIVE",
+    "habitat_transition_applied": "AUTHORITATIVE",
+    "habitat_definition_migrated": "AUTHORITATIVE",
+    "habitat_held_binding_rebased": "AUTHORITATIVE",
+    "habitat_body_zone_transitioned": "AUTHORITATIVE",
+}
+
 # D-007 individuality conceptual events → authority class.
 INDIVIDUALITY_EVENT_AUTHORITY: dict[str, str] = {
     "individuality_disposition_created": "AUTHORITATIVE",
@@ -66,6 +83,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         for name, klass in INDIVIDUALITY_EVENT_AUTHORITY.items()
         if klass == "AUTHORITATIVE"
     }
+    | {name for name, klass in HABITAT_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
 )
 
 # Optional / diagnostic — may be downsampled or omitted; not required for replay.
@@ -152,3 +170,9 @@ def individuality_event_authority_class(name: str) -> str:
     if name not in INDIVIDUALITY_EVENT_AUTHORITY:
         raise KeyError(f"unknown_individuality_event:{name}")
     return INDIVIDUALITY_EVENT_AUTHORITY[name]
+
+
+def habitat_event_authority_class(name: str) -> str:
+    if name not in HABITAT_EVENT_AUTHORITY:
+        raise KeyError(f"unknown_habitat_event:{name}")
+    return HABITAT_EVENT_AUTHORITY[name]
