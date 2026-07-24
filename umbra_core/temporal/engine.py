@@ -218,7 +218,9 @@ class TemporalEngine:
         record = build_advance_record(prior, new_state, plan)
         self._state = new_state
         self._in_flight = None
-        self._committed_advance_ids.add(plan.advance_id)
+        # Bound to latest id only — full history is the event ledger / last_advance_id.
+        # Unbounded set growth was the Gate 13 RSS owner (D-010-R1).
+        self._committed_advance_ids = {plan.advance_id}
         return new_state, record
 
     @property
@@ -663,8 +665,11 @@ class TemporalEngine:
 
         before = self._state
         hypothesis = self._apply_hypothesis_deltas(plan.hypothesis_deltas, before.dedup_summary)
-        self._committed_observation_plan_ids.add(plan.observation_plan_id)
+        # Bound to latest observation plan id (ledger is authoritative history).
+        self._committed_observation_plan_ids = {plan.observation_plan_id}
         self._in_flight_observation = None
+        if plan.commit_mode == CommitMode.POST_HOC and plan.source_event_id is not None:
+            self._post_hoc_anchor_registry.pop(str(plan.source_event_id), None)
         return hypothesis
 
     def _apply_hypothesis_deltas(

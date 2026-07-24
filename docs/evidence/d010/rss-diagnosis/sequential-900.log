@@ -1,0 +1,149 @@
+==== START P0_baseline 2026-07-24T16:14:46-04:00 ====
+{
+  "mode": "P0_baseline",
+  "seconds": 900.0,
+  "warmup_seconds": 300.0,
+  "seed": 42,
+  "hz": 2.0,
+  "sample_count": 180,
+  "post_warmup_samples": 120,
+  "rss_start_mib": 42.69921875,
+  "rss_end_mib": 47.16015625,
+  "rss_delta_all_mib": 4.4609375,
+  "rss_delta_post_mib": 1.6328125,
+  "rss_ols_slope_mib_per_hour": 9.403846628479599,
+  "rss_segment_medians_mib": [
+    45.666015625,
+    45.8828125,
+    46.8671875
+  ],
+  "sustained_segment_growth": false,
+  "db_growth_during_run_mib": 9.076385498046875,
+  "db_end_file_mib": 17.95703125,
+  "traced_heap_delta_post_mib": 0.4584970474243164,
+  "sqlite": {
+    "events": 7555,
+    "tick_events": 1798,
+    "payload_mib": 5.748334884643555,
+    "snapshots": 2,
+    "snapshot_avg_bytes": 263276.0,
+    "freelist_pages": 1602,
+    "page_count": 4597
+  },
+  "harness_only": true,
+  "production_unreachable": true
+}
+jumps_post 3
+==== END P0_baseline 2026-07-24T16:29:47-04:00 ====
+==== START P0_omit_advance 2026-07-24T16:29:47-04:00 ====
+{
+  "mode": "P0_omit_advance",
+  "seconds": 900.0,
+  "warmup_seconds": 300.0,
+  "seed": 42,
+  "hz": 2.0,
+  "sample_count": 181,
+  "post_warmup_samples": 121,
+  "rss_start_mib": 42.7109375,
+  "rss_end_mib": 47.1484375,
+  "rss_delta_all_mib": 4.4375,
+  "rss_delta_post_mib": 1.625,
+  "rss_ols_slope_mib_per_hour": 9.512055019559131,
+  "rss_segment_medians_mib": [
+    45.673828125,
+    45.95703125,
+    47.1484375
+  ],
+  "sustained_segment_growth": true,
+  "db_growth_during_run_mib": 3.4006271362304688,
+  "db_end_file_mib": 12.0859375,
+  "traced_heap_delta_post_mib": 0.4571218490600586,
+  "sqlite": {
+    "events": 7559,
+    "tick_events": 1799,
+    "payload_mib": 1.8938102722167969,
+    "snapshots": 2,
+    "snapshot_avg_bytes": 263311.5,
+    "freelist_pages": 1603,
+    "page_count": 3094
+  },
+  "harness_only": true,
+  "production_unreachable": true
+}
+jumps_post 3
+==== END P0_omit_advance 2026-07-24T16:44:49-04:00 ====
+==== START temporal_off 2026-07-24T16:44:49-04:00 ====
+{
+  "mode": "temporal_off",
+  "seconds": 900.0,
+  "warmup_seconds": 300.0,
+  "seed": 42,
+  "hz": 2.0,
+  "sample_count": 180,
+  "post_warmup_samples": 120,
+  "rss_start_mib": 42.6328125,
+  "rss_end_mib": 46.5390625,
+  "rss_delta_all_mib": 3.90625,
+  "rss_delta_post_mib": 1.23046875,
+  "rss_ols_slope_mib_per_hour": 6.338655964609326,
+  "rss_segment_medians_mib": [
+    45.3828125,
+    45.615234375,
+    46.205078125
+  ],
+  "sustained_segment_growth": false,
+  "db_growth_during_run_mib": 1.3029937744140625,
+  "db_end_file_mib": 10.07421875,
+  "traced_heap_delta_post_mib": 0.2620105743408203,
+  "sqlite": {
+    "events": 5764,
+    "tick_events": 0,
+    "payload_mib": 0.9036846160888672,
+    "snapshots": 2,
+    "snapshot_avg_bytes": 264379.0,
+    "freelist_pages": 1602,
+    "page_count": 2579
+  },
+  "harness_only": true,
+  "production_unreachable": true
+}
+jumps_post 2
+==== END temporal_off 2026-07-24T16:59:51-04:00 ====
+==== START P0_trim_snapshot 2026-07-24T16:59:51-04:00 ====
+{
+  "mode": "P0_trim_snapshot",
+  "seconds": 900.0,
+  "warmup_seconds": 300.0,
+  "seed": 42,
+  "hz": 2.0,
+  "sample_count": 180,
+  "post_warmup_samples": 120,
+  "rss_start_mib": 42.7265625,
+  "rss_end_mib": 45.99609375,
+  "rss_delta_all_mib": 3.26953125,
+  "rss_delta_post_mib": 1.17578125,
+  "rss_ols_slope_mib_per_hour": 8.52794546867282,
+  "rss_segment_medians_mib": [
+    44.9140625,
+    45.25390625,
+    45.90625
+  ],
+  "sustained_segment_growth": true,
+  "db_growth_during_run_mib": 9.099868774414062,
+  "db_end_file_mib": 17.984375,
+  "traced_heap_delta_post_mib": 0.4606590270996094,
+  "sqlite": {
+    "events": 7565,
+    "tick_events": 1800,
+    "payload_mib": 5.7552690505981445,
+    "snapshots": 2,
+    "snapshot_avg_bytes": 265973.0,
+    "freelist_pages": 1603,
+    "page_count": 4604
+  },
+  "harness_only": true,
+  "production_unreachable": true
+}
+jumps_post 1
+==== END P0_trim_snapshot 2026-07-24T17:14:52-04:00 ====
+ALL_DONE

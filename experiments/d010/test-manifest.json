@@ -489,6 +489,20 @@
     },
     {
       "expected_execution_mode": "pytest",
+      "gate": 13,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_snapshot_and_wal_release_native_arenas"
+    },
+    {
+      "expected_execution_mode": "pytest",
+      "gate": 13,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_committed_advance_ids_remain_bounded"
+    },
+    {
+      "expected_execution_mode": "pytest",
       "gate": 14,
       "required": true,
       "test_file": "tests/test_d010.py",

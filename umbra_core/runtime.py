@@ -213,6 +213,24 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
 HABIT_CONFIDENCE_THRESHOLD = 0.45
 
 
+def _release_native_arenas(store: Store | None = None) -> None:
+    """Return freed native pages/arenas after large SQLite alloc/free spikes.
+
+    D-010-R1: Gate 13 RSS staircase tracks snapshot_every / WAL_CHECKPOINT cadence;
+    Python tracemalloc stays flat while VmRSS steps. Mirrors D-002P WAL trim.
+    ponytail: glibc malloc_trim + SQLite shrink_memory; no-op elsewhere.
+    """
+    if store is not None:
+        try:
+            store.conn.execute("PRAGMA shrink_memory")
+        except Exception:
+            pass
+    try:
+        ctypes.CDLL("libc.so.6").malloc_trim(0)
+    except OSError:
+        pass
+
+
 def _create_temporal_engine(*, session_id: str) -> TemporalEngine:
     """ponytail: genesis-only attach until Task 3 persists TemporalState in snapshots."""
     ctx = TemporalMigrationContext(
@@ -587,6 +605,9 @@ class Organism:
                 self.authoritative_state(),
             )
             self.store.prune_snapshots(keep=SNAPSHOT_RETAIN_COUNT)
+            # Large state_json alloc/free + freelist churn; trim after prune so
+            # subsequent ticks do not inherit snapshot arenas (D-010-R1).
+            _release_native_arenas(self.store)
             return sid
         return None
 
@@ -1595,11 +1616,7 @@ class Organism:
 
         if self.tick % WAL_CHECKPOINT_EVERY_TICKS == 0:
             self.store.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-            # ponytail: return freed arenas to OS; ceiling = glibc-only, no-op elsewhere
-            try:
-                ctypes.CDLL("libc.so.6").malloc_trim(0)
-            except OSError:
-                pass
+            _release_native_arenas(self.store)
 
         # D-008: expression side-car — after this tick's outcome commit(s) (design
         # §1). `committed_outcome` prefers whichever verified outcome was actually

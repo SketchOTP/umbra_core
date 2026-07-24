@@ -3,48 +3,39 @@
   "entries": [
     {
       "class": "O",
-      "line": 291,
+      "line": 309,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:291",
+      "site_id": "umbra_core/runtime.py:309",
       "symbol": "__init__"
     },
     {
       "class": "O",
-      "line": 371,
+      "line": 389,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:371",
+      "site_id": "umbra_core/runtime.py:389",
       "symbol": "authoritative_state"
     },
     {
       "class": "O",
-      "line": 418,
+      "line": 436,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:418",
+      "site_id": "umbra_core/runtime.py:436",
       "symbol": "_organism_age_tick"
     },
     {
       "class": "O",
-      "line": 501,
+      "line": 519,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:501",
+      "site_id": "umbra_core/runtime.py:519",
       "symbol": "_atomic_commit_orchestration_tick"
-    },
-    {
-      "class": "O",
-      "line": 582,
-      "migrated": false,
-      "notes": "",
-      "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:582",
-      "symbol": "snapshot_if_due"
     },
     {
       "class": "O",
@@ -53,42 +44,33 @@
       "notes": "",
       "path": "umbra_core/runtime.py",
       "site_id": "umbra_core/runtime.py:600",
+      "symbol": "snapshot_if_due"
+    },
+    {
+      "class": "O",
+      "line": 621,
+      "migrated": false,
+      "notes": "",
+      "path": "umbra_core/runtime.py",
+      "site_id": "umbra_core/runtime.py:621",
       "symbol": "emit_runtime_ready"
     },
     {
       "class": "O",
-      "line": 612,
+      "line": 633,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:612",
+      "site_id": "umbra_core/runtime.py:633",
       "symbol": "emit_runtime_ready"
     },
     {
       "class": "O",
-      "line": 725,
+      "line": 746,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:725",
-      "symbol": "_maybe_memory_midcourse"
-    },
-    {
-      "class": "O",
-      "line": 731,
-      "migrated": false,
-      "notes": "",
-      "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:731",
-      "symbol": "_maybe_memory_midcourse"
-    },
-    {
-      "class": "O",
-      "line": 739,
-      "migrated": false,
-      "notes": "",
-      "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:739",
+      "site_id": "umbra_core/runtime.py:746",
       "symbol": "_maybe_memory_midcourse"
     },
     {
@@ -98,79 +80,88 @@
       "notes": "",
       "path": "umbra_core/runtime.py",
       "site_id": "umbra_core/runtime.py:752",
+      "symbol": "_maybe_memory_midcourse"
+    },
+    {
+      "class": "O",
+      "line": 760,
+      "migrated": false,
+      "notes": "",
+      "path": "umbra_core/runtime.py",
+      "site_id": "umbra_core/runtime.py:760",
+      "symbol": "_maybe_memory_midcourse"
+    },
+    {
+      "class": "O",
+      "line": 773,
+      "migrated": false,
+      "notes": "",
+      "path": "umbra_core/runtime.py",
+      "site_id": "umbra_core/runtime.py:773",
       "symbol": "_maybe_development_midcourse"
     },
     {
       "class": "O",
-      "line": 770,
+      "line": 791,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:770",
+      "site_id": "umbra_core/runtime.py:791",
       "symbol": "_maybe_development_midcourse"
     },
     {
       "class": "O",
-      "line": 780,
+      "line": 801,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:780",
+      "site_id": "umbra_core/runtime.py:801",
       "symbol": "_maybe_development_midcourse"
     },
     {
       "class": "O",
-      "line": 789,
+      "line": 810,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:789",
+      "site_id": "umbra_core/runtime.py:810",
       "symbol": "_maybe_development_midcourse"
     },
     {
       "class": "O",
-      "line": 800,
+      "line": 821,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:800",
+      "site_id": "umbra_core/runtime.py:821",
       "symbol": "_maybe_world_dynamics"
     },
     {
       "class": "O",
-      "line": 803,
+      "line": 824,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:803",
+      "site_id": "umbra_core/runtime.py:824",
       "symbol": "_maybe_world_dynamics"
     },
     {
       "class": "O",
-      "line": 806,
+      "line": 827,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:806",
+      "site_id": "umbra_core/runtime.py:827",
       "symbol": "_maybe_world_dynamics"
     },
     {
       "class": "O",
-      "line": 814,
+      "line": 835,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:814",
+      "site_id": "umbra_core/runtime.py:835",
       "symbol": "_maybe_external_displace"
-    },
-    {
-      "class": "O",
-      "line": 879,
-      "migrated": false,
-      "notes": "",
-      "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:879",
-      "symbol": "_push_expression_frame"
     },
     {
       "class": "O",
@@ -183,173 +174,182 @@
     },
     {
       "class": "O",
-      "line": 904,
+      "line": 921,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:904",
+      "site_id": "umbra_core/runtime.py:921",
       "symbol": "_push_expression_frame"
     },
     {
       "class": "O",
-      "line": 918,
+      "line": 925,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:918",
+      "site_id": "umbra_core/runtime.py:925",
       "symbol": "_push_expression_frame"
     },
     {
       "class": "O",
-      "line": 937,
+      "line": 939,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:937",
+      "site_id": "umbra_core/runtime.py:939",
+      "symbol": "_push_expression_frame"
+    },
+    {
+      "class": "O",
+      "line": 958,
+      "migrated": false,
+      "notes": "",
+      "path": "umbra_core/runtime.py",
+      "site_id": "umbra_core/runtime.py:958",
       "symbol": "_maybe_recover_i9"
     },
     {
       "class": "O",
-      "line": 988,
+      "line": 1009,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:988",
+      "site_id": "umbra_core/runtime.py:1009",
       "symbol": "commit_manipulation"
     },
     {
       "class": "O",
-      "line": 1019,
+      "line": 1040,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1019",
+      "site_id": "umbra_core/runtime.py:1040",
       "symbol": "execute_manipulation_from_candidate"
     },
     {
       "class": "O",
-      "line": 1041,
+      "line": 1062,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1041",
+      "site_id": "umbra_core/runtime.py:1062",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1144,
+      "line": 1165,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1144",
+      "site_id": "umbra_core/runtime.py:1165",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1218,
+      "line": 1239,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1218",
+      "site_id": "umbra_core/runtime.py:1239",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1233,
+      "line": 1254,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1233",
+      "site_id": "umbra_core/runtime.py:1254",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1476,
+      "line": 1497,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1476",
+      "site_id": "umbra_core/runtime.py:1497",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1573,
+      "line": 1594,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1573",
+      "site_id": "umbra_core/runtime.py:1594",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1587,
+      "line": 1608,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1587",
+      "site_id": "umbra_core/runtime.py:1608",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1596,
+      "line": 1617,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1596",
+      "site_id": "umbra_core/runtime.py:1617",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1620,
+      "line": 1637,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1620",
+      "site_id": "umbra_core/runtime.py:1637",
       "symbol": "_tick_once_body"
     },
     {
       "class": "O",
-      "line": 1683,
+      "line": 1700,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1683",
+      "site_id": "umbra_core/runtime.py:1700",
       "symbol": "_finish_outcome"
     },
     {
       "class": "O",
-      "line": 1797,
+      "line": 1814,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1797",
+      "site_id": "umbra_core/runtime.py:1814",
       "symbol": "_finish_outcome"
     },
     {
       "class": "O",
-      "line": 1872,
+      "line": 1889,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1872",
+      "site_id": "umbra_core/runtime.py:1889",
       "symbol": "_finish_outcome"
     },
     {
       "class": "O",
-      "line": 2499,
+      "line": 2516,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:2499",
+      "site_id": "umbra_core/runtime.py:2516",
       "symbol": "load_organism"
     },
     {
       "class": "O",
-      "line": 2509,
+      "line": 2526,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:2509",
+      "site_id": "umbra_core/runtime.py:2526",
       "symbol": "load_organism"
     }
   ],

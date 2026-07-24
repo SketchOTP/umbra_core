@@ -2412,3 +2412,65 @@ def test_performance_dry_run_reports_pre_freeze_false_when_not_smoke(monkeypatch
     )
     assert not perf_mod._is_smoke()
 
+
+def test_snapshot_and_wal_release_native_arenas(tmp_path, monkeypatch):
+    """D-010-R1: snapshot prune and WAL checkpoint must release native arenas."""
+    from umbra_core import runtime as runtime_mod
+    from umbra_core.runtime import OrganismConfig, create_organism
+    from umbra_core.temporal.config import p0_performance_config
+
+    calls: list[str] = []
+
+    def _track(store=None):
+        calls.append("snap" if store is not None else "bare")
+
+    monkeypatch.setattr(runtime_mod, "_release_native_arenas", _track)
+    db = tmp_path / "arena.sqlite"
+    org = create_organism(
+        OrganismConfig(
+            db_path=str(db),
+            seed=7,
+            hz=2.0,
+            temporal_enabled=True,
+            temporal_config=p0_performance_config(),
+            habitat_enabled=False,
+            expression_enabled=False,
+            embodiment_adapter_enabled=True,
+        )
+    )
+    calls.clear()
+    assert org.snapshot_if_due(force=True) is not None
+    assert calls == ["snap"]
+    calls.clear()
+    # Drive to a WAL checkpoint boundary (every 500 ticks).
+    for _ in range(500):
+        org.tick_once()
+    assert "snap" in calls  # snapshots on the way
+    # At least one release from WAL path (store arg) beyond forced snapshot.
+    assert calls.count("snap") >= 2
+    org.close()
+
+
+def test_committed_advance_ids_remain_bounded(tmp_path):
+    """D-010-R1: in-process advance-id dedup must not grow with tick count."""
+    from umbra_core.runtime import OrganismConfig, create_organism
+    from umbra_core.temporal.config import p0_performance_config
+
+    org = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "bound.sqlite"),
+            seed=11,
+            hz=2.0,
+            temporal_enabled=True,
+            temporal_config=p0_performance_config(),
+            habitat_enabled=False,
+            expression_enabled=False,
+            embodiment_adapter_enabled=True,
+        )
+    )
+    for _ in range(250):
+        org.tick_once()
+    assert len(org.temporal._committed_advance_ids) == 1
+    assert next(iter(org.temporal._committed_advance_ids)) == org.temporal.state.last_advance_id
+    org.close()
+

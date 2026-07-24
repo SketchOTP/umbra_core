@@ -1,0 +1,35 @@
+{
+  "mode": "P0_baseline",
+  "seconds": 900.0,
+  "warmup_seconds": 300.0,
+  "seed": 42,
+  "hz": 2.0,
+  "sample_count": 180,
+  "post_warmup_samples": 120,
+  "rss_start_mib": 42.75390625,
+  "rss_end_mib": 43.69921875,
+  "rss_delta_all_mib": 0.9453125,
+  "rss_delta_post_mib": 2.53515625,
+  "rss_ols_slope_mib_per_hour": 10.178955132244353,
+  "rss_segment_medians_mib": [
+    41.810546875,
+    42.27734375,
+    42.748046875
+  ],
+  "sustained_segment_growth": true,
+  "db_growth_during_run_mib": 9.076454162597656,
+  "db_end_file_mib": 17.9765625,
+  "traced_heap_delta_post_mib": 0.4600648880004883,
+  "sqlite": {
+    "events": 7559,
+    "tick_events": 1799,
+    "payload_mib": 5.751667022705078,
+    "snapshots": 2,
+    "snapshot_avg_bytes": 263312.5,
+    "freelist_pages": 1603,
+    "page_count": 4602
+  },
+  "harness_only": true,
+  "production_unreachable": true
+}
+jumps_post 0

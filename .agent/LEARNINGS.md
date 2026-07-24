@@ -110,3 +110,4 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - D-010 Task 7 re-promote: `promote_environmental_routine` / `promote_social_routine` must call `_merge_temporal_binding_on_repromote` on existing skills — attach fresh binding or refresh params while preserving `strength`, `disabled`, and `last_bound_expectation_version`.
 
 - D-010 Task 8 commit: `commit_downtime_reconciliation` must verify `verify_plan_canonical_hash(plan)` and match `_in_flight_reconciliation.canonical_plan_hash` before apply; tampered plan body fields fail closed with `RECONCILIATION_PAYLOAD_MISMATCH`.
+- 2026-07-24 | D-010-R1 | TemporalEngine._committed_advance_ids must stay O(1) (latest id only); unbounded per-tick UUID retention caused Gate 13 RSS staircase (~1.5 MiB/h temporal vs ~0.1 without). apply_advance_plan already rejects last_advance_id reuse. Evidence: accelerated 7200-tick A/B + tracemalloc engine.py:221.

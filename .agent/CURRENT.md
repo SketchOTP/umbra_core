@@ -1,37 +1,37 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260724-1947-d010-perf-fail-preserve-diagnose
-- Project directive: UMBRA-D-010
-- Goal: Gate 13 PERFORMANCE_FAIL preserved; diagnosis done; await invalidate/patch authorization
-- Status: **independent review Approve** (honest FAIL package) — parent Mimir OPEN
-- Freeze tip: `3178815` / `d010-fe-stage-b-v5` (**not** invalidated yet)
-- Master tip: `be23da6`
-- Outcome: `UMBRA_D010_PERFORMANCE_FAIL`
+- ID: D-20260724-1607-d010-r1-rss-remediation
+- Project directive: UMBRA-D-010-R1
+- Goal: Diagnose Gate 13 RSS slope FAIL; remediate; new freeze; formal rerun; QUALIFIED only if earned
+- Status: in_progress — diagnosis phase (no production patch yet)
+- Starting tip: `acac8df`
+- Failed freeze (preserved): `3178815` / `d010-fe-stage-b-v5`
+- Outcome so far: `UMBRA_D010_PERFORMANCE_FAIL` (immutable)
 - QUALIFIED: **not claimed**
 
-## Gate 13 (preserved)
-- P0/P1/P2 FAIL (`sustained_segment_growth`, slopes ~1.9–2.1)
-- 100k + lifecycle PASS
-- Common-path: SQLite ~39 MiB growth; stepwise RSS; not Tkinter-driven
-- Diagnosis: `docs/evidence/d010/gate13-rss-diagnosis.md`
+## Acceptance
+- Root cause classified A–E with evidence before patch
+- Smallest fix; no threshold relaxation; failed evidence preserved
+- New Stage B + formal_execution_id; Gates 1–12 + Gate 13 pass
+- Zero-skip seal; parent Mimir closed only if QUALIFIED
 
-## Reviews
-- Task 14 FAIL package: Approve ([Review D-010 Task 14 FAIL](8268b3b1-7549-4d04-96c2-b3235478d6bb))
-- Task 14 implementer: [Run D-010 Task 14 perf seal](c50f8db9-cea9-4847-8eb4-d94427d64118)
+## Touched files
+- (diagnosis in progress)
 
-## Next
-```text
-deepen diagnosis if needed
-→ patch + test
-→ independent review
-→ new Stage B + formal_execution_id
-→ rerun Gate 13
-```
-Do **not** close parent Mimir until QUALIFIED seal tip (or explicit operator close).
+## Next action
+- Finish isolation diagnostics; gate A–E; then patch if resolved
 
-## Locked
+## Repo facts needed now
 - Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (OPEN)
+- Child task: `2cd88fa2924147278d04e96970a87d14` v1
+- P0 soak DB: `.soak/d010_perf/soak_P0.sqlite` (~52 MiB; tick payload ~2.8 KiB dominated by TemporalAdvanceRecord)
+- D-009 P0 soak ~22 MiB; no orchestration_tick_committed
+- RSS jumps correlate with snapshot_every=200 and WAL_CHECKPOINT_EVERY_TICKS=500
+
+## Last validation
+- Command: soak DB static analysis
+- Result: TemporalAdvanceRecord ~19.4 MiB of tick payloads; jumps @ 200/500 cadence
 
 ## Open blockers
-- Gate 13 FAIL blocks QUALIFIED; no source patch until invalidate path authorized
+- Production patch blocked until diagnosis gate A–E closed

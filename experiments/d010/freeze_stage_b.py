@@ -24,8 +24,8 @@ if str(ROOT) not in sys.path:
 from experiments.d010 import stage_a as sa
 
 DIRECTIVE = "UMBRA-D-010"
-AGENT_MEMORY = "D-20260724-1620-d010-freeze-invalidate-v5"
-FORMAL_EXECUTION_ID = "d010-fe-stage-b-v5"
+AGENT_MEMORY = "D-20260724-1607-d010-r1-rss-remediation"
+FORMAL_EXECUTION_ID = "d010-fe-stage-b-v6"
 
 ALLOWED_VERDICTS = [
     "UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
@@ -76,6 +76,7 @@ IMPLEMENTATION_SOURCE_PATHS = (
     "experiments/d010/replay_shuffle.py",
     "experiments/d010/run_experiment.py",
     "experiments/d010/run_performance.py",
+    "experiments/d010/run_rss_diagnosis.py",
     "experiments/d010/run_seal.py",
     "experiments/d010/scenario_plants.py",
     "experiments/d010/scan_runtime_tick_uses.py",

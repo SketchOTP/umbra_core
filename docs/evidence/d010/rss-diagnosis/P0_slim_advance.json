@@ -1,0 +1,70 @@
+{
+  "db_growth_mib": -4.282562255859375,
+  "final_objects": {
+    "dedup": {
+      "compacted": 0,
+      "recent": 0,
+      "retained": 0
+    },
+    "frame_ring": 0,
+    "gc_counts": [
+      313,
+      0,
+      0
+    ],
+    "gc_stats": [
+      {
+        "collected": 0,
+        "collections": 0,
+        "uncollectable": 0
+      },
+      {
+        "collected": 160,
+        "collections": 3,
+        "uncollectable": 0
+      },
+      {
+        "collected": 0,
+        "collections": 0,
+        "uncollectable": 0
+      }
+    ],
+    "recurrence_hypotheses": 0,
+    "tick": 357
+  },
+  "harness_only": true,
+  "hz": 2.0,
+  "jumps_ge_0_25": [
+    {
+      "delta_mib": 1.1796875,
+      "t": 100.09903812408447,
+      "tick": 201
+    }
+  ],
+  "mode": "P0_slim_advance",
+  "production_unreachable": true,
+  "rss_delta_mib": 2.1015625,
+  "rss_end_mib": 44.6875,
+  "rss_ols_slope_mib_per_hour": 50.53642376428449,
+  "rss_segment_medians_mib": [
+    42.955078125,
+    43.421875,
+    44.666015625
+  ],
+  "rss_start_mib": 42.5859375,
+  "sample_count": 90,
+  "seconds": 180.0,
+  "seed": 42,
+  "sqlite": {
+    "events": 1517,
+    "freelist_pages": 1541,
+    "page_count": 2074,
+    "payload_mib": 0.849151611328125,
+    "snapshot_avg_bytes": 225605.5,
+    "snapshots": 2,
+    "tick_events": 360
+  },
+  "sustained_segment_growth": true,
+  "traced_heap0_mib": 0.30563831329345703,
+  "traced_heap_delta_mib": 0.36417102813720703
+}
