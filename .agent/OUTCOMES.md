@@ -142,3 +142,25 @@ Format:
 - 2026-07-24T12:30Z | NOTE | D-009 governance tip commit | D-010 authorized under UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED; not started | seal preserved af35371
 
 - 2026-07-24T13:03Z | DECISION | D-20260724-umbra-d010-temporal-continuity | TemporalEngine sole durable temporal authority (Decision A); Runtime orchestration-only for tick; age advances only on committed ticks
+
+- 2026-07-24T13:04Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Decision C refined: hybrid recurrence evidence (anchors+finalized observables promote; allowlisted auth events seed CANDIDATE only)
+
+- 2026-07-24T13:06Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Decision D: soft modifiers + narrow WAIT (TemporalEngine expectations-only)
+
+- 2026-07-24T13:08Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Decision E: extend procedural routines with optional temporal_binding (Memory owns lifecycle)
+
+- 2026-07-24T13:09Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Decision F: TemporalEngine plan + Runtime/persistence atomic apply for downtime
+
+- 2026-07-24T13:10Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Decision G: robust parametric period/phase/jitter estimator
+
+- 2026-07-24T13:11Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Approach 1 approved (umbra_core/temporal/ own-and-delegate); presenting design §1
+
+- 2026-07-24T13:15Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Design §1 APPROVED (7 revisions); presenting §2
+
+- 2026-07-24T13:17Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Design §2 APPROVED (7 revisions); presenting §3
+
+- 2026-07-24T13:19Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Design §3 APPROVED (8 revisions); presenting §4
+
+- 2026-07-24T13:21Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Design §4 APPROVED (8 revisions); presenting §5
+
+- 2026-07-24T13:25Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Design §5 APPROVED (8 revisions); full design spec written for operator review

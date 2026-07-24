@@ -80,3 +80,25 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - D-009 seal suite must run under experiments/d009/with_tk_display.sh or D-008 Tkinter tests skip (zero-skip seal fails).
 
 - D-010 Decision A: TemporalEngine is sole durable temporal authority. Runtime supplies trusted monotonic observations and orchestration order but cannot independently advance organism age. Age advances only on committed ticks; downtime reconciliation enters TemporalEngine; subsystems get immutable TemporalState views.
+
+- D-010 Decision C (refined): hybrid recurrence evidence. Temporal anchors and finalized organism-observable evidence establish and promote hypotheses. Allowlisted authoritative events may seed CANDIDATE and support causal reconciliation only — cannot independently create predictive confidence. Freeze allowlist before formal experiments; policy gets expectations only.
+
+- D-010 Decision D (Q3-C): bounded temporal score modifiers plus narrow governed WAIT. TemporalEngine exposes expectations only; Arbitration proposes WAIT during open confident windows; governance/physiology/interruption/expiration retain control; no ANTICIPATE capability; no indefinite escalation.
+
+- D-010 Decision E (Q4-A): extend MemoryEngine procedural routines with optional temporal_binding. TemporalEngine expectations-only; Memory owns lifecycle; eligibility≠mandatory; every step re-enters arbitration/governance; no TemporalEngine launch path.
+
+- D-010 Decision F (Q5-A refined): TemporalEngine-authoritative analytic downtime reconciliation. TemporalEngine emits DowntimeReconciliationPlan; Runtime validates; shared persistence applies allowlisted pure ElapsedTimeContracts atomically. No tick replay or fabricated experience; TemporalEngine never mutates other subsystems; organism_age may advance across trusted downtime, organism_active_ticks must not.
+
+- D-010 Decision G (Q6-A): robust parametric recurrence estimator (organism age ticks; median/MAD or frozen robust equiv; one dominant period per hypothesis; S9 = separate recurrence IDs; no histogram/multimodal in D-010).
+
+- D-010 Approach 1 approved: own-and-delegate umbra_core/temporal/ (Approaches 2–3 rejected).
+
+- D-010 design §1 approved with 7 revisions: atomic TemporalAdvancePlan in tick txn; TickTemporalContext; state_version+canonical hash; no pending_waits in TemporalState; TrustedSample session-scoped monotonic; frozen age/active semantics; full production runtime.tick classification before formal runs.
+
+- D-010 design §2 approved with 7 revisions: occurrence_id vs evidence_identity; deterministic recurrence_key; phase_anchor fitting; ObservationWindowEvidence for misses; TemporalObservationPlan atomic intake; ACTIVE→WAIT/UNCERTAIN→smaller modifier only; durable dedup compaction (no recount).
+
+- D-010 design §3 approved with 8 revisions: WAIT only inside open window; durable WaitExecution; O-lane success only; durable WaitSuppression; fallback_bias not script; relative temporal_binding; interrupt≠miss; modifier caps + absence isolation from physiology/relationships.
+
+- D-010 design §4 approved with 8 revisions: downtime_interval_id idempotency; tight TRUSTED_SHORT; conservative age_advance=0 + new session anchor; versioned ElapsedTimeContractRegistry; required vs optional contracts; Expectation/WaitRecoveryDeltas; replay recorded deltas not wall recalc; failure codes + bounds.
+
+- D-010 design §5 approved with 8 revisions: TemporalAdvanceRecord in committed-tick event; D-009→D-010 epoch init age=0; standardized temporal envelopes; separate runtime caps vs ledger; formal-execution-manifest; harness-only controls; corrected Stage A/B freeze; P0/P1/P2 comparability.
