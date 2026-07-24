@@ -1476,3 +1476,90 @@ def test_temporal_binding_miss_weakens_binding_not_physiology():
     with pytest.raises(RuntimeError, match="memory_cannot_modify_physiology"):
         mem.apply_memory_to_physiology(phys)
 
+
+def test_temporal_binding_repromote_attaches_binding_to_existing_skill():
+    from umbra_core.memory import MemoryEngine, RoutineLifecycle
+    from umbra_core.memory.engine import EnvironmentalRoutineSpec
+
+    mem = MemoryEngine.create("agent:test")
+    episode_ids = ["ep:1", "ep:2", "ep:3"]
+    skill_id = mem.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id="zone:general",
+            soft_proposals=[],
+            supporting_episode_ids=episode_ids,
+        ),
+        tick=1,
+        lifecycle=RoutineLifecycle.ACTIVE.value,
+    )
+    assert "temporal_binding" not in mem.procedural[skill_id].applicability
+
+    binding = _temporal_binding()
+    same_id = mem.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id="zone:general",
+            soft_proposals=[],
+            supporting_episode_ids=episode_ids,
+            temporal_binding=binding,
+        ),
+        tick=5,
+        lifecycle=RoutineLifecycle.ACTIVE.value,
+    )
+    assert same_id == skill_id
+    sk = mem.procedural[skill_id]
+    assert sk.applicability["temporal_binding"]["recurrence_id"] == "rec:test"
+    assert sk.source_episode_ids == episode_ids
+    assert len(mem.temporal_routine_promote_events) == 1
+
+
+def test_temporal_binding_repromote_updates_binding_preserves_runtime_state():
+    from umbra_core.memory import MemoryEngine, RoutineLifecycle
+    from umbra_core.memory.engine import EnvironmentalRoutineSpec
+
+    mem = MemoryEngine.create("agent:test")
+    episode_ids = ["ep:1", "ep:2", "ep:3"]
+    skill_id = _promote_bound_environmental_routine(mem)
+    mem.procedural[skill_id].applicability["temporal_binding"]["strength"] = 0.6
+    mem.evaluate_bound_routine_eligibility(
+        skill_id, _active_policy_view(expectation_version=1), current_age_tick=45
+    )
+
+    updated = _temporal_binding(maximum_start_delay=20, eligibility_lead_ticks=5)
+    mem.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id="zone:general",
+            soft_proposals=[],
+            supporting_episode_ids=episode_ids,
+            temporal_binding=updated,
+        ),
+        tick=10,
+        lifecycle=RoutineLifecycle.ACTIVE.value,
+    )
+    binding = mem.procedural[skill_id].applicability["temporal_binding"]
+    assert binding["maximum_start_delay"] == 20
+    assert binding["eligibility_lead_ticks"] == 5
+    assert binding["strength"] == 0.6
+    assert binding["last_bound_expectation_version"] == 1
+    assert len(mem.temporal_routine_promote_events) == 2
+
+
+def test_temporal_binding_maximum_start_delay_exceeded():
+    from umbra_core.memory import MemoryEngine
+
+    mem = MemoryEngine.create("agent:test")
+    binding = _temporal_binding(maximum_start_delay=5)
+    skill_id = _promote_bound_environmental_routine(mem, binding=binding)
+    view = _active_policy_view(window_start=40.0, window_end=60.0)
+    eligibility = mem.evaluate_bound_routine_eligibility(
+        skill_id, view, current_age_tick=46
+    )
+    assert eligibility is not None
+    assert not eligibility.eligible
+    assert eligibility.reason == "maximum_start_delay_exceeded"
+

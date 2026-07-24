@@ -167,6 +167,6 @@ Concise navigation map for agents. Add entries as application code lands.
 - Starting commit: `bb90e61`
 - Prerequisite seal: D-009 `af35371`
 - Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
-- Package: `umbra_core/temporal/` — Task 1–5 complete; Task 6: `policy.py` (PolicyExpectationView), `engine.py` (`build_policy_expectation_views`); `umbra_core/wait_execution.py` (WaitExecution, WaitSuppression, WaitJournal); `arbitration.py` (capped modifiers, WAIT proposal, fallback_bias); `governance.py` (WAIT admission + rejection suppression)
+- D-010 Task 7: `umbra_core/memory/engine.py` — `TemporalBinding`, `BoundRoutineEligibility`, `evaluate_bound_routine_eligibility`, `record_temporal_binding_miss`, `disable_temporal_binding_for_recurrence`, memory-owned `temporal_routine_promote_events`; extended `EnvironmentalRoutineSpec`/`SocialRoutineSpec` promote paths
 - Tests: `tests/test_d010.py` (39 passed after Task 5)
 - Experiments (draft): `experiments/d010/`, `docs/evidence/d010/` (planned)

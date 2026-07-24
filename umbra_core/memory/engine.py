@@ -780,6 +780,13 @@ class MemoryEngine:
             ):
                 app["lifecycle"] = RoutineLifecycle.ACTIVE.value
                 existing.confidence = clamp(existing.confidence + 0.1)
+            if spec.temporal_binding is not None:
+                self._merge_temporal_binding_on_repromote(app, spec.temporal_binding)
+                self._record_temporal_routine_promote(
+                    skill_id=skill_id,
+                    recurrence_id=spec.temporal_binding.recurrence_id,
+                    tick=tick,
+                )
             return skill_id
         applicability: dict[str, Any] = {
             "kind": "environmental_routine",
@@ -949,6 +956,27 @@ class MemoryEngine:
         state["last_bound_expectation_version"] = None
         return state
 
+    def _merge_temporal_binding_on_repromote(
+        self, app: dict[str, Any], binding: TemporalBinding
+    ) -> None:
+        """Attach or refresh temporal_binding on an existing procedural skill."""
+        incoming = binding.to_dict()
+        existing_raw = app.get("temporal_binding")
+        if not existing_raw:
+            app["temporal_binding"] = self._initialize_binding_state(binding)
+            return
+        existing = (
+            existing_raw
+            if isinstance(existing_raw, dict)
+            else TemporalBinding.from_dict(existing_raw).to_dict()
+        )
+        app["temporal_binding"] = {
+            **incoming,
+            "strength": existing.get("strength", 1.0),
+            "disabled": existing.get("disabled", False),
+            "last_bound_expectation_version": existing.get("last_bound_expectation_version"),
+        }
+
     def _record_temporal_routine_promote(
         self,
         *,
@@ -975,7 +1003,11 @@ class MemoryEngine:
         *,
         current_age_tick: int,
     ) -> BoundRoutineEligibility | None:
-        """Bind a routine to the current expectation view; eligibility is not mandatory launch."""
+        """Bind a routine to the current expectation view; eligibility is not mandatory launch.
+
+        Stale-version guard is per-skill ``last_bound_expectation_version`` vs the current
+        policy view; TemporalEngine must publish only current expectation versions.
+        """
         from umbra_core.temporal.policy import PolicyExpectationView as _View
 
         if not isinstance(policy_view, _View):
@@ -1204,6 +1236,18 @@ class MemoryEngine:
             f"{self.agent_id}|{spec.partner_hypothesis}|{spec.context}|{spec.signal}",
         )
         if skill_id in self.procedural:
+            existing = self.procedural[skill_id]
+            app = existing.applicability
+            support = list(spec.supporting_episode_ids)[-MAX_ROUTINE_SUPPORTING_EPISODES:]
+            if len(support) > len(existing.source_episode_ids):
+                existing.source_episode_ids = support
+            if spec.temporal_binding is not None:
+                self._merge_temporal_binding_on_repromote(app, spec.temporal_binding)
+                self._record_temporal_routine_promote(
+                    skill_id=skill_id,
+                    recurrence_id=spec.temporal_binding.recurrence_id,
+                    tick=tick,
+                )
             return skill_id
         min_body = float(spec.body_requirements.get("min_body_compatibility", 0.35))
         applicability: dict[str, Any] = {
