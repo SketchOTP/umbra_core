@@ -8,7 +8,7 @@
 **Prerequisite:** `UMBRA_D008_COHERENT_DIGITAL_EMBODIMENT_QUALIFIED`  
 **Mimir project:** `7777645d52a91b49`  
 **Mimir task:** `06b5b59709864e11bddb8c1da56dd66e`  
-**Status:** Design frozen pending final operator review of this file; then implementation planning
+**Status:** Design approved for implementation planning (includes final amendments A1–A6)
 
 ## Purpose
 
@@ -30,6 +30,12 @@ Advance Phase 2 by making UMBRA’s digital habitat a persistent, causally inter
 12. **Exactly-once execution:** One terminal VerifiedOutcome per `execution_id`; retries return existing outcome.
 13. **P0 performance mode:** Same D-009 commit; HabitatEngine active; MANIPULATE/routines/D-009 dynamics disabled (compatibility mode).
 14. **Import rule:** `umbra_core` / `experiments` never import `ui/`. `ui/` may import from `umbra_core.expression`.
+15. **Dynamic object versioning:** each HabitatObject carries `object_version` + `object_state_hash`; incremented once per committed authoritative mutation.
+16. **Policy candidates are address-only:** arbitration never sees authoritative `target_object_id`; trusted runtime resolves address → object.
+17. **Execution journal:** PREPARED → COMMITTED_SUCCESS | COMMITTED_FAILURE; infrastructure unknown ≠ false failure.
+18. **Body occupancy from Embodiment views:** Habitat does not persist a second body-position authority.
+19. **Raw experiment evidence:** gate summaries must recompute from `raw-results.jsonl` + seed/hash manifests.
+20. **Two-stage preregistration freeze:** implement definitions → compute hashes → commit complete freeze → only then formal experiments.
 
 ## Hard constraints
 
@@ -81,31 +87,29 @@ docs/directives/UMBRA-D-009-persistent-habitat-agency.md
 ### Authority pipeline
 
 ```text
-arbitration (MANIPULATE candidate + addressability proof)
+arbitration (ManipulationCandidate — address-only, no authoritative object_id)
   → governance admit
+  → trusted resolve: address → ResolvedManipulationTarget
   → EmbodimentAdapter.validate_manipulation(...)
        → AdapterValidatedManipulation (immutable)
   → HabitatAffordanceEngine.validate(...) → AffordanceValidationResult + effect_plan
   → HabitatEngine consequence validation (against same HabitatSnapshot)
+  → execution journal PREPARED
   → shared persistence transaction:
-       check existing execution_id outcome
+       check existing execution_id / payload hash
        revalidate expected versions/hashes
        apply habitat mutation
        apply approved organism effects (existing physiology authority)
        append habitat event(s) + organism effect event(s)
        append terminal VerifiedOutcome
-       advance state_version / recompute state_hash
-       commit
+       advance state_version / recompute state_hash / object versions
+       commit → COMMITTED_SUCCESS | COMMITTED_FAILURE
   → WorldModel / Memory / Individuality updates from committed outcome only
   → ExpressionEngine.derive from coherent post-commit packet bindings
 ```
 
-On any validation or commit failure:
-
-```text
-no habitat mutation
-+ durable failed VerifiedOutcome (when an execution was admitted)
-```
+Domain validation failures commit `COMMITTED_FAILURE` with no habitat mutation.
+Infrastructure failure during commit leaves the execution recoverable as `PREPARED` (not falsely marked failed). See §3 execution journal.
 
 ### Ownership
 
@@ -201,7 +205,7 @@ Rules:
 * `zone_id = HabitatEngine.zone_at(x, y)`.  
 * Zone kinds describe place roles, never organism commands.  
 * Zone boundary crossing does not reset velocity, orientation, commitments, or action state.  
-* Emit `habitat_body_zone_transitioned` as a consequence of governed locomotion (not teleportation).
+* `habitat_body_zone_transitioned` may be recorded as a cross-domain consequence/audit event of governed locomotion. It must **not** independently mutate body position or advance habitat `state_version` when no habitat state changed.
 
 ### HabitatObject
 
@@ -214,6 +218,8 @@ object_kind ∈ {
 }
 definition_version
 definition_hash
+object_version            # dynamic instance version (frozen initial value)
+object_state_hash         # canonical hash of current instance fields
 location = FREE {x, y, zone_id} | HELD_BY {body_instance_id, attachment_generation, hold_slot}
 state                     # typed ObjectState union (not open dict)
 mass_class
@@ -232,6 +238,16 @@ cooldowns                 # map affordance_id → cooldown_until_tick
 IdleState | ResourceState | StationState | ActivatableState | SocialEntitySpatialState
 ```
 
+**Dynamic object versioning:**
+
+* `object_version` begins at a frozen initial value.  
+* Every authoritative mutation of location, state, condition, cooldown, availability, or held binding increments `object_version` **exactly once per transaction**.  
+* Definition migration changes `definition_version` and also increments `object_version`.  
+* `object_state_hash = sha256(canonical_serialize(object excluding object_state_hash))`.  
+* Failed operations do not increment `object_version`.  
+* Multi-object transactions validate and record every affected object version.  
+* Replay must reproduce each final `object_version` and `object_state_hash`.
+
 **Location modes:**
 
 * Exactly one location mode per object.  
@@ -242,18 +258,32 @@ IdleState | ResourceState | StationState | ActivatableState | SocialEntitySpatia
 
 ### Occupancy (derived indexes)
 
+HabitatEngine authoritative indexes:
+
 ```text
 zone_free_object_count
-zone_body_count
 zone_held_object_count
 hold_index[body_instance_id][hold_slot] = object_id
 free_spatial_index
 ```
 
+Body occupancy is **not** rebuilt from habitat objects. Embodiment supplies an immutable versioned view:
+
+```text
+BodyOccupancyView
+  body_instance_id
+  body_pose_version
+  position
+  collision_shape
+  attachment_generation
+```
+
+Habitat may validate body-capacity consequences using this view (`BODY_OCCUPANCY_LIMIT` on rejection) but must not persist a second body-position authority.
+
 Frozen category rules:
 
 * Free-object capacity counts FREE objects only.  
-* Body occupancy is governed separately.  
+* Body occupancy is evaluated from `BodyOccupancyView`, not habitat object indexes.  
 * Held objects do not consume free-object capacity.  
 * Placement checks resulting free-object capacity.  
 * Held-object derived zone is informational only.
@@ -307,7 +337,7 @@ HabitatObject* → deeply immutable HabitatFeature-shaped view
 
 ### Collection caps and growth
 
-Exceeding a frozen collection cap on an attempted action produces a durable failed outcome with zero partial mutation. Do not crash silently.
+Exceeding a frozen collection cap on an attempted action produces a durable failed outcome with code `HABITAT_COLLECTION_CAP_EXCEEDED` and zero partial mutation. Event storage budget exhaustion uses `EVENT_STORAGE_BUDGET_EXCEEDED`. Do not crash silently.
 
 Gate 12 freezes separate limits for: active in-memory history refs, replay indexes, pending transactions, recent-event caches, snapshot frequency, and database growth rate. The immutable event ledger may grow within a preregistered storage-growth budget. Archival/compaction (if used) must keep original event identity/hashes recoverable, demonstrate replay equivalence, and must not rewrite scientific evidence. Snapshots remain accelerators, not replacement truth. Authoritative history is not silently deleted.
 
@@ -370,13 +400,13 @@ habitat mutation
 
 If any required component fails validation, none commit.
 
-### MANIPULATE request
+### MANIPULATE request (after trusted resolution)
 
 ```text
 request_id
 execution_id
 capability = MANIPULATE
-target_object_id
+target_object_id                    # present only AFTER trusted resolution
 target_address_ref
 perception_evidence_ref
 perception_state_version
@@ -427,11 +457,16 @@ Gate 3/4 measurements (all must be zero when required):
 
 ### Candidate generation (arbitration)
 
+Policy candidates must **not** contain authoritative `target_object_id`:
+
 ```text
-ActionCandidate
+ManipulationCandidate
   capability = MANIPULATE
-  target_object_id (+ addressability fields)
-  affordance_id
+  target_address_ref
+  perception_evidence_ref
+  perception_state_version
+  perceived_object_kind
+  perceived_affordance_ref
   parameters
   expected_outcome / latency / effort
   success_confidence / uncertainty
@@ -442,13 +477,27 @@ ActionCandidate
   supporting_evidence_refs
 ```
 
+Trusted execution preparation resolves:
+
+```text
+target_address_ref
+→ perception binding
+→ ResolvedManipulationTarget {
+     target_object_id
+     target_object_version
+     binding_hash
+   }
+```
+
+Authoritative `target_object_id` may enter the persisted execution request only after trusted resolution. It must not be visible to policy scoring or candidate generation.
+
 Source is explanatory metadata, not separate authority. Bound per tick: max manipulation candidates, max affordances per object, max remembered off-screen targets, max planning distance. Deterministically merge duplicate equivalent candidates.
 
 Exploration path:
 
 ```text
 INSPECT → perception/WM evidence → optional exploratory MANIPULATE
-  → governance → authoritative validation → verified outcome → learning
+  → governance → trusted resolve → authoritative validation → verified outcome → learning
 ```
 
 High-risk/destructive unknown affordances must not be explored blindly.
@@ -469,25 +518,50 @@ EmbodimentAdapter.validate_manipulation(...)
        translation_applied
 ```
 
-### Exactly-once execution
+### Execution journal (exactly-once + unknown-commit)
 
-Durable uniqueness for `request_id` / `execution_id`:
+Durable execution state machine:
 
+```text
+PREPARED
+→ COMMITTED_SUCCESS
+→ or COMMITTED_FAILURE
+```
+
+Each prepared execution stores:
+
+```text
+execution_id
+request_id
+canonical_payload_hash
+prepared_tick
+expected_versions_and_hashes
+transaction_id
+```
+
+Rules:
+
+* Domain validation failures commit `COMMITTED_FAILURE` (no habitat mutation).  
+* Successful mutation and outcome commit as `COMMITTED_SUCCESS`.  
+* Infrastructure failure during commit leaves the execution recoverable as `PREPARED`, **not** falsely marked failed.  
+* Recovery determines whether the transaction committed before retrying.  
+* A retry with the same IDs and payload returns the existing terminal outcome.  
+* Reusing an `execution_id` or `request_id` with a different payload fails closed (`EXECUTION_PAYLOAD_MISMATCH`).  
+* An indeterminate (`PREPARED`) execution cannot be submitted as a new execution.  
 * One `execution_id` → at most one terminal VerifiedOutcome.  
-* Retry after crash returns the existing outcome.  
 * Committed success cannot mutate habitat again.  
 * Committed failure cannot later execute under the same ID.  
-* Duplicate requests with different execution IDs still fail when expected versions/hashes are stale.  
-* Prepared but incomplete execution records resolve deterministically on recovery (frozen `prepared_execution_timeout`).
+* Frozen `prepared_execution_timeout` bounds recovery windows.
 
 Transaction order:
 
 ```text
-check existing execution outcome
+check existing execution outcome / payload hash
+→ if PREPARED: recover by determining prior commit status
 → revalidate expected versions and hashes
 → apply mutation + authoritative events + approved organism effects
 → append VerifiedOutcome
-→ commit
+→ commit → COMMITTED_SUCCESS | COMMITTED_FAILURE
 ```
 
 ### Failure codes (stable)
@@ -528,6 +602,10 @@ OBJECT_NOT_HELD_BY_BODY
 PLACEMENT_POSITION_INVALID
 PLACEMENT_COLLISION
 TARGET_ZONE_MISMATCH
+EXECUTION_PAYLOAD_MISMATCH
+HABITAT_COLLECTION_CAP_EXCEEDED
+BODY_OCCUPANCY_LIMIT
+EVENT_STORAGE_BUDGET_EXCEEDED
 ```
 
 Do **not** introduce `BODY_CAPABILITY_UNSUPPORTED` (duplicate of `UNSUPPORTED_BODY_CAPABILITY`).
@@ -698,7 +776,20 @@ failed_request_world_mutation_rate = 0
 
 As in the project directive. Scenarios may change environmental opportunities/consequences only — never preferences, habits, personality, choices, routines, WorldModel beliefs, or presentation state.
 
-### Preregistration (commit + hash before formal experiments)
+### Preregistration (two-stage freeze)
+
+**Stage A — definitions first (no formal experiments):**
+
+1. Implement and test static habitat, affordance, and D-009 body-profile definitions.  
+2. Compute canonical hashes.  
+
+**Stage B — complete freeze commit:**
+
+3. Write final numeric thresholds, matrix, scenarios, definitions, profile hashes, and seed manifests.  
+4. Commit and hash the complete preregistration package.  
+5. Begin formal experiments only from that clean committed state.
+
+Files:
 
 ```text
 experiments/d009/thresholds.json
@@ -735,6 +826,17 @@ object/zone bounds
 manipulation latency / prediction / replay / continuity thresholds
 CPU and RSS limits
 adaptive performance protocol
+```
+
+The formal harness must refuse:
+
+```text
+placeholder hashes
+dirty frozen files
+definition hash mismatches
+uncommitted source changes
+unknown failure codes
+insufficient paired seeds
 ```
 
 Post-execution changes require a committed supplement.
@@ -813,7 +915,7 @@ test_legacy_reads_do_not_create_second_authority
 test_birth_replay_rebuilds_projection_from_habitat_events
 ```
 
-**Addressability / definitions / exactly-once / coherence**
+**Addressability / definitions / exactly-once / coherence / versioning**
 
 ```text
 test_hidden_objects_do_not_generate_manipulation_candidates
@@ -838,6 +940,19 @@ test_render_packet_uses_coherent_habitat_and_body_versions
 test_scripted_object_motion_does_not_count_as_autonomy
 test_random_manipulation_does_not_count_as_learning
 test_authoritative_event_history_is_not_silently_deleted
+test_object_version_increments_once_per_committed_mutation
+test_failed_mutation_does_not_increment_object_version
+test_replay_reproduces_object_versions_and_hashes
+test_policy_candidate_contains_no_authoritative_object_id
+test_trusted_runtime_resolves_address_to_authoritative_object
+test_hidden_object_ids_never_enter_arbitration
+test_same_execution_id_with_different_payload_fails_closed
+test_same_request_id_with_different_payload_fails_closed
+test_unknown_commit_status_does_not_create_false_failure
+test_prepared_recovery_cannot_double_mutate
+test_body_occupancy_uses_immutable_embodiment_view
+test_habitat_does_not_persist_second_body_position
+test_zone_transition_event_does_not_duplicate_body_authority
 ```
 
 Final sealed suite: zero skips. Add focused tests for every defect discovered.
@@ -846,9 +961,36 @@ Final sealed suite: zero skips. Add focused tests for every defect discovered.
 
 ## 8. Evidence & seal
 
-Required evidence paths under `docs/evidence/d009/` as listed in the project directive (prior-seals, schema-manifest, per-gate result JSONs, evidence-hashes, final-verdict).
+Required evidence paths under `docs/evidence/d009/` as listed in the project directive (prior-seals, schema-manifest, per-gate result JSONs, evidence-hashes, final-verdict), plus reproducible raw evidence:
 
-Hash manifest includes: directive, design, implementation plan, thresholds, matrix, scenario suite, habitat definition, affordance definitions, body-profile definitions, source files, tests, all result files, final verdict.
+```text
+docs/evidence/d009/raw-results.jsonl
+docs/evidence/d009/seed-manifest.json
+docs/evidence/d009/evidence-validation.json
+```
+
+Each raw row must include:
+
+```text
+condition
+scenario
+seed
+comparison_id
+gate
+software_commit
+thresholds_hash
+matrix_hash
+scenario_suite_hash
+habitat_definition_hash
+affordance_definition_hashes
+profile_definition_hashes
+metrics
+terminal_outcome
+```
+
+The evidence validator must recompute all gate summaries from the raw ledger and reject: missing rows; duplicate rows; seed mismatches; mixed frozen hashes; unexplained exclusions; summary values not reproducible from raw results.
+
+Hash manifest includes: directive, design, implementation plan, thresholds, matrix, scenario suite, habitat definition, affordance definitions, body-profile definitions, source files, tests, all result files, raw-results, seed-manifest, evidence-validation, final verdict.
 
 Allowed verdicts only:
 
@@ -885,10 +1027,11 @@ The result must be a persistent creature inhabiting a world, not an animation mo
 
 ## Spec self-review notes (resolved)
 
-* No TBD/TODO placeholders remain for architectural authority. Numeric freeze values are intentionally deferred to committed preregistration JSON (explicitly gated before formal experiments).  
+* No TBD/TODO placeholders remain for architectural authority. Numeric freeze values are intentionally deferred to Stage B preregistration JSON (explicitly gated before formal experiments; Stage A forbids placeholder hashes in the formal harness).  
 * Embodiment no longer owns habitat truth (D-008 design superseded for habitat authority in D-009; D-008 sealed profiles/hashes preserved).  
 * `BODY_CAPABILITY_UNSUPPORTED` excluded; `UNSUPPORTED_BODY_CAPABILITY` retained.  
 * `habitat_profile_capability_migrated` is not authoritative for profile migration.  
 * P0 is compatibility mode on the D-009 commit, not a separate D-008 binary.  
 * AffordanceEngine organism effects are proposals only; physiology authority unchanged.  
-* Event growth uses a storage budget; authoritative history is not silently deleted.
+* Event growth uses a storage budget; authoritative history is not silently deleted.  
+* Final amendments A1–A6: dynamic `object_version`/`object_state_hash`; address-only policy candidates; PREPARED/COMMITTED execution journal; body occupancy via Embodiment views; raw-results reproducibility; two-stage freeze + capacity failure codes.
