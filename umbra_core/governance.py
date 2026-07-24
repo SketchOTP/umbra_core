@@ -10,8 +10,10 @@ from umbra_core.embodiment_adapters.adapter import AdapterRequest, EmbodimentAda
 from umbra_core.physiology import OUTCOME_EFFECTS, Physiology
 from umbra_core.util import SeededRNG, new_id
 from umbra_core.wait_execution import (
+    FallbackBias,
     MAXIMUM_WAIT_TICKS,
     WaitJournal,
+    normalize_fallback_bias,
     wait_deadline_age_tick,
 )
 
@@ -60,6 +62,47 @@ class WaitAdmissionContext:
     wait_journal: WaitJournal | None = None
     suppress_on_reject: bool = True
     suppress_duration_ticks: int = 8
+
+
+def _coerce_fallback_bias(raw: Any) -> FallbackBias | None:
+    if raw is None:
+        return None
+    if isinstance(raw, FallbackBias):
+        return normalize_fallback_bias(raw)
+    if isinstance(raw, dict):
+        return normalize_fallback_bias(
+            FallbackBias(
+                candidate_class=str(raw["candidate_class"]),
+                bounded_delta=float(raw["bounded_delta"]),
+                expires_after_ticks=int(raw["expires_after_ticks"]),
+            )
+        )
+    return None
+
+
+def _admit_wait_to_journal(
+    proposal: Proposal,
+    wait_context: WaitAdmissionContext,
+) -> str | None:
+    journal = wait_context.wait_journal
+    if journal is None:
+        return None
+    params = proposal.params
+    prepared = journal.prepare_wait(
+        recurrence_id=str(params["recurrence_id"]),
+        expectation_version=int(params["expectation_version"]),
+        window_start=float(params["window_start"]),
+        window_end=float(params["window_end"]),
+        started_age_tick=wait_context.effective_age_ticks,
+        maximum_wait_ticks=int(params.get("maximum_wait_ticks", MAXIMUM_WAIT_TICKS)),
+        interrupt_conditions=tuple(params.get("interrupt_conditions") or ()),
+        fallback_bias=_coerce_fallback_bias(params.get("fallback_bias")),
+        internal_context_key=str(params.get("internal_context_key", "")),
+        expected_occurrence_id=str(params.get("expected_occurrence_id", "")),
+        execution_id=params.get("execution_id"),
+    )
+    active = journal.admit_prepared(prepared.execution_id)
+    return active.execution_id
 
 
 def _validate_wait_admission(
@@ -337,11 +380,15 @@ class Governance:
         resolve_params: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
         adapter: EmbodimentAdapter | None = None,
         tick: int = 0,
+        wait_context: WaitAdmissionContext | None = None,
     ) -> VerifiedOutcome | None:
         if not decision.admitted:
             return None
 
         if proposal.capability == WAIT_CAPABILITY:
+            execution_id = None
+            if wait_context is not None:
+                execution_id = _admit_wait_to_journal(proposal, wait_context)
             return VerifiedOutcome(
                 outcome_id=new_id(),
                 capability=WAIT_CAPABILITY,
@@ -353,6 +400,7 @@ class Governance:
                     "reason": "wait_admitted",
                     "capability": WAIT_CAPABILITY,
                     "params": dict(proposal.params),
+                    "execution_id": execution_id,
                 },
                 verified=True,
             )

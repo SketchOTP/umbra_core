@@ -264,6 +264,8 @@ def active_fallback_biases(
 ) -> tuple[FallbackBias, ...]:
     biases: list[FallbackBias] = []
     for execution in wait_journal.executions.values():
+        if not execution.is_terminal():
+            continue
         if execution.fallback_bias is None:
             continue
         bias = execution.fallback_bias

@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from umbra_core.temporal.recurrence import EvidenceLane
-from umbra_core.util import canon_json, new_id, sha256_hex
+from umbra_core.util import canon_json, clamp, new_id, sha256_hex
 
 # ponytail: frozen at D-010 Task 6; hardened at Stage B freeze.
 MAXIMUM_WAIT_TICKS = 10
@@ -14,6 +14,8 @@ SUPPRESSION_DURATION_TICKS = 8
 EXPECTATION_VERSION_BYPASS_EPSILON = 1
 MAX_WAIT_EXECUTIONS = 128
 MAX_WAIT_SUPPRESSIONS = 128
+# ponytail: frozen at D-010 Task 6 hardening; aligned with UNCERTAIN_POSITIVE_CAP.
+MAX_FALLBACK_BOUNDED_DELTA = 0.12
 
 TERMINAL_WAIT_STATUSES = frozenset(
     {
@@ -40,6 +42,23 @@ class FallbackBias:
     expires_after_ticks: int
 
 
+def normalize_fallback_bias(bias: FallbackBias | None) -> FallbackBias | None:
+    if bias is None:
+        return None
+    clamped = clamp(
+        bias.bounded_delta,
+        -MAX_FALLBACK_BOUNDED_DELTA,
+        MAX_FALLBACK_BOUNDED_DELTA,
+    )
+    if clamped == bias.bounded_delta:
+        return bias
+    return FallbackBias(
+        candidate_class=bias.candidate_class,
+        bounded_delta=clamped,
+        expires_after_ticks=bias.expires_after_ticks,
+    )
+
+
 @dataclass(frozen=True)
 class WaitExecution:
     execution_id: str
@@ -50,6 +69,8 @@ class WaitExecution:
     started_age_tick: int
     deadline_age_tick: int
     interrupt_conditions_hash: str
+    internal_context_key: str
+    expected_occurrence_id: str
     status: str
     terminal_reason: str | None = None
     fallback_bias: FallbackBias | None = None
@@ -102,6 +123,8 @@ class WaitJournal:
         maximum_wait_ticks: int = MAXIMUM_WAIT_TICKS,
         interrupt_conditions: tuple[str, ...] = (),
         fallback_bias: FallbackBias | None = None,
+        internal_context_key: str = "",
+        expected_occurrence_id: str = "",
         execution_id: str | None = None,
     ) -> WaitExecution:
         exec_id = execution_id or new_id()
@@ -122,8 +145,10 @@ class WaitJournal:
             started_age_tick=started_age_tick,
             deadline_age_tick=deadline,
             interrupt_conditions_hash=compute_interrupt_conditions_hash(interrupt_conditions),
+            internal_context_key=internal_context_key,
+            expected_occurrence_id=expected_occurrence_id,
             status="ADMITTED",
-            fallback_bias=fallback_bias,
+            fallback_bias=normalize_fallback_bias(fallback_bias),
         )
         self._prepared[exec_id] = prepared
         return prepared
@@ -149,6 +174,8 @@ class WaitJournal:
             started_age_tick=prepared.started_age_tick,
             deadline_age_tick=prepared.deadline_age_tick,
             interrupt_conditions_hash=prepared.interrupt_conditions_hash,
+            internal_context_key=prepared.internal_context_key,
+            expected_occurrence_id=prepared.expected_occurrence_id,
             status="ACTIVE",
             fallback_bias=prepared.fallback_bias,
         )
@@ -178,6 +205,8 @@ class WaitJournal:
             started_age_tick=current.started_age_tick,
             deadline_age_tick=current.deadline_age_tick,
             interrupt_conditions_hash=current.interrupt_conditions_hash,
+            internal_context_key=current.internal_context_key,
+            expected_occurrence_id=current.expected_occurrence_id,
             status=status,
             terminal_reason=terminal_reason or status,
             fallback_bias=current.fallback_bias,
@@ -270,7 +299,10 @@ class WaitJournal:
             return execution
         if not (execution.window_start <= observation_age_tick <= execution.window_end):
             return execution
-        _ = occurrence_id, internal_context_key
+        if execution.internal_context_key != internal_context_key:
+            return execution
+        if execution.expected_occurrence_id != occurrence_id:
+            return execution
         return self.finalize(
             execution_id,
             "OCCURRENCE_OBSERVED",
@@ -289,6 +321,8 @@ class WaitJournal:
                     "started_age_tick": ex.started_age_tick,
                     "deadline_age_tick": ex.deadline_age_tick,
                     "interrupt_conditions_hash": ex.interrupt_conditions_hash,
+                    "internal_context_key": ex.internal_context_key,
+                    "expected_occurrence_id": ex.expected_occurrence_id,
                     "status": ex.status,
                     "terminal_reason": ex.terminal_reason,
                     "fallback_bias": (
@@ -339,9 +373,11 @@ class WaitJournal:
                 started_age_tick=int(payload["started_age_tick"]),
                 deadline_age_tick=int(payload["deadline_age_tick"]),
                 interrupt_conditions_hash=str(payload["interrupt_conditions_hash"]),
+                internal_context_key=str(payload.get("internal_context_key", "")),
+                expected_occurrence_id=str(payload.get("expected_occurrence_id", "")),
                 status=str(payload["status"]),
                 terminal_reason=payload.get("terminal_reason"),
-                fallback_bias=fallback,
+                fallback_bias=normalize_fallback_bias(fallback),
             )
         for payload in data.get("suppressions") or []:
             journal.suppressions.append(

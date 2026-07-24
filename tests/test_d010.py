@@ -22,7 +22,9 @@ from umbra_core.util import SeededRNG
 from umbra_core.wait_execution import (
     FallbackBias,
     MAXIMUM_WAIT_TICKS,
+    MAX_FALLBACK_BOUNDED_DELTA,
     WaitJournal,
+    normalize_fallback_bias,
     wait_deadline_age_tick,
 )
 from umbra_core.temporal.clock import TrustedSample, compute_sample_hash
@@ -1021,25 +1023,26 @@ def test_wait_admitted_only_inside_window_with_bounded_deadline():
             "maximum_wait_ticks": MAXIMUM_WAIT_TICKS,
             "expectation_version": 1,
             "wait_deadline": deadline,
+            "internal_context_key": "feeder:a",
+            "expected_occurrence_id": "occ:expected",
         },
     )
-    decision = gov.admit(
-        proposal,
-        wait_context=WaitAdmissionContext(
-            effective_age_ticks=age,
-            expectation_status="ACTIVE",
-            wait_journal=journal,
-        ),
+    wait_context = WaitAdmissionContext(
+        effective_age_ticks=age,
+        expectation_status="ACTIVE",
+        wait_journal=journal,
     )
+    decision = gov.admit(proposal, wait_context=wait_context)
     assert decision.admitted
-    prepared = journal.prepare_wait(
-        recurrence_id="rec:test",
-        expectation_version=1,
-        window_start=40.0,
-        window_end=window_end,
-        started_age_tick=age,
+    outcome = gov.execute_and_verify(
+        proposal,
+        decision,
+        embodiment=None,  # type: ignore[arg-type]
+        rng=SeededRNG(1),
+        wait_context=wait_context,
     )
-    journal.admit_prepared(prepared.execution_id)
+    assert outcome is not None
+    assert outcome.raw.get("execution_id") is not None
     active = journal.active_execution()
     assert active is not None
     assert active.deadline_age_tick == deadline == min(age + MAXIMUM_WAIT_TICKS, int(window_end))
@@ -1085,6 +1088,8 @@ def test_o_lane_occurrence_observed_a_lane_alone_cannot():
         window_start=40.0,
         window_end=60.0,
         started_age_tick=45,
+        internal_context_key="feeder:a",
+        expected_occurrence_id="occ:o",
         execution_id="exec:lane",
     )
     journal.admit_prepared(prepared.execution_id)
@@ -1099,6 +1104,28 @@ def test_o_lane_occurrence_observed_a_lane_alone_cannot():
     )
     assert unchanged is not None
     assert unchanged.status == "ACTIVE"
+    wrong_occurrence = journal.try_complete_with_occurrence(
+        "exec:lane",
+        recurrence_id="rec:test",
+        expectation_version=1,
+        occurrence_id="occ:wrong",
+        internal_context_key="feeder:a",
+        observation_age_tick=50,
+        lane=EvidenceLane.ORGANISM_OBSERVABLE,
+    )
+    assert wrong_occurrence is not None
+    assert wrong_occurrence.status == "ACTIVE"
+    wrong_context = journal.try_complete_with_occurrence(
+        "exec:lane",
+        recurrence_id="rec:test",
+        expectation_version=1,
+        occurrence_id="occ:o",
+        internal_context_key="feeder:other",
+        observation_age_tick=50,
+        lane=EvidenceLane.ORGANISM_OBSERVABLE,
+    )
+    assert wrong_context is not None
+    assert wrong_context.status == "ACTIVE"
     completed = journal.try_complete_with_occurrence(
         "exec:lane",
         recurrence_id="rec:test",
@@ -1232,6 +1259,7 @@ def test_fallback_bias_reenters_arbitration_and_expires():
         execution_id="exec:fallback",
     )
     journal.admit_prepared(prepared.execution_id)
+    assert active_fallback_biases(journal, effective_age_ticks=46) == ()
     journal.finalize("exec:fallback", "EXPIRED")
     cand = Candidate("REST", {})
     apply_temporal_modifiers(
@@ -1249,4 +1277,42 @@ def test_fallback_bias_reenters_arbitration_and_expires():
         fallback_biases=active_fallback_biases(journal, effective_age_ticks=50),
     )
     assert expired_cand.scores.get("fallback_bias", 0.0) == 0.0
+
+
+def test_fallback_bias_bounded_delta_is_capped():
+    oversized = FallbackBias(candidate_class="REST", bounded_delta=0.5, expires_after_ticks=3)
+    capped = normalize_fallback_bias(oversized)
+    assert capped is not None
+    assert capped.bounded_delta == pytest.approx(MAX_FALLBACK_BOUNDED_DELTA)
+    journal = WaitJournal()
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=40.0,
+        window_end=60.0,
+        started_age_tick=45,
+        fallback_bias=oversized,
+        execution_id="exec:cap",
+    )
+    assert prepared.fallback_bias is not None
+    assert prepared.fallback_bias.bounded_delta == pytest.approx(MAX_FALLBACK_BOUNDED_DELTA)
+
+
+def test_hazard_urgency_outranks_temporal_modifiers():
+    arb = Arbitrator()
+    phys = Physiology()
+    phys.integrity = 0.08
+    observations = [
+        {"kind": "hazard", "relative_direction": 0.0, "estimated_distance": 1.0},
+    ]
+    views = (_active_policy_view(),)
+    chosen = arb.select(
+        phys,
+        observations,
+        tick=45,
+        rng=SeededRNG(1),
+        policy_expectations=views,
+        effective_age_ticks=45,
+    )
+    assert chosen.capability in ("RETREAT", "MOVE")
 
