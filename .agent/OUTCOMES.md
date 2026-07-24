@@ -168,3 +168,7 @@ Format:
 - 2026-07-24T13:30Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Eight final design amendments applied; spec approved for implementation planning
 
 - 2026-07-24T13:31Z | PLAN | D-20260724-umbra-d010-temporal-continuity | Implementation plan written; awaiting operator approval before SDD
+
+- 2026-07-24T13:37Z | PLAN | D-20260724-umbra-d010-temporal-continuity | Amended plan committed; freeze-safe order; Task 0 authorized
+
+- 2026-07-24T09:40Z | END | D-20260724-0937-d010-task0-governance | UMBRA-D-010 Task 0 complete | CURRENT→plan tip c1f71bb7; REPO_MAP+directive+progress updated; parent Mimir 9adf61b087ea4fa6a90a1c3bd401a9b3 open | mimir_subtask:2d77d23e460d424abde6e566dfa5bb71 closed

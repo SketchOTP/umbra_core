@@ -160,9 +160,12 @@ Concise navigation map for agents. Add entries as application code lands.
 - `.serena/project.yml` — Serena `UMBRA-CORE`
 - Mimir SSH connection name `UMBRA-CORE` → `/home/sketch/Projects/UMBRA-CORE`
 
-## Temporal continuity (D-010) — IN PROGRESS
-- Directive: `docs/directives/UMBRA-D-010-temporal-continuity.md`
+## Temporal continuity (D-010) — IN PROGRESS (SDD starting)
+- Directive: `docs/directives/UMBRA-D-010-temporal-continuity.md` (plan approved)
+- Design: `docs/superpowers/specs/2026-07-24-umbra-d010-temporal-continuity-design.md` (`03e1269`)
+- Plan: `docs/superpowers/plans/2026-07-24-umbra-d010-temporal-continuity.md` (`c1f71bb7` — amended tip; supersedes `2149297`)
 - Starting commit: `bb90e61`
 - Prerequisite seal: D-009 `af35371`
-- Package (planned): `umbra_core/temporal/`
+- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
+- Package (planned): `umbra_core/temporal/` — `clock.py`, `state.py`, `engine.py`, `recurrence.py`, `events.py`, `migration.py`
 - Experiments (planned): `experiments/d010/`, `tests/test_d010.py`, `docs/evidence/d010/`

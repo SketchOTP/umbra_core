@@ -1,6 +1,8 @@
 # UMBRA-D-010: Temporal Continuity, Anticipation, and Autonomous Daily Life
 
-**Status:** AUTHORIZED / DESIGN SPEC WRITTEN (awaiting operator review)  
+**Status:** AUTHORIZED / PLAN APPROVED — SDD STARTING  
+**Design tip:** `03e1269`  
+**Plan tip:** `c1f71bb7e6ae58459c08585558a491fcae8b8bea` (supersedes `2149297`)  
 **Agent Memory Directive:** `D-20260724-umbra-d010-temporal-continuity`  
 **Starting Commit:** `bb90e6111f883f58cced7e71b7d452df7f072aa7`  
 **D-009 Scientific Seal:** `af35371`  
