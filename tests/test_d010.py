@@ -705,7 +705,7 @@ def test_post_hoc_cannot_alter_historical_occurrence_age():
         source_event_id="evt:hist",
         source_event_hash="hash:hist",
         committed_advance_id=engine.state.last_advance_id,
-        committed_age_ticks=10,
+        committed_age_ticks=99,
         committed_temporal_state_version=engine.state.state_version,
     )
     with pytest.raises(TemporalEngineError, match="post_hoc_occurrence_age_immutable"):
@@ -720,9 +720,42 @@ def test_post_hoc_cannot_alter_historical_occurrence_age():
             source_event_id="evt:hist",
             source_event_hash="hash:hist",
             committed_advance_id=engine.state.last_advance_id,
-            committed_age_ticks=10,
+            committed_age_ticks=99,
             committed_temporal_state_version=engine.state.state_version,
         )
+
+
+def test_post_hoc_prepare_uses_committed_age_for_immutability():
+    engine = _engine_with_age(age=50)
+    _commit_in_tick_observation(
+        engine,
+        context_key="feeder:anchored",
+        occurrence_id="occ:anchored",
+        evidence_identity="evidence:anchored",
+        tick=10,
+    )
+    engine.register_post_hoc_anchor(
+        source_event_id="evt:anchored",
+        source_event_hash="hash:anchored",
+        committed_advance_id=engine.state.last_advance_id,
+        committed_age_ticks=10,
+        committed_temporal_state_version=engine.state.state_version,
+    )
+    plan = engine.prepare_finalized_evidence(
+        source_transaction_id="txn:anchored",
+        event_kind="habitat.feeder_cycle",
+        internal_context_key="feeder:anchored",
+        occurrence_id="occ:anchored",
+        evidence_identity="evidence:post-hoc",
+        tick=50,
+        commit_mode=CommitMode.POST_HOC,
+        source_event_id="evt:anchored",
+        source_event_hash="hash:anchored",
+        committed_advance_id=engine.state.last_advance_id,
+        committed_age_ticks=10,
+        committed_temporal_state_version=engine.state.state_version,
+    )
+    assert plan.hypothesis_deltas[0].tick == 10
 
 
 def test_same_occurrence_id_across_in_tick_and_post_hoc_counts_once():

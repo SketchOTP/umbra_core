@@ -307,7 +307,6 @@ class TemporalEngine:
                 committed_age_ticks=committed_age_ticks,
                 committed_temporal_state_version=committed_temporal_state_version,
                 occurrence_id=occurrence_id,
-                proposed_tick=int(tick),
             )
             effective_tick = int(committed_age_ticks)  # type: ignore[arg-type]
 
@@ -348,7 +347,6 @@ class TemporalEngine:
         committed_age_ticks: int | None,
         committed_temporal_state_version: int | None,
         occurrence_id: str,
-        proposed_tick: int,
     ) -> None:
         if not all(
             (
@@ -373,9 +371,10 @@ class TemporalEngine:
         if anchor["committed_temporal_state_version"] != committed_temporal_state_version:
             raise TemporalEngineError("post_hoc_state_version_mismatch")
 
+        anchored_age = int(committed_age_ticks)  # type: ignore[arg-type]
         for _rec_id, payload in self._state.recurrence_index:
             for occ_id, occ_tick, _lane in payload.get("occurrence_by_id") or []:
-                if str(occ_id) == occurrence_id and int(occ_tick) != proposed_tick:
+                if str(occ_id) == occurrence_id and int(occ_tick) != anchored_age:
                     raise TemporalEngineError("post_hoc_occurrence_age_immutable")
 
     def abandon_observation_plan(self, observation_plan_id: str) -> None:
@@ -408,7 +407,6 @@ class TemporalEngine:
                 committed_age_ticks=plan.committed_age_ticks,
                 committed_temporal_state_version=plan.committed_temporal_state_version,
                 occurrence_id=plan.occurrence_id,
-                proposed_tick=plan.hypothesis_deltas[0].tick if plan.hypothesis_deltas else 0,
             )
 
         before = self._state
@@ -466,11 +464,16 @@ class TemporalEngine:
                 if not identity_seen(summary, occurrence_id=delta.occurrence_id)
                 else ()
             )
-            summary = register_identities(
-                summary,
-                evidence_identities=(delta.evidence_identity,),
-                occurrence_ids=occurrence_ids,
-            )
+            try:
+                summary = register_identities(
+                    summary,
+                    evidence_identities=(delta.evidence_identity,),
+                    occurrence_ids=occurrence_ids,
+                )
+            except ValueError as exc:
+                if str(exc) == "dedup_compaction_overflow":
+                    raise TemporalEngineError("dedup_compaction_overflow") from exc
+                raise
             self._state = with_state_hash(
                 replace(self._state, recurrence_index=new_index, dedup_summary=summary)
             )
@@ -526,7 +529,10 @@ class TemporalEngine:
         lane: EvidenceLane,
         context_schema_version: str = CONTEXT_SCHEMA_VERSION,
     ) -> RecurrenceHypothesis:
-        """Thin observe stub for Task 4 tests; full observation plans are Task 5."""
+        """Thin observe stub for Task 4 tests; full observation plans are Task 5.
+
+        ponytail: bypasses durable dedup (register_identities); Task 5 commit path only.
+        """
         recurrence_key = compute_recurrence_key(
             event_kind,
             internal_context_key,
