@@ -9,9 +9,12 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from umbra_core.util import BoundedRing, SeededRNG, clamp, new_id, sha256_hex
+
+if TYPE_CHECKING:
+    from umbra_core.temporal.policy import PolicyExpectationView
 
 
 MAX_WORKING = 32
@@ -36,6 +39,8 @@ WORKING_TTL = 24
 ROUTINE_PROMOTION_SUPPORT_MINIMUM = 3
 ROUTINE_ACTIVE_COUNT_MAXIMUM = 8
 ROUTINE_WEAKEN_FAILURE_THRESHOLD = 3
+TEMPORAL_BINDING_MISS_WEAKEN_DELTA = 0.15
+TEMPORAL_BINDING_MIN_STRENGTH = 0.2
 
 PROTECTED_KINDS = frozenset(
     {
@@ -231,6 +236,70 @@ class SemanticBelief:
         )
 
 
+@dataclass(frozen=True)
+class TemporalBinding:
+    """D-010 relative recurrence binding — offsets only; windows evaluated at runtime."""
+
+    recurrence_id: str
+    minimum_confidence: float = 0.5
+    eligibility_lead_ticks: int = 2
+    eligibility_lag_ticks: int = 2
+    maximum_start_delay: int = 10
+    allowed_expectation_statuses: tuple[str, ...] = ("ACTIVE",)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "recurrence_id": self.recurrence_id,
+            "minimum_confidence": self.minimum_confidence,
+            "eligibility_lead_ticks": self.eligibility_lead_ticks,
+            "eligibility_lag_ticks": self.eligibility_lag_ticks,
+            "maximum_start_delay": self.maximum_start_delay,
+            "allowed_expectation_statuses": list(self.allowed_expectation_statuses),
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> TemporalBinding:
+        statuses = d.get("allowed_expectation_statuses") or ("ACTIVE",)
+        return cls(
+            recurrence_id=str(d["recurrence_id"]),
+            minimum_confidence=float(d.get("minimum_confidence", 0.5)),
+            eligibility_lead_ticks=int(d.get("eligibility_lead_ticks", 2)),
+            eligibility_lag_ticks=int(d.get("eligibility_lag_ticks", 2)),
+            maximum_start_delay=int(d.get("maximum_start_delay", 10)),
+            allowed_expectation_statuses=tuple(str(s) for s in statuses),
+        )
+
+
+@dataclass(frozen=True)
+class BoundRoutineEligibility:
+    """Evaluated eligibility for a temporally bound routine — not stored absolute windows."""
+
+    recurrence_id: str
+    expectation_version: int
+    evaluated_window_start: float
+    evaluated_window_end: float
+    evaluation_age_tick: int
+    eligible: bool
+    exploratory_only: bool = False
+    allows_activation: bool = False
+    allows_wait_chain: bool = False
+    reason: str | None = None
+
+
+def _ineligible_binding(
+    base: BoundRoutineEligibility, *, reason: str
+) -> BoundRoutineEligibility:
+    return BoundRoutineEligibility(
+        recurrence_id=base.recurrence_id,
+        expectation_version=base.expectation_version,
+        evaluated_window_start=base.evaluated_window_start,
+        evaluated_window_end=base.evaluated_window_end,
+        evaluation_age_tick=base.evaluation_age_tick,
+        eligible=False,
+        reason=reason,
+    )
+
+
 @dataclass
 class EnvironmentalRoutineSpec:
     """D-009 environmental procedural routine — memory proposes only; never mutates habitat."""
@@ -248,6 +317,7 @@ class EnvironmentalRoutineSpec:
         ]
     )
     authored: bool = False
+    temporal_binding: TemporalBinding | None = None
 
 
 @dataclass
@@ -274,6 +344,7 @@ class SocialRoutineSpec:
     )
     success_conditions: dict[str, Any] = field(default_factory=dict)
     authored: bool = False  # C8 scripted FSM — never learned development
+    temporal_binding: TemporalBinding | None = None
 
 
 @dataclass
@@ -401,6 +472,7 @@ class MemoryEngine:
     last_consolidation_tick: int = -10_000
     _bounded_initialized: bool = False
     metrics: dict[str, Any] = field(default_factory=dict)
+    temporal_routine_promote_events: list[dict[str, Any]] = field(default_factory=list)
 
     @classmethod
     def create(
@@ -718,6 +790,10 @@ class MemoryEngine:
             "interrupt_conditions": list(spec.interrupt_conditions),
             "lifecycle": lifecycle,
         }
+        if spec.temporal_binding is not None:
+            applicability["temporal_binding"] = self._initialize_binding_state(
+                spec.temporal_binding
+            )
         sk = ProceduralMemory(
             skill_id=skill_id,
             applicability=applicability,
@@ -734,6 +810,12 @@ class MemoryEngine:
         self.metrics["environmental_routines_promoted"] = int(
             self.metrics.get("environmental_routines_promoted", 0)
         ) + 1
+        if spec.temporal_binding is not None:
+            self._record_temporal_routine_promote(
+                skill_id=skill_id,
+                recurrence_id=spec.temporal_binding.recurrence_id,
+                tick=tick,
+            )
         if (
             lifecycle == RoutineLifecycle.CANDIDATE.value
             and len(support) >= ROUTINE_PROMOTION_SUPPORT_MINIMUM
@@ -746,6 +828,7 @@ class MemoryEngine:
                     soft_proposals=list(spec.soft_proposals),
                     supporting_episode_ids=support,
                     interrupt_conditions=list(spec.interrupt_conditions),
+                    temporal_binding=spec.temporal_binding,
                 ),
                 tick=tick,
                 lifecycle=RoutineLifecycle.ACTIVE.value,
@@ -858,6 +941,134 @@ class MemoryEngine:
                 }
             )
         return out
+
+    def _initialize_binding_state(self, binding: TemporalBinding) -> dict[str, Any]:
+        state = binding.to_dict()
+        state["strength"] = 1.0
+        state["disabled"] = False
+        state["last_bound_expectation_version"] = None
+        return state
+
+    def _record_temporal_routine_promote(
+        self,
+        *,
+        skill_id: str,
+        recurrence_id: str,
+        tick: int,
+        expectation_version: int | None = None,
+    ) -> None:
+        """Memory-owned promote events — callers emit to ledger; TemporalEngine does not."""
+        self.temporal_routine_promote_events.append(
+            {
+                "event_type": "temporal_routine_promoted",
+                "skill_id": skill_id,
+                "recurrence_id": recurrence_id,
+                "expectation_version": expectation_version,
+                "tick": int(tick),
+            }
+        )
+
+    def evaluate_bound_routine_eligibility(
+        self,
+        skill_id: str,
+        policy_view: PolicyExpectationView,
+        *,
+        current_age_tick: int,
+    ) -> BoundRoutineEligibility | None:
+        """Bind a routine to the current expectation view; eligibility is not mandatory launch."""
+        from umbra_core.temporal.policy import PolicyExpectationView as _View
+
+        if not isinstance(policy_view, _View):
+            raise TypeError("policy_view_must_be_PolicyExpectationView")
+        sk = self.procedural.get(skill_id)
+        if sk is None:
+            return None
+        binding_raw = sk.applicability.get("temporal_binding")
+        if not binding_raw:
+            return None
+        binding = (
+            binding_raw
+            if isinstance(binding_raw, dict)
+            else TemporalBinding.from_dict(binding_raw).to_dict()
+        )
+        recurrence_id = str(binding["recurrence_id"])
+        window_start = float(policy_view.window_start)
+        window_end = float(policy_view.window_end)
+        evaluated_start = window_start - int(binding.get("eligibility_lead_ticks", 0))
+        evaluated_end = window_end + int(binding.get("eligibility_lag_ticks", 0))
+        base = BoundRoutineEligibility(
+            recurrence_id=recurrence_id,
+            expectation_version=int(policy_view.expectation_version),
+            evaluated_window_start=evaluated_start,
+            evaluated_window_end=evaluated_end,
+            evaluation_age_tick=int(current_age_tick),
+            eligible=False,
+        )
+        if binding.get("disabled"):
+            return _ineligible_binding(base, reason="recurrence_retired")
+        if policy_view.recurrence_id != recurrence_id:
+            return _ineligible_binding(base, reason="recurrence_mismatch")
+        last_bound = binding.get("last_bound_expectation_version")
+        if last_bound is not None and policy_view.expectation_version < int(last_bound):
+            return _ineligible_binding(base, reason="stale_expectation_version")
+        allowed = tuple(binding.get("allowed_expectation_statuses") or ("ACTIVE",))
+        if policy_view.status not in allowed:
+            return _ineligible_binding(base, reason="status_not_allowed")
+        min_conf = float(binding.get("minimum_confidence", 0.5))
+        strength = float(binding.get("strength", 1.0))
+        exploratory = policy_view.status == "UNCERTAIN"
+        required_conf = min_conf * strength
+        if exploratory:
+            required_conf = min(required_conf, min_conf * 0.5)
+        if policy_view.confidence < required_conf:
+            return _ineligible_binding(base, reason="confidence_below_minimum")
+        if not (evaluated_start <= current_age_tick <= evaluated_end):
+            return _ineligible_binding(base, reason="outside_evaluated_window")
+        max_delay = int(binding.get("maximum_start_delay", 0))
+        if max_delay > 0 and current_age_tick > window_start + max_delay:
+            return _ineligible_binding(base, reason="maximum_start_delay_exceeded")
+        allows_activation = policy_view.status == "ACTIVE" and not exploratory
+        binding["last_bound_expectation_version"] = int(policy_view.expectation_version)
+        sk.applicability["temporal_binding"] = binding
+        return BoundRoutineEligibility(
+            recurrence_id=recurrence_id,
+            expectation_version=int(policy_view.expectation_version),
+            evaluated_window_start=evaluated_start,
+            evaluated_window_end=evaluated_end,
+            evaluation_age_tick=int(current_age_tick),
+            eligible=True,
+            exploratory_only=exploratory,
+            allows_activation=allows_activation,
+            allows_wait_chain=False,
+        )
+
+    def record_temporal_binding_miss(self, skill_id: str, *, tick: int) -> float | None:
+        """Weaken temporal binding strength on miss — not physiology or identity."""
+        sk = self.procedural.get(skill_id)
+        if sk is None:
+            return None
+        binding = sk.applicability.get("temporal_binding")
+        if not binding or binding.get("disabled"):
+            return None
+        strength = float(binding.get("strength", 1.0))
+        strength = clamp(strength - TEMPORAL_BINDING_MISS_WEAKEN_DELTA, TEMPORAL_BINDING_MIN_STRENGTH, 1.0)
+        binding["strength"] = strength
+        sk.applicability["temporal_binding"] = binding
+        sk.last_updated_tick = tick
+        return strength
+
+    def disable_temporal_binding_for_recurrence(self, recurrence_id: str, *, tick: int) -> int:
+        """Retiring recurrence disables binding while retaining routine provenance."""
+        disabled = 0
+        for sk in self.procedural.values():
+            binding = sk.applicability.get("temporal_binding")
+            if not binding or str(binding.get("recurrence_id")) != recurrence_id:
+                continue
+            binding["disabled"] = True
+            sk.applicability["temporal_binding"] = binding
+            sk.last_updated_tick = tick
+            disabled += 1
+        return disabled
 
     def correct_episode(
         self,
@@ -1006,6 +1217,10 @@ class MemoryEngine:
             "body_requirements": dict(spec.body_requirements),
             "success_conditions": dict(spec.success_conditions),
         }
+        if spec.temporal_binding is not None:
+            applicability["temporal_binding"] = self._initialize_binding_state(
+                spec.temporal_binding
+            )
         support = list(spec.supporting_episode_ids)[-MAX_ROUTINE_SUPPORTING_EPISODES:]
         sk = ProceduralMemory(
             skill_id=skill_id,
@@ -1023,6 +1238,12 @@ class MemoryEngine:
         self.metrics["social_routines_promoted"] = int(
             self.metrics.get("social_routines_promoted", 0)
         ) + 1
+        if spec.temporal_binding is not None:
+            self._record_temporal_routine_promote(
+                skill_id=skill_id,
+                recurrence_id=spec.temporal_binding.recurrence_id,
+                tick=tick,
+            )
         return skill_id
 
     def select_social_routine(

@@ -12,6 +12,7 @@ from umbra_core.memory.engine import (
     MAX_REPLAY_PER_CYCLE,
     MAX_SEMANTIC,
     MAX_WORKING,
+    BoundRoutineEligibility,
     EnvironmentalRoutineSpec,
     Episode,
     MemoryConfig,
@@ -23,6 +24,7 @@ from umbra_core.memory.engine import (
     RoutineLifecycle,
     SemanticBelief,
     SocialRoutineSpec,
+    TemporalBinding,
     WorkingItem,
     condition_to_memory_config,
 )
@@ -37,6 +39,7 @@ __all__ = [
     "MAX_REPLAY_PER_CYCLE",
     "MAX_SEMANTIC",
     "MAX_WORKING",
+    "BoundRoutineEligibility",
     "EnvironmentalRoutineSpec",
     "Episode",
     "MemoryConfig",
@@ -48,6 +51,7 @@ __all__ = [
     "RoutineLifecycle",
     "SemanticBelief",
     "SocialRoutineSpec",
+    "TemporalBinding",
     "WorkingItem",
     "condition_to_memory_config",
 ]
