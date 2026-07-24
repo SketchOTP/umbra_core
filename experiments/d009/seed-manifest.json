@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "directive": "UMBRA-D-009",
+  "frozen_before_execution": true,
+  "template": true,
+  "note": "Formal runs populate paired_seed assignments per gate-critical cell. Harness refuses insufficient paired seeds (<100) for gate-critical cells.",
+  "minimum_gate_critical_paired_seeds": 100,
+  "paired_seed_range": [1, 100000],
+  "thresholds_ref": "experiments/d009/thresholds.json",
+  "experiment_matrix_ref": "experiments/d009/experiment-matrix.json",
+  "scenario_suite_ref": "experiments/d009/scenario-suite.json",
+  "freeze_commit_sha": null,
+  "habitat_definition_hash": "3d148c5e1e1de63688a4ea8954d97d47e921b89d30496eb4b22ef5906f3dcc38",
+  "affordance_definition_hashes": {
+    "affordance:resource:use": "3d19203956ac8b3f4d1fccc2bbf9633d4d6e7ec347c041bb3d1b72daa4221522",
+    "affordance:portable:pick_up": "e532abe76d155989e2bc7ec13683304900d274d31dfdbd8f441e296a1f1715e3",
+    "affordance:activatable:activate": "1600db1742600f3b0ceb77c6a2a1b500b6ec8236914f89ddab02454833fc7296"
+  },
+  "profile_migration_hashes": {
+    "ABSTRACT_SHAPE_BODY": {
+      "source_d008": "ba3b8ed7905f19dff7e34d7fe5d2e0a06c6f89ddb7382aa36f8a875690334be4",
+      "destination_d009": "d39289c923f051a87db629c078bcab50b0de50dcbb1c86b552d8c6646aecc430"
+    },
+    "MINIMAL_CREATURE_BODY": {
+      "source_d008": "58275b1327afdc84d23be0af9b540a3c9592d55189861bea361dbe80902d98bc",
+      "destination_d009": "031d1285670bfff7014329bf323f2ff5125edb9d4fe18b895f6996f73e930f7b"
+    }
+  },
+  "cells": []
+}

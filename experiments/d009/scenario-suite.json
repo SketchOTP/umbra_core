@@ -1,0 +1,336 @@
+{
+  "version": 1,
+  "directive": "UMBRA-D-009",
+  "frozen_before_execution": true,
+  "note": "Environment and opportunity manipulations only. Never command preferences, habits, personality, routines, beliefs, or presentation state.",
+  "default_tick_rate_hz": 10,
+  "default_warmup_ticks": 120,
+  "paired_seed_range": [1, 100000],
+  "scenarios": [
+    {
+      "id": "S0",
+      "name": "baseline_autonomous_habitat",
+      "description": "Baseline inhabited habitat with routine affordances; no partner; organism runs autonomously.",
+      "tick_budget": 2400,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["resource:0", "rest:0", "portable:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": []
+    },
+    {
+      "id": "S1",
+      "name": "explore_unfamiliar_zone",
+      "description": "Expose a previously disconnected exploration zone; organism may discover new opportunities.",
+      "tick_budget": 1600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general"],
+        "objects": ["resource:0"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 100, "type": "expose_zone_connection", "zone_id": "zone:explore"}
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "inspect_unfamiliar_objects",
+      "description": "Novel object positions and affordance exposure for inspect/manipulate probes.",
+      "tick_budget": 1600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["resource:0", "rest:0", "portable:0", "switch:0"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 50, "type": "relocate_object", "object_id": "resource:0", "x": 12.0, "y": 6.0}
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "activate_supported_affordance",
+      "description": "Rest station affordance becomes available for governed activation.",
+      "tick_budget": 1200,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["rest:0", "switch:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 80, "type": "enable_affordance_exposure", "object_id": "rest:0"}
+      ]
+    },
+    {
+      "id": "S4",
+      "name": "invalid_affordance_attempt",
+      "description": "Target affordance blocked by environmental occlusion; invalid attempts must fail closed.",
+      "tick_budget": 1200,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general"],
+        "objects": ["resource:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 60, "type": "block_affordance", "object_id": "resource:0"}
+      ]
+    },
+    {
+      "id": "S5",
+      "name": "pick_transport_place",
+      "description": "Portable object relocation opportunity for governed pick-up, transport, and place.",
+      "tick_budget": 1800,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["portable:0", "resource:0"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 120, "type": "relocate_object", "object_id": "resource:0", "x": 7.0, "y": 7.0}
+      ]
+    },
+    {
+      "id": "S6",
+      "name": "rest_recovery_location",
+      "description": "Rest zone opportunity opens for fatigue-driven recovery behavior.",
+      "tick_budget": 1400,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:rest"],
+        "objects": ["rest:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 40, "type": "rest_opportunity", "zone_id": "zone:rest"}
+      ]
+    },
+    {
+      "id": "S7",
+      "name": "repeated_object_use_routine",
+      "description": "Recurring resource exposure windows for non-authored environmental routine development.",
+      "tick_budget": 2400,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H11",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general"],
+        "objects": ["resource:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 200, "type": "enable_affordance_exposure", "object_id": "resource:0"},
+        {"tick_start": 800, "type": "enable_affordance_exposure", "object_id": "resource:0"},
+        {"tick_start": 1400, "type": "enable_affordance_exposure", "object_id": "resource:0"}
+      ]
+    },
+    {
+      "id": "S8",
+      "name": "prediction_revision",
+      "description": "Unexpected object relocation requiring environmental prediction revision.",
+      "tick_budget": 1600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["resource:0"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 90, "type": "relocate_object", "object_id": "resource:0", "x": 1.0, "y": 18.0}
+      ]
+    },
+    {
+      "id": "S9",
+      "name": "preferred_object_unavailable",
+      "description": "Preferred resource temporarily hidden; organism must adapt without authored preference commands.",
+      "tick_budget": 1400,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general"],
+        "objects": ["resource:0", "portable:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 70, "type": "temporary_unavailable", "object_id": "resource:0"},
+        {"tick_start": 900, "type": "enable_affordance_exposure", "object_id": "resource:0"}
+      ]
+    },
+    {
+      "id": "S10",
+      "name": "restart_during_manipulation",
+      "description": "Snapshot/restart during active manipulation for habitat continuity across recovery.",
+      "tick_budget": 1400,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general"],
+        "objects": ["resource:0", "portable:0"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": [
+        {"tick_start": 30, "type": "relocate_object", "object_id": "resource:0", "x": 5.0, "y": 5.0},
+        {"tick_start": 700, "type": "restart_snapshot"},
+        {"tick_start": 701, "type": "resume_from_snapshot"}
+      ]
+    },
+    {
+      "id": "S11",
+      "name": "snapshot_birth_replay",
+      "description": "Organism-caused habitat changes must survive snapshot and birth replay equivalence.",
+      "tick_budget": 1600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["resource:0", "switch:0"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": []
+    },
+    {
+      "id": "S12",
+      "name": "d008_to_d009_migration",
+      "description": "Compatible D-008 to D-009 body-profile migration with held-object rebinding when applicable.",
+      "tick_budget": 1200,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "body_profile_sequence": ["ABSTRACT_SHAPE_BODY", "ABSTRACT_SHAPE_BODY"],
+      "migration": {
+        "source_schema": "d008.body-profile.v1",
+        "destination_schema": "d009.body-profile.v1",
+        "origin": "D009_PROFILE_MIGRATION"
+      },
+      "environment": {
+        "zones": ["zone:general"],
+        "objects": ["portable:0", "resource:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": []
+    },
+    {
+      "id": "S13",
+      "name": "extended_no_user",
+      "description": "Long autonomous run with no observer interaction; rest/inactivity must remain valid states.",
+      "tick_budget": 3600,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["resource:0", "rest:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 300, "type": "spawn_clutter", "object_id": "resource:0", "x": 10.0, "y": 10.0}
+      ]
+    },
+    {
+      "id": "S14",
+      "name": "individuality_history_contrast",
+      "description": "Contrasting D-007 histories (H1 safe exploration vs H7 specialization A) in identical habitats.",
+      "tick_budget": 1800,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": ["H1", "H7"],
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["resource:0", "portable:0", "switch:0"],
+        "stimulation_level": "moderate"
+      },
+      "manipulations": []
+    },
+    {
+      "id": "S15",
+      "name": "capacity_clutter_stress",
+      "description": "Zone occupancy and clutter stress within frozen boundedness limits.",
+      "tick_budget": 2000,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:general", "zone:rest"],
+        "objects": ["resource:0", "rest:0", "portable:0", "switch:0"],
+        "stimulation_level": "high"
+      },
+      "manipulations": [
+        {"tick_start": 150, "type": "spawn_clutter", "object_id": "rest:0", "x": 14.0, "y": 14.0},
+        {"tick_start": 400, "type": "spawn_clutter", "object_id": "resource:0", "x": 11.0, "y": 11.0}
+      ]
+    },
+    {
+      "id": "S16",
+      "name": "affordance_reversal",
+      "description": "Previously useful affordance reversed; learning must revise without erasing unrelated knowledge.",
+      "tick_budget": 1800,
+      "seed_list": null,
+      "seed_range": [1, 100000],
+      "individuality_history": "H0",
+      "partner_present": false,
+      "environment": {
+        "zones": ["zone:rest"],
+        "objects": ["rest:0"],
+        "stimulation_level": "low"
+      },
+      "manipulations": [
+        {"tick_start": 180, "type": "reverse_affordance", "object_id": "rest:0"}
+      ]
+    }
+  ],
+  "forbidden_interventions": [
+    "set preference",
+    "set habit",
+    "set personality",
+    "set routine",
+    "set belief",
+    "set mood",
+    "force happy",
+    "force sad",
+    "command rest",
+    "command play",
+    "command manipulate",
+    "spawn object without habitat event",
+    "relocate object without governed execution"
+  ]
+}

@@ -1,0 +1,293 @@
+{
+  "version": 1,
+  "directive": "UMBRA-D-009",
+  "frozen_before_execution": true,
+  "minimum_gate_critical_paired_seeds": 100,
+  "thresholds_ref": "experiments/d009/thresholds.json",
+  "scenario_suite_ref": "experiments/d009/scenario-suite.json",
+  "design_ref": "docs/superpowers/specs/2026-07-23-umbra-d009-persistent-habitat-agency-design.md",
+  "conditions": {
+    "C0": "Full persistent habitat and environmental agency",
+    "C1": "Static non-persistent habitat",
+    "C2": "Scripted object movement independent of organism action (experiments-only diagnostic)",
+    "C3": "Random object manipulation (experiments-only diagnostic)",
+    "C4": "WorldModel environmental predictions disabled",
+    "C5": "Episodic environmental memory disabled",
+    "C6": "Procedural environmental routines disabled",
+    "C7": "Individuality contribution to environmental behavior disabled",
+    "C8": "Habitat state reset on restart",
+    "C9": "UI projection treated as habitat truth",
+    "C10": "Governance bypass attempt",
+    "C11": "Action-frequency-only preference learning",
+    "C12": "Habitat events temporally shuffled during replay",
+    "C13": "Core-only performance baseline (P0 compatibility mode)"
+  },
+  "scenarios": {
+    "S0": "Baseline autonomous habitat activity",
+    "S1": "Explore an unfamiliar zone",
+    "S2": "Inspect unfamiliar objects",
+    "S3": "Successfully activate a supported affordance",
+    "S4": "Attempt an unsupported or invalid affordance",
+    "S5": "Pick up, transport and place a portable object",
+    "S6": "Use rest, recovery or charging location",
+    "S7": "Develop a repeated object-use routine",
+    "S8": "Object moved unexpectedly, requiring prediction revision",
+    "S9": "Preferred object temporarily unavailable",
+    "S10": "Restart during manipulation",
+    "S11": "Snapshot and birth replay after habitat changes",
+    "S12": "Compatible D-008 to D-009 body-profile migration",
+    "S13": "Extended no-user autonomous operation",
+    "S14": "Contrasting D-007 individuals in identical habitats",
+    "S15": "Habitat capacity, clutter and boundedness stress",
+    "S16": "Reversal of a previously useful affordance"
+  },
+  "gate_critical_cells": [
+    {
+      "condition": "C0",
+      "scenario": "S0",
+      "paired_seeds": 100,
+      "gates": [1, 4, 10],
+      "role": "Gate 1/4/10 baseline — HabitatEngine sole truth and autonomous habitat activity"
+    },
+    {
+      "condition": "C9",
+      "scenario": "S0",
+      "paired_seeds": 100,
+      "gates": [1],
+      "role": "Gate 1 ablation — UI projection as habitat truth; must be rejected"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S2",
+      "paired_seeds": 100,
+      "gates": [2],
+      "role": "Gate 2 baseline — governed MANIPULATE on inspect-rich scenario"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S3",
+      "paired_seeds": 100,
+      "gates": [2],
+      "role": "Gate 2 baseline — successful supported affordance activation"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S5",
+      "paired_seeds": 100,
+      "gates": [2],
+      "role": "Gate 2 baseline — pick up, transport, and place portable object"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S4",
+      "paired_seeds": 100,
+      "gates": [2],
+      "role": "Gate 2 — invalid affordance fails closed with zero mutation"
+    },
+    {
+      "condition": "C2",
+      "scenario": "S2",
+      "paired_seeds": 100,
+      "gates": [2],
+      "role": "Gate 2 ablation — scripted object motion; must not qualify causal attribution"
+    },
+    {
+      "condition": "C3",
+      "scenario": "S2",
+      "paired_seeds": 100,
+      "gates": [2],
+      "role": "Gate 2 ablation — random manipulation; must not qualify as learning"
+    },
+    {
+      "condition": "C10",
+      "scenario": "S0",
+      "paired_seeds": 100,
+      "gates": [2, 10],
+      "role": "Gate 2/10 — governance bypass rejected with zero mutation"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S8",
+      "paired_seeds": 100,
+      "gates": [3, 8],
+      "role": "Gate 3/8 baseline — prediction revision under unexpected object move"
+    },
+    {
+      "condition": "C4",
+      "scenario": "S8",
+      "paired_seeds": 100,
+      "gates": [3],
+      "role": "Gate 3 ablation — WorldModel predictions disabled; weaker than C0×S8"
+    },
+    {
+      "condition": "C5",
+      "scenario": "S8",
+      "paired_seeds": 100,
+      "gates": [3],
+      "role": "Gate 3 ablation — episodic environmental memory disabled"
+    },
+    {
+      "condition": "C11",
+      "scenario": "S7",
+      "paired_seeds": 100,
+      "gates": [3],
+      "role": "Gate 3 contrast — action-frequency-only preference must not qualify as consequence learning"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S13",
+      "paired_seeds": 100,
+      "gates": [4],
+      "role": "Gate 4 — extended no-user autonomous environmental behavior"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S10",
+      "paired_seeds": 100,
+      "gates": [5, 11],
+      "role": "Gate 5/11 — organism-caused habitat change survives restart during manipulation"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S11",
+      "paired_seeds": 100,
+      "gates": [5, 11],
+      "role": "Gate 5/11 — snapshot and birth replay after habitat changes"
+    },
+    {
+      "condition": "C1",
+      "scenario": "S10",
+      "paired_seeds": 100,
+      "gates": [5],
+      "role": "Gate 5 ablation — static non-persistent habitat; weaker continuity than C0×S10"
+    },
+    {
+      "condition": "C8",
+      "scenario": "S10",
+      "paired_seeds": 100,
+      "gates": [5],
+      "role": "Gate 5 ablation — habitat reset on restart; must fail continuity claim"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S7",
+      "paired_seeds": 100,
+      "gates": [6],
+      "role": "Gate 6 baseline — non-authored environmental routine from repeated episodes"
+    },
+    {
+      "condition": "C6",
+      "scenario": "S7",
+      "paired_seeds": 100,
+      "gates": [6],
+      "role": "Gate 6 ablation — procedural routines disabled; weaker than C0×S7"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S14",
+      "individuality_histories": ["H1", "H7"],
+      "paired_seeds": 100,
+      "gates": [7],
+      "role": "Gate 7 baseline — contrasting D-007 histories separate habitat use"
+    },
+    {
+      "condition": "C7",
+      "scenario": "S14",
+      "individuality_histories": ["H1", "H7"],
+      "paired_seeds": 100,
+      "gates": [7],
+      "role": "Gate 7 ablation — individuality disabled; reduced separation"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S16",
+      "paired_seeds": 100,
+      "gates": [8],
+      "role": "Gate 8 — revision when previously useful affordance reverses"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S12",
+      "paired_seeds": 100,
+      "gates": [9],
+      "role": "Gate 9 — D-008→D-009 profile migration preserves organism and habitat"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S15",
+      "paired_seeds": 100,
+      "gates": [12],
+      "role": "Gate 12 — habitat capacity, clutter, and boundedness stress"
+    }
+  ],
+  "exploratory_cells": [
+    {
+      "condition": "C0",
+      "scenario": "S1",
+      "paired_seeds": 25,
+      "gates": [],
+      "rationale": "Unfamiliar zone exploration — supplementary autonomy probe"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S6",
+      "paired_seeds": 25,
+      "gates": [],
+      "rationale": "Rest/recovery location use — supplementary physiology-habitat probe"
+    },
+    {
+      "condition": "C0",
+      "scenario": "S9",
+      "paired_seeds": 25,
+      "gates": [],
+      "rationale": "Preferred object temporarily unavailable — supplementary revision probe"
+    },
+    {
+      "condition": "C12",
+      "scenario": "S11",
+      "paired_seeds": 25,
+      "gates": [11],
+      "rationale": "Replay shuffle ablation — must fail replay equivalence"
+    },
+    {
+      "condition": "C13",
+      "scenario": "S13",
+      "paired_seeds": 25,
+      "gates": [13],
+      "rationale": "Performance baseline only — P0 compatibility mode; not Gates 1–12 science"
+    }
+  ],
+  "exclusions": [
+    {
+      "pattern": "C2/C3 × production persistence",
+      "rationale": "Diagnostic controllers must not share production habitat schemas or persistence with C0"
+    },
+    {
+      "pattern": "C13 × Gates 1–12 qualification",
+      "rationale": "C13 is performance baseline only; Gates 1–12 primarily use C0–C12"
+    },
+    {
+      "pattern": "full C0–C13 × S0–S16 factorial",
+      "rationale": "221 cells exceeds bounded experiment budget; gate-critical and listed exploratory cells are preregistered"
+    },
+    {
+      "pattern": "post-execution matrix or threshold edits without supplement",
+      "rationale": "Frozen preregistration; modifications require recorded supplement per design §5"
+    }
+  ],
+  "forbidden_interventions": [
+    "set preference",
+    "set habit",
+    "set personality",
+    "set routine",
+    "set belief",
+    "set mood",
+    "force happy",
+    "force sad",
+    "command rest",
+    "command play",
+    "command manipulate",
+    "spawn object without habitat event",
+    "relocate object without governed execution"
+  ]
+}

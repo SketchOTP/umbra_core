@@ -1,4 +1,7 @@
 {
+  "version": 1,
+  "directive": "UMBRA-D-009",
+  "frozen_before_execution": true,
   "schema_version": "d009.affordance-definitions.v1",
   "definitions": [
     {
