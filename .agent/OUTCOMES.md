@@ -172,3 +172,7 @@ Format:
 - 2026-07-24T13:37Z | PLAN | D-20260724-umbra-d010-temporal-continuity | Amended plan committed; freeze-safe order; Task 0 authorized
 
 - 2026-07-24T09:40Z | END | D-20260724-0937-d010-task0-governance | UMBRA-D-010 Task 0 complete | CURRENT→plan tip c1f71bb7; REPO_MAP+directive+progress updated; parent Mimir 9adf61b087ea4fa6a90a1c3bd401a9b3 open | mimir_subtask:2d77d23e460d424abde6e566dfa5bb71 closed
+
+- 2026-07-24T13:45Z | END | D-20260724-0940-d010-task1-temporal-state | UMBRA-D-010 Task 1 complete | commit cc54556; umbra_core/temporal/{clock,state,migration}.py + tests/test_d010.py (6 passed); genesis age=0 idempotent; parent Mimir 9adf61b087ea4fa6a90a1c3bd401a9b3 open | mimir_subtask:cb1671bb7b1f4922aa75c1dc2fdeb0c0 closed; mimir_validation_run BLOCKED (allowlist/active-task gate)
+
+- 2026-07-24T13:50Z | END | D-20260724-1343-d010-task2-prepare-advance | UMBRA-D-010 Task 2 complete | commit 97c6049; TemporalEngine.prepare_advance+abandon_advance+TickTemporalContext+TemporalAdvancePlan; runtime attach stub (temporal_enabled); tests/test_d010.py 12 passed; full suite 529 passed 2 skipped; parent Mimir 9adf61b087ea4fa6a90a1c3bd401a9b3 OPEN | mimir_subtask:807b671a895a461581c84cb805f2c634 closed v2; mimir_validation_run BLOCKED (active-task gate)
