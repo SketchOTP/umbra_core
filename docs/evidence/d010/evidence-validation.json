@@ -1,0 +1,22 @@
+{
+  "directive": "UMBRA-D-010",
+  "errors": [
+    "missing_summary:regression-results.json",
+    "missing_summary:temporal-authority-results.json",
+    "missing_summary:recurrence-results.json",
+    "missing_summary:future-leakage-results.json",
+    "missing_summary:anticipation-results.json",
+    "missing_summary:revision-results.json",
+    "missing_summary:temporal-routine-results.json",
+    "missing_summary:autonomy-results.json",
+    "missing_summary:absence-safety-results.json",
+    "missing_summary:individuality-timing-results.json",
+    "missing_summary:restart-downtime-results.json",
+    "missing_summary:replay-results.json",
+    "missing_summary:boundedness-results.json",
+    "missing_summary:experiment-summary.json"
+  ],
+  "pass": false,
+  "pre_freeze": true,
+  "raw_rows": 0
+}

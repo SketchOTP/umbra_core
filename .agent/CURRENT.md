@@ -1,26 +1,29 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260724-1527-d010-task12-stage-b-freeze
+- ID: D-20260724-1536-d010-task13-gates-1-12
 - Project directive: UMBRA-D-010
-- Goal: Task 12 — Stage B freeze complete (last source-changing commit)
-- Status: complete
-- Freeze tip: `6943981` (`6943981c...` full: run `git rev-parse HEAD` on freeze commit)
-- Task 13: evidence-only Gates 1–12 formal campaign from freeze tip
-- Next action: Task 13 — run frozen formal harness; record `freeze_commit` in evidence manifest at run start
+- Goal: Task 13 — formal Gates 1–12 evidence-only under Stage B freeze
+- Status: **BLOCKED — freeze invalidate required**
+- Freeze tip: `694398166b772b41f962bdb7afc90b3871a02c08`
+- Task 12: complete / Approved @ `6943981`
+- Next action: patch harness `_organism_cfg` condition wiring → new Stage B freeze → rerun Task 13
 
 ## Locked
 - Design tip: `03e1269`
 - Plan tip: `c1f71bb7e6ae58459c08585558a491fcae8b8bea`
-- Stage B freeze tip: `6943981`
-- formal_execution_id: `d010-fe-stage-b-v1`
-- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until Task 14 seal)
-- Freeze rule: Tasks 13–14 evidence commits only
+- Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
+- Constraint: evidence commits only; no source edits under freeze tip
+
+## Task 13 outcome
+- Formal run aborted: `TemporalConfigError` on C11 integrated trace
+- Root cause: harness passes C1–C13 as `OrganismConfig.condition`; production guard rejects
+- Evidence: `docs/evidence/d010/formal-execution-manifest.json`, `formal-run-outcome.json`
+- Gates 0–12: NOT_RUN; validator FAIL (0 raw rows)
 
 ## Last validation
-- Command: `python -m pytest -q` + `run_seal.py --contract-only`
-- Result: 622 passed (2 skipped non-d010); d010 105 zero-skip; seal manifest_ok true
+- Command: `python experiments/d010/run_experiment.py` (full formal, no D010_TICK_CAP)
+- Result: FAILED @ ~27s — harness/production guard mismatch on first ablation cell
 
 ## Open blockers
-- None
-- Note: untracked `docs/evidence/d010/` smoke from Task 11 — do not commit as formal evidence
+- Freeze invalidate: fix `experiments/d010/run_experiment.py` `_organism_cfg` + integration test; new Stage B freeze; rerun Task 13

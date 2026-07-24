@@ -1,0 +1,40 @@
+{
+  "agent_memory_directive": "D-20260724-1536-d010-task13-gates-1-12",
+  "allow_smoke": false,
+  "completed_at": "2026-07-24T15:38:12+00:00",
+  "directive": "UMBRA-D-010",
+  "d010_tick_cap": null,
+  "expected_jobs": 1900,
+  "failure": {
+    "class": "harness_production_guard_mismatch",
+    "detail": "run_experiment._organism_cfg passes ablation labels (e.g. C11) as OrganismConfig.condition while temporal_enabled=True; create_organism rejects C1-C13 per assert_no_d010_control_via_organism_condition (test_experimental_controls_are_production_unreachable).",
+    "example_condition": "C11",
+    "example_error": "C11_d010_control_requires_explicit_temporal_config_not_organism_condition",
+    "freeze_invalidate_required": true,
+    "jobs_completed_before_failure": 0,
+    "log_path": "/tmp/d010-task13-formal-run.log"
+  },
+  "formal_execution_id": "d010-fe-stage-b-v1",
+  "freeze_commit": "694398166b772b41f962bdb7afc90b3871a02c08",
+  "freeze_contract_ref": "experiments/d010/formal-execution-contract.json",
+  "gates_in_scope": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "paired_seeds": 100,
+  "software_commit_at_start": "8527f73579303f0956e04221082575df3e0ae79c",
+  "started_at": "2026-07-24T15:37:00+00:00",
+  "terminal_status": "failed_harness_defect",
+  "workers": 4
+}

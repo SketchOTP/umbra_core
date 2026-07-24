@@ -1,0 +1,25 @@
+{
+  "agent_memory_directive": "D-20260724-1536-d010-task13-gates-1-12",
+  "directive": "UMBRA-D-010",
+  "freeze_commit": "694398166b772b41f962bdb7afc90b3871a02c08",
+  "freeze_invalidate_path": "Patch experiments/d010/run_experiment.py _organism_cfg to use production-safe OrganismConfig.condition (e.g. C0) while applying ablations only via temporal_config; add harness integration test that runs ≥1 non-diagnostic ablation cell (C4/C5/C6/C8/C11); rerun full test suite; new Stage B freeze; new formal_execution_id; rerun Task 13.",
+  "gate_results": {
+    "gate0": "NOT_RUN",
+    "gate1": "NOT_RUN",
+    "gate2": "NOT_RUN",
+    "gate3": "NOT_RUN",
+    "gate4": "NOT_RUN",
+    "gate5": "NOT_RUN",
+    "gate6": "NOT_RUN",
+    "gate7": "NOT_RUN",
+    "gate8": "NOT_RUN",
+    "gate9": "NOT_RUN",
+    "gate10": "NOT_RUN",
+    "gate11": "NOT_RUN",
+    "gate12": "NOT_RUN"
+  },
+  "notes": "Formal campaign aborted on first integrated-trace ablation cell. Dry-run (1900 jobs) passed; smoke test only exercises --dry-run. No QUALIFIED claim. Gate 13 deferred to Task 14.",
+  "pre_freeze": false,
+  "root_cause": "Harness passes C1-C13 labels to OrganismConfig.condition; production guard rejects when temporal_enabled=True.",
+  "terminal_status": "failed_harness_defect"
+}
