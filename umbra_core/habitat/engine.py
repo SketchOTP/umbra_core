@@ -67,6 +67,7 @@ class HabitatEngine:
         self.zone_held_object_count: dict[str, int] = {}
         self.hold_index: dict[str, dict[int, str]] = {}
         self.free_spatial_index: dict[str, tuple[float, float, str]] = {}
+        self._last_body_poses: dict[str, BodyPoseView] = {}
         self._rebuild_indexes()
 
     @property
@@ -86,7 +87,21 @@ class HabitatEngine:
             elif isinstance(obj.location, HeldByLocation):
                 holder = obj.location.body_instance_id
                 self.hold_index.setdefault(holder, {})[obj.location.hold_slot] = object_id
-                # Held zone is informational — derived from holder at query time, not persisted body position.
+        self._apply_held_zone_counts(self._last_body_poses)
+
+    def _apply_held_zone_counts(self, body_poses: dict[str, BodyPoseView]) -> None:
+        """ponytail: held zone is informational; requires holder BodyPoseView at read time."""
+        for zone_id in self._state.zones:
+            self.zone_held_object_count[zone_id] = 0
+        for obj in self._state.objects.values():
+            if not isinstance(obj.location, HeldByLocation):
+                continue
+            pose = body_poses.get(obj.location.body_instance_id)
+            if pose is None:
+                continue
+            zone_id = self.zone_at(pose.position.x, pose.position.y)
+            if zone_id is not None:
+                self.zone_held_object_count[zone_id] = self.zone_held_object_count.get(zone_id, 0) + 1
 
     def get_zone(self, zone_id: str):
         return self._state.zones.get(zone_id)
@@ -195,8 +210,22 @@ class HabitatEngine:
         body_pose: BodyPoseView | None = None,
         width: float = 20.0,
         height: float = 20.0,
+        blocked_cells: tuple[tuple[float, float, float], ...] = (),
+        delayed_consequence_ticks: int = 0,
+        misleading_correlation: bool = False,
     ) -> ImmutableHabitatProjection:
-        return project_features(self.snapshot_view(), body_pose=body_pose, width=width, height=height)
+        if body_pose is not None:
+            self._last_body_poses[body_pose.body_instance_id] = body_pose
+            self._apply_held_zone_counts(self._last_body_poses)
+        return project_features(
+            self.snapshot_view(),
+            body_pose=body_pose,
+            width=width,
+            height=height,
+            blocked_cells=blocked_cells,
+            delayed_consequence_ticks=delayed_consequence_ticks,
+            misleading_correlation=misleading_correlation,
+        )
 
     def validate_projection(self, projection: ImmutableHabitatProjection) -> None:
         validate_projection(projection, self.snapshot_view())

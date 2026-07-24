@@ -429,17 +429,41 @@ class Embodiment:
             from umbra_core.habitat.projection import HabitatProjectionFacade
 
             body_pose = self._body_pose_view()
+            blocked_cells, delayed_ticks, misleading = self._habitat_plant_overlay()
             return HabitatProjectionFacade(
                 self._habitat_engine.project(
                     body_pose=body_pose,
                     width=self._habitat.width,
                     height=self._habitat.height,
+                    blocked_cells=blocked_cells,
+                    delayed_consequence_ticks=delayed_ticks,
+                    misleading_correlation=misleading,
                 )
             )
         return self._habitat
 
     def attach_habitat_engine(self, engine: HabitatEngine) -> None:
         self._habitat_engine = engine
+
+    def _reject_habitat_mutation_when_engine_attached(self) -> None:
+        if self._habitat_engine is not None:
+            from umbra_core.habitat.projection import HabitatWriteRejected
+
+            raise HabitatWriteRejected("habitat_engine_is_sole_writer")
+
+    def _habitat_read(self):
+        """Authoritative habitat reads — projection when engine attached, legacy otherwise."""
+        return self.habitat
+
+    def _legacy_habitat_dimensions(self) -> tuple[float, float]:
+        return self._habitat.width, self._habitat.height
+
+    def _habitat_plant_overlay(self) -> tuple[tuple[tuple[float, float, float], ...], int, bool]:
+        return (
+            tuple(self._habitat.blocked_cells),
+            self._habitat.delayed_consequence_ticks,
+            self._habitat.misleading_correlation,
+        )
 
     def body_occupancy_view(self) -> BodyOccupancyView:
         return BodyOccupancyView(
@@ -515,6 +539,7 @@ class Embodiment:
 
     def apply_world_intervention(self, code: str) -> None:
         """D-003 environment interventions I0–I10 (habitat plant only)."""
+        self._reject_habitat_mutation_when_engine_attached()
         h = self._habitat
         if code == "I0":
             return
@@ -566,6 +591,7 @@ class Embodiment:
 
     def apply_development_intervention(self, code: str) -> dict[str, Any]:
         """D-004 practice-environment plant (habitat/body truth — not policy-visible as truth)."""
+        self._reject_habitat_mutation_when_engine_attached()
         h = self._habitat
         tags: dict[str, Any] = {"code": code}
         if code == "I0":
@@ -631,6 +657,7 @@ class Embodiment:
 
     def apply_memory_history(self, code: str) -> dict[str, Any]:
         """D-005 history plant H0–H9 (habitat/body truth — not narrative)."""
+        self._reject_habitat_mutation_when_engine_attached()
         h = self._habitat
         tags: dict[str, Any] = {"code": code, "rule_tag": "default", "body_compatibility": 1.0}
         if code == "H0":
@@ -682,6 +709,7 @@ class Embodiment:
 
     def apply_social_history(self, code: str) -> dict[str, Any]:
         """D-006 social history plant H0–H10 (habitat partner truth — not policy-visible)."""
+        self._reject_habitat_mutation_when_engine_attached()
         h = self._habitat
         tags: dict[str, Any] = {"code": code}
         partners: list[PartnerEntity] = []
@@ -723,6 +751,7 @@ class Embodiment:
         Alters opportunities and verified-consequence contexts only.
         Never sets personality labels or forces internal disposition values.
         """
+        self._reject_habitat_mutation_when_engine_attached()
         h = self._habitat
         tags: dict[str, Any] = {
             "code": code,
@@ -834,6 +863,17 @@ class Embodiment:
 
     def hidden_partner_truth_for_eval(self) -> list[dict[str, Any]]:
         """Evaluator-only accessor — never pass to policy, SocialEngine, or arbitration."""
+        habitat = self._habitat_read()
+        partners = habitat.partners
+        if self._habitat_engine is not None:
+            return [
+                {
+                    "partner_id": p.hidden_partner_id,
+                    "x": p.x,
+                    "y": p.y,
+                }
+                for p in partners
+            ]
         return [
             {
                 "partner_id": p.hidden_partner_id,
@@ -846,13 +886,16 @@ class Embodiment:
         ]
 
     def plant_partner(self, partner: PartnerEntity) -> None:
+        self._reject_habitat_mutation_when_engine_attached()
         self._habitat.partners.append(partner)
 
     def move_feature_external(self, kind: str, x: float, y: float) -> None:
         """I8: external object relocation (not self-caused)."""
+        self._reject_habitat_mutation_when_engine_attached()
         self._habitat.relocate(kind, x, y)
 
     def set_occlusion(self, kind: str, occluded: bool) -> None:
+        self._reject_habitat_mutation_when_engine_attached()
         feat = self._habitat.feature(kind)
         if feat:
             feat.occluded = occluded
@@ -871,8 +914,9 @@ class Embodiment:
     def clamp_body(self) -> None:
         # Body radius shrinks effective habitat slightly (collision with walls)
         r = self.body.body_radius
-        self.body.x = clamp(self.body.x, r, self._habitat.width - r)
-        self.body.y = clamp(self.body.y, r, self._habitat.height - r)
+        width, height = self._legacy_habitat_dimensions()
+        self.body.x = clamp(self.body.x, r, width - r)
+        self.body.y = clamp(self.body.y, r, height - r)
         self.body.heading = (self.body.heading + math.pi) % (2 * math.pi) - math.pi
 
     def execute_primitive(
@@ -918,7 +962,7 @@ class Embodiment:
         rng: SeededRNG,
     ) -> dict[str, Any]:
         b = self.body
-        h = self._habitat
+        h = self._habitat_read()
         ok = True
         reason = "ok"
         detail: dict[str, Any] = {"capability": capability, "params": dict(params)}

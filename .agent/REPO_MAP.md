@@ -96,9 +96,13 @@ Concise navigation map for agents. Add entries as application code lands.
 - Design: `docs/superpowers/specs/2026-07-23-umbra-d009-persistent-habitat-agency-design.md` (`79a00f2`)
 - Plan: `docs/superpowers/plans/2026-07-23-umbra-d009-persistent-habitat-agency.md`
 - `umbra_core/habitat/state.py` (Task 1): `HabitatState`, `Zone`, `ZoneConnection`, `HabitatObject`, `FreeLocation`/`HeldByLocation`, typed `ObjectState` union, `canonical_serialize`, `compute_state_hash`/`compute_object_state_hash`/`compute_habitat_definition_hash`, `apply_committed_object_mutation`/`apply_rejected_object_mutation`, `migrate_object_definition`, `sample_habitat_state` fixture
-- Packages (planned): `umbra_core/habitat/engine.py` (Task 2+ sole writer), `umbra_core/habitat_affordances/` (pure AffordanceEngine)
+- `umbra_core/habitat/engine.py` (Task 2): `HabitatEngine` sole writer + indexes (`zone_free_object_count`, `zone_held_object_count` via `_apply_held_zone_counts`+body pose, `hold_index`, `free_spatial_index`); query API; `BodyPoseView`/`ReachProfile`/`BodyCollisionShape`; `commit_object_mutation`/`commit_free_location` (test/persistence hooks)
+- `umbra_core/habitat/projection.py` (Task 2): `ImmutableHabitatProjection`, `HabitatProjectionFacade`, `project_features`, `validate_projection`, `ProjectionMismatchError`, `HabitatWriteRejected`
+- `umbra_core/habitat/migration.py` (Task 2): `habitat_object_from_legacy_feature`, `legacy_object_id_for_feature`
+- `umbra_core/embodiment.py` (Task 2): `BodyOccupancyView`, `attach_habitat_engine`, read-only `habitat` projection when engine attached; `_reject_habitat_mutation_when_engine_attached` fail-closed on legacy writers; `_habitat_read` routes primitives through projection; plant overlay (`blocked_cells`/delayed/misleading) passthrough to projection; legacy `_habitat` for D-008 compat without engine
+- Packages (planned): `umbra_core/habitat_affordances/` (pure AffordanceEngine)
 - Preregistration (Stage B, not yet frozen): `experiments/d009/{thresholds,experiment-matrix,scenario-suite,habitat-definition,affordance-definitions}.json`
-- Tests: `tests/test_d009.py` (Task 1: 3 tests — stable definition hashes, object_version commit/reject)
+- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7 named engine/projection tests)
 - Evidence: `docs/evidence/d009/` (to be created)
 - Starting commit: `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task: `06b5b59709864e11bddb8c1da56dd66e`
 - Authority: own-and-delegate — HabitatEngine mutates; Embodiment.habitat read-only projection; MANIPULATE address-only candidates; PREPARED→COMMITTED execution journal; P0 compatibility mode on same D-009 commit

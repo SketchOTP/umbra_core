@@ -6,7 +6,14 @@ from dataclasses import FrozenInstanceError, replace
 
 import pytest
 
-from umbra_core.embodiment import BodyOccupancyView, Embodiment, HabitatFeature
+from umbra_core.embodiment import (
+    BodyOccupancyView,
+    Embodiment,
+    HabitatFeature,
+    PartnerEntity,
+    PartnerTrueCues,
+    response_policy_for_history,
+)
 from umbra_core.habitat.engine import (
     BodyCollisionShape,
     BodyPoseView,
@@ -25,6 +32,7 @@ from umbra_core.habitat.state import (
     ActivatableState,
     FreeLocation,
     HabitatObject,
+    HeldByLocation,
     IdleState,
     MutationRejected,
     ObjectKind,
@@ -179,10 +187,10 @@ def test_body_occupancy_uses_immutable_embodiment_view():
     )
     reach = ReachProfile(reach_radius=emb.body.sensor_range)
     assert engine.check_range(pose, reach, "resource:0") is True
+    hash_before = engine.snapshot_view().state_hash
     emb.body.x = 19.0
     emb.body.y = 19.0
-    # habitat state unchanged — body position is not persisted in habitat
-    assert engine.snapshot_view().state_hash == engine.snapshot_view().state_hash
+    assert engine.snapshot_view().state_hash == hash_before
 
 
 def test_habitat_does_not_persist_second_body_position():
@@ -220,3 +228,112 @@ def test_legacy_reads_do_not_create_second_authority():
     )
     assert obj.object_id == "feature:resource:0"
     assert obj.object_kind == ObjectKind.RESOURCE
+
+
+def _embodiment_with_engine() -> tuple[Embodiment, HabitatEngine]:
+    engine = _engine_with_sample()
+    emb = Embodiment()
+    emb.attach_habitat_engine(engine)
+    return emb, engine
+
+
+def _legacy_habitat_snapshot(emb: Embodiment) -> dict[str, object]:
+    h = emb._habitat
+    return {
+        "feature_count": len(h.features),
+        "partner_count": len(h.partners),
+        "blocked_cells": list(h.blocked_cells),
+        "delayed_ticks": h.delayed_consequence_ticks,
+        "misleading": h.misleading_correlation,
+        "resource_x": h.feature("resource").x if h.feature("resource") else None,
+    }
+
+
+def test_attached_embodiment_rejects_habitat_mutations():
+    emb, engine = _embodiment_with_engine()
+    before = _legacy_habitat_snapshot(emb)
+    engine_before = engine.snapshot_view().state_hash
+
+    mutation_calls = [
+        lambda: emb.apply_world_intervention("I1"),
+        lambda: emb.apply_development_intervention("I1"),
+        lambda: emb.apply_memory_history("H1"),
+        lambda: emb.apply_social_history("H0"),
+        lambda: emb.apply_individuality_history("H1"),
+        lambda: emb.plant_partner(
+            PartnerEntity(
+                "p-test",
+                1.0,
+                1.0,
+                PartnerTrueCues.for_history("H0"),
+                response_policy_for_history("H0"),
+            )
+        ),
+        lambda: emb.move_feature_external("resource", 9.0, 9.0),
+        lambda: emb.set_occlusion("inspect", True),
+    ]
+    for call in mutation_calls:
+        with pytest.raises(HabitatWriteRejected):
+            call()
+
+    assert _legacy_habitat_snapshot(emb) == before
+    assert engine.snapshot_view().state_hash == engine_before
+
+
+def test_attached_embodiment_primitive_reads_projection_not_legacy_habitat():
+    emb, engine = _embodiment_with_engine()
+    emb._habitat.blocked_cells.append((10.0, 8.0, 1.8))
+    emb._habitat.delayed_consequence_ticks = 3
+    emb._habitat.misleading_correlation = True
+
+    habitat = emb.habitat
+    assert habitat.blocked_cells == ((10.0, 8.0, 1.8),)
+    assert habitat.delayed_consequence_ticks == 3
+    assert habitat.misleading_correlation is True
+
+    legacy_resource_x = emb._habitat.feature("resource").x
+    emb._habitat.relocate("resource", 99.0, 99.0)
+    projected = emb.habitat.feature("resource")
+    assert projected is not None
+    assert projected.x != 99.0
+    assert projected.x == 4.0
+    assert legacy_resource_x != projected.x
+
+
+def test_attached_embodiment_no_alternate_habitat_mutation_path():
+    emb, engine = _embodiment_with_engine()
+    before = _legacy_habitat_snapshot(emb)
+    engine_hash = engine.snapshot_view().state_hash
+
+    from umbra_core.util import SeededRNG
+
+    rng = SeededRNG(0)
+    emb.execute_primitive("MOVE", {"step": 1.0, "heading": 0.0}, rng)
+    emb.execute_primitive("APPROACH", {"toward": "resource", "step": 0.5, "heading": 0.0}, rng)
+
+    assert _legacy_habitat_snapshot(emb) == before
+    assert engine.snapshot_view().state_hash == engine_hash
+
+
+def test_zone_held_object_count_populated_from_held_objects():
+    state = sample_habitat_state()
+    held_obj = replace(
+        state.objects["resource:0"],
+        location=HeldByLocation(body_instance_id="body:default", attachment_generation=0, hold_slot=0),
+    )
+    objects = dict(state.objects)
+    objects["resource:0"] = held_obj
+    state = with_state_hash(replace(state, objects=objects))
+    engine = HabitatEngine(state)
+
+    assert engine.zone_held_object_count["zone:general"] == 0
+    pose = BodyPoseView(
+        body_instance_id="body:default",
+        body_pose_version=1,
+        position=Position(4.0, 3.0),
+        collision_shape=BodyCollisionShape(0.5),
+        attachment_generation=0,
+    )
+    engine.project(body_pose=pose)
+    assert engine.zone_held_object_count["zone:general"] == 1
+    assert engine.zone_held_object_count["zone:rest"] == 0
