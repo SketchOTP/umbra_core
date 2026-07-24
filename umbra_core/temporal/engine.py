@@ -29,6 +29,10 @@ from umbra_core.temporal.observations import (
     observation_miss_key,
     register_identities,
 )
+from umbra_core.temporal.policy import (
+    PolicyExpectationView,
+    policy_expectation_views_from_index,
+)
 from umbra_core.temporal.recurrence import (
     CONTEXT_SCHEMA_VERSION,
     EvidenceLane,
@@ -585,3 +589,24 @@ class TemporalEngine:
             replace(self._state, recurrence_index=new_index)
         )
         return updated
+
+    def build_policy_expectation_views(
+        self,
+        *,
+        current_age: int | None = None,
+    ) -> tuple[PolicyExpectationView, ...]:
+        """Expose ACTIVE|UNCERTAIN expectations only; no wait ownership."""
+        age = (
+            self._state.organism_age_ticks
+            if current_age is None
+            else int(current_age)
+        )
+
+        def _predict(recurrence_id: str, *, current_age: int) -> RecurrencePrediction | None:
+            return self.predict_recurrence(recurrence_id, current_age=current_age)
+
+        return policy_expectation_views_from_index(
+            self._state.recurrence_index,
+            current_age=age,
+            predict_fn=_predict,
+        )

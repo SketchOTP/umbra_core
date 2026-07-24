@@ -6,6 +6,25 @@ from dataclasses import replace
 
 import pytest
 
+from umbra_core.arbitration import (
+    ACTIVE_POSITIVE_CAP,
+    Arbitrator,
+    Candidate,
+    UNCERTAIN_POSITIVE_CAP,
+    active_fallback_biases,
+    apply_temporal_modifiers,
+    propose_wait_candidates,
+)
+from umbra_core.governance import Governance, Proposal, WaitAdmissionContext
+from umbra_core.physiology import Physiology
+from umbra_core.temporal.policy import PolicyExpectationView
+from umbra_core.util import SeededRNG
+from umbra_core.wait_execution import (
+    FallbackBias,
+    MAXIMUM_WAIT_TICKS,
+    WaitJournal,
+    wait_deadline_age_tick,
+)
 from umbra_core.temporal.clock import TrustedSample, compute_sample_hash
 from umbra_core.temporal.engine import (
     TemporalEngine,
@@ -890,3 +909,344 @@ def test_disallowed_event_and_evidence_kinds_rejected_by_allowlist():
         )
     with pytest.raises(AllowlistError, match="observable_evidence_disallowed"):
         assert_observable_evidence_allowed("forbidden.evidence.kind")
+
+
+def _active_policy_view(
+    *,
+    recurrence_id: str = "rec:test",
+    window_start: float = 40.0,
+    window_end: float = 60.0,
+    expectation_version: int = 1,
+) -> PolicyExpectationView:
+    return PolicyExpectationView(
+        recurrence_id=recurrence_id,
+        window_start=window_start,
+        window_end=window_end,
+        confidence=0.85,
+        uncertainty=0.1,
+        expected_context="habitat.feeder_cycle",
+        expectation_version=expectation_version,
+        status="ACTIVE",
+    )
+
+
+def _uncertain_policy_view(**kwargs) -> PolicyExpectationView:
+    view = _active_policy_view(**kwargs)
+    return replace(view, status="UNCERTAIN", confidence=0.4, uncertainty=0.5)
+
+
+def test_policy_view_excludes_candidates_and_raw_authoritative_events():
+    engine = _engine_with_age()
+    for i in range(6):
+        plan = engine.prepare_authoritative_event(
+            source_transaction_id=f"txn:{i}",
+            event_kind="habitat.feeder_cycle",
+            internal_context_key="feeder:hidden",
+            occurrence_id=f"occ:{i}",
+            evidence_identity=f"evidence:{i}",
+            tick=i * 10,
+        )
+        engine.commit_observation_plan(plan)
+    _observe_periodic(engine, period=10, count=4, context_key="feeder:visible")
+    views = engine.build_policy_expectation_views(current_age=35)
+    statuses = {v.status for v in views}
+    assert "CANDIDATE" not in statuses
+    assert all(v.expected_context == "habitat.feeder_cycle" for v in views)
+    assert all("feeder:" not in v.expected_context for v in views)
+
+
+def test_active_view_applies_capped_modifier_uncertain_smaller_only():
+    active = _active_policy_view()
+    uncertain = _uncertain_policy_view()
+    active_cand = Candidate("MOVE", {})
+    uncertain_cand = Candidate("MOVE", {})
+    apply_temporal_modifiers([active_cand], (active,), effective_age_ticks=45)
+    apply_temporal_modifiers([uncertain_cand], (uncertain,), effective_age_ticks=45)
+    assert 0.0 < active_cand.scores["temporal_modifier"] <= ACTIVE_POSITIVE_CAP
+    assert 0.0 < uncertain_cand.scores["temporal_modifier"] <= UNCERTAIN_POSITIVE_CAP
+    assert uncertain_cand.scores["temporal_modifier"] < active_cand.scores["temporal_modifier"]
+
+
+def test_uncertain_expectation_cannot_generate_wait():
+    views = (_uncertain_policy_view(),)
+    cands = propose_wait_candidates(views, effective_age_ticks=45)
+    assert cands == []
+
+
+def test_wait_rejected_outside_open_window():
+    gov = Governance()
+    journal = WaitJournal()
+    proposal = Proposal(
+        proposal_id="prop:outside",
+        capability="WAIT",
+        params={
+            "recurrence_id": "rec:test",
+            "window_start": 40.0,
+            "window_end": 60.0,
+            "maximum_wait_ticks": MAXIMUM_WAIT_TICKS,
+            "expectation_version": 1,
+        },
+    )
+    decision = gov.admit(
+        proposal,
+        wait_context=WaitAdmissionContext(
+            effective_age_ticks=30,
+            expectation_status="ACTIVE",
+            wait_journal=journal,
+        ),
+    )
+    assert not decision.admitted
+    assert decision.reason == "wait_outside_open_window"
+    assert journal.active_execution() is None
+    assert len(journal.suppressions) == 1
+
+
+def test_wait_admitted_only_inside_window_with_bounded_deadline():
+    gov = Governance()
+    journal = WaitJournal()
+    age = 45
+    window_end = 60.0
+    deadline = wait_deadline_age_tick(
+        started_age_tick=age,
+        window_end=window_end,
+        maximum_wait_ticks=MAXIMUM_WAIT_TICKS,
+    )
+    proposal = Proposal(
+        proposal_id="prop:inside",
+        capability="WAIT",
+        params={
+            "recurrence_id": "rec:test",
+            "window_start": 40.0,
+            "window_end": window_end,
+            "maximum_wait_ticks": MAXIMUM_WAIT_TICKS,
+            "expectation_version": 1,
+            "wait_deadline": deadline,
+        },
+    )
+    decision = gov.admit(
+        proposal,
+        wait_context=WaitAdmissionContext(
+            effective_age_ticks=age,
+            expectation_status="ACTIVE",
+            wait_journal=journal,
+        ),
+    )
+    assert decision.admitted
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=40.0,
+        window_end=window_end,
+        started_age_tick=age,
+    )
+    journal.admit_prepared(prepared.execution_id)
+    active = journal.active_execution()
+    assert active is not None
+    assert active.deadline_age_tick == deadline == min(age + MAXIMUM_WAIT_TICKS, int(window_end))
+
+
+def test_rollback_abandon_creates_no_active_wait_execution():
+    journal = WaitJournal()
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=40.0,
+        window_end=60.0,
+        started_age_tick=45,
+        execution_id="exec:rollback",
+    )
+    journal.abandon_prepare(prepared.execution_id)
+    assert journal.get_execution("exec:rollback") is None
+    assert journal.active_execution() is None
+
+
+def test_wait_execution_has_one_terminal_outcome_and_retry_returns_same():
+    journal = WaitJournal()
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=40.0,
+        window_end=60.0,
+        started_age_tick=45,
+        execution_id="exec:terminal",
+    )
+    journal.admit_prepared(prepared.execution_id)
+    first = journal.finalize("exec:terminal", "EXPIRED", terminal_reason="deadline")
+    second = journal.finalize("exec:terminal", "INTERRUPTED", terminal_reason="retry")
+    assert first.status == second.status == "EXPIRED"
+    assert first.terminal_reason == "deadline"
+
+
+def test_o_lane_occurrence_observed_a_lane_alone_cannot():
+    journal = WaitJournal()
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=40.0,
+        window_end=60.0,
+        started_age_tick=45,
+        execution_id="exec:lane",
+    )
+    journal.admit_prepared(prepared.execution_id)
+    unchanged = journal.try_complete_with_occurrence(
+        "exec:lane",
+        recurrence_id="rec:test",
+        expectation_version=1,
+        occurrence_id="occ:a",
+        internal_context_key="feeder:a",
+        observation_age_tick=50,
+        lane=EvidenceLane.AUTHORITATIVE,
+    )
+    assert unchanged is not None
+    assert unchanged.status == "ACTIVE"
+    completed = journal.try_complete_with_occurrence(
+        "exec:lane",
+        recurrence_id="rec:test",
+        expectation_version=1,
+        occurrence_id="occ:o",
+        internal_context_key="feeder:a",
+        observation_age_tick=50,
+        lane=EvidenceLane.ORGANISM_OBSERVABLE,
+    )
+    assert completed is not None
+    assert completed.status == "OCCURRENCE_OBSERVED"
+
+
+def test_wait_anti_reentry_survives_restart_and_revised_expectation_may_bypass():
+    journal = WaitJournal()
+    journal.record_suppression(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        terminal_reason="governance_reject",
+        suppressed_until_age_tick=55,
+        governance_decision_id="dec:1",
+    )
+    state = journal.to_state()
+    restored = WaitJournal.from_state(state)
+    assert restored.is_suppressed("rec:test", 1, effective_age_ticks=50)
+    assert not restored.is_suppressed("rec:test", 1, effective_age_ticks=56)
+    assert restored.may_bypass_suppression("rec:test", 1, 2)
+    assert not restored.is_suppressed("rec:test", 2, effective_age_ticks=50)
+
+
+def test_governance_reject_creates_suppression_without_fake_wait_execution():
+    gov = Governance()
+    journal = WaitJournal()
+    proposal = Proposal(
+        proposal_id="prop:reject",
+        capability="WAIT",
+        params={
+            "recurrence_id": "rec:test",
+            "window_start": 40.0,
+            "window_end": 60.0,
+            "maximum_wait_ticks": MAXIMUM_WAIT_TICKS,
+            "expectation_version": 1,
+        },
+    )
+    decision = gov.admit(
+        proposal,
+        wait_context=WaitAdmissionContext(
+            effective_age_ticks=20,
+            expectation_status="ACTIVE",
+            wait_journal=journal,
+        ),
+    )
+    assert not decision.admitted
+    assert journal.active_execution() is None
+    assert len(journal.suppressions) == 1
+    assert journal.suppressions[0].governance_decision_id == "prop:reject"
+
+
+def test_temporal_miss_cannot_write_relationships_or_physiology():
+    engine = _engine_with_age()
+    phys_before = Physiology()
+    hypothesis = _observe_periodic(engine, period=10, count=4)
+    evidence = ObservationWindowEvidence(
+        recurrence_id=hypothesis.recurrence_id,
+        expectation_version=hypothesis.hypothesis_version,
+        window_start=40.0,
+        window_end=50.0,
+        coverage_start=40.0,
+        coverage_end=50.0,
+        observability_quality=1.0,
+        supporting_observation_refs=(),
+        matched_occurrence_id=None,
+    )
+    engine.record_observation_window_miss(evidence)
+    phys_after = Physiology()
+    assert phys_before.to_state() == phys_after.to_state()
+
+
+def test_modifier_caps_apply_before_signed_cancellation():
+    views = (
+        _active_policy_view(recurrence_id="rec:a"),
+        _active_policy_view(recurrence_id="rec:b"),
+        _active_policy_view(recurrence_id="rec:c"),
+    )
+    cand = Candidate("MOVE", {})
+    apply_temporal_modifiers([cand], views, effective_age_ticks=45)
+    assert cand.scores["temporal_modifier"] <= 0.40
+
+
+def test_physiology_urgency_outranks_temporal_modifiers():
+    arb = Arbitrator()
+    phys = Physiology()
+    phys.energy = 0.05
+    observations = [{"kind": "resource", "relative_direction": 0.0, "estimated_distance": 1.0}]
+    views = (_active_policy_view(),)
+    chosen = arb.select(
+        phys,
+        observations,
+        tick=45,
+        rng=SeededRNG(1),
+        policy_expectations=views,
+        effective_age_ticks=45,
+    )
+    assert chosen.capability in ("CHARGE", "APPROACH", "MOVE")
+
+
+def test_waiting_is_bounded():
+    journal = WaitJournal()
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=40.0,
+        window_end=44.0,
+        started_age_tick=40,
+        maximum_wait_ticks=20,
+        execution_id="exec:bounded",
+    )
+    assert prepared.deadline_age_tick == 44
+
+
+def test_fallback_bias_reenters_arbitration_and_expires():
+    journal = WaitJournal()
+    bias = FallbackBias(candidate_class="REST", bounded_delta=0.08, expires_after_ticks=3)
+    prepared = journal.prepare_wait(
+        recurrence_id="rec:test",
+        expectation_version=1,
+        window_start=40.0,
+        window_end=60.0,
+        started_age_tick=45,
+        fallback_bias=bias,
+        execution_id="exec:fallback",
+    )
+    journal.admit_prepared(prepared.execution_id)
+    journal.finalize("exec:fallback", "EXPIRED")
+    cand = Candidate("REST", {})
+    apply_temporal_modifiers(
+        [cand],
+        (),
+        effective_age_ticks=46,
+        fallback_biases=active_fallback_biases(journal, effective_age_ticks=46),
+    )
+    assert cand.scores.get("fallback_bias", 0.0) == pytest.approx(0.08)
+    expired_cand = Candidate("REST", {})
+    apply_temporal_modifiers(
+        [expired_cand],
+        (),
+        effective_age_ticks=50,
+        fallback_biases=active_fallback_biases(journal, effective_age_ticks=50),
+    )
+    assert expired_cand.scores.get("fallback_bias", 0.0) == 0.0
+

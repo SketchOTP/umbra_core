@@ -7,7 +7,26 @@ from typing import Any
 
 from umbra_core.embodiment import CAPABILITIES
 from umbra_core.physiology import BOUNDS, Physiology
+from umbra_core.temporal.policy import PolicyExpectationView
 from umbra_core.util import SeededRNG, clamp
+from umbra_core.wait_execution import (
+    FallbackBias,
+    MAXIMUM_WAIT_TICKS,
+    WaitJournal,
+    wait_deadline_age_tick,
+)
+
+# ponytail: frozen modifier caps at D-010 Task 6; hardened at Stage B freeze.
+ACTIVE_POSITIVE_CAP = 0.35
+ACTIVE_NEGATIVE_CAP = -0.15
+UNCERTAIN_POSITIVE_CAP = 0.12
+UNCERTAIN_NEGATIVE_CAP = -0.06
+COMBINED_TEMPORAL_CAP = 0.40
+PER_TICK_NEGATIVE_FLOOR = -0.50
+MAX_EXPECTATIONS_PER_CANDIDATE = 2
+PREPARATION_HORIZON_TICKS = 5
+TEMPORAL_MODIFIER_TARGETS = frozenset({"MOVE", "APPROACH", "INSPECT", "REST"})
+WAIT_CAPABILITY = "WAIT"
 
 
 @dataclass
@@ -126,6 +145,132 @@ class ArbitrationState:
 
 
 SCRIPT_CYCLE = ["ORIENT", "MOVE", "MOVE", "INSPECT", "MOVE", "CHARGE", "REST", "IDLE"]
+
+
+def _modifier_cap_for_status(status: str) -> tuple[float, float]:
+    if status == "ACTIVE":
+        return ACTIVE_POSITIVE_CAP, ACTIVE_NEGATIVE_CAP
+    return UNCERTAIN_POSITIVE_CAP, UNCERTAIN_NEGATIVE_CAP
+
+
+def _view_modifier_delta(view: PolicyExpectationView, capability: str) -> float:
+    if capability not in TEMPORAL_MODIFIER_TARGETS:
+        return 0.0
+    positive_cap, negative_cap = _modifier_cap_for_status(view.status)
+    proximity = clamp(
+        1.0 - abs(view.uncertainty),
+        0.0,
+        1.0,
+    )
+    if view.status == "UNCERTAIN":
+        exploratory = min(positive_cap, view.confidence * positive_cap * proximity)
+        return max(0.0, exploratory)
+    signed = (view.confidence - 0.5) * 2.0 * proximity
+    if signed >= 0.0:
+        return min(signed * positive_cap, positive_cap)
+    return max(signed * abs(negative_cap), negative_cap)
+
+
+def apply_temporal_modifiers(
+    candidates: list[Candidate],
+    policy_views: tuple[PolicyExpectationView, ...],
+    *,
+    effective_age_ticks: int,
+    fallback_biases: tuple[FallbackBias, ...] = (),
+) -> None:
+    """Apply capped soft temporal modifiers before signed cancellation."""
+    if policy_views:
+        eligible_views = [
+            view
+            for view in policy_views
+            if (view.window_start - PREPARATION_HORIZON_TICKS)
+            <= effective_age_ticks
+            <= view.window_end
+        ]
+        eligible_views = sorted(eligible_views, key=lambda v: v.recurrence_id)[
+            :MAX_EXPECTATIONS_PER_CANDIDATE
+        ]
+        for cand in candidates:
+            if cand.capability not in TEMPORAL_MODIFIER_TARGETS:
+                continue
+            total_delta = 0.0
+            for view in eligible_views:
+                total_delta += _view_modifier_delta(view, cand.capability)
+            total_delta = clamp(total_delta, PER_TICK_NEGATIVE_FLOOR, COMBINED_TEMPORAL_CAP)
+            cand.total += total_delta
+            cand.scores["temporal_modifier"] = (
+                cand.scores.get("temporal_modifier", 0.0) + total_delta
+            )
+    for bias in fallback_biases:
+        for cand in candidates:
+            if cand.capability != bias.candidate_class:
+                continue
+            cand.total += bias.bounded_delta
+            cand.scores["fallback_bias"] = (
+                cand.scores.get("fallback_bias", 0.0) + bias.bounded_delta
+            )
+
+
+def wait_window_open(view: PolicyExpectationView, effective_age_ticks: int) -> bool:
+    return view.window_start <= effective_age_ticks <= view.window_end
+
+
+def propose_wait_candidates(
+    policy_views: tuple[PolicyExpectationView, ...],
+    *,
+    effective_age_ticks: int,
+    wait_journal: WaitJournal | None = None,
+) -> list[Candidate]:
+    """Generate WAIT only for ACTIVE expectations inside the open window."""
+    cands: list[Candidate] = []
+    for view in policy_views:
+        if view.status != "ACTIVE":
+            continue
+        if not wait_window_open(view, effective_age_ticks):
+            continue
+        if wait_journal is not None and wait_journal.is_suppressed(
+            view.recurrence_id,
+            view.expectation_version,
+            effective_age_ticks,
+        ):
+            continue
+        deadline = wait_deadline_age_tick(
+            started_age_tick=effective_age_ticks,
+            window_end=view.window_end,
+            maximum_wait_ticks=MAXIMUM_WAIT_TICKS,
+        )
+        cands.append(
+            Candidate(
+                WAIT_CAPABILITY,
+                {
+                    "recurrence_id": view.recurrence_id,
+                    "window_start": view.window_start,
+                    "window_end": view.window_end,
+                    "maximum_wait_ticks": MAXIMUM_WAIT_TICKS,
+                    "expectation_version": view.expectation_version,
+                    "wait_deadline": deadline,
+                    "interrupt_conditions": (),
+                    "source": "TEMPORAL_EXPECTATION",
+                },
+            )
+        )
+    return cands
+
+
+def active_fallback_biases(
+    wait_journal: WaitJournal,
+    *,
+    effective_age_ticks: int,
+) -> tuple[FallbackBias, ...]:
+    biases: list[FallbackBias] = []
+    for execution in wait_journal.executions.values():
+        if execution.fallback_bias is None:
+            continue
+        bias = execution.fallback_bias
+        expires_at = execution.started_age_tick + bias.expires_after_ticks
+        if effective_age_ticks <= expires_at:
+            biases.append(bias)
+    return tuple(biases)
 
 
 class Arbitrator:
@@ -352,6 +497,9 @@ class Arbitrator:
         phase_hint: float | None = None,
         manipulation_bindings: list[dict[str, Any]] | None = None,
         routine_proposals: list[dict[str, Any]] | None = None,
+        policy_expectations: tuple[PolicyExpectationView, ...] | None = None,
+        effective_age_ticks: int | None = None,
+        wait_journal: WaitJournal | None = None,
     ) -> Candidate:
         mode = self.state.mode
         if mode == "random":
@@ -563,7 +711,27 @@ class Arbitrator:
                         },
                     )
                 )
+        age_ticks = effective_age_ticks if effective_age_ticks is not None else tick
+        if policy_expectations:
+            cands.extend(
+                propose_wait_candidates(
+                    policy_expectations,
+                    effective_age_ticks=age_ticks,
+                    wait_journal=wait_journal,
+                )
+            )
         scored = [self.score_candidate(c, phys, observations, tick) for c in cands]
+        if policy_expectations:
+            apply_temporal_modifiers(
+                scored,
+                policy_expectations,
+                effective_age_ticks=age_ticks,
+                fallback_biases=(
+                    active_fallback_biases(wait_journal, effective_age_ticks=age_ticks)
+                    if wait_journal is not None
+                    else ()
+                ),
+            )
         if individuality_apply is not None:
             individuality_apply(
                 scored,

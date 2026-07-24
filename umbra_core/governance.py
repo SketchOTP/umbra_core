@@ -9,6 +9,14 @@ from umbra_core.embodiment import CAPABILITIES, Embodiment
 from umbra_core.embodiment_adapters.adapter import AdapterRequest, EmbodimentAdapter
 from umbra_core.physiology import OUTCOME_EFFECTS, Physiology
 from umbra_core.util import SeededRNG, new_id
+from umbra_core.wait_execution import (
+    MAXIMUM_WAIT_TICKS,
+    WaitJournal,
+    wait_deadline_age_tick,
+)
+
+WAIT_CAPABILITY = "WAIT"
+PREAUTHORIZED = frozenset((*CAPABILITIES, "MANIPULATE", WAIT_CAPABILITY))
 
 
 # Effects capabilities may request but never apply themselves.
@@ -22,8 +30,6 @@ FORBIDDEN_CAPABILITY_EFFECTS = frozenset(
         "revoke_capability",
     }
 )
-
-PREAUTHORIZED = frozenset((*CAPABILITIES, "MANIPULATE"))
 
 SIGNAL_CAPABILITIES = frozenset({"SIGNAL_PLAY", "SIGNAL_ASSISTANCE"})
 # ponytail: frozen default matches experiments/d006/thresholds.json signal_cooldown_ticks
@@ -45,6 +51,98 @@ class GovernanceDecision:
     reason: str
     proposal_id: str
     capability: str
+
+
+@dataclass
+class WaitAdmissionContext:
+    effective_age_ticks: int
+    expectation_status: str
+    wait_journal: WaitJournal | None = None
+    suppress_on_reject: bool = True
+    suppress_duration_ticks: int = 8
+
+
+def _validate_wait_admission(
+    proposal: Proposal,
+    *,
+    tick: int | None,
+    wait_context: WaitAdmissionContext | None,
+) -> GovernanceDecision | None:
+    params = proposal.params
+    required = (
+        "recurrence_id",
+        "window_start",
+        "window_end",
+        "maximum_wait_ticks",
+        "expectation_version",
+    )
+    missing = [key for key in required if key not in params]
+    if missing:
+        return GovernanceDecision(
+            False,
+            "contract",
+            f"wait_params_missing:{missing}",
+            proposal.proposal_id,
+            proposal.capability,
+        )
+    if wait_context is None:
+        return GovernanceDecision(
+            False,
+            "policy",
+            "wait_context_required",
+            proposal.proposal_id,
+            proposal.capability,
+        )
+    if wait_context.expectation_status != "ACTIVE":
+        return GovernanceDecision(
+            False,
+            "policy",
+            "wait_requires_active_expectation",
+            proposal.proposal_id,
+            proposal.capability,
+        )
+    effective_age = wait_context.effective_age_ticks
+    window_start = float(params["window_start"])
+    window_end = float(params["window_end"])
+    if not (window_start <= effective_age <= window_end):
+        return GovernanceDecision(
+            False,
+            "policy",
+            "wait_outside_open_window",
+            proposal.proposal_id,
+            proposal.capability,
+        )
+    journal = wait_context.wait_journal
+    if journal is not None and journal.is_suppressed(
+        str(params["recurrence_id"]),
+        int(params["expectation_version"]),
+        effective_age,
+    ):
+        return GovernanceDecision(
+            False,
+            "policy",
+            "wait_suppressed",
+            proposal.proposal_id,
+            proposal.capability,
+        )
+    max_wait = int(params.get("maximum_wait_ticks", MAXIMUM_WAIT_TICKS))
+    expected_deadline = wait_deadline_age_tick(
+        started_age_tick=effective_age,
+        window_end=window_end,
+        maximum_wait_ticks=max_wait,
+    )
+    if tick is not None and tick != effective_age:
+        _ = tick
+    params_deadline = params.get("wait_deadline")
+    if params_deadline is not None and int(params_deadline) != expected_deadline:
+        return GovernanceDecision(
+            False,
+            "contract",
+            "wait_deadline_mismatch",
+            proposal.proposal_id,
+            proposal.capability,
+        )
+    return None
 
 
 @dataclass
@@ -112,7 +210,13 @@ class Governance:
             requested_effects=list(requested_effects or []),
         )
 
-    def admit(self, proposal: Proposal, *, tick: int | None = None) -> GovernanceDecision:
+    def admit(
+        self,
+        proposal: Proposal,
+        *,
+        tick: int | None = None,
+        wait_context: WaitAdmissionContext | None = None,
+    ) -> GovernanceDecision:
         # C5 bypass attempt tracking
         if self.state.bypass_enabled:
             self.state.bypass_attempts += 1
@@ -165,6 +269,38 @@ class Governance:
             self.last_decision = dec
             return dec
 
+        if proposal.capability == WAIT_CAPABILITY:
+            wait_dec = _validate_wait_admission(
+                proposal,
+                tick=tick,
+                wait_context=wait_context,
+            )
+            if wait_dec is not None:
+                self.state.denials += 1
+                if (
+                    wait_context is not None
+                    and wait_context.suppress_on_reject
+                    and wait_context.wait_journal is not None
+                    and wait_dec.reason in {
+                        "wait_outside_open_window",
+                        "wait_requires_active_expectation",
+                        "wait_suppressed",
+                    }
+                ):
+                    params = proposal.params
+                    wait_context.wait_journal.record_suppression(
+                        recurrence_id=str(params.get("recurrence_id", "")),
+                        expectation_version=int(params.get("expectation_version", 0)),
+                        terminal_reason=wait_dec.reason,
+                        suppressed_until_age_tick=(
+                            wait_context.effective_age_ticks
+                            + wait_context.suppress_duration_ticks
+                        ),
+                        governance_decision_id=proposal.proposal_id,
+                    )
+                self.last_decision = wait_dec
+                return wait_dec
+
         # runtime safety — refuse self-modifying authority params
         unsafe_keys = set(proposal.params.keys()) & {
             "agent_id",
@@ -204,6 +340,22 @@ class Governance:
     ) -> VerifiedOutcome | None:
         if not decision.admitted:
             return None
+
+        if proposal.capability == WAIT_CAPABILITY:
+            return VerifiedOutcome(
+                outcome_id=new_id(),
+                capability=WAIT_CAPABILITY,
+                success=True,
+                reason="wait_admitted",
+                physiology_effects={},
+                raw={
+                    "ok_raw": True,
+                    "reason": "wait_admitted",
+                    "capability": WAIT_CAPABILITY,
+                    "params": dict(proposal.params),
+                },
+                verified=True,
+            )
 
         params = dict(proposal.params)
         if resolve_params:

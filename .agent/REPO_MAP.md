@@ -167,6 +167,6 @@ Concise navigation map for agents. Add entries as application code lands.
 - Starting commit: `bb90e61`
 - Prerequisite seal: D-009 `af35371`
 - Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
-- Package: `umbra_core/temporal/` — Task 1–4 complete; Task 5: `observations.py` (TemporalObservationPlan, ObservationWindowEvidence, DedupSummary), `allowlists.py`, `engine.py` (prepare_finalized_evidence/prepare_authoritative_event, commit/abandon observation plans, record_observation_window_miss); `experiments/d010/{authoritative-event-allowlist,observable-evidence-allowlist}.json` drafts
+- Package: `umbra_core/temporal/` — Task 1–5 complete; Task 6: `policy.py` (PolicyExpectationView), `engine.py` (`build_policy_expectation_views`); `umbra_core/wait_execution.py` (WaitExecution, WaitSuppression, WaitJournal); `arbitration.py` (capped modifiers, WAIT proposal, fallback_bias); `governance.py` (WAIT admission + rejection suppression)
 - Tests: `tests/test_d010.py` (39 passed after Task 5)
 - Experiments (draft): `experiments/d010/`, `docs/evidence/d010/` (planned)
