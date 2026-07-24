@@ -95,3 +95,6 @@ Format:
 - 2026-07-24T12:36Z | START | D-20260724-umbra-d010-temporal-continuity | UMBRA-D-010 | Temporal Continuity, Anticipation, and Autonomous Daily Life | starting_commit:bb90e6111f883f58cced7e71b7d452df7f072aa7 | d009_seal:af35371 | prerequisite:UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED | mimir:9adf61b087ea4fa6a90a1c3bd401a9b3 | accept:Gates 0-15 + allowed QUALIFIED | constraint:no implementation before design approval
 
 - 2026-07-24T09:37Z | START | D-20260724-0937-d010-task0-governance | UMBRA-D-010 | Task 0 — align governance with amended plan tip c1f71bb7 | accept:CURRENT→c1f71bb7; REPO_MAP+directive+progress; commit; parent Mimir 9adf61b087ea4fa6a90a1c3bd401a9b3 stays open | mimir_subtask:2d77d23e460d424abde6e566dfa5bb71
+
+- 2026-07-24T13:39Z | START | D-20260724-d010-task1-temporal-state | UMBRA-D-010 | Task 1 TemporalState/TrustedSample/epoch init
+- 2026-07-24T13:40Z | START | D-20260724-0940-d010-task1-temporal-state | UMBRA-D-010 | Task 1 TemporalState, TrustedSample, TimeAnchor trust, canonical hashing, epoch init | accept:tests pass; commit Add D-010 TemporalState...; parent Mimir 9adf61b087ea4fa6a90a1c3bd401a9b3 stays open | mimir_subtask:cb1671bb7b1f4922aa75c1dc2fdeb0c0
