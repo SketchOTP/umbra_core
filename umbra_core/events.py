@@ -65,6 +65,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "proposal",
         "denial",
         "outcome_verified",
+        "organism_effect_applied",
         "restart_recovery",
         "lifecycle",
         "embodiment_bind",

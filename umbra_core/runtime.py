@@ -670,6 +670,33 @@ class Organism:
         dists = [float(o.get("estimated_distance", 0.0)) for o in obs_dicts]
         return {"max_range_seen": max(dists) if dists else 0.0, "n": float(len(dists))}
 
+    def commit_manipulation(
+        self,
+        request: Any,
+        validation: Any,
+        *,
+        habitat_engine: Any,
+        prepared_tick: int | None = None,
+        crash_after_stage: int | None = None,
+    ) -> Any:
+        """Commit a trusted-resolved MANIPULATE request (Task 5 journal path)."""
+        from umbra_core.habitat.execution_journal import commit_manipulation_transaction
+
+        wall = float(self.config.wall_time_fn())
+        return commit_manipulation_transaction(
+            self.store,
+            self.governance,
+            habitat_engine,
+            self.phys,
+            request,
+            validation,
+            agent_id=self.identity.agent_id,
+            prepared_tick=prepared_tick if prepared_tick is not None else self.tick,
+            monotonic_time=self.monotonic_time,
+            wall_time=wall,
+            crash_after_stage=crash_after_stage,
+        )
+
     def tick_once(self) -> dict[str, Any]:
         """One organism loop iteration (D-002 extended)."""
         if not self._runtime_ready:

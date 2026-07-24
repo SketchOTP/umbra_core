@@ -89,8 +89,22 @@ class Store:
               UNIQUE(operation, result_hypothesis_id, source_hypothesis_id)
             );
             CREATE INDEX IF NOT EXISTS idx_events_event_type ON events(event_type);
+            CREATE TABLE IF NOT EXISTS habitat_execution_journal (
+              execution_id TEXT PRIMARY KEY,
+              request_id TEXT UNIQUE NOT NULL,
+              status TEXT NOT NULL,
+              canonical_payload_hash TEXT NOT NULL,
+              payload_json TEXT NOT NULL,
+              transaction_id TEXT NOT NULL,
+              prepared_tick INTEGER NOT NULL,
+              outcome_id TEXT,
+              failure_code TEXT
+            );
+            CREATE INDEX IF NOT EXISTS idx_habitat_execution_journal_request
+              ON habitat_execution_journal(request_id);
             """
         )
+        self.event_storage_budget: int | None = None
 
     def close(self) -> None:
         try:
@@ -410,6 +424,185 @@ class Store:
             (hypothesis_id,),
         ).fetchall()
         return [dict(r) for r in rows]
+
+    # --- D-009 habitat execution journal + atomic manipulation commit --------
+
+    def insert_habitat_execution_journal_prepared(
+        self,
+        *,
+        execution_id: str,
+        request_id: str,
+        canonical_payload_hash: str,
+        payload_json: str,
+        transaction_id: str,
+        prepared_tick: int,
+    ) -> None:
+        self.conn.execute(
+            """
+            INSERT INTO habitat_execution_journal(
+              execution_id, request_id, status, canonical_payload_hash,
+              payload_json, transaction_id, prepared_tick, outcome_id, failure_code
+            ) VALUES (?,?,?,?,?,?,?,?,?)
+            """,
+            (
+                execution_id,
+                request_id,
+                "PREPARED",
+                canonical_payload_hash,
+                payload_json,
+                transaction_id,
+                int(prepared_tick),
+                None,
+                None,
+            ),
+        )
+
+    def get_habitat_execution_journal(self, execution_id: str) -> dict[str, Any] | None:
+        row = self.conn.execute(
+            "SELECT * FROM habitat_execution_journal WHERE execution_id=?",
+            (execution_id,),
+        ).fetchone()
+        return dict(row) if row is not None else None
+
+    def get_habitat_execution_journal_by_request_id(self, request_id: str) -> dict[str, Any] | None:
+        row = self.conn.execute(
+            "SELECT * FROM habitat_execution_journal WHERE request_id=?",
+            (request_id,),
+        ).fetchone()
+        return dict(row) if row is not None else None
+
+    def update_habitat_execution_journal_terminal(
+        self,
+        *,
+        execution_id: str,
+        status: str,
+        outcome_id: str | None,
+        failure_code: str | None,
+    ) -> None:
+        self.conn.execute(
+            """
+            UPDATE habitat_execution_journal
+            SET status=?, outcome_id=?, failure_code=?
+            WHERE execution_id=?
+            """,
+            (status, outcome_id, failure_code, execution_id),
+        )
+
+    def finalize_habitat_execution_journal_recovery(
+        self,
+        *,
+        execution_id: str,
+        status: str,
+        outcome_id: str | None,
+        failure_code: str | None,
+    ) -> None:
+        self.update_habitat_execution_journal_terminal(
+            execution_id=execution_id,
+            status=status,
+            outcome_id=outcome_id,
+            failure_code=failure_code,
+        )
+
+    def find_habitat_execution_commit_evidence(
+        self,
+        *,
+        execution_id: str,
+        transaction_id: str,
+        agent_id: str,
+    ) -> dict[str, Any] | None:
+        rows = self.conn.execute(
+            """
+            SELECT payload FROM events
+            WHERE agent_id=? AND event_type='outcome_verified'
+            ORDER BY sequence DESC
+            """,
+            (agent_id,),
+        ).fetchall()
+        for r in rows:
+            payload = json.loads(r["payload"])
+            if payload.get("execution_id") != execution_id:
+                continue
+            return {
+                "status": "COMMITTED_SUCCESS" if payload.get("success") else "COMMITTED_FAILURE",
+                "outcome_id": payload.get("outcome_id"),
+                "failure_code": None if payload.get("success") else payload.get("reason"),
+            }
+        habitat_rows = self.conn.execute(
+            """
+            SELECT payload FROM events
+            WHERE agent_id=? AND event_type LIKE 'habitat_%'
+            ORDER BY sequence DESC
+            """,
+            (agent_id,),
+        ).fetchall()
+        for r in habitat_rows:
+            payload = json.loads(r["payload"])
+            if payload.get("execution_id") != execution_id:
+                continue
+            if payload.get("transaction_id") != transaction_id:
+                continue
+            return {
+                "status": "COMMITTED_SUCCESS",
+                "outcome_id": None,
+                "failure_code": None,
+            }
+        return None
+
+    def get_verified_outcome_by_id(self, outcome_id: str, *, agent_id: str):
+        row = self.conn.execute(
+            """
+            SELECT payload FROM events
+            WHERE agent_id=? AND event_type='outcome_verified' AND event_id=?
+            LIMIT 1
+            """,
+            (agent_id, outcome_id),
+        ).fetchone()
+        if row is None:
+            return None
+        payload = json.loads(row["payload"])
+        from umbra_core.governance import VerifiedOutcome
+
+        return VerifiedOutcome(
+            outcome_id=str(payload.get("outcome_id", outcome_id)),
+            capability=str(payload.get("capability", "MANIPULATE")),
+            success=bool(payload.get("success")),
+            reason=str(payload.get("reason", "")),
+            physiology_effects=dict(payload.get("effects") or {}),
+            raw=dict(payload.get("raw") or {}),
+            verified=bool(payload.get("verified", True)),
+        )
+
+    def _check_event_storage_budget(self) -> None:
+        if self.event_storage_budget is None:
+            return
+        count = self.conn.execute("SELECT COUNT(*) AS c FROM events").fetchone()
+        if int(count["c"]) >= self.event_storage_budget:
+            from umbra_core.habitat.execution_journal import EVENT_STORAGE_BUDGET_EXCEEDED
+            from umbra_core.habitat.state import MutationRejected
+
+            raise MutationRejected(EVENT_STORAGE_BUDGET_EXCEEDED)
+
+    def atomic_manipulation_outcome(
+        self,
+        stages: list[Any],
+        *,
+        on_commit: Any = None,
+        crash_after_stage: int | None = None,
+    ) -> None:
+        """Atomic habitat manipulation durable commit — mirrors atomic_social_outcome."""
+        self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            for i, stage in enumerate(stages, start=1):
+                self._check_event_storage_budget()
+                stage()
+                if crash_after_stage is not None and i == crash_after_stage:
+                    raise PersistenceError(f"crash_injection_after_stage_{crash_after_stage}")
+            self.conn.execute("COMMIT")
+        except BaseException:
+            self.conn.execute("ROLLBACK")
+            raise
+        if on_commit is not None:
+            on_commit()
 
     def atomic_social_outcome(
         self,

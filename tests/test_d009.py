@@ -69,7 +69,9 @@ from umbra_core.habitat.state import (
 )
 from umbra_core.habitat_affordances import (
     AdapterValidatedManipulation,
+    AffordanceValidationResult,
     HabitatAffordanceEngine,
+    HabitatEffectPlan,
     ManipulationRequest,
     PickUpParameters,
     PlaceParameters,
@@ -657,3 +659,668 @@ def test_use_effect_plan_emits_registered_state_changed_event():
     state_event = result.effect_plan.habitat_events[0]
     assert state_event["object_id"] == obj.object_id
     assert state_event["new_state"]["remaining_yield"] == pytest.approx(0.9)
+
+
+# --- Task 5: execution journal + atomic commit --------------------------------
+
+
+def _journal_store(tmp_path, name: str = "habitat.db"):
+    from umbra_core.persistence import Store
+
+    return Store(tmp_path / name)
+
+
+def _journal_governance() -> Governance:
+    from umbra_core.governance import Governance
+
+    return Governance()
+
+
+def _state_with_use_resource(state=None):
+    state = sample_habitat_state() if state is None else state
+    obj = replace(state.objects["resource:0"], affordance_ids=("affordance:resource:use",))
+    obj = with_object_state_hash(obj)
+    return with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}))
+
+
+def _state_with_portable(state=None):
+    state = sample_habitat_state() if state is None else state
+    portable = HabitatObject(
+        object_id="portable:0",
+        object_kind=ObjectKind.PORTABLE_OBJECT,
+        definition_version=1,
+        definition_hash="a" * 64,
+        object_version=1,
+        object_state_hash="",
+        location=FreeLocation(5.0, 3.0, "zone:general"),
+        state=IdleState(),
+        mass_class="LIGHT",
+        portable=True,
+        passable=True,
+        occluded=False,
+        collision_radius=0.8,
+        affordance_ids=("affordance:portable:pick_up",),
+        visibility="VISIBLE",
+        condition=1.0,
+        cooldowns=(),
+    )
+    portable = with_object_state_hash(portable)
+    return with_state_hash(replace(state, objects={**state.objects, portable.object_id: portable}))
+
+
+def _use_request(state, obj, *, execution_id="exec:use", request_id="req:use") -> ManipulationRequest:
+    defn = _affordance_engine().get_definition("affordance:resource:use")
+    assert defn is not None
+    engine = HabitatEngine(state)
+    snapshot = engine.snapshot_view()
+    return ManipulationRequest(
+        request_id=request_id,
+        execution_id=execution_id,
+        capability="MANIPULATE",
+        target_object_id=obj.object_id,
+        affordance_id=defn.affordance_id,
+        expected_habitat_version=snapshot.state_version,
+        expected_habitat_state_hash=snapshot.state_hash,
+        target_object_version=obj.object_version,
+        target_object_definition_version=obj.definition_version,
+        target_object_definition_hash=obj.definition_hash,
+        affordance_definition_version=defn.definition_version,
+        affordance_definition_hash=definition_hash(defn),
+        body_instance_id="body:default",
+        body_profile_id="ABSTRACT_SHAPE_BODY",
+        attachment_generation=0,
+        parameters=UseParameters(),
+    )
+
+
+def _pick_up_request(state, obj, *, execution_id="exec:pick", request_id="req:pick") -> ManipulationRequest:
+    defn = _affordance_engine().get_definition("affordance:portable:pick_up")
+    assert defn is not None
+    engine = HabitatEngine(state)
+    snapshot = engine.snapshot_view()
+    return ManipulationRequest(
+        request_id=request_id,
+        execution_id=execution_id,
+        capability="MANIPULATE",
+        target_object_id=obj.object_id,
+        affordance_id=defn.affordance_id,
+        expected_habitat_version=snapshot.state_version,
+        expected_habitat_state_hash=snapshot.state_hash,
+        target_object_version=obj.object_version,
+        target_object_definition_version=obj.definition_version,
+        target_object_definition_hash=obj.definition_hash,
+        affordance_definition_version=defn.definition_version,
+        affordance_definition_hash=definition_hash(defn),
+        body_instance_id="body:default",
+        body_profile_id="ABSTRACT_SHAPE_BODY",
+        attachment_generation=0,
+        parameters=PickUpParameters(hold_slot=0),
+    )
+
+
+def _place_request(state, obj, *, execution_id="exec:place", request_id="req:place") -> ManipulationRequest:
+    engine = HabitatEngine(state)
+    snapshot = engine.snapshot_view()
+    return ManipulationRequest(
+        request_id=request_id,
+        execution_id=execution_id,
+        capability="MANIPULATE",
+        target_object_id=obj.object_id,
+        affordance_id="affordance:portable:pick_up",
+        expected_habitat_version=snapshot.state_version,
+        expected_habitat_state_hash=snapshot.state_hash,
+        target_object_version=obj.object_version,
+        target_object_definition_version=obj.definition_version,
+        target_object_definition_hash=obj.definition_hash,
+        affordance_definition_version=1,
+        affordance_definition_hash="e532abe76d155989e2bc7ec13683304900d274d31dfdbd8f441e296a1f1715e3",
+        body_instance_id="body:default",
+        body_profile_id="ABSTRACT_SHAPE_BODY",
+        attachment_generation=0,
+        parameters=PlaceParameters(target_x=7.0, target_y=4.0, expected_zone_id="zone:general"),
+    )
+
+
+def _commit_use(
+    store,
+    engine,
+    phys,
+    gov,
+    *,
+    execution_id="exec:use",
+    request_id="req:use",
+    crash_after_stage=None,
+    request=None,
+    validation=None,
+):
+    from umbra_core.habitat.execution_journal import commit_manipulation_transaction
+
+    if request is None:
+        state = engine.state
+        obj = state.objects["resource:0"]
+        request = _use_request(state, obj, execution_id=execution_id, request_id=request_id)
+    if validation is None:
+        validation = _affordance_engine().validate(
+            request,
+            engine.snapshot_view(),
+            _adapter_for(UseParameters()),
+        )
+    return commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+        crash_after_stage=crash_after_stage,
+    )
+
+
+def test_execution_id_has_exactly_one_terminal_outcome(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_COMMITTED_SUCCESS
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    result = _commit_use(store, engine, phys, gov, execution_id="exec:one")
+    assert result.journal_status == STATUS_COMMITTED_SUCCESS
+    outcomes = [
+        e for e in store.iter_events() if e["event_type"] == "outcome_verified"
+    ]
+    assert len([e for e in outcomes if e["payload"].get("execution_id") == "exec:one"]) == 1
+    store.close()
+
+
+def test_successful_execution_cannot_mutate_twice(tmp_path):
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    hash_before = engine.snapshot_view().state_hash
+    energy_before = phys.energy
+    state = engine.state
+    obj = state.objects["resource:0"]
+    request = _use_request(state, obj, execution_id="exec:dup")
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(UseParameters())
+    )
+    first = _commit_use(
+        store, engine, phys, gov, execution_id="exec:dup", request=request, validation=validation
+    )
+    hash_after_first = engine.snapshot_view().state_hash
+    second = _commit_use(
+        store, engine, phys, gov, execution_id="exec:dup", request=request, validation=validation
+    )
+    assert second.idempotent_replay is True
+    assert engine.snapshot_view().state_hash == hash_after_first != hash_before
+    assert phys.energy == pytest.approx(energy_before + 0.1, rel=0, abs=1e-6)
+    assert first.outcome is not None and second.outcome is not None
+    assert first.outcome.outcome_id == second.outcome.outcome_id
+    store.close()
+
+
+def test_failed_execution_cannot_execute_after_restart(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_COMMITTED_FAILURE, commit_manipulation_transaction
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    state = engine.state
+    obj = replace(
+        state.objects["resource:0"],
+        state=ResourceState(remaining_yield=0.0),
+    )
+    obj = with_object_state_hash(obj)
+    state = with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}))
+    engine = HabitatEngine(state)
+    request = _use_request(state, obj)
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(UseParameters())
+    )
+    assert validation.allowed is False
+    result = commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert result.journal_status == STATUS_COMMITTED_FAILURE
+    hash_before = engine.snapshot_view().state_hash
+
+    engine2 = HabitatEngine(state)
+    phys2 = Physiology()
+    gov2 = _journal_governance()
+    replay = commit_manipulation_transaction(
+        store,
+        gov2,
+        engine2,
+        phys2,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=2,
+        monotonic_time=2.0,
+        wall_time=2.0,
+    )
+    assert replay.idempotent_replay is True
+    assert replay.journal_status == STATUS_COMMITTED_FAILURE
+    assert engine2.snapshot_view().state_hash == hash_before
+    store.close()
+
+
+def test_prepared_execution_recovers_deterministically(tmp_path):
+    from umbra_core.habitat.execution_journal import (
+        STATUS_COMMITTED_SUCCESS,
+        STATUS_PREPARED,
+        commit_manipulation_transaction,
+        prepare_execution,
+        recover_execution,
+    )
+    from umbra_core.persistence import PersistenceError
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    state = engine.state
+    obj = state.objects["resource:0"]
+    request = _use_request(state, obj, execution_id="exec:recover")
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(UseParameters())
+    )
+    prepared = prepare_execution(store, request, prepared_tick=1, transaction_id="txn:recover")
+    assert prepared.status == STATUS_PREPARED
+    with pytest.raises(PersistenceError):
+        commit_manipulation_transaction(
+            store,
+            gov,
+            engine,
+            phys,
+            request,
+            validation,
+            agent_id="agent:test",
+            prepared_tick=1,
+            monotonic_time=1.0,
+            wall_time=1.0,
+            transaction_id="txn:recover",
+            crash_after_stage=1,
+        )
+    row = store.get_habitat_execution_journal("exec:recover")
+    assert row is not None and row["status"] == STATUS_PREPARED
+    recovered = recover_execution(store, "exec:recover", agent_id="agent:test")
+    assert recovered is not None and recovered.journal_status == STATUS_PREPARED
+    engine2 = HabitatEngine(state)
+    phys2 = Physiology()
+    gov2 = _journal_governance()
+    final = commit_manipulation_transaction(
+        store,
+        gov2,
+        engine2,
+        phys2,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=1,
+        monotonic_time=2.0,
+        wall_time=2.0,
+        transaction_id="txn:recover",
+    )
+    assert final.journal_status == STATUS_COMMITTED_SUCCESS
+    assert phys2.energy == pytest.approx(phys.energy + 0.1, rel=0, abs=1e-6)
+    store.close()
+
+
+def test_same_execution_id_with_different_payload_fails_closed(tmp_path):
+    from umbra_core.habitat.execution_journal import ExecutionJournalError, prepare_execution
+
+    store = _journal_store(tmp_path)
+    state = _state_with_use_resource()
+    obj = state.objects["resource:0"]
+    req_a = _use_request(state, obj, execution_id="exec:mismatch", request_id="req:a")
+    prepare_execution(store, req_a, prepared_tick=1)
+    req_b = replace(req_a, request_id="req:b", target_object_version=obj.object_version + 99)
+    with pytest.raises(ExecutionJournalError) as exc:
+        prepare_execution(store, req_b, prepared_tick=2)
+    assert exc.value.code == "EXECUTION_PAYLOAD_MISMATCH"
+    store.close()
+
+
+def test_same_request_id_with_different_payload_fails_closed(tmp_path):
+    from umbra_core.habitat.execution_journal import ExecutionJournalError, prepare_execution
+
+    store = _journal_store(tmp_path)
+    state = _state_with_use_resource()
+    obj = state.objects["resource:0"]
+    req_a = _use_request(state, obj, execution_id="exec:a", request_id="req:same")
+    prepare_execution(store, req_a, prepared_tick=1)
+    req_b = _use_request(state, obj, execution_id="exec:b", request_id="req:same")
+    with pytest.raises(ExecutionJournalError) as exc:
+        prepare_execution(store, req_b, prepared_tick=2)
+    assert exc.value.code == "EXECUTION_PAYLOAD_MISMATCH"
+    store.close()
+
+
+def test_unknown_commit_status_does_not_create_false_failure(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_PREPARED, prepare_execution
+
+    store = _journal_store(tmp_path)
+    state = _state_with_use_resource()
+    obj = state.objects["resource:0"]
+    request = _use_request(state, obj, execution_id="exec:unknown")
+    prepared = prepare_execution(store, request, prepared_tick=1, transaction_id="txn:unknown")
+    row = store.get_habitat_execution_journal("exec:unknown")
+    assert row is not None
+    assert row["status"] == STATUS_PREPARED
+    assert row.get("failure_code") is None
+    assert prepared.failure_code is None
+    store.close()
+
+
+def test_prepared_recovery_cannot_double_mutate(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_COMMITTED_SUCCESS, commit_manipulation_transaction
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    state = engine.state
+    obj = state.objects["resource:0"]
+    request = _use_request(state, obj, execution_id="exec:once")
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(UseParameters())
+    )
+    first = _commit_use(
+        store, engine, phys, gov, execution_id="exec:once", request=request, validation=validation
+    )
+    assert first.journal_status == STATUS_COMMITTED_SUCCESS
+    version_after = engine.snapshot_view().state_version
+    second = _commit_use(
+        store, engine, phys, gov, execution_id="exec:once", request=request, validation=validation
+    )
+    assert second.idempotent_replay is True
+    assert engine.snapshot_view().state_version == version_after
+    store.close()
+
+
+def test_resource_and_organism_effect_commit_atomically(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_COMMITTED_SUCCESS
+    from umbra_core.persistence import PersistenceError
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    energy_before = phys.energy
+    yield_before = engine.get_object("resource:0").state.remaining_yield  # type: ignore[union-attr]
+    with pytest.raises(PersistenceError):
+        _commit_use(store, engine, phys, gov, execution_id="exec:atomic", crash_after_stage=2)
+    assert engine.get_object("resource:0").state.remaining_yield == yield_before  # type: ignore[union-attr]
+    assert phys.energy == energy_before
+    journal = store.get_habitat_execution_journal("exec:atomic")
+    assert journal is not None and journal["status"] == "PREPARED"
+    result = _commit_use(store, engine, phys, gov, execution_id="exec:atomic")
+    assert result.journal_status == STATUS_COMMITTED_SUCCESS
+    assert engine.get_object("resource:0").state.remaining_yield == pytest.approx(yield_before - 0.1)  # type: ignore[union-attr]
+    assert phys.energy == pytest.approx(energy_before + 0.1, rel=0, abs=1e-6)
+    store.close()
+
+
+def test_object_pickup_is_atomic(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_COMMITTED_SUCCESS, commit_manipulation_transaction
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    state = _state_with_portable()
+    engine = HabitatEngine(state)
+    obj = engine.get_object("portable:0")
+    assert obj is not None
+    request = _pick_up_request(state, obj)
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(PickUpParameters(hold_slot=0))
+    )
+    assert validation.allowed is True
+    phys = Physiology()
+    gov = _journal_governance()
+    result = commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert result.journal_status == STATUS_COMMITTED_SUCCESS
+    picked = engine.get_object("portable:0")
+    assert picked is not None and isinstance(picked.location, HeldByLocation)
+    habitat_events = [e for e in store.iter_events() if e["event_type"] == "habitat_object_picked_up"]
+    assert len(habitat_events) == 1
+    store.close()
+
+
+def test_object_place_is_atomic(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_COMMITTED_SUCCESS, commit_manipulation_transaction
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    state = _state_with_portable()
+    held_obj = replace(
+        state.objects["portable:0"],
+        location=HeldByLocation(body_instance_id="body:default", attachment_generation=0, hold_slot=0),
+    )
+    held_obj = with_object_state_hash(held_obj)
+    state = with_state_hash(replace(state, objects={**state.objects, held_obj.object_id: held_obj}))
+    engine = HabitatEngine(state)
+    request = _place_request(state, held_obj)
+    validation = AffordanceValidationResult(
+        allowed=True,
+        failure_code=None,
+        expected_object_version=held_obj.object_version,
+        expected_habitat_version=engine.snapshot_view().state_version,
+        effect_plan=HabitatEffectPlan(
+            habitat_mutations=(
+                {
+                    "mutation_kind": "SET_LOCATION",
+                    "object_id": held_obj.object_id,
+                    "location": {
+                        "mode": "FREE",
+                        "x": 7.0,
+                        "y": 4.0,
+                        "zone_id": "zone:general",
+                    },
+                },
+            ),
+            habitat_events=({"event_type": "habitat_object_placed", "object_id": held_obj.object_id},),
+            requested_organism_effects=(),
+        ),
+        applied_parameters=PlaceParameters(target_x=7.0, target_y=4.0, expected_zone_id="zone:general"),
+    )
+    phys = Physiology()
+    gov = _journal_governance()
+    result = commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert result.journal_status == STATUS_COMMITTED_SUCCESS
+    placed = engine.get_object("portable:0")
+    assert placed is not None and isinstance(placed.location, FreeLocation)
+    assert placed.location.x == 7.0
+    store.close()
+
+
+def test_object_cannot_exist_in_two_locations(tmp_path):
+    from umbra_core.habitat.execution_journal import commit_manipulation_transaction
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    state = _state_with_portable()
+    engine = HabitatEngine(state)
+    obj = engine.get_object("portable:0")
+    assert obj is not None
+    request = _pick_up_request(state, obj)
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(PickUpParameters(hold_slot=0))
+    )
+    phys = Physiology()
+    gov = _journal_governance()
+    commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    picked = engine.get_object("portable:0")
+    assert picked is not None and isinstance(picked.location, HeldByLocation)
+    free_matches = [
+        oid
+        for oid, o in engine.state.objects.items()
+        if oid == "portable:0" and isinstance(o.location, FreeLocation)
+    ]
+    assert free_matches == []
+    store.close()
+
+
+def test_failed_manipulation_has_durable_outcome(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_COMMITTED_FAILURE, commit_manipulation_transaction
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    state = engine.state
+    obj = replace(state.objects["resource:0"], cooldowns=(("affordance:resource:use", 99),))
+    obj = with_object_state_hash(obj)
+    state = with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}, habitat_tick=10))
+    engine = HabitatEngine(state)
+    request = _use_request(state, obj, execution_id="exec:fail")
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(UseParameters())
+    )
+    result = commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=10,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert result.journal_status == STATUS_COMMITTED_FAILURE
+    assert result.failure_code == "AFFORDANCE_COOLDOWN"
+    outcomes = [e for e in store.iter_events() if e["event_type"] == "outcome_verified"]
+    assert any(e["payload"].get("execution_id") == "exec:fail" for e in outcomes)
+    store.close()
+
+
+def test_invalid_manipulation_changes_no_habitat_state(tmp_path):
+    from umbra_core.habitat.execution_journal import commit_manipulation_transaction
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    state = _state_with_use_resource()
+    obj = replace(state.objects["resource:0"], state=ResourceState(remaining_yield=0.0))
+    obj = with_object_state_hash(obj)
+    state = with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}))
+    engine = HabitatEngine(state)
+    phys = Physiology()
+    gov = _journal_governance()
+    hash_before = engine.snapshot_view().state_hash
+    request = _use_request(state, obj)
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(UseParameters())
+    )
+    commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert engine.snapshot_view().state_hash == hash_before
+    store.close()
+
+
+def test_crash_during_manipulation_cannot_partially_commit(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_PREPARED
+    from umbra_core.persistence import PersistenceError
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    hash_before = engine.snapshot_view().state_hash
+    for stage in range(1, 5):
+        engine_s = HabitatEngine(_state_with_use_resource())
+        phys_s = Physiology()
+        gov_s = _journal_governance()
+        with pytest.raises(PersistenceError):
+            _commit_use(
+                store,
+                engine_s,
+                phys_s,
+                gov_s,
+                execution_id=f"exec:crash{stage}",
+                request_id=f"req:crash{stage}",
+                crash_after_stage=stage,
+            )
+        journal = store.get_habitat_execution_journal(f"exec:crash{stage}")
+        assert journal is not None and journal["status"] == STATUS_PREPARED
+        habitat_types = {
+            e["event_type"]
+            for e in store.iter_events()
+            if e["event_type"].startswith("habitat_")
+            and e["payload"].get("execution_id") == f"exec:crash{stage}"
+        }
+        assert habitat_types == set()
+        assert engine_s.snapshot_view().state_hash == hash_before
+    store.close()

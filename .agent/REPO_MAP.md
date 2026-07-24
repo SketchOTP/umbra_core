@@ -105,8 +105,12 @@ Concise navigation map for agents. Add entries as application code lands.
 - Packages (planned): `umbra_core/habitat_affordances/` (pure AffordanceEngine)
 - `umbra_core/habitat_affordances/definitions.py` (Task 4): `AffordanceDefinition`, `definition_hash`, `load_affordance_definitions_file`, typed precondition/effect contracts
 - `umbra_core/habitat_affordances/engine.py` (Task 4): pure `HabitatAffordanceEngine.validate` → `AffordanceValidationResult` + `HabitatEffectPlan`; USE emits `habitat_object_state_changed` with `new_state`; typed `ManipulationParameters` union; no habitat/WM/memory mutation
-- Preregistration (Stage A draft, Stage B freeze): `experiments/d009/affordance-definitions.json`, `experiments/d009/habitat-definition.json` (real content + computed hashes; formal freeze in Task 11)
-- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5 affordance tests)
+- `umbra_core/habitat/execution_journal.py` (Task 5): `prepare_execution`, `recover_execution`, `commit_manipulation_transaction`; journal states PREPARED/COMMITTED_SUCCESS/COMMITTED_FAILURE; atomic habitat events + organism_effect_applied + outcome_verified via `Store.atomic_manipulation_outcome`; codes EXECUTION_PAYLOAD_MISMATCH, HABITAT_COLLECTION_CAP_EXCEEDED, EVENT_STORAGE_BUDGET_EXCEEDED
+- `umbra_core/persistence.py` (Task 5): `habitat_execution_journal` table + journal CRUD + `atomic_manipulation_outcome` + optional `event_storage_budget`
+- `umbra_core/governance.py` (Task 5): `verify_manipulation_outcome` for MANIPULATE VerifiedOutcome with execution/request correlation in raw
+- `umbra_core/runtime.py` (Task 5): `Organism.commit_manipulation` delegates to execution journal (trusted-resolved requests only)
+- `umbra_core/events.py` (Task 5): `organism_effect_applied` AUTHORITATIVE
+- Tests: `tests/test_d009.py` (Task 1: 3; Task 2: 7; Task 3: 7; Task 4: 5; Task 5: 15 execution-journal tests)
 - Evidence: `docs/evidence/d009/` (to be created)
 - Starting commit: `b230790df1cab1580ea650a348eb0576e2e4599e`; Mimir task: `06b5b59709864e11bddb8c1da56dd66e`
 - Authority: own-and-delegate — HabitatEngine mutates; Embodiment.habitat read-only projection; MANIPULATE address-only candidates; PREPARED→COMMITTED execution journal; P0 compatibility mode on same D-009 commit

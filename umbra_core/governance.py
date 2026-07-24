@@ -278,6 +278,47 @@ class Governance:
             verified=True,
         )
 
+    def verify_manipulation_outcome(
+        self,
+        request: Any,
+        *,
+        success: bool,
+        failure_code: str | None,
+        physiology_effects: dict[str, float] | None = None,
+        applied_parameters: Any = None,
+        transaction_id: str | None = None,
+    ) -> VerifiedOutcome:
+        """Verify MANIPULATE outcome — records execution/request correlation in raw."""
+        from dataclasses import asdict
+
+        raw: dict[str, Any] = {
+            "ok_raw": success,
+            "execution_id": request.execution_id,
+            "request_id": request.request_id,
+            "target_object_id": request.target_object_id,
+            "affordance_id": request.affordance_id,
+            "body_instance_id": request.body_instance_id,
+            "body_profile_id": request.body_profile_id,
+            "attachment_generation": request.attachment_generation,
+            "capability": request.capability,
+        }
+        if applied_parameters is not None:
+            raw["requested_parameters"] = asdict(request.parameters)
+            raw["applied_parameters"] = asdict(applied_parameters)
+        if transaction_id is not None:
+            raw["transaction_id"] = transaction_id
+        reason = "manipulation_committed" if success else str(failure_code or "manipulation_failed")
+        self.state.verified_outcomes += 1
+        return VerifiedOutcome(
+            outcome_id=new_id(),
+            capability=request.capability,
+            success=success,
+            reason=reason,
+            physiology_effects=dict(physiology_effects or {}),
+            raw=raw,
+            verified=True,
+        )
+
     def apply_physiology(self, phys: Physiology, outcome: VerifiedOutcome) -> None:
         """Physiology owner applies verified effects — governance does not write H directly from policy."""
         if not outcome.verified:
