@@ -775,7 +775,7 @@ def _run_integrated_trace(
             metrics["revision_score"] = _revision_score_s16(org, engine)
         if scenario == "S7":
             hcfg = d009_condition_configs(condition).habitat
-            if not hcfg.environmental_routines_enabled:
+            if condition == "C11" or not hcfg.environmental_routines_enabled:
                 metrics["routine_promotions"] = 0.0
             else:
                 metrics["routine_promotions"] = _integrated_routine_episodes(org, engine)
