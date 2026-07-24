@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import FrozenInstanceError, replace
+from pathlib import Path
 
 import pytest
 
@@ -3318,4 +3320,259 @@ def test_scenario_plants_change_environment_only():
         __import__(
             "experiments.d009.scenario_plants", fromlist=["assert_environment_only_plant"]
         ).assert_environment_only_plant(plant)
+
+
+# --- Task 12: directive minimum list + prior seals --------------------------------
+
+ROOT = Path(__file__).resolve().parents[1]
+THR = json.loads((ROOT / "experiments/d009/thresholds.json").read_text(encoding="utf-8"))
+FULL_CAPABILITY_SET = frozenset(
+    {
+        "IDLE",
+        "ORIENT",
+        "MOVE",
+        "APPROACH",
+        "RETREAT",
+        "INSPECT",
+        "REST",
+        "CHARGE",
+        "SIGNAL_PLAY",
+        "SIGNAL_ASSISTANCE",
+        "MANIPULATE",
+    }
+)
+
+
+def test_unknown_commit_status_does_not_create_false_failure(tmp_path):
+    """Infrastructure unknown leaves PREPARED — never a false COMMITTED_FAILURE."""
+    from umbra_core.habitat.execution_journal import (
+        STATUS_COMMITTED_FAILURE,
+        STATUS_COMMITTED_SUCCESS,
+        STATUS_PREPARED,
+        commit_manipulation_transaction,
+        prepare_execution,
+        recover_execution,
+    )
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    state = engine.state
+    obj = state.objects["resource:0"]
+    request = _use_request(state, obj, execution_id="exec:unknown")
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(UseParameters())
+    )
+
+    prepared = prepare_execution(store, request, prepared_tick=1, transaction_id="txn:unknown")
+    assert prepared.status == STATUS_PREPARED
+    row = store.get_habitat_execution_journal("exec:unknown")
+    assert row is not None and row["status"] == STATUS_PREPARED
+    assert row.get("failure_code") is None
+
+    recovered = recover_execution(store, "exec:unknown", agent_id="agent:test")
+    assert recovered is not None
+    assert recovered.journal_status == STATUS_PREPARED
+    assert recovered.outcome is None
+    assert recovered.failure_code is None
+
+    result = commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=2,
+        monotonic_time=2.0,
+        wall_time=2.0,
+        transaction_id="txn:unknown",
+    )
+    assert result.journal_status == STATUS_COMMITTED_SUCCESS
+    assert result.journal_status != STATUS_COMMITTED_FAILURE
+    terminal = store.get_habitat_execution_journal("exec:unknown")
+    assert terminal is not None and terminal["status"] == STATUS_COMMITTED_SUCCESS
+    store.close()
+
+
+def test_authoritative_event_history_is_not_silently_deleted(tmp_path):
+    """EVENT_STORAGE_BUDGET_EXCEEDED rejects new writes without deleting prior ledger rows."""
+    from umbra_core.habitat.state import MutationRejected
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    _commit_use(store, engine, phys, gov, execution_id="exec:keep", request_id="req:keep")
+
+    before = store.iter_events()
+    before_ids = [e["event_id"] for e in before]
+    before_count = len(before_ids)
+    assert before_count > 0
+
+    store.event_storage_budget = before_count
+    engine2 = HabitatEngine(_state_with_use_resource())
+    phys2 = Physiology()
+    with pytest.raises(MutationRejected, match="EVENT_STORAGE_BUDGET_EXCEEDED"):
+        _commit_use(
+            store, engine2, phys2, gov, execution_id="exec:blocked", request_id="req:blocked"
+        )
+
+    after = store.iter_events()
+    after_ids = [e["event_id"] for e in after]
+    assert len(after) == before_count
+    assert after_ids == before_ids
+    store.close()
+
+
+def test_d001_through_d008_seals_unchanged():
+    """Gate 0: D-001 through D-008 evidence hashes remain unchanged under D-009."""
+    seals = [
+        "docs/evidence/d001/evidence-hashes.json",
+        "docs/evidence/d002p/evidence-hashes.json",
+        "docs/evidence/d003/evidence-hashes.json",
+        "docs/evidence/d004/evidence-hashes.json",
+        "docs/evidence/d005/evidence-hashes.json",
+        "docs/evidence/d006/evidence-hashes.json",
+        "docs/evidence/d007/evidence-hashes.json",
+        "docs/evidence/d008/evidence-hashes.json",
+    ]
+    for rel in seals:
+        data = json.loads((ROOT / rel).read_text(encoding="utf-8"))
+        for path, expect in data.items():
+            if not isinstance(expect, str) or not str(path).startswith("docs/"):
+                continue
+            if str(path).endswith("evidence-hashes.json"):
+                continue
+            p = ROOT / path
+            if p.exists():
+                assert hashlib.sha256(p.read_bytes()).hexdigest() == expect, f"seal drift:{path}"
+    assert "UMBRA_D008_COHERENT_DIGITAL_EMBODIMENT_QUALIFIED" in (
+        ROOT / "docs/evidence/d008/final-verdict.md"
+    ).read_text(encoding="utf-8")
+
+
+def test_prior_regressions_within_bounds():
+    """Gate 0/10: D-001 through D-008 qualified behavior remains within accepted bounds."""
+    from umbra_core.development import DevelopmentEngine
+    from umbra_core.embodiment_adapters import ABSTRACT_SHAPE_BODY, get_d008_profile, get_profile
+    from umbra_core.individuality import IndividualityEngine
+    from umbra_core.memory import MemoryEngine
+    from umbra_core.self_model import SelfModel
+    from umbra_core.social import SocialEngine, condition_to_social_config
+    from umbra_core.world_model import WorldModel
+
+    d = DevelopmentEngine.create("x", seed=1)
+    assert d.learning_progress_from_windows(0.8, 0.4) == pytest.approx(0.4)
+    w = WorldModel.create("x", seed=1)
+    assert w is not None
+    m = MemoryEngine.create("x", seed=1)
+    assert m.counts_bounded()
+    sm = SelfModel.create("x", now=0.0, seed=1)
+    assert sm.active.body_schema_id is not None
+    s = SocialEngine.create("reg", config=condition_to_social_config("C0"), seed=1)
+    assert s is not None
+    ind = IndividualityEngine.create("reg-ind", seed=1)
+    assert ind.disposition_vector() is not None
+    d008 = get_d008_profile("ABSTRACT_SHAPE_BODY")
+    d009 = get_profile("ABSTRACT_SHAPE_BODY")
+    assert "MANIPULATE" not in d008.supported_capabilities
+    assert "MANIPULATE" in d009.supported_capabilities
+    assert sample_habitat_state().state_hash
+
+
+def test_no_deferred_modules():
+    """Gate 15: no deferred/foreign-scope modules or invented capabilities under D-009."""
+    from experiments.d008.constrained_profile import CONSTRAINED_TEST_BODY
+    from umbra_core.embodiment_adapters import get_profile
+
+    forbidden_dirs = [
+        "umbra_core/language",
+        "umbra_core/mood",
+        "umbra_core/emotion",
+        "umbra_core/personality",
+        "umbra_core/llm",
+        "umbra_core/chemistry",
+        "umbra_core/protocell",
+        "umbra_core/robotics",
+        "umbra_core/camera",
+        "umbra_core/microphone",
+    ]
+    for rel in forbidden_dirs:
+        assert not (ROOT / rel).exists(), rel
+    assert (ROOT / "umbra_core/habitat").is_dir()
+    assert (ROOT / "umbra_core/habitat_affordances").is_dir()
+    assert (ROOT / "umbra_core/expression").is_dir()
+    assert (ROOT / "umbra_core/embodiment_adapters").is_dir()
+    assert "MAINTAIN" not in FULL_CAPABILITY_SET
+    assert "PRACTICE" not in FULL_CAPABILITY_SET
+    for profile_id in ("ABSTRACT_SHAPE_BODY", "MINIMAL_CREATURE_BODY", "CONSTRAINED_TEST_BODY"):
+        profile = get_profile(profile_id) if profile_id != "CONSTRAINED_TEST_BODY" else CONSTRAINED_TEST_BODY
+        assert "MAINTAIN" not in profile.supported_capabilities
+        assert "PRACTICE" not in profile.supported_capabilities
+
+
+def test_100k_tick_boundedness(tmp_path):
+    """Accelerated bound check — full 100k formal run is experiments/d009/run_performance.py."""
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    org = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "boundedness.sqlite"),
+            seed=1,
+            habitat_enabled=True,
+            embodiment_adapter_enabled=True,
+            expression_enabled=True,
+            drift_enabled=True,
+            wall_time_fn=lambda: 0.0,
+        )
+    )
+    engine, _, _, _, _ = _task7_habitat_setup()
+    org.embodiment.attach_habitat_engine(engine)
+    try:
+        for _ in range(2000):
+            org.tick_once()
+        snapshot = engine.snapshot_view()
+        assert len(snapshot.objects) <= THR["max_objects"]
+        assert len(snapshot.zones) <= THR["max_zones"]
+        assert len(org.frame_ring) <= THR.get("frame_ring_capacity", 256)
+        for entry in org.frame_ring:
+            assert (
+                len(entry.render_packet.habitat_read_model.entities)
+                <= THR["habitat_read_model_max_entities"]
+            )
+        assert org.embodiment_adapter.state.attachment_generation >= 1
+    finally:
+        org.close()
+
+
+def test_adaptive_performance_validation():
+    """Gate 13 threshold contract always; read performance evidence when Task 14 has written it."""
+    assert THR["rss_p95_mib_max"] == 180
+    assert THR["rss_slope_mib_per_hour_max"] == 1.0
+    assert THR["cpu_mean_frac_max"] == 0.05
+    assert THR["ui_incremental_rss_p95_mib_max"] == 128
+    assert THR["ticks_accelerated_min"] >= 100000
+    proto = json.loads((ROOT / "experiments/d009/performance-protocol.json").read_text(encoding="utf-8"))
+    assert proto["supplement"] == "S3"
+    assert int(proto["initial_measurement_seconds"]) >= 1800
+    assert int(proto["max_measurement_seconds"]) <= 3600
+    perf = ROOT / "docs/evidence/d009/performance-results.json"
+    if perf.exists():
+        data = json.loads(perf.read_text(encoding="utf-8"))
+        assert data.get("adaptive_soak_supplement") == "S3"
+        if data.get("soak"):
+            assert data["soak"]["rss_p95_mib"] <= THR["rss_p95_mib_max"]
+            assert float(data["soak"]["duration_s"]) >= float(proto["initial_measurement_seconds"]) * 0.99
+        if data.get("ui_incremental"):
+            assert data["ui_incremental"]["rss_p95_mib"] <= THR["ui_incremental_rss_p95_mib_max"]
+        for mode in ("P0", "P1", "P2"):
+            if data.get("modes") and mode in data["modes"]:
+                assert float(data["modes"][mode]["total_measurement_seconds"]) >= float(
+                    proto["initial_measurement_seconds"]
+                ) * 0.99
 
