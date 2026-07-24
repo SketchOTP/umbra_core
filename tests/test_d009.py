@@ -1017,8 +1017,8 @@ def test_same_request_id_with_different_payload_fails_closed(tmp_path):
     store.close()
 
 
-def test_unknown_commit_status_does_not_create_false_failure(tmp_path):
-    from umbra_core.habitat.execution_journal import STATUS_PREPARED, prepare_execution
+def test_prepared_without_evidence_stays_prepared_on_recovery(tmp_path):
+    from umbra_core.habitat.execution_journal import STATUS_PREPARED, prepare_execution, recover_execution
 
     store = _journal_store(tmp_path)
     state = _state_with_use_resource()
@@ -1030,6 +1030,145 @@ def test_unknown_commit_status_does_not_create_false_failure(tmp_path):
     assert row["status"] == STATUS_PREPARED
     assert row.get("failure_code") is None
     assert prepared.failure_code is None
+    recovered = recover_execution(store, "exec:unknown", agent_id="agent:test")
+    assert recovered is not None
+    assert recovered.journal_status == STATUS_PREPARED
+    assert recovered.outcome is None
+    assert recovered.failure_code is None
+    store.close()
+
+
+def test_committed_success_idempotent_replay_rehydrates_stale_engine(tmp_path):
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    initial_state = _state_with_use_resource()
+    engine = HabitatEngine(initial_state)
+    phys = Physiology()
+    gov = _journal_governance()
+    state = engine.state
+    obj = state.objects["resource:0"]
+    request = _use_request(state, obj, execution_id="exec:rehydrate")
+    validation = _affordance_engine().validate(
+        request, engine.snapshot_view(), _adapter_for(UseParameters())
+    )
+    first = _commit_use(
+        store, engine, phys, gov, execution_id="exec:rehydrate", request=request, validation=validation
+    )
+    hash_after = engine.snapshot_view().state_hash
+    energy_after = phys.energy
+
+    engine2 = HabitatEngine(initial_state)
+    phys2 = Physiology()
+    replay = _commit_use(
+        store, engine2, phys2, gov, execution_id="exec:rehydrate", request=request, validation=validation
+    )
+    assert replay.idempotent_replay is True
+    assert first.outcome is not None and replay.outcome is not None
+    assert first.outcome.outcome_id == replay.outcome.outcome_id
+    assert engine2.snapshot_view().state_hash == hash_after
+    assert phys2.energy == pytest.approx(energy_after, rel=0, abs=1e-6)
+    store.close()
+
+
+def test_collection_cap_exceeded_commits_durable_failure(tmp_path):
+    from umbra_core.habitat.execution_journal import (
+        HABITAT_COLLECTION_CAP_EXCEEDED,
+        STATUS_COMMITTED_FAILURE,
+        commit_manipulation_transaction,
+    )
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    state = _state_with_portable()
+    zone = replace(state.zones["zone:general"], occupancy_limit=1)
+    state = with_state_hash(replace(state, zones={**state.zones, "zone:general": zone}))
+    held_obj = replace(
+        state.objects["portable:0"],
+        location=HeldByLocation(body_instance_id="body:default", attachment_generation=0, hold_slot=0),
+    )
+    held_obj = with_object_state_hash(held_obj)
+    state = with_state_hash(replace(state, objects={**state.objects, held_obj.object_id: held_obj}))
+    engine = HabitatEngine(state)
+    hash_before = engine.snapshot_view().state_hash
+    request = _place_request(state, held_obj, execution_id="exec:cap")
+    validation = AffordanceValidationResult(
+        allowed=True,
+        failure_code=None,
+        expected_object_version=held_obj.object_version,
+        expected_habitat_version=engine.snapshot_view().state_version,
+        effect_plan=HabitatEffectPlan(
+            habitat_mutations=(
+                {
+                    "mutation_kind": "SET_LOCATION",
+                    "object_id": held_obj.object_id,
+                    "location": {
+                        "mode": "FREE",
+                        "x": 7.0,
+                        "y": 4.0,
+                        "zone_id": "zone:general",
+                    },
+                },
+            ),
+            habitat_events=({"event_type": "habitat_object_placed", "object_id": held_obj.object_id},),
+            requested_organism_effects=(),
+        ),
+        applied_parameters=PlaceParameters(target_x=7.0, target_y=4.0, expected_zone_id="zone:general"),
+    )
+    phys = Physiology()
+    gov = _journal_governance()
+    result = commit_manipulation_transaction(
+        store,
+        gov,
+        engine,
+        phys,
+        request,
+        validation,
+        agent_id="agent:test",
+        prepared_tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert result.journal_status == STATUS_COMMITTED_FAILURE
+    assert result.failure_code == HABITAT_COLLECTION_CAP_EXCEEDED
+    assert engine.snapshot_view().state_hash == hash_before
+    outcomes = [e for e in store.iter_events() if e["event_type"] == "outcome_verified"]
+    assert any(
+        e["payload"].get("execution_id") == "exec:cap"
+        and e["payload"].get("reason") == HABITAT_COLLECTION_CAP_EXCEEDED
+        for e in outcomes
+    )
+    store.close()
+
+
+def test_event_storage_budget_exceeded_commits_durable_failure(tmp_path):
+    from umbra_core.habitat.execution_journal import (
+        EVENT_STORAGE_BUDGET_EXCEEDED,
+        STATUS_COMMITTED_FAILURE,
+    )
+    from umbra_core.physiology import Physiology
+
+    store = _journal_store(tmp_path)
+    engine = HabitatEngine(_state_with_use_resource())
+    phys = Physiology()
+    gov = _journal_governance()
+    _commit_use(store, engine, phys, gov, execution_id="exec:budget-fill", request_id="req:budget-fill")
+    store.event_storage_budget = len(store.iter_events()) + 1
+    engine2 = HabitatEngine(_state_with_use_resource())
+    phys2 = Physiology()
+    hash_before = engine2.snapshot_view().state_hash
+    result = _commit_use(
+        store, engine2, phys2, gov, execution_id="exec:budget-exceed", request_id="req:budget-exceed"
+    )
+    assert result.journal_status == STATUS_COMMITTED_FAILURE
+    assert result.failure_code == EVENT_STORAGE_BUDGET_EXCEEDED
+    assert engine2.snapshot_view().state_hash == hash_before
+    outcomes = [e for e in store.iter_events() if e["event_type"] == "outcome_verified"]
+    assert any(
+        e["payload"].get("execution_id") == "exec:budget-exceed"
+        and e["payload"].get("reason") == EVENT_STORAGE_BUDGET_EXCEEDED
+        for e in outcomes
+    )
     store.close()
 
 

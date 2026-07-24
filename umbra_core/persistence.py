@@ -169,6 +169,7 @@ class Store:
         causal_parent_ids: list[str] | None = None,
         event_id: str | None = None,
     ) -> dict[str, Any]:
+        self._check_event_storage_budget()
         seq = self.last_sequence() + 1
         eid = event_id or new_id()
         parents = causal_parent_ids or []
@@ -522,31 +523,42 @@ class Store:
             payload = json.loads(r["payload"])
             if payload.get("execution_id") != execution_id:
                 continue
+            raw = payload.get("raw") or {}
+            if raw.get("transaction_id") != transaction_id:
+                continue
             return {
                 "status": "COMMITTED_SUCCESS" if payload.get("success") else "COMMITTED_FAILURE",
                 "outcome_id": payload.get("outcome_id"),
                 "failure_code": None if payload.get("success") else payload.get("reason"),
             }
-        habitat_rows = self.conn.execute(
+        return None
+
+    def list_habitat_events_for_execution(
+        self,
+        *,
+        agent_id: str,
+        execution_id: str,
+        transaction_id: str,
+    ) -> list[dict[str, Any]]:
+        rows = self.conn.execute(
             """
-            SELECT payload FROM events
+            SELECT event_type, payload FROM events
             WHERE agent_id=? AND event_type LIKE 'habitat_%'
-            ORDER BY sequence DESC
+            ORDER BY sequence ASC
             """,
             (agent_id,),
         ).fetchall()
-        for r in habitat_rows:
+        events: list[dict[str, Any]] = []
+        for r in rows:
+            if r["event_type"] == "habitat_body_zone_transitioned":
+                continue
             payload = json.loads(r["payload"])
             if payload.get("execution_id") != execution_id:
                 continue
             if payload.get("transaction_id") != transaction_id:
                 continue
-            return {
-                "status": "COMMITTED_SUCCESS",
-                "outcome_id": None,
-                "failure_code": None,
-            }
-        return None
+            events.append({"event_type": r["event_type"], "payload": payload})
+        return events
 
     def get_verified_outcome_by_id(self, outcome_id: str, *, agent_id: str):
         row = self.conn.execute(
@@ -593,7 +605,6 @@ class Store:
         self.conn.execute("BEGIN IMMEDIATE")
         try:
             for i, stage in enumerate(stages, start=1):
-                self._check_event_storage_budget()
                 stage()
                 if crash_after_stage is not None and i == crash_after_stage:
                     raise PersistenceError(f"crash_injection_after_stage_{crash_after_stage}")

@@ -14,11 +14,14 @@ from umbra_core.habitat.events import (
     HABITAT_OBJECT_PICKED_UP,
     HABITAT_OBJECT_PLACED,
     HABITAT_OBJECT_STATE_CHANGED,
+    HabitatEventError,
+    apply_habitat_event,
     build_habitat_event,
     build_object_moved_event,
     build_object_picked_up_event,
     build_object_placed_event,
 )
+from umbra_core.habitat.events import _location_from_payload, _object_state_from_payload
 from umbra_core.habitat.state import (
     ActivatableState,
     FreeLocation,
@@ -214,6 +217,17 @@ def commit_manipulation_transaction(
         if existing["canonical_payload_hash"] != payload_hash:
             raise ExecutionJournalError(EXECUTION_PAYLOAD_MISMATCH)
         if existing["status"] in (STATUS_COMMITTED_SUCCESS, STATUS_COMMITTED_FAILURE):
+            if existing["status"] == STATUS_COMMITTED_SUCCESS:
+                _maybe_rehydrate_committed_success(
+                    store,
+                    governance,
+                    habitat_engine,
+                    physiology,
+                    existing,
+                    agent_id=agent_id,
+                    request=request,
+                    validation=validation,
+                )
             return _terminal_result_from_row(
                 store,
                 existing,
@@ -231,6 +245,17 @@ def commit_manipulation_transaction(
     existing = store.get_habitat_execution_journal(request.execution_id)
     assert existing is not None
     if existing["status"] in (STATUS_COMMITTED_SUCCESS, STATUS_COMMITTED_FAILURE):
+        if existing["status"] == STATUS_COMMITTED_SUCCESS:
+            _maybe_rehydrate_committed_success(
+                store,
+                governance,
+                habitat_engine,
+                physiology,
+                existing,
+                agent_id=agent_id,
+                request=request,
+                validation=validation,
+            )
         return _terminal_result_from_row(
             store,
             existing,
@@ -246,6 +271,19 @@ def commit_manipulation_transaction(
         STATUS_COMMITTED_SUCCESS,
         STATUS_COMMITTED_FAILURE,
     ):
+        if recovery.journal_status == STATUS_COMMITTED_SUCCESS:
+            row = store.get_habitat_execution_journal(request.execution_id)
+            assert row is not None
+            _maybe_rehydrate_committed_success(
+                store,
+                governance,
+                habitat_engine,
+                physiology,
+                row,
+                agent_id=agent_id,
+                request=request,
+                validation=validation,
+            )
         return replace(recovery, idempotent_replay=True)
 
     if not validation.allowed:
@@ -291,6 +329,158 @@ def _prepared_from_row(row: dict[str, Any]) -> PreparedExecution:
         outcome_id=str(row["outcome_id"]) if row.get("outcome_id") else None,
         failure_code=str(row["failure_code"]) if row.get("failure_code") else None,
     )
+
+
+def _maybe_rehydrate_committed_success(
+    store: Store,
+    governance: Governance,
+    habitat_engine: HabitatEngine,
+    physiology: Physiology,
+    row: dict[str, Any],
+    *,
+    agent_id: str,
+    request: ManipulationRequest | None = None,
+    validation: AffordanceValidationResult | None = None,
+) -> None:
+    """Idempotent catch-up when durable commit succeeded but in-memory state lags."""
+    outcome_id = row.get("outcome_id")
+    if not outcome_id:
+        return
+    outcome = store.get_verified_outcome_by_id(str(outcome_id), agent_id=agent_id)
+    if outcome is None or not outcome.success:
+        return
+
+    txn_events = store.list_habitat_events_for_execution(
+        agent_id=agent_id,
+        execution_id=str(row["execution_id"]),
+        transaction_id=str(row["transaction_id"]),
+    )
+    if not txn_events:
+        return
+
+    expected_hash = str(txn_events[-1]["payload"]["new_state_hash"])
+    if habitat_engine.snapshot_view().state_hash == expected_hash:
+        return
+
+    if validation is not None and validation.effect_plan is not None and request is not None:
+        state_after, _ = _apply_effect_plan(
+            habitat_engine.state,
+            validation.effect_plan,
+            envelope_kwargs={
+                "transaction_id": str(row["transaction_id"]),
+                "request_id": str(row["request_id"]),
+                "execution_id": str(row["execution_id"]),
+                "actor_ref": request.body_instance_id,
+                "target_ref": request.target_object_id,
+            },
+        )
+        if state_after.state_hash == expected_hash:
+            habitat_engine._state = state_after
+            habitat_engine._rebuild_indexes()
+            governance.apply_physiology(physiology, outcome)
+            return
+
+    state = habitat_engine.state
+    for event in txn_events:
+        state = _rehydrate_apply_event(state, event)
+    habitat_engine._state = state  # ponytail: replay durable txn events post-COMMIT
+    habitat_engine._rebuild_indexes()
+    governance.apply_physiology(physiology, outcome)
+
+
+def _rehydrate_apply_event(state: HabitatState, event: dict[str, Any]) -> HabitatState:
+    payload = event["payload"]
+    if (
+        state.state_version == int(payload["new_state_version"])
+        and state.state_hash == payload["new_state_hash"]
+    ):
+        return state
+    try:
+        return apply_habitat_event(state, event)
+    except HabitatEventError as exc:
+        if str(exc) != "event_new_state_version_mismatch":
+            raise
+        return _apply_terminal_snapshot_from_event(state, event)
+
+
+def _apply_terminal_snapshot_from_event(state: HabitatState, event: dict[str, Any]) -> HabitatState:
+    """Apply durable terminal snapshot when one event spans multiple commit mutations."""
+    payload = event["payload"]
+    event_type = event["event_type"]
+    object_id = str(payload["object_id"]) if "object_id" in payload else None
+
+    def snap(mutated: HabitatState) -> HabitatState:
+        bumped = replace(
+            mutated,
+            state_version=int(payload["new_state_version"]),
+            state_hash="",
+        )
+        result = with_state_hash(bumped)
+        if result.state_hash != payload["new_state_hash"]:
+            raise ExecutionJournalError("rehydrate_hash_mismatch")
+        return result
+
+    if event_type == HABITAT_OBJECT_STATE_CHANGED:
+        assert object_id is not None
+        new_obj_state = _object_state_from_payload(payload["new_state"])
+
+        def change_state(obj: HabitatObject) -> HabitatObject:
+            return replace(obj, state=new_obj_state)
+
+        updated = apply_committed_object_mutation(state.objects[object_id], change_state)
+        objects = dict(state.objects)
+        objects[object_id] = updated
+        return snap(replace(state, objects=objects))
+
+    if event_type == HABITAT_OBJECT_MOVED:
+        assert object_id is not None
+        location = _location_from_payload(payload["new_location"])
+
+        def move(obj: HabitatObject) -> HabitatObject:
+            return replace(obj, location=location)
+
+        updated = apply_committed_object_mutation(state.objects[object_id], move)
+        objects = dict(state.objects)
+        objects[object_id] = updated
+        return snap(replace(state, objects=objects))
+
+    if event_type == HABITAT_OBJECT_PICKED_UP:
+        assert object_id is not None
+        location = _location_from_payload(payload["new_location"])
+
+        def pick_up(obj: HabitatObject) -> HabitatObject:
+            return replace(obj, location=location)
+
+        updated = apply_committed_object_mutation(state.objects[object_id], pick_up)
+        objects = dict(state.objects)
+        objects[object_id] = updated
+        return snap(replace(state, objects=objects))
+
+    if event_type == HABITAT_OBJECT_PLACED:
+        assert object_id is not None
+        location = _location_from_payload(payload["new_location"])
+
+        def place(obj: HabitatObject) -> HabitatObject:
+            return replace(obj, location=location)
+
+        updated = apply_committed_object_mutation(state.objects[object_id], place)
+        objects = dict(state.objects)
+        objects[object_id] = updated
+        return snap(replace(state, objects=objects))
+
+    if event_type in (HABITAT_AFFORDANCE_ACTIVATED, HABITAT_AFFORDANCE_DEACTIVATED):
+        assert object_id is not None
+        new_obj_state = _object_state_from_payload(payload["new_state"])
+
+        def change_state(obj: HabitatObject) -> HabitatObject:
+            return replace(obj, state=new_obj_state)
+
+        updated = apply_committed_object_mutation(state.objects[object_id], change_state)
+        objects = dict(state.objects)
+        objects[object_id] = updated
+        return snap(replace(state, objects=objects))
+
+    raise ExecutionJournalError(f"rehydrate_unsupported_event:{event_type}")
 
 
 def _terminal_result_from_row(
@@ -515,11 +705,37 @@ def _commit_success(
         habitat_engine._rebuild_indexes()
         governance.apply_physiology(physiology, outcome)
 
-    store.atomic_manipulation_outcome(
-        [stage_habitat_events, stage_organism_effects, stage_outcome, stage_journal],
-        on_commit=on_commit,
-        crash_after_stage=crash_after_stage,
-    )
+    try:
+        store.atomic_manipulation_outcome(
+            [stage_habitat_events, stage_organism_effects, stage_outcome, stage_journal],
+            on_commit=on_commit,
+            crash_after_stage=crash_after_stage,
+        )
+    except MutationRejected as exc:
+        if str(exc) != EVENT_STORAGE_BUDGET_EXCEEDED:
+            raise
+        validation_stub = AffordanceValidationResult(
+            allowed=False,
+            failure_code=EVENT_STORAGE_BUDGET_EXCEEDED,
+            expected_object_version=None,
+            expected_habitat_version=None,
+            effect_plan=None,
+            applied_parameters=None,
+        )
+        return _commit_failure(
+            store,
+            governance,
+            habitat_engine,
+            physiology,
+            request,
+            validation_stub,
+            prepared=prepared,
+            agent_id=agent_id,
+            monotonic_time=monotonic_time,
+            wall_time=wall_time,
+            failure_code=EVENT_STORAGE_BUDGET_EXCEEDED,
+            crash_after_stage=crash_after_stage,
+        )
     return ManipulationCommitResult(
         execution_id=request.execution_id,
         request_id=request.request_id,
