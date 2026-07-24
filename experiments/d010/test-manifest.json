@@ -1,7 +1,7 @@
 {
   "directive": "UMBRA-D-010",
   "frozen_before_execution": true,
-  "manifest_hash": "4cd7e9610ec747d5f4d220d747d809fbf19c8dcadef0a7e89aeb70859e614f2f",
+  "manifest_hash": "06951e57473fd3e333acdad64a9809ae7f2278fae7d2c56e4944783208bfb732",
   "schema_version": "d010.test-manifest.v1",
   "tests": [
     {

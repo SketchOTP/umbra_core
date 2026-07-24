@@ -1,5 +1,5 @@
 {
-  "agent_memory_directive": "D-20260724-1620-d010-freeze-invalidate-v5",
+  "agent_memory_directive": "D-20260724-1607-d010-r1-rss-remediation",
   "allowed_verdicts": [
     "UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED",
     "UMBRA_D010_PARTIAL_FOUNDATION",
@@ -19,22 +19,22 @@
   ],
   "artifact_hashes": {
     "experiments/d010/development-seed-manifest.json": "c05edb25689f1731ff25272df15c1d586134736b054d3aa2fb0e885fd8ff73ca",
-    "experiments/d010/experiment-matrix.json": "b172e36486829ee01e9c5a1918068ef81117a5741bf5c30c502d725341fe4566",
+    "experiments/d010/experiment-matrix.json": "6fbe46dbef78f0d1ee56cc3d09b02198b02b65186e67292fec90f89d065af260",
     "experiments/d010/failure-code-registry.json": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
     "experiments/d010/formal-seed-manifest.json": "4c0a5472e364a9d33e8cb7f29802d0897d07473ccbb20cd56320de54254ed32a",
-    "experiments/d010/performance-protocol.json": "3ce15189717cd8b54ae7d4ec2017064c075108244067569703517176a8033c00",
-    "experiments/d010/runtime-tick-classification.json": "bc6e20ee9ea7c1559a96947fa3adda67e1f246971a2878625c242e6b843655f1",
+    "experiments/d010/performance-protocol.json": "ade69a9803fe44af9e3ad66a3359655e22937a498af5ce63e9fa878da1ce27e1",
+    "experiments/d010/runtime-tick-classification.json": "464ac08afdc859a0ae51ddcbc56bf24688f41435ade2ffc7cd3a10a5f2e7a9f9",
     "experiments/d010/scenario-suite.json": "15904c1fbfea39cad86bef0afd846b851f231bf0033c841cdfbf82cdf62ba94f",
-    "experiments/d010/stage-a-hashes.json": "a063f8630b030f2df34bad501a56a779c82f28376d9670207396485b4f95d2a3",
+    "experiments/d010/stage-a-hashes.json": "93f25225b3ec606a18410cc1f871cdd24c050de2a8b11106eb70ce42c98782ca",
     "experiments/d010/temporal-event-schemas.json": "06257ab955f617f2b54b796bfe1f711d9a199f7e577559eca8b546ed6df2f737",
-    "experiments/d010/test-manifest.json": "3a934cf54f222e04e8bfc37f4ee5fcf210abaa893b666f2df48099942613789d",
-    "experiments/d010/thresholds.json": "6e8ce9874ba6c902cbdfc772a151b8aa6a22f9b1a0830fba75fa9c0ffc20fb97"
+    "experiments/d010/test-manifest.json": "852d62e22c7ef222f93515428326921b6517fdec2f12e2cfb856de923dea42d5",
+    "experiments/d010/thresholds.json": "b77ca58270ff20c03d1743c7dd71df92d79426dbdd0220a5a78cc4bea010929c"
   },
   "development_seed_manifest_hash": "4db7dd603a602dc8628823acf4fb77fd1c46541096edfae9563f019b518006a5",
   "directive": "UMBRA-D-010",
   "event_registry_hash": "06257ab955f617f2b54b796bfe1f711d9a199f7e577559eca8b546ed6df2f737",
   "failure_code_registry_hash": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
-  "formal_execution_id": "d010-fe-stage-b-v5",
+  "formal_execution_id": "d010-fe-stage-b-v6",
   "formal_seed_nonoverlap_rule": {
     "development_ranges": [
       [
@@ -51,14 +51,14 @@
       ]
     ]
   },
-  "freeze_bundle_hash": "cb2b0526d1e5704230508201cf7a5ee3397c95a7132c941b147ca4ef82cc66f0",
+  "freeze_bundle_hash": "4298655c52e8a8b95b1aeabd186974124f7d775e0cdd5b359eaf89bcebf27de6",
   "frozen_before_execution": true,
-  "implementation_source_hash": "185fbaecf754d286086158ef54c9a1f856cd56dcf31dc33b1ab9d416fb86d3fd",
+  "implementation_source_hash": "c82c6d05d7cc770b609c173d117b650121bc6646c81eb063847845361392c5ab",
   "notes": "freeze_commit is recorded in docs/evidence/d010/formal-execution-manifest.json at Task 13 run start",
   "runner_hash": "0e70f570eea58bfa507b1021c0ee16f497e8bc41563adadd2b9f1a4db98b7a97",
   "schema_version": "d010.formal-execution-contract.v1",
   "seed_manifest_hash": "af3474cf8e995fc4cde3a89acf5195d46b40a194b0e54ce5a2c10b468e699ec3",
-  "stage_a_bundle_hash": "9dbf75686acfdc9d9dc434016a9e79a21df21cfef923c231e962327107cb7b58",
-  "test_manifest_hash": "4cd7e9610ec747d5f4d220d747d809fbf19c8dcadef0a7e89aeb70859e614f2f",
-  "threshold_freeze_timestamp": "2026-07-24T16:24:11+00:00"
+  "stage_a_bundle_hash": "2d0609bddc6617f7b98ee1977dbfeab7a130aaf51ad30c96f92687b0dd21bf6f",
+  "test_manifest_hash": "06951e57473fd3e333acdad64a9809ae7f2278fae7d2c56e4944783208bfb732",
+  "threshold_freeze_timestamp": "2026-07-24T21:49:12+00:00"
 }

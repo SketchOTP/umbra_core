@@ -4,10 +4,10 @@
     "experiments/d010/elapsed-contract-registry.json": "35708b8d0c8f6734df5c37e16c5dbbb1cdbb1660e22444bd825dadd5c6d802a2",
     "experiments/d010/failure-code-registry.json": "e00bbfa0c44c773306497707a648f12635b97cf5cc2d101a01df201c5e4ad554",
     "experiments/d010/observable-evidence-allowlist.json": "d3505ab24c9d666d4a2a8c8db1c33d7471aa4b97cb4952624bc7e4ab3ea82df3",
-    "experiments/d010/runtime-tick-classification.json": "bc6e20ee9ea7c1559a96947fa3adda67e1f246971a2878625c242e6b843655f1",
+    "experiments/d010/runtime-tick-classification.json": "464ac08afdc859a0ae51ddcbc56bf24688f41435ade2ffc7cd3a10a5f2e7a9f9",
     "experiments/d010/temporal-event-schemas.json": "06257ab955f617f2b54b796bfe1f711d9a199f7e577559eca8b546ed6df2f737"
   },
-  "bundle_hash": "9dbf75686acfdc9d9dc434016a9e79a21df21cfef923c231e962327107cb7b58",
+  "bundle_hash": "2d0609bddc6617f7b98ee1977dbfeab7a130aaf51ad30c96f92687b0dd21bf6f",
   "directive": "UMBRA-D-010",
   "frozen_before_execution": true,
   "schema_version": "d010.stage-a-hashes.v1"
