@@ -2644,6 +2644,69 @@ def test_manipulation_candidates_compete_in_arbitration():
     assert chosen.params.get("target_address_ref")
 
 
+def test_spontaneous_manipulate_does_not_mutate_unrelated_routine_lifecycle(tmp_path):
+    from umbra_core.governance import VerifiedOutcome
+    from umbra_core.memory import EnvironmentalRoutineSpec, RoutineLifecycle
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    org = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "gate8.sqlite"),
+            seed=42,
+            memory_enabled=True,
+            drift_enabled=False,
+        )
+    )
+    assert org.memory is not None
+    rid = org.memory.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id="zone:general",
+            soft_proposals=[],
+            supporting_episode_ids=["ep:1", "ep:2", "ep:3"],
+        ),
+        tick=1,
+        lifecycle=RoutineLifecycle.ACTIVE.value,
+    )
+    sk = org.memory.procedural[rid]
+    sk.confidence = 0.55
+    before = (sk.applicability["lifecycle"], sk.confidence, sk.success_count, sk.failure_count)
+
+    engine, _, perception, _, _ = _task7_habitat_setup()
+    org.embodiment.attach_habitat_engine(engine)
+    for source in ("NEED_RELEVANCE", "WORLD_MODEL"):
+        params = _task7_manipulation_candidate(
+            perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator()
+        ).to_candidate().params
+        params["source"] = source
+        org._pending_action = {"capability": "MANIPULATE", "params": params}
+        org.tick += 1
+        org._finish_outcome(
+            VerifiedOutcome(
+                outcome_id=f"out:{source}",
+                capability="MANIPULATE",
+                success=True,
+                reason="ok",
+                physiology_effects={},
+                raw={"execution_id": f"exec:{source}", "target_object_id": "resource:0"},
+                verified=True,
+            ),
+            wall=0.0,
+            obs_dicts=[],
+            action_issued=True,
+        )
+
+    after = org.memory.procedural[rid]
+    assert (
+        after.applicability["lifecycle"],
+        after.confidence,
+        after.success_count,
+        after.failure_count,
+    ) == before
+    org.close()
+
+
 def test_routine_proposals_require_governance_each_step(tmp_path):
     from umbra_core.governance import Governance, GovernanceState
     from umbra_core.memory import EnvironmentalRoutineSpec, MemoryEngine

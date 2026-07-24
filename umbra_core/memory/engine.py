@@ -854,6 +854,7 @@ class MemoryEngine:
                     "perceived_affordance_ref": affordance or refs[0],
                     "parameters": {"kind": "USE"},
                     "source": "PROCEDURAL_ROUTINE",
+                    "routine_skill_id": routine.skill_id,
                 }
             )
         return out

@@ -1610,15 +1610,20 @@ class Organism:
                 "episodes": len(self.memory.episodes),
                 "beliefs": len(self.memory.beliefs),
             }
-            if outcome.capability == "MANIPULATE":
-                for sk in list(self.memory.procedural.values()):
-                    if sk.applicability.get("kind") != "environmental_routine":
-                        continue
+            if (
+                outcome.capability == "MANIPULATE"
+                and pending_params.get("source") == "PROCEDURAL_ROUTINE"
+            ):
+                routine_skill_id = pending_params.get("routine_skill_id") or pending_params.get(
+                    "skill_id"
+                )
+                if routine_skill_id:
                     self.memory.update_environmental_routine_lifecycle(
-                        sk.skill_id,
+                        str(routine_skill_id),
                         success=bool(outcome.success),
                         interrupted=bool(pending_params.get("binding_stale")),
-                        object_missing=outcome.reason in ("OBJECT_NOT_PERCEIVED", "OBJECT_MISSING"),
+                        object_missing=outcome.reason
+                        in ("OBJECT_NOT_PERCEIVED", "OBJECT_MISSING"),
                         tick=self.tick,
                     )
             assert self.memory.try_grant_authority({"grant_capability": True}) is False
