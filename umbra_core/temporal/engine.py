@@ -6,12 +6,14 @@ from dataclasses import dataclass
 from typing import Any
 
 from umbra_core.temporal.clock import TrustedSample, compute_sample_hash
+from umbra_core.temporal.events import (
+    TemporalAdvanceRecord,
+    TemporalEngineError,
+    apply_advance_plan,
+    build_advance_record,
+)
 from umbra_core.temporal.state import TemporalState
 from umbra_core.util import new_id
-
-
-class TemporalEngineError(Exception):
-    """TemporalEngine invariant violation."""
 
 
 @dataclass(frozen=True)
@@ -59,11 +61,12 @@ def build_tick_temporal_context(plan: TemporalAdvancePlan) -> TickTemporalContex
 
 
 class TemporalEngine:
-    """Sole temporal writer. ponytail: commit/apply deferred to Task 3."""
+    """Sole durable temporal writer (Decision A)."""
 
     def __init__(self, state: TemporalState) -> None:
         self._state = state
         self._in_flight: TemporalAdvancePlan | None = None
+        self._committed_advance_ids: set[str] = {state.last_advance_id}
 
     @property
     def state(self) -> TemporalState:
@@ -111,3 +114,30 @@ class TemporalEngine:
 
     def build_tick_context(self, plan: TemporalAdvancePlan) -> TickTemporalContext:
         return build_tick_temporal_context(plan)
+
+    def commit_advance(
+        self,
+        plan: TemporalAdvancePlan,
+        sample: TrustedSample,
+        session_id: str,
+    ) -> tuple[TemporalState, TemporalAdvanceRecord]:
+        if self._in_flight is None:
+            raise TemporalEngineError("no_advance_prepared")
+        if self._in_flight.advance_id != plan.advance_id:
+            raise TemporalEngineError("advance_id_mismatch")
+        if plan.advance_id in self._committed_advance_ids:
+            raise TemporalEngineError("advance_id_already_committed")
+
+        prior = self._state
+        new_state = apply_advance_plan(prior, plan, sample, session_id)
+        record = build_advance_record(prior, new_state, plan)
+        self._state = new_state
+        self._in_flight = None
+        self._committed_advance_ids.add(plan.advance_id)
+        return new_state, record
+
+    def replace_state(self, state: TemporalState) -> None:
+        """Restore durable temporal state after restart (snapshot authority)."""
+        self._state = state
+        self._in_flight = None
+        self._committed_advance_ids = {state.last_advance_id}

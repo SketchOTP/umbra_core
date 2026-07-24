@@ -31,6 +31,13 @@ SOCIAL_EVENT_AUTHORITY: dict[str, str] = {
     "social_match_score": "DIAGNOSTIC",
 }
 
+# D-010 temporal conceptual events → authority class.
+TEMPORAL_EVENT_AUTHORITY: dict[str, str] = {
+    "temporal_initialized": "AUTHORITATIVE",
+    "temporal_anchor_committed": "AUTHORITATIVE",
+    "orchestration_tick_committed": "AUTHORITATIVE",
+}
+
 # D-009 habitat conceptual events → authority class.
 HABITAT_EVENT_AUTHORITY: dict[str, str] = {
     "habitat_initialized": "AUTHORITATIVE",
@@ -85,6 +92,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         if klass == "AUTHORITATIVE"
     }
     | {name for name, klass in HABITAT_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
+    | {name for name, klass in TEMPORAL_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
 )
 
 # Optional / diagnostic — may be downsampled or omitted; not required for replay.
@@ -177,3 +185,9 @@ def habitat_event_authority_class(name: str) -> str:
     if name not in HABITAT_EVENT_AUTHORITY:
         raise KeyError(f"unknown_habitat_event:{name}")
     return HABITAT_EVENT_AUTHORITY[name]
+
+
+def temporal_event_authority_class(name: str) -> str:
+    if name not in TEMPORAL_EVENT_AUTHORITY:
+        raise KeyError(f"unknown_temporal_event:{name}")
+    return TEMPORAL_EVENT_AUTHORITY[name]

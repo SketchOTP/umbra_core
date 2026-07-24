@@ -663,6 +663,20 @@ class Store:
         if on_commit is not None:
             on_commit()
 
+    def atomic_orchestration_tick_commit(
+        self,
+        stages: list[Any],
+        *,
+        on_commit: Any = None,
+        crash_after_stage: int | None = None,
+    ) -> None:
+        """Atomic D-010 orchestration tick durable commit."""
+        self.atomic_social_outcome(
+            stages,
+            on_commit=on_commit,
+            crash_after_stage=crash_after_stage,
+        )
+
     def corrupt_event_payload(self, sequence: int, new_payload: dict[str, Any]) -> None:
         """Test helper — mutates payload without updating hashes."""
         payload_s = json.dumps(new_payload, sort_keys=True, separators=(",", ":"))

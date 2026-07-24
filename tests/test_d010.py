@@ -203,3 +203,117 @@ def test_runtime_attaches_temporal_engine_when_enabled(tmp_path):
     assert org.temporal is not None
     assert org.temporal.state.organism_age_ticks == 0
     assert org.temporal.in_flight_plan is None
+
+
+def _temporal_org(tmp_path, **kwargs):
+    from umbra_core.runtime import OrganismConfig, create_organism
+
+    config = OrganismConfig(
+        db_path=str(tmp_path / "temporal.db"),
+        temporal_enabled=True,
+        snapshot_every=1000,
+        **kwargs,
+    )
+    return create_organism(config)
+
+
+def test_committed_tick_contains_temporal_advance_record(tmp_path):
+    org = _temporal_org(tmp_path)
+    org.tick_once()
+    events = [e for e in org.store.iter_events() if e["event_type"] == "orchestration_tick_committed"]
+    assert len(events) == 1
+    record = events[0]["payload"]["temporal_advance_record"]
+    assert record["advance_id"].startswith("advance:")
+    assert record["new_age_ticks"] == 1
+    assert record["prior_age_ticks"] == 0
+    assert "temporal_transaction" in events[0]["payload"]
+
+
+def test_failed_tick_has_no_temporal_advance_record(tmp_path, monkeypatch):
+    org = _temporal_org(tmp_path)
+
+    def boom(*_args, **_kwargs):
+        raise RuntimeError("tick_failed")
+
+    monkeypatch.setattr(org, "_push_expression_frame", boom)
+    with pytest.raises(RuntimeError, match="tick_failed"):
+        org.tick_once()
+    assert org.temporal.state.organism_age_ticks == 0
+    events = [e for e in org.store.iter_events() if e["event_type"] == "orchestration_tick_committed"]
+    assert events == []
+
+
+def test_temporal_advance_commits_atomically_with_tick(tmp_path):
+    org = _temporal_org(tmp_path)
+    before_version = org.temporal.state.state_version
+    org.tick_once()
+    assert org.temporal.state.organism_age_ticks == 1
+    assert org.temporal.state.organism_active_ticks == 1
+    assert org.temporal.state.state_version == before_version + 1
+    assert org.temporal.in_flight_plan is None
+
+
+def test_temporal_advance_id_cannot_commit_twice():
+    from umbra_core.temporal.events import apply_advance_plan
+
+    engine = _engine_with_age(age=1, active=1, version=1)
+    sample = _trusted_sample(sequence=2)
+    plan = engine.prepare_advance(sample, orchestration_sequence=2)
+    dup = replace(plan, advance_id=engine.state.last_advance_id)
+    engine.abandon_advance(plan.advance_id)
+    with pytest.raises(TemporalEngineError, match="advance_id_already_committed"):
+        apply_advance_plan(engine.state, dup, sample, "session:test")
+
+
+def test_tick_replay_reconstructs_anchor_and_clock_mapping(tmp_path):
+    from umbra_core.temporal.events import (
+        ORCHESTRATION_TICK_COMMITTED,
+        replay_temporal_state_from_events,
+    )
+
+    org = _temporal_org(tmp_path, wall_time_fn=lambda: 1_700_000_000.5)
+    genesis = org.temporal.state
+    org.tick_once()
+    org.tick_once()
+    events = org.store.iter_events()
+    replayed = replay_temporal_state_from_events(genesis, events)
+    assert replayed.organism_age_ticks == 2
+    assert replayed.organism_age_ticks == org.temporal.state.organism_age_ticks
+    assert replayed.last_time_anchor.wall_time == 1_700_000_000.5
+    assert replayed.wall_clock_mapping is not None
+    assert replayed.wall_clock_mapping.wall_time_seconds == 1_700_000_000.5
+    tick_events = [e for e in events if e["event_type"] == ORCHESTRATION_TICK_COMMITTED]
+    assert len(tick_events) == 2
+
+
+def test_ordinary_tick_does_not_emit_duplicate_anchor_event(tmp_path):
+    from umbra_core.temporal.events import TEMPORAL_ANCHOR_COMMITTED
+
+    org = _temporal_org(tmp_path)
+    org.tick_once()
+    org.tick_once()
+    anchors = [e for e in org.store.iter_events() if e["event_type"] == TEMPORAL_ANCHOR_COMMITTED]
+    assert anchors == []
+
+
+def test_missing_advance_record_fails_replay(tmp_path):
+    from umbra_core.temporal.events import (
+        ORCHESTRATION_TICK_COMMITTED,
+        TemporalReplayError,
+        replay_temporal_state_from_events,
+    )
+
+    org = _temporal_org(tmp_path)
+    genesis = org.temporal.state
+    org.tick_once()
+    events = org.store.iter_events()
+    bad = []
+    for event in events:
+        if event["event_type"] != ORCHESTRATION_TICK_COMMITTED:
+            bad.append(event)
+            continue
+        payload = dict(event["payload"])
+        payload.pop("temporal_advance_record", None)
+        bad.append({**event, "payload": payload})
+    with pytest.raises(TemporalReplayError, match="missing_temporal_advance_record"):
+        replay_temporal_state_from_events(genesis, bad)

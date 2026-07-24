@@ -167,6 +167,6 @@ Concise navigation map for agents. Add entries as application code lands.
 - Starting commit: `bb90e61`
 - Prerequisite seal: D-009 `af35371`
 - Parent Mimir: `9adf61b087ea4fa6a90a1c3bd401a9b3` (open until seal)
-- Package: `umbra_core/temporal/` — Task 1: `clock.py` (TrustedSample), `state.py` (TemporalState, TimeAnchor, hashes), `migration.py` (epoch init); Task 2: `engine.py` (TemporalEngine, prepare_advance, TickTemporalContext); planned: `recurrence.py`, `events.py`
+- Package: `umbra_core/temporal/` — Task 1: `clock.py` (TrustedSample), `state.py` (TemporalState, TimeAnchor, hashes), `migration.py` (epoch init); Task 2: `engine.py` (TemporalEngine, prepare_advance, TickTemporalContext); Task 3: `events.py` (TemporalAdvanceRecord, TemporalTransactionEnvelope, apply/replay), `engine.commit_advance`, `runtime.tick_once` atomic orchestration commit via `orchestration_tick_committed`; planned: `recurrence.py`
 - Tests: `tests/test_d010.py` (Task 1: state hash, age monotonicity, anchor trust, idempotent init)
 - Experiments (planned): `experiments/d010/`, `docs/evidence/d010/`

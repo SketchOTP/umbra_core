@@ -74,7 +74,19 @@ from umbra_core.individuality import (
     infer_evidence_from_outcome,
 )
 from umbra_core.habitat.config import HabitatConfig, condition_to_habitat_config
+from umbra_core.temporal.clock import TrustedSample
 from umbra_core.temporal.engine import TemporalEngine
+from umbra_core.temporal.events import (
+    ORCHESTRATION_TICK_COMMITTED,
+    TEMPORAL_INITIALIZED,
+    apply_advance_plan,
+    build_advance_record,
+    build_orchestration_tick_payload,
+    build_tick_transaction_envelope,
+    new_transaction_id,
+    temporal_state_from_dict,
+    temporal_state_to_dict,
+)
 from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
 from umbra_core.world_model import WorldModel, WorldModelConfig, condition_to_world_model_config
 
@@ -261,6 +273,8 @@ class Organism:
         self.monotonic_time = monotonic_time
         self.tick = tick
         self.session_id = session_id or new_id()
+        self._orchestration_sequence = 0
+        self._trusted_sample_sequence = 0
         self.running = False
         self.metrics: dict[str, Any] = {
             "viable_ticks": 0,
@@ -355,7 +369,80 @@ class Organism:
                 **{k: v for k, v in self.metrics.items() if k not in ("cells",)},
                 "cells": [list(c) for c in self.metrics["cells"]],
             },
+            "temporal": (
+                temporal_state_to_dict(self.temporal.state)
+                if self.temporal is not None
+                else None
+            ),
         }
+
+    def _begin_temporal_tick(self, wall: float) -> tuple[Any, TrustedSample] | None:
+        if self.temporal is None or not self.config.temporal_enabled:
+            return None
+        self._orchestration_sequence += 1
+        self._trusted_sample_sequence += 1
+        sample = TrustedSample(
+            session_id=self.session_id,
+            monotonic_ns=int(self.monotonic_time * 1_000_000_000),
+            optional_wall_time=wall,
+            wall_time_source="runtime.wall_time_fn",
+            wall_time_uncertainty=0.0,
+            sample_sequence=self._trusted_sample_sequence,
+        )
+        plan = self.temporal.prepare_advance(sample, self._orchestration_sequence)
+        return plan, sample
+
+    def _finish_temporal_tick(
+        self,
+        temporal_begin: tuple[Any, TrustedSample] | None,
+        *,
+        commit: bool,
+        wall: float,
+    ) -> None:
+        if temporal_begin is None:
+            return
+        plan, sample = temporal_begin
+        if not commit:
+            self.temporal.abandon_advance(plan.advance_id)
+            return
+        self._atomic_commit_orchestration_tick(plan, sample, wall)
+
+    def _atomic_commit_orchestration_tick(
+        self,
+        plan: Any,
+        sample: TrustedSample,
+        wall: float,
+    ) -> None:
+        prior = self.temporal.state
+        preview = apply_advance_plan(prior, plan, sample, self.session_id)
+        record = build_advance_record(prior, preview, plan)
+        txn_id = new_transaction_id()
+        envelope = build_tick_transaction_envelope(
+            transaction_id=txn_id,
+            prior_state=prior,
+            new_state=preview,
+            record=record,
+        )
+        payload = build_orchestration_tick_payload(
+            orchestration_sequence=plan.orchestration_sequence,
+            runtime_tick=self.tick,
+            record=record,
+            envelope=envelope,
+        )
+
+        def stage() -> None:
+            self.store.append_event(
+                agent_id=self.identity.agent_id,
+                event_type=ORCHESTRATION_TICK_COMMITTED,
+                monotonic_time=self.monotonic_time,
+                wall_time=wall,
+                payload=payload,
+            )
+
+        def on_commit() -> None:
+            self.temporal.commit_advance(plan, sample, self.session_id)
+
+        self.store.atomic_orchestration_tick_commit([stage], on_commit=on_commit)
 
     def _cell(self) -> tuple[int, int]:
         return (int(self.embodiment.body.x), int(self.embodiment.body.y))
@@ -808,6 +895,18 @@ class Organism:
         if not self._runtime_ready:
             raise RuntimeError("tick_before_runtime_ready")
         wall = float(self.config.wall_time_fn())
+        temporal_begin = self._begin_temporal_tick(wall)
+        try:
+            return self._tick_once_body(wall, temporal_begin)
+        except BaseException:
+            self._finish_temporal_tick(temporal_begin, commit=False, wall=wall)
+            raise
+
+    def _tick_once_body(
+        self,
+        wall: float,
+        temporal_begin: tuple[Any, TrustedSample] | None,
+    ) -> dict[str, Any]:
         self.tick += 1
         self.monotonic_time += self.dt
         self.metrics["total_ticks"] += 1
@@ -907,6 +1006,7 @@ class Organism:
                 if committed_outcome is not None
                 else None
             )
+            self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
             return {
                 "tick": self.tick,
                 "capability": None,
@@ -1358,6 +1458,7 @@ class Organism:
             last_outcome_view = None  # admitted this tick but delayed — nothing verified yet
         self._push_expression_frame(last_outcome_view)
 
+        self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
         return {
             "tick": self.tick,
             "capability": cand.capability if decision.admitted else None,
@@ -1908,8 +2009,9 @@ def create_organism(config: OrganismConfig) -> Organism:
             identity.agent_id, config=indiv_cfg, seed=config.seed
         )
     temporal = None
+    session_id = new_id()
     if config.temporal_enabled:
-        temporal = _create_temporal_engine(session_id=new_id())
+        temporal = _create_temporal_engine(session_id=session_id)
     embodiment_adapter = None
     if config.embodiment_adapter_enabled:
         embodiment_adapter = EmbodimentAdapter(
@@ -1936,6 +2038,7 @@ def create_organism(config: OrganismConfig) -> Organism:
         individuality=individuality,
         embodiment_adapter=embodiment_adapter,
         temporal=temporal,
+        session_id=session_id,
     )
     if embodiment_adapter is not None:
         # Fresh birth — always a normal attach, never a migration (D-007→D-008
@@ -1959,6 +2062,19 @@ def create_organism(config: OrganismConfig) -> Organism:
         payload={"identity": identity.as_dict()},
         event_id=identity.birth_event_id,
     )
+    if temporal is not None:
+        store.append_event(
+            agent_id=identity.agent_id,
+            event_type=TEMPORAL_INITIALIZED,
+            monotonic_time=0.0,
+            wall_time=wall,
+            payload={
+                "temporal_epoch_id": temporal.state.temporal_epoch_id,
+                "state_version": temporal.state.state_version,
+                "state_hash": temporal.state.state_hash,
+                "definition_hash": temporal.state.definition_hash,
+            },
+        )
     org.snapshot_if_due(force=True)
     # Structural residency init (fixed size) — must precede RUNTIME_READY; not RSS-gated.
     store.warm_runtime_residency()
@@ -2112,7 +2228,11 @@ def load_organism(config: OrganismConfig) -> Organism:
     session_id = new_id()
     temporal = None
     if config.temporal_enabled:
-        temporal = _create_temporal_engine(session_id=session_id)
+        if state.get("temporal"):
+            temporal_state = temporal_state_from_dict(state["temporal"])
+            temporal = TemporalEngine(temporal_state)
+        else:
+            temporal = _create_temporal_engine(session_id=session_id)
 
     org = Organism(
         identity=identity,
@@ -2136,6 +2256,10 @@ def load_organism(config: OrganismConfig) -> Organism:
         tick=int(state.get("tick", 0)),
         session_id=session_id,
     )
+    if temporal is not None:
+        org._orchestration_sequence = int(
+            temporal.state.last_committed_orchestration_sequence
+        )
     org._intervention_applied = True  # plant already in embodiment state
     org._world_intervention_applied = True
     org._development_intervention_applied = True
