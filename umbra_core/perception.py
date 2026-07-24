@@ -4,10 +4,42 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from umbra_core.embodiment import Embodiment, HabitatFeature, PartnerEntity, _partner_salt
 from umbra_core.util import SeededRNG, angle_diff, clamp, sha256_hex
+
+if TYPE_CHECKING:
+    from umbra_core.habitat.engine import HabitatEngine
+
+
+@dataclass(frozen=True)
+class ResolvedManipulationTarget:
+    target_object_id: str
+    target_object_version: int
+    binding_hash: str
+
+
+class ManipulationResolveError(Exception):
+    def __init__(self, code: str) -> None:
+        self.code = code
+        super().__init__(code)
+
+
+@dataclass(frozen=True)
+class ObjectAddressBinding:
+    """Trusted binding — object_id must never appear in policy_view."""
+
+    target_address_ref: str
+    perception_evidence_ref: str
+    perception_state_version: int
+    binding_hash: str
+    object_id: str
+    object_version: int
+    perceived_object_kind: str
+    perceived_affordance_refs: tuple[str, ...]
+    relative_direction: float
+    estimated_distance: float
 
 
 @dataclass
@@ -69,6 +101,8 @@ class PerceptionMembrane:
     # experiment flag C6: leak exact truth (ablation — must underperform / be gated)
     leak_world_truth: bool = False
     _leaked_truth: dict[str, Any] | None = None
+    object_bindings: list[ObjectAddressBinding] = field(default_factory=list)
+    perception_state_version: int = 0
 
     def clear_expired(self, now: float) -> None:
         self.observations = [o for o in self.observations if o.expires_at > now]
@@ -127,7 +161,78 @@ class PerceptionMembrane:
         self.observations = list(by_kind.values())
 
         self.partner_cues = self._perceive_partners(embodiment, now, rng)
+        self.perceive_habitat_objects(embodiment, now, rng)
         return list(self.observations)
+
+    def perceive_habitat_objects(
+        self,
+        embodiment: Embodiment,
+        now: float,
+        rng: SeededRNG,
+    ) -> list[ObjectAddressBinding]:
+        """Trusted path: bind perceived habitat objects to address refs (no object_id to policy)."""
+        engine = embodiment._habitat_engine
+        if engine is None:
+            self.object_bindings = []
+            return []
+
+        from umbra_core.habitat.migration import feature_kind_from_object
+        from umbra_core.habitat.state import FreeLocation, HeldByLocation
+
+        body = embodiment.body
+        self.perception_state_version += 1
+        version = self.perception_state_version
+        new_bindings: list[ObjectAddressBinding] = []
+        snapshot = engine.snapshot_view()
+
+        for object_id in sorted(snapshot.objects):
+            obj = snapshot.objects[object_id]
+            if obj.visibility == "HIDDEN":
+                continue
+            if obj.occluded:
+                continue
+            if isinstance(obj.location, HeldByLocation):
+                if obj.location.body_instance_id != embodiment._body_instance_id:
+                    continue
+                ox, oy = body.x, body.y
+            elif isinstance(obj.location, FreeLocation):
+                ox, oy = obj.location.x, obj.location.y
+            else:
+                continue
+
+            dist = body.dist_to(ox, oy)
+            if dist > body.sensor_range:
+                continue
+            if rng.random() < self.false_negative_rate:
+                continue
+
+            bearing = body.bearing_to(ox, oy)
+            rel = angle_diff(bearing, body.heading)
+            est_d = max(0.1, dist + rng.gauss(0.0, self.noise_sigma))
+            rel_n = rel + rng.gauss(0.0, 0.15)
+            kind = feature_kind_from_object(obj)
+            address_ref = sha256_hex(f"addr:{kind}:{rel_n:.5f}:{est_d:.5f}")[:16]
+            evidence_ref = sha256_hex(f"pe:{now:.6f}:{kind}:{rel_n:.5f}:{est_d:.5f}")[:32]
+            binding_hash = sha256_hex(
+                f"bind:{object_id}:{obj.object_version}:{version}"
+            )
+            new_bindings.append(
+                ObjectAddressBinding(
+                    target_address_ref=address_ref,
+                    perception_evidence_ref=evidence_ref,
+                    perception_state_version=version,
+                    binding_hash=binding_hash,
+                    object_id=object_id,
+                    object_version=obj.object_version,
+                    perceived_object_kind=kind,
+                    perceived_affordance_refs=tuple(obj.affordance_ids),
+                    relative_direction=rel_n,
+                    estimated_distance=est_d,
+                )
+            )
+
+        self.object_bindings = new_bindings
+        return new_bindings
 
     def _perceive_partners(
         self,
@@ -200,6 +305,19 @@ class PerceptionMembrane:
         view: dict[str, Any] = {
             "observations": [o.to_dict() for o in self.observations],
             "partner_cues": list(self.partner_cues),
+            "manipulation_bindings": [
+                {
+                    "target_address_ref": b.target_address_ref,
+                    "perception_evidence_ref": b.perception_evidence_ref,
+                    "perception_state_version": b.perception_state_version,
+                    "perceived_object_kind": b.perceived_object_kind,
+                    "perceived_affordance_refs": list(b.perceived_affordance_refs),
+                    "relative_direction": b.relative_direction,
+                    "estimated_distance": b.estimated_distance,
+                }
+                for b in self.object_bindings
+            ],
+            "perception_state_version": self.perception_state_version,
         }
         if self.leak_world_truth and self._leaked_truth is not None:
             view["WORLD_TRUTH_LEAK"] = self._leaked_truth
@@ -213,6 +331,7 @@ class PerceptionMembrane:
             "noise_sigma": self.noise_sigma,
             "expire_ttl": self.expire_ttl,
             "leak_world_truth": self.leak_world_truth,
+            "perception_state_version": self.perception_state_version,
         }
 
     @classmethod
@@ -225,12 +344,58 @@ class PerceptionMembrane:
         )
         p.observations = [Observation.from_dict(o) for o in d.get("observations", [])]
         p.partner_cues = list(d.get("partner_cues", []))
+        p.perception_state_version = int(d.get("perception_state_version", 0))
         return p
+
+
+def resolve_manipulation_address(
+    *,
+    target_address_ref: str,
+    perception_evidence_ref: str,
+    perception_state_version: int,
+    bindings: list[ObjectAddressBinding],
+    habitat_engine: HabitatEngine,
+) -> ResolvedManipulationTarget:
+    """Trusted runtime: address ref → authoritative object (never visible to policy)."""
+    matches = [
+        b
+        for b in bindings
+        if b.target_address_ref == target_address_ref
+        and b.perception_evidence_ref == perception_evidence_ref
+    ]
+    if not matches:
+        raise ManipulationResolveError("OBJECT_NOT_PERCEIVED")
+    if len(matches) > 1:
+        raise ManipulationResolveError("OBJECT_ADDRESS_AMBIGUOUS")
+    binding = matches[0]
+    if binding.perception_state_version != perception_state_version:
+        raise ManipulationResolveError("OBJECT_ADDRESS_BINDING_STALE")
+    obj = habitat_engine.get_object(binding.object_id)
+    if obj is None:
+        raise ManipulationResolveError("OBJECT_NOT_FOUND")
+    if obj.object_version != binding.object_version:
+        raise ManipulationResolveError("OBJECT_ADDRESS_BINDING_STALE")
+    return ResolvedManipulationTarget(
+        target_object_id=binding.object_id,
+        target_object_version=obj.object_version,
+        binding_hash=binding.binding_hash,
+    )
 
 
 def assert_no_world_truth(policy_input: dict[str, Any]) -> None:
     """Test/governance helper: policy bundle must not contain exact coords or partner_id."""
-    bad_keys = {"x", "y", "habitat", "world_truth", "WORLD_TRUTH_LEAK", "body", "partner_id", "hidden_partner_id"}
+    bad_keys = {
+        "x",
+        "y",
+        "habitat",
+        "world_truth",
+        "WORLD_TRUTH_LEAK",
+        "body",
+        "partner_id",
+        "hidden_partner_id",
+        "object_id",
+        "target_object_id",
+    }
     flat = set(policy_input.keys())
     if flat & bad_keys:
         # WORLD_TRUTH_LEAK only allowed under explicit ablation flag checked by caller

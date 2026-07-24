@@ -23,7 +23,7 @@ FORBIDDEN_CAPABILITY_EFFECTS = frozenset(
     }
 )
 
-PREAUTHORIZED = frozenset(CAPABILITIES)
+PREAUTHORIZED = frozenset((*CAPABILITIES, "MANIPULATE"))
 
 SIGNAL_CAPABILITIES = frozenset({"SIGNAL_PLAY", "SIGNAL_ASSISTANCE"})
 # ponytail: frozen default matches experiments/d006/thresholds.json signal_cooldown_ticks
@@ -172,6 +172,7 @@ class Governance:
             "grants",
             "authority",
             "physiology_set",
+            "target_object_id",
         }
         if unsafe_keys:
             self.state.denials += 1
@@ -318,6 +319,154 @@ class Governance:
             raw=raw,
             verified=True,
         )
+
+    def execute_manipulation(
+        self,
+        proposal: Proposal,
+        decision: GovernanceDecision,
+        *,
+        habitat_engine: Any,
+        affordance_engine: Any,
+        adapter: EmbodimentAdapter,
+        embodiment: Embodiment,
+        bindings: list[Any],
+        store: Any,
+        phys: Physiology,
+        agent_id: str,
+        tick: int,
+        monotonic_time: float,
+        wall_time: float,
+    ) -> VerifiedOutcome | None:
+        """Full MANIPULATE path: resolve → adapter → affordance → journal commit."""
+        from umbra_core.embodiment_adapters.adapter import ManipulationValidationError
+        from umbra_core.habitat.execution_journal import commit_manipulation_transaction
+        from umbra_core.habitat_affordances.engine import (
+            ActivateParameters,
+            ManipulationRequest,
+            PickUpParameters,
+            UseParameters,
+            definition_hash,
+        )
+        from umbra_core.perception import ManipulationResolveError, resolve_manipulation_address
+        from umbra_core.util import new_id
+
+        if not decision.admitted:
+            return None
+
+        params = dict(proposal.params)
+        target_address_ref = str(params.get("target_address_ref", ""))
+        perception_evidence_ref = str(params.get("perception_evidence_ref", ""))
+        perception_state_version = int(params.get("perception_state_version", -1))
+        affordance_id = str(params.get("perceived_affordance_ref", ""))
+        raw_parameters = dict(params.get("parameters") or {})
+
+        def _fail(code: str) -> VerifiedOutcome:
+            self.state.verified_outcomes += 1
+            return VerifiedOutcome(
+                outcome_id=new_id(),
+                capability="MANIPULATE",
+                success=False,
+                reason=code,
+                physiology_effects={},
+                raw={"ok_raw": False, "failure_code": code, "capability": "MANIPULATE"},
+                verified=True,
+            )
+
+        try:
+            resolved = resolve_manipulation_address(
+                target_address_ref=target_address_ref,
+                perception_evidence_ref=perception_evidence_ref,
+                perception_state_version=perception_state_version,
+                bindings=bindings,
+                habitat_engine=habitat_engine,
+            )
+        except ManipulationResolveError as exc:
+            return _fail(exc.code)
+
+        kind = str(raw_parameters.get("kind", "USE"))
+        if kind == "PICK_UP":
+            manipulation_params = PickUpParameters(hold_slot=int(raw_parameters.get("hold_slot", 0)))
+        elif kind == "ACTIVATE":
+            manipulation_params = ActivateParameters()
+        else:
+            manipulation_params = UseParameters()
+
+        expected_profile_hash = params.get("expected_profile_hash")
+        try:
+            adapter_validated = adapter.validate_manipulation(
+                capability="MANIPULATE",
+                parameters=manipulation_params,
+                attachment_generation=adapter.state.attachment_generation,
+                body_instance_id=adapter.state.body_instance_id,
+                embodiment=embodiment,
+                expected_profile_hash=expected_profile_hash,
+            )
+        except ManipulationValidationError as exc:
+            return _fail(exc.failure_code)
+
+        snapshot = habitat_engine.snapshot_view()
+        obj = snapshot.objects[resolved.target_object_id]
+        defn = affordance_engine.get_definition(affordance_id)
+        if defn is None:
+            return _fail("AFFORDANCE_NOT_SUPPORTED")
+
+        in_range = habitat_engine.check_range(
+            adapter_validated.body_pose_view,
+            adapter_validated.reach_profile,
+            resolved.target_object_id,
+        )
+        request = ManipulationRequest(
+            request_id=proposal.proposal_id,
+            execution_id=new_id(),
+            capability="MANIPULATE",
+            target_object_id=resolved.target_object_id,
+            affordance_id=affordance_id,
+            expected_habitat_version=snapshot.state_version,
+            expected_habitat_state_hash=snapshot.state_hash,
+            target_object_version=resolved.target_object_version,
+            target_object_definition_version=obj.definition_version,
+            target_object_definition_hash=obj.definition_hash,
+            affordance_definition_version=defn.definition_version,
+            affordance_definition_hash=definition_hash(defn),
+            body_instance_id=adapter.state.body_instance_id,
+            body_profile_id=adapter.state.body_profile_id,
+            attachment_generation=adapter.state.attachment_generation,
+            parameters=manipulation_params,
+        )
+        validation = affordance_engine.validate(
+            request,
+            snapshot,
+            adapter_validated,
+            in_range=in_range,
+        )
+        if not validation.allowed:
+            commit = commit_manipulation_transaction(
+                store,
+                self,
+                habitat_engine,
+                phys,
+                request,
+                validation,
+                agent_id=agent_id,
+                prepared_tick=tick,
+                monotonic_time=monotonic_time,
+                wall_time=wall_time,
+            )
+            return commit.outcome
+
+        commit = commit_manipulation_transaction(
+            store,
+            self,
+            habitat_engine,
+            phys,
+            request,
+            validation,
+            agent_id=agent_id,
+            prepared_tick=tick,
+            monotonic_time=monotonic_time,
+            wall_time=wall_time,
+        )
+        return commit.outcome
 
     def apply_physiology(self, phys: Physiology, outcome: VerifiedOutcome) -> None:
         """Physiology owner applies verified effects — governance does not write H directly from policy."""

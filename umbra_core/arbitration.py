@@ -11,6 +11,59 @@ from umbra_core.util import SeededRNG, clamp
 
 
 @dataclass
+class ManipulationCandidate:
+    """Address-only MANIPULATE candidate — never carries authoritative object_id."""
+
+    target_address_ref: str
+    perception_evidence_ref: str
+    perception_state_version: int
+    perceived_object_kind: str
+    perceived_affordance_ref: str
+    parameters: dict[str, Any]
+    capability: str = "MANIPULATE"
+    source: str = "NEED_RELEVANCE"
+    expected_outcome: str = ""
+    latency: float = 0.0
+    effort: float = 0.0
+    success_confidence: float = 0.5
+    uncertainty: float = 0.5
+    supporting_evidence_refs: tuple[str, ...] = ()
+
+    def to_candidate(self) -> Candidate:
+        return Candidate(
+            self.capability,
+            {
+                "target_address_ref": self.target_address_ref,
+                "perception_evidence_ref": self.perception_evidence_ref,
+                "perception_state_version": self.perception_state_version,
+                "perceived_object_kind": self.perceived_object_kind,
+                "perceived_affordance_ref": self.perceived_affordance_ref,
+                "parameters": dict(self.parameters),
+                "source": self.source,
+            },
+        )
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "capability": self.capability,
+            "target_address_ref": self.target_address_ref,
+            "perception_evidence_ref": self.perception_evidence_ref,
+            "perception_state_version": self.perception_state_version,
+            "perceived_object_kind": self.perceived_object_kind,
+            "perceived_affordance_ref": self.perceived_affordance_ref,
+            "parameters": dict(self.parameters),
+            "source": self.source,
+        }
+
+
+_AFFORDANCE_DEFAULT_PARAMS: dict[str, dict[str, Any]] = {
+    "affordance:resource:use": {"kind": "USE"},
+    "affordance:portable:pick_up": {"kind": "PICK_UP", "hold_slot": 0},
+    "affordance:activatable:activate": {"kind": "ACTIVATE"},
+}
+
+
+@dataclass
 class Candidate:
     capability: str
     params: dict[str, Any]
@@ -140,6 +193,33 @@ class Arbitrator:
         cands.append(Candidate("MOVE", {"heading_delta": -0.7, "step": 1.0}))
         return cands
 
+    def generate_manipulation_candidates(
+        self,
+        manipulation_bindings: list[dict[str, Any]],
+        phys: Physiology,
+        tick: int,
+    ) -> list[ManipulationCandidate]:
+        """Address-only MANIPULATE candidates from perception bindings."""
+        _ = phys, tick
+        cands: list[ManipulationCandidate] = []
+        for binding in manipulation_bindings:
+            affordances = binding.get("perceived_affordance_refs") or []
+            for affordance_ref in affordances:
+                params = dict(_AFFORDANCE_DEFAULT_PARAMS.get(affordance_ref, {"kind": "USE"}))
+                cands.append(
+                    ManipulationCandidate(
+                        target_address_ref=str(binding["target_address_ref"]),
+                        perception_evidence_ref=str(binding["perception_evidence_ref"]),
+                        perception_state_version=int(binding["perception_state_version"]),
+                        perceived_object_kind=str(binding["perceived_object_kind"]),
+                        perceived_affordance_ref=str(affordance_ref),
+                        parameters=params,
+                        source="NEED_RELEVANCE",
+                        supporting_evidence_refs=(str(binding["perception_evidence_ref"]),),
+                    )
+                )
+        return cands
+
     def score_candidate(
         self,
         cand: Candidate,
@@ -213,6 +293,7 @@ class Arbitrator:
             "INSPECT": 0.1,
             "REST": 0.05,
             "CHARGE": 0.08,
+            "MANIPULATE": 0.3,
         }.get(cap, 0.2)
         risk = 0.0
         if toward == "hazard" and cap != "RETREAT":

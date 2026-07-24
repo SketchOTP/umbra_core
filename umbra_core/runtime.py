@@ -249,6 +249,7 @@ class Organism:
         }
         self._pending_action: dict[str, Any] | None = None
         self._delayed_proposal: dict[str, Any] | None = None
+        self._affordance_engine: Any | None = None
         self._llm_calls = 0
         self._user_prompts = 0
         self._network_calls = 0
@@ -679,6 +680,24 @@ class Organism:
         dists = [float(o.get("estimated_distance", 0.0)) for o in obs_dicts]
         return {"max_range_seen": max(dists) if dists else 0.0, "n": float(len(dists))}
 
+    def _get_affordance_engine(self) -> Any:
+        if self._affordance_engine is None:
+            from pathlib import Path
+
+            from umbra_core.habitat_affordances import load_affordance_definitions_file
+            from umbra_core.habitat_affordances.engine import HabitatAffordanceEngine
+
+            path = (
+                Path(__file__).resolve().parents[1]
+                / "experiments"
+                / "d009"
+                / "affordance-definitions.json"
+            )
+            self._affordance_engine = HabitatAffordanceEngine(
+                load_affordance_definitions_file(path)
+            )
+        return self._affordance_engine
+
     def commit_manipulation(
         self,
         request: Any,
@@ -704,6 +723,36 @@ class Organism:
             monotonic_time=self.monotonic_time,
             wall_time=wall,
             crash_after_stage=crash_after_stage,
+        )
+
+    def execute_manipulation_from_candidate(
+        self,
+        cand: Any,
+        proposal: Any,
+        decision: Any,
+        *,
+        habitat_engine: Any,
+        affordance_engine: Any,
+        bindings: list[Any],
+        wall_time: float,
+    ) -> Any:
+        """Trusted MANIPULATE orchestration: admit → resolve → adapter → affordance → commit."""
+        if self.embodiment_adapter is None:
+            return None
+        return self.governance.execute_manipulation(
+            proposal,
+            decision,
+            habitat_engine=habitat_engine,
+            affordance_engine=affordance_engine,
+            adapter=self.embodiment_adapter,
+            embodiment=self.embodiment,
+            bindings=bindings,
+            store=self.store,
+            phys=self.phys,
+            agent_id=self.identity.agent_id,
+            tick=self.tick,
+            monotonic_time=self.monotonic_time,
+            wall_time=wall_time,
         )
 
     def tick_once(self) -> dict[str, Any]:
@@ -1091,15 +1140,31 @@ class Organism:
                 "proposal_id": proposal.proposal_id,
                 "tick": self.tick,
             }
-            outcome = self.governance.execute_and_verify(
-                proposal,
-                decision,
-                self.embodiment,
-                self.rng,
-                resolve_params=self._resolve_params,
-                adapter=self.embodiment_adapter,
-                tick=self.tick,
-            )
+            outcome = None
+            if (
+                cand.capability == "MANIPULATE"
+                and self.embodiment._habitat_engine is not None
+                and self.embodiment_adapter is not None
+            ):
+                outcome = self.execute_manipulation_from_candidate(
+                    cand,
+                    proposal,
+                    decision,
+                    habitat_engine=self.embodiment._habitat_engine,
+                    affordance_engine=self._get_affordance_engine(),
+                    bindings=self.perception.object_bindings,
+                    wall_time=wall,
+                )
+            else:
+                outcome = self.governance.execute_and_verify(
+                    proposal,
+                    decision,
+                    self.embodiment,
+                    self.rng,
+                    resolve_params=self._resolve_params,
+                    adapter=self.embodiment_adapter,
+                    tick=self.tick,
+                )
             assert outcome is not None
             if outcome.reason == "delayed" or (outcome.raw and outcome.raw.get("delayed")):
                 self._delayed_proposal = {

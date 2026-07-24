@@ -1739,3 +1739,548 @@ def _minimal_organism_for_migration(store, adapter):
         config=config,
         embodiment_adapter=adapter,
     )
+
+
+# --- Task 7: address-only candidates + trusted resolve + governance path -------
+
+
+def _task7_habitat_setup(*, hidden_resource: bool = False):
+    from umbra_core.embodiment_adapters import ABSTRACT_SHAPE_BODY_D009, EmbodimentAdapter
+    from umbra_core.perception import PerceptionMembrane
+    from umbra_core.util import SeededRNG
+
+    state = _state_with_use_resource()
+    if hidden_resource:
+        obj = replace(
+            state.objects["resource:0"],
+            visibility="HIDDEN",
+            affordance_ids=("affordance:resource:use",),
+        )
+        obj = with_object_state_hash(obj)
+        state = with_state_hash(replace(state, objects={obj.object_id: obj}))
+    engine = HabitatEngine(state)
+    emb = Embodiment()
+    emb.body.x = 4.0
+    emb.body.y = 3.0
+    emb.attach_habitat_engine(engine)
+    perception = PerceptionMembrane(false_negative_rate=0.0, noise_sigma=0.0)
+    rng = SeededRNG(42)
+    perception.perceive_habitat_objects(emb, 1.0, rng)
+    adapter = EmbodimentAdapter(
+        store=__import__("umbra_core.persistence", fromlist=["Store"]).Store(":memory:"),
+        agent_id="agent:test",
+        wall_time_fn=lambda: 0.0,
+        monotonic_time_fn=lambda: 0.0,
+    )
+    adapter.attach(ABSTRACT_SHAPE_BODY_D009.profile_id)
+    return engine, emb, perception, adapter, rng
+
+
+def _task7_manipulation_candidate(perception, arbitrator):
+    bindings = perception.policy_view()["manipulation_bindings"]
+    cands = arbitrator.generate_manipulation_candidates(bindings, __import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(), 1)
+    use_cands = [c for c in cands if c.perceived_affordance_ref == "affordance:resource:use"]
+    assert use_cands, "expected use manipulation candidate"
+    return use_cands[0]
+
+
+def test_policy_candidate_contains_no_authoritative_object_id():
+    from umbra_core.arbitration import Arbitrator
+    from umbra_core.perception import assert_no_world_truth
+
+    _, _, perception, _, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, Arbitrator())
+    payload = mc.as_dict()
+    assert "target_object_id" not in payload
+    assert "object_id" not in str(payload)
+    cand = mc.to_candidate()
+    assert "target_object_id" not in cand.params
+    assert_no_world_truth(cand.params)
+
+
+def test_trusted_runtime_resolves_address_to_authoritative_object():
+    from umbra_core.perception import resolve_manipulation_address
+
+    engine, _, perception, _, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    resolved = resolve_manipulation_address(
+        target_address_ref=mc.target_address_ref,
+        perception_evidence_ref=mc.perception_evidence_ref,
+        perception_state_version=mc.perception_state_version,
+        bindings=perception.object_bindings,
+        habitat_engine=engine,
+    )
+    assert resolved.target_object_id == "resource:0"
+    assert resolved.target_object_version == engine.get_object("resource:0").object_version
+
+
+def test_hidden_object_ids_never_enter_arbitration():
+    from umbra_core.arbitration import Arbitrator
+
+    engine, emb, perception, _, rng = _task7_habitat_setup(hidden_resource=True)
+    hidden_id = "resource:0"
+    arbitrator = Arbitrator()
+    bindings = perception.policy_view()["manipulation_bindings"]
+    cands = arbitrator.generate_manipulation_candidates(bindings, __import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(), 1)
+    arbitration_blob = str(bindings) + str([c.as_dict() for c in cands])
+    assert hidden_id not in arbitration_blob
+    perception.perceive_habitat_objects(emb, 2.0, rng)
+    assert hidden_id not in str(perception.policy_view())
+
+
+def test_hidden_objects_do_not_generate_manipulation_candidates():
+    from umbra_core.arbitration import Arbitrator
+
+    _, _, perception, _, _ = _task7_habitat_setup(hidden_resource=True)
+    bindings = perception.policy_view()["manipulation_bindings"]
+    cands = Arbitrator().generate_manipulation_candidates(
+        bindings,
+        __import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        1,
+    )
+    assert all(b["perceived_object_kind"] != "resource" for b in bindings)
+    assert all(c.perceived_object_kind != "resource" for c in cands)
+
+
+def test_manipulate_requires_current_address_binding(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", mc.to_candidate().params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=[],
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is False
+    assert outcome.reason == "OBJECT_NOT_PERCEIVED"
+    store.close()
+
+
+def test_stale_object_address_binding_fails_closed(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    params = mc.to_candidate().params
+    params["perception_state_version"] = mc.perception_state_version - 1
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=perception.object_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is False
+    assert outcome.reason == "OBJECT_ADDRESS_BINDING_STALE"
+    store.close()
+
+
+def test_ambiguous_object_address_binding_fails_closed(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+    from umbra_core.perception import ObjectAddressBinding
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    dup = ObjectAddressBinding(
+        target_address_ref=mc.target_address_ref,
+        perception_evidence_ref=mc.perception_evidence_ref,
+        perception_state_version=mc.perception_state_version,
+        binding_hash="dup",
+        object_id="rest:0",
+        object_version=engine.get_object("rest:0").object_version,
+        perceived_object_kind="rest",
+        perceived_affordance_refs=("affordance:resource:use",),
+        relative_direction=0.0,
+        estimated_distance=1.0,
+    )
+    bindings = list(perception.object_bindings) + [dup]
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", mc.to_candidate().params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is False
+    assert outcome.reason == "OBJECT_ADDRESS_AMBIGUOUS"
+    store.close()
+
+
+def test_manipulate_requires_governance(tmp_path):
+    from umbra_core.governance import Governance, GovernanceDecision, GovernanceState
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", mc.to_candidate().params)
+    denied = gov.admit(
+        gov.propose("MANIPULATE", {**mc.to_candidate().params, "target_object_id": "resource:0"}),
+        tick=1,
+    )
+    assert denied.admitted is False
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    no_admit = gov.execute_manipulation(
+        proposal,
+        GovernanceDecision(False, "policy", "denied", proposal.proposal_id, "MANIPULATE"),
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=perception.object_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert no_admit is None
+    hash_before = engine.snapshot_view().state_hash
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=perception.object_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is True
+    assert engine.snapshot_view().state_hash != hash_before
+    store.close()
+
+
+def test_valid_manipulation_changes_habitat(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", mc.to_candidate().params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    hash_before = engine.snapshot_view().state_hash
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=perception.object_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is True
+    assert engine.snapshot_view().state_hash != hash_before
+    obj = engine.get_object("resource:0")
+    assert isinstance(obj.state, ResourceState)
+    assert obj.state.remaining_yield == pytest.approx(0.9)
+    store.close()
+
+
+def test_stale_object_version_fails_closed(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+    from umbra_core.perception import ObjectAddressBinding
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    stale_bindings = [
+        ObjectAddressBinding(
+            target_address_ref=b.target_address_ref,
+            perception_evidence_ref=b.perception_evidence_ref,
+            perception_state_version=b.perception_state_version,
+            binding_hash=b.binding_hash,
+            object_id=b.object_id,
+            object_version=b.object_version + 99 if b.object_id == "resource:0" else b.object_version,
+            perceived_object_kind=b.perceived_object_kind,
+            perceived_affordance_refs=b.perceived_affordance_refs,
+            relative_direction=b.relative_direction,
+            estimated_distance=b.estimated_distance,
+        )
+        for b in perception.object_bindings
+    ]
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", mc.to_candidate().params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=stale_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is False
+    assert outcome.reason == "OBJECT_ADDRESS_BINDING_STALE"
+    store.close()
+
+
+def test_object_out_of_range_fails(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    emb.body.x = -15.0
+    emb.body.y = -15.0
+    emb.body.sensor_range = 2.0
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", mc.to_candidate().params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    hash_before = engine.snapshot_view().state_hash
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=perception.object_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is False
+    assert outcome.reason == "OBJECT_OUT_OF_RANGE"
+    assert engine.snapshot_view().state_hash == hash_before
+    store.close()
+
+
+def test_unsupported_affordance_fails(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    params = mc.to_candidate().params
+    params["perceived_affordance_ref"] = "affordance:missing:noop"
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=perception.object_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is False
+    assert outcome.reason == "AFFORDANCE_NOT_SUPPORTED"
+    store.close()
+
+
+def test_object_definition_mismatch_fails_closed(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+    from umbra_core.habitat_affordances.engine import ManipulationRequest, UseParameters
+
+    state = _state_with_use_resource()
+    obj = replace(state.objects["resource:0"], definition_hash="0" * 64)
+    obj = with_object_state_hash(obj)
+    state = with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}))
+    engine = HabitatEngine(state)
+    emb = Embodiment()
+    emb.body.x = 4.0
+    emb.body.y = 3.0
+    emb.attach_habitat_engine(engine)
+    perception = __import__("umbra_core.perception", fromlist=["PerceptionMembrane"]).PerceptionMembrane(
+        false_negative_rate=0.0, noise_sigma=0.0
+    )
+    perception.perceive_habitat_objects(emb, 1.0, __import__("umbra_core.util", fromlist=["SeededRNG"]).SeededRNG(1))
+    from umbra_core.embodiment_adapters import ABSTRACT_SHAPE_BODY_D009, EmbodimentAdapter
+
+    adapter = EmbodimentAdapter(
+        store=_journal_store(tmp_path),
+        agent_id="agent:test",
+        wall_time_fn=lambda: 0.0,
+        monotonic_time_fn=lambda: 0.0,
+    )
+    adapter.attach(ABSTRACT_SHAPE_BODY_D009.profile_id)
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", mc.to_candidate().params)
+    decision = gov.admit(proposal, tick=1)
+    from umbra_core.perception import resolve_manipulation_address
+
+    resolved = resolve_manipulation_address(
+        target_address_ref=mc.target_address_ref,
+        perception_evidence_ref=mc.perception_evidence_ref,
+        perception_state_version=mc.perception_state_version,
+        bindings=perception.object_bindings,
+        habitat_engine=engine,
+    )
+    obj = engine.get_object(resolved.target_object_id)
+    defn = _affordance_engine().get_definition("affordance:resource:use")
+    snapshot = engine.snapshot_view()
+    request = ManipulationRequest(
+        request_id=proposal.proposal_id,
+        execution_id="exec:mismatch",
+        capability="MANIPULATE",
+        target_object_id=resolved.target_object_id,
+        affordance_id=defn.affordance_id,
+        expected_habitat_version=snapshot.state_version,
+        expected_habitat_state_hash=snapshot.state_hash,
+        target_object_version=resolved.target_object_version,
+        target_object_definition_version=obj.definition_version,
+        target_object_definition_hash="f" * 64,
+        affordance_definition_version=defn.definition_version,
+        affordance_definition_hash=definition_hash(defn),
+        body_instance_id=adapter.state.body_instance_id,
+        body_profile_id=adapter.state.body_profile_id,
+        attachment_generation=adapter.state.attachment_generation,
+        parameters=UseParameters(),
+    )
+    validation = _affordance_engine().validate(
+        request, snapshot, _adapter_for(UseParameters()), in_range=True
+    )
+    assert validation.allowed is False
+    assert validation.failure_code == "OBJECT_DEFINITION_MISMATCH"
+
+
+def test_affordance_definition_mismatch_fails_closed(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    params = mc.to_candidate().params
+    params["expected_affordance_hash"] = "0" * 64
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    from umbra_core.perception import resolve_manipulation_address
+    from umbra_core.habitat_affordances.engine import ManipulationRequest, UseParameters
+
+    resolved = resolve_manipulation_address(
+        target_address_ref=mc.target_address_ref,
+        perception_evidence_ref=mc.perception_evidence_ref,
+        perception_state_version=mc.perception_state_version,
+        bindings=perception.object_bindings,
+        habitat_engine=engine,
+    )
+    obj = engine.get_object(resolved.target_object_id)
+    defn = _affordance_engine().get_definition("affordance:resource:use")
+    snapshot = engine.snapshot_view()
+    request = ManipulationRequest(
+        request_id=proposal.proposal_id,
+        execution_id="exec:aff_mismatch",
+        capability="MANIPULATE",
+        target_object_id=resolved.target_object_id,
+        affordance_id=defn.affordance_id,
+        expected_habitat_version=snapshot.state_version,
+        expected_habitat_state_hash=snapshot.state_hash,
+        target_object_version=resolved.target_object_version,
+        target_object_definition_version=obj.definition_version,
+        target_object_definition_hash=obj.definition_hash,
+        affordance_definition_version=defn.definition_version,
+        affordance_definition_hash="f" * 64,
+        body_instance_id=adapter.state.body_instance_id,
+        body_profile_id=adapter.state.body_profile_id,
+        attachment_generation=adapter.state.attachment_generation,
+        parameters=UseParameters(),
+    )
+    validation = _affordance_engine().validate(
+        request, snapshot, _adapter_for(UseParameters()), in_range=True
+    )
+    assert validation.allowed is False
+    assert validation.failure_code == "AFFORDANCE_DEFINITION_MISMATCH"
+
+
+def test_profile_definition_mismatch_fails_closed(tmp_path):
+    from umbra_core.governance import Governance, GovernanceState
+
+    engine, emb, perception, adapter, _ = _task7_habitat_setup()
+    mc = _task7_manipulation_candidate(perception, __import__("umbra_core.arbitration", fromlist=["Arbitrator"]).Arbitrator())
+    params = mc.to_candidate().params
+    params["expected_profile_hash"] = "0" * 64
+    gov = Governance(GovernanceState())
+    proposal = gov.propose("MANIPULATE", params)
+    decision = gov.admit(proposal, tick=1)
+    store = _journal_store(tmp_path)
+    outcome = gov.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=emb,
+        bindings=perception.object_bindings,
+        store=store,
+        phys=__import__("umbra_core.physiology", fromlist=["Physiology"]).Physiology(),
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success is False
+    assert outcome.reason == "PROFILE_HASH_MISMATCH"
+    store.close()
