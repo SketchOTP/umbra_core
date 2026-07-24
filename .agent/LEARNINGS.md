@@ -102,3 +102,5 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - D-010 design §4 approved with 8 revisions: downtime_interval_id idempotency; tight TRUSTED_SHORT; conservative age_advance=0 + new session anchor; versioned ElapsedTimeContractRegistry; required vs optional contracts; Expectation/WaitRecoveryDeltas; replay recorded deltas not wall recalc; failure codes + bounds.
 
 - D-010 design §5 approved with 8 revisions: TemporalAdvanceRecord in committed-tick event; D-009→D-010 epoch init age=0; standardized temporal envelopes; separate runtime caps vs ledger; formal-execution-manifest; harness-only controls; corrected Stage A/B freeze; P0/P1/P2 comparability.
+
+- D-010 design: eight final amendments (replay-complete advance record; TemporalTransactionEnvelope; fitted next_index prediction; IN_TICK/POST_HOC observation; formal-execution-contract vs evidence manifest; TimeAnchor trust provenance; formal/dev seed split; test-manifest.json).

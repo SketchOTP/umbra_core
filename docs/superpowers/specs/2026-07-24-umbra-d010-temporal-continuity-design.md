@@ -9,7 +9,7 @@
 **Prerequisite:** `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`  
 **Mimir project:** `7777645d52a91b49`  
 **Mimir parent task:** `9adf61b087ea4fa6a90a1c3bd401a9b3`  
-**Status:** Design §§1–5 approved with revisions; awaiting operator review of this written spec before implementation planning
+**Status:** Design §§1–5 approved; eight final amendments applied; **approved for implementation planning**
 
 ## Purpose
 
@@ -191,10 +191,37 @@ TemporalAdvanceRecord {
   prior/new temporal state_hash
   prior/new age_ticks
   prior/new active_ticks
+  prior_time_anchor
+  new_time_anchor
+  prior_wall_clock_mapping
+  new_wall_clock_mapping
+  prior_clock_uncertainty
+  new_clock_uncertainty
 }
 ```
 
-Every committed age advance has exactly one record; failed ticks have none; replay applies recorded deltas; missing/duplicated records fail closed; replay never recalculates age from tick count.
+Every committed age advance has exactly one record; failed ticks have none. Replay must reconstruct the **complete** TemporalState from the committed-tick record (including anchors and clock mapping). Missing/duplicated records fail closed; replay never recalculates age from tick count.
+
+`temporal_anchor_committed` is used **only** for anchor-only transactions outside an ordinary tick. An ordinary tick must **not** emit a duplicate anchor event.
+
+Tests: `test_tick_replay_reconstructs_anchor_and_clock_mapping`, `test_ordinary_tick_does_not_emit_duplicate_anchor_event`, `test_committed_tick_contains_temporal_advance_record`, `test_failed_tick_has_no_temporal_advance_record`, `test_missing_advance_record_fails_replay`.
+
+### 1.6b TemporalTransactionEnvelope
+
+`state_version` advances **once per transaction**. One transaction may contain multiple temporal events.
+
+```text
+TemporalTransactionEnvelope {
+  transaction_id
+  prior_state_version
+  new_state_version
+  prior_state_hash
+  new_state_hash
+  ordered_events[]
+}
+```
+
+Each contained event carries `transaction_event_index` and `payload_hash`, but **not** an independent state transition. Replay groups and applies the transaction atomically. Incomplete transaction event sets fail closed. Event order is deterministic. `temporal_initialized` uses a frozen genesis sentinel for absent prior state.
 
 ### 1.7 D-009 → D-010 initialization
 
@@ -266,13 +293,21 @@ interval_i = occurrence_tick_i - occurrence_tick_(i-1)   # O-lane occurrences
 period_estimate = robust_center(intervals)              # median default
 jitter_estimate = robust_spread(intervals)              # MAD default
 
-phase_anchor_tick + period_estimate
 predicted_tick(n) = phase_anchor_tick + n * period_estimate
 phase_error relative to fitted anchor (not age mod changing period)
 
-predicted_center = last_observed_tick + period_estimate
+next_index = first integer n where:
+  phase_anchor_tick + n * period_estimate > current_age
+
+predicted_center =
+  phase_anchor_tick + next_index * period_estimate
+
 window = predicted_center ± frozen jitter_margin
 ```
+
+Freeze numeric rounding and integer conversion for `next_index` / `predicted_center`.
+
+`last_observed_tick + period_estimate` may be used **only** during initial fitting when no stable `phase_anchor_tick` exists.
 
 One dominant period per hypothesis. S9 overlapping events → separate recurrence IDs/contexts. No histogram/multimodal in D-010.
 
@@ -304,8 +339,14 @@ prepare_finalized_evidence(...) / prepare_authoritative_event(...)
 ```text
 TemporalObservationPlan {
   observation_plan_id
+  commit_mode                 # IN_TICK | POST_HOC
   expected_temporal_state_version / hash
-  source_transaction_id
+  source_transaction_id       # IN_TICK: same as evidence txn
+  source_event_id             # POST_HOC required
+  source_event_hash           # POST_HOC required
+  committed_advance_id        # POST_HOC required
+  committed_age_ticks         # POST_HOC required
+  committed_temporal_state_version  # POST_HOC required
   occurrence_id
   evidence_identities
   hypothesis_deltas
@@ -313,7 +354,10 @@ TemporalObservationPlan {
 }
 ```
 
-Commits in the same transaction as the finalized evidence/event. Rollback leaves no recurrence mutation. Same plan cannot commit twice. Post-hoc evidence references committed `advance_id`, age, and state version.
+**IN_TICK:** plan commits with the source evidence transaction.  
+**POST_HOC:** commits in a **new** transaction anchored to `source_event_id`, `source_event_hash`, `committed_advance_id`, `committed_age_ticks`, `committed_temporal_state_version`. Post-hoc evidence cannot alter the historical age of its occurrence. Stale or missing source anchors fail closed. The same `occurrence_id` remains deduplicated across both modes.
+
+Rollback leaves no recurrence mutation. Same plan cannot commit twice.
 
 ### 2.7 Dedup compaction
 
@@ -428,6 +472,30 @@ One interval commits once; retry returns committed result; same ID different pay
 
 `UNCERTAIN|EXCESSIVE|MISSING_WALL`: `age_advance = 0`. Every successful reconciliation (including conservative) commits a **new session anchor**.
 
+### 4.3b TimeAnchor trust provenance
+
+```text
+TimeAnchor {
+  organism_age_ticks
+  organism_active_ticks
+  state_version
+  state_hash
+  wall_time | None
+  wall_time_source | None
+  wall_time_uncertainty
+  session_id_at_commit
+  advance_id
+  anchor_trust_class
+  trust_reason_codes
+  eligible_as_downtime_baseline
+  source_sample_hash
+}
+```
+
+A conservative recovery anchor may establish the new session but **must not** convert an untrusted wall sample into a future trusted downtime baseline (`eligible_as_downtime_baseline = false` when trust is not TRUSTED_SHORT-quality).
+
+The first sample used by a `PREPARED` reconciliation is persisted; retries reuse that sample; a later sample cannot silently change the prepared interval.
+
 ### 4.4 Contracts
 
 ```text
@@ -479,7 +547,7 @@ REQUIRED_ELAPSED_CONTRACT_UNAVAILABLE
 
 ### 5.1 Temporal event envelope
 
-Every authoritative temporal event includes: `event_id`, `event_kind`, `transaction_id`, `transaction_event_index`, `temporal_epoch_id`, `prior/new_state_version`, `prior/new_state_hash`, `effective_age_ticks`, `orchestration_sequence`, `definition_hash`, `payload_hash`. Multiple events in one transaction use deterministic ordering.
+Every authoritative temporal event includes: `event_id`, `event_kind`, `transaction_id`, `transaction_event_index`, `temporal_epoch_id`, `prior/new_state_version`, `prior/new_state_hash`, `effective_age_ticks`, `orchestration_sequence`, `definition_hash`, `payload_hash`. Multiple events in one transaction use deterministic ordering and are applied via `TemporalTransactionEnvelope` (§1.6b): one `state_version` step per transaction; events do not each carry an independent state transition.
 
 Event kinds: `temporal_initialized`, `temporal_anchor_committed`, `temporal_clock_discontinuity_detected`, `temporal_recurrence_created|updated|revised|retired`, `temporal_downtime_reconciled`.
 
@@ -489,17 +557,46 @@ Routine promote/deactivate remain **Memory**-authoritative events referencing `r
 
 Separate limits for active runtime structures vs immutable ledger. Caps must not silently delete authoritative events. Compaction preserves event identity/hashes, terminal execution identity, reconciliation idempotency, evidence duplicate detection, replay equivalence, and scientific evidence. Overflow → approved compaction or fail closed.
 
-### 5.3 Formal execution manifest
+### 5.3 Formal execution contract vs evidence manifest
+
+Split frozen authorization from runtime campaign status:
 
 ```text
-experiments/d010/formal-execution-manifest.json
-  formal_execution_id, source_commit, freeze_bundle_hash, runner_hash,
-  test_manifest_hash, seed_manifest_hash, started_at, terminal_status
+experiments/d010/formal-execution-contract.json   # immutable Stage B
+  formal_execution_id
+  freeze_bundle_hash
+  implementation_source_hash
+  runner_hash
+  test_manifest_hash
+  seed_manifest_hash
+
+docs/evidence/d010/formal-execution-manifest.json  # runtime campaign
+  freeze_commit          # actual Stage B commit recorded when formal execution begins
+  started_at
+  completed_at
+  terminal_status
+  row counts
+  result hashes
 ```
+
+Do **not** embed a commit hash inside the commit that creates that same freeze bundle. Record the actual Stage B `freeze_commit` when formal execution begins.
 
 Smoke/dev runs explicitly non-formal. One freeze bundle → one terminal formal campaign. Rerun after terminal requires committed supplement + new execution ID. Partial campaigns resume from durable row ledger. Duplicate condition/scenario/seed rows rejected.
 
 Evidence must include `raw-results.jsonl`, `formal-execution-manifest.json`, `evidence-validation.json`. Validator recomputes every gate from raw rows.
+
+### 5.3b Development vs formal seeds
+
+Freeze:
+
+```text
+development_seed_manifest
+formal_seed_manifest
+formal_seed_nonoverlap_rule
+threshold_freeze_timestamp
+```
+
+Smoke and development runs use seeds **disjoint** from formal paired seeds. Formal seeds are not inspected before Stage B. Thresholds cannot change after any gate-critical formal row is produced. Changes require a committed supplement and a new formal execution ID. Development rows can never enter formal summaries.
 
 ### 5.4 Experimental controls
 
@@ -529,20 +626,26 @@ Compute canonical hashes from implemented definitions.
 thresholds.json
 experiment-matrix.json
 scenario-suite.json
-seed-manifest.json          # ≥100 paired seeds / gate-critical cell
+seed-manifest.json                    # formal paired seeds; ≥100 / gate-critical cell
+development-seed-manifest.json        # disjoint from formal
 performance-protocol.json
 runtime-tick-classification.json
-formal-execution-manifest.json
+formal-execution-contract.json        # immutable authorization (not runtime status)
+test-manifest.json                    # required test IDs / gates / files / modes
 all Stage A hashes
-source commit
+implementation_source_hash
 event-registry hash
 failure-code-registry hash
 allowed-verdict list
+threshold_freeze_timestamp
+formal_seed_nonoverlap_rule
 ```
 
-Also freeze: occurrence identity rule, recurrence_key rule, context schema versions, phase_anchor fitting, minimum observation coverage, miss idempotency, ACTIVE vs UNCERTAIN permissions, modifier caps/merge order, dedup compaction, wall sources/trust limits, downtime conversion/rounding/max age advance, etc.
+`experiments/d010/test-manifest.json` enumerates `{ test_id, gate, required, test_file, expected_execution_mode }`. Seal validation must prove: every required test ID exists; every required test executed; zero skips; no duplicate or unknown test IDs; executed test-manifest hash matches Stage B.
 
-Formal execution requires: clean worktree; exact frozen source commit; no placeholder hashes; complete O/T/B classification; matching registries/schemas; sufficient paired seeds; no unknown failure codes. Any production source change after Stage B invalidates the freeze.
+Also freeze: occurrence identity rule, recurrence_key rule, context schema versions, phase_anchor fitting, next_index rounding, minimum observation coverage, miss idempotency, ACTIVE vs UNCERTAIN permissions, modifier caps/merge order, dedup compaction, wall sources/trust limits, downtime conversion/rounding/max age advance, TimeAnchor trust provenance fields, etc.
+
+Formal execution requires: clean worktree; exact frozen source commit (recorded as `freeze_commit` in evidence manifest at start); no placeholder hashes; complete O/T/B classification; matching registries/schemas; sufficient paired seeds; no unknown failure codes; test-manifest hash match. Any production source change after Stage B invalidates the freeze.
 
 ### 5.6 Performance (Gate 13, Supplement S3)
 
@@ -625,27 +728,40 @@ tests/test_d010.py
 docs/directives/UMBRA-D-010-temporal-continuity.md
 docs/superpowers/specs/2026-07-24-umbra-d010-temporal-continuity-design.md  # this file
 docs/superpowers/plans/2026-07-24-umbra-d010-temporal-continuity.md         # after plan approval
-docs/evidence/d010/   # per directive §15 + formal-execution-manifest.json
+docs/evidence/d010/   # per directive §15 + formal-execution-manifest.json (runtime)
+experiments/d010/formal-execution-contract.json
+experiments/d010/test-manifest.json
+experiments/d010/development-seed-manifest.json
 ```
 
 ---
 
-## Spec self-review (2026-07-24)
+## Spec self-review (2026-07-24; updated after eight final amendments)
 
 | Check | Result |
 |-------|--------|
-| Placeholders | None remaining (`optional` advance event removed; conservative age fixed to 0; fallback_activity removed). |
-| Authority duplication | TemporalEngine vs Memory (routines) vs Execution (WAIT) vs Runtime (orchestration) vs Persistence (atomic apply) — explicit; TemporalEngine does not emit routine lifecycle or own WaitExecution. |
-| Age advance | Single path: TemporalAdvancePlan in tick txn + downtime age_advance only for TRUSTED_SHORT; advance embedded in committed-tick record. |
-| Replay | Age and downtime from recorded deltas; no wall recalculation; no age-from-tick-count. |
-| Policy leakage | ACTIVE/UNCERTAIN only; A-lane not in policy; C7 harness-only. |
-| Freeze order | Stage A definitions → hashes → Stage B bundle; formal campaign one-shot with manifest. |
-| Scope | Single directive; multimodal recurrence deferred; histogram rejected. |
+| Placeholders | None; formal contract/manifest split; numeric thresholds deferred to Stage A/B freeze only. |
+| Authority duplication | TemporalEngine / Memory / Execution / Runtime / Persistence boundaries unchanged and explicit. |
+| Age / anchor replay | TemporalAdvanceRecord includes anchors + clock mapping; ordinary tick has no duplicate `temporal_anchor_committed`. |
+| Transactions | TemporalTransactionEnvelope: one state_version step per txn; events indexed inside. |
+| Prediction | Fitted phase_anchor + next_index; last_observed+period only for initial fitting. |
+| Observation commits | IN_TICK vs POST_HOC modes explicit. |
+| Formal freeze | Contract immutable in Stage B; evidence manifest records freeze_commit at run start. |
+| Seeds | Development/formal disjoint; threshold freeze timestamp. |
+| Tests | Stage B `test-manifest.json` required for seal. |
+| Anchor trust | Conservative anchors not eligible as trusted downtime baselines; PREPARED sample sticky. |
 
-**Known deliberate deferrals (not placeholders):** exact numeric thresholds, allowlist member lists, and contract parameter values — frozen at Stage A/B from implemented definitions, not invented in this design prose.
+## Final amendments (operator 2026-07-24)
 
----
+1. Replay-complete TemporalAdvanceRecord (anchors + clock mapping); no duplicate anchor event on ordinary ticks.
+2. TemporalTransactionEnvelope semantics.
+3. Fitted next_index prediction consistency.
+4. IN_TICK vs POST_HOC observation commits.
+5. formal-execution-contract.json vs evidence formal-execution-manifest.json.
+6. TimeAnchor trust provenance + sticky PREPARED sample.
+7. Development/formal seed separation + threshold freeze timestamp.
+8. experiments/d010/test-manifest.json required at Stage B.
 
 ## Next
 
-Operator reviews this file. On approval → `writing-plans` → Subagent-Driven implementation. No temporal implementation until the plan is approved.
+Specification **approved for implementation planning**. Write `docs/superpowers/plans/2026-07-24-umbra-d010-temporal-continuity.md`, then Subagent-Driven execution. Parent Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3` stays open until seal.

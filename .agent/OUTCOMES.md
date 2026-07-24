@@ -164,3 +164,5 @@ Format:
 - 2026-07-24T13:21Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Design §4 APPROVED (8 revisions); presenting §5
 
 - 2026-07-24T13:25Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Design §5 APPROVED (8 revisions); full design spec written for operator review
+
+- 2026-07-24T13:30Z | DECISION | D-20260724-umbra-d010-temporal-continuity | Eight final design amendments applied; spec approved for implementation planning
