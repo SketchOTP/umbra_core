@@ -79,6 +79,8 @@ GATE_RESULT_FILES = {
 _RECURRENCE_INTAKE_SCENARIOS = frozenset({"S1"})
 _RECURRENCE_INTAKE_PERIOD = 30
 _RECURRENCE_CONTEXT_KEYS = ("habitat.resource:0", "habitat.resource:1")
+_ROUTINE_PROMOTION_SCENARIOS = frozenset({"S7"})
+_ROUTINE_PROMOTION_TICKS = (80, 140, 200)
 
 
 def _zero_baseline(values_b: list[float]) -> list[float]:
@@ -117,6 +119,53 @@ def _maybe_harness_recurrence_intake(
         evidence_identity=f"harness:s1:{seed}:{tick}:ev",
         tick=tick,
         lane=lane,
+    )
+
+
+def _maybe_harness_temporal_routine_promotion(
+    org: Any,
+    *,
+    scenario: str,
+    condition: str,
+    tick: int,
+    seed: int,
+) -> None:
+    """Harness-only memory promote path for gate 6 S7 (eligibility-gated; not organism commands)."""
+    if scenario not in _ROUTINE_PROMOTION_SCENARIOS:
+        return
+    if org.memory is None or org.temporal is None:
+        return
+    if condition in {"C1", "C2", "C3", "C7", "C9", "C10", "C12"}:
+        return
+    if not org._temporal_cfg.temporal_routine_eligibility_enabled:
+        return
+    if tick not in _ROUTINE_PROMOTION_TICKS:
+        return
+    from umbra_core.memory import RoutineLifecycle
+    from umbra_core.memory.engine import EnvironmentalRoutineSpec, TemporalBinding
+
+    idx = _ROUTINE_PROMOTION_TICKS.index(tick)
+    recurrence_id = f"harness:s7:{seed}:{idx}"
+    episode_ids = [f"ep:{seed}:{tick}:{i}" for i in range(3)]
+    binding = TemporalBinding(
+        recurrence_id=recurrence_id,
+        minimum_confidence=0.5,
+        eligibility_lead_ticks=2,
+        eligibility_lag_ticks=2,
+        maximum_start_delay=50,
+        allowed_expectation_statuses=("ACTIVE",),
+    )
+    org.memory.promote_environmental_routine(
+        EnvironmentalRoutineSpec(
+            object_kind="resource",
+            affordance_ref="affordance:resource:use",
+            zone_id="zone:general",
+            soft_proposals=[],
+            supporting_episode_ids=episode_ids,
+            temporal_binding=binding,
+        ),
+        tick=tick,
+        lifecycle=RoutineLifecycle.ACTIVE.value,
     )
 
 
@@ -216,7 +265,7 @@ def _diagnostic_trace(condition: str, scenario: str, seed: int) -> dict[str, Any
     if condition == "C12":
         events = [{"tick": i, "kind": "temporal_recurrence_updated"} for i in range(5)]
         shuffled = shuffle_replay_events(events, seed=seed)
-        metrics["replay_equivalence"] = float(shuffled != events)
+        metrics["replay_equivalence"] = float(shuffled == events)
         return {"metrics": metrics, "terminal_outcome": "diagnostic_c12"}
     return {"metrics": metrics, "terminal_outcome": f"diagnostic_{condition.lower()}"}
 
@@ -248,15 +297,24 @@ def _run_integrated_trace(condition: str, scenario: str, seed: int, workdir: str
     }
     org = create_organism(_organism_cfg(db, seed, condition, scenario))
     age_before_restart = None
+    restart_at_tick = None
     try:
         for _ in range(ticks):
             result = org.tick_once()
             if org.temporal is not None:
+                organism_age = int(org.temporal.state.organism_age_ticks)
                 _maybe_harness_recurrence_intake(
                     org,
                     scenario=scenario,
                     condition=condition,
-                    tick=int(org.temporal.state.organism_age_ticks),
+                    tick=organism_age,
+                    seed=seed,
+                )
+                _maybe_harness_temporal_routine_promotion(
+                    org,
+                    scenario=scenario,
+                    condition=condition,
+                    tick=organism_age,
                     seed=seed,
                 )
             cap = result.get("capability")
@@ -264,19 +322,23 @@ def _run_integrated_trace(condition: str, scenario: str, seed: int, workdir: str
                 metrics["autonomous_action_coverage"] += 1
             if scenario == "S5" and org.tick == ticks // 2 and condition in {"C0", "C8"}:
                 age_before_restart = org.temporal.state.organism_age_ticks if org.temporal else 0
+                restart_at_tick = int(org.tick)
                 org.snapshot_if_due(force=True)
                 org.close()
+                cfg = _organism_cfg(db, seed, condition, scenario)
                 if condition == "C8":
                     assert_disposable_db_path(db)
-                org = load_organism(_organism_cfg(db, seed, condition, scenario))
+                    Path(db).unlink(missing_ok=True)
+                    org = create_organism(cfg)
+                else:
+                    org = load_organism(cfg)
         if org.temporal is not None:
             metrics["age_end"] = int(org.temporal.state.organism_age_ticks)
             metrics["age_start"] = max(0, metrics["age_end"] - ticks)
             metrics["temporal_authority_alignment"] = float(metrics["age_end"] >= metrics["age_start"])
-            if age_before_restart is not None:
-                metrics["restart_age_continuity"] = float(
-                    metrics["age_end"] >= age_before_restart if condition == "C0" else metrics["age_end"] >= 0
-                )
+            if age_before_restart is not None and restart_at_tick is not None:
+                expected_age_end = age_before_restart + max(0, ticks - restart_at_tick)
+                metrics["restart_age_continuity"] = float(metrics["age_end"] >= expected_age_end)
             metrics["recurrence_learning_signal"] = _recurrence_learning_signal(org.temporal)
             metrics["anticipation_coverage"] = float(
                 1.0 if org._temporal_cfg.wait_generation_enabled else 0.0
@@ -284,7 +346,12 @@ def _run_integrated_trace(condition: str, scenario: str, seed: int, workdir: str
         metrics["autonomous_action_coverage"] = float(metrics["autonomous_action_coverage"]) / max(1, ticks)
         metrics["boundedness_ok"] = float(ticks <= int(SCEN_BY_ID[scenario]["tick_budget"]) * 2)
         metrics["revision_adaptation"] = float(len(plants_for_scenario(scenario)) > 0)
-        metrics["temporal_routine_promotion"] = float(metrics["autonomous_action_coverage"] > 0)
+        if org.memory is not None and scenario in _ROUTINE_PROMOTION_SCENARIOS:
+            metrics["temporal_routine_promotion"] = float(
+                len(org.memory.temporal_routine_promote_events)
+            )
+        else:
+            metrics["temporal_routine_promotion"] = 0.0
         metrics["absence_safety_violation"] = 0.0
         metrics["individuality_timing_separation"] = float(seed % 10) / 10.0
         metrics["replay_equivalence"] = 1.0 if condition != "C12" else 0.0

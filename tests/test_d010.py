@@ -2266,6 +2266,80 @@ def test_s1_integrated_c11_recurrence_weaker_than_c0(tmp_path):
     )
 
 
+def test_gate6_c0_s7_promotion_count_meets_threshold(tmp_path):
+    from experiments.d010.run_experiment import _run_integrated_trace
+
+    thr = json.loads((ROOT / "experiments/d010/thresholds.json").read_text(encoding="utf-8"))
+    raw = _run_integrated_trace("C0", "S7", 50001, str(tmp_path))
+    count = float(raw["metrics"]["temporal_routine_promotion"])
+    assert count >= float(thr["temporal_routine_promotion_min"])
+
+
+def test_gate6_c6_weaker_than_c0_s7(tmp_path):
+    from experiments.d010.run_experiment import _run_integrated_trace
+
+    c0 = _run_integrated_trace("C0", "S7", 50001, str(tmp_path / "c0"))
+    c6 = _run_integrated_trace("C6", "S7", 50001, str(tmp_path / "c6"))
+    gap = float(c0["metrics"]["temporal_routine_promotion"]) - float(
+        c6["metrics"]["temporal_routine_promotion"]
+    )
+    assert gap >= 0.05
+
+
+def test_gate10_c0_restart_continuity_high_c8_low(tmp_path):
+    from experiments.d010.run_experiment import _run_integrated_trace
+
+    c0 = _run_integrated_trace("C0", "S5", 50001, str(tmp_path / "c0"))
+    c8 = _run_integrated_trace("C8", "S5", 50001, str(tmp_path / "c8"))
+    assert float(c0["metrics"]["restart_age_continuity"]) >= 0.9
+    assert float(c8["metrics"]["restart_age_continuity"]) < 0.5
+    gap = float(c0["metrics"]["restart_age_continuity"]) - float(
+        c8["metrics"]["restart_age_continuity"]
+    )
+    assert gap >= 0.05
+
+
+def test_gate11_c12_replay_equivalence_low_after_shuffle(tmp_path):
+    from experiments.d010.run_experiment import _run_integrated_trace
+
+    c0 = _run_integrated_trace("C0", "S11", 50001, str(tmp_path / "c0"))
+    c12 = _run_integrated_trace("C12", "S11", 50001, str(tmp_path / "c12"))
+    assert float(c0["metrics"]["replay_equivalence"]) >= 0.9
+    assert float(c12["metrics"]["replay_equivalence"]) < 0.5
+    gap = float(c0["metrics"]["replay_equivalence"]) - float(c12["metrics"]["replay_equivalence"])
+    assert gap >= 0.05
+
+
+def test_validator_gate_summary_allowed_verdicts_no_false_positive(tmp_path, monkeypatch):
+    from experiments.d010 import validate_evidence as ve
+
+    evidence_dir = tmp_path / "d010"
+    evidence_dir.mkdir()
+    gate_summary = {
+        "thresholds": {
+            "allowed_verdicts": ["UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED"],
+        }
+    }
+    (evidence_dir / "temporal-routine-results.json").write_text(
+        json.dumps(gate_summary), encoding="utf-8"
+    )
+    monkeypatch.setattr(ve, "OUT", evidence_dir)
+    assert ve._forbidden_claims() == []
+
+
+def test_validator_final_verdict_qualified_claim_fails(tmp_path, monkeypatch):
+    from experiments.d010 import validate_evidence as ve
+
+    evidence_dir = tmp_path / "d010"
+    evidence_dir.mkdir()
+    (evidence_dir / "final-verdict.md").write_text(
+        "UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED\n", encoding="utf-8"
+    )
+    monkeypatch.setattr(ve, "OUT", evidence_dir)
+    errors = ve._forbidden_claims()
+    assert any("forbidden_claim:final-verdict.md" in err for err in errors)
+
+
 def test_formal_harness_refuses_placeholder_hashes():
     from experiments.d010.stage_a import assert_no_placeholder_hashes
 

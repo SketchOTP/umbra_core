@@ -36,6 +36,21 @@ FORBIDDEN_SUBSTRINGS = (
     "TASK 14 AUTHORIZED: YES",
 )
 
+VERDICT_SURFACES = (
+    "final-verdict.md",
+    "formal-run-outcome.json",
+)
+
+FORBIDDEN_CLAIM_FIELDS = frozenset(
+    {
+        "task13_outcome",
+        "final_verdict",
+        "qualification_status",
+        "outcome",
+        "verdict",
+    }
+)
+
 
 def _load(name: str) -> dict:
     path = OUT / name
@@ -44,15 +59,35 @@ def _load(name: str) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _scan_text_for_forbidden(text: str, *, surface: str) -> list[str]:
+    errors: list[str] = []
+    for token in FORBIDDEN_SUBSTRINGS:
+        if token in text:
+            errors.append(f"forbidden_claim:{surface}:{token}")
+    return errors
+
+
 def _forbidden_claims() -> list[str]:
     errors: list[str] = []
-    for path in OUT.glob("*"):
-        if path.suffix not in {".json", ".md", ".txt"}:
+    for name in VERDICT_SURFACES:
+        path = OUT / name
+        if not path.is_file():
             continue
         text = path.read_text(encoding="utf-8", errors="replace")
-        for token in FORBIDDEN_SUBSTRINGS:
-            if token in text:
-                errors.append(f"forbidden_claim:{path.name}:{token}")
+        errors.extend(_scan_text_for_forbidden(text, surface=name))
+
+    summary_path = OUT / "experiment-summary.json"
+    if summary_path.is_file():
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        for field in FORBIDDEN_CLAIM_FIELDS:
+            for container in (summary, summary.get("metrics", {})):
+                if not isinstance(container, dict):
+                    continue
+                value = container.get(field)
+                if value is None:
+                    continue
+                blob = str(value)
+                errors.extend(_scan_text_for_forbidden(blob, surface=f"experiment-summary.json:{field}"))
     return errors
 
 
