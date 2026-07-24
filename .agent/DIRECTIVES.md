@@ -89,3 +89,5 @@ Format:
 
 - 2026-07-24T05:04Z | START | D-20260724-task13-fix-review-findings | UMBRA-D-009 | Fix Task 13 review findings (Gate 2 Critical + Important); re-run evidence; leave parent Mimir open
 - 2026-07-24T05:30Z | START | D-20260724-0530-task13-gate8-remediation | UMBRA-D-009 | Remediate Task 13 Gate 8 revision_adaptation (≥0.10 at 100 seeds); full S16 tick budget first; regenerate Gates 1–12 evidence without D009_TICK_CAP; parent Mimir 06b5b59709864e11bddb8c1da56dd66e stays open
+
+- 2026-07-24T06:01Z | START | D-20260724-task14-d009-perf-seal | UMBRA-D-009 | Task 14 adaptive P0/P1/P2 soak + seal; close parent Mimir only after QUALIFIED seal
