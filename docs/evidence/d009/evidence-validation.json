@@ -1,0 +1,388 @@
+{
+  "directive": "UMBRA-D-009",
+  "forbidden_claims_absent": true,
+  "gate13_deferred": true,
+  "pass": true,
+  "raw_row_count": 3300,
+  "raw_unique_rows": 3300,
+  "recomputed_gates": {
+    "1": {
+      "file": {
+        "c0_authority": 1.0,
+        "c9_ui_writes": 0.0
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.4977083333333333,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.4419166666666667,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 1.0,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "10": {
+      "file": {
+        "bypass_admitted": 0.0
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.4977083333333333,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.4419166666666667,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.5,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "11": {
+      "file": {
+        "birth_replay_l2": 0.0
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.99625,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.8793541666666667,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.5,
+        "habitat_continuity_l2": 0.0015,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "12": {
+      "file": {
+        "boundedness_rate": 1.0
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.994375,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.89975,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 1.0,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "2": {
+      "file": {
+        "c0_governed_alignment": 1.0,
+        "c0_unauthorized_rate": 0.0
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.5686130952380952,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.42857142857142855,
+        "environmental_prediction_accuracy": 0.5120892857142857,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.14285714285714285,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.42857142857142855,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0017857142857142859,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.42857142857142855,
+        "verified_outcome_alignment": 0.42857142857142855
+      }
+    },
+    "3": {
+      "file": {
+        "c0_prediction": 0.8944166666666666,
+        "c4_prediction": 0.0,
+        "c5_prediction": 0.8915
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.9951875,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.6674791666666666,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.25,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.75,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.11249999999999999,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "4": {
+      "file": {
+        "autonomy_coverage": 0.9954166666666666
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.9954166666666666,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.8838333333333334,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.5,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "5": {
+      "file": {
+        "birth_replay_l2": 0.0,
+        "continuity_l2": 0.003
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.996125,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.8804479166666667,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.75,
+        "habitat_continuity_l2": 0.50075,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "6": {
+      "file": {
+        "routine_episodes": 3.0
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.9954166666666666,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.8838333333333334,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.0,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 1.5,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "7": {
+      "file": {
+        "separation": 0.3104521446423054
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.9949583333333333,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.8850833333333333,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.0,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.2852260723211527,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "8": {
+      "file": {
+        "revision": 0.15
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.9945416666666667,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.8918541666666666,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 1.0,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 0.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.15,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    },
+    "9": {
+      "file": {
+        "migration_ok_rate": 1.0
+      },
+      "raw_recomputed": {
+        "ambiguous_address_execution": 0.0,
+        "authoritative_object_enumeration_to_policy": 0.0,
+        "autonomous_environmental_action_coverage": 0.9953333333333333,
+        "birth_replay_l2": 0.0,
+        "boundedness_ok": 1.0,
+        "correct_target_effect_rate": 0.0,
+        "environmental_prediction_accuracy": 0.8841666666666667,
+        "failed_request_world_mutation_rate": 0.0,
+        "frequency_only_routine_blocked": 0.0,
+        "governance_bypass_admitted": 0.0,
+        "governed_action_to_mutation_alignment": 0.0,
+        "habitat_continuity_l2": 0.0,
+        "habitat_individuality_separation": 0.0,
+        "hidden_object_candidate_leakage": 0.0,
+        "profile_migration_ok": 1.0,
+        "replay_equivalence_l2": 0.0,
+        "revision_adaptation": 0.0,
+        "routine_promotion_episodes": 0.0,
+        "scripted_schedule_detection": 0.0,
+        "single_anomaly_erase": 0.0,
+        "stale_address_candidate_execution": 0.0,
+        "ui_projection_writes": 0.0,
+        "unauthorized_mutation_rate": 0.0,
+        "verified_outcome_alignment": 0.0
+      }
+    }
+  },
+  "validator": "experiments/d009/validate_evidence.py"
+}
