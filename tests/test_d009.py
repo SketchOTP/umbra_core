@@ -635,3 +635,25 @@ def test_validate_success_returns_effect_plan_without_mutating_habitat():
     assert result.effect_plan is not None
     assert result.effect_plan.requested_organism_effects
     assert engine.snapshot_view().state_hash == snapshot_before.state_hash
+
+
+def test_use_effect_plan_emits_registered_state_changed_event():
+    state = sample_habitat_state()
+    obj = replace(state.objects["resource:0"], affordance_ids=("affordance:resource:use",))
+    obj = with_object_state_hash(obj)
+    state = with_state_hash(replace(state, objects={**state.objects, obj.object_id: obj}))
+    request = _use_request_for_resource(state, obj)
+    result = _affordance_engine().validate(
+        request,
+        HabitatEngine(state).snapshot_view(),
+        _adapter_for(UseParameters()),
+    )
+    assert result.allowed is True
+    assert result.effect_plan is not None
+    event_types = [event["event_type"] for event in result.effect_plan.habitat_events]
+    assert "habitat_object_used" not in event_types
+    assert event_types == ["habitat_object_state_changed"]
+    assert event_types[0] in HABITAT_EVENT_TYPES
+    state_event = result.effect_plan.habitat_events[0]
+    assert state_event["object_id"] == obj.object_id
+    assert state_event["new_state"]["remaining_yield"] == pytest.approx(0.9)

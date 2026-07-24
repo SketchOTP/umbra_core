@@ -3,16 +3,18 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any
 
 from umbra_core.habitat.engine import BodyPoseView, HabitatSnapshot, ReachProfile
+from umbra_core.habitat.events import object_state_to_payload
 from umbra_core.habitat.state import (
     ActivatableState,
     FreeLocation,
     HabitatObject,
     HeldByLocation,
     ObjectKind,
+    ObjectState,
     ResourceState,
     StationState,
 )
@@ -20,6 +22,7 @@ from umbra_core.habitat_affordances.definitions import (
     AffordanceDefinition,
     AffordanceOperation,
     AffordancePreconditions,
+    WorldEffectMutation,
     default_affordance_definitions,
     definition_hash,
 )
@@ -209,6 +212,26 @@ def _check_preconditions(
     return None
 
 
+def _apply_world_effect_mutations(state: ObjectState, mutations: tuple[WorldEffectMutation, ...]) -> ObjectState:
+    updated = state
+    for mutation in mutations:
+        if mutation.field == "state.remaining_yield":
+            if not isinstance(updated, ResourceState):
+                raise ValueError("world_effect_requires_resource_state")
+            if not isinstance(mutation.delta, (int, float)):
+                raise ValueError("world_effect_yield_delta_must_be_numeric")
+            updated = replace(updated, remaining_yield=updated.remaining_yield + float(mutation.delta))
+        elif mutation.field == "state.active":
+            if not isinstance(updated, ActivatableState):
+                raise ValueError("world_effect_requires_activatable_state")
+            if not isinstance(mutation.delta, bool):
+                raise ValueError("world_effect_active_delta_must_be_bool")
+            updated = replace(updated, active=mutation.delta)
+        else:
+            raise ValueError(f"unsupported_world_effect_field:{mutation.field}")
+    return updated
+
+
 def _build_effect_plan(
     defn: AffordanceDefinition,
     obj: HabitatObject,
@@ -285,7 +308,14 @@ def _build_effect_plan(
                     "delta": mutation.delta,
                 }
             )
-        events.append({"event_type": "habitat_object_used", "object_id": obj.object_id})
+        new_state = _apply_world_effect_mutations(obj.state, defn.world_effect_contract.mutations)
+        events.append(
+            {
+                "event_type": "habitat_object_state_changed",
+                "object_id": obj.object_id,
+                "new_state": object_state_to_payload(new_state),
+            }
+        )
     if defn.cooldown_ticks > 0:
         mutations.append(
             {
