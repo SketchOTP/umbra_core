@@ -1,0 +1,66 @@
+{
+  "agent_memory_directive": "D-20260724-1947-d010-perf-fail-preserve-diagnose",
+  "directive": "UMBRA-D-010",
+  "formal_execution_id": "d010-fe-stage-b-v5",
+  "freeze_commit": "317881537f0991914949d92659231ba79d52aec1",
+  "gate_13": {
+    "accelerated_100k_pass": true,
+    "adaptive_soak_supplement": "S3",
+    "failure_class": "shared_rss_slope_sustained_segment_growth",
+    "modes": {
+      "P0": {
+        "database_growth_mib": 38.936187744140625,
+        "extension_reason": "inconclusive_after_max:sustained_segment_growth",
+        "pass": false,
+        "rss_p95_mib": 45.05859375,
+        "rss_segment_medians_mib": [
+          43.40625,
+          44.20703125,
+          44.876953125
+        ],
+        "rss_slope_mib_per_hour": 1.9034090909090908,
+        "total_measurement_seconds": 3600.254181623459
+      },
+      "P1": {
+        "database_growth_mib": 39.053375244140625,
+        "extension_reason": "inconclusive_after_max:sustained_segment_growth",
+        "pass": false,
+        "rss_p95_mib": 45.2265625,
+        "rss_segment_medians_mib": [
+          43.58203125,
+          44.36328125,
+          45.046875
+        ],
+        "rss_slope_mib_per_hour": 1.913861146907216,
+        "total_measurement_seconds": 3600.5452167987823
+      },
+      "P2": {
+        "database_growth_mib": 38.799468994140625,
+        "extension_reason": "inconclusive_after_max:sustained_segment_growth",
+        "pass": false,
+        "rss_p95_mib": 54.4140625,
+        "rss_segment_medians_mib": [
+          52.8671875,
+          53.60546875,
+          54.33203125
+        ],
+        "rss_slope_mib_per_hour": 2.077702702702703,
+        "total_measurement_seconds": 3600.6256518363953
+      }
+    },
+    "notes": "P0/P1/P2 all FAIL with inconclusive_after_max:sustained_segment_growth. RSS p95 under absolute cap; slopes ~1.9-2.1 MiB/h exceed 1.0. Nearly identical P0/P1 slopes indicate common-path growth, not Tkinter-specific. P2 higher absolute RSS with similar slope. No QUALIFIED. Seal not run.",
+    "pass": false,
+    "pre_freeze": false,
+    "renderer_lifecycle_pass": true,
+    "smoke_scaled": false
+  },
+  "gates_1_12": {
+    "outcome": "UMBRA_D010_TASK13_GATES_1_12_PASS",
+    "preserved_evidence_commit": "a1342ee1b6ad16e66c8475b374e6366f9db13675"
+  },
+  "outcome": "UMBRA_D010_PERFORMANCE_FAIL",
+  "qualification_claimed": false,
+  "recorded_at": "2026-07-24T19:56:34.172844+00:00",
+  "seal_run": false,
+  "software_commit": "a1342ee1b6ad16e66c8475b374e6366f9db13675"
+}
