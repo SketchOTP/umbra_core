@@ -139,6 +139,13 @@
     },
     {
       "expected_execution_mode": "pytest",
+      "gate": 15,
+      "required": true,
+      "test_file": "tests/test_d010.py",
+      "test_id": "test_harness_integrated_ablations_create_organism_and_tick"
+    },
+    {
+      "expected_execution_mode": "pytest",
       "gate": 3,
       "required": true,
       "test_file": "tests/test_d010.py",

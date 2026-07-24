@@ -26,7 +26,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from experiments.d010 import evidence as ev
-from experiments.d010.conditions import TemporalConditionError, condition_to_temporal_config
+from experiments.d010.conditions import (
+    QUALIFICATION_BASELINE_CONDITION,
+    TemporalConditionError,
+    condition_to_temporal_config,
+)
 from experiments.d010.control_rows import label_experiment_row
 from experiments.d010.diagnostic_controllers import (
     HiddenScheduleInjector,
@@ -90,11 +94,16 @@ def _temporal_cfg(condition: str) -> TemporalConfig | None:
 
 
 def _organism_cfg(db_path: str, seed: int, condition: str, scenario: str) -> OrganismConfig:
+    """Build organism config for an integrated matrix cell.
+
+    `condition` is the ablation/matrix label (C0–C13). Production `OrganismConfig.condition`
+    stays pinned to C0; ablations apply only via `temporal_config` (C1 disables temporal).
+    """
     tcfg = _temporal_cfg(condition)
     return OrganismConfig(
         db_path=db_path,
         seed=seed,
-        condition=condition,
+        condition=QUALIFICATION_BASELINE_CONDITION,
         temporal_enabled=condition != "C1",
         temporal_config=tcfg,
         temporal_scenario_id=scenario,

@@ -1918,6 +1918,27 @@ def test_runtime_subsystem_uses_effective_organism_age_not_orchestration_tick(
 # --- Task 10: conditions C0–C13 + scenarios S0–S17 scaffolding ---
 
 
+@pytest.mark.parametrize("ablation", ["C1", "C4", "C5", "C6", "C8", "C11"])
+def test_harness_integrated_ablations_create_organism_and_tick(tmp_path, ablation):
+    from experiments.d010.conditions import condition_to_temporal_config
+    from experiments.d010.run_experiment import _organism_cfg
+    from umbra_core.runtime import create_organism
+
+    db = tmp_path / f"{ablation}.db"
+    org = create_organism(_organism_cfg(str(db), seed=50001, condition=ablation, scenario="S0"))
+    try:
+        assert org.config.condition == "C0"
+        if ablation == "C1":
+            assert org.temporal is None
+        else:
+            assert org.temporal is not None
+            expected = condition_to_temporal_config(ablation)
+            assert org._temporal_cfg == expected
+        org.tick_once()
+    finally:
+        org.close()
+
+
 def test_experimental_controls_are_production_unreachable(tmp_path):
     from experiments.d010.conditions import (
         TemporalConditionError,
