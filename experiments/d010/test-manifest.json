@@ -492,7 +492,14 @@
       "gate": 13,
       "required": true,
       "test_file": "tests/test_d010.py",
-      "test_id": "test_snapshot_and_wal_release_native_arenas"
+      "test_id": "test_wal_checkpoint_releases_native_arenas"
+    },
+    {
+      "test_id": "test_expression_adaptive_trim_on_rss_growth",
+      "expected_execution_mode": "pytest",
+      "gate": 13,
+      "required": true,
+      "test_file": "tests/test_d010.py"
     },
     {
       "expected_execution_mode": "pytest",

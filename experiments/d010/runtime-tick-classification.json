@@ -3,354 +3,483 @@
   "entries": [
     {
       "class": "O",
-      "line": 309,
+      "line": 305,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:309",
-      "symbol": "__init__"
+      "site_id": "umbra_core/runtime.py:305",
+      "symbol": "__init__",
+      "col": 8,
+      "kind": "self.tick",
+      "snippet": "self.tick = tick"
     },
     {
       "class": "O",
-      "line": 389,
+      "line": 385,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:389",
-      "symbol": "authoritative_state"
+      "site_id": "umbra_core/runtime.py:385",
+      "symbol": "authoritative_state",
+      "col": 20,
+      "kind": "self.tick",
+      "snippet": "\"tick\": self.tick,"
     },
     {
       "class": "O",
-      "line": 436,
+      "line": 432,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:436",
-      "symbol": "_organism_age_tick"
+      "site_id": "umbra_core/runtime.py:432",
+      "symbol": "_organism_age_tick",
+      "col": 15,
+      "kind": "self.tick",
+      "snippet": "return self.tick"
     },
     {
       "class": "O",
-      "line": 519,
+      "line": 515,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:519",
-      "symbol": "_atomic_commit_orchestration_tick"
+      "site_id": "umbra_core/runtime.py:515",
+      "symbol": "_atomic_commit_orchestration_tick",
+      "col": 12,
+      "kind": "kw:runtime_tick",
+      "snippet": "runtime_tick=self.tick,"
     },
     {
       "class": "O",
-      "line": 600,
+      "line": 596,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:600",
-      "symbol": "snapshot_if_due"
+      "site_id": "umbra_core/runtime.py:596",
+      "symbol": "snapshot_if_due",
+      "col": 21,
+      "kind": "self.tick",
+      "snippet": "if force or (self.tick > 0 and self.tick % self.config.snapshot_every == 0):"
     },
     {
       "class": "O",
-      "line": 621,
+      "line": 614,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:621",
-      "symbol": "emit_runtime_ready"
+      "site_id": "umbra_core/runtime.py:614",
+      "symbol": "emit_runtime_ready",
+      "col": 11,
+      "kind": "self.tick",
+      "snippet": "if self.tick != 0:"
     },
     {
       "class": "O",
-      "line": 633,
+      "line": 626,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:633",
-      "symbol": "emit_runtime_ready"
+      "site_id": "umbra_core/runtime.py:626",
+      "symbol": "emit_runtime_ready",
+      "col": 20,
+      "kind": "self.tick",
+      "snippet": "\"tick\": self.tick,"
     },
     {
       "class": "O",
-      "line": 746,
+      "line": 739,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:746",
-      "symbol": "_maybe_memory_midcourse"
+      "site_id": "umbra_core/runtime.py:739",
+      "symbol": "_maybe_memory_midcourse",
+      "col": 73,
+      "kind": "self.tick",
+      "snippet": "if tags.get(\"rule_flip_at\") and not self._mem_rule_flip_done and self.tick >= int(tags[\"rule_flip_at\"]):"
     },
     {
       "class": "O",
-      "line": 752,
+      "line": 745,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:752",
-      "symbol": "_maybe_memory_midcourse"
+      "site_id": "umbra_core/runtime.py:745",
+      "symbol": "_maybe_memory_midcourse",
+      "col": 77,
+      "kind": "self.tick",
+      "snippet": "if tags.get(\"body_change_at\") and not self._mem_body_change_done and self.tick >= int(tags[\"body_change_at\"]):"
     },
     {
       "class": "O",
-      "line": 760,
+      "line": 753,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:760",
-      "symbol": "_maybe_memory_midcourse"
+      "site_id": "umbra_core/runtime.py:753",
+      "symbol": "_maybe_memory_midcourse",
+      "col": 16,
+      "kind": "self.tick",
+      "snippet": "and self.tick >= int(tags[\"skill_degrade_at\"])"
     },
     {
       "class": "O",
-      "line": 773,
+      "line": 766,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:773",
-      "symbol": "_maybe_development_midcourse"
+      "site_id": "umbra_core/runtime.py:766",
+      "symbol": "_maybe_development_midcourse",
+      "col": 73,
+      "kind": "self.tick",
+      "snippet": "if tags.get(\"mastered_seed\") and not self._dev_master_seeded and self.tick >= 5:"
     },
     {
       "class": "O",
-      "line": 791,
+      "line": 784,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:791",
-      "symbol": "_maybe_development_midcourse"
+      "site_id": "umbra_core/runtime.py:784",
+      "symbol": "_maybe_development_midcourse",
+      "col": 16,
+      "kind": "self.tick",
+      "snippet": "and self.tick >= int(tags[\"degrade_at\"])"
     },
     {
       "class": "O",
-      "line": 801,
+      "line": 794,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:801",
-      "symbol": "_maybe_development_midcourse"
+      "site_id": "umbra_core/runtime.py:794",
+      "symbol": "_maybe_development_midcourse",
+      "col": 16,
+      "kind": "self.tick",
+      "snippet": "and self.tick >= int(tags[\"body_change_at\"])"
     },
     {
       "class": "O",
-      "line": 810,
+      "line": 803,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:810",
-      "symbol": "_maybe_development_midcourse"
+      "site_id": "umbra_core/runtime.py:803",
+      "symbol": "_maybe_development_midcourse",
+      "col": 16,
+      "kind": "self.tick",
+      "snippet": "and self.tick >= int(tags[\"env_change_at\"])"
     },
     {
       "class": "O",
-      "line": 821,
+      "line": 814,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:821",
-      "symbol": "_maybe_world_dynamics"
+      "site_id": "umbra_core/runtime.py:814",
+      "symbol": "_maybe_world_dynamics",
+      "col": 58,
+      "kind": "self.tick",
+      "snippet": "if wi == \"I3\" and not self._occlusion_cleared and self.tick >= 60:"
     },
     {
       "class": "O",
-      "line": 824,
+      "line": 817,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:824",
-      "symbol": "_maybe_world_dynamics"
+      "site_id": "umbra_core/runtime.py:817",
+      "symbol": "_maybe_world_dynamics",
+      "col": 59,
+      "kind": "self.tick",
+      "snippet": "if wi == \"I8\" and not self._world_object_moved and self.tick == 50:"
     },
     {
       "class": "O",
-      "line": 827,
+      "line": 820,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:827",
-      "symbol": "_maybe_world_dynamics"
+      "site_id": "umbra_core/runtime.py:820",
+      "symbol": "_maybe_world_dynamics",
+      "col": 26,
+      "kind": "self.tick",
+      "snippet": "if wi == \"I1\" and self.tick == 80:"
     },
     {
       "class": "O",
-      "line": 835,
+      "line": 828,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:835",
-      "symbol": "_maybe_external_displace"
+      "site_id": "umbra_core/runtime.py:828",
+      "symbol": "_maybe_external_displace",
+      "col": 11,
+      "kind": "self.tick",
+      "snippet": "if self.tick == 40:"
     },
     {
       "class": "O",
-      "line": 900,
+      "line": 893,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:900",
-      "symbol": "_push_expression_frame"
+      "site_id": "umbra_core/runtime.py:893",
+      "symbol": "_push_expression_frame",
+      "col": 36,
+      "kind": "self.tick",
+      "snippet": "habitat_state_version = self.tick"
     },
     {
       "class": "O",
-      "line": 921,
+      "line": 914,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:921",
-      "symbol": "_push_expression_frame"
+      "site_id": "umbra_core/runtime.py:914",
+      "symbol": "_push_expression_frame",
+      "col": 16,
+      "kind": "kw:tick",
+      "snippet": "tick=self.tick,"
     },
     {
       "class": "O",
-      "line": 925,
+      "line": 918,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:925",
-      "symbol": "_push_expression_frame"
+      "site_id": "umbra_core/runtime.py:918",
+      "symbol": "_push_expression_frame",
+      "col": 16,
+      "kind": "kw:source_state_version",
+      "snippet": "source_state_version=self.tick,"
     },
     {
       "class": "O",
-      "line": 939,
+      "line": 932,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:939",
-      "symbol": "_push_expression_frame"
+      "site_id": "umbra_core/runtime.py:932",
+      "symbol": "_push_expression_frame",
+      "col": 16,
+      "kind": "kw:derived_at_tick",
+      "snippet": "derived_at_tick=self.tick,"
     },
     {
       "class": "O",
-      "line": 958,
       "migrated": false,
-      "notes": "",
+      "notes": "adaptive expr trim",
+      "site_id": "umbra_core/runtime.py:947",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:958",
-      "symbol": "_maybe_recover_i9"
+      "line": 947,
+      "col": 15,
+      "kind": "self.tick",
+      "symbol": "_push_expression_frame",
+      "snippet": "if self.tick % 50 == 0:"
     },
     {
       "class": "O",
-      "line": 1009,
+      "line": 964,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1009",
-      "symbol": "commit_manipulation"
+      "site_id": "umbra_core/runtime.py:964",
+      "symbol": "_maybe_recover_i9",
+      "col": 11,
+      "kind": "self.tick",
+      "snippet": "if self.tick >= 80:"
     },
     {
       "class": "O",
-      "line": 1040,
+      "line": 1015,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1040",
-      "symbol": "execute_manipulation_from_candidate"
+      "site_id": "umbra_core/runtime.py:1015",
+      "symbol": "commit_manipulation",
+      "col": 12,
+      "kind": "kw:prepared_tick",
+      "snippet": "prepared_tick=prepared_tick if prepared_tick is not None else self.tick,"
     },
     {
       "class": "O",
-      "line": 1062,
+      "line": 1046,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1062",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1046",
+      "symbol": "execute_manipulation_from_candidate",
+      "col": 12,
+      "kind": "kw:tick",
+      "snippet": "tick=self.tick,"
     },
     {
       "class": "O",
-      "line": 1165,
+      "line": 1068,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1165",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1068",
+      "symbol": "_tick_once_body",
+      "col": 8,
+      "kind": "self.tick",
+      "snippet": "self.tick += 1"
     },
     {
       "class": "O",
-      "line": 1239,
+      "line": 1171,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1239",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1171",
+      "symbol": "_tick_once_body",
+      "col": 24,
+      "kind": "self.tick",
+      "snippet": "\"tick\": self.tick,"
     },
     {
       "class": "O",
-      "line": 1254,
+      "line": 1245,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1254",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1245",
+      "symbol": "_tick_once_body",
+      "col": 16,
+      "kind": "self.tick",
+      "snippet": "self.tick,"
     },
     {
       "class": "O",
-      "line": 1497,
+      "line": 1260,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1497",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1260",
+      "symbol": "_tick_once_body",
+      "col": 12,
+      "kind": "self.tick",
+      "snippet": "self.tick,"
     },
     {
       "class": "O",
-      "line": 1594,
+      "line": 1503,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1594",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1503",
+      "symbol": "_tick_once_body",
+      "col": 24,
+      "kind": "self.tick",
+      "snippet": "\"tick\": self.tick,"
     },
     {
       "class": "O",
-      "line": 1608,
+      "line": 1600,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1608",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1600",
+      "symbol": "_tick_once_body",
+      "col": 48,
+      "kind": "self.tick",
+      "snippet": "if self.config.intervention == \"I8\" and self.tick == 40 and self.self_model:"
     },
     {
       "class": "O",
-      "line": 1617,
+      "line": 1614,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1617",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1614",
+      "symbol": "_tick_once_body",
+      "col": 24,
+      "kind": "self.tick",
+      "snippet": "and self.tick % int(self._mem_tags[\"force_consolidate_every\"]) == 0"
     },
     {
       "class": "O",
-      "line": 1637,
+      "line": 1623,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1637",
-      "symbol": "_tick_once_body"
+      "site_id": "umbra_core/runtime.py:1623",
+      "symbol": "_tick_once_body",
+      "col": 11,
+      "kind": "self.tick",
+      "snippet": "if self.tick % WAL_CHECKPOINT_EVERY_TICKS == 0:"
     },
     {
       "class": "O",
-      "line": 1700,
+      "line": 1643,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1700",
-      "symbol": "_finish_outcome"
+      "site_id": "umbra_core/runtime.py:1643",
+      "symbol": "_tick_once_body",
+      "col": 20,
+      "kind": "self.tick",
+      "snippet": "\"tick\": self.tick,"
     },
     {
       "class": "O",
-      "line": 1814,
+      "line": 1706,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1814",
-      "symbol": "_finish_outcome"
+      "site_id": "umbra_core/runtime.py:1706",
+      "symbol": "_finish_outcome",
+      "col": 26,
+      "kind": "self.tick",
+      "snippet": "sample_diag = self.tick % DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS == 0"
     },
     {
       "class": "O",
-      "line": 1889,
+      "line": 1820,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:1889",
-      "symbol": "_finish_outcome"
+      "site_id": "umbra_core/runtime.py:1820",
+      "symbol": "_finish_outcome",
+      "col": 20,
+      "kind": "self.tick",
+      "snippet": "and self.tick % DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS == 0"
     },
     {
       "class": "O",
-      "line": 2516,
+      "line": 1895,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:2516",
-      "symbol": "load_organism"
+      "site_id": "umbra_core/runtime.py:1895",
+      "symbol": "_finish_outcome",
+      "col": 28,
+      "kind": "self.tick",
+      "snippet": "if every_lv and self.tick % int(every_lv) == 0:"
     },
     {
       "class": "O",
-      "line": 2526,
+      "line": 2522,
       "migrated": false,
       "notes": "",
       "path": "umbra_core/runtime.py",
-      "site_id": "umbra_core/runtime.py:2526",
-      "symbol": "load_organism"
+      "site_id": "umbra_core/runtime.py:2522",
+      "symbol": "load_organism",
+      "col": 7,
+      "kind": "org.tick",
+      "snippet": "if org.tick == 0:"
+    },
+    {
+      "class": "O",
+      "line": 2532,
+      "migrated": false,
+      "notes": "",
+      "path": "umbra_core/runtime.py",
+      "site_id": "umbra_core/runtime.py:2532",
+      "symbol": "load_organism",
+      "col": 24,
+      "kind": "org.tick",
+      "snippet": "\"tick\": org.tick,"
     }
   ],
   "frozen_before_execution": true,

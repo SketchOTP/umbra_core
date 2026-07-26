@@ -1,11 +1,11 @@
 {
-  "db_end_file_mib": 10.07421875,
-  "db_growth_during_run_mib": 1.3029937744140625,
+  "db_end_file_mib": 13.31640625,
+  "db_growth_during_run_mib": 4.6467437744140625,
   "final_objects": {
     "dedup": {},
     "frame_ring": 0,
     "gc_counts": [
-      324,
+      207,
       0,
       0
     ],
@@ -16,8 +16,8 @@
         "uncollectable": 0
       },
       {
-        "collected": 187,
-        "collections": 8,
+        "collected": 367,
+        "collections": 17,
         "uncollectable": 0
       },
       {
@@ -27,48 +27,40 @@
       }
     ],
     "recurrence_hypotheses": 0,
-    "tick": 1791
+    "tick": 3590
   },
   "harness_only": true,
   "hz": 2.0,
-  "jumps_ge_0_25_post": [
-    {
-      "delta_mib": 0.41015625,
-      "t": 600.2217485904694,
-      "tick": 1201
-    },
-    {
-      "delta_mib": 1.50390625,
-      "t": 800.2836301326752,
-      "tick": 1601
-    }
-  ],
+  "jumps_ge_0_25_post": [],
   "mode": "temporal_off",
-  "post_warmup_samples": 120,
+  "post_warmup_samples": 300,
   "production_unreachable": true,
-  "rss_delta_all_mib": 3.90625,
-  "rss_delta_post_mib": 1.23046875,
-  "rss_end_mib": 46.5390625,
-  "rss_ols_slope_mib_per_hour": 6.338655964609326,
+  "rss_delta_all_mib": 0.59765625,
+  "rss_delta_post_mib": 2.4921875,
+  "rss_end_mib": 42.71484375,
+  "rss_max_post_mib": 42.7734375,
+  "rss_min_post_mib": 40.22265625,
+  "rss_ols_slope_mib_per_hour": 6.062868088057812,
+  "rss_robust_slope_mib_per_hour": 6.217830882352941,
   "rss_segment_medians_mib": [
-    45.3828125,
-    45.615234375,
-    46.205078125
+    40.685546875,
+    41.6953125,
+    42.390625
   ],
-  "rss_start_mib": 42.6328125,
-  "sample_count": 180,
-  "seconds": 900.0,
+  "rss_start_mib": 42.1171875,
+  "sample_count": 360,
+  "seconds": 1800.0,
   "seed": 42,
   "sqlite": {
-    "events": 5764,
-    "freelist_pages": 1602,
-    "page_count": 2579,
-    "payload_mib": 0.9036846160888672,
-    "snapshot_avg_bytes": 264379.0,
+    "events": 11521,
+    "freelist_pages": 1605,
+    "page_count": 3409,
+    "payload_mib": 1.805898666381836,
+    "snapshot_avg_bytes": 268780.0,
     "snapshots": 2,
     "tick_events": 0
   },
-  "sustained_segment_growth": false,
-  "traced_heap_delta_post_mib": 0.2620105743408203,
+  "sustained_segment_growth": true,
+  "traced_heap_delta_post_mib": 0.6596794128417969,
   "warmup_seconds": 300.0
 }

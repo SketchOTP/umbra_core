@@ -167,6 +167,95 @@ def _install_trim_on_snapshot(org: Any) -> Callable[[], None]:
     return restore
 
 
+def _gate13_robust_slope(post: list[dict[str, Any]]) -> float:
+    """Use the exact Gate 13 estimator so diagnosis and gate are comparable."""
+    from experiments.d010.run_performance import _robust_slope_mib_per_hour
+
+    return float(_robust_slope_mib_per_hour(post)[0]) if len(post) >= 3 else 0.0
+
+
+def _install_release_variant(mode: str) -> Callable[[], None]:
+    """Harness-only: swap runtime._release_native_arenas to isolate its two halves.
+
+    P0_no_shrink  -> malloc_trim only (no SQLite PRAGMA shrink_memory)
+    P0_no_release -> neither (pre-D-010-R1 behaviour on remediated source)
+    """
+    import umbra_core.runtime as runtime_mod
+
+    original = runtime_mod._release_native_arenas
+
+    def trim_only() -> None:
+        _malloc_trim()
+
+    def nothing() -> None:
+        return None
+
+    runtime_mod._release_native_arenas = (  # type: ignore[assignment]
+        trim_only if mode == "P0_no_shrink" else nothing
+    )
+
+    def restore() -> None:
+        runtime_mod._release_native_arenas = original  # type: ignore[assignment]
+
+    return restore
+
+
+def _install_wal_only_release(org: Any) -> Callable[[], None]:
+    """Harness-only: suppress snapshot-path arena release; keep WAL-path release.
+
+    Mirrors D-002P (trim only after wal_checkpoint) on top of bounded-id fix.
+    """
+    import umbra_core.runtime as runtime_mod
+
+    original_snap = org.snapshot_if_due
+    release = runtime_mod._release_native_arenas
+
+    def snap_no_release(force: bool = False) -> str | None:
+        # Temporarily disable release while snapshot path runs.
+        runtime_mod._release_native_arenas = lambda: None  # type: ignore[assignment]
+        try:
+            return original_snap(force=force)
+        finally:
+            runtime_mod._release_native_arenas = release  # type: ignore[assignment]
+
+    org.snapshot_if_due = snap_no_release  # type: ignore[method-assign]
+
+    def restore() -> None:
+        org.snapshot_if_due = original_snap  # type: ignore[method-assign]
+        runtime_mod._release_native_arenas = release  # type: ignore[assignment]
+
+    return restore
+
+
+def _install_fast_release(org: Any, mode: str, every: int = 20) -> Callable[[], None]:
+    """Harness-only: run the arena release every `every` ticks instead of only at
+    snapshot / WAL boundaries, to measure sawtooth amplitude versus cadence."""
+    import umbra_core.runtime as runtime_mod
+
+    original = org.tick_once
+    release = runtime_mod._release_native_arenas
+    shrink = mode == "P0_release_fast"
+    # Disable the snapshot/WAL-boundary release so only the fast cadence acts.
+    runtime_mod._release_native_arenas = lambda: None  # type: ignore[assignment]
+
+    def wrapped(*a: Any, **kw: Any) -> Any:
+        out = original(*a, **kw)
+        if org.tick % every == 0:
+            if shrink:
+                release()
+            else:
+                _malloc_trim()
+        return out
+
+    org.tick_once = wrapped  # type: ignore[method-assign]
+
+    def restore() -> None:
+        org.tick_once = original  # type: ignore[method-assign]
+        runtime_mod._release_native_arenas = release  # type: ignore[assignment]
+
+    return restore
+
+
 def _make_organism(mode: str, db_path: str) -> Any:
     temporal_enabled = mode != "temporal_off"
     tcfg = p0_performance_config() if mode.startswith("P0") or mode in {
@@ -209,11 +298,19 @@ def run_mode(
         restores.append(_install_slim_advance())
     elif mode == "P0_omit_advance":
         restores.append(_install_omit_advance())
+    elif mode in {"P0_no_shrink", "P0_no_release"}:
+        restores.append(_install_release_variant(mode))
 
     tracemalloc.start()
     org = _make_organism(mode, str(db))
     if mode == "P0_trim_snapshot":
         restores.append(_install_trim_on_snapshot(org))
+    elif mode == "P0_wal_only_release":
+        restores.append(_install_wal_only_release(org))
+    elif mode in {"P0_trim_fast", "P0_release_fast"}:
+        # Fast cadence replaces the snapshot/WAL-boundary release so the candidate
+        # design is measured on its own, not stacked on production behaviour.
+        restores.append(_install_fast_release(org, mode))
 
     period = 1.0 / HZ
     t0 = time.time()
@@ -293,6 +390,9 @@ def run_mode(
         ),
         "rss_delta_post_mib": (rss[-1] - rss[0]) if len(rss) >= 2 else None,
         "rss_ols_slope_mib_per_hour": slope,
+        "rss_robust_slope_mib_per_hour": _gate13_robust_slope(post),
+        "rss_min_post_mib": min(rss) if rss else None,
+        "rss_max_post_mib": max(rss) if rss else None,
         "rss_segment_medians_mib": segs,
         "sustained_segment_growth": bool(
             len(segs) == 3 and segs[0] + 0.25 < segs[1] and segs[1] + 0.25 < segs[2]
@@ -326,6 +426,11 @@ def main() -> None:
             "P0_trim_snapshot",
             "P0_slim_advance",
             "P0_omit_advance",
+            "P0_no_shrink",
+            "P0_no_release",
+            "P0_trim_fast",
+            "P0_release_fast",
+            "P0_wal_only_release",
             "temporal_off",
             "advance_only",
         ],

@@ -2413,16 +2413,16 @@ def test_performance_dry_run_reports_pre_freeze_false_when_not_smoke(monkeypatch
     assert not perf_mod._is_smoke()
 
 
-def test_snapshot_and_wal_release_native_arenas(tmp_path, monkeypatch):
-    """D-010-R1: snapshot prune and WAL checkpoint must release native arenas."""
+def test_wal_checkpoint_releases_native_arenas(tmp_path, monkeypatch):
+    """D-010-R1: WAL checkpoint trims arenas; snapshot path must not (D-009 pattern)."""
     from umbra_core import runtime as runtime_mod
     from umbra_core.runtime import OrganismConfig, create_organism
     from umbra_core.temporal.config import p0_performance_config
 
-    calls: list[str] = []
+    calls: list[int] = []
 
-    def _track(store=None):
-        calls.append("snap" if store is not None else "bare")
+    def _track() -> None:
+        calls.append(1)
 
     monkeypatch.setattr(runtime_mod, "_release_native_arenas", _track)
     db = tmp_path / "arena.sqlite"
@@ -2440,14 +2440,55 @@ def test_snapshot_and_wal_release_native_arenas(tmp_path, monkeypatch):
     )
     calls.clear()
     assert org.snapshot_if_due(force=True) is not None
-    assert calls == ["snap"]
-    calls.clear()
-    # Drive to a WAL checkpoint boundary (every 500 ticks).
+    assert calls == []
     for _ in range(500):
         org.tick_once()
-    assert "snap" in calls  # snapshots on the way
-    # At least one release from WAL path (store arg) beyond forced snapshot.
-    assert calls.count("snap") >= 2
+    assert len(calls) >= 1
+    org.close()
+
+
+def test_expression_adaptive_trim_on_rss_growth(tmp_path, monkeypatch):
+    """D-010-R1: expression path trims only after measured RssAnon growth."""
+    from umbra_core import runtime as runtime_mod
+    from umbra_core.runtime import OrganismConfig, create_organism
+    from umbra_core.temporal.config import p0_performance_config
+
+    calls: list[int] = []
+    rss_values = [40.0]
+
+    def _track() -> None:
+        calls.append(1)
+        # Simulate post-trim drop so the next poll does not immediately re-trigger.
+        rss_values[0] = max(39.0, rss_values[0] - 0.5)
+
+    monkeypatch.setattr(runtime_mod, "_release_native_arenas", _track)
+    monkeypatch.setattr(runtime_mod, "current_rss_mib", lambda: rss_values[0])
+    org = create_organism(
+        OrganismConfig(
+            db_path=str(tmp_path / "adaptive.sqlite"),
+            seed=7,
+            hz=2.0,
+            temporal_enabled=True,
+            temporal_config=p0_performance_config(),
+            habitat_enabled=True,
+            expression_enabled=True,
+            embodiment_adapter_enabled=True,
+        )
+    )
+    calls.clear()
+    # First cadence sample establishes baseline (may trim once).
+    for _ in range(50):
+        org.tick_once()
+    baseline_calls = len(calls)
+    # No growth → no additional trim at next cadence.
+    for _ in range(50):
+        org.tick_once()
+    assert len(calls) == baseline_calls
+    # Growth ≥ 0.4 MiB → trim on next cadence.
+    rss_values[0] += 0.5
+    for _ in range(50):
+        org.tick_once()
+    assert len(calls) == baseline_calls + 1
     org.close()
 
 

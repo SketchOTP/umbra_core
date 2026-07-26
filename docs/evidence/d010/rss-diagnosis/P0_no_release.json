@@ -1,0 +1,96 @@
+{
+  "db_end_file_mib": 21.70703125,
+  "db_growth_during_run_mib": 12.869926452636719,
+  "final_objects": {
+    "dedup": {
+      "compacted": 0,
+      "recent": 0,
+      "retained": 0
+    },
+    "frame_ring": 0,
+    "gc_counts": [
+      173,
+      0,
+      0
+    ],
+    "gc_stats": [
+      {
+        "collected": 0,
+        "collections": 0,
+        "uncollectable": 0
+      },
+      {
+        "collected": 160,
+        "collections": 10,
+        "uncollectable": 0
+      },
+      {
+        "collected": 0,
+        "collections": 0,
+        "uncollectable": 0
+      }
+    ],
+    "recurrence_hypotheses": 0,
+    "tick": 2391
+  },
+  "harness_only": true,
+  "hz": 2.0,
+  "jumps_ge_0_25_post": [
+    {
+      "delta_mib": 0.30078125,
+      "t": 600.2005145549774,
+      "tick": 1201
+    },
+    {
+      "delta_mib": 0.296875,
+      "t": 700.2331700325012,
+      "tick": 1401
+    },
+    {
+      "delta_mib": 0.32421875,
+      "t": 800.2772598266602,
+      "tick": 1601
+    },
+    {
+      "delta_mib": 0.31640625,
+      "t": 900.3010730743408,
+      "tick": 1801
+    },
+    {
+      "delta_mib": 0.31640625,
+      "t": 1000.334145784378,
+      "tick": 2001
+    }
+  ],
+  "mode": "P0_no_release",
+  "post_warmup_samples": 180,
+  "production_unreachable": true,
+  "rss_delta_all_mib": 4.546875,
+  "rss_delta_post_mib": 1.8515625,
+  "rss_end_mib": 46.609375,
+  "rss_max_post_mib": 46.609375,
+  "rss_min_post_mib": 44.7578125,
+  "rss_ols_slope_mib_per_hour": 9.082959719438886,
+  "rss_robust_slope_mib_per_hour": 8.964843750000002,
+  "rss_segment_medians_mib": [
+    44.92578125,
+    45.578125,
+    46.53515625
+  ],
+  "rss_start_mib": 42.0625,
+  "sample_count": 240,
+  "seconds": 1200.0,
+  "seed": 42,
+  "sqlite": {
+    "events": 10085,
+    "freelist_pages": 1605,
+    "page_count": 5557,
+    "payload_mib": 7.677669525146484,
+    "snapshot_avg_bytes": 270845.0,
+    "snapshots": 2,
+    "tick_events": 2400
+  },
+  "sustained_segment_growth": true,
+  "traced_heap_delta_post_mib": 0.4001169204711914,
+  "warmup_seconds": 300.0
+}

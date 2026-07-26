@@ -173,7 +173,7 @@ class OrganismConfig:
     temporal_scenario_hook: Any = field(default=None, repr=False)
 
 
-from umbra_core.util import SCHEMA_VERSION, SeededRNG, new_id
+from umbra_core.util import SCHEMA_VERSION, SeededRNG, current_rss_mib, new_id
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -213,18 +213,14 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
 HABIT_CONFIDENCE_THRESHOLD = 0.45
 
 
-def _release_native_arenas(store: Store | None = None) -> None:
-    """Return freed native pages/arenas after large SQLite alloc/free spikes.
+def _release_native_arenas() -> None:
+    """Return freed glibc arenas after WAL checkpoint (D-002P / D-009 pattern).
 
-    D-010-R1: Gate 13 RSS staircase tracks snapshot_every / WAL_CHECKPOINT cadence;
-    Python tracemalloc stays flat while VmRSS steps. Mirrors D-002P WAL trim.
-    ponytail: glibc malloc_trim + SQLite shrink_memory; no-op elsewhere.
+    D-010-R1 round 2: snapshot-path shrink_memory+malloc_trim created a 100s
+    VmRSS sawtooth that inflated S3 Theil–Sen / sustained_segment_growth while
+    trough growth stayed common-path. Keep trim on WAL only (every 500 ticks).
+    ponytail: glibc malloc_trim; no-op elsewhere.
     """
-    if store is not None:
-        try:
-            store.conn.execute("PRAGMA shrink_memory")
-        except Exception:
-            pass
     try:
         ctypes.CDLL("libc.so.6").malloc_trim(0)
     except OSError:
@@ -605,9 +601,6 @@ class Organism:
                 self.authoritative_state(),
             )
             self.store.prune_snapshots(keep=SNAPSHOT_RETAIN_COUNT)
-            # Large state_json alloc/free + freelist churn; trim after prune so
-            # subsequent ticks do not inherit snapshot arenas (D-010-R1).
-            _release_native_arenas(self.store)
             return sid
         return None
 
@@ -947,6 +940,19 @@ class Organism:
                 source_event_refs=(),
             )
             self.frame_ring.push(entry)
+            # Adaptive arena return: only when expression churn has actually
+            # grown RssAnon since the last trim. Avoids the fixed-cadence
+            # sawtooth that fails S3 sustained_segment_growth while still
+            # capping P1/P2 slope. ponytail: /proc VmRSS sample; upgrade = packet reuse.
+            if self.tick % 50 == 0:
+                try:
+                    rss = float(current_rss_mib())
+                    last = getattr(self, "_expr_last_trim_rss_mib", None)
+                    if last is None or rss - float(last) >= 0.4:
+                        _release_native_arenas()
+                        self._expr_last_trim_rss_mib = float(current_rss_mib())
+                except Exception:
+                    pass
         except Exception:
             # Core operation continues when the expression side-car fails
             # (same containment pattern as D-005 memory consolidation above).
@@ -1616,7 +1622,7 @@ class Organism:
 
         if self.tick % WAL_CHECKPOINT_EVERY_TICKS == 0:
             self.store.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-            _release_native_arenas(self.store)
+            _release_native_arenas()
 
         # D-008: expression side-car — after this tick's outcome commit(s) (design
         # §1). `committed_outcome` prefers whichever verified outcome was actually

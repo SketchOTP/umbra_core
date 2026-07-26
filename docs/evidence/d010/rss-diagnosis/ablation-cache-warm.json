@@ -1,0 +1,62 @@
+[
+  {
+    "label": "baseline",
+    "rss0": 41.13671875,
+    "rss_end": 40.265625,
+    "trough_first": 38.3671875,
+    "trough_last": 38.3671875,
+    "trough_delta": null,
+    "n_troughs": 1,
+    "db_mib": 31.6171875
+  },
+  {
+    "label": "cache_1mib",
+    "rss0": 45.1015625,
+    "rss_end": 39.98828125,
+    "trough_first": 39.0,
+    "trough_last": 39.0,
+    "trough_delta": null,
+    "n_troughs": 1,
+    "db_mib": 31.6171875
+  },
+  {
+    "label": "cache_512",
+    "rss0": 45.234375,
+    "rss_end": 40.1328125,
+    "trough_first": 39.6328125,
+    "trough_last": 39.6328125,
+    "trough_delta": null,
+    "n_troughs": 1,
+    "db_mib": 31.5859375
+  },
+  {
+    "label": "warm_16m",
+    "rss0": 53.421875,
+    "rss_end": 52.06640625,
+    "trough_first": 50.1875,
+    "trough_last": 50.1875,
+    "trough_delta": null,
+    "n_troughs": 1,
+    "db_mib": 41.640625
+  },
+  {
+    "label": "warm_24m",
+    "rss0": 61.9296875,
+    "rss_end": 60.59375,
+    "trough_first": 58.7265625,
+    "trough_last": 58.7265625,
+    "trough_delta": null,
+    "n_troughs": 1,
+    "db_mib": 49.6328125
+  },
+  {
+    "label": "cache1_warm16",
+    "rss0": 67.44140625,
+    "rss_end": 51.8828125,
+    "trough_first": 50.8984375,
+    "trough_last": 50.8984375,
+    "trough_delta": null,
+    "n_troughs": 1,
+    "db_mib": 41.61328125
+  }
+]

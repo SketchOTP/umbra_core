@@ -1,16 +1,16 @@
 {
   "adaptive_soak_supplement": "S3",
-  "cpu_frac_of_one_core": 0.7595374974779198,
-  "cpu_s": 143.636615589,
+  "cpu_frac_of_one_core": 0.9452261046475299,
+  "cpu_s": 335.19918635,
   "directive": "UMBRA-D-010",
-  "elapsed_s": 189.1106312274933,
+  "elapsed_s": 354.6232850551605,
   "frame_ring_capacity_limit": 64,
   "frame_ring_max_occupancy": 64,
   "pass": true,
   "presentation_absent_from_snapshot": true,
   "restart_continuity": true,
-  "rss_p95_mib": 56.8984375,
+  "rss_p95_mib": 39.53515625,
   "smoke_scaled": false,
-  "software_commit": "a1342ee1b6ad16e66c8475b374e6366f9db13675",
+  "software_commit": "95e43c9e5c097ff1bf53308a059b8bee0e01dfda",
   "ticks": 100000
 }

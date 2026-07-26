@@ -1,0 +1,151 @@
+{
+  "db_end_file_mib": 36.51953125,
+  "db_growth_during_run_mib": 27.623260498046875,
+  "final_objects": {
+    "dedup": {
+      "compacted": 0,
+      "recent": 0,
+      "retained": 0
+    },
+    "frame_ring": 0,
+    "gc_counts": [
+      278,
+      0,
+      0
+    ],
+    "gc_stats": [
+      {
+        "collected": 0,
+        "collections": 0,
+        "uncollectable": 0
+      },
+      {
+        "collected": 223,
+        "collections": 16,
+        "uncollectable": 0
+      },
+      {
+        "collected": 0,
+        "collections": 0,
+        "uncollectable": 0
+      }
+    ],
+    "recurrence_hypotheses": 0,
+    "tick": 4788
+  },
+  "harness_only": true,
+  "hz": 2.0,
+  "jumps_ge_0_25_post": [
+    {
+      "delta_mib": 1.078125,
+      "t": 400.393018245697,
+      "tick": 801
+    },
+    {
+      "delta_mib": 1.3828125,
+      "t": 600.5870897769928,
+      "tick": 1200
+    },
+    {
+      "delta_mib": 0.80859375,
+      "t": 700.3160226345062,
+      "tick": 1400
+    },
+    {
+      "delta_mib": 2.47265625,
+      "t": 800.7653243541718,
+      "tick": 1600
+    },
+    {
+      "delta_mib": 0.80078125,
+      "t": 900.5873463153839,
+      "tick": 1800
+    },
+    {
+      "delta_mib": 0.73046875,
+      "t": 1105.2025246620178,
+      "tick": 2209
+    },
+    {
+      "delta_mib": 0.30859375,
+      "t": 1205.2282266616821,
+      "tick": 2409
+    },
+    {
+      "delta_mib": 1.8359375,
+      "t": 1305.298635005951,
+      "tick": 2609
+    },
+    {
+      "delta_mib": 0.5390625,
+      "t": 1405.4312381744385,
+      "tick": 2809
+    },
+    {
+      "delta_mib": 0.49609375,
+      "t": 1605.4952421188354,
+      "tick": 3209
+    },
+    {
+      "delta_mib": 0.7734375,
+      "t": 1705.0295367240906,
+      "tick": 3408
+    },
+    {
+      "delta_mib": 1.984375,
+      "t": 1805.0623888969421,
+      "tick": 3608
+    },
+    {
+      "delta_mib": 0.31640625,
+      "t": 1905.0946629047394,
+      "tick": 3808
+    },
+    {
+      "delta_mib": 0.57421875,
+      "t": 2105.1618616580963,
+      "tick": 4208
+    },
+    {
+      "delta_mib": 0.328125,
+      "t": 2205.191728591919,
+      "tick": 4408
+    },
+    {
+      "delta_mib": 1.8984375,
+      "t": 2305.2218465805054,
+      "tick": 4608
+    }
+  ],
+  "mode": "P0_wal_only_release",
+  "post_warmup_samples": 420,
+  "production_unreachable": true,
+  "rss_delta_all_mib": 4.890625,
+  "rss_delta_post_mib": 4.97265625,
+  "rss_end_mib": 46.96875,
+  "rss_max_post_mib": 47.12890625,
+  "rss_min_post_mib": 40.84765625,
+  "rss_ols_slope_mib_per_hour": 6.195492308472905,
+  "rss_robust_slope_mib_per_hour": 6.136798469387754,
+  "rss_segment_medians_mib": [
+    44.015625,
+    45.32421875,
+    46.443359375
+  ],
+  "rss_start_mib": 42.078125,
+  "sample_count": 480,
+  "seconds": 2400.0,
+  "seed": 42,
+  "sqlite": {
+    "events": 20153,
+    "freelist_pages": 1603,
+    "page_count": 9349,
+    "payload_mib": 15.37273120880127,
+    "snapshot_avg_bytes": 266865.5,
+    "snapshots": 2,
+    "tick_events": 4797
+  },
+  "sustained_segment_growth": true,
+  "traced_heap_delta_post_mib": 0.9481515884399414,
+  "warmup_seconds": 300.0
+}
