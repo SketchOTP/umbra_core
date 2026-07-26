@@ -212,6 +212,10 @@ class Store:
                 event_hash,
             ),
         )
+        self.conn.execute(
+            "INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)",
+            ("ledger_tip", json.dumps({"sequence": seq, "event_hash": event_hash}, sort_keys=True)),
+        )
         return {**envelope, "payload": payload, "event_hash": event_hash}
 
     def save_snapshot(self, agent_id: str, sequence: int, monotonic_time: float, state: dict[str, Any]) -> str:
@@ -341,6 +345,11 @@ class Store:
                 raise PersistenceError(f"event_hash_mismatch:seq_{ev['sequence']}")
             prev_hash = ev["event_hash"]
             expect_seq += 1
+        row = self.conn.execute("SELECT value FROM meta WHERE key = 'ledger_tip'").fetchone()
+        if row is not None:
+            tip = json.loads(row[0])
+            if tip != {"sequence": len(events), "event_hash": prev_hash}:
+                raise PersistenceError("ledger_tip_mismatch")
 
     # --- D-006 social evidence links + atomic outcome commit -------------
 

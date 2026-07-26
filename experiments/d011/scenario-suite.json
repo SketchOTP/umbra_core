@@ -1,0 +1,1 @@
+{"directive":"UMBRA-D-011C","freeze":"2026-07-27T00:05:00Z","scenarios":["visual","audio","touch","spatial","telemetry","duplicate","delay_reorder","restart","spoof","manifest_mismatch","raw_rejection","portable_adapter","birth_ledger_replay","snapshot_restart","missing_event","altered_event","duplicated_event","reordered_event","adapter_restart","source_restart"]}

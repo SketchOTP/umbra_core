@@ -38,6 +38,11 @@ TEMPORAL_EVENT_AUTHORITY: dict[str, str] = {
     "orchestration_tick_committed": "AUTHORITATIVE",
 }
 
+PERCEPTION_ADAPTER_EVENT_AUTHORITY: dict[str, str] = {
+    "perception_adapter_observation_accepted": "AUTHORITATIVE",
+    "perception_adapter_observation_rejected": "AUTHORITATIVE",
+}
+
 # D-009 habitat conceptual events → authority class.
 HABITAT_EVENT_AUTHORITY: dict[str, str] = {
     "habitat_initialized": "AUTHORITATIVE",
@@ -93,6 +98,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
     }
     | {name for name, klass in HABITAT_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
     | {name for name, klass in TEMPORAL_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
+    | {name for name, klass in PERCEPTION_ADAPTER_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
 )
 
 # Optional / diagnostic — may be downsampled or omitted; not required for replay.

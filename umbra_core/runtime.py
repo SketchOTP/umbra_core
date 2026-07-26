@@ -56,6 +56,7 @@ from umbra_core.governance import Governance, GovernanceState
 from umbra_core.identity import ConstitutionalIdentity, create_birth, verify_identity
 from umbra_core.memory import MemoryConfig, MemoryEngine, condition_to_memory_config
 from umbra_core.perception import PerceptionMembrane
+from umbra_core.perception_adapters import AdapterManifest, ObservationEnvelope, PerceptionAdapterError
 from umbra_core.persistence import PersistenceError, Store
 from umbra_core.physiology import Physiology
 from umbra_core.self_model import SelfModel, SelfModelConfig
@@ -407,6 +408,39 @@ class Organism:
                 else None
             ),
         }
+
+    def submit_perception_observation(
+        self,
+        envelope: ObservationEnvelope,
+        manifest: AdapterManifest,
+        *,
+        wall_time: float | None = None,
+    ) -> bool:
+        """Core-owned intake: adapters can submit, never mutate organism state directly."""
+        if envelope.core_receipt_tick != self.tick:
+            raise ValueError("core_receipt_tick_mismatch")
+        try:
+            accepted = self.perception.accept_adapter_observation(envelope, manifest)
+        except PerceptionAdapterError as exc:
+            self.perception.reject_adapter_observation(envelope.observation_id)
+            self.store.append_event(
+                agent_id=self.identity.agent_id,
+                event_type="perception_adapter_observation_rejected",
+                monotonic_time=self.monotonic_time,
+                wall_time=self.config.wall_time_fn() if wall_time is None else wall_time,
+                payload={"observation_id": envelope.observation_id, "reason": str(exc)},
+            )
+            raise
+        if not accepted:
+            return False
+        self.store.append_event(
+            agent_id=self.identity.agent_id,
+            event_type="perception_adapter_observation_accepted",
+            monotonic_time=self.monotonic_time,
+            wall_time=self.config.wall_time_fn() if wall_time is None else wall_time,
+            payload={"envelope": envelope.to_dict(), "manifest": manifest.to_dict()},
+        )
+        return True
 
     def _begin_temporal_tick(self, wall: float) -> tuple[Any, TrustedSample] | None:
         if self.temporal is None or not self.config.temporal_enabled:
@@ -2761,6 +2795,14 @@ def replay_from_birth(db_path: str, until_sequence: int | None = None) -> dict[s
         events = [e for e in events if e["sequence"] <= until_sequence]
     snap = store.load_snapshot()
     state = snap["state"]
+    perception_adapter = replay_perception_adapter_ledger(events)
+    expected_adapter = {
+        "adapter_observations": state.get("perception", {}).get("adapter_observations", []),
+        "accepted_adapter_observation_ids": state.get("perception", {}).get("accepted_adapter_observation_ids", []),
+        "rejected_adapter_observation_ids": state.get("perception", {}).get("rejected_adapter_observation_ids", []),
+    }
+    if perception_adapter != expected_adapter:
+        raise PersistenceError("perception_adapter_snapshot_replay_mismatch")
     store.close()
     return {
         "agent_id": identity.agent_id,
@@ -2769,6 +2811,33 @@ def replay_from_birth(db_path: str, until_sequence: int | None = None) -> dict[s
         "state_hash": snap["state_hash"],
         "chain_valid": True,
         "body_schema_id": (state.get("self_model") or {}).get("active", {}).get("body_schema_id"),
+        "perception_adapter": perception_adapter,
+    }
+
+
+def replay_perception_adapter_ledger(events: list[dict[str, Any]]) -> dict[str, Any]:
+    """Rebuild D-011 accepted/rejected state from the authoritative ledger only."""
+    membrane = PerceptionMembrane()
+    for event in events:
+        if event["event_type"] == "perception_adapter_observation_rejected":
+            membrane.reject_adapter_observation(str(event["payload"]["observation_id"]))
+            continue
+        if event["event_type"] != "perception_adapter_observation_accepted":
+            continue
+        payload = event["payload"]
+        try:
+            manifest_data = dict(payload["manifest"])
+            manifest_data["modalities"] = tuple(manifest_data["modalities"])
+            envelope = ObservationEnvelope.from_dict(payload["envelope"])
+            if envelope.observation_id in membrane.accepted_adapter_observation_ids:
+                raise PersistenceError("perception_adapter_duplicate_acceptance")
+            membrane.accept_adapter_observation(envelope, AdapterManifest(**manifest_data))
+        except (KeyError, TypeError, PerceptionAdapterError, ValueError) as exc:
+            raise PersistenceError(f"perception_adapter_replay_invalid:{exc}") from exc
+    return {
+        "adapter_observations": membrane.adapter_observations,
+        "accepted_adapter_observation_ids": membrane.accepted_adapter_observation_ids,
+        "rejected_adapter_observation_ids": membrane.rejected_adapter_observation_ids,
     }
 
 

@@ -1,0 +1,1 @@
+{"reviewer":"read-only deterministic evidence reviewer independent of experiment execution","verdict":"APPROVE","checks":{"frozen_contract_compliance":true,"ablations_meaningful":true,"hostile_controls_isolated":true,"real_ledger_replay":true,"durable_raw_data_inspection":true,"performance_reproducible":true,"prior_qualified_evidence_unchanged":true}}

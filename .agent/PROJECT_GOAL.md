@@ -8,7 +8,7 @@ UMBRA CORE is not the Digital Cell project, a protocell simulator, a digital che
 
 Current qualification boundary
 
-Temporal continuity is a required completion criterion, but it is not currently qualified. The qualified release baseline remains `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (seal `af35371`); D-010 is `UMBRA_D010_PERFORMANCE_FAIL` and is not a qualified successor.
+Temporal continuity is a required completion criterion, but it is not currently qualified. D-009 remains the temporal predecessor (`af35371`); D-010 is `UMBRA_D010_PERFORMANCE_FAIL`. Independently, D-011 is qualified as `UMBRA_D011_GOVERNED_PERCEPTION_ADAPTERS_QUALIFIED` under the D-009 seal and is not a D-010 successor.
 
 Mission
 

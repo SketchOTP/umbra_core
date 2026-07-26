@@ -1,0 +1,1 @@
+{"directive":"UMBRA-D-011C","frozen_at":"2026-07-27T00:05:00Z","inputs":["thresholds.json","experiment-matrix.json","scenario-suite.json","performance-protocol.json"],"note":"Initial completion-protocol freeze before any D-011C formal execution; no post-result threshold changes permitted."}

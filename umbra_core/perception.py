@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Any
 
 from umbra_core.embodiment import Embodiment, HabitatFeature, PartnerEntity, _partner_salt
 from umbra_core.util import SeededRNG, angle_diff, clamp, sha256_hex
+from umbra_core.perception_adapters import AdapterManifest, ObservationEnvelope
 
 if TYPE_CHECKING:
     from umbra_core.habitat.engine import HabitatEngine
@@ -103,6 +104,22 @@ class PerceptionMembrane:
     _leaked_truth: dict[str, Any] | None = None
     object_bindings: list[ObjectAddressBinding] = field(default_factory=list)
     perception_state_version: int = 0
+    adapter_observations: list[dict[str, Any]] = field(default_factory=list)
+    accepted_adapter_observation_ids: list[str] = field(default_factory=list)
+    rejected_adapter_observation_ids: list[str] = field(default_factory=list)
+
+    def accept_adapter_observation(self, envelope: ObservationEnvelope, manifest: AdapterManifest) -> bool:
+        """Validate before mutation; accepted envelopes contain derived data only."""
+        envelope.validate(manifest)
+        if envelope.observation_id in self.accepted_adapter_observation_ids:
+            return False
+        self.adapter_observations = (self.adapter_observations + [envelope.to_dict()])[-256:]
+        self.accepted_adapter_observation_ids = (self.accepted_adapter_observation_ids + [envelope.observation_id])[-512:]
+        return True
+
+    def reject_adapter_observation(self, observation_id: str) -> None:
+        if observation_id not in self.rejected_adapter_observation_ids:
+            self.rejected_adapter_observation_ids = (self.rejected_adapter_observation_ids + [observation_id])[-512:]
 
     def clear_expired(self, now: float) -> None:
         self.observations = [o for o in self.observations if o.expires_at > now]
@@ -318,6 +335,7 @@ class PerceptionMembrane:
                 for b in self.object_bindings
             ],
             "perception_state_version": self.perception_state_version,
+            "adapter_observations": list(self.adapter_observations),
         }
         if self.leak_world_truth and self._leaked_truth is not None:
             view["WORLD_TRUTH_LEAK"] = self._leaked_truth
@@ -332,6 +350,9 @@ class PerceptionMembrane:
             "expire_ttl": self.expire_ttl,
             "leak_world_truth": self.leak_world_truth,
             "perception_state_version": self.perception_state_version,
+            "adapter_observations": list(self.adapter_observations),
+            "accepted_adapter_observation_ids": list(self.accepted_adapter_observation_ids),
+            "rejected_adapter_observation_ids": list(self.rejected_adapter_observation_ids),
         }
 
     @classmethod
@@ -345,6 +366,9 @@ class PerceptionMembrane:
         p.observations = [Observation.from_dict(o) for o in d.get("observations", [])]
         p.partner_cues = list(d.get("partner_cues", []))
         p.perception_state_version = int(d.get("perception_state_version", 0))
+        p.adapter_observations = list(d.get("adapter_observations", []))[-256:]
+        p.accepted_adapter_observation_ids = list(d.get("accepted_adapter_observation_ids", []))[-512:]
+        p.rejected_adapter_observation_ids = list(d.get("rejected_adapter_observation_ids", []))[-512:]
         return p
 
 

@@ -33,6 +33,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-010 Gate 13: FAIL
 - D-010 Stage B v7: NOT CREATED
 - D-010 parent Mimir: OPEN (`9adf61b087ea4fa6a90a1c3bd401a9b3`)
+- D-011 verdict: `UMBRA_D011_GOVERNED_PERCEPTION_ADAPTERS_QUALIFIED` (independent of D-010; D-009 predecessor `af35371`)
 - Next scientific work: NOT AUTHORIZED by this directive
 - **UMBRA-D-009 closed** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; zero-skip suite; seal `af35371`; independent review Approve)
 - **Qualified release baseline: D-009** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`; seal `af35371`; governance baseline `bb90e61`.

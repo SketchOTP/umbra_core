@@ -137,6 +137,8 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Organism kernel (D-001)
 - `umbra_core/` — clean-room invariant companion core (stdlib + SQLite)
+  - `perception_adapters/` — D-011 synthetic submit-only manifest/envelope contracts; derived-only, bounded, provenance-checked data
+  - `experiments/d011/` and `docs/evidence/d011/` — D-011C frozen controls, real-ledger replay, dual 100k evidence, hashes, and read-only APPROVE review
   - `identity.py` — constitutional birth / commitment
   - `physiology.py` — energy/fatigue/integrity/stimulation
   - `perception.py` — uncertain observation membrane
