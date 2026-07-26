@@ -1,0 +1,53 @@
+---
+alwaysApply: true
+---
+# Storage1TB Archive Policy (UMBRA-CORE)
+
+Archive-to-disk for root filesystem pressure. This is **not** a full independent backup.
+`independent_backup_status: NOT ESTABLISHED`
+
+## When to free space (archive review)
+
+Trigger an archive review when **either**:
+
+- root filesystem usage ≥ **90%**, or
+- root free space < **15 GiB**
+
+Check with `df -h /` (and `df -BG /` for GiB free). Do not archive preemptively below these thresholds unless the operator explicitly requests it.
+
+## Where
+
+| Role | Path |
+|------|------|
+| Mount | `/mnt/storage1tb` |
+| Archive root | `/mnt/storage1tb/archived-projects/` |
+| Manifest | `/mnt/storage1tb/archived-projects/ARCHIVE_MANIFEST.jsonl` |
+
+Create `archived-projects/` if missing when performing an archive. Confirm `/mnt/storage1tb` is mounted before moving trees.
+
+## How
+
+1. Identify **closed/clean** project trees under `~/Projects/` (or the host Projects root) that are safe to relocate.
+2. **Move** the tree to `/mnt/storage1tb/archived-projects/<name>/` (preserve contents; do not copy-then-delete unless move fails and operator approves).
+3. Leave an **absolute symlink** at the original Projects path pointing at the archived location.
+4. **Verify Git through the symlink** (`git -C <original-path> status`, `rev-parse --git-dir`, etc.) so the working tree remains usable via the familiar path.
+5. **Append** one JSON line to `ARCHIVE_MANIFEST.jsonl` recording at least: original path, archive path, timestamp (UTC), reason/trigger, and git HEAD if applicable.
+
+## Do not auto-archive
+
+Never move (without explicit operator override):
+
+- the **active directive worktree**
+- the **canonical repo root** for live program work (e.g. this UMBRA-CORE checkout while D-0xx is in progress)
+- **shared Git object stores** (bare repos, alternates, `objects/info/alternates` targets)
+- **`.git/worktrees` metadata** or linked worktree registrations that would break siblings
+- **uncommitted / incomplete** work
+- anything still required for **active scientific provenance** (open campaigns, freeze evidence, soak artifacts still under review)
+
+When in doubt: leave it on root and ask the operator.
+
+## Scope note
+
+- Goal: reclaim root NVMe/SSD space by relocating cold trees to `/mnt/storage1tb`.
+- Not a substitute for off-host backup, RAID, or versioned remote mirrors.
+- Record archive actions in the manifest; do not claim backup completeness.

@@ -3,11 +3,14 @@
 Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
-- `.agent/PROJECT_GOAL.md` — product SoT (companion organism core; chemistry optional/non-gating)
-- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-009 QUALIFIED; D-010 in progress)
+- `.agent/PROJECT_GOAL.md` — sole product SoT (companion organism core; Digital Cell/protocell work external)
+- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-009 QUALIFIED; D-010 PERFORMANCE_FAIL)
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
-- `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`)
+- `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`, `06-storage1tb-archive.mdc`)
+- `.cursor/rules/06-storage1tb-archive.mdc` — root-disk pressure → archive closed trees to `/mnt/storage1tb/archived-projects/` + symlink + `ARCHIVE_MANIFEST.jsonl` (not a backup)
+- `tools/validate_governance.py` — deterministic active-authority contamination/status validator; `tests/test_governance_validation.py` covers acceptance injections.
+- `docs/governance/UMBRA-G-001-reconciliation.json` — D-009/D-010 provenance manifest; `UMBRA-G-001-next-route.md` — operator-only next-route decision.
 
 ## Program directives
 - `docs/directives/UMBRA-D-000-prior-art-reproduction.md` — **closed** via D-000S
@@ -160,7 +163,7 @@ Concise navigation map for agents. Add entries as application code lands.
 - `.serena/project.yml` — Serena `UMBRA-CORE`
 - Mimir SSH connection name `UMBRA-CORE` → `/home/sketch/Projects/UMBRA-CORE`
 
-## Temporal continuity (D-010) — IN PROGRESS (Stage B frozen)
+## Temporal continuity (D-010) — PERFORMANCE_FAIL (not a qualified baseline)
 - Directive: `docs/directives/UMBRA-D-010-temporal-continuity.md` (plan approved)
 - Design: `docs/superpowers/specs/2026-07-24-umbra-d010-temporal-continuity-design.md` (`03e1269`)
 - Plan: `docs/superpowers/plans/2026-07-24-umbra-d010-temporal-continuity.md` (`c1f71bb7` — amended tip; supersedes `2149297`)

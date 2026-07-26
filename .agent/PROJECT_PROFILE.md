@@ -23,11 +23,20 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - Behavior emerges from needs, regulation, body, memory, relationships, developmental history
 - Must remain autonomous when no observer is present
 - Bodies (avatar, robot, sensors, animations, dialogue) are interfaces around the organism core
-- Digital chemistry / protocell research is optional and non-gating
+- Digital Cell, protocell, digital chemistry, molecular metabolism, membrane formation, cell division, and biological reproduction are outside UMBRA CORE.
 
 ## Program status
+- Qualified release baseline: D-009
+- D-009 seal: af35371
+- D-010 verdict: UMBRA_D010_PERFORMANCE_FAIL
+- D-010 Gates 0-12: PASS
+- D-010 Gate 13: FAIL
+- D-010 Stage B v7: NOT CREATED
+- D-010 parent Mimir: OPEN (`9adf61b087ea4fa6a90a1c3bd401a9b3`)
+- Next scientific work: NOT AUTHORIZED by this directive
 - **UMBRA-D-009 closed** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; zero-skip suite; seal `af35371`; independent review Approve)
-- **UMBRA-D-010 in progress** — Temporal Continuity; starting commit `bb90e61`; Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3`; prerequisite `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (`af35371`)
+- **Qualified release baseline: D-009** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`; seal `af35371`; governance baseline `bb90e61`.
+- **D-010 verdict: `UMBRA_D010_PERFORMANCE_FAIL`** — Functional Gates 0–12 PASS; Performance Gate 13 FAIL; Stage B v7 NOT CREATED; parent Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3` OPEN. D-010 is implemented and functionally supported but not qualified.
 - **UMBRA-D-008 closed** — `UMBRA_D008_COHERENT_DIGITAL_EMBODIMENT_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; renderer lifecycle; zero-skip suite)
 - **UMBRA-D-007 closed** — `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (100k + 2h RUNTIME_READY VmRSS soak; zero-skip suite)
 - **D-008 authorized** under `UMBRA_D007_LIVED_INDIVIDUALITY_QUALIFIED` (closed)
@@ -68,7 +77,7 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-006 directive: `docs/directives/UMBRA-D-006-social-contingency.md`
 - D-006 design: `docs/superpowers/specs/2026-07-22-umbra-d006-social-contingency-design.md`
 - Prior-art lab notebook: `docs/prior-art/` (Tracks 1–6 complete; Soar/Hyperon not required)
-- Stance: informed reuse for the **companion organism core**; chemistry/protocell deferred
+- Stance: informed reuse for the **companion organism core**; Digital Cell and protocell research are external to UMBRA CORE.
 
 ## Stack
 - Target platform: Linux
@@ -80,6 +89,14 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 ## Common commands
 - Tests / build / CLI: stand up per-project as D-000 reproductions require
 - Code navigation: Mimir V2 + Serena when code exists
+
+## Disk archive policy (storage1tb)
+- Rule: `.cursor/rules/06-storage1tb-archive.mdc`
+- Trigger archive review when root usage ≥ 90% **or** root free < 15 GiB
+- Mount: `/mnt/storage1tb` → archive trees under `/mnt/storage1tb/archived-projects/`; manifest `ARCHIVE_MANIFEST.jsonl`
+- Method: move closed/clean trees; leave absolute symlink at original Projects path; verify Git via symlink; append manifest
+- Never auto-archive: active directive worktree, canonical live repo root, shared Git object stores, `.git/worktrees` metadata, uncommitted/incomplete work, active scientific provenance
+- Space reclaim only — **not** a full independent backup (`independent_backup_status: NOT ESTABLISHED`)
 
 <!-- MIMIR_PROJECT_BINDING_START -->
 ## Mimir binding

@@ -1,0 +1,54 @@
+{
+  "directive": "UMBRA-G-001",
+  "verdict": "UMBRA_G001_PARTIAL_GOVERNANCE_RECONCILIATION",
+  "clarified_goal_sha256": "b6db14fa8adf8134f537d614d4befac97b28f6e4a3069b1de66a4878fef3588b",
+  "qualified_baseline": {
+    "directive": "D-009",
+    "verdict": "UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED",
+    "seal": "af35371",
+    "governance_baseline": "bb90e61"
+  },
+  "d010": {
+    "stage_b_v5_freeze": "3178815",
+    "formal_execution_id": "d010-fe-stage-b-v5",
+    "gates_0_12_evidence_commit": "a1342ee",
+    "verdict": "UMBRA_D010_PERFORMANCE_FAIL",
+    "gates_0_12": "PASS",
+    "gate_13": "FAIL",
+    "stage_b_v7": "NOT CREATED",
+    "parent_mimir": "9adf61b087ea4fa6a90a1c3bd401a9b3 OPEN",
+    "r1_diagnostic_status": "Diagnostic-only P0/P2 campaign preserved; reproducibility was not established; no qualified release or Stage B v7 was created."
+  },
+  "changed_files_by_directive": [
+    ".agent/CURRENT.md",
+    ".agent/DIRECTIVES.md",
+    ".agent/PROJECT_GOAL.md",
+    ".agent/PROJECT_PROFILE.md",
+    ".agent/REPO_MAP.md",
+    ".cursor/rules/04-umbra-architecture.mdc",
+    "AGENTS.md",
+    "docs/architecture/OPEN_QUESTIONS.md",
+    "docs/governance/UMBRA-G-001-next-route.md",
+    "docs/governance/UMBRA-G-001-reconciliation.json",
+    "tests/test_governance_validation.py",
+    "tools/validate_governance.py"
+  ],
+  "sealed_or_frozen_files_confirmed_unchanged_by_this_directive": [
+    "docs/evidence/d001/ through docs/evidence/d009/",
+    "docs/evidence/d010/ formal and failed evidence",
+    "experiments/d010/thresholds.json",
+    "experiments/d010/experiment-matrix.json",
+    "experiments/d010/scenario-suite.json",
+    "experiments/d010/performance-protocol.json",
+    ".agent/RECORD.md"
+  ],
+  "repository_starting_commit": "95e43c9e5c097ff1bf53308a059b8bee0e01dfda",
+  "repository_ending_commit": "95e43c9e5c097ff1bf53308a059b8bee0e01dfda",
+  "provenance_statements": [
+    "No prior scientific verdict was changed.",
+    "No failed evidence was deleted.",
+    "No threshold was modified.",
+    "No qualified baseline was advanced beyond D-009."
+  ],
+  "completion_blocker": "The worktree contained unrelated pre-existing modifications, including production and D-010 evidence files, before UMBRA-G-001 began. A clean final commit cannot be truthfully issued by this directive without operator resolution of those changes."
+}

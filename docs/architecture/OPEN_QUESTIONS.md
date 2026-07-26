@@ -19,6 +19,6 @@ Non-blocking unknowns after D-000S. **Do not** reopen prior-art tracks unless a 
 
 - LLM-as-brain
 - Authored Big Five as individuality
-- Chemistry/protocell as D-001 gate
+- Digital Cell, chemistry, and protocell work as UMBRA CORE scope (rejected; external to UMBRA CORE)
 - AGPL/CADIA product dependencies
 - Production UI / robotics / reproduction in D-001
