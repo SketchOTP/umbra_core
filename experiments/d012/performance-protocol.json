@@ -1,0 +1,1 @@
+{"method":"current RSS plus process CPU and database size at checkpoints","p0_hours":6,"p1_hours":24,"p2_hours":72,"near_threshold_requires_confirmation":true}

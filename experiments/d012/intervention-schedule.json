@@ -1,0 +1,1 @@
+{"rule":"opportunities only","events":"opportunity-schedule.json","forbidden_direct_state_effects":["physiology","memory","relationship","individuality","competence","action_selection","verified_outcome","identity"]}

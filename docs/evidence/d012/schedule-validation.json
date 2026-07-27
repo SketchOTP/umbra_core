@@ -1,0 +1,1 @@
+{"directive":"UMBRA-D-012A","structural_schedule_validation":"PASS","events":19,"active_hours":72,"checkpoints":[0,6,24,48,72],"restarts":4,"formal_launched":false,"gate_A_to_C":"PASS","gate_D_to_G":"NOT_RUN","verdict":"UMBRA_D012A_SCHEDULE_INCOMPLETE"}

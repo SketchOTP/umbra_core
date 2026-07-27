@@ -1,0 +1,1 @@
+{"healthy":"snapshot and birth replay compare","corruption":"disposable copies only","required":["omit","delete","duplicate","reorder","alter payload","alter snapshot"]}
