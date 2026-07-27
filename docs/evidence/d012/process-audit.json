@@ -1,0 +1,12 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "result": "FAIL",
+  "formal_campaign_processes_started": 0,
+  "dry_run_supervisor_processes_remaining": 0,
+  "dry_run_organism_processes_remaining": 0,
+  "supervisor_and_organism_distinct": false,
+  "organism_pid_persisted": false,
+  "organism_process_start_identity_persisted": false,
+  "orphan_cleanup_exercised": false,
+  "reason": "The organism was hosted in-process by the dry-run supervisor harness."
+}

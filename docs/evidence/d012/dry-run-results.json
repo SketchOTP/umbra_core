@@ -1,1 +1,21 @@
-{"directive":"UMBRA-D-012A","status":"NOT_RUN","reason":"A real disposable organism-path dry run with checkpoint supervision and opportunity execution has not been implemented; structural validation is not substituted for it.","formal_evidence":false}
+{
+  "directive": "UMBRA-D-012A1",
+  "status": "MECHANISM_RUN_COMPLETE_SUPERVISION_UNQUALIFIED",
+  "disposable": true,
+  "formal_evidence": false,
+  "formal_p0_launched": false,
+  "events_executed": 19,
+  "restart_points_executed": 4,
+  "checkpoints_completed": 5,
+  "d010_enabled": false,
+  "raw_payload_count": 0,
+  "integrated_mechanisms_exercised": [
+    "organism tick and persistence",
+    "governed perception adapter and membrane",
+    "habitat opportunity mutation",
+    "synthetic partner behavior",
+    "body adapter lifecycle",
+    "snapshot, close, load, and replay"
+  ],
+  "blocking_finding": "The organism runtime ran in the supervisor OS process; distinct organism process identity, crash handling, database ownership, cleanup, and log separation were therefore not proven."
+}

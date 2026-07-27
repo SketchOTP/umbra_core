@@ -1,22 +1,24 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260727-0035-umbra-d012-integrated-continuous-life
-- Project directive: UMBRA-D-012
-- Goal: Qualify one integrated organism over a 72-active-hour continuous-life history.
-- Status: in_progress — D-012A structural schedule is incomplete; D-010 disabled; no real devices.
-- Acceptance: Gates 0-15; one continuous history reaches 72 active hours; prior seals unchanged; independent review approves; clean closeout.
-- Touched files: experiments/d012, docs/evidence/d012, governance; production only for proven integration defects.
-- Next action: implement disposable real-runtime dry run and checkpoint supervision, then rerun D-012A freeze gates before authorizing P0.
+- ID: D-20260727-0110-umbra-d012a1-real-runtime-dry-run-supervision
+- Project directive: UMBRA-D-012A1
+- Goal: Prove the frozen schedule operational through a supervised disposable real-runtime dry run.
+- Status: complete — `UMBRA_D012A1_SUPERVISION_FAIL`; D-012A remains incomplete.
+- Acceptance: Gates A-J; no P0 launch; evidence hashes; clean commit.
+- Touched files: experiments/d012, tests/test_d012.py, docs/evidence/d012, governance.
+- Next action: require a new authorized remediation directive for a distinct organism worker process, database ownership, crash cleanup, bounded separated logs, and the remaining checkpoint/refusal gates.
 
 ## Repo facts needed now
 - Qualified release baseline: D-009; seal `af35371`; governance closeout `0880537`.
 - D-010 is deferred: `UMBRA_D010_PERFORMANCE_FAIL`; it is not a D-011 prerequisite.
 
 ## Last validation
-- Command: `pytest -q`; `python tools/validate_governance.py`; D-011 100k stress.
-- Result: D-012A structural schedule validator passed; real dry run not run, so P0 remains unauthorized.
+- Command: `python experiments/d012/validate_schedule.py`; `pytest -q tests/test_d012.py`; `pytest -q`; `python tools/validate_governance.py`; `git diff --check`.
+- Result: schedule PASS; focused 8 passed; full suite FAIL (D-010 tick inventory: 1 failed, 665 passed, 2 skipped); governance PASS; diff check PASS. Disposable run completed 19 events, 4 restarts, 5 checkpoints, zero raw payloads, but used one OS process for supervisor and organism. No process remains.
 
 ## Open blockers
 - Mimir V2 lifecycle tools (`mimir_project_resolve`, `mimir_task_begin`, and related tools) are unavailable in this session.
+- Legacy Mimir failure outcome recorded successfully as `ep_4550657632244892` (not linked to a V2 retrieval session).
+- D-012A1 failed supervisor authority/process gates and Gate J; D-012B and formal P0 remain unauthorized.
 - No active D-012 process. Mimir V2 lifecycle remains unavailable.

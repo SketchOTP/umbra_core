@@ -1,0 +1,7 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "result": "PASS",
+  "checkpoints_examined": 5,
+  "raw_payload_count": 0,
+  "observations": "Only derived feature envelopes were submitted through the governed perception adapter."
+}

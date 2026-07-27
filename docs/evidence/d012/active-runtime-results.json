@@ -1,0 +1,11 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "component_result": "PASS",
+  "independent_of_d010": true,
+  "pause_resume_tested": true,
+  "duplicate_interval_refused": true,
+  "durable_committed_total_restored": true,
+  "wall_clock_jump_used_for_accounting": false,
+  "campaign_result": "INCOMPLETE",
+  "reason": "The clock was not driven by liveness of a separately identified organism process, and supervisor-crash recovery was not exercised."
+}

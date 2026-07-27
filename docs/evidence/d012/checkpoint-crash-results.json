@@ -1,0 +1,14 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "result": "PARTIAL",
+  "injection_points_implemented": [
+    "before database copy",
+    "during database copy",
+    "after copy and hash before validation/result",
+    "after result before completion marker"
+  ],
+  "incomplete_result_never_accepted": true,
+  "incomplete_artifacts_quarantined": true,
+  "missing_exact_boundary": "after copy before hash",
+  "campaign_resume_after_each_injection": false
+}

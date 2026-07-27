@@ -1,0 +1,20 @@
+{
+  "algorithm": "sha256",
+  "directive": "UMBRA-D-012A1",
+  "files": {
+    "active-runtime-results.json": "5755372afc405bed59e959944c27b02602aebac263185a9f9f663419f76f53b5",
+    "checkpoint-crash-results.json": "5f840dc3ce300552e22b401825c25c8708dd5378551cd8e71430230a0e9dc872",
+    "checkpoint-supervision-results.json": "e626552a9c569856ecb6bfbd179046a85d7f356b1328671c303e9b9d151c74f9",
+    "d012a1-verdict.md": "68715f4c90d2dd2adc84b94df8d5714f1835ae4886ccf170d485c3062322cd86",
+    "direct-mutation-audit.json": "dcf27064718957af6c09579d48229775ce2e7b7051ea9e74229936635b0482a0",
+    "dry-run-results.json": "dd84a9ea38d915e92b00acae3fdd5cc10c7d7e51981a674eaa559b460b811dbc",
+    "launch-refusal-results.json": "1913790138e5b69ae255c1ff7b10e088f4ab121bc90ad48a82312a8d95bfcd3a",
+    "process-audit.json": "25bf236241b4ba8698ce14cb89815e8ca1512e8bc3af1423d7dad32cd0d5799a",
+    "process-identity-results.json": "09f9ccbd0e3ecd32c7f78b63bc0d1b0328bad3f6f9f652f8c844f6561178e7aa",
+    "raw-payload-audit.json": "31f88d9335408dc101d59c196ad96f8a63c379d7665fc10580ec3648792797df",
+    "schedule-execution-trace.jsonl": "c6666347b89e902ba1a0c0a24f931c8ce853ad405582c18bdffcc68c12528e1e",
+    "supervisor-validation.json": "71e4c0beedc61c4925d2eb8ee45679de5c90fab621f13773aa0a4edc4ba6f9d0"
+  },
+  "formal_evidence": false,
+  "verdict": "UMBRA_D012A1_SUPERVISION_FAIL"
+}

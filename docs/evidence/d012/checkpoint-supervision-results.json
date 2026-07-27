@@ -1,0 +1,17 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "component_result": "PARTIAL",
+  "completed_checkpoints": ["C0", "C1", "C2", "C3", "C4"],
+  "database_backup_atomic_rename": true,
+  "database_sha256_recorded": true,
+  "event_chain_validated": true,
+  "snapshot_state_hash_recorded": true,
+  "d010_exclusion_validated": true,
+  "raw_payload_count_validated": true,
+  "atomic_result_then_completion_marker": true,
+  "missing": [
+    "durable campaign status transitions into and out of CHECKPOINTING",
+    "pre-checkpoint chain tip capture",
+    "conflicting checkpoint identity refusal"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "result": "PASS_WITH_SCOPE_LIMIT",
+  "forbidden_direct_assignments_found": [],
+  "permitted_harness_operations": [
+    "authoritative habitat opportunity changes",
+    "synthetic partner behavior",
+    "synthetic derived observations",
+    "body adapter lifecycle operations",
+    "process and checkpoint control"
+  ],
+  "audit_method": "Focused source assertion rejects direct assignment to physiology, memory, social, individuality, identity, and world-model fields.",
+  "limitation": "This audit does not remedy the failed distinct-process requirement."
+}

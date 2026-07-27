@@ -1,0 +1,23 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "result": "PARTIAL",
+  "passing_refusals": [
+    "FREEZE_HASH_MISMATCH",
+    "STARTING_COMMIT_MISMATCH",
+    "D010_ENABLED",
+    "NON_DISPOSABLE_DRY_RUN_DATABASE",
+    "DUPLICATE_CAMPAIGN",
+    "STALE_LOCK_UNSAFE",
+    "PROGRESS_STATE_CORRUPT",
+    "EVIDENCE_PATH_INVALID",
+    "REAL_DEVICE_CONFIG_PROHIBITED"
+  ],
+  "not_implemented_or_not_proven": [
+    "DATABASE_ALREADY_OWNED",
+    "conflicting formal execution identifier",
+    "incomplete unclassified prior campaign state independent of lock",
+    "PREREQUISITE_SEAL_INVALID",
+    "organism launch and orphan absence for every refusal"
+  ],
+  "database_mutation_before_tested_refusals": false
+}

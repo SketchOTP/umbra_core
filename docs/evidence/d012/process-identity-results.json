@@ -1,0 +1,10 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "primitive_result": "PASS",
+  "linux_identity_components": ["boot_id", "proc_start_ticks"],
+  "pid_reuse_mismatch_tested": true,
+  "campaign_result": "FAIL",
+  "supervisor_process_identity_recorded": true,
+  "organism_process_identity_recorded": false,
+  "reason": "The disposable harness did not launch a distinct organism process."
+}

@@ -179,3 +179,11 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-010 Stage B freeze (tip `3178815`, `d010-fe-stage-b-v5`; invalidated `f13d976`/`d010-fe-stage-b-v4`): `experiments/d010/freeze_stage_b.py`, `formal-execution-contract.json`; Task 14 `run_seal.py` post-freeze QUALIFIED gating (`formal-run-outcome.json` + S3 perf + priors + zero-skip manifest; `--contract-only` pre-freeze); `run_performance.py` S3 adaptive soak (full warmup, extension, `pre_freeze: false` formal); `test-manifest.json` 116 required IDs
 - D-010 Task 11 (pre-freeze): `experiments/d010/{stage_a.py,evidence.py,run_experiment,run_performance,run_seal,validate_evidence,with_tk_display}.py`; Stage A JSON (`authoritative-event-allowlist`, `observable-evidence-allowlist`, `elapsed-contract-registry`, `failure-code-registry`, `temporal-event-schemas`, `runtime-tick-classification`, `stage-a-hashes`); draft preregistration artifacts
 - Tests: `tests/test_d010.py` (105 passed, zero skips after Task 12)
+
+## Integrated continuous life (D-012) — D-012A1 SUPERVISION_FAIL
+- `experiments/d012/*.json`, `validate_schedule.py` — frozen 72-active-hour P0–P2 schedule, checkpoints, restarts, interventions, policies, and structural validator (`6ba1785`)
+- `experiments/d012/campaign_supervisor.py`, `process_identity.py`, `active_runtime.py`, `progress_store.py` — disposable supervisor primitives; distinct organism process ownership is not implemented
+- `experiments/d012/checkpoint_runner.py` — SQLite backup/hash/chain validation/result-marker transaction with incomplete-artifact quarantine
+- `experiments/d012/run_disposable_dry_run.py` — non-formal compressed 19-event mechanism run; currently in-process and therefore not qualification-capable
+- `tests/test_d012.py` — 8 focused supervision/checkpoint/dry-run tests
+- `docs/evidence/d012/` — entry/schedule evidence plus honest D-012A1 partial results and `UMBRA_D012A1_SUPERVISION_FAIL`

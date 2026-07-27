@@ -1,0 +1,30 @@
+{
+  "directive": "UMBRA-D-012A1",
+  "result": "FAIL",
+  "implemented": [
+    "atomic exclusive campaign lock",
+    "execution identifier",
+    "freeze-manifest validation",
+    "durable checksummed progress",
+    "external active-runtime accumulator",
+    "stable launch-refusal codes",
+    "explicit stale-lock classification"
+  ],
+  "not_proven": [
+    "organism process distinct from supervisor",
+    "organism database ownership conflict detection",
+    "conflicting execution identifier recovery",
+    "qualified prerequisite seal validation",
+    "supervisor and organism crash recovery",
+    "bounded separated log rotation",
+    "orphan-process cleanup"
+  ],
+  "failed_gates": ["A", "B", "C", "D", "F", "H", "I", "J"],
+  "regression_gate": {
+    "schedule_validator": "PASS",
+    "governance_validator": "PASS",
+    "focused_d012_tests": "PASS: 8 passed",
+    "full_pytest": "FAIL: 1 failed, 665 passed, 2 skipped",
+    "failure": "D-010 runtime tick classification inventory line numbers are stale against the current runtime source; neither protected file was changed by D-012A1."
+  }
+}
