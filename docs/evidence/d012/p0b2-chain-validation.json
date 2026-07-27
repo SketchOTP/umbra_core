@@ -1,0 +1,17 @@
+{
+  "final_chain_hash": "1b80ed46b5feea15a962a7d2d27771ca20d0c5d1fdede1d2edba7ddf57d5dc86",
+  "final_chain_tip": 731,
+  "final_read_only_validation": true,
+  "monotonic": true,
+  "sample_chain_tips": [
+    80,
+    151,
+    210,
+    289,
+    365,
+    441,
+    513,
+    587,
+    667
+  ]
+}

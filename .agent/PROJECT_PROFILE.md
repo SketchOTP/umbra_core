@@ -37,8 +37,9 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-012A verdict: `UMBRA_D012A_FORMAL_SCHEDULE_FROZEN` (D-012A2 distinct-worker closeout; formal campaign not launched)
 - D-012B verdict: `UMBRA_D012B_P0_INTEGRITY_FAIL` (formal execution stopped at 100.061 active seconds when energy crossed the critical physiological bound; P1/P2 not launched)
 - D-012B1 verdict: `UMBRA_D012B1_INTEGRATION_DEFECT_CONFIRMED`; primary mechanism `ARBITRATION_OR_GOVERNANCE_RECOVERY_FAILURE`; remediation `REMEDIATED_AND_REVALIDATED` (failed P0 preserved; no formal relaunch)
+- D-012B2 verdict: `UMBRA_D012B_P0_INTEGRITY_FAIL` (single remediated S1 execution stopped at tick 181, energy 0.0485; zero complete positive-energy recovery cycles; original P0 and B1 preserved)
 - D-012 status: active and unqualified; D-012C, P1, and P2 unauthorized
-- Next scientific work: NOT AUTHORIZED by this directive; formal P0 rerun requires separate authorization and must preserve the failed P0.
+- Next scientific work: NOT AUTHORIZED by this directive; another formal P0, remediation, P1, P2, and D-012C require separate authorization.
 - **UMBRA-D-009 closed** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; zero-skip suite; seal `af35371`; independent review Approve)
 - **Qualified release baseline: D-009** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`; seal `af35371`; governance baseline `bb90e61`.
 - **D-010 verdict: `UMBRA_D010_PERFORMANCE_FAIL`** — Functional Gates 0–12 PASS; Performance Gate 13 FAIL; Stage B v7 NOT CREATED; parent Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3` OPEN. D-010 is implemented and functionally supported but not qualified.

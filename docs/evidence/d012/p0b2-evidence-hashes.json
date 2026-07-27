@@ -1,0 +1,23 @@
+{
+  "algorithm": "sha256",
+  "artifacts": {
+    "p0-supplement-s1.json": "80f98894200b7883d6266dd64617cb60fee63c1e46aae7c2314b0d13caf535c4",
+    "p0b2-chain-validation.json": "8f211edefd3982963ca4bd4ac66f769cc4b6c9372775bf1f93a8a84f2b93446f",
+    "p0b2-checkpoint-results.json": "e0ecb7fe3246d6a85234de39a2940e71c1c06641a307e99e5346ed163d014378",
+    "p0b2-formal-execution-manifest.json": "e00b6572a88a544767dc1f4eb2371d96f3ed5ec73067e761465974e9fff698f9",
+    "p0b2-independent-review.md": "c83e58adf2bfbf0dd2c6a938682099ab6b91aa33698f7456a6a242d254de499c",
+    "p0b2-physiology-trace.jsonl": "d83b1c8e51734b156f6e098add4af1e2b31de59afd426fdf943bd994763ecf6b",
+    "p0b2-process-audit.json": "8b40098d7d41ca4eef763597781f8e4932a05cc671b59789401bb6c99f86a6c9",
+    "p0b2-process-trace.jsonl": "e6f4bb11098fc99b1007b94f50b2ef16ac4fc9c837ee4a2c38263a4e5b6abb9d",
+    "p0b2-raw-payload-audit.json": "02e38edbcf215ebb30b90f37f0aa06a6e855b9e85018cfc2908295894c132269",
+    "p0b2-recovery-trace.jsonl": "74eca8156790e1b26f011afc8eb2b567359592786e0c464df9cc818bc4c7bbed",
+    "p0b2-regression-results.txt": "7c081d6b01198b8e17f216fa46e9ba1867a3b092a67d975c8138c38b73e34fc8",
+    "p0b2-resource-samples.jsonl": "7285569b170d2f84fd106d5ef996c5d6c6184f6de14ffbcad72dfcb5afb14f88",
+    "p0b2-schedule-trace.jsonl": "c0ca772dd5992716fd4e5bb2b9fad6d69308eb43677dbe0fb0eb0a38077ba324",
+    "p0b2-snapshot-restart-results.json": "e0ecb7fe3246d6a85234de39a2940e71c1c06641a307e99e5346ed163d014378",
+    "p0b2-verdict.md": "b0c21a9c453bed3446bd3b8f62e6bee12c6e127ebe3145642c1b18c255d5af50",
+    "p0b2-worker-restart-results.json": "e0ecb7fe3246d6a85234de39a2940e71c1c06641a307e99e5346ed163d014378"
+  },
+  "formal_execution_id": "d012-p0-s1-20260727T1624Z",
+  "verdict": "UMBRA_D012B_P0_INTEGRITY_FAIL"
+}

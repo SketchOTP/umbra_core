@@ -180,7 +180,7 @@ Concise navigation map for agents. Add entries as application code lands.
 - D-010 Task 11 (pre-freeze): `experiments/d010/{stage_a.py,evidence.py,run_experiment,run_performance,run_seal,validate_evidence,with_tk_display}.py`; Stage A JSON (`authoritative-event-allowlist`, `observable-evidence-allowlist`, `elapsed-contract-registry`, `failure-code-registry`, `temporal-event-schemas`, `runtime-tick-classification`, `stage-a-hashes`); draft preregistration artifacts
 - Tests: `tests/test_d010.py` (105 passed, zero skips after Task 12)
 
-## Integrated continuous life (D-012) — D-012A FORMAL SCHEDULE FROZEN
+## Integrated continuous life (D-012) — D-012B2 P0 INTEGRITY_FAIL
 - `experiments/d012/*.json`, `validate_schedule.py` — frozen 72-active-hour P0–P2 schedule, checkpoints, restarts, interventions, policies, and structural validator (`6ba1785`)
 - `experiments/d012/organism_worker.py`, `worker_launcher.py`, `worker_protocol.py` — spawn-only organism runtime with authenticated bounded Unix-socket commands/status and actual supervisor reattachment
 - `experiments/d012/database_ownership.py`, `worker_cleanup.py`, `durability.py` — PID+start-identity exclusive DB ownership, classified reclaim, identity-safe signals, atomic fsynced control records
@@ -189,6 +189,7 @@ Concise navigation map for agents. Add entries as application code lands.
 - `experiments/d012/run_disposable_dry_run.py` — non-formal compressed 19-event run through 5 distinct worker processes, 4 restarts, and 5 checkpoints
 - `experiments/d012/p0-formal-config.json`, `run_formal_p0.py`, `run_formal_p0_s1.py` — D-012B 20–60 minute adaptive fail-fast formal P0 freeze and distinct-worker runner; S1 adds per-tick physiology/recovery capture and maps the single remediated rerun into `p0b2-*` evidence
 - `experiments/d012/run_energy_reproductions.py`, `adjudicate_energy_collapse.py` — D-012B1 bounded R0–R3 reproductions and preserved-ledger evidence builder; no formal launch
-- `tests/test_d012.py`, `tests/test_d012_process_boundary.py` — 33 focused schedule/supervision/process/checkpoint/crash/formal-P0/root-cause tests
-- `docs/evidence/d012/` — preserved A1 failure, hashed A2 qualification, and D-012B formal P0 `UMBRA_D012B_P0_INTEGRITY_FAIL` evidence (critical energy at 100.061 active seconds)
+- `tests/test_d012.py`, `tests/test_d012_process_boundary.py` — 34 focused schedule/supervision/process/checkpoint/crash/formal-P0/root-cause/S1 monitoring tests
+- `docs/evidence/d012/` — preserved A1/A2, original P0/B1, and D-012B2 S1 evidence; remediated formal P0 still `UMBRA_D012B_P0_INTEGRITY_FAIL` at tick 181 / energy 0.0485
 - `docs/evidence/d012/p0-root-cause-verdict.md`, `p0-energy-timeline.jsonl`, `p0b1-evidence-hashes.json` — D-012B1 integration-defect verdict, remediation proof, and preserved failed-run forensic evidence
+- `docs/evidence/d012/p0b2-verdict.md`, `p0b2-recovery-trace.jsonl`, `p0b2-evidence-hashes.json` — single S1 rerun verdict, per-tick recovery proof, and sealed closeout

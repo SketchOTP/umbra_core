@@ -1,0 +1,35 @@
+UMBRA-D-012B2 regression closeout
+
+Formal execution:
+- d012-p0-s1-20260727T1624Z @ bbb604e
+- Process exit: 2
+- Scientific verdict: UMBRA_D012B_P0_INTEGRITY_FAIL
+
+Full suite:
+- Command: pytest -q
+- Result: 691 passed, 1 failed, 2 skipped, 2 warnings
+- Sole failure: tests/test_d010.py::test_all_production_runtime_tick_uses_are_classified
+- Frozen D-010 error count: 79
+- Frozen D-010 fingerprint: e531d099589f3127126205d6effe2e02e66418b5d7b254d7cd32cf3c72af6082
+- Classification: unchanged unrelated frozen D-010 failure; no new regression
+
+Required focused and predecessor suites:
+- Command: pytest -q tests/test_d012.py tests/test_d012_process_boundary.py tests/test_d001.py tests/test_d009.py tests/test_d011.py
+- Result: 182 passed
+
+Repository validation:
+- python tools/validate_governance.py: PASS
+- python experiments/d012/validate_schedule.py: PASS
+- git diff --check: PASS
+- Formal freeze hash: 430fda96dac20aa8c03537bf57fcab9371522ec3a20b23d1f4ded70744b06f5d (matches launch manifest)
+- Original P0 verdict SHA-256: 4a13107f6026215e51ca6fdbc6b363ef498d7f2486f442b7051bd1c59d29b650 (unchanged)
+- Original P0 hash bundle SHA-256: e787c3162b701ae8af815341e482e7855f994a5875295fcdbb6448ac4044ec31 (unchanged)
+- B1 hash bundle SHA-256: 325709433ae7d7b798bc918f8f9f380892c3a87500a360a09e8f3f05f88de570 (unchanged)
+- .agent/RECORD.md SHA-256: a0d61b22f3fce8a6014493c7e8685aa0f930e7ad2fa48a1e9d51fa57b3bd4f23 (unchanged)
+
+Closeout:
+- Final event chain: valid through sequence 731
+- Remaining worker processes: none
+- Remaining sockets/locks: none
+- Database ownership: RELEASED
+- Incomplete checkpoints: none
