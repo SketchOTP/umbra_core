@@ -54,6 +54,25 @@ def validate_manifest(data: dict[str, Any]) -> dict[str, Any]:
         path = Path(str(data["diagnostic_trace_path"])).resolve()
         if root not in path.parents:
             raise SupervisionError("WORKER_MANIFEST_INVALID", "diagnostic_trace_path")
+    for key in (
+        "formal_physiology_trace_path",
+        "formal_recovery_trace_path",
+        "formal_failure_path",
+    ):
+        if data.get(key):
+            path = Path(str(data[key])).resolve()
+            if root not in path.parents:
+                raise SupervisionError("WORKER_MANIFEST_INVALID", key)
+    formal_paths = [
+        bool(data.get(key))
+        for key in (
+            "formal_physiology_trace_path",
+            "formal_recovery_trace_path",
+            "formal_failure_path",
+        )
+    ]
+    if any(formal_paths) and not all(formal_paths):
+        raise SupervisionError("WORKER_MANIFEST_INVALID", "formal_trace_paths")
     if data.get("diagnostic_recovery_reachable") and not data.get(
         "diagnostic_trace_path"
     ):

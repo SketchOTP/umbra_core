@@ -187,7 +187,7 @@ Concise navigation map for agents. Add entries as application code lands.
 - `experiments/d012/campaign_supervisor.py`, `process_identity.py`, `active_runtime.py`, `progress_store.py` — durable campaign authority and restart-safe external active-runtime accounting
 - `experiments/d012/checkpoint_runner.py` — quiescence-required read-only SQLite source backup/hash/chain validation/result-marker transaction with incomplete-artifact quarantine
 - `experiments/d012/run_disposable_dry_run.py` — non-formal compressed 19-event run through 5 distinct worker processes, 4 restarts, and 5 checkpoints
-- `experiments/d012/p0-formal-config.json`, `run_formal_p0.py` — D-012B 20–60 minute adaptive fail-fast formal P0 freeze and distinct-worker runner; emits required process/resource/restart/checkpoint evidence
+- `experiments/d012/p0-formal-config.json`, `run_formal_p0.py`, `run_formal_p0_s1.py` — D-012B 20–60 minute adaptive fail-fast formal P0 freeze and distinct-worker runner; S1 adds per-tick physiology/recovery capture and maps the single remediated rerun into `p0b2-*` evidence
 - `experiments/d012/run_energy_reproductions.py`, `adjudicate_energy_collapse.py` — D-012B1 bounded R0–R3 reproductions and preserved-ledger evidence builder; no formal launch
 - `tests/test_d012.py`, `tests/test_d012_process_boundary.py` — 33 focused schedule/supervision/process/checkpoint/crash/formal-P0/root-cause tests
 - `docs/evidence/d012/` — preserved A1 failure, hashed A2 qualification, and D-012B formal P0 `UMBRA_D012B_P0_INTEGRITY_FAIL` evidence (critical energy at 100.061 active seconds)

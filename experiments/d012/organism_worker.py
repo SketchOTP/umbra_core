@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import signal
 import socket
@@ -100,6 +101,22 @@ class Worker:
             if manifest.get("diagnostic_trace_path")
             else None
         )
+        self.formal_physiology_trace_path = (
+            Path(str(manifest["formal_physiology_trace_path"]))
+            if manifest.get("formal_physiology_trace_path")
+            else None
+        )
+        self.formal_recovery_trace_path = (
+            Path(str(manifest["formal_recovery_trace_path"]))
+            if manifest.get("formal_recovery_trace_path")
+            else None
+        )
+        self.formal_failure_path = (
+            Path(str(manifest["formal_failure_path"]))
+            if manifest.get("formal_failure_path")
+            else None
+        )
+        self.tick_blocked = False
 
     def acquire_and_load(self, *, reclaim_dead: bool) -> None:
         self.ownership = acquire_ownership(
@@ -238,6 +255,12 @@ class Worker:
             "expression_retained_count_max": organism.frame_ring.capacity,
             "physiology": organism.phys.as_dict(),
             "physiology_critical": organism.phys.critical_any(),
+            "formal_failure": (
+                json.loads(self.formal_failure_path.read_text())
+                if self.formal_failure_path is not None
+                and self.formal_failure_path.exists()
+                else None
+            ),
             "proposal_count": int(
                 conn.execute("SELECT COUNT(*) FROM events WHERE event_type='proposal'").fetchone()[0]
             ),
@@ -251,7 +274,7 @@ class Worker:
             "chain_valid": True,
         }
 
-    def run_diagnostic_ticks(self, count: int) -> None:
+    def run_diagnostic_ticks(self, count: int) -> list[dict[str, Any]]:
         if self.organism is None:
             raise SupervisionError("IPC_MESSAGE_INVALID", "worker_not_running")
         organism = self.organism
@@ -412,6 +435,86 @@ class Worker:
                 "".join(
                     json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n"
                     for row in rows
+                ),
+            )
+        return rows
+
+    @staticmethod
+    def _append_trace(path: Path, row: dict[str, Any]) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a") as handle:
+            handle.write(
+                json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n"
+            )
+            handle.flush()
+            os.fsync(handle.fileno())
+
+    def run_formal_tick(self) -> None:
+        if self.formal_physiology_trace_path is None:
+            if self.organism is not None:
+                self.organism.tick_once()
+            return
+        row = self.run_diagnostic_ticks(1)[0]
+        self._append_trace(self.formal_physiology_trace_path, row)
+        before = row["physiology_before_tick"]
+        after = row["physiology_after_tick"]
+        recovery = row["candidate_source"] == "recovery_reflex"
+        failure: str | None = None
+        values = [float(value) for value in after.values()]
+        if not all(math.isfinite(value) and 0.0 <= value <= 1.0 for value in values):
+            failure = "invalid_physiology_value"
+        elif bool(row["critical_after_tick"]) or float(after["energy"]) < 0.05:
+            failure = "invalid_physiological_state"
+        if recovery:
+            selected = row["selected_candidate"]
+            outcome = row["verified_outcome"] or {}
+            verified = outcome.get("outcome", outcome)
+            effect = row["physiology_effect"] or verified.get("effects") or {}
+            validation = row["body_or_habitat_validation"] or verified.get("reason")
+            if validation is None and bool(verified.get("success")):
+                validation = "ok"
+            recovery_row = {
+                **row,
+                "recovery_urgency": row["urgencies"],
+                "generated_recovery_candidates": [selected],
+                "governance_decision": row["governance"],
+                "embodiment_validation": validation,
+                "verified_outcome": verified,
+                "physiology_effect": effect,
+                "available_charge_or_rest_opportunity": row[
+                    "available_recovery_affordances"
+                ],
+                "energy_before_tick": before["energy"],
+                "energy_after_tick": after["energy"],
+                "decline_accounted": (
+                    float(after["energy"]) >= float(before["energy"])
+                    or (
+                        row["energy_drift"] is not None
+                        and selected in {"APPROACH", "MOVE", "RETREAT", "IDLE"}
+                    )
+                ),
+            }
+            self._append_trace(self.formal_recovery_trace_path, recovery_row)
+            if selected == "CHARGE" and (
+                validation != "ok"
+                or not bool(verified.get("success"))
+            ):
+                failure = "charge_selected_but_not_executable"
+            elif selected == "CHARGE" and float(after["energy"]) <= float(
+                before["energy"]
+            ):
+                failure = "recovery_missing_positive_energy_effect"
+            elif not recovery_row["decline_accounted"]:
+                failure = "unaccounted_energy_decline_during_recovery"
+            elif selected == "CHARGE" and not effect:
+                failure = "recovery_missing_verified_effect"
+        if failure is not None:
+            self.tick_blocked = True
+            atomic_write_text(
+                self.formal_failure_path,
+                json.dumps(
+                    {"failure": failure, "triggering_state": row},
+                    sort_keys=True,
                 ),
             )
 
@@ -648,7 +751,8 @@ def serve(manifest_path: Path) -> int:
                 connection, _ = server.accept()
             except TimeoutError:
                 if worker.running and worker.organism is not None:
-                    worker.organism.tick_once()
+                    if not worker.tick_blocked:
+                        worker.run_formal_tick()
                 continue
             with connection:
                 raw = b""

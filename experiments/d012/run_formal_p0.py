@@ -257,6 +257,7 @@ def run(
     evidence_root: Path,
     execution_id: str,
     starting_commit: str,
+    formal_trace_paths: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     config = json.loads(CONFIG_PATH.read_text())
     thresholds = config["thresholds"]
@@ -335,6 +336,7 @@ def run(
             active_runtime=supervisor.runtime.committed_seconds,
             database_path=database,
             tick_period_seconds=1.0 / float(config["tick_hz"]),
+            **(formal_trace_paths or {}),
         )
         worker = WorkerClient.launch(
             run_root / f"worker-manifest-{generation}.json", manifest
@@ -396,6 +398,11 @@ def run(
         response = client.request("METRICS", active_runtime=active)
         supervisor.record_worker_status(response)
         metrics = dict(response["metrics"])
+        if metrics.get("formal_failure"):
+            raise P0Failure(
+                "UMBRA_D012B_P0_INTEGRITY_FAIL",
+                str(metrics["formal_failure"]["failure"]),
+            )
         chain_tip = int(response["chain_tip"] or 0)
         if chain_tip < last_chain_tip:
             raise P0Failure(

@@ -22,7 +22,7 @@ from experiments.d012.database_ownership import (
     release_ownership,
 )
 from experiments.d012.failure_codes import SupervisionError
-from experiments.d012.organism_worker import organism_config
+from experiments.d012.organism_worker import Worker, organism_config
 from experiments.d012.process_identity import process_identity
 from experiments.d012.run_disposable_dry_run import run
 from experiments.d012.run_formal_p0 import analyze_samples
@@ -58,6 +58,51 @@ def test_critical_recovery_approaches_until_charge_is_executable():
         SeededRNG(12012),
     )
     assert chosen.capability == "APPROACH"
+
+
+def test_formal_tick_records_complete_recovery_chain(tmp_path):
+    manifest = manifest_for(
+        tmp_path,
+        execution_id="formal-trace-test",
+        generation=1,
+        ownership_generation=1,
+        freeze_manifest_hash=freeze_hash(EXP),
+        active_runtime=0.0,
+        diagnostic_recovery_reachable=True,
+        formal_physiology_trace_path=str(tmp_path / "physiology.jsonl"),
+        formal_recovery_trace_path=str(tmp_path / "recovery.jsonl"),
+        formal_failure_path=str(tmp_path / "failure.json"),
+    )
+    worker = Worker(manifest)
+    try:
+        worker.acquire_and_load(reclaim_dead=False)
+        worker.running = True
+        worker.organism.phys.energy = 0.25
+        before = worker.organism.phys.energy
+        for _ in range(5):
+            worker.run_formal_tick()
+            if worker.organism.phys.energy > before:
+                break
+        physiology = [
+            json.loads(line)
+            for line in (tmp_path / "physiology.jsonl").read_text().splitlines()
+        ]
+        recovery = [
+            json.loads(line)
+            for line in (tmp_path / "recovery.jsonl").read_text().splitlines()
+        ]
+        charge = next(
+            row for row in recovery if row["selected_candidate"] == "CHARGE"
+        )
+        assert all(row["candidate_source"] == "recovery_reflex" for row in physiology)
+        assert charge["generated_recovery_candidates"] == ["CHARGE"]
+        assert charge["governance_decision"]["admitted"]
+        assert charge["embodiment_validation"] == "ok"
+        assert charge["verified_outcome"]["success"]
+        assert charge["energy_after_tick"] > charge["energy_before_tick"]
+        assert not (tmp_path / "failure.json").exists()
+    finally:
+        worker.quiesce()
 
 
 def test_worker_cleanup_does_not_tick_mutate_physiology_or_append_events(tmp_path):
@@ -122,6 +167,7 @@ def test_worker_is_distinct_and_supervisor_has_no_runtime_import(tmp_path):
         "campaign_supervisor.py",
         "run_disposable_dry_run.py",
         "run_formal_p0.py",
+        "run_formal_p0_s1.py",
         "worker_launcher.py",
     ):
         tree = ast.parse((EXP / name).read_text())

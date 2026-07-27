@@ -1,0 +1,51 @@
+{
+  "directive": "UMBRA-D-012B2",
+  "supplement": "S1",
+  "starting_commit": "50ceeef",
+  "rerun_execution_identifier": "d012-p0-s1-20260727T1624Z",
+  "original_failure_verdict": "UMBRA_D012B_P0_INTEGRITY_FAIL",
+  "root_cause_classification": "ARBITRATION_OR_GOVERNANCE_RECOVERY_FAILURE",
+  "remediation": {
+    "commit": "fc68540e77bfe846cfaad342155aab948f554646",
+    "file": "umbra_core/arbitration.py",
+    "exact_change": "critical energy recovery CHARGE selection boundary: estimated_distance <= 2.2 changed to <= 1.5",
+    "affected_boundary": {
+      "arbitration_charge_selection_max_distance": 1.5,
+      "embodiment_charge_execution_max_distance": 1.5
+    },
+    "production_lines_changed": 1
+  },
+  "unchanged_criteria": {
+    "energy_critical_lower_bound": 0.05,
+    "minimum_active_runtime_seconds": 1200,
+    "normal_maximum_active_runtime_seconds": 1800,
+    "absolute_maximum_active_runtime_seconds": 3600,
+    "extension_seconds": 600,
+    "p0_formal_config_sha256": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+    "p0_event_schedule_sha256": "fc6101bd1a7c3712f12103b5253e7a02b461d50252bb66341e3848d912ebfb76",
+    "process_architecture": "distinct spawn-only organism worker with exclusive durable database ownership",
+    "checkpoint_architecture": "quiesced read-only SQLite backup, hash, chain validation, and snapshot restart"
+  },
+  "s1_monitoring_freeze": {
+    "run_formal_p0_sha256": "eff2d8a909a44fa58eca17e2a60269ecb77f756b43bac65199c603e702e2549a",
+    "run_formal_p0_s1_sha256": "8dfb8efd51613a784056ecd4e14f69e999a4e63a259c2d1abe454ac8e1ed304b",
+    "organism_worker_sha256": "0b559fef291171208f6a7179c6c7744aab2d265ad80e9f56fa75ea28a978e53d",
+    "worker_protocol_sha256": "1921f3152b7d23e97a1a802dadc53f1d1b1bec403740f2be79d316011fe6dee0",
+    "checkpoint_runner_sha256": "d7e23bb04234a647d0d6562640536861676f5532404cdcbf04afbfd4b2e2daa5",
+    "campaign_supervisor_sha256": "7b45511e95f004ae5dedd448971302be9a28bb521a433a1c6b6e8ac8c8b116e5"
+  },
+  "preserved_evidence": {
+    "original_p0_verdict_sha256": "4a13107f6026215e51ca6fdbc6b363ef498d7f2486f442b7051bd1c59d29b650",
+    "original_p0_hash_bundle_sha256": "e787c3162b701ae8af815341e482e7855f994a5875295fcdbb6448ac4044ec31",
+    "b1_hash_bundle_sha256": "325709433ae7d7b798bc918f8f9f380892c3a87500a360a09e8f3f05f88de570",
+    "record_sha256": "a0d61b22f3fce8a6014493c7e8685aa0f930e7ad2fa48a1e9d51fa57b3bd4f23"
+  },
+  "review_verdict": "APPROVE",
+  "authorization": {
+    "formal_p0_reruns": 1,
+    "p1": false,
+    "p2": false,
+    "d012c": false,
+    "additional_remediation_cycles": false
+  }
+}
