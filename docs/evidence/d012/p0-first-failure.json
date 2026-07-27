@@ -1,0 +1,21 @@
+{
+  "active_runtime_seconds": 100.06140970415436,
+  "authoritative_event_count_at_cleanup": 766,
+  "authoritative_final_chain_tip": 766,
+  "authoritative_final_snapshot_sequence": 766,
+  "authoritative_final_snapshot_state_hash": "d5de81600ae9705c4280ffcf7334861fcb4eedd1cc882a9d3f4c9f2a502d619b",
+  "authoritative_final_tick": 191,
+  "durable_raw_payload_count": 0,
+  "execution_id": "d012-p0-6de0bb3-20260727T1424Z",
+  "first_failing_invariant": "invalid_physiological_state",
+  "physiology_at_cleanup_snapshot": {
+    "energy": 0.00149999999999964,
+    "fatigue": 0.704000000000001,
+    "integrity": 0.973600000000003,
+    "stimulation": 0.136
+  },
+  "physiology_critical_energy_bound": 0.05,
+  "recovery_method": "read-only SQLite query of the final fsynced shutdown snapshot",
+  "triggering_sample_capture_deviation": "The formal runner checked physiology before appending the triggering sample. The final quiesced snapshot preserves the later authoritative state and confirms the same energy breach. The runner was corrected after the run; no relaunch occurred.",
+  "verdict": "UMBRA_D012B_P0_INTEGRITY_FAIL"
+}

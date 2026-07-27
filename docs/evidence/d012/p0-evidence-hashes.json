@@ -1,0 +1,26 @@
+{
+  "algorithm": "sha256",
+  "execution_id": "d012-p0-6de0bb3-20260727T1424Z",
+  "files": {
+    "p0-autonomy-results.json": "ecb89a05bb011b1a28b5f810cd6e9b8018cc8195dd3f03502a909f655ad02651",
+    "p0-bounded-state-results.json": "4238ce2efc05ebac38a5f4ef24b4519174923d129f462271c00c8c70b6cae820",
+    "p0-chain-validation.json": "7b8cc0f7acab4f65884549ec698c73e413faf4778f21b03cacd6d465ef66209d",
+    "p0-checkpoint-results.json": "e0ecb7fe3246d6a85234de39a2940e71c1c06641a307e99e5346ed163d014378",
+    "p0-entry-audit.json": "fac8d84b19424a35e2b2a0d74d3632b0288b36b743a3bcb312b6ce0a2b3ce811",
+    "p0-first-failure.json": "4b9af1fdb0d5cf9c2313e436795237d6a46cde1b1aa1c2969ede414075094bcf",
+    "p0-formal-execution-manifest.json": "1f1ce88ccb1ed534153d9f84fc799258e7645fb3b4e1e0c6bc1b309c03ccfdc0",
+    "p0-perception-results.json": "c8edb63778838ee6a0de949a95987fcfd8c3c3c674c27bb523d9c91b6d417556",
+    "p0-process-audit.json": "6e4cf411568b9f9af9851e5820e26a81f575f469df9f87fbfca2d60207cb9c71",
+    "p0-process-trace.jsonl": "457b3085cd6105f571cb166f3a12d46cc1cafac87adc8fbbcb95ed171db94351",
+    "p0-raw-payload-audit.json": "02e38edbcf215ebb30b90f37f0aa06a6e855b9e85018cfc2908295894c132269",
+    "p0-regression-results.txt": "23ad34cb388c008349d021001847630fbe156fec6813abb45c8b83247e71dc16",
+    "p0-resource-samples.jsonl": "6888eea1deafffa39683b21c48013b7fbb4dffa74c3f2d7a1a57706ca56b2fc0",
+    "p0-run-result.json": "c096f82e13dffc94e3c889546fbb1694d98e04b40b0f8d02e07772c71cafe7c8",
+    "p0-schedule-trace.jsonl": "b9250c245ed99bf77d49aca67f03b13f5c8f3759fad5c30719dae4c1853cc696",
+    "p0-snapshot-restart-results.json": "e0ecb7fe3246d6a85234de39a2940e71c1c06641a307e99e5346ed163d014378",
+    "p0-verdict.md": "4a13107f6026215e51ca6fdbc6b363ef498d7f2486f442b7051bd1c59d29b650",
+    "p0-window-analysis.json": "54be4d4b982646406baebce2c5a1888d09fd993b3ea0d904049735b633f1f1e7",
+    "p0-worker-restart-results.json": "e0ecb7fe3246d6a85234de39a2940e71c1c06641a307e99e5346ed163d014378"
+  },
+  "verdict": "UMBRA_D012B_P0_INTEGRITY_FAIL"
+}

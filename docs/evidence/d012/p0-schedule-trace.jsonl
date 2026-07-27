@@ -1,0 +1,2 @@
+{"active_runtime_seconds": 0.006174909183755517, "event": "autonomous_no_interaction", "result": {"class": "CHECKPOINT_ONLY", "event": "p0-no-interaction", "external_effect": "none", "index": 0, "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0", "tick": 1}, "schedule_index": 0, "wall_time": 1785161480.254405}
+{"active_runtime_seconds": 0.006794807035475969, "authority": "environment_only", "direct_state_mutation": false, "event": "ordinary_habitat_opportunity", "wall_time": 1785161480.2550256}

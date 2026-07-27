@@ -1,0 +1,14 @@
+{
+  "active_runtime_seconds": 100.06140970415436,
+  "checkpoint_completed": false,
+  "directive": "UMBRA-D-012B",
+  "first_failing_invariant": "invalid_physiological_state",
+  "formal_execution_id": "d012-p0-6de0bb3-20260727T1424Z",
+  "organism_identity": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+  "p1_launched": false,
+  "p2_launched": false,
+  "process_cleanup_pass": true,
+  "sample_count": 9,
+  "verdict": "UMBRA_D012B_P0_INTEGRITY_FAIL",
+  "worker_generations": 1
+}

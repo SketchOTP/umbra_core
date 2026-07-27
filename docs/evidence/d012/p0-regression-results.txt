@@ -1,0 +1,22 @@
+UMBRA-D-012B P0 regression validation
+
+Initial attempt:
+- INVALID_INFRASTRUCTURE
+- /tmp user disk quota was exhausted by 5.1 GiB of pytest-owned temporary directories.
+- The resulting 207 failures / 484 passes were cascading write failures and are not scientific regression evidence.
+- Only /tmp/pytest-of-sketch contents were deleted; the temporary data is not recoverable.
+
+Valid rerun after temporary cleanup:
+- pytest -q --tb=short: 688 passed, 1 failed, 2 skipped, 2 warnings
+- Sole failure: tests/test_d010.py::test_all_production_runtime_tick_uses_are_classified
+- D-010 error count: 79
+- D-010 error SHA-256: e531d099589f3127126205d6effe2e02e66418b5d7b254d7cd32cf3c72af6082
+- First error: unclassified: umbra_core/runtime.py:306 (self.tick = tick)
+- Last error: stale inventory entry (no matching site): umbra_core/runtime.py:964
+- Frozen D-010 fingerprint unchanged: PASS
+- New regression: none
+
+Other required checks:
+- python tools/validate_governance.py: PASS
+- python experiments/d012/validate_schedule.py: PASS (formal_launched=true, adaptive_p0_valid=true)
+- git diff --check: PASS

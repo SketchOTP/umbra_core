@@ -422,6 +422,9 @@ def run(
             "chain_tip": chain_tip,
             **metrics,
         }
+        previous = samples[-1] if samples else None
+        samples.append(record)
+        append_jsonl(sample_path, record)
         if record["supervisor_child_process_count"] != int(
             thresholds["supervisor_child_process_max"]
         ):
@@ -453,9 +456,9 @@ def run(
             raise P0Failure(
                 "UMBRA_D012B_P0_INTEGRITY_FAIL", "event_chain_validation"
             )
-        if samples:
-            tick_delta = int(record["tick"]) - int(samples[-1]["tick"])
-            event_delta = int(record["event_count"]) - int(samples[-1]["event_count"])
+        if previous is not None:
+            tick_delta = int(record["tick"]) - int(previous["tick"])
+            event_delta = int(record["event_count"]) - int(previous["event_count"])
             if tick_delta > 0 and event_delta / tick_delta > float(
                 thresholds["event_growth_per_tick_max"]
             ):
@@ -469,8 +472,6 @@ def run(
                 "UMBRA_D012B_P0_PERFORMANCE_FAIL",
                 "bounded_state:" + ",".join(failures),
             )
-        samples.append(record)
-        append_jsonl(sample_path, record)
         last_chain_tip = chain_tip
         last_tick = int(record["tick"])
         last_cpu = cpu

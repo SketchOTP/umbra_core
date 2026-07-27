@@ -1,0 +1,16 @@
+{
+  "first_failure": "invalid_physiological_state",
+  "maxima": {
+    "deduplication_id_count": 0,
+    "expression_retained_count": 64,
+    "habitat_journal_count": 0,
+    "habitat_object_count": 3,
+    "individuality_evidence_count": 24,
+    "memory_count": 24,
+    "perception_observation_count": 0,
+    "routine_count": 0,
+    "social_hypothesis_count": 0,
+    "world_model_count": 9
+  },
+  "pass": true
+}
