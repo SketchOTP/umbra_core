@@ -1,1 +1,11 @@
-{"method":"current RSS plus process CPU and database size at checkpoints","p0_hours":6,"p1_hours":24,"p2_hours":72,"near_threshold_requires_confirmation":true}
+{
+  "method": "current RSS, process CPU, database growth, and bounded-state samples every 10 seconds",
+  "p0_config": "p0-formal-config.json",
+  "p0_minimum_minutes": 20,
+  "p0_normal_stop_minutes": 30,
+  "p0_maximum_minutes": 60,
+  "p0_extension_minutes": 10,
+  "near_threshold_requires_extension": true,
+  "p1_authorized": false,
+  "p2_authorized": false
+}

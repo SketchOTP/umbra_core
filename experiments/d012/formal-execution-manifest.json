@@ -1,1 +1,7 @@
-{"formal_execution_id":"d012-fe-001","parent":"D-012A","starting_commit":"f207f53","launch_authorized":false,"freeze_required":true}
+{
+  "scope": "D-012A schedule freeze only",
+  "formal_execution_created": false,
+  "superseded_by": "UMBRA-D-012B adaptive fail-fast P0",
+  "formal_manifest_path": "docs/evidence/d012/p0-formal-execution-manifest.json",
+  "launch_requires_committed_starting_commit": true
+}

@@ -7,6 +7,7 @@ import os
 import signal
 import socket
 import sys
+import time
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
@@ -40,6 +41,7 @@ from umbra_core.perception_adapters import (
     SyntheticPerceptionAdapter,
 )
 from umbra_core.runtime import OrganismConfig, create_organism, load_organism
+from umbra_core.util import canon_json, sha256_hex
 
 
 def organism_config(database_path: Path) -> OrganismConfig:
@@ -91,6 +93,7 @@ class Worker:
         self.schedule = json.loads(schedule_path.read_text())["events"]
         self.running = False
         self.stop_requested = False
+        self.tick_period = float(manifest.get("tick_period_seconds", 0.5))
 
     def acquire_and_load(self, *, reclaim_dead: bool) -> None:
         self.ownership = acquire_ownership(
@@ -139,6 +142,97 @@ class Worker:
 
     def identity_id(self) -> str | None:
         return None if self.organism is None else self.organism.identity.agent_id
+
+    def metrics(self) -> dict[str, Any]:
+        if not self.running or self.organism is None or self.engine is None:
+            raise SupervisionError("IPC_MESSAGE_INVALID", "worker_not_running")
+        organism = self.organism
+        status = Path("/proc/self/status").read_text()
+        rss_kib = int(next(line.split()[1] for line in status.splitlines() if line.startswith("VmRSS:")))
+        memory = organism.memory
+        social = organism.social
+        world = organism.world_model
+        individuality = organism.individuality
+        habitat = self.engine.snapshot_view()
+        conn = organism.store.conn
+        organism.store.validate_chain()
+        event_count = int(conn.execute("SELECT COUNT(*) FROM events").fetchone()[0])
+        snapshot_count = int(conn.execute("SELECT COUNT(*) FROM snapshots").fetchone()[0])
+        journal_count = int(
+            conn.execute("SELECT COUNT(*) FROM habitat_execution_journal").fetchone()[0]
+        )
+        raw_count = int(
+            conn.execute(
+                "SELECT COUNT(*) FROM events WHERE instr(payload, '\"raw_payload\"') > 0"
+            ).fetchone()[0]
+        )
+        children = Path(f"/proc/{os.getpid()}/task/{os.getpid()}/children").read_text().split()
+        return {
+            "tick": organism.tick,
+            "rss_mib": rss_kib / 1024.0,
+            "cpu_seconds": time.process_time(),
+            "database_bytes": sum(
+                path.stat().st_size
+                for path in (
+                    self.database_path,
+                    self.database_path.with_suffix(self.database_path.suffix + "-wal"),
+                    self.database_path.with_suffix(self.database_path.suffix + "-shm"),
+                )
+                if path.exists()
+            ),
+            "event_count": event_count,
+            "snapshot_count": snapshot_count,
+            "file_descriptor_count": len(list(Path("/proc/self/fd").iterdir())),
+            "thread_count": len(list(Path("/proc/self/task").iterdir())),
+            "child_process_count": len(children),
+            "perception_observation_count": len(organism.perception.adapter_observations),
+            "deduplication_id_count": len(
+                organism.perception.accepted_adapter_observation_ids
+            ),
+            "memory_count": 0
+            if memory is None
+            else len(memory.episodes)
+            + len(memory.archived)
+            + len(memory.beliefs)
+            + len(memory.procedural),
+            "memory_count_max": 0
+            if memory is None
+            else memory.config.max_active_episodic
+            + memory.config.max_archived
+            + memory.config.max_semantic
+            + memory.config.max_procedural,
+            "social_hypothesis_count": 0 if social is None else len(social.hypotheses),
+            "social_hypothesis_count_max": 0
+            if social is None
+            else social.config.max_partner_hypotheses,
+            "routine_count": 0 if social is None else len(social.routine_handles),
+            "routine_count_max": 0 if social is None else social.config.max_routine_handles,
+            "world_model_count": 0 if world is None else len(world.models),
+            "world_model_count_max": 0 if world is None else world.config.max_models,
+            "individuality_evidence_count": 0
+            if individuality is None
+            else len(individuality.dispositions),
+            "individuality_evidence_count_max": 64,
+            "habitat_object_count": len(habitat.objects),
+            "habitat_object_count_max": 64,
+            "habitat_journal_count": journal_count,
+            "expression_frame_count": organism._frame_id_counter,
+            "expression_retained_count": len(organism.frame_ring),
+            "expression_retained_count_max": organism.frame_ring.capacity,
+            "physiology": organism.phys.as_dict(),
+            "physiology_critical": organism.phys.critical_any(),
+            "proposal_count": int(
+                conn.execute("SELECT COUNT(*) FROM events WHERE event_type='proposal'").fetchone()[0]
+            ),
+            "outcome_count": int(
+                conn.execute(
+                    "SELECT COUNT(*) FROM events WHERE event_type='outcome_verified'"
+                ).fetchone()[0]
+            ),
+            "durable_raw_count": raw_count,
+            "accepted_state_hash": sha256_hex(canon_json(organism.authoritative_state())),
+            "chain_valid": True,
+        }
 
     def _change_environment(self, index: int) -> bool:
         if self.engine is None:
@@ -204,6 +298,15 @@ class Worker:
                 replay_class="AUTHORITATIVE",
                 integrity_metadata={"dry": "true"},
             )
+            perception_result = {
+                "observation_id": observation_id,
+                "confidence": envelope.confidence,
+                "uncertainty": envelope.uncertainty,
+                "provenance_chain": list(envelope.provenance_chain),
+                "privacy_classification": envelope.privacy_classification,
+                "duplicate_attempts": 0,
+                "duplicates_suppressed": 0,
+            }
             if event["id"] == "p2-adapter-restart":
                 try:
                     organism.submit_perception_observation(
@@ -217,10 +320,15 @@ class Worker:
                 organism.submit_perception_observation(envelope, self.adapter.manifest)
                 external_effect = "derived_observation"
                 if event["id"] == "p0-duplicate":
-                    if organism.submit_perception_observation(
-                        envelope, self.adapter.manifest
-                    ):
-                        raise SupervisionError("SUPERVISOR_RECOVERY_FAILED", "duplicate")
+                    for _ in range(8):
+                        if organism.submit_perception_observation(
+                            envelope, self.adapter.manifest
+                        ):
+                            raise SupervisionError(
+                                "SUPERVISOR_RECOVERY_FAILED", "duplicate"
+                            )
+                    perception_result["duplicate_attempts"] = 8
+                    perception_result["duplicates_suppressed"] = 8
                     external_effect = "duplicate_suppressed"
                 if "source-replace" in event["id"]:
                     delayed = replace(
@@ -255,6 +363,8 @@ class Worker:
             "external_effect": external_effect,
             "organism_id": organism.identity.agent_id,
         }
+        if event["class"] == "PERCEPTION_INPUT":
+            result["perception"] = perception_result
         self.log.write(
             "event_complete", index=index, schedule_event=event["id"], tick=organism.tick
         )
@@ -287,7 +397,10 @@ class Worker:
         if supplied_runtime < self.active_runtime:
             raise SupervisionError("IPC_MESSAGE_INVALID", "active_runtime_regression")
         supplied_tip = command.get("chain_tip")
-        if supplied_tip is not None and supplied_tip != self.chain_tip():
+        current_tip = self.chain_tip()
+        if supplied_tip is not None and (
+            current_tip is None or int(current_tip) < int(supplied_tip)
+        ):
             raise SupervisionError("IPC_MESSAGE_INVALID", "chain_tip_mismatch")
         self.last_sequence = sequence
         self.active_runtime = supplied_runtime
@@ -311,6 +424,8 @@ class Worker:
             self.log.write("diagnostic_ticks_started", count=count)
             self.organism.run_ticks(count)
             return self.response("TICKS_COMPLETE", sequence, ticks=count)
+        if name == "METRICS":
+            return self.response("METRICS", sequence, metrics=self.metrics())
         if name in {"QUIESCE", "CHECKPOINT_PREPARE"}:
             if command.get("inject_crash"):
                 os.kill(os.getpid(), signal.SIGKILL)
@@ -344,10 +459,16 @@ def serve(manifest_path: Path) -> int:
     server.bind(str(worker.socket_path))
     os.chmod(worker.socket_path, 0o600)
     server.listen(1)
+    server.settimeout(worker.tick_period)
     worker.log.write("worker_ready", pid=os.getpid(), process_start_identity=worker.identity)
     try:
         while not worker.stop_requested:
-            connection, _ = server.accept()
+            try:
+                connection, _ = server.accept()
+            except TimeoutError:
+                if worker.running and worker.organism is not None:
+                    worker.organism.tick_once()
+                continue
             with connection:
                 raw = b""
                 while not raw.endswith(b"\n"):

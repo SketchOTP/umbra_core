@@ -24,6 +24,7 @@ from experiments.d012.failure_codes import SupervisionError
 from experiments.d012.organism_worker import organism_config
 from experiments.d012.process_identity import process_identity
 from experiments.d012.run_disposable_dry_run import run
+from experiments.d012.run_formal_p0 import analyze_samples
 from experiments.d012.worker_launcher import WorkerClient, manifest_for
 from experiments.d012.worker_protocol import (
     BoundedLog,
@@ -71,6 +72,7 @@ def test_worker_is_distinct_and_supervisor_has_no_runtime_import(tmp_path):
     for name in (
         "campaign_supervisor.py",
         "run_disposable_dry_run.py",
+        "run_formal_p0.py",
         "worker_launcher.py",
     ):
         tree = ast.parse((EXP / name).read_text())
@@ -85,6 +87,71 @@ def test_worker_is_distinct_and_supervisor_has_no_runtime_import(tmp_path):
         assert "load_organism" not in source
         assert "sqlite3.connect" not in source
     assert "mode=ro" in (EXP / "checkpoint_runner.py").read_text()
+
+
+def test_formal_p0_freeze_and_stability_decision_are_fail_closed():
+    config = json.loads((EXP / "p0-formal-config.json").read_text())
+    assert config["minimum_active_seconds"] == 1200
+    assert config["normal_stop_seconds"] == 1800
+    assert config["maximum_active_seconds"] == 3600
+    assert not config["d010_enabled"]
+    assert not config["p1_authorized"] and not config["p2_authorized"]
+    samples = [
+        {
+            "sample_index": index,
+            "active_runtime_seconds": index * 10,
+            "rss_mib": 100.0,
+            "cpu_fraction": 0.01,
+            "sample_seconds": 10,
+        }
+        for index in range(121)
+    ]
+    assert analyze_samples(samples, config)["classification"] == "CLEARLY_STABLE"
+    for sample in samples:
+        sample["rss_mib"] = 100 + sample["active_runtime_seconds"] / 1800
+    assert analyze_samples(samples, config)["classification"] == "FAILED"
+    for sample in samples:
+        sample["rss_mib"] = 170.0
+    assert analyze_samples(samples, config)["classification"] == "AMBIGUOUS"
+
+
+def test_worker_autonomously_ticks_and_reports_bounded_metrics(tmp_path):
+    client = launch(tmp_path)
+    try:
+        started = client.request("START")
+        tick = int(started["chain_tip"])
+        time.sleep(1.1)
+        response = client.request("METRICS")
+        metrics = response["metrics"]
+        assert int(response["chain_tip"]) > tick
+        assert metrics["tick"] >= 2
+        assert not metrics["physiology_critical"]
+        assert metrics["durable_raw_count"] == 0
+        assert metrics["perception_observation_count"] <= 256
+        assert metrics["deduplication_id_count"] <= 512
+        assert metrics["memory_count"] <= metrics["memory_count_max"]
+        assert metrics["social_hypothesis_count"] <= metrics["social_hypothesis_count_max"]
+        assert metrics["routine_count"] <= metrics["routine_count_max"]
+        assert metrics["world_model_count"] <= metrics["world_model_count_max"]
+        assert metrics["individuality_evidence_count"] <= metrics[
+            "individuality_evidence_count_max"
+        ]
+        assert metrics["expression_retained_count"] <= metrics[
+            "expression_retained_count_max"
+        ]
+    finally:
+        client.shutdown(0.0)
+
+
+def test_formal_duplicate_event_suppresses_entire_burst(tmp_path):
+    client = launch(tmp_path)
+    try:
+        client.request("START")
+        result = client.request("RUN_EVENT", event_index=3)["event"]
+        assert result["perception"]["duplicate_attempts"] == 8
+        assert result["perception"]["duplicates_suppressed"] == 8
+    finally:
+        client.shutdown(0.0)
 
 
 def test_database_ownership_live_duplicate_generation_and_execution_refusals(tmp_path):

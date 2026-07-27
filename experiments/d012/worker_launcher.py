@@ -200,13 +200,15 @@ def manifest_for(
     freeze_manifest_hash: str,
     active_runtime: float,
     reclaim_dead: bool = False,
+    database_path: Path | None = None,
     **test_flags: Any,
 ) -> dict[str, Any]:
+    database_path = database_path or root / "dry-run.sqlite"
     return {
         "execution_id": execution_id,
         "supervisor_execution_id": execution_id,
         "root": str(root),
-        "database_path": str(root / "dry-run.sqlite"),
+        "database_path": str(database_path),
         "ownership_path": str(root / "database-ownership.json"),
         "socket_path": str(root / f"organism-worker-{generation}.sock"),
         "worker_log": str(root / "organism-worker.log"),
