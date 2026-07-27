@@ -1,0 +1,21 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS_NO_NEW_FAILURES",
+  "baseline_commit": "3a8b0b2",
+  "baseline_failure": "tests/test_d010.py::test_all_production_runtime_tick_uses_are_classified",
+  "baseline_error_count": 79,
+  "baseline_error_sha256": "e531d099589f3127126205d6effe2e02e66418b5d7b254d7cd32cf3c72af6082",
+  "current_error_count": 79,
+  "current_error_sha256": "e531d099589f3127126205d6effe2e02e66418b5d7b254d7cd32cf3c72af6082",
+  "fingerprint_identical": true,
+  "current_full_suite": {
+    "passed": 685,
+    "failed": 1,
+    "skipped": 2,
+    "warnings": 2
+  },
+  "d001_through_d009_regression": "PASS: 517 passed, 2 skipped",
+  "d011_regression": "PASS: 7 passed",
+  "d012_focused": "PASS: 28 passed",
+  "d010_files_changed": false
+}

@@ -1,0 +1,14 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "maximum_bytes_per_file": 65536,
+  "maximum_rotated_files": 2,
+  "supervisor_log_bytes": 783,
+  "organism_worker_log_bytes": 6292,
+  "separate_file_handles": true,
+  "execution_id_on_every_record": true,
+  "worker_generation_on_every_worker_record": true,
+  "raw_payload_records": 0,
+  "authoritative_state_role": false,
+  "rotation_test": "PASS"
+}

@@ -9,7 +9,8 @@ from experiments.d012.checkpoint_runner import recover_checkpoint, run_checkpoin
 from experiments.d012.failure_codes import SupervisionError
 from experiments.d012.process_identity import identity_matches, process_identity
 from experiments.d012.progress_store import ProgressStore
-from experiments.d012.run_disposable_dry_run import organism_config, run
+from experiments.d012.organism_worker import organism_config
+from experiments.d012.run_disposable_dry_run import run
 from umbra_core.runtime import create_organism
 EXP=Path(__file__).resolve().parents[1]/"experiments/d012"
 def supervisor(tmp_path: Path, **kwargs) -> CampaignSupervisor:

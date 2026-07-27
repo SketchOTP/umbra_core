@@ -1,0 +1,16 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "cases": {
+    "sigterm_during_diagnostic_ticking": "PASS: identity reconstructed and stale ownership reclaimed",
+    "sigkill_during_diagnostic_ticking": "PASS: identity reconstructed and stale ownership reclaimed",
+    "death_before_worker_ready": "PASS: ORGANISM_START_FAILED",
+    "death_after_ownership_acquisition": "PASS: durable ACTIVE record preserved for classified reclaim",
+    "death_during_checkpoint_prepare": "PASS: active checkpoint rejected; replacement worker reclaimed after proven death",
+    "supervisor_death_with_live_worker": "PASS: supervisor exited 73 and worker survived",
+    "supervisor_restart_and_reattach": "PASS: PID, start identity, generation, sequence, runtime, and chain tip rebound",
+    "stale_ownership_after_worker_death": "PASS: unsafe implicit reclaim refused"
+  },
+  "duplicate_replacement_workers": 0,
+  "orphan_workers_after_tests": 0
+}

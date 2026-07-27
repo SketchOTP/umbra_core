@@ -1,0 +1,13 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "formal_campaign_processes_started": 0,
+  "disposable_worker_processes_started": 5,
+  "disposable_worker_processes_remaining": 0,
+  "campaign_locks_remaining": 0,
+  "worker_sockets_remaining": 0,
+  "open_d012_campaign_processes": 0,
+  "database_ownership_final_status": "RELEASED",
+  "supervisor_and_worker_distinct": true,
+  "raw_payload_count": 0
+}

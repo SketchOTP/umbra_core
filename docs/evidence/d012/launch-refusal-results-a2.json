@@ -1,0 +1,24 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "refusals": [
+    "DUPLICATE_CAMPAIGN",
+    "DATABASE_ALREADY_OWNED",
+    "DATABASE_EXECUTION_CONFLICT",
+    "OWNERSHIP_GENERATION_CONFLICT",
+    "OWNERSHIP_TRANSFER_INCOMPLETE",
+    "PID_IDENTITY_MISMATCH",
+    "IPC_EXECUTION_MISMATCH",
+    "IPC_GENERATION_MISMATCH",
+    "IPC_SEQUENCE_INVALID",
+    "IPC_IDENTITY_MISMATCH",
+    "FREEZE_HASH_MISMATCH",
+    "D010_ENABLED",
+    "REAL_DEVICE_CONFIG_PROHIBITED",
+    "WORKER_MANIFEST_INVALID",
+    "CHECKPOINT_NOT_QUIESCENT"
+  ],
+  "supervisor_writable_store_access": "refused by architecture and static import/connect audit",
+  "authoritative_mutation_before_refusal": false,
+  "orphan_process_after_refusal": false
+}

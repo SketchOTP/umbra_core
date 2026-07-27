@@ -1,0 +1,13 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "architecture": "campaign supervisor -> Unix socket control -> spawned organism worker -> authoritative SQLite database",
+  "supervisor_pid": 3611329,
+  "worker_pids": [3611335, 3611336, 3611339, 3611340, 3611341],
+  "distinct_pids": true,
+  "distinct_process_start_identities": true,
+  "worker_count": 5,
+  "supervisor_imports_organism_runtime": false,
+  "supervisor_opens_writable_organism_database": false,
+  "checkpoint_source_connection": "SQLite URI mode=ro"
+}

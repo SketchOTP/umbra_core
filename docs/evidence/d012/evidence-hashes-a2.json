@@ -1,0 +1,32 @@
+{
+  "algorithm": "sha256",
+  "directive": "UMBRA-D-012A2",
+  "verdict": "UMBRA_D012A_FORMAL_SCHEDULE_FROZEN",
+  "files": {
+    "docs/evidence/d012/checkpoint-boundary-results.json": "f34609a1aed70ec5d931beea09decdcfdf5c2e957dbe488b053bd2c027a9ac91",
+    "docs/evidence/d012/d012a2-read-only-review.md": "344bd8cc42ae504641e3516ece30615ce4c788ac611c532746b5dde365c59ca1",
+    "docs/evidence/d012/d012a2-verdict.md": "ac9cf4bf0ac124a5ca26a809f942821d5d48cea3d0ce0b98679e28984475ade2",
+    "docs/evidence/d012/database-ownership-results.json": "fb48de2f9c07ed7ca1ac12259b59b8810871aaa580fbd24f2433471b4bd0b149",
+    "docs/evidence/d012/disposable-process-run-results.json": "6926d8ebb625b4dc91a3d885c8997886426bf5db046fadc580852eac097ce9b1",
+    "docs/evidence/d012/full-suite-baseline-comparison.json": "116075eb477c033c6262185c5c65bd493c6c4ee128181595b36dd226e36c208c",
+    "docs/evidence/d012/ipc-protocol-results.json": "415c1a252e162119c3868e624022069e7acdeddae18f7e9d448233ca8d20d9a5",
+    "docs/evidence/d012/launch-refusal-results-a2.json": "a1be64d3374241b5ab3082e79da959856420516060d27afe76b547917a6d42c7",
+    "docs/evidence/d012/log-bounds-results.json": "12f04376fc2580a904abce1c23415946da6f2465a2fe334e9e63a0faeae9200d",
+    "docs/evidence/d012/process-audit-a2.json": "cfe8d58ce2f42358015257fcc9ed07b3ff92f1789b61b6ea3a072ba6cdd89d9a",
+    "docs/evidence/d012/process-boundary-results.json": "24ea7e58cc803718c56e596f542fee83d9f9dd083139fcd2f6486404850bc93f",
+    "docs/evidence/d012/supervisor-recovery-results.json": "0c5df20114e60be16578c4e6aa3ef7f781977b7d27023ffd9521d14c9747ab32",
+    "docs/evidence/d012/worker-crash-results.json": "811d3619f1c8eec62d3e595b229390803132aa0b4444575b6130617e735bec2f",
+    "docs/evidence/d012/worker-identity-results.json": "0e246439a55c5d4d569a075a6ed2553dcbc8cd17430fae9492387c62d5e33b79",
+    "experiments/d012/campaign_supervisor.py": "7b45511e95f004ae5dedd448971302be9a28bb521a433a1c6b6e8ac8c8b116e5",
+    "experiments/d012/checkpoint_runner.py": "d7e23bb04234a647d0d6562640536861676f5532404cdcbf04afbfd4b2e2daa5",
+    "experiments/d012/database_ownership.py": "de4bdd720447224eb9b8532d26def211cf2c26cefd7fb33d4b3bed6cb32700cd",
+    "experiments/d012/durability.py": "6662feea38709f418dfcbac4a20b1312f7705043df8541075d552539f32737b2",
+    "experiments/d012/organism_worker.py": "f3861a2832d81bdc71a460f1eda833111e0c287f8a6ce99ac73d2cc3e1c9b65f",
+    "experiments/d012/run_disposable_dry_run.py": "7e2755cfefae89356e15e4b37d148c68e3e22ba88259daf6c00f5e3118296d07",
+    "experiments/d012/worker_cleanup.py": "7793114f5b820ebb3a4579539adfe837c378cd769152bfb05f55799345fa2cf0",
+    "experiments/d012/worker_launcher.py": "44ad8dc9efacfde8dd03d8aa761dc2a59569cff2f08f5b8d4b63e2189d58cfd8",
+    "experiments/d012/worker_protocol.py": "7dfcd2a98d0d03e43a9dd33b7d487c3513add3e3396a91c4cb4b6d119c38f990",
+    "tests/test_d012.py": "c53a6610d01fc69bd169ac33b120ea9bb01adaf4ae4e790596b76ce3686144af",
+    "tests/test_d012_process_boundary.py": "ecf3072d50f011c5fc0eb11f234b0794b56843575d059cb13c589ad1d7cf4e66"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "transport": "bounded JSON messages over local Unix domain socket",
+  "max_message_bytes": 16384,
+  "required_commands": [
+    "START",
+    "HEALTH",
+    "QUIESCE",
+    "RESUME",
+    "CHECKPOINT_PREPARE",
+    "SHUTDOWN"
+  ],
+  "required_statuses": [
+    "WORKER_READY",
+    "WORKER_RUNNING",
+    "WORKER_QUIESCED",
+    "CHECKPOINT_READY",
+    "WORKER_STOPPED",
+    "WORKER_FAILED"
+  ],
+  "message_binding": [
+    "execution_id",
+    "generation",
+    "sequence",
+    "process_start_identity",
+    "active_runtime",
+    "chain_tip"
+  ],
+  "wrong_execution_refused": "IPC_EXECUTION_MISMATCH",
+  "wrong_generation_refused": "IPC_GENERATION_MISMATCH",
+  "wrong_sequence_refused": "IPC_SEQUENCE_INVALID",
+  "wrong_identity_refused": "IPC_IDENTITY_MISMATCH",
+  "raw_payload_key_refused": true
+}

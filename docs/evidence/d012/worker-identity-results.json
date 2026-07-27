@@ -1,0 +1,16 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "supervisor_process_start_identity": "029fc0e8-c599-4e9c-90ad-4253a673b70d:3611329:143644592",
+  "worker_process_start_identities": [
+    "029fc0e8-c599-4e9c-90ad-4253a673b70d:3611335:143644613",
+    "029fc0e8-c599-4e9c-90ad-4253a673b70d:3611336:143644660",
+    "029fc0e8-c599-4e9c-90ad-4253a673b70d:3611339:143644706",
+    "029fc0e8-c599-4e9c-90ad-4253a673b70d:3611340:143644751",
+    "029fc0e8-c599-4e9c-90ad-4253a673b70d:3611341:143644793"
+  ],
+  "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+  "organism_identity_preserved_across_all_workers": true,
+  "pid_reuse_mismatch_refused": true,
+  "wrong_process_start_identity_refused": true
+}

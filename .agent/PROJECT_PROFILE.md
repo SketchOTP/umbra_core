@@ -34,7 +34,9 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - D-010 Stage B v7: NOT CREATED
 - D-010 parent Mimir: OPEN (`9adf61b087ea4fa6a90a1c3bd401a9b3`)
 - D-011 verdict: `UMBRA_D011_GOVERNED_PERCEPTION_ADAPTERS_QUALIFIED` (independent of D-010; D-009 predecessor `af35371`)
-- Next scientific work: NOT AUTHORIZED by this directive
+- D-012A verdict: `UMBRA_D012A_FORMAL_SCHEDULE_FROZEN` (D-012A2 distinct-worker closeout; formal campaign not launched)
+- D-012B authorization: formal P0 only, through the six-active-hour checkpoint; P1/P2 remain separately gated
+- Next scientific work: NOT AUTHORIZED by this directive beyond the separately gated D-012B formal P0 authorization.
 - **UMBRA-D-009 closed** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED` (100k + Supplement S3 adaptive P0/P1/P2 soak; zero-skip suite; seal `af35371`; independent review Approve)
 - **Qualified release baseline: D-009** — `UMBRA_D009_PERSISTENT_HABITAT_AGENCY_QUALIFIED`; seal `af35371`; governance baseline `bb90e61`.
 - **D-010 verdict: `UMBRA_D010_PERFORMANCE_FAIL`** — Functional Gates 0–12 PASS; Performance Gate 13 FAIL; Stage B v7 NOT CREATED; parent Mimir `9adf61b087ea4fa6a90a1c3bd401a9b3` OPEN. D-010 is implemented and functionally supported but not qualified.

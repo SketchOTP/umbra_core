@@ -1,0 +1,33 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "protocol": [
+    "CHECKPOINT_PREPARE request",
+    "worker completes atomic boundary and snapshots",
+    "worker closes runtime and releases ownership",
+    "CHECKPOINT_READY response",
+    "supervisor verifies quiescent ownership",
+    "read-only source backup to immutable checkpoint copy",
+    "chain, snapshot, D-010 exclusion, and raw-payload validation",
+    "atomic result and completion marker",
+    "RESUME request",
+    "worker reacquires incremented ownership generation"
+  ],
+  "checkpoints": {
+    "C0": {"event_count": 4, "raw_payload_count": 0},
+    "C1": {"event_count": 23, "raw_payload_count": 0},
+    "C2": {"event_count": 47, "raw_payload_count": 0},
+    "C3": {"event_count": 69, "raw_payload_count": 0},
+    "C4": {"event_count": 89, "raw_payload_count": 0}
+  },
+  "active_owner_checkpoint_refused": "CHECKPOINT_NOT_QUIESCENT",
+  "crash_stages_tested": [
+    "before_copy",
+    "during_copy",
+    "after_copy_before_hash",
+    "after_hash_before_result",
+    "after_result_before_completion_marker"
+  ],
+  "partial_artifacts_quarantined": true,
+  "conflicting_checkpoint_identity_refused": true
+}

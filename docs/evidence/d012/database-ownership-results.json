@@ -1,0 +1,22 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "ownership_record_fields": [
+    "execution_id",
+    "database_path",
+    "worker_pid",
+    "worker_process_start_identity",
+    "supervisor_execution_id",
+    "acquired_at",
+    "ownership_generation",
+    "status"
+  ],
+  "final_ownership_generation": 10,
+  "final_status": "RELEASED",
+  "exclusive_live_owner_enforced": true,
+  "live_duplicate_refusal": "DATABASE_ALREADY_OWNED",
+  "execution_conflict_refusal": "DATABASE_EXECUTION_CONFLICT",
+  "generation_conflict_refusal": "OWNERSHIP_GENERATION_CONFLICT",
+  "unclassified_dead_owner_refusal": "OWNERSHIP_TRANSFER_INCOMPLETE",
+  "dead_owner_reclaim_requires_explicit_classification": true
+}

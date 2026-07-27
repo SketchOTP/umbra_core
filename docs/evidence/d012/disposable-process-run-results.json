@@ -1,0 +1,27 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "formal": false,
+  "formal_p0_launched": false,
+  "events": 19,
+  "event_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+  "restarts": 4,
+  "workers": 5,
+  "checkpoints": 5,
+  "final_tick": 19,
+  "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+  "identity_preserved": true,
+  "event_chain_valid": true,
+  "d010_enabled": false,
+  "raw_payload_count": 0,
+  "final_ownership_status": "RELEASED",
+  "final_ownership_generation": 10,
+  "remaining_worker_pids": [],
+  "remaining_sockets": [],
+  "active_runtime_seconds": 0.1596768405288458,
+  "frozen_schedule_hashes": {
+    "opportunity-schedule.json": "fc6101bd1a7c3712f12103b5253e7a02b461d50252bb66341e3848d912ebfb76",
+    "checkpoint-schedule.json": "71098fae27e6cfb3e58d922b20567fb2ad3c934d33441971f82b895416e66092",
+    "restart-schedule.json": "dda1a9708eecaf29a0e4d09ac7ce0c7cd26c6b5e6a43110212d9292079f09727"
+  }
+}

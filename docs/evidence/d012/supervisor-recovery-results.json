@@ -1,0 +1,14 @@
+{
+  "directive": "UMBRA-D-012A2",
+  "result": "PASS",
+  "actual_supervisor_exit_code": 73,
+  "worker_survived_supervisor_exit": true,
+  "old_supervisor_pid_and_start_identity_proven_dead": true,
+  "campaign_lock_reclaimed_with_explicit_classification": true,
+  "stale_lock_preserved": true,
+  "live_worker_reattached": true,
+  "ipc_sequence_restored": true,
+  "chain_tip_restored": true,
+  "active_runtime_restored": true,
+  "cleanup_completed": true
+}
