@@ -1,0 +1,24 @@
+{
+  "algorithm": "sha256",
+  "directive": "UMBRA-D-012B1",
+  "files": {
+    "p0-baseline-comparison.json": "6761f5cb698f27186c69494c205e0d8b643494e93a4455974da7598e09b73beb",
+    "p0-cleanup-boundary-audit.json": "6d74d3df30f7420aed120d34431435638d6bd280c88f29073364d2a1cf47ab3a",
+    "p0-energy-budget.json": "38068a565fceff2c31b8accada95695e612c14d04494e18a84da9d5fda1db240",
+    "p0-energy-timeline.jsonl": "808e67e463554bc3e71f4781a239905510810ebe66e3c898b785401cb42acac8",
+    "p0-opportunity-audit.json": "196e10273ff6a9efb73d47f2cd17dde2d5e3f5a0d5cb936632b951b5de8be667",
+    "p0-recovery-path-audit.json": "21a15c4a9ada071a12450091c4d8277be6249c1613363fd4225ce498729c2bdd",
+    "p0-remediation-report.md": "10bb724ede2248a5ba570a3d73036feafbd83c3572951644b4ebeebd5289b518",
+    "p0-remediation-test-results.txt": "2c99b3ce4bb12ae8c90adf9765df24ee239c2bff0dff3756502b289df1919763",
+    "p0-root-cause-reproduction.json": "8fd07c9e460d00d228841ac8241ce6a4fd378ee58f84168fcb1fb41c0527d838",
+    "p0-root-cause-verdict.md": "6b8be0fb2e63492ad760854d08781634fb315a86567d167350de26bdb037d56d",
+    "p0-tick-rate-audit.json": "a411ba959b707f8cd7c91fed7c9d307067f3aa062f489ff26bf7deb8505eadd4",
+    "p0b1-original-final-organism.sqlite": "47d0f997c4574d04c956f23fb22eb0985eddb541f4d7902616839120284515af",
+    "p0b1-original-final-progress.json": "4a9ef6ebf7188c59ad43f019e9645cb718627df82f141a58d70b3e494365cd9e",
+    "p0b1-preservation-manifest.json": "7d6ecdd9e6527e0510ac989e465ca6250461879e2a8b59842b0f70d89fa2efde",
+    "p0b1-read-only-review.md": "17b0cd0a200f339be3b5b116d63932b1cc820206c21eb6279db4d6a66322fde4"
+  },
+  "formal_p0_relaunched": false,
+  "remediation": "REMEDIATED_AND_REVALIDATED",
+  "verdict": "UMBRA_D012B1_INTEGRATION_DEFECT_CONFIRMED"
+}

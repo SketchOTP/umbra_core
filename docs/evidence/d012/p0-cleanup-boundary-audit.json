@@ -1,0 +1,46 @@
+{
+  "R0_pre_cleanup": {
+    "chain_tip": 766,
+    "critical": true,
+    "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+    "physiology": {
+      "energy": 0.0014999999999996422,
+      "fatigue": 0.7040000000000005,
+      "integrity": 0.9736000000000029,
+      "stimulation": 0.1359999999999999
+    },
+    "tick": 191
+  },
+  "R1_no_cleanup": {
+    "chain_tip": 766,
+    "critical": true,
+    "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+    "physiology": {
+      "energy": 0.0014999999999996422,
+      "fatigue": 0.7040000000000005,
+      "integrity": 0.9736000000000029,
+      "stimulation": 0.1359999999999999
+    },
+    "tick": 191
+  },
+  "classification": "NOT_HARNESS_CLEANUP_MUTATION",
+  "cleanup_authoritative_event_append": false,
+  "cleanup_calls": [
+    "Organism.snapshot_if_due(force=True)",
+    "Organism.close",
+    "release_ownership",
+    "socket close/unlink",
+    "evidence writes"
+  ],
+  "cleanup_physiology_mutation": false,
+  "cleanup_schedule_intervention": false,
+  "cleanup_tick_advance": 0,
+  "energy_after_tick_181": 0.048499999999999654,
+  "failure_decision_followed_by_another_tick": false,
+  "first_critical_after_tick": 181,
+  "note": "The 10-second sampling interval detected the already-critical state at tick 191; cleanup did not create tick 191.",
+  "organism_below_critical_before_cleanup": true,
+  "pass": true,
+  "prohibited_calls_found": [],
+  "states_equal_before_cleanup": true
+}

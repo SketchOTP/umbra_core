@@ -1,0 +1,27 @@
+{
+  "R2_reachable_opportunity": {
+    "chain_tip": 736,
+    "critical": false,
+    "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+    "physiology": {
+      "energy": 0.18899999999999928,
+      "fatigue": 0.6680000000000005,
+      "integrity": 0.8618000000000042,
+      "stimulation": 0.1599999999999997
+    },
+    "tick": 191
+  },
+  "body_supports_charge": true,
+  "classification": "OPPORTUNITY_PRESENT_BUT_RECOVERY_INTEGRATION_STOPPED_APPROACH_EARLY",
+  "no_action_final_energy": 0.31799999999999995,
+  "no_interaction_interval_caused_starvation": false,
+  "ordinary_resource_present": true,
+  "ordinary_rest_present": true,
+  "resource_chargeable": true,
+  "resource_executable_at_tick_185": false,
+  "resource_perceived": true,
+  "resource_reachable_with_one_additional_approach_at_tick_185": true,
+  "schedule_mathematically_guaranteed_collapse": false,
+  "schedule_removed_resource": false,
+  "starting_energy": 0.7
+}

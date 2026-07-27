@@ -4,6 +4,7 @@ from __future__ import annotations
 import ast
 import json
 import os
+import sqlite3
 import subprocess
 import sys
 import threading
@@ -32,9 +33,57 @@ from experiments.d012.worker_protocol import (
     validate_command,
     validate_manifest,
 )
+from umbra_core.arbitration import Arbitrator
+from umbra_core.physiology import Physiology
 from umbra_core.runtime import create_organism
+from umbra_core.util import SeededRNG
 
 EXP = Path(__file__).resolve().parents[1] / "experiments/d012"
+
+
+def test_critical_recovery_approaches_until_charge_is_executable():
+    physiology = Physiology(energy=0.04)
+    chosen = Arbitrator().select(
+        physiology,
+        [
+            {
+                "kind": "resource",
+                "relative_direction": 0.0,
+                "estimated_distance": 1.526,
+                "confidence": 1.0,
+                "uncertainty": 0.0,
+            }
+        ],
+        1,
+        SeededRNG(12012),
+    )
+    assert chosen.capability == "APPROACH"
+
+
+def test_worker_cleanup_does_not_tick_mutate_physiology_or_append_events(tmp_path):
+    client = launch(tmp_path, tick_period_seconds=10.0)
+    client.request("START")
+    client.request("RUN_DIAGNOSTIC_TICKS", count=3)
+    before = client.request("METRICS")["metrics"]
+    client.shutdown(0.0)
+
+    connection = sqlite3.connect(tmp_path / "dry-run.sqlite")
+    event_count = connection.execute("SELECT COUNT(*) FROM events").fetchone()[0]
+    state = json.loads(
+        connection.execute(
+            "SELECT state_json FROM snapshots ORDER BY sequence DESC LIMIT 1"
+        ).fetchone()[0]
+    )
+    connection.close()
+
+    assert state["tick"] == before["tick"]
+    assert {
+        name: state["physiology"][name]
+        for name in ("energy", "fatigue", "integrity", "stimulation")
+    } == before["physiology"]
+    assert event_count == before["event_count"]
+    assert read_ownership(tmp_path / "database-ownership.json")["status"] == "RELEASED"
+    assert not list(tmp_path.glob("*.sock"))
 
 
 def launch(

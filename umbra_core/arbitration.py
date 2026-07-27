@@ -572,7 +572,7 @@ class Arbitrator:
                     o = next(o for o in observations if o["kind"] == kind)
                     hd = float(o["relative_direction"])
                     dist = float(o["estimated_distance"])
-                    if dist <= 2.2:
+                    if dist <= 1.5:
                         chosen = Candidate("CHARGE", {"toward": kind})
                         self._commit(chosen, tick)
                         return chosen

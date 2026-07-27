@@ -1,0 +1,99 @@
+{
+  "R0_compared_tick_count": 190,
+  "R0_exact_ledger_match_ticks_2_191": true,
+  "R0_exact_match_count": 190,
+  "all_runs_at_or_below_250_ticks": true,
+  "first_causal_divergence": {
+    "downstream_path": "umbra_core/embodiment.py: CHARGE requires distance <= feature.radius + 0.3 (1.5)",
+    "source_path": "umbra_core/arbitration.py: critical energy recovery dist <= 2.2",
+    "tick": 185
+  },
+  "formal_relaunch": false,
+  "runs": {
+    "R0_exact_failed_configuration": {
+      "before_stop": {
+        "chain_tip": 766,
+        "critical": true,
+        "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+        "physiology": {
+          "energy": 0.0014999999999996422,
+          "fatigue": 0.7040000000000005,
+          "integrity": 0.9736000000000029,
+          "stimulation": 0.1359999999999999
+        },
+        "tick": 191
+      },
+      "cleanup_mode": "quiesce_snapshot_close",
+      "ownership_status": "RELEASED",
+      "schedule_prefix": "p0-no-interaction",
+      "seed": 12012,
+      "socket_exists": false,
+      "start_tick": 4,
+      "trace_path": ".soak/d012_p0b1_diagnostics_8986861f/r0/tick-trace.jsonl",
+      "worker_alive": false,
+      "worker_architecture": "spawn_only_distinct_process"
+    },
+    "R1_cleanup_disabled": {
+      "before_stop": {
+        "chain_tip": 766,
+        "critical": true,
+        "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+        "physiology": {
+          "energy": 0.0014999999999996422,
+          "fatigue": 0.7040000000000005,
+          "integrity": 0.9736000000000029,
+          "stimulation": 0.1359999999999999
+        },
+        "tick": 191
+      },
+      "cleanup_mode": "force_kill_without_quiesce",
+      "ownership_status": "RELEASED",
+      "schedule_prefix": "p0-no-interaction",
+      "seed": 12012,
+      "socket_exists": false,
+      "start_tick": 4,
+      "trace_path": ".soak/d012_p0b1_diagnostics_8986861f/r1/tick-trace.jsonl",
+      "worker_alive": false,
+      "worker_architecture": "spawn_only_distinct_process"
+    },
+    "R2_recovery_opportunity_confirmed": {
+      "before_stop": {
+        "chain_tip": 736,
+        "critical": false,
+        "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+        "physiology": {
+          "energy": 0.18899999999999928,
+          "fatigue": 0.6680000000000005,
+          "integrity": 0.8618000000000042,
+          "stimulation": 0.1599999999999997
+        },
+        "tick": 191
+      },
+      "cleanup_mode": "quiesce_snapshot_close",
+      "ownership_status": "RELEASED",
+      "schedule_prefix": "p0-no-interaction",
+      "seed": 12012,
+      "socket_exists": false,
+      "start_tick": 4,
+      "trace_path": ".soak/d012_p0b1_diagnostics_8986861f/r2/tick-trace.jsonl",
+      "worker_alive": false,
+      "worker_architecture": "spawn_only_distinct_process"
+    },
+    "R3_d009_baseline": {
+      "architecture": "qualified_d009_organism_without_d011_d012_supervision",
+      "chain_tip": 766,
+      "critical": true,
+      "organism_id": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+      "physiology": {
+        "energy": 0.0014999999999996422,
+        "fatigue": 0.7040000000000005,
+        "integrity": 0.9736000000000029,
+        "stimulation": 0.1359999999999999
+      },
+      "seed": 12012,
+      "tick": 191
+    },
+    "formal_relaunch": false,
+    "maximum_committed_ticks": 191
+  }
+}

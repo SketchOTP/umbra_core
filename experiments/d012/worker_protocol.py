@@ -50,6 +50,16 @@ def validate_manifest(data: dict[str, Any]) -> dict[str, Any]:
         path = Path(str(data[key])).resolve()
         if root not in path.parents:
             raise SupervisionError("WORKER_MANIFEST_INVALID", key)
+    if data.get("diagnostic_trace_path"):
+        path = Path(str(data["diagnostic_trace_path"])).resolve()
+        if root not in path.parents:
+            raise SupervisionError("WORKER_MANIFEST_INVALID", "diagnostic_trace_path")
+    if data.get("diagnostic_recovery_reachable") and not data.get(
+        "diagnostic_trace_path"
+    ):
+        raise SupervisionError(
+            "WORKER_MANIFEST_INVALID", "diagnostic_recovery_reachable"
+        )
     if data.get("d010_enabled"):
         raise SupervisionError("D010_ENABLED")
     if data.get("real_device"):

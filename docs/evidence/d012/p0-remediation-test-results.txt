@@ -1,0 +1,28 @@
+UMBRA-D-012B1 remediation validation
+
+Red-before-fix:
+- tests/test_d012_process_boundary.py::test_critical_recovery_approaches_until_charge_is_executable
+- FAIL: selected CHARGE, expected APPROACH
+
+Green-after-fix:
+- focused root-cause + cleanup tests: 2 passed
+- pytest -q tests/test_d012*.py: 33 passed
+- pytest -q tests/test_d001.py tests/test_d009.py tests/test_d011.py: 148 passed
+- python tools/validate_governance.py: passed
+- python experiments/d012/validate_schedule.py: schedule_valid=true, formal_launched=true, adaptive_p0_valid=true
+- git diff --check: passed
+
+Frozen D-010 control:
+- test_all_production_runtime_tick_uses_are_classified: expected frozen failure
+- error count: 79
+- error SHA-256: e531d099589f3127126205d6effe2e02e66418b5d7b254d7cd32cf3c72af6082
+- fingerprint unchanged: PASS
+
+Diagnostic reproductions:
+- R0 pre-fix: exact tick/capability/outcome match for ticks 2-191; tick 191 energy 0.0015 critical
+- R1 pre-fix without cleanup: tick 191 energy 0.0015 critical
+- R2 reachable resource: tick 191 energy 0.189 non-critical
+- R3 D-009 baseline: tick 191 energy 0.0015 critical
+- Remediated R0: tick 191 energy 0.4285 non-critical
+- Maximum committed ticks per run: 191
+- Formal P0 relaunched: no

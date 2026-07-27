@@ -1,0 +1,13 @@
+{
+  "checkpoint_copy": null,
+  "formal_checkpoint_reached": false,
+  "original_database_sha256": "47d0f997c4574d04c956f23fb22eb0985eddb541f4d7902616839120284515af",
+  "original_evidence_hash_count": 19,
+  "original_evidence_hashes_verified": true,
+  "original_ledger_sequence": 766,
+  "original_runner_sha256_at_entry": "e71b8ba6f043745a62c7ce9c06890026e77c28b2e9803b3f8b48110ecdd680ad",
+  "original_snapshot_state_hash": "d5de81600ae9705c4280ffcf7334861fcb4eedd1cc882a9d3f4c9f2a502d619b",
+  "original_verdict_sha256": "4a13107f6026215e51ca6fdbc6b363ef498d7f2486f442b7051bd1c59d29b650",
+  "preserved_database_copy": "p0b1-original-final-organism.sqlite",
+  "preserved_progress_copy": "p0b1-original-final-progress.json"
+}

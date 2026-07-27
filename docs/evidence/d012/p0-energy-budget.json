@@ -1,0 +1,64 @@
+{
+  "budgets": {
+    "equivalent_d009_baseline": {
+      "post_remediation_final_energy": 0.42849999999999966,
+      "pre_remediation_critical": true,
+      "pre_remediation_final_energy": 0.0014999999999996422
+    },
+    "no_action": {
+      "critical_depletion_unavoidable": false,
+      "expected_final_energy": 0.31799999999999995
+    },
+    "observed_action_sequence": {
+      "action_cost_total": -0.7275,
+      "final_energy": 0.0014999999999996422,
+      "recovery_gain_total": 0.3
+    },
+    "successful_recovery_behavior": {
+      "critical": false,
+      "measured_remediated_final_energy": 0.42849999999999966
+    }
+  },
+  "compressed_timeline": {
+    "action_counts": {
+      "APPROACH": 13,
+      "CHARGE": 13,
+      "IDLE": 5,
+      "INSPECT": 20,
+      "MOVE": 114,
+      "REST": 26
+    },
+    "energy_max": 0.7715000000000003,
+    "energy_min": 0.0014999999999996422,
+    "energy_slope_per_tick": -0.0036500000000000018,
+    "recovery_attempts": 39,
+    "recovery_denials": 0,
+    "recovery_failures": 19,
+    "recovery_successes": 20,
+    "successful_recovery_ticks": [
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59
+    ]
+  },
+  "passive_energy_drift_per_tick": -0.002,
+  "starting_energy": 0.7,
+  "ticks": 191
+}

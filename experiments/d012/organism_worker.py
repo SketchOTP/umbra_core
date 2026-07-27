@@ -8,7 +8,8 @@ import signal
 import socket
 import sys
 import time
-from dataclasses import replace
+from dataclasses import asdict, replace
+from math import hypot
 from pathlib import Path
 from typing import Any
 
@@ -94,6 +95,11 @@ class Worker:
         self.running = False
         self.stop_requested = False
         self.tick_period = float(manifest.get("tick_period_seconds", 0.5))
+        self.diagnostic_trace_path = (
+            Path(str(manifest["diagnostic_trace_path"]))
+            if manifest.get("diagnostic_trace_path")
+            else None
+        )
 
     def acquire_and_load(self, *, reclaim_dead: bool) -> None:
         self.ownership = acquire_ownership(
@@ -115,6 +121,17 @@ class Worker:
             self.organism._ensure_social_history()
             self.organism._ensure_individuality_history()
         self.engine = HabitatEngine(_habitat_state_for_scenario("S2"))
+        if self.manifest.get("diagnostic_recovery_reachable"):
+            resource = next(
+                obj
+                for obj in self.engine.snapshot_view().objects.values()
+                if isinstance(obj.location, FreeLocation)
+            )
+            self.engine.commit_free_location(
+                resource.object_id,
+                self.organism.embodiment.body.x,
+                self.organism.embodiment.body.y,
+            )
         self.organism.embodiment.attach_habitat_engine(self.engine)
         self.log.write("ownership_acquired", pid=os.getpid(), ownership_generation=self.ownership_generation)
 
@@ -233,6 +250,170 @@ class Worker:
             "accepted_state_hash": sha256_hex(canon_json(organism.authoritative_state())),
             "chain_valid": True,
         }
+
+    def run_diagnostic_ticks(self, count: int) -> None:
+        if self.organism is None:
+            raise SupervisionError("IPC_MESSAGE_INVALID", "worker_not_running")
+        organism = self.organism
+        rows: list[dict[str, Any]] = []
+        selections: list[dict[str, Any]] = []
+        original_select = organism.arbitrator.select
+
+        def capture_select(*args: Any, **kwargs: Any) -> Any:
+            candidate = original_select(*args, **kwargs)
+            phys, observations, tick = args[:3]
+            selections.append(
+                {
+                    "candidate": asdict(candidate),
+                    "urgencies": phys.vector_urgency(),
+                    "observations": [dict(row) for row in observations],
+                    "tick": tick,
+                }
+            )
+            return candidate
+
+        organism.arbitrator.select = capture_select
+        try:
+            for _ in range(count):
+                before = organism.phys.as_dict()
+                before_tick = organism.tick
+                before_sequence = int(organism.store.last_sequence() or 0)
+                before_body = organism.embodiment.body.to_state()
+                needs_recovery = organism.phys.needs_recovery()
+                critical_before = organism.phys.critical_any()
+                selections.clear()
+                outcome = organism.tick_once()
+                events = [
+                    {
+                        "sequence": int(row["sequence"]),
+                        "event_type": str(row["event_type"]),
+                        "payload": dict(row["payload"]),
+                    }
+                    for row in organism.store.iter_events(from_sequence=before_sequence + 1)
+                ]
+                opportunities = []
+                for feature in organism.embodiment.habitat.features:
+                    if feature.kind not in {"resource", "rest"}:
+                        continue
+                    distance = hypot(
+                        float(before_body["x"]) - feature.x,
+                        float(before_body["y"]) - feature.y,
+                    )
+                    opportunities.append(
+                        {
+                            "kind": feature.kind,
+                            "distance": distance,
+                            "radius": feature.radius,
+                            "chargeable": feature.chargeable,
+                            "restable": feature.restable,
+                            "executable": distance <= feature.radius + 0.3,
+                        }
+                    )
+                profile = (
+                    None
+                    if organism.embodiment_adapter is None
+                    else organism.embodiment_adapter.profile
+                )
+                outcome_dict = (
+                    None
+                    if outcome is None
+                    else dict(outcome)
+                    if isinstance(outcome, dict)
+                    else asdict(outcome)
+                )
+                executed = (
+                    None if outcome_dict is None else outcome_dict.get("capability")
+                )
+                selection = next(
+                    (
+                        row
+                        for row in reversed(selections)
+                        if row["candidate"]["capability"] == executed
+                    ),
+                    selections[0] if selections else {},
+                )
+                candidate = dict(selection.get("candidate", {}))
+                rows.append(
+                    {
+                        "tick": organism.tick,
+                        "active_runtime_seconds": organism.tick
+                        * float(self.tick_period),
+                        "worker_generation": self.generation,
+                        "physiology_before_tick": before,
+                        "energy_drift": next(
+                            (
+                                row["payload"]["drift"]["energy"]
+                                for row in events
+                                if row["event_type"] == "physiology_drift"
+                            ),
+                            None,
+                        ),
+                        "selected_candidate": candidate.get("capability"),
+                        "candidate_source": (
+                            "recovery_reflex"
+                            if needs_recovery or critical_before
+                            else candidate.get("params", {}).get(
+                                "source", "endogenous_arbitration"
+                            )
+                        ),
+                        "arbitration_scores": candidate.get("scores", {}),
+                        "arbitration_total": candidate.get("total"),
+                        "urgencies": selection.get("urgencies", {}),
+                        "observations": selection.get("observations", []),
+                        "governance": next(
+                            (
+                                row["payload"]
+                                for row in events
+                                if row["event_type"] == "proposal"
+                            ),
+                            None,
+                        ),
+                        "body_or_habitat_validation": (
+                            None if outcome_dict is None else outcome_dict.get("reason")
+                        ),
+                        "executed_capability": (
+                            None
+                            if outcome_dict is None
+                            else outcome_dict.get("capability")
+                        ),
+                        "verified_outcome": outcome_dict,
+                        "physiology_effect": (
+                            None
+                            if outcome_dict is None
+                            else outcome_dict.get(
+                                "physiology_effects", outcome_dict.get("effects")
+                            )
+                        ),
+                        "physiology_after_tick": organism.phys.as_dict(),
+                        "available_recovery_affordances": opportunities,
+                        "body_capability_state": {
+                            "attachment_status": None
+                            if organism.embodiment_adapter is None
+                            else organism.embodiment_adapter.state.attachment_status,
+                            "profile_id": None if profile is None else profile.profile_id,
+                            "supported_capabilities": []
+                            if profile is None
+                            else sorted(profile.supported_capabilities),
+                        },
+                        "event_sequences": [
+                            row["sequence"] for row in events
+                        ],
+                        "event_types": [row["event_type"] for row in events],
+                        "critical_before_tick": critical_before,
+                        "critical_after_tick": organism.phys.critical_any(),
+                        "tick_advanced": organism.tick - before_tick,
+                    }
+                )
+        finally:
+            organism.arbitrator.select = original_select
+        if self.diagnostic_trace_path is not None:
+            atomic_write_text(
+                self.diagnostic_trace_path,
+                "".join(
+                    json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n"
+                    for row in rows
+                ),
+            )
 
     def _change_environment(self, index: int) -> bool:
         if self.engine is None:
@@ -422,7 +603,7 @@ class Worker:
             if count < 1 or count > 100_000:
                 raise SupervisionError("IPC_MESSAGE_INVALID", "diagnostic_tick_count")
             self.log.write("diagnostic_ticks_started", count=count)
-            self.organism.run_ticks(count)
+            self.run_diagnostic_ticks(count)
             return self.response("TICKS_COMPLETE", sequence, ticks=count)
         if name == "METRICS":
             return self.response("METRICS", sequence, metrics=self.metrics())

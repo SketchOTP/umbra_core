@@ -1,0 +1,129 @@
+{
+  "body_capability_dormant": false,
+  "charging_affordance_executable_at_tick_185": false,
+  "charging_affordance_present": true,
+  "continuous_override": false,
+  "critical_energy_recovery_ticks": [
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191
+  ],
+  "energy_critical_below": 0.05,
+  "energy_recovery_urgent_at": 0.6,
+  "failed_recovery_attempts": [
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 1
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 2
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 3
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 4
+    },
+    {
+      "capability": "REST",
+      "classification": "not_at_rest",
+      "tick": 5
+    },
+    {
+      "capability": "REST",
+      "classification": "not_at_rest",
+      "tick": 6
+    },
+    {
+      "capability": "REST",
+      "classification": "not_at_rest",
+      "tick": 7
+    },
+    {
+      "capability": "REST",
+      "classification": "not_at_rest",
+      "tick": 8
+    },
+    {
+      "capability": "REST",
+      "classification": "not_at_rest",
+      "tick": 125
+    },
+    {
+      "capability": "REST",
+      "classification": "not_at_rest",
+      "tick": 129
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 133
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 137
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 185
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 186
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 187
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 188
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 189
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 190
+    },
+    {
+      "capability": "CHARGE",
+      "classification": "not_at_resource",
+      "tick": 191
+    }
+  ],
+  "failure_path": "critical energy reflex selected CHARGE at perceived distance <=2.2; embodiment required actual distance <=1.5; failed CHARGE did not move the body, so the same mismatch repeated",
+  "first_energy_recovery_focus_tick": 34,
+  "generated_selected_admitted": {
+    "ticks_182_184": "APPROACH",
+    "ticks_185_191": "CHARGE"
+  },
+  "governance_denials": 0,
+  "primary_mechanism": "ARBITRATION_OR_GOVERNANCE_RECOVERY_FAILURE",
+  "recovery_outcomes_committed": true,
+  "tick_185_actual_distance": 1.5259133241789868,
+  "tick_185_execution_limit": 1.5,
+  "tick_185_observed_distance": 1.516501342445139
+}
