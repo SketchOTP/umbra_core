@@ -4,10 +4,11 @@
 - ID: D-20260814-UMBRA-CC-003
 - Project directive: UMBRA-CC-003
 - Goal: Validate a research-only restart/replay contract around the existing qualified D-009 C0/S10 clean close/restart route.
-- Status: CC-3 in progress — production authority, historical evidence, D-010, and D-012 are excluded.
+- Status: CC-3 complete — research-only restart/replay contract independently approved; production authority, historical evidence, D-010, and D-012 unchanged.
 - Baseline: `umbra-cc-003-baseline-5a15caf` targets `5a15caf27435275c7bf49ad506f7e691e41c30a3`.
 - Touched files: CC-3 dossier and `research/course_correction/cc3_restart_replay_contract/*`; `.agent/LIBRARY_REVIEW.md` preserved.
-- Next action: complete independent review and closeout; no production refactor or qualification claim.
+- Acceptance: D-009 C0/S10 real route mapped; exact reference/shadow equivalence PASS; 21/21 fail-closed faults PASS; source proof PASS; D-000X/CC-2/D-009/D-010 validators PASS; focused restart/replay tests PASS; independent review APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS.
+- Next action: operator review of published CC-3 commits only; no production refactor, ASAL, MABE2, external embodiment, D-010/D-012 remediation, or qualification claim.
 
 ## Prior directive
 - ID: D-20260814-UMBRA-CC-002
