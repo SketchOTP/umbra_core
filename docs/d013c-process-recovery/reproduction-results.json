@@ -1,0 +1,9 @@
+{
+  "exact_test": "tests/test_d012_process_boundary.py::test_signal_during_ordinary_ticking_recovers_identity[False]",
+  "isolated_attempts": 6,
+  "isolated_passes": 6,
+  "diagnostic_pre_correction": {"sigterm_attempts": 3, "sigterm_failures": 1, "sigkill_attempts": 3, "sigkill_failures": 0},
+  "diagnostic_post_correction": {"sigterm_attempts": 3, "sigterm_passes": 3, "sigkill_attempts": 3, "sigkill_passes": 3},
+  "tick_activity_confirmed": true,
+  "classification": "TIMING_SENSITIVE"
+}

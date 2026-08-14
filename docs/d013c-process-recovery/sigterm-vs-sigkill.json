@@ -1,0 +1,11 @@
+{
+  "pre_correction": {
+    "sigterm": {"attempts": 3, "failures": 1, "failure": "PersistenceError:ledger_tip_mismatch"},
+    "sigkill": {"attempts": 3, "failures": 0}
+  },
+  "post_correction": {
+    "sigterm": {"attempts": 3, "identity_recovered": 3},
+    "sigkill": {"attempts": 3, "identity_recovered": 3}
+  },
+  "ownership_live_owner_stolen": false
+}

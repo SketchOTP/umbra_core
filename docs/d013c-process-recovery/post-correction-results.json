@@ -1,0 +1,11 @@
+{
+  "ordinary_signal_recovery": "PASS 3/3",
+  "force_kill_recovery": "PASS 3/3",
+  "original_identity_recovered": true,
+  "chain_valid": true,
+  "snapshot_valid": true,
+  "ownership_generation_valid": true,
+  "duplicate_worker_present": false,
+  "orphan_processes": false,
+  "stale_socket_present": false
+}

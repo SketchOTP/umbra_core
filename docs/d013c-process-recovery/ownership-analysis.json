@@ -1,0 +1,8 @@
+{
+  "original_generation": 1,
+  "requested_reclaim_generation": 2,
+  "reclaim_succeeded": true,
+  "stale_owner_record_created": true,
+  "live_owner_stolen": false,
+  "failure_before_or_after_acquisition": "after_acquisition"
+}

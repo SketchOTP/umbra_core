@@ -1,0 +1,10 @@
+{
+  "exit_code": 1,
+  "structured_failure_code": null,
+  "exception_type": "PersistenceError",
+  "exception_message": "ledger_tip_mismatch",
+  "traceback_captured": true,
+  "failing_file": "umbra_core/persistence.py",
+  "failing_symbol": "Store.validate_chain",
+  "failing_phase": "generation-2 load_organism"
+}

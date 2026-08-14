@@ -1,0 +1,12 @@
+{
+  "database_valid": true,
+  "sqlite_integrity": "ok",
+  "wal_present": false,
+  "shm_present": false,
+  "event_chain_valid": true,
+  "latest_event_sequence": 11,
+  "latest_snapshot_sequence": 3,
+  "snapshot_valid": true,
+  "load_organism_result": "FAIL: PersistenceError:ledger_tip_mismatch",
+  "stale_ledger_tip_sequence": 10
+}

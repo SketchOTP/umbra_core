@@ -1,0 +1,6 @@
+{
+  "primary_class": "J_SIGNAL_DURING_TICK_ATOMICITY_DEFECT",
+  "mechanism": "event row and ledger_tip metadata were separate autocommit statements",
+  "test_defect_or_implementation_defect": "IMPLEMENTATION_DEFECT",
+  "confidence": "HIGH"
+}

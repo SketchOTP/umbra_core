@@ -61,3 +61,20 @@
 - D-013A completed: D-012B2 tick-181 energy collapse mechanism reproduced on the real runtime path; stale non-energy recovery focus corrected; formal P0 relaunch remains unauthorized.
 - D-013A baseline tag: `umbra-d013a-baseline-038b693` -> `038b693f691151733f023a0a59fcce2039023781`.
 - D-013B preflight failed before organism launch: one D-012 process/supervision replacement-worker recovery test failed; formal P0 not started, no retry permitted.
+
+## Active directive
+- ID: D-20260814-UMBRA-D-013C
+- Project directive: UMBRA-D-013C — SIGTERM active-tick recovery diagnosis
+- Goal: Diagnose and minimally correct the bounded ordinary-SIGTERM active-tick recovery defect; do not launch formal P0.
+- Status: Correction implemented and validated; dossier publication pending.
+- Acceptance: exact startup cause captured; one causal persistence correction; ordinary and force-kill recovery plus D-012 process suite pass; D-013B remains preflight fail.
+- Touched files: `umbra_core/persistence.py`, `tests/test_d012_process_boundary.py`, `docs/d013c-process-recovery/*`, append-only governance records.
+- Next action: record dossier, independently review, commit, and push; no D-013B relaunch.
+
+## Last validation
+- Command: D-012 process suite; D-013A focused regression; D-009/D-010 validators; governance validator; full suite.
+- Result: D-012 `27 passed`; D-013A `1 passed`; D-009 PASS; D-010 PASS; governance PASS; full suite `693 passed, 2 skipped, 1 failed` at the pre-existing D-010 runtime-tick inventory test.
+
+## Open blockers
+- D-013B remains `D013B_PREFLIGHT_FAIL`; formal P0 run count remains 0 and its tag is preserved.
+- Mimir V2 lifecycle tools are unavailable and are not claimed.
