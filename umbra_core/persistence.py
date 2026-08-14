@@ -189,33 +189,43 @@ class Store:
             "previous_event_hash": prev,
         }
         event_hash = sha256_hex(canon_json({**envelope, "payload": payload}))
-        self.conn.execute(
-            """
-            INSERT INTO events(
-              sequence, event_id, agent_id, event_type, schema_version,
-              monotonic_time, wall_time, causal_parent_ids, payload,
-              payload_hash, previous_event_hash, event_hash
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
-            """,
-            (
-                seq,
-                eid,
-                agent_id,
-                event_type,
-                SCHEMA_VERSION,
-                monotonic_time,
-                wall_time,
-                json.dumps(parents),
-                payload_s,
-                payload_hash,
-                prev,
-                event_hash,
-            ),
-        )
-        self.conn.execute(
-            "INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)",
-            ("ledger_tip", json.dumps({"sequence": seq, "event_hash": event_hash}, sort_keys=True)),
-        )
+        own_transaction = not self.conn.in_transaction
+        if own_transaction:
+            self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            self.conn.execute(
+                """
+                INSERT INTO events(
+                  sequence, event_id, agent_id, event_type, schema_version,
+                  monotonic_time, wall_time, causal_parent_ids, payload,
+                  payload_hash, previous_event_hash, event_hash
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+                """,
+                (
+                    seq,
+                    eid,
+                    agent_id,
+                    event_type,
+                    SCHEMA_VERSION,
+                    monotonic_time,
+                    wall_time,
+                    json.dumps(parents),
+                    payload_s,
+                    payload_hash,
+                    prev,
+                    event_hash,
+                ),
+            )
+            self.conn.execute(
+                "INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)",
+                ("ledger_tip", json.dumps({"sequence": seq, "event_hash": event_hash}, sort_keys=True)),
+            )
+            if own_transaction:
+                self.conn.execute("COMMIT")
+        except BaseException:
+            if own_transaction and self.conn.in_transaction:
+                self.conn.execute("ROLLBACK")
+            raise
         return {**envelope, "payload": payload, "event_hash": event_hash}
 
     def save_snapshot(self, agent_id: str, sequence: int, monotonic_time: float, state: dict[str, Any]) -> str:

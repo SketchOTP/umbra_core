@@ -33,6 +33,7 @@ from experiments.d012.worker_protocol import (
     validate_command,
     validate_manifest,
 )
+from umbra_core.persistence import Store
 from umbra_core.arbitration import Arbitrator
 from umbra_core.physiology import Physiology
 from umbra_core.runtime import create_organism
@@ -474,6 +475,43 @@ def test_signal_during_ordinary_ticking_recovers_identity(force, tmp_path):
         assert replacement.request("START")["organism_id"] == organism_id
     finally:
         replacement.shutdown(0.0)
+
+
+def test_append_event_rolls_back_event_when_ledger_tip_write_fails(tmp_path):
+    store = Store(tmp_path / "ledger.sqlite")
+    real_connection = store.conn
+
+    class FailingConnection:
+        def __init__(self, connection):
+            self.connection = connection
+            self.failed = False
+
+        @property
+        def in_transaction(self):
+            return self.connection.in_transaction
+
+        def execute(self, sql, *args):
+            if "INSERT OR REPLACE INTO meta" in sql and not self.failed:
+                self.failed = True
+                raise RuntimeError("simulated termination at ledger-tip boundary")
+            return self.connection.execute(sql, *args)
+
+        def __getattr__(self, name):
+            return getattr(self.connection, name)
+
+    store.conn = FailingConnection(real_connection)
+    with pytest.raises(RuntimeError, match="ledger-tip boundary"):
+        store.append_event(
+            agent_id="agent",
+            event_type="diagnostic",
+            monotonic_time=0.0,
+            wall_time=0.0,
+            payload={"value": 1},
+        )
+    store.conn = real_connection
+    assert real_connection.execute("SELECT COUNT(*) FROM events").fetchone()[0] == 0
+    assert real_connection.execute("SELECT COUNT(*) FROM meta").fetchone()[0] == 0
+    store.close()
 
 
 def test_death_before_ready_and_after_ownership_are_classified(tmp_path):
