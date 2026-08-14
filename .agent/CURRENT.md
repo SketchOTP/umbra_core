@@ -153,3 +153,12 @@
 - Touched files: root governance/adapters, `.agents/skills/`, `.cursor/` compatibility metadata, `scripts/` governance validator/tests, and append-only governance closeout records.
 - Validation: `python3 scripts/validate_governance.py --mode ADOPTED`; canonical validator tests; `tests/test_governance_validation.py` — all PASSED.
 - Next action: operator review of the governance-only migration; no scientific or application execution is authorized by this directive.
+
+## D-013H V2 formal-readiness hardening
+- ID: D-20260814-UMBRA-D-013H
+- Status: COMPLETE — V2 harness semantic hardening passed as NON_FORMAL_TEST; no formal P0, tag, production organism, threshold, verdict, or historical evidence changes.
+- Baseline: `cf29ac28b2e51a36f450df490e756344b85e6c78`
+- Contract: `P0_RECOVERY_CONTRACT_V2` / `511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2`
+- Verdict: `D013H_V2_FORMAL_READINESS_PASS`
+- Validation: D-013H 11 passed; D-013G 10 passed; D-013F 9 passed; full suite 723 passed, 2 skipped, 1 unchanged D-010 inventory failure.
+- Next action: separately authorize and freeze a new V2 formal baseline; D-013H does not authorize formal execution.

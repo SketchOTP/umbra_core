@@ -1,0 +1,28 @@
+{
+  "directive": "UMBRA-D-013H",
+  "status": "NON_FORMAL_TEST",
+  "starting_head": "cf29ac28b2e51a36f450df490e756344b85e6c78",
+  "contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "material_evidence": {
+    "ephemeral_id_ignored": true,
+    "timestamp_ignored": true,
+    "ordinary_jitter_equivalent": true,
+    "real_perception_test": "PASS",
+    "material_change_test": "PASS"
+  },
+  "pathological_retry": "RECOVERY_FAILED",
+  "corrective_recovery": "VERIFIED_RECOVERY_SUCCESS",
+  "restart_continuity": "PASS",
+  "v2_evidence_publication": "PASS",
+  "v1_compatibility": "PASS",
+  "formal_p0_launched": false,
+  "formal_tag_created": false,
+  "production_organism_modified": false,
+  "historical_evidence_modified": false,
+  "historical_verdicts_modified": false,
+  "historical_thresholds_modified": false,
+  "verdict": "D013H_V2_FORMAL_READINESS_PASS",
+  "review": "APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS",
+  "next_phase_authorized": false
+}

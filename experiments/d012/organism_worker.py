@@ -149,7 +149,54 @@ class Worker:
                 "WORKER_MANIFEST_INVALID",
                 "V2 evaluation trace path missing",
             )
-        self.recovery_episode_rows: list[dict[str, Any]] = []
+        self.recovery_episode_rows: list[dict[str, Any]] = (
+            self._load_v2_evaluator_context()
+            if self.recovery_contract_version == CONTRACT_VERSION
+            else []
+        )
+
+    def _load_v2_evaluator_context(self) -> list[dict[str, Any]]:
+        """Reconstruct harness-only evaluator state across worker generations."""
+        path = self.formal_recovery_evaluation_trace_path
+        if path is None or not path.exists():
+            return []
+        expected = {
+            "directive": self.manifest.get("directive"),
+            "formal_execution_id": self.execution_id,
+            "starting_commit": self.manifest.get("starting_commit"),
+            "configuration_fingerprint": self.manifest.get("configuration_fingerprint"),
+            "contract_version": self.recovery_contract_version,
+            "contract_fingerprint": self.recovery_contract_fingerprint,
+        }
+        rows: list[dict[str, Any]] = []
+        previous: dict[str, Any] | None = None
+        try:
+            lines = path.read_text().splitlines()
+        except OSError as exc:
+            raise SupervisionError("WORKER_MANIFEST_INVALID", "evaluator_trace_unreadable") from exc
+        for line_number, line in enumerate(lines, 1):
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise SupervisionError(
+                    "WORKER_MANIFEST_INVALID", f"evaluator_trace_json:{line_number}"
+                ) from exc
+            if not isinstance(record, dict):
+                raise SupervisionError("WORKER_MANIFEST_INVALID", "evaluator_trace_record")
+            for key, value in expected.items():
+                if record.get(key) != value:
+                    raise SupervisionError(
+                        "WORKER_MANIFEST_INVALID", f"evaluator_trace_identity:{key}"
+                    )
+            raw_row = record.get("trace_row")
+            if not isinstance(raw_row, dict):
+                raise SupervisionError("WORKER_MANIFEST_INVALID", "evaluator_trace_row_missing")
+            normalized = normalize_trace_row(raw_row, previous)
+            if record.get("material_evidence_key") != normalized.get("material_evidence_key"):
+                raise SupervisionError("WORKER_MANIFEST_INVALID", "evaluator_trace_materiality_mismatch")
+            rows.append(normalized)
+            previous = normalized
+        return rows
 
     def acquire_and_load(self, *, reclaim_dead: bool) -> None:
         self.ownership = acquire_ownership(
@@ -499,14 +546,18 @@ class Worker:
             "verdict_namespace": self.manifest.get("verdict_namespace"),
             "contract_version": self.recovery_contract_version,
             "contract_fingerprint": self.recovery_contract_fingerprint,
+            "worker_generation": self.generation,
             "candidate": normalized.get("selected_candidate"),
             "observation_signature": normalized.get("observation_signature"),
+            "material_evidence_key": normalized.get("material_evidence_key"),
+            "material_evidence_changed": normalized.get("material_evidence_changed"),
             "new_evidence": normalized.get("new_evidence"),
             "corrective_context": normalized.get("corrective_action"),
             "verified_outcome": normalized.get("verified_outcome"),
             "state": state["state"],
             "episode_state": result["terminal_state"],
             "failure_reason": state["reasons"] if state["state"] in {INTEGRITY_FAILURE, RECOVERY_FAILED} else [],
+            "trace_row": normalized,
         }
         self._append_trace(self.formal_recovery_evaluation_trace_path, evaluation)
         if state["state"] in {INTEGRITY_FAILURE, RECOVERY_FAILED}:

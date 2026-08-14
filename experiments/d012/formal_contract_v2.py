@@ -20,6 +20,9 @@ RECOVERY_SUCCESS = "VERIFIED_RECOVERY_SUCCESS"
 RECOVERY_UNRESOLVED = "RECOVERY_UNRESOLVED"
 RECOVERY_FAILED = "RECOVERY_FAILED"
 CORRECTIVE_CAPABILITIES = frozenset({"APPROACH", "ORIENT", "MOVE"})
+RESOURCE_NOT_OBSERVED = "RESOURCE_NOT_OBSERVED"
+RESOURCE_OUTSIDE_SELECTION = "RESOURCE_PERCEIVED_OUTSIDE_CHARGE_SELECTION_REGION"
+RESOURCE_INSIDE_SELECTION = "RESOURCE_PERCEIVED_INSIDE_CHARGE_SELECTION_REGION"
 
 
 def validate_contract_selection(version: str, fingerprint: str | None) -> None:
@@ -57,6 +60,52 @@ def _observation_signature(observations: Iterable[dict[str, Any]]) -> str:
     return hashlib.sha256(payload.encode()).hexdigest()
 
 
+def _material_resource_state(row: dict[str, Any]) -> str:
+    """Return the policy-visible resource state used for evaluator novelty."""
+    observations = [dict(item) for item in row.get("observations") or []]
+    resource_observations = [
+        item for item in observations
+        if str(item.get("kind", "")) in {"resource", "novel_crystal"}
+    ]
+    if not resource_observations:
+        return RESOURCE_NOT_OBSERVED
+
+    affordances = [dict(item) for item in row.get("available_recovery_affordances") or []]
+    entries: list[dict[str, Any]] = []
+    for observation in resource_observations:
+        kind = str(observation.get("kind", "resource"))
+        matching = [item for item in affordances if item.get("kind") == kind]
+        affordance = matching[0] if matching else {}
+        boundary = row.get("execution_boundary")
+        if affordance.get("radius") is not None:
+            boundary = float(affordance["radius"]) + 0.3
+        distance = observation.get("estimated_distance")
+        if boundary is None or distance is None:
+            region = "RESOURCE_PERCEIVED_REGION_UNRESOLVED"
+        elif float(distance) <= float(boundary):
+            region = RESOURCE_INSIDE_SELECTION
+        else:
+            region = RESOURCE_OUTSIDE_SELECTION
+        entries.append({
+            "kind": kind,
+            "region": region,
+            "chargeable": affordance.get("chargeable"),
+        })
+    entries.sort(key=lambda item: (item["kind"], item["region"], str(item["chargeable"])))
+    return json.dumps({"resources": entries}, sort_keys=True, separators=(",", ":"))
+
+
+def material_evidence_key(row: dict[str, Any]) -> str:
+    """Build capability-relevant materiality while retaining raw provenance."""
+    if "observations" in row:
+        return _material_resource_state(row)
+    # Compatibility for pre-V2 fixture rows. Live V2 rows contain observations.
+    legacy = row.get("observation_signature")
+    if legacy is not None:
+        return "LEGACY_OBSERVATION_SIGNATURE:" + str(legacy)
+    return RESOURCE_NOT_OBSERVED
+
+
 def normalize_trace_row(
     row: dict[str, Any], previous: dict[str, Any] | None = None
 ) -> dict[str, Any]:
@@ -65,8 +114,14 @@ def normalize_trace_row(
     observations = [dict(item) for item in normalized.get("observations") or []]
     signature = normalized.get("observation_signature") or _observation_signature(observations)
     normalized["observation_signature"] = signature
-    if "new_evidence" not in normalized:
-        normalized["new_evidence"] = previous is None or signature != previous.get("observation_signature")
+    material_key = material_evidence_key(normalized)
+    normalized["material_evidence_key"] = material_key
+    material_changed = previous is None or material_key != previous.get("material_evidence_key")
+    normalized["material_evidence_changed"] = material_changed
+    if "observations" in normalized:
+        normalized["new_evidence"] = material_changed
+    elif "new_evidence" not in normalized:
+        normalized["new_evidence"] = material_changed
     outcome = _outcome(normalized)
     capability = str(
         normalized.get("executed_capability")
@@ -241,9 +296,9 @@ def _materially_same_denial(previous: dict[str, Any], current: dict[str, Any]) -
         return False
     if previous.get("corrective_action") or current.get("corrective_action"):
         return False
-    if previous.get("new_evidence") or current.get("new_evidence"):
+    if current.get("new_evidence"):
         return False
-    return previous.get("observation_signature") == current.get("observation_signature")
+    return previous.get("material_evidence_key") == current.get("material_evidence_key")
 
 
 def evaluate_episode(rows: list[dict[str, Any]]) -> dict[str, Any]:

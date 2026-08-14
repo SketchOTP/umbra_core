@@ -21,9 +21,6 @@ from .failure_codes import SupervisionError
 from .formal_contract_v2 import (
     CONTRACT_V1,
     CONTRACT_VERSION,
-    SAFE_DENIAL,
-    evaluate_episode,
-    normalize_trace_row,
     validate_contract_selection,
 )
 from .readonly_validation import validate_read_only
@@ -50,6 +47,10 @@ REQUIRED_OUTPUTS = (
     "p0-bounded-state-results.json",
     "p0-process-audit.json",
     "p0-run-result.json",
+)
+V2_REQUIRED_OUTPUTS = (
+    "P0_RECOVERY_EVALUATION_TRACE.jsonl",
+    "P0_READONLY_POSTRUN_VALIDATION.json",
 )
 
 
@@ -91,14 +92,70 @@ def formal_failure_from_metrics(
         return None
     failure = str(failure_record.get("failure", ""))
     if recovery_contract_version == CONTRACT_VERSION and failure == "charge_selected_but_not_executable":
-        triggering = dict(failure_record.get("triggering_state") or {})
-        if triggering:
-            state = evaluate_episode([normalize_trace_row(triggering)])[
-                "states"
-            ][-1]["state"]
-            if state == SAFE_DENIAL:
-                return None
+        return "V2_CONTRACT_PATH_INCONSISTENCY"
     return failure
+
+
+def publish_evidence(
+    work_evidence: Path,
+    evidence_root: Path,
+    recovery_contract_version: str,
+    identity: dict[str, Any] | None = None,
+) -> None:
+    """Copy final evidence, requiring the complete V2 set when selected."""
+    required = REQUIRED_OUTPUTS + (
+        V2_REQUIRED_OUTPUTS if recovery_contract_version == CONTRACT_VERSION else ()
+    )
+    evidence_root.mkdir(parents=True, exist_ok=True)
+    missing = [name for name in required if not (work_evidence / name).exists()]
+    if missing and recovery_contract_version == CONTRACT_VERSION:
+        raise SupervisionError(
+            "V2_EVIDENCE_PUBLICATION_FAIL", "missing:" + ",".join(missing)
+        )
+    if recovery_contract_version == CONTRACT_VERSION and identity is not None:
+        expected_identity = {
+            "directive": identity.get("directive"),
+            "formal_execution_id": identity.get("formal_execution_id"),
+            "starting_commit": identity.get("starting_commit"),
+            "configuration_fingerprint": identity.get("configuration_fingerprint"),
+            "contract_version": identity.get("formal_recovery_contract_version"),
+            "contract_fingerprint": identity.get("contract_fingerprint"),
+        }
+        readonly = json.loads(
+            (work_evidence / "P0_READONLY_POSTRUN_VALIDATION.json").read_text()
+        )
+        for key, expected in expected_identity.items():
+            actual = readonly.get(
+                "formal_recovery_contract_version" if key == "contract_version" else key
+            )
+            if actual != expected:
+                raise SupervisionError(
+                    "V2_EVIDENCE_PUBLICATION_FAIL", f"identity:{key}"
+                )
+        trace_lines = (work_evidence / "P0_RECOVERY_EVALUATION_TRACE.jsonl").read_text().splitlines()
+        if not trace_lines:
+            raise SupervisionError("V2_EVIDENCE_PUBLICATION_FAIL", "empty:evaluation_trace")
+        for line in trace_lines:
+            record = json.loads(line)
+            for key, expected in expected_identity.items():
+                actual_key = "contract_version" if key == "contract_version" else key
+                if record.get(actual_key) != expected:
+                    raise SupervisionError(
+                        "V2_EVIDENCE_PUBLICATION_FAIL", f"trace_identity:{key}"
+                    )
+    for name in required:
+        source = work_evidence / name
+        if source.exists():
+            shutil.copy2(source, evidence_root / name)
+    if recovery_contract_version == CONTRACT_VERSION:
+        missing_final = [
+            name for name in V2_REQUIRED_OUTPUTS if not (evidence_root / name).exists()
+        ]
+        if missing_final:
+            raise SupervisionError(
+                "V2_EVIDENCE_PUBLICATION_FAIL",
+                "final_missing:" + ",".join(missing_final),
+            )
 
 
 def write_readonly_postrun_validation(
@@ -338,7 +395,10 @@ def run(
         raise SupervisionError("STARTING_COMMIT_MISMATCH")
     if run_root.exists() and any(run_root.iterdir()):
         raise SupervisionError("DUPLICATE_CAMPAIGN", "run_root_not_empty")
-    if any((evidence_root / name).exists() for name in REQUIRED_OUTPUTS):
+    duplicate_outputs = REQUIRED_OUTPUTS + (
+        V2_REQUIRED_OUTPUTS if recovery_contract_version == CONTRACT_VERSION else ()
+    )
+    if any((evidence_root / name).exists() for name in duplicate_outputs):
         raise SupervisionError("DUPLICATE_CAMPAIGN", "formal_evidence_exists")
 
     work_evidence = run_root / "evidence"
@@ -1020,15 +1080,9 @@ def run(
             "readonly_postrun_validation": readonly_result,
         }
         write_json(work_evidence / "p0-run-result.json", result)
-        evidence_root.mkdir(parents=True, exist_ok=True)
-        for name in REQUIRED_OUTPUTS:
-            source = work_evidence / name
-            if source.exists():
-                shutil.copy2(source, evidence_root / name)
-        if recovery_contract_version == CONTRACT_VERSION:
-            readonly_source = work_evidence / "P0_READONLY_POSTRUN_VALIDATION.json"
-            if readonly_source.exists():
-                shutil.copy2(readonly_source, evidence_root / readonly_source.name)
+        publish_evidence(
+            work_evidence, evidence_root, recovery_contract_version, identity=identity
+        )
 
     return result
 

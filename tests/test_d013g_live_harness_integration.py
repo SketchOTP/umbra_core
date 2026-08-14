@@ -98,9 +98,9 @@ def test_v1_safe_denial_reproduces_historical_terminal_semantic(tmp_path: Path):
     assert failure["failure"] == "charge_selected_but_not_executable"
 
 
-def test_runner_v2_boundary_cannot_be_preempted_by_legacy_safe_denial():
+def test_runner_v2_boundary_fails_closed_on_legacy_terminal_code():
     metrics = {"formal_failure": {"failure": "charge_selected_but_not_executable", "triggering_state": _row()}}
-    assert formal_failure_from_metrics(metrics, CONTRACT_VERSION) is None
+    assert formal_failure_from_metrics(metrics, CONTRACT_VERSION) == "V2_CONTRACT_PATH_INCONSISTENCY"
     assert formal_failure_from_metrics(metrics, CONTRACT_V1) == "charge_selected_but_not_executable"
 
 
