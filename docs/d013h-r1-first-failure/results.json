@@ -1,0 +1,17 @@
+{
+  "directive": "UMBRA-D-013H-R1",
+  "status": "NON_FORMAL_TEST",
+  "contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "formal_p0_launched": false,
+  "formal_tag_created": false,
+  "formal_evidence_created": false,
+  "focused_tests": "12 passed",
+  "combined_regression_tests": "78 passed",
+  "d009_validator": "PASS",
+  "d010_validator": "PASS",
+  "governance": "PASS",
+  "full_suite": "735 passed, 2 skipped, 1 known unchanged D-010 inventory failure",
+  "independent_review": "APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS",
+  "verdict": "D013H_R1_FIRST_FAILURE_PRESERVATION_PASS"
+}

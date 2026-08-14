@@ -162,3 +162,14 @@
 - Verdict: `D013H_V2_FORMAL_READINESS_PASS`
 - Validation: D-013H 11 passed; D-013G 10 passed; D-013F 9 passed; full suite 723 passed, 2 skipped, 1 unchanged D-010 inventory failure.
 - Next action: separately authorize and freeze a new V2 formal baseline; D-013H does not authorize formal execution.
+
+## D-013H-R1 V2 first-failure / zero-recovery evidence hardening
+- ID: D-20260814-UMBRA-D-013H-R1
+- Status: COMPLETE — `D013H_R1_FIRST_FAILURE_PRESERVATION_PASS`; NON_FORMAL_TEST only; no formal P0, baseline, tag, production organism, threshold, verdict, or historical evidence changes.
+- Baseline: `6bdf157b736e352ee9f170b40d6803b0074bcc58`.
+- Contract: `P0_RECOVERY_CONTRACT_V2` / `511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2`.
+- Scope: durable identity-bound `EVALUATOR_INIT`; init-aware worker reconstruction; zero-recovery publication; pre-database/read-only identity artifacts; primary/secondary first-failure preservation; V1 compatibility.
+- Validation: R1 12 passed; combined D-013H/R1/D-013G/D-013F/D-013A/D-012 78 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 735 passed, 2 skipped, 1 unchanged D-010 inventory failure.
+- Integrity: `umbra_core/` unchanged; historical evidence, thresholds, verdicts, `.agent/RECORD.md`, and `.agent/LIBRARY_REVIEW.md` preserved; no formal execution/tag/evidence.
+- Review: `APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS`.
+- Next action: separately authorize a new V2 formal baseline and exactly one P0 run; formal execution remains unauthorized.

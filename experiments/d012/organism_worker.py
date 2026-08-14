@@ -170,6 +170,7 @@ class Worker:
         }
         rows: list[dict[str, Any]] = []
         previous: dict[str, Any] | None = None
+        initialization_seen = False
         try:
             lines = path.read_text().splitlines()
         except OSError as exc:
@@ -188,6 +189,18 @@ class Worker:
                     raise SupervisionError(
                         "WORKER_MANIFEST_INVALID", f"evaluator_trace_identity:{key}"
                     )
+            record_type = record.get("record_type")
+            if record_type == "EVALUATOR_INIT":
+                if initialization_seen or "trace_row" in record:
+                    raise SupervisionError(
+                        "WORKER_MANIFEST_INVALID", "evaluator_trace_init_duplicate_or_payload"
+                    )
+                initialization_seen = True
+                continue
+            if record_type not in {None, "RECOVERY_EVALUATION"}:
+                raise SupervisionError(
+                    "WORKER_MANIFEST_INVALID", "evaluator_trace_record_type"
+                )
             raw_row = record.get("trace_row")
             if not isinstance(raw_row, dict):
                 raise SupervisionError("WORKER_MANIFEST_INVALID", "evaluator_trace_row_missing")
@@ -538,6 +551,7 @@ class Worker:
         result = evaluate_episode(self.recovery_episode_rows)
         state = result["states"][-1]
         evaluation = {
+            "record_type": "RECOVERY_EVALUATION",
             "tick": normalized.get("tick"),
             "directive": self.manifest.get("directive"),
             "formal_execution_id": self.execution_id,

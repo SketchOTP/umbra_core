@@ -19,6 +19,7 @@ from experiments.d012.organism_worker import Worker
 from experiments.d012.run_formal_p0 import (
     REQUIRED_OUTPUTS,
     V2_REQUIRED_OUTPUTS,
+    evaluator_initialization_record,
     formal_failure_from_metrics,
     publish_evidence,
 )
@@ -275,10 +276,12 @@ def test_v2_publication_checks_artifact_identity(tmp_path: Path):
     (work / "P0_READONLY_POSTRUN_VALIDATION.json").write_text(json.dumps(identity))
     (work / "P0_RECOVERY_EVALUATION_TRACE.jsonl").write_text(
         json.dumps({
+            "record_type": "EVALUATOR_INIT",
             "directive": identity["directive"],
             "formal_execution_id": identity["formal_execution_id"],
             "starting_commit": identity["starting_commit"],
             "configuration_fingerprint": identity["configuration_fingerprint"],
+            "verdict_namespace": "D013H",
             "contract_version": CONTRACT_VERSION,
             "contract_fingerprint": CONTRACT_FINGERPRINT,
         }) + "\n"

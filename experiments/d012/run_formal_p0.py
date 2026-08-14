@@ -135,14 +135,41 @@ def publish_evidence(
         trace_lines = (work_evidence / "P0_RECOVERY_EVALUATION_TRACE.jsonl").read_text().splitlines()
         if not trace_lines:
             raise SupervisionError("V2_EVIDENCE_PUBLICATION_FAIL", "empty:evaluation_trace")
+        initialization_count = 0
         for line in trace_lines:
-            record = json.loads(line)
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise SupervisionError(
+                    "V2_EVIDENCE_PUBLICATION_FAIL", "trace_json"
+                ) from exc
             for key, expected in expected_identity.items():
                 actual_key = "contract_version" if key == "contract_version" else key
                 if record.get(actual_key) != expected:
                     raise SupervisionError(
                         "V2_EVIDENCE_PUBLICATION_FAIL", f"trace_identity:{key}"
                     )
+            record_type = record.get("record_type")
+            if record_type == "EVALUATOR_INIT":
+                initialization_count += 1
+                if "trace_row" in record:
+                    raise SupervisionError(
+                        "V2_EVIDENCE_PUBLICATION_FAIL", "init_contains_recovery_payload"
+                    )
+            elif record_type in {None, "RECOVERY_EVALUATION"}:
+                if not isinstance(record.get("trace_row"), dict):
+                    raise SupervisionError(
+                        "V2_EVIDENCE_PUBLICATION_FAIL", "evaluation_trace_row_missing"
+                    )
+            else:
+                raise SupervisionError(
+                    "V2_EVIDENCE_PUBLICATION_FAIL", "trace_record_type"
+                )
+        if initialization_count != 1:
+            raise SupervisionError(
+                "V2_EVIDENCE_PUBLICATION_FAIL",
+                f"initialization_count:{initialization_count}",
+            )
     for name in required:
         source = work_evidence / name
         if source.exists():
@@ -158,13 +185,64 @@ def publish_evidence(
             )
 
 
+def publish_evidence_preserving_first_failure(
+    work_evidence: Path,
+    evidence_root: Path,
+    recovery_contract_version: str,
+    *,
+    identity: dict[str, Any] | None,
+    verdict: str,
+    first_failure: str | None,
+    integrity_verdict: str,
+) -> tuple[str, str | None, list[dict[str, str]]]:
+    """Close evidence without allowing a publication error to replace cause."""
+    try:
+        publish_evidence(
+            work_evidence, evidence_root, recovery_contract_version, identity=identity
+        )
+    except BaseException as exc:
+        failure = "evidence_publication:" + type(exc).__name__
+        if first_failure is None:
+            return integrity_verdict, failure, []
+        return verdict, first_failure, [
+            {
+                "stage": "evidence_publication",
+                "error": str(exc),
+                "error_type": type(exc).__name__,
+            }
+        ]
+    return verdict, first_failure, []
+
+
 def write_readonly_postrun_validation(
     database: Path,
     output: Path,
     identity: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Run the terminal validator through its SQLite read-only path."""
-    result = {**(identity or {}), **validate_read_only(database)}
+    """Write an identity-bound read-only result, including pre-DB termination."""
+    if not database.exists():
+        result = {
+            **(identity or {}),
+            "validation_status": "NOT_APPLICABLE_DATABASE_NOT_CREATED",
+            "database_exists": False,
+            "mutating_api_used": False,
+        }
+    else:
+        try:
+            result = {
+                **(identity or {}),
+                **validate_read_only(database),
+                "validation_status": "PASS",
+                "database_exists": True,
+            }
+        except Exception as exc:
+            result = {
+                **(identity or {}),
+                "validation_status": "FAIL",
+                "database_exists": True,
+                "mutating_api_used": False,
+                "error": str(exc),
+            }
     write_json(output, result)
     return result
 
@@ -183,6 +261,20 @@ def append_jsonl(path: Path, value: Any) -> None:
         handle.write(json.dumps(value, sort_keys=True) + "\n")
         handle.flush()
         os.fsync(handle.fileno())
+
+
+def evaluator_initialization_record(identity: dict[str, Any]) -> dict[str, Any]:
+    """Build the durable campaign-owned V2 trace initialization record."""
+    return {
+        "record_type": "EVALUATOR_INIT",
+        "directive": identity["directive"],
+        "formal_execution_id": identity["formal_execution_id"],
+        "starting_commit": identity["starting_commit"],
+        "configuration_fingerprint": identity["configuration_fingerprint"],
+        "verdict_namespace": identity["verdict_namespace"],
+        "contract_version": identity["formal_recovery_contract_version"],
+        "contract_fingerprint": identity["contract_fingerprint"],
+    }
 
 
 def git(*args: str) -> str:
@@ -451,6 +543,17 @@ def run(
 
     verdict = failure_verdict("ABORTED_INFRASTRUCTURE")
     first_failure: str | None = None
+    secondary_evidence_failures: list[dict[str, str]] = []
+
+    def note_secondary_evidence_failure(stage: str, error: BaseException | str) -> None:
+        secondary_evidence_failures.append(
+            {
+                "stage": stage,
+                "error": str(error),
+                "error_type": type(error).__name__ if isinstance(error, BaseException) else "str",
+            }
+        )
+
     checkpoint_done = False
     actions_done: set[str] = set()
 
@@ -680,6 +783,14 @@ def run(
             "entry_pass": True,
         }
         write_json(work_evidence / "p0-entry-audit.json", entry)
+        if recovery_contract_version == CONTRACT_VERSION:
+            try:
+                append_jsonl(
+                    Path(selected_formal_paths["formal_recovery_evaluation_trace_path"]),
+                    evaluator_initialization_record(identity),
+                )
+            except OSError as exc:
+                raise SupervisionError("V2_EVALUATOR_INIT_FAIL", str(exc)) from exc
         client = launch_worker()
         manifest = {
             **identity,
@@ -1045,25 +1156,31 @@ def run(
         )
         write_json(work_evidence / "p0-process-audit.json", process_audit)
         readonly_result: dict[str, Any] | None = None
-        if recovery_contract_version == CONTRACT_VERSION and database.exists():
+        if recovery_contract_version == CONTRACT_VERSION:
             readonly_path = work_evidence / "P0_READONLY_POSTRUN_VALIDATION.json"
             try:
                 readonly_result = write_readonly_postrun_validation(
                     database, readonly_path, identity
                 )
             except Exception as exc:
-                first_failure = first_failure or (
-                    "readonly_postrun_validation:" + type(exc).__name__
-                )
-                verdict = failure_verdict("INTEGRITY_FAIL")
-                write_json(
-                    readonly_path,
-                    {
-                        "validation_status": "FAIL",
-                        "mutating_api_used": False,
-                        "error": str(exc),
-                    },
-                )
+                failure = "readonly_postrun_validation:" + type(exc).__name__
+                if first_failure is None:
+                    first_failure = failure
+                    verdict = failure_verdict("INTEGRITY_FAIL")
+                else:
+                    note_secondary_evidence_failure("readonly_postrun_validation", exc)
+            else:
+                if readonly_result.get("validation_status") == "FAIL":
+                    failure = "readonly_postrun_validation:" + str(
+                        readonly_result.get("error", "FAIL")
+                    )
+                    if first_failure is None:
+                        first_failure = failure
+                        verdict = failure_verdict("INTEGRITY_FAIL")
+                    else:
+                        note_secondary_evidence_failure(
+                            "readonly_postrun_validation", failure
+                        )
         result = {
             **identity,
             "formal_execution_id": execution_id,
@@ -1078,11 +1195,33 @@ def run(
             "p1_launched": False,
             "p2_launched": False,
             "readonly_postrun_validation": readonly_result,
+            "secondary_evidence_failures": secondary_evidence_failures,
         }
         write_json(work_evidence / "p0-run-result.json", result)
-        publish_evidence(
-            work_evidence, evidence_root, recovery_contract_version, identity=identity
+        verdict, first_failure, publication_failures = (
+            publish_evidence_preserving_first_failure(
+                work_evidence,
+                evidence_root,
+                recovery_contract_version,
+                identity=identity,
+                verdict=verdict,
+                first_failure=first_failure,
+                integrity_verdict=failure_verdict("INTEGRITY_FAIL"),
+            )
         )
+        secondary_evidence_failures.extend(publication_failures)
+        if publication_failures or first_failure != result["first_failing_invariant"]:
+            result.update(
+                {
+                    "verdict": verdict,
+                    "first_failing_invariant": first_failure,
+                    "secondary_evidence_failures": secondary_evidence_failures,
+                }
+            )
+            try:
+                write_json(work_evidence / "p0-run-result.json", result)
+            except BaseException as write_exc:
+                note_secondary_evidence_failure("run_result_write", write_exc)
 
     return result
 
