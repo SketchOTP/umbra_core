@@ -1,13 +1,18 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260814-UMBRA-CC-004
-- Project directive: UMBRA-CC-004
-- Goal: Validate research-only isolation of the existing qualified D-009 C0 experimental versus C8 control/ablation Gate 5 pair.
-- Status: CC-4 complete — research-only control/ablation isolation contract independently approved; production authority, D-009 definitions, historical evidence, D-010, D-012, and `.agent/LIBRARY_REVIEW.md` unchanged.
-- Baseline: `umbra-cc-004-baseline-45dd3a6` targets `45dd3a623066bdba02d9e7a5b4cd82f55d93f217`.
-- Acceptance: D-009 Gate 5 C0/S10 versus C8/S10 map; exact reference/shadow equivalence PASS; true forward/reverse order independence PASS; 22/22 fail-closed faults PASS; D-000X/CC-2/CC-3/D-009/D-010 validators PASS; focused D-009 tests PASS; independent review APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS.
-- Next action: operator review of published CC-4 commits only; no multi-cell aggregation, production refactor, ASAL, MABE2, external embodiment, D-010, or D-012 work.
+- ID: D-20260814-UMBRA-CC-006
+- Project directive: UMBRA-CC-006
+- Goal: Validate a research-only discovery/qualification firewall contract before any automated discovery or ASAL prototype.
+- Status: CC-6 complete — research-only discovery/qualification firewall independently approved; no ASAL, optimizer, production refactor, formal qualification, or historical evidence mutation authorized.
+- Baseline: `umbra-cc-006-baseline-6b6cdd2` targets `6b6cdd23fd77c9d686a8eae953e84bf3afeaa3b0`.
+- Acceptance: explicit zones/partitions; embargo rejection; protected-variable default-deny; frozen evaluator; immutable candidate quarantine; provenance; write isolation; contamination prevention; blind-validation design; 26+ fail-closed faults; prior validators passing; independent review; GitHub publication.
+- Touched files: CC-6 research implementation, CC-6 dossier, and append-only governance records; `.agent/LIBRARY_REVIEW.md` preserved.
+- Next action: operator review of the published CC-6 dossier only; next phase remains unauthorized.
+
+## Last validation
+- Command: CC-6 harness; D-000X; CC-2; CC-3; CC-4; CC-5; D-009; D-010; focused D-009 tests.
+- Result: CC-6 PASS; 26/26 faults detected, zero silent failures; prior contracts PASS; D-000X/D-009/D-010 PASS; focused D-009 4 passed, 104 deselected.
 
 ## Prior directive
 - ID: D-20260814-UMBRA-CC-005

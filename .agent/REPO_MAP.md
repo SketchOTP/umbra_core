@@ -13,6 +13,8 @@ Concise navigation map for agents. Add entries as application code lands.
 - `docs/governance/UMBRA-G-001-reconciliation.json` — D-009/D-010 provenance manifest; `UMBRA-G-001-next-route.md` — operator-only next-route decision.
 
 ## Program directives
+- `research/course_correction/cc6_discovery_firewall/` — CC-6 research-only discovery/qualification firewall contract validator; no production authority
+- `docs/course-correction/cc6-discovery-firewall/` — CC-6 zone, partition, variable, evaluator, quarantine, provenance, sanitization, lifecycle, and review dossier
 - `docs/directives/UMBRA-D-000-prior-art-reproduction.md` — **closed** via D-000S
 - `docs/directives/UMBRA-D-001-invariant-companion-core.md` — **closed** `UMBRA_D001_INVARIANT_COMPANION_CORE_QUALIFIED`
 - `docs/architecture/` — frozen reference architecture (D-000S)

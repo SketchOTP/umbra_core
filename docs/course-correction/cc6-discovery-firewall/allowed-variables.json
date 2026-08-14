@@ -1,0 +1,1 @@
+{"schema":"cc6-allowed-v1","default_deny":true,"variables":{"research_scenario":{"type":"enum","domain":["sandbox_a","sandbox_b"]},"bounded_environment":{"type":"float","range":[0.0,1.0]},"research_schedule":{"type":"int","range":[1,10]}}}

@@ -1,0 +1,1 @@
+{"protected_zones":["HISTORICAL_EVIDENCE","FORMAL_QUALIFICATION","identity","governance","production_persistence"],"repository_evidence_roots":["docs/evidence/","umbra_core/","experiments/"],"write_policy":"default-deny","path_traversal":"reject","symlink_escape":"reject"}
