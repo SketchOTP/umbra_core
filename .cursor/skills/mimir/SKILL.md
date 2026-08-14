@@ -5,6 +5,36 @@ description: Mimir V2 lifecycle — resolve/register, task begin, context compil
 
 # Mimir V2 Workflow (UMBRA-CORE)
 
+## Inputs
+
+- Bound project identity from `.agent/PROJECT_PROFILE.md`.
+- The current workspace root, repository state, and the task objective.
+- Mimir availability as verified from the configured MCP/CLI adapter.
+
+## Ordered steps
+
+1. Resolve or register the bound project without guessing from a path.
+2. Begin the task and retain the returned task ID and version.
+3. Compile project context before overlapping work.
+4. Observe only durable causal facts Git cannot prove.
+5. Run allowlisted completion-critical validation.
+6. Inspect evidence, then close with the latest task version.
+
+## Outputs
+
+- A retained task ID/version and honest validation/evidence status.
+- `.agent/CURRENT.md` and append-only outcome records when repository work occurs.
+
+## Failure handling
+
+If Mimir is unavailable, record the exact blockage locally and do not claim
+context, evidence, or close-out succeeded.
+
+## Verification
+
+Verify the resolved project identity, validation result, evidence inspection,
+and final task status before reporting completion.
+
 **Canonical rules:** `.cursor/rules/02-mimir-v2.mdc`, `AGENTS.md`  
 **Project binding:** `.agent/PROJECT_PROFILE.md` (never guess from path)
 

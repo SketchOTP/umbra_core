@@ -143,3 +143,13 @@
 ## Open blockers
 - D-013G does not authorize a formal campaign. A new V2 baseline remains separately gated.
 - D-010 remains `UMBRA_D010_PERFORMANCE_FAIL`.
+
+## Authority governance migration
+- ID: D-20260814-UMBRA-AUTHORITY-MIGRATION
+- Project directive: Update UMBRA-CORE to the current canonical Authority Codex governance standard.
+- Goal: Install the Codex-first router, canonical Authority skills, compatibility adapters, and deterministic governance validation while preserving UMBRA project state and history.
+- Status: COMPLETE — Authority Codex governance adopted with preserved UMBRA project state; no application, experiment, evidence, threshold, verdict, or qualified-result changes authorized.
+- Acceptance: canonical Authority contract present; preserved UMBRA state validated through the bounded compatibility path; adapters defer to `AGENTS.md`; Authority checkout unchanged.
+- Touched files: root governance/adapters, `.agents/skills/`, `.cursor/` compatibility metadata, `scripts/` governance validator/tests, and append-only governance closeout records.
+- Validation: `python3 scripts/validate_governance.py --mode ADOPTED`; canonical validator tests; `tests/test_governance_validation.py` — all PASSED.
+- Next action: operator review of the governance-only migration; no scientific or application execution is authorized by this directive.

@@ -1,6 +1,6 @@
 ---
 description: UMBRA architectural constraints from PROJECT_GOAL — apply on design and implementation tasks
-alwaysApply: true
+alwaysApply: false
 ---
 # UMBRA Architecture Constraints
 

@@ -9,6 +9,10 @@ Concise navigation map for agents. Add entries as application code lands.
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
 - `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`, `06-storage1tb-archive.mdc`)
 - `.cursor/rules/06-storage1tb-archive.mdc` — root-disk pressure → archive closed trees to `/mnt/storage1tb/archived-projects/` + symlink + `ARCHIVE_MANIFEST.jsonl` (not a backup)
+- `.agents/skills/authority-governance/SKILL.md` — canonical Codex-first Authority lifecycle, `.agent` preflight, append-only, validation, and reporting contract
+- `.agents/skills/external-discovery/SKILL.md` — additive prior-art/discovery activation and disposition workflow
+- `scripts/validate_governance.py` — canonical Authority validator with bounded UMBRA preserved-state compatibility validation
+- `scripts/test_validate_governance.py` — canonical validator mode tests
 - `tools/validate_governance.py` — deterministic active-authority contamination/status validator; `tests/test_governance_validation.py` covers acceptance injections.
 - `docs/governance/UMBRA-G-001-reconciliation.json` — D-009/D-010 provenance manifest; `UMBRA-G-001-next-route.md` — operator-only next-route decision.
 

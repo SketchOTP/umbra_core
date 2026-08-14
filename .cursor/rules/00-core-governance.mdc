@@ -5,6 +5,11 @@ alwaysApply: true
 
 # Core Governance (UMBRA-CORE)
 
+## Purpose
+
+Apply the Codex-first repository governance router and preserve the complete
+Authority `.agent/` contract before repository work.
+
 Priority: explicit user request; safety/data integrity; `.agent/PROJECT_GOAL.md`; existing contracts and tests; AGENTS.md; Cursor rules; repository evidence; assumptions. Never invent requirements.
 
 For every repository task, use this rule, `01-repository-memory.mdc`, and `02-mimir-v2.mdc`. Pure conversation does not start repository governance or Mimir.

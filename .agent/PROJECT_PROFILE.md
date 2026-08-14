@@ -6,7 +6,7 @@
 - Mimir slug: umbra-core
 - Serena project: UMBRA-CORE (`.serena/project.yml`)
 - Source of truth: `.agent/PROJECT_GOAL.md`
-- Github repo: TBD
+- Github repo: git@github.com:SketchOTP/umbra_core.git
 - Github username: SketchOTP
 - Github email: sketchotp@gmail.com
 
@@ -111,3 +111,10 @@ See `.agent/PROJECT_GOAL.md` for the full end-goal statement and success criteri
 - On every machine, call mimir_project_resolve with this ID and that machine's workspace path.
 - Register only when this binding is absent; never create a host path or map a drive.
 <!-- MIMIR_PROJECT_BINDING_END -->
+
+## Authority governance
+- Authority lifecycle state: `ADOPTED`
+- Authority adoption basis: existing verified UMBRA project goal, bound Mimir identity, append-only directive/outcome/learning history, repository map, and preserved qualified-result records; no template reset or synthetic project state.
+- Authority reference checkout: `/home/sketch/Projects/authority/`
+- Authority reference state: canonical checkout inspected on 2026-08-14; no version marker is exposed by that reference directory.
+- Contract mode: canonical Authority Codex contract with a bounded compatibility adapter for UMBRA's pre-existing adopted records and Cursor rules.
