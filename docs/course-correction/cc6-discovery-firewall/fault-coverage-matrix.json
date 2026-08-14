@@ -8,7 +8,7 @@
       "negative_fault_ids": [
         "A"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "A",
       "requirement_text": "discovery reads validation-embargo seed"
     },
@@ -20,7 +20,7 @@
       "negative_fault_ids": [
         "B"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "B",
       "requirement_text": "discovery reads validation-embargo trajectory"
     },
@@ -32,7 +32,7 @@
       "negative_fault_ids": [
         "C"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "C",
       "requirement_text": "discovery writes historical evidence"
     },
@@ -44,7 +44,7 @@
       "negative_fault_ids": [
         "D"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "D",
       "requirement_text": "discovery writes formal qualification directory"
     },
@@ -56,7 +56,7 @@
       "negative_fault_ids": [
         "E"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "E",
       "requirement_text": "candidate mutates constitutional identity"
     },
@@ -68,7 +68,7 @@
       "negative_fault_ids": [
         "F"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "F",
       "requirement_text": "candidate mutates governance rule"
     },
@@ -80,7 +80,7 @@
       "negative_fault_ids": [
         "G"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "G",
       "requirement_text": "candidate mutates qualification threshold"
     },
@@ -92,7 +92,7 @@
       "negative_fault_ids": [
         "H"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "H",
       "requirement_text": "candidate mutates historical verdict"
     },
@@ -104,7 +104,7 @@
       "negative_fault_ids": [
         "I"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "I",
       "requirement_text": "unknown search variable"
     },
@@ -116,7 +116,7 @@
       "negative_fault_ids": [
         "J"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "J",
       "requirement_text": "out-of-range variable"
     },
@@ -128,7 +128,7 @@
       "negative_fault_ids": [
         "K"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "K",
       "requirement_text": "wrong variable type"
     },
@@ -140,7 +140,7 @@
       "negative_fault_ids": [
         "L"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "L",
       "requirement_text": "evaluator changed after freeze"
     },
@@ -152,7 +152,7 @@
       "negative_fault_ids": [
         "M"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "M",
       "requirement_text": "metric version changed after freeze"
     },
@@ -164,7 +164,7 @@
       "negative_fault_ids": [
         "N"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "N",
       "requirement_text": "partition changed after freeze"
     },
@@ -176,7 +176,7 @@
       "negative_fault_ids": [
         "O"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "O",
       "requirement_text": "allowed-variable schema changed after freeze"
     },
@@ -188,7 +188,7 @@
       "negative_fault_ids": [
         "P"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "P",
       "requirement_text": "candidate fingerprint mismatch"
     },
@@ -200,7 +200,7 @@
       "negative_fault_ids": [
         "Q"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "Q",
       "requirement_text": "evaluator fingerprint mismatch"
     },
@@ -212,7 +212,7 @@
       "negative_fault_ids": [
         "R"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "R",
       "requirement_text": "partition fingerprint mismatch"
     },
@@ -224,7 +224,7 @@
       "negative_fault_ids": [
         "S"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "S",
       "requirement_text": "stale source-code commit"
     },
@@ -236,7 +236,7 @@
       "negative_fault_ids": [
         "T"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "T",
       "requirement_text": "candidate directly marked QUALIFIED"
     },
@@ -248,7 +248,7 @@
       "negative_fault_ids": [
         "U"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "U",
       "requirement_text": "candidate directly marked PRODUCTION"
     },
@@ -260,19 +260,19 @@
       "negative_fault_ids": [
         "V"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "V",
       "requirement_text": "candidate bypasses quarantine"
     },
     {
-      "actual_detector": "stored_record_integrity_validator",
+      "actual_detector": null,
       "detected": true,
       "expected_detector": "stored_record_integrity_validator",
       "implementation_symbol": "Firewall.contract",
       "negative_fault_ids": [
         "W"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "W",
       "requirement_text": "finalized discovery record edited in place"
     },
@@ -284,7 +284,7 @@
       "negative_fault_ids": [
         "X"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "X",
       "requirement_text": "discovery seed reused as supposed fresh validation seed"
     },
@@ -296,7 +296,7 @@
       "negative_fault_ids": [
         "Y"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "Y",
       "requirement_text": "validation result adaptively queried during active search"
     },
@@ -308,7 +308,7 @@
       "negative_fault_ids": [
         "Z"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "Z",
       "requirement_text": "path traversal attempt"
     },
@@ -320,7 +320,7 @@
       "negative_fault_ids": [
         "AA"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AA",
       "requirement_text": "direct docs/evidence/ destination"
     },
@@ -332,7 +332,7 @@
       "negative_fault_ids": [
         "AB"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AB",
       "requirement_text": "direct umbra_core/ destination"
     },
@@ -344,7 +344,7 @@
       "negative_fault_ids": [
         "AC"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AC",
       "requirement_text": "direct experiments/ destination"
     },
@@ -356,7 +356,7 @@
       "negative_fault_ids": [
         "AD"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AD",
       "requirement_text": "direct .agent/RECORD.md destination"
     },
@@ -368,7 +368,7 @@
       "negative_fault_ids": [
         "AE"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AE",
       "requirement_text": "write-side symlink escape from inside allowed root"
     },
@@ -380,7 +380,7 @@
       "negative_fault_ids": [
         "AF"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AF",
       "requirement_text": "read-side symlink escape from inside allowed read root"
     },
@@ -392,7 +392,7 @@
       "negative_fault_ids": [
         "AG"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AG",
       "requirement_text": "embargo-ID enumeration through discovery API"
     },
@@ -404,7 +404,7 @@
       "negative_fault_ids": [
         "AH"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AH",
       "requirement_text": "candidate configuration changed after fingerprint creation"
     },
@@ -416,31 +416,31 @@
       "negative_fault_ids": [
         "AI"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AI",
       "requirement_text": "provenance candidate-fingerprint mismatch"
     },
     {
-      "actual_detector": "stored_record_integrity_validator",
+      "actual_detector": null,
       "detected": true,
       "expected_detector": "stored_record_integrity_validator",
       "implementation_symbol": "Firewall.contract",
       "negative_fault_ids": [
         "AJ"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AJ",
       "requirement_text": "quarantine rank mutation"
     },
     {
-      "actual_detector": "stored_record_integrity_validator",
+      "actual_detector": null,
       "detected": true,
       "expected_detector": "stored_record_integrity_validator",
       "implementation_symbol": "Firewall.contract",
       "negative_fault_ids": [
         "AK"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AK",
       "requirement_text": "quarantine status mutation"
     },
@@ -452,7 +452,7 @@
       "negative_fault_ids": [
         "AL"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AL",
       "requirement_text": "overlapping partitions"
     },
@@ -464,7 +464,7 @@
       "negative_fault_ids": [
         "AN"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AN",
       "requirement_text": "source-data fingerprint mismatch"
     },
@@ -476,7 +476,7 @@
       "negative_fault_ids": [
         "AO"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AO",
       "requirement_text": "sanitized-input fingerprint mismatch"
     },
@@ -488,7 +488,7 @@
       "negative_fault_ids": [
         "AP"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AP",
       "requirement_text": "allowlist-schema fingerprint mismatch"
     },
@@ -500,9 +500,33 @@
       "negative_fault_ids": [
         "AQ"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AQ",
       "requirement_text": "provenance partition mismatch"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AR"
+      ],
+      "positive_test": "positive_controls",
+      "requirement_id": "AR",
+      "requirement_text": "generic absolute path outside approved roots"
+    },
+    {
+      "actual_detector": "allowlist_default_deny_validator",
+      "detected": true,
+      "expected_detector": "allowlist_default_deny_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AS"
+      ],
+      "positive_test": "positive_controls",
+      "requirement_id": "AS",
+      "requirement_text": "protected variable accidentally present in allowlist"
     },
     {
       "actual_detector": "lifecycle_candidate_admission_validator",
@@ -512,7 +536,7 @@
       "negative_fault_ids": [
         "AM"
       ],
-      "positive_test": "main",
+      "positive_test": "positive_controls",
       "requirement_id": "AM",
       "requirement_text": "candidate addition after CLOSED"
     }

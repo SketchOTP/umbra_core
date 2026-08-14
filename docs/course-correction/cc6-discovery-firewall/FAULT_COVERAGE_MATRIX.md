@@ -1,1 +1,49 @@
-# CC-6R2 Fault Coverage Matrix\n\nGenerated from `fault-injection-results.json`; validated by `validate_fault_evidence.py`.\n\n| ID | Requirement | Expected detector | Actual detector | Detected |\n|---|---|---|---|---|\n| A | discovery reads validation-embargo seed | embargo_read_validator | embargo_read_validator | True |\n| B | discovery reads validation-embargo trajectory | resolved_read_path_validator | resolved_read_path_validator | True |\n| C | discovery writes historical evidence | resolved_write_path_validator | resolved_write_path_validator | True |\n| D | discovery writes formal qualification directory | resolved_write_path_validator | resolved_write_path_validator | True |\n| E | candidate mutates constitutional identity | allowlist_default_deny_validator | allowlist_default_deny_validator | True |\n| F | candidate mutates governance rule | allowlist_default_deny_validator | allowlist_default_deny_validator | True |\n| G | candidate mutates qualification threshold | allowlist_default_deny_validator | allowlist_default_deny_validator | True |\n| H | candidate mutates historical verdict | allowlist_default_deny_validator | allowlist_default_deny_validator | True |\n| I | unknown search variable | allowlist_default_deny_validator | allowlist_default_deny_validator | True |\n| J | out-of-range variable | allowlist_domain_validator | allowlist_domain_validator | True |\n| K | wrong variable type | allowlist_type_domain_validator | allowlist_type_domain_validator | True |\n| L | evaluator changed after freeze | frozen_evaluator_validator | frozen_evaluator_validator | True |\n| M | metric version changed after freeze | frozen_metric_version_validator | frozen_metric_version_validator | True |\n| N | partition changed after freeze | frozen_partition_validator | frozen_partition_validator | True |\n| O | allowed-variable schema changed after freeze | frozen_allowlist_validator | frozen_allowlist_validator | True |\n| P | candidate fingerprint mismatch | candidate_configuration_fingerprint_validator | candidate_configuration_fingerprint_validator | True |\n| Q | evaluator fingerprint mismatch | evaluator_fingerprint_validator | evaluator_fingerprint_validator | True |\n| R | partition fingerprint mismatch | partition_fingerprint_validator | partition_fingerprint_validator | True |\n| S | stale source-code commit | source_commit_fingerprint_validator | source_commit_fingerprint_validator | True |\n| T | candidate directly marked QUALIFIED | quarantine_transition_validator | quarantine_transition_validator | True |\n| U | candidate directly marked PRODUCTION | quarantine_transition_validator | quarantine_transition_validator | True |\n| V | candidate bypasses quarantine | lifecycle_transition_validator | lifecycle_transition_validator | True |\n| W | finalized discovery record edited in place | stored_record_integrity_validator | stored_record_integrity_validator | True |\n| X | discovery seed reused as supposed fresh validation seed | same_seed_contamination_validator | same_seed_contamination_validator | True |\n| Y | validation result adaptively queried during active search | adaptive_validation_feedback_validator | adaptive_validation_feedback_validator | True |\n| Z | path traversal attempt | resolved_write_path_validator | resolved_write_path_validator | True |\n| AA | direct docs/evidence/ destination | resolved_write_path_validator | resolved_write_path_validator | True |\n| AB | direct umbra_core/ destination | resolved_write_path_validator | resolved_write_path_validator | True |\n| AC | direct experiments/ destination | resolved_write_path_validator | resolved_write_path_validator | True |\n| AD | direct .agent/RECORD.md destination | resolved_write_path_validator | resolved_write_path_validator | True |\n| AE | write-side symlink escape from inside allowed root | resolved_write_path_validator | resolved_write_path_validator | True |\n| AF | read-side symlink escape from inside allowed read root | resolved_read_path_validator | resolved_read_path_validator | True |\n| AG | embargo-ID enumeration through discovery API | embargo_enumeration_validator | embargo_enumeration_validator | True |\n| AH | candidate configuration changed after fingerprint creation | candidate_configuration_fingerprint_validator | candidate_configuration_fingerprint_validator | True |\n| AI | provenance candidate-fingerprint mismatch | provenance_configuration_validator | provenance_configuration_validator | True |\n| AJ | quarantine rank mutation | stored_record_integrity_validator | stored_record_integrity_validator | True |\n| AK | quarantine status mutation | stored_record_integrity_validator | stored_record_integrity_validator | True |\n| AL | overlapping partitions | partition_overlap_validator | partition_overlap_validator | True |\n| AN | source-data fingerprint mismatch | source_data_fingerprint_validator | source_data_fingerprint_validator | True |\n| AO | sanitized-input fingerprint mismatch | sanitized_input_fingerprint_validator | sanitized_input_fingerprint_validator | True |\n| AP | allowlist-schema fingerprint mismatch | allowed_schema_fingerprint_validator | allowed_schema_fingerprint_validator | True |\n| AQ | provenance partition mismatch | provenance_partition_validator | provenance_partition_validator | True |\n| AM | candidate addition after CLOSED | lifecycle_candidate_admission_validator | lifecycle_candidate_admission_validator | True |\n
+# CC-6R3 Fault Coverage Matrix
+
+Generated from `fault-injection-results.json` and checked mechanically.
+
+- A: discovery reads validation-embargo seed — embargo_read_validator — detected=True
+- B: discovery reads validation-embargo trajectory — resolved_read_path_validator — detected=True
+- C: discovery writes historical evidence — resolved_write_path_validator — detected=True
+- D: discovery writes formal qualification directory — resolved_write_path_validator — detected=True
+- E: candidate mutates constitutional identity — allowlist_default_deny_validator — detected=True
+- F: candidate mutates governance rule — allowlist_default_deny_validator — detected=True
+- G: candidate mutates qualification threshold — allowlist_default_deny_validator — detected=True
+- H: candidate mutates historical verdict — allowlist_default_deny_validator — detected=True
+- I: unknown search variable — allowlist_default_deny_validator — detected=True
+- J: out-of-range variable — allowlist_domain_validator — detected=True
+- K: wrong variable type — allowlist_type_domain_validator — detected=True
+- L: evaluator changed after freeze — frozen_evaluator_validator — detected=True
+- M: metric version changed after freeze — frozen_metric_version_validator — detected=True
+- N: partition changed after freeze — frozen_partition_validator — detected=True
+- O: allowed-variable schema changed after freeze — frozen_allowlist_validator — detected=True
+- P: candidate fingerprint mismatch — candidate_configuration_fingerprint_validator — detected=True
+- Q: evaluator fingerprint mismatch — evaluator_fingerprint_validator — detected=True
+- R: partition fingerprint mismatch — partition_fingerprint_validator — detected=True
+- S: stale source-code commit — source_commit_fingerprint_validator — detected=True
+- T: candidate directly marked QUALIFIED — quarantine_transition_validator — detected=True
+- U: candidate directly marked PRODUCTION — quarantine_transition_validator — detected=True
+- V: candidate bypasses quarantine — lifecycle_transition_validator — detected=True
+- W: finalized discovery record edited in place — INVARIANT_PRESERVED — detected=True
+- X: discovery seed reused as supposed fresh validation seed — same_seed_contamination_validator — detected=True
+- Y: validation result adaptively queried during active search — adaptive_validation_feedback_validator — detected=True
+- Z: path traversal attempt — resolved_write_path_validator — detected=True
+- AA: direct docs/evidence/ destination — resolved_write_path_validator — detected=True
+- AB: direct umbra_core/ destination — resolved_write_path_validator — detected=True
+- AC: direct experiments/ destination — resolved_write_path_validator — detected=True
+- AD: direct .agent/RECORD.md destination — resolved_write_path_validator — detected=True
+- AE: write-side symlink escape from inside allowed root — resolved_write_path_validator — detected=True
+- AF: read-side symlink escape from inside allowed read root — resolved_read_path_validator — detected=True
+- AG: embargo-ID enumeration through discovery API — embargo_enumeration_validator — detected=True
+- AH: candidate configuration changed after fingerprint creation — candidate_configuration_fingerprint_validator — detected=True
+- AI: provenance candidate-fingerprint mismatch — provenance_configuration_validator — detected=True
+- AJ: quarantine rank mutation — INVARIANT_PRESERVED — detected=True
+- AK: quarantine status mutation — INVARIANT_PRESERVED — detected=True
+- AL: overlapping partitions — partition_overlap_validator — detected=True
+- AN: source-data fingerprint mismatch — source_data_fingerprint_validator — detected=True
+- AO: sanitized-input fingerprint mismatch — sanitized_input_fingerprint_validator — detected=True
+- AP: allowlist-schema fingerprint mismatch — allowed_schema_fingerprint_validator — detected=True
+- AQ: provenance partition mismatch — provenance_partition_validator — detected=True
+- AR: generic absolute path outside approved roots — resolved_write_path_validator — detected=True
+- AS: protected variable accidentally present in allowlist — allowlist_default_deny_validator — detected=True
+- AM: candidate addition after CLOSED — lifecycle_candidate_admission_validator — detected=True
