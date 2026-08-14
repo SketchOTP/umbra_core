@@ -532,7 +532,7 @@ class Arbitrator:
                 and self.state.recovery_focus in pool
                 and not (
                     self.state.recovery_focus != "energy"
-                    and phys.energy < BOUNDS["energy"].critical_low
+                    and "energy" in pool
                 )
             ):
                 focus = self.state.recovery_focus

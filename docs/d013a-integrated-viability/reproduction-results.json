@@ -1,0 +1,9 @@
+{
+  "pre_correction_red_test": {"passed": false, "observed": "MOVE", "expected": "APPROACH"},
+  "post_correction_red_test": {"passed": true, "observed": "APPROACH"},
+  "r0": {"tick": 191, "energy": 0.2065, "critical": false},
+  "r1": {"tick": 191, "energy": 0.2065, "critical": false},
+  "r2": {"tick": 191, "energy": 0.2330, "critical": false},
+  "r3": {"tick": 191, "energy": 0.2065, "critical": false},
+  "formal_relaunch": false
+}

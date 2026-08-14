@@ -1,0 +1,12 @@
+{
+  "b2_tick": 181,
+  "b2_energy_before": 0.0525,
+  "b2_action": "MOVE",
+  "b2_action_energy_effect": -0.005,
+  "b2_drift": -0.002,
+  "b2_energy_after": 0.0485,
+  "critical_lower_bound": 0.05,
+  "post_correction_r0_tick": 191,
+  "post_correction_r0_energy": 0.2065,
+  "formal_p0_relaunched": false
+}

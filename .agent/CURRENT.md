@@ -58,3 +58,5 @@
 - CAX source/license is verified at `maxencefaldor/cax@1af1185`; CC-2 is now separately authorized as a research-only validation.
 - CC-2 implementation: `e4b078a`; independent review: `APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS`.
 - D-000X review approved with documented `UNKNOWN_AFTER_REVIEW` source questions for Aevol, Tierra, Stringmol, and Evo2Sim; these do not authorize direct reuse.
+- D-013A completed: D-012B2 tick-181 energy collapse mechanism reproduced on the real runtime path; stale non-energy recovery focus corrected; formal P0 relaunch remains unauthorized.
+- D-013A baseline tag: `umbra-d013a-baseline-038b693` -> `038b693f691151733f023a0a59fcce2039023781`.

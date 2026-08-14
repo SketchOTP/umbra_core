@@ -1,0 +1,9 @@
+{
+  "source": "umbra_core/arbitration.py",
+  "mechanism": "stale_non_energy_recovery_focus",
+  "precondition": {"energy": 0.0525, "stimulation": 0.14, "recovery_focus": "stimulation"},
+  "observed_candidate_before_correction": "MOVE",
+  "expected_candidate": "APPROACH",
+  "correction": "energy_need_preempts_non_energy_focus",
+  "formal_p0_relaunched": false
+}
