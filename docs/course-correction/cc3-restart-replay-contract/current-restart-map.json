@@ -1,0 +1,14 @@
+{
+  "provenance": ["RESEARCH_ONLY", "NON_QUALIFYING", "NOT_FORMAL_EVIDENCE"],
+  "scenario": "S10",
+  "name": "restart_during_manipulation",
+  "semantics": "clean_close_restart",
+  "pre_restart": "experiments/d009/run_experiment.py::_run_integrated_trace",
+  "construction": "umbra_core/runtime.py::create_organism",
+  "database": "umbra_core/persistence.py::Store",
+  "snapshot": "umbra_core/runtime.py::Organism.snapshot_if_due",
+  "recovery": "umbra_core/runtime.py::load_organism",
+  "habitat_recovery": "experiments/d009/run_experiment.py::_habitat_engine_after_restart",
+  "post_restart": "umbra_core/runtime.py::Organism.tick_once",
+  "canonical_evidence_forbidden": ["docs/evidence/d009", "docs/evidence/d010", "docs/evidence/d011", "docs/evidence/d012"]
+}
