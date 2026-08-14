@@ -1,0 +1,14 @@
+{
+  "worker_type": "experiments.d012.organism_worker.Worker",
+  "formal_execution": false,
+  "formal_evidence_directory_written": false,
+  "seeded_tick": 137,
+  "forced_observation_estimated_distance": 1.340481645595797,
+  "forced_observation_confidence": 0.8974076415957972,
+  "forced_observation_uncertainty": 0.10259235840420278,
+  "actual_distance": 1.5167094947389301,
+  "recovery_focus": "energy",
+  "arbitrator_selected": "CHARGE",
+  "diagnostic_executed_capability": "APPROACH",
+  "diagnostic_interpretation": "real_path selection reproduced; fresh-worker downstream proposal state differed from frozen D-013D"
+}

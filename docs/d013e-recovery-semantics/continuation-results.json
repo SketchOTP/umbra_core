@@ -1,0 +1,12 @@
+{
+  "formal": false,
+  "ticks_after_seeded_condition": 50,
+  "charge_proposals": 5,
+  "rejected_charge_outcomes": 3,
+  "successful_charge_outcomes": 2,
+  "approach_actions": 16,
+  "first_successful_charge_energy": 0.3815,
+  "final_energy": 0.21849999999999975,
+  "energy_floor_crossed": false,
+  "new_pathology_demonstrated": false
+}

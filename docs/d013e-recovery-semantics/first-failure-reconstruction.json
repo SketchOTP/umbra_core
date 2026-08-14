@@ -1,0 +1,18 @@
+{
+  "directive": "UMBRA-D-013E",
+  "source_execution": "umbra-d013d-formal-e7d6d07-001",
+  "tick": 138,
+  "estimated_distance": 1.340481645595797,
+  "confidence": 0.8974076415957972,
+  "uncertainty": 0.10259235840420278,
+  "actual_distance": 1.5167094947389301,
+  "resource_radius": 1.2,
+  "execution_boundary": 1.5,
+  "selected_candidate": "CHARGE",
+  "governance_admitted": true,
+  "embodiment_reason": "not_at_resource",
+  "verified_success": false,
+  "energy_before": 0.24949999999999983,
+  "energy_after": 0.24449999999999983,
+  "formal_verdict": "D013D_P0_VIABILITY_FAIL"
+}

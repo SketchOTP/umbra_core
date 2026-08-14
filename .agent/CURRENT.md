@@ -95,3 +95,19 @@
 ## Open blockers
 - Integrated P0 viability remains failed under D-013D; any new diagnosis or remediation requires a separate directive.
 - Post-run load validation appended `runtime_ready` after formal shutdown; recorded as an evidence-handling finding and not repaired.
+
+## Active directive
+- ID: D-20260814-UMBRA-D-013E
+- Project directive: UMBRA-D-013E — recovery failure semantics adjudication
+- Goal: Classify the D-013D first failure without changing production, formal rules, or frozen evidence.
+- Status: Complete — formal contract defect confirmed; no formal D-013E run launched; D-013D remains valid and preserved.
+- Touched files: `docs/d013e-recovery-semantics/*` and append-only governance records only.
+- Next action: operator review and separate authorization for any formal-semantics decision; no remediation or rerun.
+
+## Last validation
+- Command: D-013E bounded real-path diagnostic, 50-tick continuation, D-013A/D-013C regressions, D-009/D-010 validators, D-012 process suite, and governance validator.
+- Result: authority-preserving denial reproduced/analyzed; continuation exercised successful charge recovery; no production or historical evidence changes.
+
+## Open blockers
+- D-013D integrated P0 remains a formal viability failure under its frozen contract.
+- D-013E does not authorize a formal rerun, contract remediation, D-010 work, long-horizon life testing, ablation, body transfer, ASAL, or external embodiment.

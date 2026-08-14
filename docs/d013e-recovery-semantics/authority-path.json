@@ -1,0 +1,15 @@
+{
+  "stages": [
+    "perception_estimate",
+    "runtime_observation_ingest",
+    "recovery_arbitration",
+    "candidate_charge",
+    "governance_admission",
+    "authoritative_embodiment_validation",
+    "verified_outcome",
+    "self_world_model_learning"
+  ],
+  "authority_boundary_preserved": true,
+  "negative_outcome_recorded": true,
+  "formal_failure_rule_triggered": true
+}
