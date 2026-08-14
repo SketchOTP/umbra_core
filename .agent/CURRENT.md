@@ -1,6 +1,15 @@
 # CURRENT.md
 
 ## Active directive
+- ID: D-20260814-UMBRA-CC-003
+- Project directive: UMBRA-CC-003
+- Goal: Validate a research-only restart/replay contract around the existing qualified D-009 C0/S10 clean close/restart route.
+- Status: CC-3 in progress — production authority, historical evidence, D-010, and D-012 are excluded.
+- Baseline: `umbra-cc-003-baseline-5a15caf` targets `5a15caf27435275c7bf49ad506f7e691e41c30a3`.
+- Touched files: CC-3 dossier and `research/course_correction/cc3_restart_replay_contract/*`; `.agent/LIBRARY_REVIEW.md` preserved.
+- Next action: complete independent review and closeout; no production refactor or qualification claim.
+
+## Prior directive
 - ID: D-20260814-UMBRA-CC-002
 - Project directive: UMBRA-CC-002
 - Goal: Validate a read-only modular harness contract around the qualified D-009 C0/S0 scenario without changing production authority or historical evidence.
