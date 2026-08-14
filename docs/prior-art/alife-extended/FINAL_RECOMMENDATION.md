@@ -47,7 +47,7 @@ scientific_integrity:
   formal_thresholds_modified: false
 repo_state:
   branch: master
-  head: 42ce9035dc4bf33926674666a91535e6d8c6e974
+  d000x_closeout_head: 5979ac03df7cd4ec74d93a79b0685998aca9e94d
   clean: false
 blockers:
   - pre-existing operator file .agent/LIBRARY_REVIEW.md remains unmodified and uncommitted
@@ -108,9 +108,10 @@ commits:
   dossier: 437db68
   corrections: 367fa6b
   review: 367fa6b
-  closeout: 367fa6b
+  d000x_closeout_commit: 5979ac03df7cd4ec74d93a79b0685998aca9e94d
+  baseline_commit: e0d9ee8ac91381f10cc9e125568ddd4dd9c3a6b2
 repo:
-  head: 367fa6ba0849ffb2f4976dbc82441c6e2912737b
+  d000x_closeout_head: 5979ac03df7cd4ec74d93a79b0685998aca9e94d
   branch: master
   clean: false
 blockers: []
