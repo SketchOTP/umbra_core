@@ -60,3 +60,4 @@
 - D-000X review approved with documented `UNKNOWN_AFTER_REVIEW` source questions for Aevol, Tierra, Stringmol, and Evo2Sim; these do not authorize direct reuse.
 - D-013A completed: D-012B2 tick-181 energy collapse mechanism reproduced on the real runtime path; stale non-energy recovery focus corrected; formal P0 relaunch remains unauthorized.
 - D-013A baseline tag: `umbra-d013a-baseline-038b693` -> `038b693f691151733f023a0a59fcce2039023781`.
+- D-013B preflight failed before organism launch: one D-012 process/supervision replacement-worker recovery test failed; formal P0 not started, no retry permitted.
