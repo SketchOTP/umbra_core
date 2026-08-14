@@ -106,11 +106,11 @@ scientific_integrity:
 commits:
   governance: 42ce903
   dossier: 437db68
-  corrections: pending
-  review: pending
-  closeout: pending
+  corrections: 367fa6b
+  review: 367fa6b
+  closeout: 367fa6b
 repo:
-  head: pending
+  head: 367fa6ba0849ffb2f4976dbc82441c6e2912737b
   branch: master
   clean: false
 blockers: []
