@@ -6,11 +6,11 @@
  {"project":"Evochora","unit":"POPULATION","source":"https://github.com/evochora/evochora","commit":"7b45ae32d83f1cec7bce3bcd011ea29a375cf92b","license":"MIT","code_review":"complete"},
  {"project":"ASAL","unit":"SEARCH_FRAMEWORK","source":"https://github.com/SakanaAI/asal","commit":"677ba0ea4d3b3ca78273c9906c6e84d2b1481ce7","license":"Apache-2.0","code_review":"complete"},
  {"project":"Lenia","unit":"CELLULAR_COLLECTIVE","source":"https://github.com/Chakazul/Lenia","commit":"adfc542939266de7f4bb7ebb552e8499701ee107","license":"MIT","code_review":"platform"},
- {"project":"CAX","unit":"UNKNOWN","source":null,"commit":null,"license":"LICENSE_BLOCKED","code_review":"SOURCE_VERIFICATION_PENDING"},
- {"project":"Aevol","unit":"GENETIC_LINEAGE","source":"https://gitlab.inria.fr/aevol/aevol","commit":null,"license":"SOURCE_VERIFICATION_PENDING","code_review":"SOURCE_VERIFICATION_PENDING"},
+ {"project":"CAX","unit":"CELLULAR_COLLECTIVE","source":"https://github.com/maxencefaldor/cax","commit":"1af11859674142463c163f542aad9ac90ace3f1e","license":"MIT","code_review":"complete"},
+ {"project":"Aevol","unit":"GENETIC_LINEAGE","source":"https://gitlab.inria.fr/aevol/aevol","commit":null,"license":"UNKNOWN_AFTER_REVIEW","code_review":"UNKNOWN_AFTER_REVIEW"},
  {"project":"Polyworld","unit":"POPULATION","source":"https://github.com/polyworld/polyworld","commit":"99debe8c40fd9f8e58eaae49bb86a68fd1af3703","license":"see LICENSE.txt; verify terms before reuse","code_review":"complete"},
- {"project":"Stringmol","unit":"CHEMICAL_SUBSTRATE","source":"https://github.com/franticspider/stringmol","commit":null,"license":"GPL-2.0","code_review":"platform"},
- {"project":"Evo²Sim","unit":"POPULATION","source":"https://github.com/charlesrocabert/Evo2Sim","commit":null,"license":"GPL-3.0","code_review":"platform"},
+ {"project":"Stringmol","unit":"CHEMICAL_SUBSTRATE","source":"https://github.com/franticspider/stringmol","commit":null,"license":"GPL-2.0","code_review":"UNKNOWN_AFTER_REVIEW"},
+ {"project":"Evo²Sim","unit":"POPULATION","source":"https://github.com/charlesrocabert/Evo2Sim","commit":null,"license":"GPL-3.0","code_review":"UNKNOWN_AFTER_REVIEW"},
  {"project":"Ribossome","unit":"CHEMICAL_SUBSTRATE","source":"https://github.com/Manalokosdev/Ribossome","commit":"cb3bb85f12b8aad44969437de56696583f8847b8","license":"LICENSE_BLOCKED","code_review":"complete"},
- {"project":"Tierra","unit":"GENETIC_LINEAGE","source":null,"commit":null,"license":"SOURCE_VERIFICATION_PENDING","code_review":"platform"}
+ {"project":"Tierra","unit":"GENETIC_LINEAGE","source":null,"commit":null,"license":"UNKNOWN_AFTER_REVIEW","code_review":"UNKNOWN_AFTER_REVIEW"}
 ]

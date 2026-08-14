@@ -14,4 +14,23 @@ Structured UMBRA state should outperform visual embeddings for energy budgets, a
 
 Useful non-authoritative metrics include behavioral entropy, transition diversity, goal-conditioned success, causal intervention effect, recovery latency, replay exactness, and novelty under a frozen feature map. Avoid a single open-endedness score becoming a verdict.
 
+## Engineering recommendation
+
+```yaml
+asal_for_umbra:
+  recommended: true
+  recommended_scope: offline discovery and failure-region search only
+  prohibited_scope: organism control, identity semantics, qualification, verdicts, evidence interpretation
+  prototype_goal: rank bounded scenario and embodiment configurations against frozen offline trajectories
+  inputs: typed trajectories, renderer frames as optional secondary features, seed manifest, bounded parameters
+  outputs: candidate configurations, feature scores, provenance hashes, held-out reports
+  search_variables: [scenario generation, arbitration operating regions, homeostatic robustness, behavioral diversity, development opportunities, habitat challenge configurations, expression diversity, failure-region discovery]
+  protected_variables: [qualification thresholds, formal evidence interpretation, constitutional identity semantics, governance safety rules, historical verdicts]
+  discovery_metrics: [behavioral entropy, transition diversity, causal intervention effect, recovery latency, replay exactness, held-out success]
+  scientific_contamination_controls: [write-once discovery store, frozen evaluator, held-out seeds, provenance hashes, no validation writes]
+  dependencies: [JAX, optional GPU, optional CLIP/DINO; no production dependency]
+  estimated_complexity: small research prototype
+  expected_value: medium-to-high for hypothesis generation; zero authority value
+```
+
 Smallest useful prototype: an offline scorer over archived D-009-like trajectories using three or fewer bounded scenario parameters, a frozen feature extractor, a held-out seed set, and no foundation-model write path. ASAL remains discovery/hypothesis tooling only; no implementation is authorized by CC-1.

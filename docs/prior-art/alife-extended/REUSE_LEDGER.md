@@ -12,4 +12,4 @@
 | Lenia | self-organizing morphology | REFERENCE_ONLY | no demonstrated UMBRA need for substrate replacement |
 | Ribossome | GPU morphology/physical simulation | NEEDS_FURTHER_TEST | non-identity rendering/physics ideas may be studied, but license is blocked |
 | Stringmol | automata chemistry | OUT_OF_SCOPE | conflicts with UMBRA project goal |
-| CAX | any mechanism | NEEDS_FURTHER_TEST | canonical source and license unresolved |
+| CAX | JAX cellular/self-organizing substrate API | REFERENCE_ONLY | MIT library is verified, but it supplies substrate dynamics rather than UMBRA identity or authority |

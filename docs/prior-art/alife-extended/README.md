@@ -1,10 +1,10 @@
 # UMBRA-D-000X extended ALife prior-art reconciliation
 
-Status: research dossier produced; CC-1 remains open while CAX canonical source verification is pending.
+Status: CC-1 closeout candidate; CAX source and MIT license verified, with selected historical source questions recorded as UNKNOWN_AFTER_REVIEW.
 
 Scope: platform-level review of ALIEN, Avida, DISHTINY, MABE2, Evochora, ASAL, Lenia, CAX, Aevol, Polyworld, Stringmol, Evo²Sim, Ribossome, and Tierra; source review of the pinned repositories where a canonical source was verified.
 
-Evidence rule: claims are based on official repositories, project documentation, published project pages, or paper links. Unknown implementation details remain UNKNOWN or SOURCE_VERIFICATION_PENDING.
+Evidence rule: claims are based on official repositories, project documentation, published project pages, or paper links. Unresolved implementation details are explicitly UNKNOWN_AFTER_REVIEW.
 
 Pinned source snapshot:
 
@@ -19,10 +19,10 @@ Pinned source snapshot:
 | Lenia | https://github.com/Chakazul/Lenia | `adfc542939266de7f4bb7ebb552e8499701ee107` | CELLULAR_COLLECTIVE |
 | Polyworld | https://github.com/polyworld/polyworld | `99debe8c40fd9f8e58eaae49bb86a68fd1af3703` | POPULATION |
 | Ribossome | https://github.com/Manalokosdev/Ribossome | `cb3bb85f12b8aad44969437de56696583f8847b8` | CHEMICAL_SUBSTRATE |
-| Stringmol | https://github.com/franticspider/stringmol | SOURCE_VERIFICATION_PENDING | CHEMICAL_SUBSTRATE |
-| Evo²Sim | https://github.com/charlesrocabert/Evo2Sim | SOURCE_VERIFICATION_PENDING | POPULATION |
-| Aevol | https://gitlab.inria.fr/aevol/aevol | SOURCE_VERIFICATION_PENDING | GENETIC_LINEAGE |
-| Tierra | historical project; repository not canonically verified | SOURCE_VERIFICATION_PENDING | GENETIC_LINEAGE |
-| CAX | canonical project source not identified | SOURCE_VERIFICATION_PENDING | UNKNOWN |
+| Stringmol | https://github.com/franticspider/stringmol | UNKNOWN_AFTER_REVIEW | CHEMICAL_SUBSTRATE |
+| Evo²Sim | https://github.com/charlesrocabert/Evo2Sim | UNKNOWN_AFTER_REVIEW | POPULATION |
+| Aevol | https://gitlab.inria.fr/aevol/aevol | UNKNOWN_AFTER_REVIEW | GENETIC_LINEAGE |
+| Tierra | historical project; repository not canonically verified | UNKNOWN_AFTER_REVIEW | GENETIC_LINEAGE |
+| CAX | https://github.com/maxencefaldor/cax | `1af11859674142463c163f542aad9ac90ace3f1e` | CELLULAR_COLLECTIVE |
 
 No production code, sealed evidence, verdict, or formal threshold was changed.

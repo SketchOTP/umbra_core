@@ -13,6 +13,6 @@
 | Ribossome | https://github.com/Manalokosdev/Ribossome | no verified top-level license | tree and metadata | no | LICENSE_BLOCKED |
 | Stringmol | https://github.com/franticspider/stringmol | GPL-2.0 | repository metadata | only under copyleft terms | out of scope |
 | Evo²Sim | https://github.com/charlesrocabert/Evo2Sim | GPL-3.0 | repository metadata | only under copyleft terms | reference only |
-| Aevol | https://gitlab.inria.fr/aevol/aevol | pending | authoritative source not fetched | no | LICENSE_BLOCKED pending audit |
-| CAX | unresolved | pending | no canonical source | no | LICENSE_BLOCKED |
-| Tierra | unresolved | pending | no canonical source | no | reference only |
+| Aevol | https://gitlab.inria.fr/aevol/aevol | UNKNOWN_AFTER_REVIEW | authoritative source not fetched | no | LICENSE_BLOCKED |
+| CAX | https://github.com/maxencefaldor/cax | MIT | LICENSE at pinned commit | yes with notice | reference only |
+| Tierra | unresolved | UNKNOWN_AFTER_REVIEW | no canonical source verified | no | reference only |
