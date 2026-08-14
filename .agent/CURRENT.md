@@ -4,9 +4,10 @@
 - ID: D-20260814-UMBRA-CC-004
 - Project directive: UMBRA-CC-004
 - Goal: Validate research-only isolation of the existing qualified D-009 C0 experimental versus C8 control/ablation Gate 5 pair.
-- Status: CC-4 in progress — production authority, D-009 definitions, historical evidence, D-010, D-012, and `.agent/LIBRARY_REVIEW.md` are excluded.
+- Status: CC-4 complete — research-only control/ablation isolation contract independently approved; production authority, D-009 definitions, historical evidence, D-010, D-012, and `.agent/LIBRARY_REVIEW.md` unchanged.
 - Baseline: `umbra-cc-004-baseline-45dd3a6` targets `45dd3a623066bdba02d9e7a5b4cd82f55d93f217`.
-- Next action: complete regression, independent review, and closeout; no multi-cell aggregation or production refactor.
+- Acceptance: D-009 Gate 5 C0/S10 versus C8/S10 map; exact reference/shadow equivalence PASS; true forward/reverse order independence PASS; 22/22 fail-closed faults PASS; D-000X/CC-2/CC-3/D-009/D-010 validators PASS; focused D-009 tests PASS; independent review APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS.
+- Next action: operator review of published CC-4 commits only; no multi-cell aggregation, production refactor, ASAL, MABE2, external embodiment, D-010, or D-012 work.
 
 ## Prior directive
 - ID: D-20260814-UMBRA-CC-003
