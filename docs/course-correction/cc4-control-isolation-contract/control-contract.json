@@ -1,0 +1,1 @@
+{"provenance":["RESEARCH_ONLY","NON_QUALIFYING","NOT_FORMAL_EVIDENCE"],"pair_id":"cc4-g5-c0-c8-s10-seed7","roles":["experimental","control"],"experimental_condition":"C0","control_condition":"C8","shared":["scenario:S10","history:H0","seed:7"],"different":["condition"],"verdicts_allowed":["PASS","FAIL_CLOSED","INCOMPLETE","NOT_EXERCISED"]}
