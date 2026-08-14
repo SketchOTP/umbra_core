@@ -10,6 +10,14 @@
 - Next action: operator review of published CC-4 commits only; no multi-cell aggregation, production refactor, ASAL, MABE2, external embodiment, D-010, or D-012 work.
 
 ## Prior directive
+- ID: D-20260814-UMBRA-CC-005
+- Project directive: UMBRA-CC-005
+- Goal: Validate a research-only multi-cell/multi-seed aggregation contract around qualified D-009 gate 7.
+- Status: CC-5 implementation and validation in progress; production authority, D-009 definitions, historical evidence, D-010, and D-012 unchanged.
+- Baseline: `umbra-cc-005-baseline-2f7725e` targets `2f7725ea5de58830ddc9ace97905fdef2fd0ff8a`.
+- Scope: four cells C0/C7 × S14 × H1/H7, seeds 1–100; research-only shadow aggregation; no qualification claim.
+
+## Prior directive
 - ID: D-20260814-UMBRA-CC-003
 - Project directive: UMBRA-CC-003
 - Goal: Validate a research-only restart/replay contract around the existing qualified D-009 C0/S10 clean close/restart route.
