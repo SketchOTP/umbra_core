@@ -1,0 +1,18 @@
+{
+  "birth_commitment": "birth commitment",
+  "capability_authority": "capability authority",
+  "constitutional_identity": "constitutional identity",
+  "evidence_interpretation": "evidence interpretation",
+  "formal_seed_manifests": "formal seed manifests",
+  "formal_thresholds": "formal thresholds",
+  "governance_safety_rules": "governance safety rules",
+  "historical_evidence": "historical evidence",
+  "historical_verdicts": "historical verdicts",
+  "identity_verification": "identity verification",
+  "partner_identity_semantics": "partner identity semantics",
+  "production_persistence_schema": "production persistence schema",
+  "production_recovery_semantics": "production recovery semantics",
+  "qualification_gates": "qualification gates",
+  "relationship_authority_semantics": "relationship-authority semantics",
+  "verified_outcome_truth_semantics": "verified-outcome truth semantics"
+}

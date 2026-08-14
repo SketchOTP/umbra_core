@@ -1,1 +1,521 @@
-{"status":"COMPLETE","entries":[{"requirement_id":"candidate-fingerprint","implementation_symbol":"Firewall.score","positive_test":"three valid candidates","negative_test":"O,P","detector":"candidate_configuration_fingerprint_validator"},{"requirement_id":"partition-fingerprint","implementation_symbol":"Firewall.score","positive_test":"valid partition manifest","negative_test":"R,S","detector":"partition_fingerprint_validator/provenance_partition_validator"},{"requirement_id":"quarantine-immutability","implementation_symbol":"Firewall.finalize/get_record","positive_test":"ranked record","negative_test":"T,V,W","detector":"quarantine_immutability_validator"},{"requirement_id":"resolved-path-policy","implementation_symbol":"Firewall.write_policy","positive_test":"research output root","negative_test":"C-F,Y,AA","detector":"resolved_write_path_validator"},{"requirement_id":"symlink-read","implementation_symbol":"Firewall._safe_read","positive_test":"sanitized input","negative_test":"Z","detector":"embargo_read_validator"},{"requirement_id":"embargo-enumeration","implementation_symbol":"DiscoveryView.sample_ids","positive_test":"discovery IDs only","negative_test":"AB","detector":"embargo_enumeration_validator"},{"requirement_id":"partition-disjointness","implementation_symbol":"Firewall.validate_partitions","positive_test":"disjoint fixtures","negative_test":"AC","detector":"partition_overlap_validator"},{"requirement_id":"lifecycle","implementation_symbol":"Firewall.freeze/start/close","positive_test":"DRAFT-FROZEN-RUNNING-CLOSED","negative_test":"K-M,AD-AF","detector":"lifecycle_*_validator"}],"all_faults_distinct":true}
+{
+  "requirements": [
+    {
+      "actual_detector": "embargo_read_validator",
+      "detected": true,
+      "expected_detector": "embargo_read_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "A"
+      ],
+      "positive_test": "main",
+      "requirement_id": "A",
+      "requirement_text": "discovery reads validation-embargo seed"
+    },
+    {
+      "actual_detector": "resolved_read_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_read_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "B"
+      ],
+      "positive_test": "main",
+      "requirement_id": "B",
+      "requirement_text": "discovery reads validation-embargo trajectory"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "C"
+      ],
+      "positive_test": "main",
+      "requirement_id": "C",
+      "requirement_text": "discovery writes historical evidence"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "D"
+      ],
+      "positive_test": "main",
+      "requirement_id": "D",
+      "requirement_text": "discovery writes formal qualification directory"
+    },
+    {
+      "actual_detector": "allowlist_default_deny_validator",
+      "detected": true,
+      "expected_detector": "allowlist_default_deny_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "E"
+      ],
+      "positive_test": "main",
+      "requirement_id": "E",
+      "requirement_text": "candidate mutates constitutional identity"
+    },
+    {
+      "actual_detector": "allowlist_default_deny_validator",
+      "detected": true,
+      "expected_detector": "allowlist_default_deny_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "F"
+      ],
+      "positive_test": "main",
+      "requirement_id": "F",
+      "requirement_text": "candidate mutates governance rule"
+    },
+    {
+      "actual_detector": "allowlist_default_deny_validator",
+      "detected": true,
+      "expected_detector": "allowlist_default_deny_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "G"
+      ],
+      "positive_test": "main",
+      "requirement_id": "G",
+      "requirement_text": "candidate mutates qualification threshold"
+    },
+    {
+      "actual_detector": "allowlist_default_deny_validator",
+      "detected": true,
+      "expected_detector": "allowlist_default_deny_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "H"
+      ],
+      "positive_test": "main",
+      "requirement_id": "H",
+      "requirement_text": "candidate mutates historical verdict"
+    },
+    {
+      "actual_detector": "allowlist_default_deny_validator",
+      "detected": true,
+      "expected_detector": "allowlist_default_deny_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "I"
+      ],
+      "positive_test": "main",
+      "requirement_id": "I",
+      "requirement_text": "unknown search variable"
+    },
+    {
+      "actual_detector": "allowlist_domain_validator",
+      "detected": true,
+      "expected_detector": "allowlist_domain_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "J"
+      ],
+      "positive_test": "main",
+      "requirement_id": "J",
+      "requirement_text": "out-of-range variable"
+    },
+    {
+      "actual_detector": "allowlist_type_domain_validator",
+      "detected": true,
+      "expected_detector": "allowlist_type_domain_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "K"
+      ],
+      "positive_test": "main",
+      "requirement_id": "K",
+      "requirement_text": "wrong variable type"
+    },
+    {
+      "actual_detector": "frozen_evaluator_validator",
+      "detected": true,
+      "expected_detector": "frozen_evaluator_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "L"
+      ],
+      "positive_test": "main",
+      "requirement_id": "L",
+      "requirement_text": "evaluator changed after freeze"
+    },
+    {
+      "actual_detector": "frozen_metric_version_validator",
+      "detected": true,
+      "expected_detector": "frozen_metric_version_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "M"
+      ],
+      "positive_test": "main",
+      "requirement_id": "M",
+      "requirement_text": "metric version changed after freeze"
+    },
+    {
+      "actual_detector": "frozen_partition_validator",
+      "detected": true,
+      "expected_detector": "frozen_partition_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "N"
+      ],
+      "positive_test": "main",
+      "requirement_id": "N",
+      "requirement_text": "partition changed after freeze"
+    },
+    {
+      "actual_detector": "frozen_allowlist_validator",
+      "detected": true,
+      "expected_detector": "frozen_allowlist_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "O"
+      ],
+      "positive_test": "main",
+      "requirement_id": "O",
+      "requirement_text": "allowed-variable schema changed after freeze"
+    },
+    {
+      "actual_detector": "candidate_configuration_fingerprint_validator",
+      "detected": true,
+      "expected_detector": "candidate_configuration_fingerprint_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "P"
+      ],
+      "positive_test": "main",
+      "requirement_id": "P",
+      "requirement_text": "candidate fingerprint mismatch"
+    },
+    {
+      "actual_detector": "evaluator_fingerprint_validator",
+      "detected": true,
+      "expected_detector": "evaluator_fingerprint_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "Q"
+      ],
+      "positive_test": "main",
+      "requirement_id": "Q",
+      "requirement_text": "evaluator fingerprint mismatch"
+    },
+    {
+      "actual_detector": "partition_fingerprint_validator",
+      "detected": true,
+      "expected_detector": "partition_fingerprint_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "R"
+      ],
+      "positive_test": "main",
+      "requirement_id": "R",
+      "requirement_text": "partition fingerprint mismatch"
+    },
+    {
+      "actual_detector": "source_commit_fingerprint_validator",
+      "detected": true,
+      "expected_detector": "source_commit_fingerprint_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "S"
+      ],
+      "positive_test": "main",
+      "requirement_id": "S",
+      "requirement_text": "stale source-code commit"
+    },
+    {
+      "actual_detector": "quarantine_transition_validator",
+      "detected": true,
+      "expected_detector": "quarantine_transition_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "T"
+      ],
+      "positive_test": "main",
+      "requirement_id": "T",
+      "requirement_text": "candidate directly marked QUALIFIED"
+    },
+    {
+      "actual_detector": "quarantine_transition_validator",
+      "detected": true,
+      "expected_detector": "quarantine_transition_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "U"
+      ],
+      "positive_test": "main",
+      "requirement_id": "U",
+      "requirement_text": "candidate directly marked PRODUCTION"
+    },
+    {
+      "actual_detector": "lifecycle_transition_validator",
+      "detected": true,
+      "expected_detector": "lifecycle_transition_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "V"
+      ],
+      "positive_test": "main",
+      "requirement_id": "V",
+      "requirement_text": "candidate bypasses quarantine"
+    },
+    {
+      "actual_detector": "stored_record_integrity_validator",
+      "detected": true,
+      "expected_detector": "stored_record_integrity_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "W"
+      ],
+      "positive_test": "main",
+      "requirement_id": "W",
+      "requirement_text": "finalized discovery record edited in place"
+    },
+    {
+      "actual_detector": "same_seed_contamination_validator",
+      "detected": true,
+      "expected_detector": "same_seed_contamination_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "X"
+      ],
+      "positive_test": "main",
+      "requirement_id": "X",
+      "requirement_text": "discovery seed reused as supposed fresh validation seed"
+    },
+    {
+      "actual_detector": "adaptive_validation_feedback_validator",
+      "detected": true,
+      "expected_detector": "adaptive_validation_feedback_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "Y"
+      ],
+      "positive_test": "main",
+      "requirement_id": "Y",
+      "requirement_text": "validation result adaptively queried during active search"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "Z"
+      ],
+      "positive_test": "main",
+      "requirement_id": "Z",
+      "requirement_text": "path traversal attempt"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AA"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AA",
+      "requirement_text": "direct docs/evidence/ destination"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AB"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AB",
+      "requirement_text": "direct umbra_core/ destination"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AC"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AC",
+      "requirement_text": "direct experiments/ destination"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AD"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AD",
+      "requirement_text": "direct .agent/RECORD.md destination"
+    },
+    {
+      "actual_detector": "resolved_write_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_write_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AE"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AE",
+      "requirement_text": "write-side symlink escape from inside allowed root"
+    },
+    {
+      "actual_detector": "resolved_read_path_validator",
+      "detected": true,
+      "expected_detector": "resolved_read_path_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AF"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AF",
+      "requirement_text": "read-side symlink escape from inside allowed read root"
+    },
+    {
+      "actual_detector": "embargo_enumeration_validator",
+      "detected": true,
+      "expected_detector": "embargo_enumeration_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AG"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AG",
+      "requirement_text": "embargo-ID enumeration through discovery API"
+    },
+    {
+      "actual_detector": "candidate_configuration_fingerprint_validator",
+      "detected": true,
+      "expected_detector": "candidate_configuration_fingerprint_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AH"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AH",
+      "requirement_text": "candidate configuration changed after fingerprint creation"
+    },
+    {
+      "actual_detector": "provenance_configuration_validator",
+      "detected": true,
+      "expected_detector": "provenance_configuration_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AI"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AI",
+      "requirement_text": "provenance candidate-fingerprint mismatch"
+    },
+    {
+      "actual_detector": "stored_record_integrity_validator",
+      "detected": true,
+      "expected_detector": "stored_record_integrity_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AJ"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AJ",
+      "requirement_text": "quarantine rank mutation"
+    },
+    {
+      "actual_detector": "stored_record_integrity_validator",
+      "detected": true,
+      "expected_detector": "stored_record_integrity_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AK"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AK",
+      "requirement_text": "quarantine status mutation"
+    },
+    {
+      "actual_detector": "partition_overlap_validator",
+      "detected": true,
+      "expected_detector": "partition_overlap_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AL"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AL",
+      "requirement_text": "overlapping partitions"
+    },
+    {
+      "actual_detector": "source_data_fingerprint_validator",
+      "detected": true,
+      "expected_detector": "source_data_fingerprint_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AN"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AN",
+      "requirement_text": "source-data fingerprint mismatch"
+    },
+    {
+      "actual_detector": "sanitized_input_fingerprint_validator",
+      "detected": true,
+      "expected_detector": "sanitized_input_fingerprint_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AO"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AO",
+      "requirement_text": "sanitized-input fingerprint mismatch"
+    },
+    {
+      "actual_detector": "allowed_schema_fingerprint_validator",
+      "detected": true,
+      "expected_detector": "allowed_schema_fingerprint_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AP"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AP",
+      "requirement_text": "allowlist-schema fingerprint mismatch"
+    },
+    {
+      "actual_detector": "provenance_partition_validator",
+      "detected": true,
+      "expected_detector": "provenance_partition_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AQ"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AQ",
+      "requirement_text": "provenance partition mismatch"
+    },
+    {
+      "actual_detector": "lifecycle_candidate_admission_validator",
+      "detected": true,
+      "expected_detector": "lifecycle_candidate_admission_validator",
+      "implementation_symbol": "Firewall.contract",
+      "negative_fault_ids": [
+        "AM"
+      ],
+      "positive_test": "main",
+      "requirement_id": "AM",
+      "requirement_text": "candidate addition after CLOSED"
+    }
+  ],
+  "status": "PASS"
+}
