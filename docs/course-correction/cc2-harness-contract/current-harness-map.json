@@ -1,0 +1,26 @@
+{
+  "directive": "UMBRA-CC-002",
+  "subject": {"condition": "C0", "scenario": "S0", "canonical_tick_budget": 2400, "research_tick_budget": 40, "seed": 7},
+  "reference_route": [
+    "experiments/d009/run_experiment.py::_build_jobs",
+    "experiments/d009/run_experiment.py::_cell_worker",
+    "experiments/d009/run_experiment.py::_run_integrated_trace",
+    "experiments/d009/run_experiment.py::_organism_cfg",
+    "umbra_core/runtime.py::create_organism",
+    "umbra_core/runtime.py::Organism.tick_once",
+    "umbra_core/habitat/engine.py::HabitatEngine",
+    "experiments/d009/evidence.py::raw_row",
+    "experiments/d009/validate_evidence.py::main"
+  ],
+  "construction": "OrganismConfig with seed, C0, S0, enabled production modules, habitat hook, D-009 body profile, disposable SQLite path",
+  "state_initialization": "sampled HabitatState passed to HabitatEngine and attached to Embodiment",
+  "seed": {"entry": "OrganismConfig(seed=seed)", "generator": "umbra_core.util.SeededRNG", "secondary_randomness": false, "authoritative": false},
+  "execution": "Organism.tick_once for bounded 40 ticks",
+  "metrics": "capability, denial, outcome, habitat hash changes, prediction errors, bounds, and explicit C0/S0 collector convention",
+  "aggregation": "experiments/d009/run_experiment.py::_aggregate_gate and evidence.comparison",
+  "validation": "experiments/d009/validate_evidence.py reload and recomputation",
+  "evidence": "CC-2 writes only docs/course-correction/cc2-harness-contract; canonical docs/evidence/d009 is forbidden",
+  "cleanup": "Organism.close and TemporaryDirectory",
+  "replay": "S10/S11 are existing mapped routes, not part of the bounded C0/S0 subject",
+  "process_ownership": "reference uses D-009 ProcessPoolExecutor; CC-2 shadow uses one research process and temporary state"
+}

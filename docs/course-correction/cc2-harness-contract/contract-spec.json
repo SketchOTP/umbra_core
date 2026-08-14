@@ -1,0 +1,15 @@
+{
+  "authority": "observational_only",
+  "forbidden_effects": ["constitutional_identity", "production_governance", "memory", "relationship_state", "qualification_thresholds", "historical_evidence", "formal_verdict"],
+  "boundaries": [
+    {"name":"ExperimentDefinition","inputs":["condition","scenario","tick_budget","provenance"],"outputs":["definition_fingerprint"],"failure":"scope/provenance mismatch"},
+    {"name":"SeedManifest","inputs":["seed","generator","purpose"],"outputs":["seed_fingerprint"],"failure":"seed mismatch"},
+    {"name":"SubjectFactory","inputs":["definition","disposable_db"],"outputs":["production_organism"],"failure":"source path mismatch"},
+    {"name":"Executor","inputs":["organism","habitat_engine","tick_budget"],"outputs":["raw_observations"],"failure":"incomplete or mutating denied request"},
+    {"name":"MetricCollector","inputs":["raw_observations"],"outputs":["declared_metrics"],"failure":"source substitution"},
+    {"name":"Aggregator","inputs":["same_execution_raw_rows"],"outputs":["aggregate"],"failure":"empty or mixed execution IDs"},
+    {"name":"Validator","inputs":["hashes","IDs","paths","budget"],"outputs":["accepted_or_rejected"],"failure":"any mismatch"},
+    {"name":"EvidenceWriter","inputs":["research_result"],"outputs":["cc2_owned_json"],"failure":"canonical evidence path"},
+    {"name":"VerdictComputer","inputs":["validation"],"outputs":["PASS_or_FAIL_CLOSED"],"failure":"mismatch or QUALIFIED claim"}
+  ]
+}

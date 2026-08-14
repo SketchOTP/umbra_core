@@ -1,0 +1,79 @@
+{
+  "failed": 0,
+  "passed": 11,
+  "provenance": [
+    "RESEARCH_ONLY",
+    "NON_QUALIFYING",
+    "NOT_FORMAL_EVIDENCE"
+  ],
+  "silent_failures": [],
+  "tests": [
+    {
+      "detected": true,
+      "detection": "definition_fingerprint_mismatch",
+      "execution_prevented_or_rejected": true,
+      "fault": "condition_mutation"
+    },
+    {
+      "detected": true,
+      "detection": "seed_manifest_mismatch",
+      "execution_prevented_or_rejected": true,
+      "fault": "wrong_seed"
+    },
+    {
+      "detected": true,
+      "detection": "execution_id_mismatch",
+      "execution_prevented_or_rejected": true,
+      "fault": "wrong_execution_id"
+    },
+    {
+      "detected": true,
+      "detection": "incomplete_tick_budget",
+      "execution_prevented_or_rejected": true,
+      "fault": "tick_budget_truncation"
+    },
+    {
+      "detected": true,
+      "detection": "wrong_metric_execution_path",
+      "execution_prevented_or_rejected": true,
+      "fault": "wrong_execution_path"
+    },
+    {
+      "detected": true,
+      "detection": "metric_source_mismatch",
+      "execution_prevented_or_rejected": true,
+      "fault": "metric_substitution"
+    },
+    {
+      "detected": true,
+      "detection": "mixed_execution_ids",
+      "execution_prevented_or_rejected": true,
+      "fault": "aggregation_corruption"
+    },
+    {
+      "detected": true,
+      "detection": "control_subject_contamination",
+      "execution_prevented_or_rejected": true,
+      "fault": "control_contamination"
+    },
+    {
+      "detected": true,
+      "detection": "frozen_configuration_mismatch",
+      "execution_prevented_or_rejected": true,
+      "fault": "stale_frozen_configuration"
+    },
+    {
+      "detected": true,
+      "detection": "evidence_path_contamination",
+      "execution_prevented_or_rejected": true,
+      "fault": "evidence_path_contamination"
+    },
+    {
+      "detected": true,
+      "detection": "verdict_evidence_mismatch",
+      "execution_prevented_or_rejected": true,
+      "fault": "verdict_evidence_mismatch"
+    }
+  ],
+  "verdict": "PASS"
+}

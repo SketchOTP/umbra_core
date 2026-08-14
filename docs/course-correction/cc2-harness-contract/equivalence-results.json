@@ -1,0 +1,85 @@
+{
+  "definition": {
+    "condition": "C0",
+    "scenario": "S0",
+    "seed": 7,
+    "tick_budget": 40
+  },
+  "deterministic_differences": {},
+  "deterministic_fields_compared": [
+    "execution_id",
+    "definition_fingerprint",
+    "seed_fingerprint",
+    "ticks_executed",
+    "terminal_outcome",
+    "metrics"
+  ],
+  "provenance": [
+    "RESEARCH_ONLY",
+    "NON_QUALIFYING",
+    "NOT_FORMAL_EVIDENCE"
+  ],
+  "reference": {
+    "definition_fingerprint": "d64b1464cbbac68cb30ca048bcc5a5a7cbf8ef1d9042edd48765c9b50af60dce",
+    "execution_id": "cc2-c0-s0-seed7",
+    "final_state_hash": "not_exposed_by_reference_route",
+    "metrics": {
+      "autonomous_action_ticks": 40,
+      "autonomous_manipulate_ticks": 0,
+      "boundedness_ok": 1.0,
+      "correct_effects": 0,
+      "governed_alignments": 1,
+      "habitat_hash_changes_without_governed": 0,
+      "manipulate_attempts": 0,
+      "manipulate_success": 0,
+      "max_objects": 2,
+      "max_zones": 2,
+      "prediction_hits": 38,
+      "prediction_total": 40,
+      "ticks": 40,
+      "verified_alignments": 0
+    },
+    "production_path": [
+      "experiments/d009/run_experiment.py::_run_integrated_trace",
+      "umbra_core/runtime.py::create_organism",
+      "umbra_core/runtime.py::Organism.tick_once",
+      "umbra_core/habitat/engine.py::HabitatEngine"
+    ],
+    "route": "existing_d009_run_experiment._run_integrated_trace",
+    "seed_fingerprint": "2e2bd43b390eaa48935f9b92f8ee763dede1a5636ea25933a1ff402b8a52c687",
+    "terminal_outcome": "completed",
+    "ticks_executed": 40
+  },
+  "shadow": {
+    "definition_fingerprint": "d64b1464cbbac68cb30ca048bcc5a5a7cbf8ef1d9042edd48765c9b50af60dce",
+    "execution_id": "cc2-c0-s0-seed7",
+    "final_state_hash": "72ca3d15d09df9a65e4803e8537028bad88fab15bbd8ded670850f88821d813d",
+    "metrics": {
+      "autonomous_action_ticks": 40,
+      "autonomous_manipulate_ticks": 0,
+      "boundedness_ok": 1.0,
+      "correct_effects": 0,
+      "governed_alignments": 1,
+      "habitat_hash_changes_without_governed": 0,
+      "manipulate_attempts": 0,
+      "manipulate_success": 0,
+      "max_objects": 2,
+      "max_zones": 2,
+      "prediction_hits": 38,
+      "prediction_total": 40,
+      "ticks": 40,
+      "verified_alignments": 0
+    },
+    "production_path": [
+      "research/course_correction/cc2_harness_contract/shadow_harness.py::_shadow_execute",
+      "/home/sketch/Projects/UMBRA-CORE/umbra_core/runtime.py",
+      "/home/sketch/Projects/UMBRA-CORE/umbra_core/runtime.py",
+      "/home/sketch/Projects/UMBRA-CORE/umbra_core/habitat/engine.py"
+    ],
+    "route": "cc2_shadow_contract._shadow_execute",
+    "seed_fingerprint": "2e2bd43b390eaa48935f9b92f8ee763dede1a5636ea25933a1ff402b8a52c687",
+    "terminal_outcome": "completed",
+    "ticks_executed": 40
+  },
+  "verdict": "PASS"
+}
