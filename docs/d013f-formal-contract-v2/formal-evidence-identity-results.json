@@ -1,0 +1,9 @@
+{
+  "future_directive_injected": true,
+  "future_execution_id_injected": true,
+  "baseline_commit_injected": true,
+  "configuration_fingerprint_injected": true,
+  "legacy_label_leak": false,
+  "d012b_compatibility_preserved": true,
+  "formal_run_launched": false
+}

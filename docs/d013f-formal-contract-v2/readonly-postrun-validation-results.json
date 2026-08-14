@@ -1,0 +1,11 @@
+{
+  "implemented": true,
+  "sqlite_mode": "ro",
+  "database_mutated": false,
+  "events_changed": false,
+  "ledger_tip_changed": false,
+  "snapshots_changed": false,
+  "runtime_ready_added": false,
+  "raw_file_hash_unchanged": true,
+  "test": "test_read_only_validator_does_not_mutate_database"
+}

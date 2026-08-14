@@ -51,6 +51,24 @@ class P0Failure(RuntimeError):
         super().__init__(f"{verdict}:{invariant}")
 
 
+def artifact_identity(
+    *,
+    directive_id: str,
+    execution_id: str,
+    starting_commit: str,
+    config_hash: str,
+    verdict_namespace: str,
+) -> dict[str, str]:
+    """Identity shared by every future formal artifact and run result."""
+    return {
+        "directive": directive_id,
+        "formal_execution_id": execution_id,
+        "starting_commit": starting_commit,
+        "configuration_fingerprint": config_hash,
+        "verdict_namespace": verdict_namespace,
+    }
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -258,6 +276,8 @@ def run(
     execution_id: str,
     starting_commit: str,
     formal_trace_paths: dict[str, str] | None = None,
+    directive_id: str = "UMBRA-D-012B",
+    verdict_namespace: str = "UMBRA_D012B",
 ) -> dict[str, Any]:
     config = json.loads(CONFIG_PATH.read_text())
     thresholds = config["thresholds"]
@@ -300,7 +320,10 @@ def run(
     last_tick = 0
     last_cpu = 0.0
     last_sample_active = 0.0
-    verdict = "UMBRA_D012B_P0_ABORTED_INFRASTRUCTURE"
+    def failure_verdict(suffix: str) -> str:
+        return f"{verdict_namespace}_P0_{suffix}"
+
+    verdict = failure_verdict("ABORTED_INFRASTRUCTURE")
     first_failure: str | None = None
     checkpoint_done = False
     actions_done: set[str] = set()
@@ -351,7 +374,7 @@ def run(
             organism_id = current_id
         elif organism_id != current_id:
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL", "organism_identity_changed"
+                failure_verdict("INTEGRITY_FAIL"), "organism_identity_changed"
             )
         ownership_generation = int(started["ownership_generation"])
         last_chain_tip = int(started["chain_tip"] or 0)
@@ -379,11 +402,11 @@ def run(
         result = dict(response["event"])
         if result["organism_id"] != organism_id:
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL", "organism_identity_changed"
+                failure_verdict("INTEGRITY_FAIL"), "organism_identity_changed"
             )
         if int(response["chain_tip"] or 0) <= last_chain_tip:
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL", "event_chain_not_advanced"
+                failure_verdict("INTEGRITY_FAIL"), "event_chain_not_advanced"
             )
         last_chain_tip = int(response["chain_tip"])
         supervisor.complete_event(str(result["event"]))
@@ -400,17 +423,17 @@ def run(
         metrics = dict(response["metrics"])
         if metrics.get("formal_failure"):
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL",
+                failure_verdict("INTEGRITY_FAIL"),
                 str(metrics["formal_failure"]["failure"]),
             )
         chain_tip = int(response["chain_tip"] or 0)
         if chain_tip < last_chain_tip:
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL", "event_chain_discontinuity"
+                failure_verdict("INTEGRITY_FAIL"), "event_chain_discontinuity"
             )
         if samples and int(metrics["tick"]) <= last_tick:
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL", "autonomous_tick_stalled"
+                failure_verdict("INTEGRITY_FAIL"), "autonomous_tick_stalled"
             )
         dt = max(1e-9, active - last_sample_active)
         cpu = float(metrics["cpu_seconds"])
@@ -436,32 +459,32 @@ def run(
             thresholds["supervisor_child_process_max"]
         ):
             raise P0Failure(
-                "UMBRA_D012B_P0_SUPERVISION_FAIL",
+                failure_verdict("SUPERVISION_FAIL"),
                 "supervisor_child_process_count",
             )
         if not identity_matches(client.pid, client.identity):
             raise P0Failure(
-                "UMBRA_D012B_P0_SUPERVISION_FAIL", "worker_identity_mismatch"
+                failure_verdict("SUPERVISION_FAIL"), "worker_identity_mismatch"
             )
         if float(record["rss_mib"]) > float(thresholds["rss_mib_hard_max"]):
-            raise P0Failure("UMBRA_D012B_P0_PERFORMANCE_FAIL", "rss_hard_ceiling")
+            raise P0Failure(failure_verdict("PERFORMANCE_FAIL"), "rss_hard_ceiling")
         if int(record["database_bytes"]) - int(samples[0]["database_bytes"] if samples else record["database_bytes"]) > int(
             thresholds["database_growth_bytes_max"]
         ):
             raise P0Failure(
-                "UMBRA_D012B_P0_PERFORMANCE_FAIL", "database_growth_hard_ceiling"
+                failure_verdict("PERFORMANCE_FAIL"), "database_growth_hard_ceiling"
             )
         if int(record["durable_raw_count"]) != 0:
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL", "durable_raw_sensor_payload"
+                failure_verdict("INTEGRITY_FAIL"), "durable_raw_sensor_payload"
             )
         if bool(record["physiology_critical"]):
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL", "invalid_physiological_state"
+                failure_verdict("INTEGRITY_FAIL"), "invalid_physiological_state"
             )
         if not bool(record["chain_valid"]):
             raise P0Failure(
-                "UMBRA_D012B_P0_INTEGRITY_FAIL", "event_chain_validation"
+                failure_verdict("INTEGRITY_FAIL"), "event_chain_validation"
             )
         if previous is not None:
             tick_delta = int(record["tick"]) - int(previous["tick"])
@@ -470,13 +493,13 @@ def run(
                 thresholds["event_growth_per_tick_max"]
             ):
                 raise P0Failure(
-                    "UMBRA_D012B_P0_PERFORMANCE_FAIL",
+                    failure_verdict("PERFORMANCE_FAIL"),
                     "event_growth_per_tick_hard_ceiling",
                 )
         failures = bounded_failures(record, first_generation_sample, thresholds)
         if failures:
             raise P0Failure(
-                "UMBRA_D012B_P0_PERFORMANCE_FAIL",
+                failure_verdict("PERFORMANCE_FAIL"),
                 "bounded_state:" + ",".join(failures),
             )
         last_chain_tip = chain_tip
@@ -489,8 +512,15 @@ def run(
     supervisor.acquire()
     supervisor.set_status("PREFLIGHT")
     try:
+        identity = artifact_identity(
+            directive_id=directive_id,
+            execution_id=execution_id,
+            starting_commit=starting_commit,
+            config_hash=config_hash,
+            verdict_namespace=verdict_namespace,
+        )
         entry = {
-            "directive": "UMBRA-D-012B",
+            **identity,
             "execution_id": execution_id,
             "repository_baseline": starting_commit,
             "d009_seal_present": git("merge-base", "--is-ancestor", "af35371", "HEAD")
@@ -515,6 +545,7 @@ def run(
         write_json(work_evidence / "p0-entry-audit.json", entry)
         client = launch_worker()
         manifest = {
+            **identity,
             "formal_execution_id": execution_id,
             "starting_commit": starting_commit,
             "freeze_manifest_hash": expected_freeze,
@@ -606,7 +637,7 @@ def run(
                 }
                 if not restart_result["pass"]:
                     raise P0Failure(
-                        "UMBRA_D012B_P0_INTEGRITY_FAIL",
+                        failure_verdict("INTEGRITY_FAIL"),
                         "controlled_worker_restart",
                     )
                 supervisor.set_status("RUNNING")
@@ -655,7 +686,7 @@ def run(
                 }
                 if not snapshot_result["pass"]:
                     raise P0Failure(
-                        "UMBRA_D012B_P0_INTEGRITY_FAIL", "snapshot_restart"
+                        failure_verdict("INTEGRITY_FAIL"), "snapshot_restart"
                     )
                 checkpoint_done = True
                 supervisor.set_status("RUNNING")
@@ -677,15 +708,15 @@ def run(
                 final_analysis = analyze_samples(samples, config)
                 if final_analysis["classification"] == "FAILED":
                     raise P0Failure(
-                        "UMBRA_D012B_P0_PERFORMANCE_FAIL",
+                        failure_verdict("PERFORMANCE_FAIL"),
                         "resource_stability:"
                         + ",".join(final_analysis["failure_reasons"]),
                     )
                 if final_analysis["stable"]:
-                    verdict = "UMBRA_D012B_P0_PASS"
+                    verdict = failure_verdict("PASS")
                     break
                 if active >= float(config["maximum_active_seconds"]):
-                    verdict = "UMBRA_D012B_P0_INCONCLUSIVE"
+                    verdict = failure_verdict("INCONCLUSIVE")
                     break
                 next_decision += float(config["extension_seconds"])
             time.sleep(0.1)
@@ -702,7 +733,7 @@ def run(
         client = None
         supervisor.set_status(
             "COMPLETED"
-            if verdict in {"UMBRA_D012B_P0_PASS", "UMBRA_D012B_P0_INCONCLUSIVE"}
+            if verdict in {failure_verdict("PASS"), failure_verdict("INCONCLUSIVE")}
             else "FAILED_SCIENTIFIC"
         )
         supervisor.release()
@@ -714,7 +745,7 @@ def run(
     except SupervisionError as exc:
         first_failure = str(exc)
         verdict = (
-            "UMBRA_D012B_P0_SUPERVISION_FAIL"
+            failure_verdict("SUPERVISION_FAIL")
             if exc.code
             in {
                 "DATABASE_ALREADY_OWNED",
@@ -723,7 +754,7 @@ def run(
                 "IPC_IDENTITY_MISMATCH",
                 "ORGANISM_EXIT_UNEXPECTED",
             }
-            else "UMBRA_D012B_P0_INTEGRITY_FAIL"
+            else failure_verdict("INTEGRITY_FAIL")
         )
         raise
     finally:
@@ -742,9 +773,9 @@ def run(
                     "FAILED_SCIENTIFIC"
                     if verdict
                     in {
-                        "UMBRA_D012B_P0_PERFORMANCE_FAIL",
-                        "UMBRA_D012B_P0_INTEGRITY_FAIL",
-                        "UMBRA_D012B_P0_SUPERVISION_FAIL",
+                        failure_verdict("PERFORMANCE_FAIL"),
+                        failure_verdict("INTEGRITY_FAIL"),
+                        failure_verdict("SUPERVISION_FAIL"),
                     }
                     else "FAILED_INFRASTRUCTURE"
                 )
@@ -877,7 +908,7 @@ def run(
         )
         write_json(work_evidence / "p0-process-audit.json", process_audit)
         result = {
-            "directive": "UMBRA-D-012B",
+            **identity,
             "formal_execution_id": execution_id,
             "verdict": verdict,
             "first_failing_invariant": first_failure,
@@ -906,6 +937,8 @@ def main() -> int:
     parser.add_argument("--evidence-root", type=Path, required=True)
     parser.add_argument("--execution-id", required=True)
     parser.add_argument("--starting-commit", required=True)
+    parser.add_argument("--directive-id", default="UMBRA-D-012B")
+    parser.add_argument("--verdict-namespace", default="UMBRA_D012B")
     args = parser.parse_args()
     try:
         result = run(
@@ -913,6 +946,8 @@ def main() -> int:
             evidence_root=args.evidence_root,
             execution_id=args.execution_id,
             starting_commit=args.starting_commit,
+            directive_id=args.directive_id,
+            verdict_namespace=args.verdict_namespace,
         )
     except (P0Failure, SupervisionError) as exc:
         print(str(exc))

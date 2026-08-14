@@ -1,0 +1,11 @@
+{
+  "fixture": "docs/evidence/d013d-formal/FIRST_FAILURE.json",
+  "formal_run_reexecuted": false,
+  "historical_verdict": "D013D_P0_VIABILITY_FAIL",
+  "tick": 138,
+  "historical_failure": "charge_selected_but_not_executable",
+  "v2_classification": "SAFE_DENIED_RECOVERY_ATTEMPT",
+  "immediate_viability_failure": false,
+  "denial_reason": "not_at_resource",
+  "energy_floor_crossed": false
+}

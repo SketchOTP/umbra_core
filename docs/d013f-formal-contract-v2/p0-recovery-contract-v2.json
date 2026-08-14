@@ -1,0 +1,65 @@
+{
+  "version": "P0_RECOVERY_CONTRACT_V2",
+  "parent_contract": "P0_RECOVERY_CONTRACT_V1",
+  "reason_for_revision": "D-013E showed that a verified embodiment denial was incorrectly treated as immediate organism-level viability failure.",
+  "safe_denial_semantics": {
+    "name": "SAFE_DENIED_RECOVERY_ATTEMPT",
+    "requires": [
+      "normal authority chain",
+      "governance admission",
+      "authoritative embodiment denial",
+      "verified negative outcome",
+      "authoritative denial reason",
+      "no positive recovery credit",
+      "physiology remains non-critical",
+      "identity, persistence, and authority remain valid"
+    ],
+    "is_not": ["successful recovery", "positive physiology effect", "automatic P0 failure"]
+  },
+  "episode_states": [
+    "RECOVERY_NEED_PRESENT",
+    "RECOVERY_CANDIDATE_PROPOSED",
+    "SAFE_DENIAL",
+    "CORRECTIVE_ACTION",
+    "RETRY_WITH_NEW_EVIDENCE",
+    "VERIFIED_RECOVERY_SUCCESS",
+    "RECOVERY_UNRESOLVED",
+    "RECOVERY_FAILED"
+  ],
+  "true_failure_semantics": [
+    "authority bypass",
+    "embodiment boundary bypass",
+    "unverified action treated as complete",
+    "failed recovery credited positively",
+    "ledger, identity, or governance corruption",
+    "invalid physiology or existing critical-bound crossing",
+    "unaccounted physiology decline",
+    "action and outcome semantic inconsistency",
+    "repeated materially identical denial without new evidence or correction that blocks recovery"
+  ],
+  "verified_recovery_success": [
+    "actual executable recovery",
+    "authoritative validation succeeds",
+    "verified outcome succeeds",
+    "relevant physiology improves",
+    "no authority bypass"
+  ],
+  "unchanged_boundaries": {
+    "source": "experiments/d012/p0-formal-config.json and existing umbra_core physiology, perception, arbitration, embodiment, and governance code",
+    "organism_behavior_changed": false,
+    "physiology_thresholds_changed": false,
+    "perception_noise_changed": false,
+    "arbitration_changed": false,
+    "embodiment_geometry_changed": false,
+    "action_costs_changed": false,
+    "formal_duration_changed": false,
+    "identity_requirements_changed": false,
+    "persistence_requirements_changed": false
+  },
+  "evidence_schema_version": "D013F-V2-EVALUATOR-1",
+  "implementation": {
+    "evaluator": "experiments/d012/formal_contract_v2.py",
+    "read_only_validator": "experiments/d012/readonly_validation.py",
+    "future_runner_identity_parameters": ["directive_id", "verdict_namespace"]
+  }
+}

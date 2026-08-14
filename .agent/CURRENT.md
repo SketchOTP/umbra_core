@@ -111,3 +111,21 @@
 ## Open blockers
 - D-013D integrated P0 remains a formal viability failure under its frozen contract.
 - D-013E does not authorize a formal rerun, contract remediation, D-010 work, long-horizon life testing, ablation, body transfer, ASAL, or external embodiment.
+
+## Active directive
+- ID: D-20260814-UMBRA-D-013F
+- Project directive: UMBRA-D-013F — P0 recovery contract V2 and formal evidence hygiene
+- Goal: Validate future recovery-failure semantics, genuinely read-only post-run validation, and future campaign evidence identity without running formal P0 or changing organism behavior.
+- Status: Complete — `D013F_CONTRACT_V2_VALIDATED`; no formal run and no new formal tag.
+- Touched files: `experiments/d012/formal_contract_v2.py`, `experiments/d012/readonly_validation.py`, parameterized `experiments/d012/run_formal_p0.py`, focused evaluator tests, `docs/d013f-formal-contract-v2/*`, and governance records.
+- Historical preservation: D-012B1/B2, D-013A/B/C/D/E verdicts and evidence preserved; `.agent/RECORD.md` and `.agent/LIBRARY_REVIEW.md` untouched.
+- Next action: separately authorize a new V2 formal baseline and P0 run; do not launch it under D-013F.
+
+## Last validation
+- Command: V2 evaluator/replay/read-only/identity tests; D-013A; D-013C rollback; D-009; D-010; D-012 process suite; governance; full suite.
+- Result: V2 `9 passed`; D-013A `1 passed`; D-013C `5 passed`; D-009 PASS; D-010 PASS; D-012 `27 passed`; governance PASS; full suite `702 passed, 2 skipped, 1 known D-010 inventory failure`.
+
+## Open blockers
+- D-013D remains historically `D013D_P0_VIABILITY_FAIL`; V2 replay does not retroactively change it.
+- A new formal baseline and separately authorized V2 P0 run are required before integrated viability can be re-evaluated.
+- D-010 remains `UMBRA_D010_PERFORMANCE_FAIL`; no D-010 remediation was started.
