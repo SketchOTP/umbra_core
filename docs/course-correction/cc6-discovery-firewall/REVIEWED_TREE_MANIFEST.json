@@ -1,0 +1,9 @@
+{
+  "implementation_evidence_commit": "18793210d10f1314933d312787011910fa7ad285",
+  "shadow_harness_blob_sha": "386f29c8ee71dfb37da44def6a83bab3eb79670c",
+  "fault_validator_blob_sha": "cff4313a43cd19fc354e0ecf1de8a10d851c4618",
+  "fault_evidence_blob_sha": "b831d3938646684bfb430e9cbfed181c592f0a72",
+  "coverage_matrix_blob_sha": "17975ce2f1b87c8d5ab5d0c7284f3ac2d4806401",
+  "protected_variable_manifest_blob_sha": "92729e51bd470d0a5c4dc2b30cb87630ea2c21d5",
+  "operator_findings_v3_blob_sha": "6ab2a18f07433c511c8cad6eefe451348b2bc94d"
+}
