@@ -1,0 +1,47 @@
+{
+  "verdict": "PASS",
+  "reference": {
+    "c0": 0.3104521446423054,
+    "c7": 0.26,
+    "threshold": 0.12,
+    "material_gap": 0.03,
+    "pass": true
+  },
+  "shadow": {
+    "status": "PASS",
+    "cell_values": {
+      "C0:S14:H1": 0.3104521446423054,
+      "C0:S14:H7": 0.3104521446423054,
+      "C7:S14:H1": 0.26,
+      "C7:S14:H7": 0.26
+    },
+    "condition_values": {
+      "C0": 0.3104521446423054,
+      "C7": 0.26
+    },
+    "c0_vs_zero": {
+      "value": 0.3104521446423054,
+      "threshold": 0.12,
+      "direction": "higher_is_better_for_a",
+      "pass": true
+    },
+    "c0_vs_c7": {
+      "a": 0.3104521446423054,
+      "b": 0.26,
+      "gap": 0.05045214464230541,
+      "threshold": 0.12,
+      "material_gap": 0.03,
+      "direction": "C0_minus_C7",
+      "pass": true
+    },
+    "coverage": {
+      "cells": 4,
+      "seeds_per_cell": 100,
+      "rows": 400,
+      "rows_per_condition": 200
+    },
+    "fingerprint": "daa2f1979c04a340d756f7b378be88c2752ce60a431250e4859967588a313e5c"
+  },
+  "deterministic_differences": {},
+  "explained_nondeterminism": []
+}

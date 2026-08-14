@@ -1,0 +1,32 @@
+{
+  "frozen_definition": "experiments/d009/experiment-matrix.json",
+  "matrix_expansion": "experiments/d009/run_experiment.py::_build_jobs",
+  "execution": "experiments/d009/run_experiment.py::_run_integrated_trace",
+  "raw_row": "experiments/d009/evidence.py::raw_row",
+  "reference_aggregation": "experiments/d009/run_experiment.py::_aggregate_gate",
+  "comparison": "experiments/d009/evidence.py::comparison",
+  "validator": "experiments/d009/validate_evidence.py::_recompute_comparison_means",
+  "selected_gate": 7,
+  "selected_cells": [
+    [
+      "C0",
+      "S14",
+      "H1"
+    ],
+    [
+      "C0",
+      "S14",
+      "H7"
+    ],
+    [
+      "C7",
+      "S14",
+      "H1"
+    ],
+    [
+      "C7",
+      "S14",
+      "H7"
+    ]
+  ]
+}

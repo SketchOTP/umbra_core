@@ -1,0 +1,53 @@
+{
+  "aggregate_id": "cc5-g7-s14-individuality",
+  "gate_id": "g7",
+  "experiment_id": "UMBRA-D-009",
+  "required_cells": [
+    [
+      "C0",
+      "S14",
+      "H1"
+    ],
+    [
+      "C0",
+      "S14",
+      "H7"
+    ],
+    [
+      "C7",
+      "S14",
+      "H1"
+    ],
+    [
+      "C7",
+      "S14",
+      "H7"
+    ]
+  ],
+  "required_seeds": [
+    1,
+    100
+  ],
+  "coverage_rule": "exactly 100 seeds per cell; 400 rows total",
+  "metric": "habitat_individuality_separation",
+  "metric_version": "d009-normalized-rate-v1",
+  "grouping": [
+    "condition",
+    "scenario",
+    "history",
+    "seed"
+  ],
+  "aggregation": "statistics.mean over rows; equal row weighting",
+  "comparison": {
+    "a": "C0",
+    "b": "C7",
+    "threshold": 0.12,
+    "material_gap": 0.03,
+    "direction": "C0 higher than C7"
+  },
+  "provenance": [
+    "RESEARCH_ONLY",
+    "NON_QUALIFYING",
+    "NOT_FORMAL_EVIDENCE"
+  ]
+}
