@@ -1,0 +1,16 @@
+{
+  "d009_seal_present": true,
+  "d010_enabled": false,
+  "d011_closeout_present": true,
+  "d012a2_baseline_present": true,
+  "directive": "UMBRA-D-012B",
+  "entry_pass": true,
+  "execution_id": "umbra-d013d-formal-e7d6d07-001",
+  "freeze_manifest_hash": "430fda96dac20aa8c03537bf57fcab9371522ec3a20b23d1f4ded70744b06f5d",
+  "harness_direct_state_mutation": false,
+  "harness_imports_organism_runtime": false,
+  "p0_config_sha256": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+  "p1_authorized": false,
+  "p2_authorized": false,
+  "repository_baseline": "e7d6d07"
+}

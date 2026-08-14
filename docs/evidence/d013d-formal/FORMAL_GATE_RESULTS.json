@@ -1,0 +1,16 @@
+{
+  "gate_0": "PASS",
+  "gate_1": "PASS",
+  "gate_10": "PASS cleanup/process supervision",
+  "gate_11": "NOT_REACHED_AS_TERMINAL_GATE",
+  "gate_12": "FAIL required duration not reached",
+  "gate_13": "PASS cleanup and evidence integrity",
+  "gate_2": "PASS",
+  "gate_3": "PASS through observed run; no checkpoint exercised",
+  "gate_4": "PASS through first failure",
+  "gate_5": "FAIL: charge_selected_but_not_executable",
+  "gate_6": "FAIL: verified CHARGE outcome was unsuccessful while CHARGE was selected",
+  "gate_7": "NOT_REACHED_AS_TERMINAL_GATE",
+  "gate_8": "FAIL: P0 viability not demonstrated",
+  "gate_9": "NOT_REACHED_AS_TERMINAL_GATE"
+}

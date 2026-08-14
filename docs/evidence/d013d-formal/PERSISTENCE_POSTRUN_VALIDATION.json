@@ -1,0 +1,8 @@
+{
+  "sqlite_integrity": "ok",
+  "formal_failure_trace_chain_tip": 534,
+  "formal_failure_event_sequences": [546, 547, 548],
+  "post_run_load_validation": "load_organism succeeded and appended runtime_ready sequence 549",
+  "identity": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+  "evidence_handling_finding": true
+}

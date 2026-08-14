@@ -1,0 +1,16 @@
+{
+  "baseline_head": "e7d6d07d23ec7a992deb5d1743b5424b80190a3f",
+  "d009": "PASS",
+  "d010": "PASS",
+  "d012_process": "PASS:27",
+  "d013a": "PASS",
+  "d013c": "PASS",
+  "evidence_destination_isolated": true,
+  "formal_tag": "umbra-d013d-formal-baseline-e7d6d07",
+  "formal_tag_target": "e7d6d07d23ec7a992deb5d1743b5424b80190a3f",
+  "governance": "PASS",
+  "historical_evidence": "PASS",
+  "invalid_before_start_attempt": "STARTING_COMMIT_MISMATCH; no organism or evidence; adjudicated invalid",
+  "persistence_atomicity": "PASS",
+  "stale_process_check": "PASS"
+}

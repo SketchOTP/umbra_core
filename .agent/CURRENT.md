@@ -78,3 +78,20 @@
 ## Open blockers
 - D-013B remains `D013B_PREFLIGHT_FAIL`; formal P0 run count remains 0 and its tag is preserved.
 - Mimir V2 lifecycle tools are unavailable and are not claimed.
+
+## Active directive
+- ID: D-20260814-UMBRA-D-013D
+- Project directive: UMBRA-D-013D — single formal integrated P0 viability revalidation
+- Goal: Execute exactly one post-D-013C formal P0 from the new immutable baseline, or fail closed at preflight.
+- Status: Complete with formal viability failure; one run executed and preserved; no retry or remediation.
+- Baseline: `umbra-d013d-formal-baseline-e7d6d07` targets `e7d6d07d23ec7a992deb5d1743b5424b80190a3f`.
+- Touched files: isolated formal evidence and append-only governance only after baseline freeze.
+- Next action: operator review of published D-013D failure evidence; no further execution authorized here.
+
+## Last validation
+- Command: D-013D formal P0 plus post-run D-013A, D-013C, D-009, D-010, governance, D-012 process, and full-suite checks.
+- Result: one formal run failed at `charge_selected_but_not_executable`; cleanup passed; post-run suite `693 passed, 2 skipped, 1 known D-010 failure`.
+
+## Open blockers
+- Integrated P0 viability remains failed under D-013D; any new diagnosis or remediation requires a separate directive.
+- Post-run load validation appended `runtime_ready` after formal shutdown; recorded as an evidence-handling finding and not repaired.

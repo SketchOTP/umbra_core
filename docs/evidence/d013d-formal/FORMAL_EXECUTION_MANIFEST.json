@@ -1,0 +1,20 @@
+{
+  "active_runtime_counter": {
+    "committed_seconds": 0.0,
+    "interval_started": null
+  },
+  "created_at": 1786734965.303848,
+  "database_path": "/tmp/umbra-d013d-formal-e7d6d07/organism.sqlite",
+  "evidence_path": "/tmp/umbra-d013d-formal-e7d6d07/evidence",
+  "formal_execution_id": "umbra-d013d-formal-e7d6d07-001",
+  "freeze_manifest_hash": "430fda96dac20aa8c03537bf57fcab9371522ec3a20b23d1f4ded70744b06f5d",
+  "organism_identity": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+  "ownership_generation": 1,
+  "p0_config_sha256": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+  "starting_commit": "e7d6d07",
+  "supervisor_pid": 317075,
+  "supervisor_process_start_identity": "029fc0e8-c599-4e9c-90ad-4253a673b70d:317075:301839875",
+  "worker_generation": 1,
+  "worker_pid": 317094,
+  "worker_process_start_identity": "029fc0e8-c599-4e9c-90ad-4253a673b70d:317094:301839933"
+}
