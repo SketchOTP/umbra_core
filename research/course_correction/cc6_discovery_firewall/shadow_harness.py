@@ -35,7 +35,8 @@ CANONICAL = {
 
 def normalize(x):
     if isinstance(x, dict): return {k: normalize(v) for k, v in x.items()}
-    if isinstance(x, (set, frozenset, tuple, list)): return [normalize(v) for v in x]
+    if isinstance(x, (set, frozenset)): return sorted(normalize(v) for v in x)
+    if isinstance(x, (tuple, list)): return [normalize(v) for v in x]
     return x
 def fp(x): return hashlib.sha256(json.dumps(normalize(x), sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 class Reject(ValueError):
@@ -161,6 +162,7 @@ def run_faults():
     with tempfile.TemporaryDirectory(dir=ALLOWED_ROOT.parent) as td:
         inside=Path(td); outside=Path(tempfile.mkdtemp()); (inside/"link").symlink_to(outside,target_is_directory=True); test("AE","in-root write symlink to protected target","resolved_write_path_validator",lambda:f.write_policy(inside/"link"/"x")); readinside=Path(tempfile.mkdtemp(dir=ALLOWED_READ_ROOT)); (readinside/"link").symlink_to(outside,target_is_directory=True); test("AF","in-root read symlink to embargo target","resolved_read_path_validator",lambda:f.read_sample("d-1",readinside/"link"/"x")); shutil.rmtree(outside); shutil.rmtree(readinside);
     test("AG","enumerate embargo IDs","embargo_enumeration_validator",lambda: f.discovery_view().embargo_ids()); test("AH","change configuration after fingerprint","candidate_configuration_fingerprint_validator",lambda:f.score(replace(c,configuration=(("bounded_environment",.9),)+c.configuration[1:]))); test("AI","provenance candidate mismatch","provenance_configuration_validator",lambda:f.score(replace(c,provenance=(("configuration","bad"),)))); test("AJ","mutate stored rank","stored_record_integrity_validator",lambda:(caller.__setitem__("rank",9),f.assert_record_unchanged(c.candidate_id,before)),"INVARIANT_PRESERVED"); test("AK","mutate stored status","stored_record_integrity_validator",lambda:(caller.__setitem__("status","SELECTED"),f.assert_record_unchanged(c.candidate_id,before)),"INVARIANT_PRESERVED"); test("AL","overlapping partitions","partition_overlap_validator",lambda:f.validate_partitions({"discovery":{"d-1"},"development":set(),"embargo":{"d-1"}})); test("AN","source-data fingerprint mismatch","source_data_fingerprint_validator",lambda:f.score(replace(c,source_data_fingerprint="bad"))); test("AO","sanitized-input fingerprint mismatch","sanitized_input_fingerprint_validator",lambda:f.score(replace(c,sanitized_input_fingerprint="bad"))); test("AP","allowlist-schema fingerprint mismatch","allowed_schema_fingerprint_validator",lambda:f.score(replace(c,allowed_schema_fingerprint="bad"))); test("AQ","provenance partition mismatch","provenance_partition_validator",lambda:f.score(replace(c,provenance=tuple((k,"bad" if k=="partition" else v) for k,v in c.provenance)))); f.close(); test("AM","candidate after CLOSED","lifecycle_candidate_admission_validator",lambda:f.add_candidate(c));
+    if ALLOWED_READ_ROOT.exists(): shutil.rmtree(ALLOWED_READ_ROOT)
     return rows
 
 def main():
