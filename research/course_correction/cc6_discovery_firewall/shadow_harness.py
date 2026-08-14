@@ -140,6 +140,8 @@ class Firewall:
 def candidate(f, cid="cc6r2-1", **kw): return Candidate.make(f, cid, {"research_scenario":"sandbox_a", "bounded_environment":.5, "research_schedule":5}, **kw)
 def run_faults():
     rows = []
+    ALLOWED_ROOT.mkdir(parents=True, exist_ok=True)
+    ALLOWED_READ_ROOT.mkdir(parents=True, exist_ok=True)
     def test(fid, mutation, expected, action, mode="REJECTED", requirement=None):
         row = {"fault_id":fid,"requirement_id":fid,"requirement_text":requirement or CANONICAL[fid],"mutation":mutation,"test_symbol":action.__name__ or "anonymous","expected_detector":expected,"actual_detector":None,"detection_mode":mode,"detected":False,"execution_prevented":False,"record_rejected":False,"original_record_unchanged":None,"notes":""}
         try: action(); row["notes"] = "unexpected acceptance"
