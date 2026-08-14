@@ -54,6 +54,7 @@
 - Mimir V2 lifecycle tools (`mimir_project_resolve`, `mimir_task_begin`, and related tools) are unavailable in this session.
 - Mimir project ID remains canonically bound as `7777645d52a91b49`; required V2 resolve/begin/context/validation/evidence/close calls cannot be performed or claimed.
 - Pre-existing untracked `.agent/LIBRARY_REVIEW.md` is unexplained for this task and must not be modified or removed.
+- CC-6R2 is complete as research-only proof closure; automated discovery remains unauthorized pending operator acceptance.
 - CAX source/license is verified at `maxencefaldor/cax@1af1185`; CC-2 is now separately authorized as a research-only validation.
 - CC-2 implementation: `e4b078a`; independent review: `APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS`.
 - D-000X review approved with documented `UNKNOWN_AFTER_REVIEW` source questions for Aevol, Tierra, Stringmol, and Evo2Sim; these do not authorize direct reuse.
