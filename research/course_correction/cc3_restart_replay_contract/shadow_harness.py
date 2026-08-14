@@ -259,8 +259,16 @@ def _continuity_validator(record: dict[str, Any]) -> None:
         raise ContractError("event_continuity_invalid")
     if record.get("pre_habitat") != record.get("post_habitat"):
         raise ContractError("habitat_continuity_invalid")
-    if record.get("wrong_db") or record.get("stale_snapshot") or record.get("wrong_seed") or record.get("wrong_scenario") or record.get("wrong_condition"):
-        raise ContractError("restart_provenance_invalid")
+    if record.get("wrong_db"):
+        raise ContractError("database_identity_validator")
+    if record.get("stale_snapshot"):
+        raise ContractError("snapshot_freshness_validator")
+    if record.get("wrong_seed"):
+        raise ContractError("seed_rng_provenance_validator")
+    if record.get("wrong_scenario"):
+        raise ContractError("scenario_definition_validator")
+    if record.get("wrong_condition"):
+        raise ContractError("condition_definition_validator")
     if record.get("mixed_evidence") or record.get("incomplete_post_budget") or record.get("checkpoint_metadata_altered"):
         raise ContractError("evidence_or_checkpoint_contract_invalid")
     if record.get("duplicate_aggregation") or record.get("segment_mixing") or record.get("wrong_denominator") or record.get("missing_pre_segment") or record.get("missing_post_segment"):
