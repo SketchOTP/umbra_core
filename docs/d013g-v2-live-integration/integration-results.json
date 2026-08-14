@@ -1,0 +1,17 @@
+{
+  "directive": "UMBRA-D-013G",
+  "formal_p0_launched": false,
+  "formal_tag_created": false,
+  "contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "d013g_tests": 10,
+  "d013g_passed": 10,
+  "d013f_tests": 9,
+  "d013f_passed": 9,
+  "d012_process_passed": 27,
+  "d009": "PASS",
+  "d010": "PASS",
+  "governance": "PASS",
+  "full_suite": {"passed": 712, "skipped": 2, "known_failures": 1},
+  "status": "D013G_V2_LIVE_HARNESS_INTEGRATION_PASS"
+}

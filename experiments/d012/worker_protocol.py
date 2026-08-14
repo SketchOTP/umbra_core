@@ -57,6 +57,7 @@ def validate_manifest(data: dict[str, Any]) -> dict[str, Any]:
     for key in (
         "formal_physiology_trace_path",
         "formal_recovery_trace_path",
+        "formal_recovery_evaluation_trace_path",
         "formal_failure_path",
     ):
         if data.get(key):
@@ -68,6 +69,7 @@ def validate_manifest(data: dict[str, Any]) -> dict[str, Any]:
         for key in (
             "formal_physiology_trace_path",
             "formal_recovery_trace_path",
+            "formal_recovery_evaluation_trace_path",
             "formal_failure_path",
         )
     ]

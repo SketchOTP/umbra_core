@@ -23,6 +23,15 @@ from experiments.d012.campaign_supervisor import freeze_hash
 from experiments.d012.database_ownership import acquire_ownership, release_ownership
 from experiments.d012.durability import atomic_write_text
 from experiments.d012.failure_codes import SupervisionError
+from experiments.d012.formal_contract_v2 import (
+    CONTRACT_V1,
+    CONTRACT_VERSION,
+    INTEGRITY_FAILURE,
+    RECOVERY_FAILED,
+    evaluate_episode,
+    normalize_trace_row,
+    validate_contract_selection,
+)
 from experiments.d012.process_identity import process_identity
 from experiments.d012.worker_protocol import (
     BoundedLog,
@@ -111,12 +120,36 @@ class Worker:
             if manifest.get("formal_recovery_trace_path")
             else None
         )
+        self.formal_recovery_evaluation_trace_path = (
+            Path(str(manifest["formal_recovery_evaluation_trace_path"]))
+            if manifest.get("formal_recovery_evaluation_trace_path")
+            else None
+        )
         self.formal_failure_path = (
             Path(str(manifest["formal_failure_path"]))
             if manifest.get("formal_failure_path")
             else None
         )
         self.tick_blocked = False
+        self.recovery_contract_version = str(
+            manifest.get("formal_recovery_contract_version", CONTRACT_V1)
+        )
+        self.recovery_contract_fingerprint = manifest.get("contract_fingerprint")
+        try:
+            validate_contract_selection(
+                self.recovery_contract_version, self.recovery_contract_fingerprint
+            )
+        except ValueError as exc:
+            raise SupervisionError("WORKER_MANIFEST_INVALID", str(exc)) from exc
+        if (
+            self.recovery_contract_version == CONTRACT_VERSION
+            and self.formal_recovery_evaluation_trace_path is None
+        ):
+            raise SupervisionError(
+                "WORKER_MANIFEST_INVALID",
+                "V2 evaluation trace path missing",
+            )
+        self.recovery_episode_rows: list[dict[str, Any]] = []
 
     def acquire_and_load(self, *, reclaim_dead: bool) -> None:
         self.ownership = acquire_ownership(
@@ -261,6 +294,8 @@ class Worker:
                 and self.formal_failure_path.exists()
                 else None
             ),
+            "formal_recovery_contract_version": self.recovery_contract_version,
+            "contract_fingerprint": self.recovery_contract_fingerprint,
             "proposal_count": int(
                 conn.execute("SELECT COUNT(*) FROM events WHERE event_type='proposal'").fetchone()[0]
             ),
@@ -449,6 +484,35 @@ class Worker:
             handle.flush()
             os.fsync(handle.fileno())
 
+    def _record_v2_recovery_evaluation(self, row: dict[str, Any]) -> str | None:
+        previous = self.recovery_episode_rows[-1] if self.recovery_episode_rows else None
+        normalized = normalize_trace_row(row, previous)
+        self.recovery_episode_rows.append(normalized)
+        result = evaluate_episode(self.recovery_episode_rows)
+        state = result["states"][-1]
+        evaluation = {
+            "tick": normalized.get("tick"),
+            "directive": self.manifest.get("directive"),
+            "formal_execution_id": self.execution_id,
+            "starting_commit": self.manifest.get("starting_commit"),
+            "configuration_fingerprint": self.manifest.get("configuration_fingerprint"),
+            "verdict_namespace": self.manifest.get("verdict_namespace"),
+            "contract_version": self.recovery_contract_version,
+            "contract_fingerprint": self.recovery_contract_fingerprint,
+            "candidate": normalized.get("selected_candidate"),
+            "observation_signature": normalized.get("observation_signature"),
+            "new_evidence": normalized.get("new_evidence"),
+            "corrective_context": normalized.get("corrective_action"),
+            "verified_outcome": normalized.get("verified_outcome"),
+            "state": state["state"],
+            "episode_state": result["terminal_state"],
+            "failure_reason": state["reasons"] if state["state"] in {INTEGRITY_FAILURE, RECOVERY_FAILED} else [],
+        }
+        self._append_trace(self.formal_recovery_evaluation_trace_path, evaluation)
+        if state["state"] in {INTEGRITY_FAILURE, RECOVERY_FAILED}:
+            return state["state"] + ":" + ",".join(state["reasons"])
+        return None
+
     def run_formal_tick(self) -> None:
         if self.formal_physiology_trace_path is None:
             if self.organism is not None:
@@ -480,6 +544,8 @@ class Worker:
                 "governance_decision": row["governance"],
                 "embodiment_validation": validation,
                 "verified_outcome": verified,
+                "action_issued": outcome.get("action_issued"),
+                "verified_action": outcome.get("verified"),
                 "physiology_effect": effect,
                 "available_charge_or_rest_opportunity": row[
                     "available_recovery_affordances"
@@ -495,19 +561,22 @@ class Worker:
                 ),
             }
             self._append_trace(self.formal_recovery_trace_path, recovery_row)
-            if selected == "CHARGE" and (
-                validation != "ok"
-                or not bool(verified.get("success"))
-            ):
-                failure = "charge_selected_but_not_executable"
-            elif selected == "CHARGE" and float(after["energy"]) <= float(
-                before["energy"]
-            ):
-                failure = "recovery_missing_positive_energy_effect"
-            elif not recovery_row["decline_accounted"]:
-                failure = "unaccounted_energy_decline_during_recovery"
-            elif selected == "CHARGE" and not effect:
-                failure = "recovery_missing_verified_effect"
+            if self.recovery_contract_version == CONTRACT_VERSION:
+                failure = self._record_v2_recovery_evaluation(recovery_row)
+            else:
+                if selected == "CHARGE" and (
+                    validation != "ok"
+                    or not bool(verified.get("success"))
+                ):
+                    failure = "charge_selected_but_not_executable"
+                elif selected == "CHARGE" and float(after["energy"]) <= float(
+                    before["energy"]
+                ):
+                    failure = "recovery_missing_positive_energy_effect"
+                elif not recovery_row["decline_accounted"]:
+                    failure = "unaccounted_energy_decline_during_recovery"
+                elif selected == "CHARGE" and not effect:
+                    failure = "recovery_missing_verified_effect"
         if failure is not None:
             self.tick_blocked = True
             atomic_write_text(

@@ -18,6 +18,15 @@ from .checkpoint_runner import run_checkpoint
 from .database_ownership import assert_quiescent, read_ownership
 from .durability import atomic_write_text
 from .failure_codes import SupervisionError
+from .formal_contract_v2 import (
+    CONTRACT_V1,
+    CONTRACT_VERSION,
+    SAFE_DENIAL,
+    evaluate_episode,
+    normalize_trace_row,
+    validate_contract_selection,
+)
+from .readonly_validation import validate_read_only
 from .process_identity import identity_matches, process_identity
 from .worker_launcher import WorkerClient, manifest_for
 
@@ -58,6 +67,8 @@ def artifact_identity(
     starting_commit: str,
     config_hash: str,
     verdict_namespace: str,
+    recovery_contract_version: str = CONTRACT_V1,
+    contract_fingerprint: str | None = None,
 ) -> dict[str, str]:
     """Identity shared by every future formal artifact and run result."""
     return {
@@ -66,7 +77,39 @@ def artifact_identity(
         "starting_commit": starting_commit,
         "configuration_fingerprint": config_hash,
         "verdict_namespace": verdict_namespace,
+        "formal_recovery_contract_version": recovery_contract_version,
+        "contract_fingerprint": contract_fingerprint or "",
     }
+
+
+def formal_failure_from_metrics(
+    metrics: dict[str, Any], recovery_contract_version: str
+) -> str | None:
+    """Apply the selected recovery contract at the runner boundary."""
+    failure_record = metrics.get("formal_failure")
+    if not failure_record:
+        return None
+    failure = str(failure_record.get("failure", ""))
+    if recovery_contract_version == CONTRACT_VERSION and failure == "charge_selected_but_not_executable":
+        triggering = dict(failure_record.get("triggering_state") or {})
+        if triggering:
+            state = evaluate_episode([normalize_trace_row(triggering)])[
+                "states"
+            ][-1]["state"]
+            if state == SAFE_DENIAL:
+                return None
+    return failure
+
+
+def write_readonly_postrun_validation(
+    database: Path,
+    output: Path,
+    identity: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Run the terminal validator through its SQLite read-only path."""
+    result = {**(identity or {}), **validate_read_only(database)}
+    write_json(output, result)
+    return result
 
 
 def sha256(path: Path) -> str:
@@ -278,7 +321,15 @@ def run(
     formal_trace_paths: dict[str, str] | None = None,
     directive_id: str = "UMBRA-D-012B",
     verdict_namespace: str = "UMBRA_D012B",
+    recovery_contract_version: str = CONTRACT_V1,
+    recovery_contract_fingerprint: str | None = None,
 ) -> dict[str, Any]:
+    try:
+        validate_contract_selection(
+            recovery_contract_version, recovery_contract_fingerprint
+        )
+    except ValueError as exc:
+        raise SupervisionError("FORMAL_CONTRACT_INVALID", str(exc)) from exc
     config = json.loads(CONFIG_PATH.read_text())
     thresholds = config["thresholds"]
     expected_freeze = freeze_hash(EXP)
@@ -291,6 +342,21 @@ def run(
         raise SupervisionError("DUPLICATE_CAMPAIGN", "formal_evidence_exists")
 
     work_evidence = run_root / "evidence"
+    selected_formal_paths = dict(formal_trace_paths or {})
+    if recovery_contract_version == CONTRACT_VERSION:
+        required_paths = {
+            "formal_physiology_trace_path",
+            "formal_recovery_trace_path",
+            "formal_failure_path",
+        }
+        if not required_paths <= selected_formal_paths.keys():
+            raise SupervisionError(
+                "FORMAL_CONTRACT_INVALID", "V2 formal trace paths incomplete"
+            )
+        selected_formal_paths.setdefault(
+            "formal_recovery_evaluation_trace_path",
+            str(work_evidence / "P0_RECOVERY_EVALUATION_TRACE.jsonl"),
+        )
     database = run_root / "organism.sqlite"
     ownership_path = run_root / "database-ownership.json"
     schedule_path = work_evidence / "p0-schedule-trace.jsonl"
@@ -359,7 +425,13 @@ def run(
             active_runtime=supervisor.runtime.committed_seconds,
             database_path=database,
             tick_period_seconds=1.0 / float(config["tick_hz"]),
-            **(formal_trace_paths or {}),
+            formal_recovery_contract_version=recovery_contract_version,
+            contract_fingerprint=recovery_contract_fingerprint,
+            directive=directive_id,
+            starting_commit=starting_commit,
+            configuration_fingerprint=config_hash,
+            verdict_namespace=verdict_namespace,
+            **selected_formal_paths,
         )
         worker = WorkerClient.launch(
             run_root / f"worker-manifest-{generation}.json", manifest
@@ -421,10 +493,13 @@ def run(
         response = client.request("METRICS", active_runtime=active)
         supervisor.record_worker_status(response)
         metrics = dict(response["metrics"])
-        if metrics.get("formal_failure"):
+        formal_failure = formal_failure_from_metrics(
+            metrics, recovery_contract_version
+        )
+        if formal_failure:
             raise P0Failure(
                 failure_verdict("INTEGRITY_FAIL"),
-                str(metrics["formal_failure"]["failure"]),
+                formal_failure,
             )
         chain_tip = int(response["chain_tip"] or 0)
         if chain_tip < last_chain_tip:
@@ -518,6 +593,8 @@ def run(
             starting_commit=starting_commit,
             config_hash=config_hash,
             verdict_namespace=verdict_namespace,
+            recovery_contract_version=recovery_contract_version,
+            contract_fingerprint=recovery_contract_fingerprint,
         )
         entry = {
             **identity,
@@ -907,6 +984,26 @@ def run(
             },
         )
         write_json(work_evidence / "p0-process-audit.json", process_audit)
+        readonly_result: dict[str, Any] | None = None
+        if recovery_contract_version == CONTRACT_VERSION and database.exists():
+            readonly_path = work_evidence / "P0_READONLY_POSTRUN_VALIDATION.json"
+            try:
+                readonly_result = write_readonly_postrun_validation(
+                    database, readonly_path, identity
+                )
+            except Exception as exc:
+                first_failure = first_failure or (
+                    "readonly_postrun_validation:" + type(exc).__name__
+                )
+                verdict = failure_verdict("INTEGRITY_FAIL")
+                write_json(
+                    readonly_path,
+                    {
+                        "validation_status": "FAIL",
+                        "mutating_api_used": False,
+                        "error": str(exc),
+                    },
+                )
         result = {
             **identity,
             "formal_execution_id": execution_id,
@@ -920,6 +1017,7 @@ def run(
             "process_cleanup_pass": process_audit["pass"],
             "p1_launched": False,
             "p2_launched": False,
+            "readonly_postrun_validation": readonly_result,
         }
         write_json(work_evidence / "p0-run-result.json", result)
         evidence_root.mkdir(parents=True, exist_ok=True)
@@ -927,6 +1025,10 @@ def run(
             source = work_evidence / name
             if source.exists():
                 shutil.copy2(source, evidence_root / name)
+        if recovery_contract_version == CONTRACT_VERSION:
+            readonly_source = work_evidence / "P0_READONLY_POSTRUN_VALIDATION.json"
+            if readonly_source.exists():
+                shutil.copy2(readonly_source, evidence_root / readonly_source.name)
 
     return result
 
@@ -939,6 +1041,10 @@ def main() -> int:
     parser.add_argument("--starting-commit", required=True)
     parser.add_argument("--directive-id", default="UMBRA-D-012B")
     parser.add_argument("--verdict-namespace", default="UMBRA_D012B")
+    parser.add_argument(
+        "--formal-recovery-contract-version", default=CONTRACT_V1
+    )
+    parser.add_argument("--contract-fingerprint")
     args = parser.parse_args()
     try:
         result = run(
@@ -948,6 +1054,8 @@ def main() -> int:
             starting_commit=args.starting_commit,
             directive_id=args.directive_id,
             verdict_namespace=args.verdict_namespace,
+            recovery_contract_version=args.formal_recovery_contract_version,
+            recovery_contract_fingerprint=args.contract_fingerprint,
         )
     except (P0Failure, SupervisionError) as exc:
         print(str(exc))

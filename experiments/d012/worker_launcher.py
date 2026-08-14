@@ -201,6 +201,8 @@ def manifest_for(
     active_runtime: float,
     reclaim_dead: bool = False,
     database_path: Path | None = None,
+    formal_recovery_contract_version: str = "P0_RECOVERY_CONTRACT_V1",
+    contract_fingerprint: str | None = None,
     **test_flags: Any,
 ) -> dict[str, Any]:
     database_path = database_path or root / "dry-run.sqlite"
@@ -219,6 +221,8 @@ def manifest_for(
         "active_runtime": active_runtime,
         "d010_enabled": False,
         "real_device": False,
+        "formal_recovery_contract_version": formal_recovery_contract_version,
+        "contract_fingerprint": contract_fingerprint,
         "reclaim_dead": reclaim_dead,
         **test_flags,
     }

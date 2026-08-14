@@ -10,13 +10,92 @@ import json
 from typing import Any, Iterable
 
 
+CONTRACT_V1 = "P0_RECOVERY_CONTRACT_V1"
 CONTRACT_VERSION = "P0_RECOVERY_CONTRACT_V2"
+CONTRACT_FINGERPRINT = "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2"
 VERDICT_NAMESPACE = "D013F"
 SAFE_DENIAL = "SAFE_DENIED_RECOVERY_ATTEMPT"
 INTEGRITY_FAILURE = "RECOVERY_INTEGRITY_FAILURE"
 RECOVERY_SUCCESS = "VERIFIED_RECOVERY_SUCCESS"
 RECOVERY_UNRESOLVED = "RECOVERY_UNRESOLVED"
 RECOVERY_FAILED = "RECOVERY_FAILED"
+CORRECTIVE_CAPABILITIES = frozenset({"APPROACH", "ORIENT", "MOVE"})
+
+
+def validate_contract_selection(version: str, fingerprint: str | None) -> None:
+    """Reject ambiguous future campaigns without changing historical V1."""
+    if version == CONTRACT_V1:
+        return
+    if version == CONTRACT_VERSION and fingerprint == CONTRACT_FINGERPRINT:
+        return
+    if version == CONTRACT_VERSION:
+        raise ValueError("V2 contract fingerprint missing_or_incorrect")
+    raise ValueError(f"unknown recovery contract:{version}")
+
+
+def _observation_signature(observations: Iterable[dict[str, Any]]) -> str:
+    """Hash policy-visible perception facts, excluding authoritative coordinates."""
+    selected: list[dict[str, Any]] = []
+    for observation in observations:
+        selected.append(
+            {
+                key: observation.get(key)
+                for key in (
+                    "observation_id",
+                    "observed_at",
+                    "kind",
+                    "estimated_distance",
+                    "confidence",
+                    "uncertainty",
+                    "perception_state_version",
+                )
+                if key in observation
+            }
+        )
+    selected.sort(key=lambda value: (str(value.get("kind", "")), str(value.get("observation_id", ""))))
+    payload = json.dumps(selected, sort_keys=True, separators=(",", ":"), default=str)
+    return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def normalize_trace_row(
+    row: dict[str, Any], previous: dict[str, Any] | None = None
+) -> dict[str, Any]:
+    """Derive V2 episode facts from the actual worker trace shape."""
+    normalized = dict(row)
+    observations = [dict(item) for item in normalized.get("observations") or []]
+    signature = normalized.get("observation_signature") or _observation_signature(observations)
+    normalized["observation_signature"] = signature
+    if "new_evidence" not in normalized:
+        normalized["new_evidence"] = previous is None or signature != previous.get("observation_signature")
+    outcome = _outcome(normalized)
+    capability = str(
+        normalized.get("executed_capability")
+        or normalized.get("selected_candidate")
+        or outcome.get("capability")
+        or ""
+    )
+    if "corrective_action" not in normalized:
+        normalized["corrective_action"] = bool(
+            capability in CORRECTIVE_CAPABILITIES and outcome.get("success")
+        )
+    affordances = [dict(item) for item in normalized.get("available_recovery_affordances") or []]
+    if "recovery_blocked" not in normalized:
+        normalized["recovery_blocked"] = capability == "CHARGE" and not any(
+            bool(item.get("chargeable")) and bool(item.get("executable"))
+            for item in affordances
+        )
+    if "actual_distance" not in normalized:
+        resources = [
+            item for item in affordances
+            if item.get("kind") == "resource" and item.get("chargeable")
+        ]
+        if resources:
+            nearest = min(resources, key=lambda item: float(item.get("distance", float("inf"))))
+            if nearest.get("distance") is not None:
+                normalized["actual_distance"] = float(nearest["distance"])
+            if nearest.get("radius") is not None:
+                normalized["execution_boundary"] = float(nearest["radius"]) + 0.3
+    return normalized
 
 
 def future_formal_metadata(
@@ -56,7 +135,8 @@ def contract_fingerprint(contract: dict[str, Any]) -> str:
 
 
 def _outcome(row: dict[str, Any]) -> dict[str, Any]:
-    return dict(dict(row.get("verified_outcome") or {}).get("outcome") or {})
+    verified = dict(row.get("verified_outcome") or {})
+    return dict(verified.get("outcome") or verified)
 
 
 def _physiology(row: dict[str, Any]) -> tuple[dict[str, float], dict[str, float]]:
@@ -69,11 +149,24 @@ def _has_authority_chain(row: dict[str, Any], outcome: dict[str, Any]) -> bool:
     event_types = set(row.get("event_types") or [])
     governance = dict(row.get("governance") or {})
     verified = dict(row.get("verified_outcome") or {})
+    verified_detail = dict(verified.get("outcome") or verified)
     return (
         "proposal" in event_types
         and "outcome_verified" in event_types
-        and bool(verified.get("action_issued"))
-        and bool(verified.get("verified", outcome.get("verified")))
+        and bool(
+            verified.get(
+                "action_issued",
+                verified_detail.get("action_issued", row.get("action_issued", False)),
+            )
+        )
+        and bool(
+            verified.get(
+                "verified",
+                verified_detail.get(
+                    "verified", row.get("verified_action", outcome.get("verified"))
+                ),
+            )
+        )
         and bool(governance.get("admitted"))
         and not governance.get("stage_failed")
         and not row.get("authority_bypass", False)
@@ -157,10 +250,21 @@ def evaluate_episode(rows: list[dict[str, Any]]) -> dict[str, Any]:
     """Evaluate an episode as a state machine over immutable trace rows."""
     states: list[dict[str, Any]] = []
     previous_denial: dict[str, Any] | None = None
-    for row in rows:
+    previous_row: dict[str, Any] | None = None
+    for raw_row in rows:
+        row = normalize_trace_row(raw_row, previous_row)
+        previous_row = row
         attempt = classify_attempt(row)
+        if attempt["state"] != SAFE_DENIAL and (
+            row.get("corrective_action") or row.get("new_evidence")
+        ):
+            previous_denial = None
         if attempt["state"] == SAFE_DENIAL:
-            if previous_denial is not None and _materially_same_denial(previous_denial, row) and row.get("recovery_blocked", True):
+            if (
+                previous_denial is not None
+                and _materially_same_denial(previous_denial, row)
+                and row.get("recovery_blocked", True)
+            ):
                 attempt = {
                     "state": RECOVERY_FAILED,
                     "capability": attempt["capability"],

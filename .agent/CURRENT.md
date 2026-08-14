@@ -129,3 +129,17 @@
 - D-013D remains historically `D013D_P0_VIABILITY_FAIL`; V2 replay does not retroactively change it.
 - A new formal baseline and separately authorized V2 P0 run are required before integrated viability can be re-evaluated.
 - D-010 remains `UMBRA_D010_PERFORMANCE_FAIL`; no D-010 remediation was started.
+
+## Active directive
+- ID: D-20260814-UMBRA-D-013G
+- Project directive: UMBRA-D-013G — P0 recovery contract V2 live-harness integration
+- Goal: Prove the actual D-012 worker and runner use V2 semantics, preserve V1 reproducibility, derive episode facts from live traces, and connect read-only closeout without launching a formal P0.
+- Status: Complete — `D013G_V2_LIVE_HARNESS_INTEGRATION_PASS`; no formal P0 or new tag.
+- Starting head: `b43d2d8d639c875c630406423e02cc6e9f23e116`.
+- Scope: `experiments/d012/*`, D-013G tests and dossier, append-only governance; no `umbra_core/`, historical evidence, thresholds, or verdict changes.
+- Validation: D-013G `10 passed`; D-013F `9 passed`; D-013A `1 passed`; D-012 process `27 passed`; D-009 PASS; D-010 PASS; governance PASS; full suite `712 passed, 2 skipped, 1 known D-010 inventory failure`.
+- Next action: separately authorize and freeze a new V2 formal baseline if desired; do not launch it under D-013G.
+
+## Open blockers
+- D-013G does not authorize a formal campaign. A new V2 baseline remains separately gated.
+- D-010 remains `UMBRA_D010_PERFORMANCE_FAIL`.
