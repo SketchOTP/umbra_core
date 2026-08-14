@@ -1,18 +1,18 @@
 # CURRENT.md
 
 ## Active directive
-- ID: D-20260814-UMBRA-CC-006R
-- Project directive: UMBRA-CC-006R
-- Goal: Remediate the CC-6 firewall proof without rewriting the original CC-6 result.
-- Status: CC-6R complete — corrected research-only firewall proof passes; no ASAL, optimizer, production refactor, formal qualification, or historical evidence mutation authorized.
-- Baseline: `umbra-cc-006-remediation-baseline-3de717b` targets `3de717b4207a1aa55720a127109bfd6c11354807`.
-- Acceptance: operator findings preserved; independent candidate/partition/provenance checks; immutable quarantine; resolved path and symlink isolation; embargo API boundary; partition/lifecycle validation; 32 distinct faults; coverage matrix; V2 review; prior validators passing; GitHub publication.
-- Touched files: CC-6R research implementation, CC-6 dossier additions, standing governance, and append-only governance records; `.agent/LIBRARY_REVIEW.md` preserved.
-- Next action: operator review of the published CC-6R dossier only; next phase remains unauthorized.
+- ID: D-20260814-UMBRA-GOAL-REBASE
+- Project directive: UMBRA — GOAL COMPLETION REBASE
+- Goal: Re-anchor future work to the persistent companion-organism completion criteria in `.agent/PROJECT_GOAL.md`.
+- Status: Complete — current goal matrix published; CC-6 discovery firewall deferred as research-only infrastructure; no production, experiment, ASAL, optimizer, or remediation work authorized.
+- Baseline: current canonical repository HEAD `c3153dd0ba2584bb9e505ea51af5ee040b0f56f2`.
+- Acceptance: every completion criterion classified; strongest evidence and blockers recorded; D-010/D-012, restart/downtime, body-transfer, ablation, long-horizon, and believable-creature gaps explicit; one next scientific action ranked.
+- Touched files: goal-completion rebase documentation and append-only governance records; `.agent/LIBRARY_REVIEW.md` preserved.
+- Next action: operator review of the goal-completion rebase; no scientific execution under this directive.
 
 ## Last validation
-- Command: CC-6R harness; D-000X; CC-2; CC-3; CC-4; CC-5; D-009; D-010; focused D-009 tests.
-- Result: CC-6R PASS; 32/32 distinct faults detected, zero silent failures or mislabeled aliases; prior contracts PASS; D-000X/D-009/D-010 PASS; focused D-009 4 passed, 104 deselected.
+- Command: read-only goal/evidence inventory; prior CC-6R3 and D/CC validators remain the latest execution evidence.
+- Result: matrix is documentation-only; no production or historical scientific state was changed; next scientific execution is not authorized.
 
 ## Prior directive
 - ID: D-20260814-UMBRA-CC-005
