@@ -14,5 +14,5 @@ constructs the same production organism and invokes `Organism.tick_once`
 directly behind contract boundaries.
 
 Results: exact deterministic equivalence for the declared comparison fields and
-10/10 fail-closed fault injections. The only observed divergence was resolved
+11/11 fail-closed fault injections. The only observed divergence was resolved
 by reproducing the existing C0/S0 metric-collector convention explicitly.
