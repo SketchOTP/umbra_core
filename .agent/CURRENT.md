@@ -1,6 +1,14 @@
 # CURRENT.md
 
 ## Active directive
+- ID: D-20260814-UMBRA-CC-004
+- Project directive: UMBRA-CC-004
+- Goal: Validate research-only isolation of the existing qualified D-009 C0 experimental versus C8 control/ablation Gate 5 pair.
+- Status: CC-4 in progress — production authority, D-009 definitions, historical evidence, D-010, D-012, and `.agent/LIBRARY_REVIEW.md` are excluded.
+- Baseline: `umbra-cc-004-baseline-45dd3a6` targets `45dd3a623066bdba02d9e7a5b4cd82f55d93f217`.
+- Next action: complete regression, independent review, and closeout; no multi-cell aggregation or production refactor.
+
+## Prior directive
 - ID: D-20260814-UMBRA-CC-003
 - Project directive: UMBRA-CC-003
 - Goal: Validate a research-only restart/replay contract around the existing qualified D-009 C0/S10 clean close/restart route.
