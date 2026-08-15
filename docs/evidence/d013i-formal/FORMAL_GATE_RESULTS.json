@@ -1,0 +1,15 @@
+{
+  "gate_0_frozen_baseline_configuration": "PASS",
+  "gate_10_resource_integrity_bounds": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_11_active_observation_duration": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_12_cleanup_evidence_integrity": "PASS",
+  "gate_1_historical_d012_evidence_preserved": "PASS",
+  "gate_2_identity_integrity": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_3_persistence_ledger_integrity": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_4_organism_authority_governance": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_5_habitat_execution": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_6_verified_outcome": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_7_physiology_integrity": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_8_integrated_recovery_viability": "NOT_REACHED_FORMAL_RUN_INVALID",
+  "gate_9_process_supervision": "PRE_WORKER_FAILURE"
+}

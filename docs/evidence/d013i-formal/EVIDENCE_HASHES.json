@@ -1,0 +1,60 @@
+{
+  "directive": "UMBRA-D-013I",
+  "files": [
+    {
+      "path": "ARTIFACT_STATUS.json",
+      "sha256": "eb10c52fb7a302a7374ac2f7c8cf31ca9407278726bc1fd31ec015d4f2f1addf",
+      "size_bytes": 377
+    },
+    {
+      "path": "CLEANUP_REPORT.md",
+      "sha256": "75e12b8fba50c7fbc663fd0b688b6000ddb7d6a79f6dd72a09422858d209d733",
+      "size_bytes": 446
+    },
+    {
+      "path": "FIRST_FAILURE.json",
+      "sha256": "ecf8c12c6110e881971bea528a5d233531e4a810b7848235b7a8c42ff7497d60",
+      "size_bytes": 559
+    },
+    {
+      "path": "FORMAL_CONFIGURATION.json",
+      "sha256": "2b6851642b403810c0d5c6bb8eb07e0823b641a98c1ca181db09b54cff438246",
+      "size_bytes": 1572
+    },
+    {
+      "path": "FORMAL_CONFIGURATION_HASH.txt",
+      "sha256": "a4f8f855690d9b43c68de4abe59a7f74e957fd734551ae72adb15e1b29ae4ecf",
+      "size_bytes": 65
+    },
+    {
+      "path": "FORMAL_EXECUTION_MANIFEST.json",
+      "sha256": "6a89e68a9bab4ee2bcb77d5f457ec23afd9fbac801aa59edc62b7072e0f8f1a4",
+      "size_bytes": 1149
+    },
+    {
+      "path": "FORMAL_GATE_RESULTS.json",
+      "sha256": "9b5dcbb86b87ca13483cb6b69ba2524796ee1ceb7542a11f4cc8df1e7287e016",
+      "size_bytes": 844
+    },
+    {
+      "path": "INDEPENDENT_REVIEW.md",
+      "sha256": "4be36442b6c58c1bde3f0eb3561f45d32456475ad83832964104cdf62bd8ae76",
+      "size_bytes": 515
+    },
+    {
+      "path": "PRELAUNCH_VALIDATION.json",
+      "sha256": "a54c003b565b0d01e83034f0b1e2dc258401e3a5b032322b86e31a585d854316",
+      "size_bytes": 1204
+    },
+    {
+      "path": "REGRESSION_RESULTS.md",
+      "sha256": "c4831d1d173ad98c662e43342761f268a4f5c65a18ad53f30202cc574d7c447b",
+      "size_bytes": 336
+    },
+    {
+      "path": "VERDICT.md",
+      "sha256": "e28cf01299afa36d70a8ba5c3398f037907068be2182cd0e1f0aee654836e5cd",
+      "size_bytes": 333
+    }
+  ]
+}

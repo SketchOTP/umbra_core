@@ -1,0 +1,14 @@
+{
+  "database_created": false,
+  "directive": "UMBRA-D-013I",
+  "evidence_root_created": false,
+  "failure": "SUPERVISOR_RECOVERY_FAILED:V2 formal trace paths incomplete",
+  "formal_execution_id": "d013i-v2-formal-20260815T092635Z",
+  "interpretation": "The single formal invocation was invalid before organism execution; no P0 viability verdict was produced.",
+  "organism_execution_started": false,
+  "primary": true,
+  "retry_performed": false,
+  "run_root_created": false,
+  "stage": "pre_worker_v2_trace_path_initialization",
+  "worker_started": false
+}

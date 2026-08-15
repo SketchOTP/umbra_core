@@ -1,0 +1,13 @@
+{
+  "not_generated": [
+    "PHYSIOLOGY_TRACE.jsonl",
+    "RECOVERY_TRACE.jsonl",
+    "ACTION_TRACE.jsonl",
+    "GOVERNANCE_TRACE.jsonl",
+    "VERIFIED_OUTCOME_TRACE.jsonl",
+    "PROCESS_SUPERVISION.json",
+    "RESOURCE_USAGE.json"
+  ],
+  "reason": "No worker or database was started; no empty substitute traces were created.",
+  "status": "INVALID_BEFORE_ORGANISM_EXECUTION"
+}
