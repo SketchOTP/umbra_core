@@ -494,21 +494,34 @@ def run(
         raise SupervisionError("DUPLICATE_CAMPAIGN", "formal_evidence_exists")
 
     work_evidence = run_root / "evidence"
-    selected_formal_paths = dict(formal_trace_paths or {})
     if recovery_contract_version == CONTRACT_VERSION:
         required_paths = {
             "formal_physiology_trace_path",
             "formal_recovery_trace_path",
             "formal_failure_path",
-        }
-        if not required_paths <= selected_formal_paths.keys():
-            raise SupervisionError(
-                "FORMAL_CONTRACT_INVALID", "V2 formal trace paths incomplete"
-            )
-        selected_formal_paths.setdefault(
             "formal_recovery_evaluation_trace_path",
-            str(work_evidence / "P0_RECOVERY_EVALUATION_TRACE.jsonl"),
-        )
+        }
+        if formal_trace_paths is None:
+            selected_formal_paths = {
+                "formal_physiology_trace_path": str(
+                    work_evidence / "PHYSIOLOGY_TRACE.jsonl"
+                ),
+                "formal_recovery_trace_path": str(
+                    work_evidence / "RECOVERY_TRACE.jsonl"
+                ),
+                "formal_failure_path": str(work_evidence / "FIRST_FAILURE.json"),
+                "formal_recovery_evaluation_trace_path": str(
+                    work_evidence / "P0_RECOVERY_EVALUATION_TRACE.jsonl"
+                ),
+            }
+        else:
+            selected_formal_paths = dict(formal_trace_paths)
+            if not required_paths <= selected_formal_paths.keys():
+                raise SupervisionError(
+                    "FORMAL_CONTRACT_INVALID", "V2 formal trace paths incomplete"
+                )
+    else:
+        selected_formal_paths = dict(formal_trace_paths or {})
     database = run_root / "organism.sqlite"
     ownership_path = run_root / "database-ownership.json"
     schedule_path = work_evidence / "p0-schedule-trace.jsonl"
