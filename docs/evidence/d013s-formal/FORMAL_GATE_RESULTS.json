@@ -1,0 +1,25 @@
+{
+  "directive": "UMBRA-D-013S",
+  "formal_verdict": "D013S_P0_INTEGRITY_FAIL",
+  "first_failure": "RECOVERY_INTEGRITY_FAILURE:physiology_integrity_or_critical_boundary",
+  "gates": {
+    "gate_0_frozen_baseline_configuration": "PASS",
+    "gate_1_historical_evidence_preserved": "PASS",
+    "gate_2_identity_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_3_persistence_ledger_integrity": "PASS",
+    "gate_4_governance_authority_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_5_habitat_execution_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_6_verified_outcome_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_7_physiology_integrity": "FAIL_AT_FIRST_FAILURE",
+    "gate_8_integrated_recovery_viability": "NOT_EVALUATED_AFTER_FAIL_FAST",
+    "gate_9_process_supervision_integrity": "PASS",
+    "gate_10_resource_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_11_required_active_observation": "NOT_SATISFIED_AFTER_FAIL_FAST",
+    "gate_12_cleanup_evidence_integrity": "PASS"
+  },
+  "notes": [
+    "The exact first failure is preserved in FIRST_FAILURE.json and the complete evaluator and physiology traces.",
+    "The failure occurred when energy crossed the existing critical boundary after an admitted and verified APPROACH.",
+    "No retry, second seed, fallback invocation, remediation, or production change occurred."
+  ]
+}

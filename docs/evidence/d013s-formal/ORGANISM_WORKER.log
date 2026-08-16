@@ -1,0 +1,4 @@
+{"event":"ownership_acquired","execution_id":"d013s-formal-0586057","ownership_generation":1,"pid":869573,"worker_generation":1}
+{"event":"worker_ready","execution_id":"d013s-formal-0586057","pid":869573,"process_start_identity":"029fc0e8-c599-4e9c-90ad-4253a673b70d:869573:319364022","worker_generation":1}
+{"event":"event_complete","execution_id":"d013s-formal-0586057","index":0,"schedule_event":"p0-no-interaction","tick":1,"worker_generation":1}
+{"event":"quiesced","execution_id":"d013s-formal-0586057","ownership_generation":1,"worker_generation":1}

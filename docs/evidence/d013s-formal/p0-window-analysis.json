@@ -1,0 +1,97 @@
+{
+  "active_runtime_seconds": 220.01278767595068,
+  "classification": "FAILED",
+  "cpu_mean_fraction": 0.04221938408726116,
+  "failure_reasons": [
+    "post_startup_rss_slope",
+    "recent_rss_slope",
+    "sustained_monotonic_rss_staircase"
+  ],
+  "primary_window": "post_startup",
+  "rss_max_mib": 54.2578125,
+  "rss_median_mib": 49.900390625,
+  "rss_min_mib": 44.7265625,
+  "rss_p95_mib": 53.9173828125,
+  "rss_segment_medians_mib": [
+    50.36328125,
+    51.6796875,
+    52.1484375,
+    53.064453125
+  ],
+  "sample_interval_seconds": 10,
+  "stable": false,
+  "sustained_monotonic_rss_staircase": true,
+  "windows": {
+    "full": {
+      "confidence_interval": [
+        164.08823436415423,
+        175.6805972223437
+      ],
+      "sample_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "slope_mib_per_hour": 169.88441579324896
+    },
+    "post_startup": {
+      "confidence_interval": [
+        129.96222802278356,
+        159.78997502447305
+      ],
+      "sample_indices": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "slope_mib_per_hour": 144.8761015236283
+    },
+    "recent": {
+      "confidence_interval": [
+        129.96222802278356,
+        159.78997502447305
+      ],
+      "sample_indices": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "slope_mib_per_hour": 144.8761015236283
+    }
+  }
+}

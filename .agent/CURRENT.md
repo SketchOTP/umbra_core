@@ -221,3 +221,15 @@
 - Validation: focused 8 passed; D-013 family 74 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 766 passed/2 skipped/1 unchanged D-010 inventory failure.
 - Integrity: organism production, thresholds, OUTCOME_EFFECTS, contract version/fingerprint, D-013Q evidence/tag/verdict, historical evidence, RECORD, and LIBRARY_REVIEW preserved; no formal run/tag.
 - Next action: independent operator review and separate authorization decision; no formal run authorized by D-013R.
+
+## D-013S formal V2 integrated P0 revalidation
+- ID: UMBRA-D-013S
+- Status: COMPLETE — `D013S_P0_INTEGRITY_FAIL`; exactly one formal V2 invocation executed from immutable baseline `umbra-d013s-v2-formal-baseline-0586057`.
+- Baseline: `05860573b141323640c78419a6ddae3736e9473a`; runner argument `--starting-commit 0586057`.
+- Execution: `d013s-formal-0586057`; active runtime `230.24413538817316` seconds; first failure at tick 414.
+- First failure: `RECOVERY_INTEGRITY_FAILURE:physiology_integrity_or_critical_boundary`; energy crossed the existing critical boundary to `0.0485` during admitted verified `APPROACH`.
+- Evidence: `docs/evidence/d013s-formal/`; 39-file SHA-256 manifest; read-only validation PASS; 1635 persisted events; process cleanup PASS.
+- Validation: D-013 family 74 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 766 passed, 1 unchanged D-010 inventory failure, 2 skipped.
+- Integrity: no production, evaluator, threshold, historical evidence, prior verdict, `.agent/RECORD.md`, or `.agent/LIBRARY_REVIEW.md` changes; retries `0`.
+- Review: external independent review pending; no approval claim made.
+- Next action: independent read-only review only; no retry, remediation, or new formal invocation authorized by D-013S.

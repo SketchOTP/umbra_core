@@ -1,0 +1,3 @@
+{"event":"campaign_acquired","execution_id":"d013s-formal-0586057","supervisor_pid":869537}
+{"event":"worker_attached","execution_id":"d013s-formal-0586057","worker_generation":1,"worker_pid":869573}
+{"event":"campaign_released","execution_id":"d013s-formal-0586057","status":"FAILED_SCIENTIFIC"}

@@ -1,0 +1,11 @@
+{
+  "directive": "UMBRA-D-013S",
+  "formal_execution_id": "d013s-formal-0586057",
+  "starting_commit": "0586057",
+  "baseline_full_sha": "05860573b141323640c78419a6ddae3736e9473a",
+  "formal_recovery_contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "configuration_fingerprint": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+  "verdict_namespace": "D013S",
+  "configuration_source": "runner-produced p0-formal-execution-manifest.json"
+}
