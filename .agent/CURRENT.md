@@ -181,3 +181,14 @@
 - Validation: D-013M/D-013A 5 passed; D-013F/G/H/H-R1/J 47 passed; D-012 short path 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 744 passed, 2 skipped, 1 unchanged D-010 inventory failure.
 - Integrity: D-013L evidence/tag/verdict, historical evidence, thresholds, and verdicts preserved; no formal tag or P0 invocation.
 - Next action: independent review/operator decision; no formal rerun authorized by D-013M.
+
+## D-013P Direction-Aware Cross-Variable Homeostatic Recovery
+- ID: UMBRA-D-013P
+- Status: COMPLETE - D013P_DIRECTIONAL_HOMEOSTATIC_CORRECTION_PASS; non-formal causal remediation only.
+- Baseline: 0e8a0645ffbcbda11185da0dfcfbac128654064d (D-013O closeout HEAD).
+- Root cause: direction-insensitive integrity overshoot remained in fixed/sticky recovery selection and selected verified REST while stimulation was near its critical-low boundary.
+- Correction: umbra_core/physiology.py adds directionally active recovery needs; umbra_core/arbitration.py adds known-outcome cross-variable safety selection; D-013M/D-013A behavior remains covered.
+- Validation: focused D-013 regressions 55 passed; D-012 short-path 35 passed; D-009 PASS; D-010 validator PASS; governance PASS; full suite 747 passed, 2 skipped, 1 unchanged D-010 inventory failure.
+- Bounded continuation: 41 real runtime ticks; minimum energy 0.3445; minimum stimulation 0.059; no critical boundary; 34 verified positive-stimulation recoveries; identity/governance/persistence preserved.
+- Integrity: D-013O evidence/tag, historical evidence, thresholds, verdicts, .agent/RECORD.md, and .agent/LIBRARY_REVIEW.md preserved; no formal P0 or new formal tag.
+- Next action: independent read-only review; any formal V2 revalidation requires separate authorization.

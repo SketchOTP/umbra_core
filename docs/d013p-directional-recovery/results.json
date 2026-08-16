@@ -1,0 +1,35 @@
+{
+  "directive": "UMBRA-D-013P",
+  "verdict": "D013P_DIRECTIONAL_HOMEOSTATIC_CORRECTION_PASS",
+  "baseline": "0e8a0645ffbcbda11185da0dfcfbac128654064d",
+  "pre_fix": {
+    "needs_recovery": ["integrity", "stimulation"],
+    "recovery_focus": "integrity",
+    "selected_action": "REST",
+    "stimulation_before": 0.059,
+    "stimulation_after": 0.039,
+    "critical_crossing": true
+  },
+  "post_fix": {
+    "active_recovery_needs": ["stimulation"],
+    "recovery_focus": "stimulation",
+    "selected_action": "MOVE",
+    "predicted_stimulation_after": 0.062,
+    "critical_crossing": false
+  },
+  "bounded_continuation": {
+    "ticks": 41,
+    "minimum_energy": 0.3445,
+    "minimum_stimulation": 0.059,
+    "critical_boundary_crossed": false,
+    "verified_positive_stimulation_recoveries": 34,
+    "identity_preserved": true,
+    "governance_verified_outcomes": 41,
+    "persistence_chain_valid": true
+  },
+  "formal_run_launched": false,
+  "d013o_evidence_changed": false,
+  "historical_evidence_changed": false,
+  "thresholds_changed": false,
+  "v2_contract_changed": false
+}

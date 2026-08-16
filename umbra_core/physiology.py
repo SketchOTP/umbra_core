@@ -100,6 +100,28 @@ class Physiology:
                 out.append(n)
         return out
 
+    def active_recovery_needs(self) -> list[str]:
+        """Variables that have a directionally valid autonomous correction.
+
+        needs_recovery remains the complete diagnostic band report.  The
+        arbitration path must distinguish an actionable deficit from a
+        harmless or self-correcting overshoot: extra integrity must not select
+        an integrity-increasing REST outcome, and unusually low fatigue must
+        not select the same outcome used to reduce fatigue.
+        """
+        out: list[str] = []
+        for name, bounds in BOUNDS.items():
+            value = self.get(name)
+            if name == "fatigue":
+                actionable = value > bounds.viable_high
+            elif name in {"energy", "integrity"}:
+                actionable = value < bounds.viable_low
+            else:
+                actionable = not bounds.in_viable(value)
+            if actionable:
+                out.append(name)
+        return out
+
     def critical_any(self) -> bool:
         return any(BOUNDS[n].critical_violation(self.get(n)) for n in BOUNDS)
 

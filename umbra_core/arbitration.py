@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from umbra_core.embodiment import CAPABILITIES
-from umbra_core.physiology import BOUNDS, Physiology
+from umbra_core.physiology import BOUNDS, OUTCOME_EFFECTS, Physiology
 from umbra_core.temporal.policy import PolicyExpectationView
 from umbra_core.util import SeededRNG, clamp
 from umbra_core.wait_execution import (
@@ -291,6 +291,20 @@ class Arbitrator:
     def __init__(self, state: ArbitrationState | None = None):
         self.state = state or ArbitrationState()
 
+    @staticmethod
+    def _introduces_critical_boundary(
+        cand: Candidate, phys: Physiology, *, ignore: str | None = None
+    ) -> bool:
+        """Reject a known action effect that creates a new critical variable."""
+        for name, delta in OUTCOME_EFFECTS.get(cand.capability, {}).items():
+            if name == ignore:
+                continue
+            before = phys.get(name)
+            after = clamp(before + float(delta))
+            if not BOUNDS[name].critical_violation(before) and BOUNDS[name].critical_violation(after):
+                return True
+        return False
+
     def generate_candidates(
         self,
         phys: Physiology,
@@ -530,7 +544,11 @@ class Arbitrator:
             return cand
 
         # recovery reflexes — disabled under physiology-hidden ablation (C3)
-        needs = [] if self.state.hide_physiology else phys.needs_recovery()
+        needs = (
+            []
+            if self.state.hide_physiology
+            else (phys.active_recovery_needs() or phys.needs_recovery())
+        )
         critical = bool(needs or phys.critical_any()) and not self.state.hide_physiology
         if critical:
             crit = phys.critical_vars()
@@ -578,6 +596,22 @@ class Arbitrator:
                 self._commit(chosen, tick)
                 return chosen
 
+            def commit_safe_recovery(chosen: Candidate) -> Candidate:
+                """Commit a recovery action only if its known effect is safe."""
+                if not self._introduces_critical_boundary(chosen, phys, ignore=focus):
+                    self._commit(chosen, tick)
+                    return chosen
+                alternatives = [
+                    candidate
+                    for candidate in self.generate_candidates(phys, observations, tick)
+                    if not self._introduces_critical_boundary(candidate, phys, ignore=focus)
+                ]
+                if alternatives:
+                    return pick_recovery(alternatives)
+                fallback = Candidate("IDLE", {})
+                self._commit(fallback, tick)
+                return fallback
+
             if focus == "energy":
                 if "resource" in kinds or "novel_crystal" in kinds:
                     kind = "resource" if "resource" in kinds else "novel_crystal"
@@ -593,14 +627,12 @@ class Arbitrator:
                     )
                     if dist <= 1.5 and not repeated_denial:
                         chosen = Candidate("CHARGE", {"toward": kind})
-                        self._commit(chosen, tick)
-                        return chosen
+                        return commit_safe_recovery(chosen)
                     chosen = Candidate(
                         "APPROACH",
                         {"heading_delta": hd, "step": 1.5, "toward": kind},
                     )
-                    self._commit(chosen, tick)
-                    return chosen
+                    return commit_safe_recovery(chosen)
                 # persistent absolute search heading
                 if tick % 9 == 0:
                     self.state.search_heading += 0.9
@@ -608,8 +640,7 @@ class Arbitrator:
                     "MOVE",
                     {"heading": self.state.search_heading, "step": 1.5},
                 )
-                self._commit(chosen, tick)
-                return chosen
+                return commit_safe_recovery(chosen)
             if focus == "fatigue":
                 if "rest" in kinds:
                     o = next(o for o in observations if o["kind"] == "rest")
@@ -617,22 +648,19 @@ class Arbitrator:
                     dist = float(o["estimated_distance"])
                     if dist <= 2.2:
                         chosen = Candidate("REST", {"toward": "rest"})
-                        self._commit(chosen, tick)
-                        return chosen
+                        return commit_safe_recovery(chosen)
                     chosen = Candidate(
                         "APPROACH",
                         {"heading_delta": hd, "step": 1.4, "toward": "rest"},
                     )
-                    self._commit(chosen, tick)
-                    return chosen
+                    return commit_safe_recovery(chosen)
                 if tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
                     "MOVE",
                     {"heading": self.state.search_heading, "step": 1.3},
                 )
-                self._commit(chosen, tick)
-                return chosen
+                return commit_safe_recovery(chosen)
             if focus == "integrity":
                 # rest repairs integrity; retreat from hazard first
                 if "hazard" in kinds:
@@ -646,33 +674,28 @@ class Arbitrator:
                                 "from": "hazard",
                             },
                         )
-                        self._commit(chosen, tick)
-                        return chosen
+                        return commit_safe_recovery(chosen)
                 if "rest" in kinds:
                     o = next(o for o in observations if o["kind"] == "rest")
                     hd = float(o["relative_direction"])
                     if float(o["estimated_distance"]) <= 2.2:
                         chosen = Candidate("REST", {"toward": "rest"})
-                        self._commit(chosen, tick)
-                        return chosen
+                        return commit_safe_recovery(chosen)
                     chosen = Candidate(
                         "APPROACH",
                         {"heading_delta": hd, "step": 1.4, "toward": "rest"},
                     )
-                    self._commit(chosen, tick)
-                    return chosen
+                    return commit_safe_recovery(chosen)
                 if tick % 4 == 0:
                     chosen = Candidate("IDLE", {})
-                    self._commit(chosen, tick)
-                    return chosen
+                    return commit_safe_recovery(chosen)
                 if tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
                     "MOVE",
                     {"heading": self.state.search_heading, "step": 1.4},
                 )
-                self._commit(chosen, tick)
-                return chosen
+                return commit_safe_recovery(chosen)
             if focus == "stimulation":
                 # overshoot: calm down via REST/IDLE rather than more inspect/move
                 if phys.stimulation > BOUNDS["stimulation"].viable_high:
@@ -690,32 +713,27 @@ class Arbitrator:
                                 "toward": "rest",
                             },
                         )
-                        self._commit(chosen, tick)
-                        return chosen
+                        return commit_safe_recovery(chosen)
                     chosen = Candidate("IDLE", {})
-                    self._commit(chosen, tick)
-                    return chosen
+                    return commit_safe_recovery(chosen)
                 if "inspect" in kinds:
                     o = next(o for o in observations if o["kind"] == "inspect")
                     hd = float(o["relative_direction"])
                     if float(o["estimated_distance"]) <= 2.2:
                         chosen = Candidate("INSPECT", {"toward": "inspect"})
-                        self._commit(chosen, tick)
-                        return chosen
+                        return commit_safe_recovery(chosen)
                     chosen = Candidate(
                         "APPROACH",
                         {"heading_delta": hd, "step": 1.3, "toward": "inspect"},
                     )
-                    self._commit(chosen, tick)
-                    return chosen
+                    return commit_safe_recovery(chosen)
                 if tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
                     "MOVE",
                     {"heading": self.state.search_heading, "step": 1.3},
                 )
-                self._commit(chosen, tick)
-                return chosen
+                return commit_safe_recovery(chosen)
 
         cands = self.generate_candidates(phys, observations, tick)
         if manipulation_bindings:
