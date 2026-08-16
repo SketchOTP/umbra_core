@@ -547,8 +547,16 @@ class Arbitrator:
         needs = (
             []
             if self.state.hide_physiology
-            else (phys.active_recovery_needs() or phys.needs_recovery())
+            else phys.active_recovery_needs()
         )
+        diagnostic_only = (
+            []
+            if self.state.hide_physiology
+            else [name for name in phys.needs_recovery() if name not in needs]
+        )
+        # Diagnostic attention is a cross-component urgency marker, never a recovery target.
+        if diagnostic_only and not needs:
+            self.state.recovery_focus = "diagnostic_only"
         critical = bool(needs or phys.critical_any()) and not self.state.hide_physiology
         if critical:
             crit = phys.critical_vars()
@@ -752,6 +760,20 @@ class Arbitrator:
                         },
                     )
                 )
+        if diagnostic_only and not needs:
+            safe = [
+                candidate
+                for candidate in cands
+                if not self._worsens_diagnostic_overshoot(
+                    candidate, phys, diagnostic_only
+                )
+            ]
+            if safe:
+                non_idle = [
+                    candidate for candidate in safe
+                    if candidate.capability not in {"IDLE", "ORIENT"}
+                ]
+                cands = non_idle or safe
         age_ticks = effective_age_ticks if effective_age_ticks is not None else tick
         if policy_expectations and wait_generation_enabled:
             cands.extend(
@@ -813,6 +835,21 @@ class Arbitrator:
         else:
             self.state.consecutive_same += 1
         self.state.action_counts[cand.capability] = self.state.action_counts.get(cand.capability, 0) + 1
+
+    @staticmethod
+    def _worsens_diagnostic_overshoot(
+        cand: Candidate, phys: Physiology, diagnostic_only: list[str]
+    ) -> bool:
+        effects = OUTCOME_EFFECTS.get(cand.capability, {})
+        for name in diagnostic_only:
+            value = phys.get(name)
+            bounds = BOUNDS[name]
+            delta = float(effects.get(name, 0.0))
+            if value > bounds.viable_high and delta > 0.0:
+                return True
+            if value < bounds.viable_low and delta < 0.0:
+                return True
+        return False
 
     def note_outcome(
         self,

@@ -192,3 +192,10 @@
 - Bounded continuation: 41 real runtime ticks; minimum energy 0.3445; minimum stimulation 0.059; no critical boundary; 34 verified positive-stimulation recoveries; identity/governance/persistence preserved.
 - Integrity: D-013O evidence/tag, historical evidence, thresholds, verdicts, .agent/RECORD.md, and .agent/LIBRARY_REVIEW.md preserved; no formal P0 or new formal tag.
 - Next action: independent read-only review; any formal V2 revalidation requires separate authorization.
+## D-013P-R1 Directional Recovery Fallback Closure
+- ID: UMBRA-D-013P-R1
+- Status: COMPLETE - D013P_R1_DIRECTIONAL_FALLBACK_CLOSED; non-formal closure of an independently reproduced review finding.
+- Baseline: 6208b4e3507c73147cb9696e3aa0c29b1a51a057.
+- Validation: focused 18 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 758 passed, 2 skipped, 1 unchanged D-010 inventory failure; bounded continuation 41 ticks with no critical crossing and 35 verified positive-stimulation recoveries.
+- Integrity: D-013O evidence/tag, historical evidence, thresholds, verdicts, .agent/RECORD.md, and .agent/LIBRARY_REVIEW.md preserved; no formal P0 or tag.
+- Next action: independent review/operator decision; any formal V2 revalidation requires separate authorization.

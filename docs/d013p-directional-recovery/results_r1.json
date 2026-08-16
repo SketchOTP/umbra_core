@@ -1,0 +1,62 @@
+{
+  "directive": "UMBRA-D-013P-R1",
+  "verdict": "D013P_R1_DIRECTIONAL_FALLBACK_CLOSED",
+  "baseline": "6208b4e3507c73147cb9696e3aa0c29b1a51a057",
+  "diagnosis": {
+    "high_integrity_only": {
+      "needs_recovery": ["integrity"],
+      "active_recovery_needs": [],
+      "pre_fix_focus": "integrity",
+      "pre_fix_action": "REST",
+      "post_fix_focus": "diagnostic_only",
+      "post_fix_action": "APPROACH"
+    },
+    "high_energy_only": {
+      "needs_recovery": ["energy"],
+      "active_recovery_needs": [],
+      "pre_fix_focus": "energy",
+      "pre_fix_action": "CHARGE",
+      "post_fix_focus": "diagnostic_only",
+      "post_fix_action": "APPROACH"
+    },
+    "low_fatigue_only": {
+      "needs_recovery": ["fatigue"],
+      "active_recovery_needs": [],
+      "pre_fix_focus": "fatigue",
+      "pre_fix_action": "REST",
+      "post_fix_focus": "diagnostic_only",
+      "post_fix_action": "APPROACH"
+    }
+  },
+  "correction": {
+    "production_file": "umbra_core/arbitration.py",
+    "production_lines_added": 38,
+    "production_lines_removed": 1,
+    "needs_recovery_semantics_changed": false,
+    "active_recovery_semantics_changed": false,
+    "thresholds_changed": false,
+    "outcome_effects_changed": false,
+    "v2_changed": false
+  },
+  "bounded_continuation": {
+    "ticks": 41,
+    "minimum_energy": 0.236,
+    "minimum_stimulation": 0.061,
+    "critical_boundary_crossed": false,
+    "verified_positive_stimulation_recoveries": 35,
+    "verified_outcomes": 41,
+    "identity_preserved": true,
+    "governance_preserved": true,
+    "persistence_preserved": true,
+    "max_consecutive_same_action": 11
+  },
+  "integrity": {
+    "d013o_evidence_changed": false,
+    "historical_evidence_changed": false,
+    "formal_p0_launched": false,
+    "formal_tag_created": false,
+    "record_modified": false,
+    "library_review_modified": false
+  },
+  "next_phase_authorized": false
+}
