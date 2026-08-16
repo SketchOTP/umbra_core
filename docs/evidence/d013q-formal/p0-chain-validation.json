@@ -1,0 +1,12 @@
+{
+  "final_chain_tip": 400,
+  "monotonic": true,
+  "sample_chain_tips": [
+    80,
+    149,
+    210,
+    271,
+    332,
+    400
+  ]
+}

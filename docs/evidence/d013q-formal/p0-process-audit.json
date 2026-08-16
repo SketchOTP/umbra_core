@@ -1,0 +1,9 @@
+{
+  "campaign_lock_exists": false,
+  "database_ownership_status": "RELEASED",
+  "incomplete_checkpoint_files": [],
+  "pass": true,
+  "remaining_sockets": [],
+  "remaining_worker_pids": [],
+  "supervisor_pid": 541148
+}

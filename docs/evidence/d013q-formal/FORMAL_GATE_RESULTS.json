@@ -1,0 +1,26 @@
+{
+  "directive": "UMBRA-D-013Q",
+  "formal_verdict": "D013Q_P0_INTEGRITY_FAIL",
+  "first_failure": "RECOVERY_INTEGRITY_FAILURE:denial_reason_not_authoritative",
+  "first_failure_canonical": "RECOVERY_INTEGRITY_FAILURE:denial_reason_not_authoritative",
+  "gates": {
+    "gate_0_frozen_baseline_configuration": "PASS",
+    "gate_1_historical_evidence_preserved": "PASS",
+    "gate_2_identity_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_3_persistence_ledger_integrity": "PASS",
+    "gate_4_governance_authority_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_5_habitat_execution_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_6_verified_outcome_integrity": "FAIL_AT_FIRST_FAILURE",
+    "gate_7_physiology_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_8_integrated_recovery_viability": "NOT_EVALUATED_AFTER_FAIL_FAST",
+    "gate_9_process_supervision_integrity": "PASS",
+    "gate_10_resource_integrity": "PASS_THROUGH_FIRST_FAILURE",
+    "gate_11_required_active_observation": "NOT_SATISFIED_AFTER_FAIL_FAST",
+    "gate_12_cleanup_evidence_integrity": "PASS"
+  },
+  "notes": [
+    "The formal runner fail-fast condition was recovery integrity, not a physiology critical-boundary crossing.",
+    "The exact first failure is preserved in FIRST_FAILURE.json and the evaluator trace.",
+    "No retry, second seed, fallback invocation, or remediation occurred."
+  ]
+}

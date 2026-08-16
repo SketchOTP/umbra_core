@@ -1,0 +1,13 @@
+{
+  "directive": "UMBRA-D-013Q",
+  "starting_commit": "0d2ace2",
+  "baseline_sha": "0d2ace2c18eee818c8a2c5d4f182273e961423b7",
+  "formal_tag": "umbra-d013q-v2-formal-baseline-0d2ace2",
+  "formal_recovery_contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "configuration_fingerprint": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+  "execution_id": "d013q-formal-0d2ace2",
+  "run_root": "/tmp/uQ",
+  "evidence_root": "docs/evidence/d013q-formal",
+  "source": "p0-formal-execution-manifest.json and p0-run-result.json"
+}

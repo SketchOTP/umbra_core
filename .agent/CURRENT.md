@@ -199,3 +199,14 @@
 - Validation: focused 18 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 758 passed, 2 skipped, 1 unchanged D-010 inventory failure; bounded continuation 41 ticks with no critical crossing and 35 verified positive-stimulation recoveries.
 - Integrity: D-013O evidence/tag, historical evidence, thresholds, verdicts, .agent/RECORD.md, and .agent/LIBRARY_REVIEW.md preserved; no formal P0 or tag.
 - Next action: independent review/operator decision; any formal V2 revalidation requires separate authorization.
+
+## D-013Q formal V2 integrated P0 revalidation
+- ID: UMBRA-D-013Q
+- Status: COMPLETE — `D013Q_P0_INTEGRITY_FAIL`; exactly one formal V2 invocation executed from immutable baseline `umbra-d013q-v2-formal-baseline-0d2ace2`.
+- Baseline: `0d2ace2c18eee818c8a2c5d4f182273e961423b7`.
+- Execution: `d013q-formal-0d2ace2`; `--starting-commit 0d2ace2`; active runtime `70.10386792896315` seconds; first failure at tick 120.
+- First failure: `RECOVERY_INTEGRITY_FAILURE:denial_reason_not_authoritative`.
+- Evidence: `docs/evidence/d013q-formal/`; read-only post-run validation PASS; 419 persisted events; process cleanup PASS.
+- Regression closeout: D-013P-R1 11 passed; D-013P 3 passed; D-013M 4 passed; D-013A 1 passed; D-013J 5 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS.
+- Integrity: no production changes after tag; historical evidence, thresholds, verdicts, `.agent/RECORD.md`, and `.agent/LIBRARY_REVIEW.md` preserved; no retry or remediation.
+- Next action: operator review of the published D-013Q integrity failure; no further formal run or remediation is authorized by D-013Q.
