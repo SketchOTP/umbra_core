@@ -106,6 +106,39 @@ def material_evidence_key(row: dict[str, Any]) -> str:
     return RESOURCE_NOT_OBSERVED
 
 
+def _capability(value: Any) -> str:
+    """Return a normalized non-empty capability label."""
+    if value is None:
+        return ""
+    return str(value).strip()
+
+
+def _capability_provenance(
+    row: dict[str, Any], outcome: dict[str, Any]
+) -> tuple[str, list[str]]:
+    """Resolve the governed action and fail closed on authority disagreement."""
+    selected = _capability(row.get("selected_candidate"))
+    executed = _capability(row.get("executed_capability"))
+    verified = _capability(outcome.get("capability"))
+    governance = dict(row.get("governance") or {})
+    governed = _capability(governance.get("capability"))
+    reasons: list[str] = []
+
+    if executed and verified and executed != verified:
+        reasons.append("capability_provenance_mismatch:executed_vs_verified")
+    if governed and executed and governed != executed:
+        reasons.append("capability_provenance_mismatch:governance_vs_executed")
+    if governed and verified and governed != verified:
+        reasons.append("capability_provenance_mismatch:governance_vs_verified")
+    if (executed or governed) and not verified:
+        reasons.append("capability_provenance_mismatch:verified_capability_missing")
+
+    # selected_candidate is diagnostic proposal provenance. It is only a
+    # fallback for legacy fixtures that contain no authoritative action.
+    canonical = executed or verified or governed or selected
+    return canonical, reasons
+
+
 def normalize_trace_row(
     row: dict[str, Any], previous: dict[str, Any] | None = None
 ) -> dict[str, Any]:
@@ -123,16 +156,12 @@ def normalize_trace_row(
     elif "new_evidence" not in normalized:
         normalized["new_evidence"] = material_changed
     outcome = _outcome(normalized)
-    capability = str(
-        normalized.get("executed_capability")
-        or normalized.get("selected_candidate")
-        or outcome.get("capability")
-        or ""
+    capability, provenance_reasons = _capability_provenance(normalized, outcome)
+    normalized["attempt_capability"] = capability
+    normalized["capability_provenance_reasons"] = provenance_reasons
+    normalized["corrective_action"] = bool(
+        capability in CORRECTIVE_CAPABILITIES and outcome.get("success")
     )
-    if "corrective_action" not in normalized:
-        normalized["corrective_action"] = bool(
-            capability in CORRECTIVE_CAPABILITIES and outcome.get("success")
-        )
     affordances = [dict(item) for item in normalized.get("available_recovery_affordances") or []]
     if "recovery_blocked" not in normalized:
         normalized["recovery_blocked"] = capability == "CHARGE" and not any(
@@ -245,9 +274,9 @@ def _physiology_safe(row: dict[str, Any]) -> bool:
 def classify_attempt(row: dict[str, Any]) -> dict[str, Any]:
     """Classify one recorded recovery attempt without changing its evidence."""
     outcome = _outcome(row)
-    capability = str(row.get("selected_candidate") or outcome.get("capability") or "")
+    capability, provenance_reasons = _capability_provenance(row, outcome)
     before, after = _physiology(row)
-    reasons: list[str] = []
+    reasons: list[str] = list(provenance_reasons)
 
     if not _has_authority_chain(row, outcome):
         reasons.append("authority_chain_invalid")
@@ -292,7 +321,7 @@ def classify_attempt(row: dict[str, Any]) -> dict[str, Any]:
 
 
 def _materially_same_denial(previous: dict[str, Any], current: dict[str, Any]) -> bool:
-    if str(previous.get("selected_candidate")) != str(current.get("selected_candidate")):
+    if str(previous.get("attempt_capability")) != str(current.get("attempt_capability")):
         return False
     if previous.get("corrective_action") or current.get("corrective_action"):
         return False

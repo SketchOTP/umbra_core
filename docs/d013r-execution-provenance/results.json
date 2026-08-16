@@ -1,0 +1,69 @@
+{
+  "directive": "UMBRA-D-013R",
+  "starting_head": "8d8625457f1d377a537c5c57059e676fedea9c2e",
+  "d013q_formal_baseline": "0d2ace2c18eee818c8a2c5d4f182273e961423b7",
+  "d013q_tag": "umbra-d013q-v2-formal-baseline-0d2ace2",
+  "contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "d013q_reproduction": {
+    "tick": 120,
+    "selected_candidate": "CHARGE",
+    "executed_capability": "REST",
+    "governance_capability": "REST",
+    "verified_capability": "REST",
+    "verified_success": false,
+    "verified_reason": "not_at_rest",
+    "existing_evaluator_attempt_capability": "CHARGE",
+    "existing_evaluator_failure": "denial_reason_not_authoritative",
+    "finding_reproduced": true
+  },
+  "provenance_inventory": {
+    "recovery_rows": 87,
+    "selected_executed_mismatches": 84,
+    "governance_executed_mismatches": 0,
+    "executed_verified_mismatches": 0,
+    "classifications": [
+      {"selected": "MANIPULATE", "executed": "IDLE", "count": 76, "classification": "B_diagnostic_capture_fallback"},
+      {"selected": "MANIPULATE", "executed": "REST", "count": 1, "classification": "B_diagnostic_capture_fallback"},
+      {"selected": "MOVE", "executed": "APPROACH", "count": 4, "classification": "B_diagnostic_capture_fallback"},
+      {"selected": "MOVE", "executed": "REST", "count": 2, "classification": "B_diagnostic_capture_fallback"},
+      {"selected": "CHARGE", "executed": "REST", "count": 1, "classification": "B_diagnostic_capture_fallback"}
+    ]
+  },
+  "correction": {
+    "files_changed": [
+      "experiments/d012/formal_contract_v2.py",
+      "experiments/d012/organism_worker.py",
+      "tests/test_d013r_execution_provenance.py"
+    ],
+    "canonical_attempt_capability": "executed_capability, verified_outcome.capability, governance.capability agreement; selected_candidate diagnostic only",
+    "mismatch_fail_closed_rules": [
+      "executed_vs_verified",
+      "governance_vs_executed",
+      "governance_vs_verified",
+      "verified_capability_missing_when authoritative capability is present"
+    ],
+    "contract_version_changed": false,
+    "contract_fingerprint_changed": false,
+    "organism_production_changed": false
+  },
+  "d013q_nonformal_replay": {
+    "rows_replayed": 87,
+    "tick_120_corrected_state": "RECOVERY_UNRESOLVED",
+    "first_failure_after_correction": null,
+    "first_failure_tick": null,
+    "d013l_loop_before_stop": false,
+    "d013o_failure_before_stop": false,
+    "formal_verdict_changed": false
+  },
+  "validation": {
+    "focused": "8 passed",
+    "d013_family": "74 passed",
+    "d012": "35 passed on /mnt/storage1tb/uD13R",
+    "d009": "PASS",
+    "d010": "PASS",
+    "governance": "PASS",
+    "full_suite": "766 passed, 2 skipped, 1 unchanged D-010 inventory failure"
+  },
+  "verdict": "D013R_EXECUTION_PROVENANCE_CORRECTION_PASS"
+}

@@ -562,6 +562,10 @@ class Worker:
             "contract_fingerprint": self.recovery_contract_fingerprint,
             "worker_generation": self.generation,
             "candidate": normalized.get("selected_candidate"),
+            "attempt_capability": normalized.get("attempt_capability"),
+            "capability_provenance_reasons": normalized.get(
+                "capability_provenance_reasons", []
+            ),
             "observation_signature": normalized.get("observation_signature"),
             "material_evidence_key": normalized.get("material_evidence_key"),
             "material_evidence_changed": normalized.get("material_evidence_changed"),

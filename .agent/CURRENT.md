@@ -210,3 +210,14 @@
 - Regression closeout: D-013P-R1 11 passed; D-013P 3 passed; D-013M 4 passed; D-013A 1 passed; D-013J 5 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS.
 - Integrity: no production changes after tag; historical evidence, thresholds, verdicts, `.agent/RECORD.md`, and `.agent/LIBRARY_REVIEW.md` preserved; no retry or remediation.
 - Next action: operator review of the published D-013Q integrity failure; no further formal run or remediation is authorized by D-013Q.
+
+## D-013R authoritative execution-capability provenance correction
+- ID: UMBRA-D-013R
+- Status: COMPLETE — `D013R_EXECUTION_PROVENANCE_CORRECTION_PASS`; non-formal V2 evaluator/trace correctness remediation only.
+- Baseline: starting head `8d8625457f1d377a537c5c57059e676fedea9c2e`; D-013Q formal baseline `0d2ace2c18eee818c8a2c5d4f182273e961423b7` preserved.
+- Finding: D-013Q tick 120 had selected `CHARGE` but governed/executed/verified `REST`; pre-correction evaluator classified CHARGE and emitted `denial_reason_not_authoritative`.
+- Correction: canonical `attempt_capability`, fail-closed true authority disagreement, selected-candidate diagnostic-only semantics, canonical downstream recovery logic, and evaluator trace provenance fields.
+- Replay: 87 rows; 84 selected/executed diagnostic mismatches; zero authority mismatches; tick 120 `RECOVERY_UNRESOLVED`; no D-013L or D-013O recurrence in replay.
+- Validation: focused 8 passed; D-013 family 74 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 766 passed/2 skipped/1 unchanged D-010 inventory failure.
+- Integrity: organism production, thresholds, OUTCOME_EFFECTS, contract version/fingerprint, D-013Q evidence/tag/verdict, historical evidence, RECORD, and LIBRARY_REVIEW preserved; no formal run/tag.
+- Next action: independent operator review and separate authorization decision; no formal run authorized by D-013R.
