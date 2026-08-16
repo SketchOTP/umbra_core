@@ -1,0 +1,63 @@
+{
+  "bounded_continuation": {
+    "reachable_critical_boundary_crossed": false,
+    "reachable_minimum_energy": 0.198,
+    "reachable_ticks": 100,
+    "reachable_verified_charge_count": 6,
+    "unreachable_critical_boundary_crossed": false,
+    "unreachable_idle_loop": false,
+    "unreachable_minimum_energy": 0.057,
+    "unreachable_ticks": 6
+  },
+  "correction": {
+    "evaluator_changed": false,
+    "files_changed": [
+      "umbra_core/arbitration.py"
+    ],
+    "hidden_world_truth_used": false,
+    "outcome_effects_changed": false,
+    "thresholds_changed": false,
+    "v2_changed": false
+  },
+  "d013s_formal_baseline": "05860573b141323640c78419a6ddae3736e9473a",
+  "d013s_reproduction": {
+    "critical_crossing": true,
+    "energy_before": 0.0525,
+    "predicted_energy_after": 0.0485,
+    "reproduced": true,
+    "resource_distance": 4.467516296777175,
+    "resource_executable": false,
+    "selected_candidate": "APPROACH",
+    "verified_effect": -0.004
+  },
+  "d013s_tag": "umbra-d013s-v2-formal-baseline-0586057",
+  "directive": "UMBRA-D-013T",
+  "feasibility": {
+    "classification": "BOTH",
+    "earliest_unrecoverable_tick": 409,
+    "estimated_route_cost_at_409": 0.034,
+    "policy_visible_inputs_only": true,
+    "safe_reserve_available_at_409": 0.0225
+  },
+  "fresh_formal_run_authorized": false,
+  "integrity": {
+    "LIBRARY_REVIEW_modified": false,
+    "RECORD_modified": false,
+    "d013s_evidence_modified": false,
+    "formal_p0_launched": false,
+    "formal_tag_created": false,
+    "historical_evidence_modified": false,
+    "thresholds_modified": false
+  },
+  "starting_head": "9028a59284b73ea5e635f4306ed8a440ebd81e32",
+  "validation": {
+    "d009": "PASS",
+    "d010": "PASS",
+    "d012": "35 passed",
+    "d013_family": "82 passed",
+    "d013t_focused": "8 passed",
+    "full_suite": "774 passed, 2 skipped, 1 known unchanged D-010 failure",
+    "governance": "PASS"
+  },
+  "verdict": "D013T_RESERVE_AWARE_RECOVERY_CORRECTION_PASS"
+}

@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import math
 from typing import Any
 
 from umbra_core.embodiment import CAPABILITIES
-from umbra_core.physiology import BOUNDS, OUTCOME_EFFECTS, Physiology
+from umbra_core.physiology import BOUNDS, DEFAULT_DRIFT, OUTCOME_EFFECTS, Physiology
 from umbra_core.temporal.policy import PolicyExpectationView
 from umbra_core.util import SeededRNG, clamp
 from umbra_core.wait_execution import (
@@ -27,6 +28,8 @@ MAX_EXPECTATIONS_PER_CANDIDATE = 2
 PREPARATION_HORIZON_TICKS = 5
 TEMPORAL_MODIFIER_TARGETS = frozenset({"MOVE", "APPROACH", "INSPECT", "REST"})
 WAIT_CAPABILITY = "WAIT"
+CHARGE_SELECTION_DISTANCE = 1.5
+APPROACH_RECOVERY_STEP = 1.5
 
 
 @dataclass
@@ -295,7 +298,13 @@ class Arbitrator:
     def _introduces_critical_boundary(
         cand: Candidate, phys: Physiology, *, ignore: str | None = None
     ) -> bool:
-        """Reject a known action effect that creates a new critical variable."""
+        """Reject effects that create a new critical variable.
+
+        ignore remains accepted for snapshot/API compatibility. Energy
+        recovery APPROACH actions never use it; other capabilities and other
+        recovery focuses retain their prior cross-variable behavior so this
+        correction stays scoped to the demonstrated D-013S route defect.
+        """
         for name, delta in OUTCOME_EFFECTS.get(cand.capability, {}).items():
             if name == ignore:
                 continue
@@ -304,6 +313,43 @@ class Arbitrator:
             if not BOUNDS[name].critical_violation(before) and BOUNDS[name].critical_violation(after):
                 return True
         return False
+
+    @staticmethod
+    def _energy_route_budget(
+        phys: Physiology, observation: dict[str, Any]
+    ) -> tuple[bool, int, float]:
+        """Estimate a bounded resource route from policy-visible observations.
+
+        The estimate uses the same visible charge-selection boundary and
+        recovery approach step already used by arbitration. It intentionally
+        excludes hidden habitat coordinates and evaluator-only affordance
+        truth. The first approach is charged at its known verified effect;
+        later approaches include one autonomous drift interval between actions.
+        """
+        distance = float(observation.get("estimated_distance", float("inf")))
+        if not math.isfinite(distance):
+            return True, 0, 0.0
+        # Preserve the existing emergency progress path once criticality
+        # already exists; reserve feasibility governs the non-critical descent
+        # into the floor exposed by D-013S.
+        if BOUNDS["energy"].critical_violation(phys.energy):
+            return True, 0, 0.0
+        approaches = max(
+            0,
+            int(
+                math.ceil(
+                    max(0.0, distance - CHARGE_SELECTION_DISTANCE)
+                    / APPROACH_RECOVERY_STEP
+                )
+            ),
+        )
+        approach_cost = max(
+            0.0, -float(OUTCOME_EFFECTS["APPROACH"].get("energy", 0.0))
+        )
+        drift_cost = max(0.0, -float(DEFAULT_DRIFT.get("energy", 0.0)))
+        route_cost = approaches * approach_cost + max(0, approaches - 1) * drift_cost
+        safe_reserve = phys.energy - BOUNDS["energy"].critical_low
+        return safe_reserve >= route_cost, approaches, route_cost
 
     def generate_candidates(
         self,
@@ -606,13 +652,24 @@ class Arbitrator:
 
             def commit_safe_recovery(chosen: Candidate) -> Candidate:
                 """Commit a recovery action only if its known effect is safe."""
-                if not self._introduces_critical_boundary(chosen, phys, ignore=focus):
+                def focus_exemption(candidate: Candidate) -> str | None:
+                    return (
+                        None
+                        if focus == "energy" and candidate.capability == "APPROACH"
+                        else focus
+                    )
+
+                if not self._introduces_critical_boundary(
+                    chosen, phys, ignore=focus_exemption(chosen)
+                ):
                     self._commit(chosen, tick)
                     return chosen
                 alternatives = [
                     candidate
                     for candidate in self.generate_candidates(phys, observations, tick)
-                    if not self._introduces_critical_boundary(candidate, phys, ignore=focus)
+                    if not self._introduces_critical_boundary(
+                        candidate, phys, ignore=focus_exemption(candidate)
+                    )
                 ]
                 if alternatives:
                     return pick_recovery(alternatives)
@@ -633,8 +690,23 @@ class Arbitrator:
                         and denial.get("reason") in RECOVERY_DENIAL_REASONS
                         and (not denial_target or denial_target == kind)
                     )
-                    if dist <= 1.5 and not repeated_denial:
+                    if dist <= CHARGE_SELECTION_DISTANCE and not repeated_denial:
                         chosen = Candidate("CHARGE", {"toward": kind})
+                        return commit_safe_recovery(chosen)
+                    route_feasible, required_approaches, route_cost = (
+                        self._energy_route_budget(phys, o)
+                    )
+                    if not route_feasible:
+                        chosen = Candidate(
+                            "SIGNAL_ASSISTANCE",
+                            {
+                                "toward": kind,
+                                "reason": "energy_recovery_route_infeasible",
+                                "estimated_distance": dist,
+                                "required_approach_count": required_approaches,
+                                "estimated_route_energy_cost": route_cost,
+                            },
+                        )
                         return commit_safe_recovery(chosen)
                     chosen = Candidate(
                         "APPROACH",

@@ -233,3 +233,13 @@
 - Integrity: no production, evaluator, threshold, historical evidence, prior verdict, `.agent/RECORD.md`, or `.agent/LIBRARY_REVIEW.md` changes; retries `0`.
 - Review: external independent review pending; no approval claim made.
 - Next action: independent read-only review only; no retry, remediation, or new formal invocation authorized by D-013S.
+
+## D-013T reserve-aware energy recovery correction
+- ID: UMBRA-D-013T
+- Status: COMPLETE — D013T_RESERVE_AWARE_RECOVERY_CORRECTION_PASS; non-formal causal remediation only.
+- Baseline: starting head 9028a59284b73ea5e635f4306ed8a440ebd81e32; D-013S formal baseline 05860573b141323640c78419a6ddae3736e9473a preserved.
+- Root cause: BOTH — route became infeasible at observable tick 409 and the current energy focus exemption permitted the terminal APPROACH at tick 414 to cross the critical floor.
+- Correction: umbra_core/arbitration.py now budgets policy-visible route cost for energy APPROACH and exposes demonstrable unrecoverability through existing SIGNAL_ASSISTANCE; no thresholds, effects, evaluator, V2 contract, or hidden world truth changed.
+- Validation: D-013T focused 8 passed; D-013 family 82 passed; D-012 short path 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 774 passed, 2 skipped, 1 unchanged D-010 inventory failure.
+- Integrity: D-013S and historical evidence preserved; .agent/RECORD.md and .agent/LIBRARY_REVIEW.md preserved; no formal P0 or formal tag.
+- Next action: external independent read-only review; fresh formal run remains unauthorized.
