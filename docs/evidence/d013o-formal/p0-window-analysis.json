@@ -1,0 +1,71 @@
+{
+  "active_runtime_seconds": 140.00377314491197,
+  "classification": "FAILED",
+  "cpu_mean_fraction": 0.031975240619882474,
+  "failure_reasons": [
+    "post_startup_rss_slope",
+    "recent_rss_slope"
+  ],
+  "primary_window": "post_startup",
+  "rss_max_mib": 51.171875,
+  "rss_median_mib": 48.09375,
+  "rss_min_mib": 44.6953125,
+  "rss_p95_mib": 50.8849609375,
+  "rss_segment_medians_mib": [
+    50.30859375,
+    50.73046875,
+    51.171875
+  ],
+  "sample_interval_seconds": 10,
+  "stable": false,
+  "sustained_monotonic_rss_staircase": false,
+  "windows": {
+    "full": {
+      "confidence_interval": [
+        179.3582149302044,
+        189.77117187147942
+      ],
+      "sample_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "slope_mib_per_hour": 184.56469340084192
+    },
+    "post_startup": {
+      "confidence_interval": [
+        150.87693022178763,
+        160.64407711528742
+      ],
+      "sample_indices": [
+        11,
+        12,
+        13
+      ],
+      "slope_mib_per_hour": 155.76050366853752
+    },
+    "recent": {
+      "confidence_interval": [
+        150.87693022178763,
+        160.64407711528742
+      ],
+      "sample_indices": [
+        11,
+        12,
+        13
+      ],
+      "slope_mib_per_hour": 155.76050366853752
+    }
+  }
+}

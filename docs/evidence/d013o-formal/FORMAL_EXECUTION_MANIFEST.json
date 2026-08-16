@@ -1,0 +1,19 @@
+{
+  "directive": "UMBRA-D-013O",
+  "execution_id": "d013o-formal-26cd2f8-001",
+  "baseline_commit": "26cd2f81e343772cb797f5d31fbaf30e918aace7",
+  "starting_commit": "26cd2f8",
+  "formal_tag": "umbra-d013o-v2-formal-baseline-26cd2f8",
+  "formal_tag_target": "26cd2f81e343772cb797f5d31fbaf30e918aace7",
+  "formal_recovery_contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "configuration_fingerprint": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+  "run_count": 1,
+  "organism_started": true,
+  "active_runtime_seconds": 150.1428255396895,
+  "terminal_verdict": "D013O_P0_INTEGRITY_FAIL",
+  "terminal_reason": "RECOVERY_INTEGRITY_FAILURE:physiology_integrity_or_critical_boundary",
+  "first_failure_tick": 270,
+  "worker_generations": 1,
+  "process_cleanup_pass": true
+}

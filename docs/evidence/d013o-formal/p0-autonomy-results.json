@@ -1,0 +1,10 @@
+{
+  "direct_action_injection": false,
+  "expression_read_only": true,
+  "first_tick": 20,
+  "last_tick": 257,
+  "outcome_count": 257,
+  "pass": true,
+  "proposal_count": 257,
+  "ticks_advanced": true
+}

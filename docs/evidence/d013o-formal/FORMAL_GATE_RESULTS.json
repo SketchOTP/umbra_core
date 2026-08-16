@@ -1,0 +1,16 @@
+{
+  "gate_0_frozen_baseline_configuration": "PASS",
+  "gate_1_historical_evidence_preservation": "PASS",
+  "gate_2_identity_integrity": "PASS",
+  "gate_3_persistence_ledger_integrity": "PASS",
+  "gate_4_organism_authority_governance": "PASS_THROUGH_FAILURE",
+  "gate_5_habitat_execution_integrity": "PASS_THROUGH_FAILURE",
+  "gate_6_verified_outcome_integrity": "PASS_THROUGH_FAILURE",
+  "gate_7_physiology_integrity": "FAIL",
+  "gate_8_integrated_recovery_viability": "FAIL",
+  "gate_9_process_supervision_integrity": "PASS",
+  "gate_10_resource_integrity_bounds": "OBSERVED_UNTIL_FAIL_FAST",
+  "gate_11_required_active_observation_duration": "NOT_REQUIRED_AFTER_FAIL_FAST",
+  "gate_12_cleanup_evidence_integrity": "PASS",
+  "first_failure": "RECOVERY_INTEGRITY_FAILURE:physiology_integrity_or_critical_boundary"
+}
