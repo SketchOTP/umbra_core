@@ -1,0 +1,10 @@
+{
+  "hash_scope": "D-013N invocation-level closeout artifacts excluding this hash file",
+  "files": {
+    "CLEANUP_REPORT.md": "82f9ccf330ac1b0d19f94c6d894b556db20d202ba392a85d83c0f966fe41558d",
+    "FORMAL_EXECUTION_MANIFEST.json": "ef9611050bda04da53b629ac80256b7530922e505d121ce9a4483b56472511c3",
+    "INVOCATION_STDERR.txt": "e023a5ea65ee022d7f623c99e999844baa5445a01b03b887a9098be82168a64d",
+    "REGRESSION_RESULTS.md": "5b8ad4dc72fe2e70899de01e7f0847f476932523ced73744bb82f9440d5b34a3",
+    "VERDICT.md": "e0d9a70878e0a6869347f6aaee56f92fcb14c2e8467bec24415ee0e323b2cb46"
+  }
+}

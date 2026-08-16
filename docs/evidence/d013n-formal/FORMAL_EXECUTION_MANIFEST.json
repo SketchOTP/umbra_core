@@ -1,0 +1,15 @@
+{
+  "directive": "UMBRA-D-013N",
+  "formal_execution_id": "d013n-formal-414e60f-001",
+  "starting_commit": "414e60f",
+  "full_baseline_commit": "414e60fdf354217ea47afc22485413dc6e010eb9",
+  "formal_tag": "umbra-d013n-v2-formal-baseline-414e60f",
+  "formal_recovery_contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2",
+  "verdict_namespace": "D013N",
+  "run_count": 1,
+  "organism_started": false,
+  "terminal_verdict": "D013N_FORMAL_RUN_INVALID",
+  "terminal_reason": "RUNNER_ENTRYPOINT_IMPORT_ERROR",
+  "invocation": "python3 experiments/d012/run_formal_p0.py --run-root /mnt/storage1tb/d013n-v2-run --evidence-root /home/sketch/Projects/UMBRA-CORE/docs/evidence/d013n-formal --execution-id d013n-formal-414e60f-001 --starting-commit 414e60f --directive-id UMBRA-D-013N --verdict-namespace D013N --formal-recovery-contract-version P0_RECOVERY_CONTRACT_V2 --contract-fingerprint 511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2"
+}

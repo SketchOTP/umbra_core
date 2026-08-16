@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/sketch/Projects/UMBRA-CORE/experiments/d012/run_formal_p0.py", line 16, in <module>
+    from .campaign_supervisor import CampaignSupervisor, freeze_hash
+ImportError: attempted relative import with no known parent package
