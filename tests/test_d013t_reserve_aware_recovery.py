@@ -52,6 +52,41 @@ def test_safe_near_floor_approach_remains_eligible():
     assert projected >= BOUNDS["energy"].critical_low
 
 
+def test_energy_focus_signal_assistance_crossing_is_rejected():
+    physiology = _low_energy(0.0505)
+    chosen = Arbitrator().select(physiology, _resource(8.0), 414, SeededRNG(13013))
+
+    assert chosen.capability != "SIGNAL_ASSISTANCE"
+    projected = physiology.energy + OUTCOME_EFFECTS[chosen.capability].get("energy", 0.0)
+    assert projected >= BOUNDS["energy"].critical_low
+
+
+def test_energy_focus_generic_negative_energy_capability_is_guarded():
+    physiology = _low_energy(0.0505)
+    chosen = Arbitrator().select(physiology, [], 414, SeededRNG(13013))
+
+    assert chosen.capability != "MOVE"
+    projected = physiology.energy + OUTCOME_EFFECTS[chosen.capability].get("energy", 0.0)
+    assert projected >= BOUNDS["energy"].critical_low
+
+
+def test_safe_negative_energy_signal_remains_eligible():
+    physiology = _low_energy(0.0600)
+    chosen = Arbitrator().select(physiology, _resource(8.0), 414, SeededRNG(13013))
+
+    assert chosen.capability == "SIGNAL_ASSISTANCE"
+    projected = physiology.energy + OUTCOME_EFFECTS[chosen.capability]["energy"]
+    assert projected >= BOUNDS["energy"].critical_low
+
+
+def test_charge_remains_eligible_and_restorative():
+    physiology = _low_energy(0.0505)
+    chosen = Arbitrator().select(physiology, _resource(1.0), 414, SeededRNG(13013))
+
+    assert chosen.capability == "CHARGE"
+    assert OUTCOME_EFFECTS[chosen.capability]["energy"] > 0
+
+
 def test_reachable_energy_recovery_preserves_progress_and_charge():
     physiology = _low_energy(0.0600)
     arbitrator = Arbitrator()

@@ -90,7 +90,12 @@ def test_prediction_error_uses_verified_outcome(tmp_path):
 
 
 def test_prediction_error_decreases_with_experience(tmp_path):
-    org = create_organism(OrganismConfig(db_path=_db(tmp_path), seed=5, intervention="I1"))
+    # Isolate the D-002 learning invariant from D-013T-R1 low-energy recovery arbitration.
+    org = create_organism(
+        OrganismConfig(
+            db_path=_db(tmp_path), seed=5, intervention="I1", drift_enabled=False
+        )
+    )
     org.run_ticks(200)
     assert org.self_model is not None
     early, late = org.self_model.initial_vs_recent_error(window=25, skip_first=5)

@@ -301,9 +301,10 @@ class Arbitrator:
         """Reject effects that create a new critical variable.
 
         ignore remains accepted for snapshot/API compatibility. Energy
-        recovery APPROACH actions never use it; other capabilities and other
-        recovery focuses retain their prior cross-variable behavior so this
-        correction stays scoped to the demonstrated D-013S route defect.
+        recovery candidates with known negative energy effects never use it;
+        non-energy recovery focuses retain their prior cross-variable
+        behavior so this correction stays scoped to the demonstrated D-013S
+        route defect.
         """
         for name, delta in OUTCOME_EFFECTS.get(cand.capability, {}).items():
             if name == ignore:
@@ -653,9 +654,12 @@ class Arbitrator:
             def commit_safe_recovery(chosen: Candidate) -> Candidate:
                 """Commit a recovery action only if its known effect is safe."""
                 def focus_exemption(candidate: Candidate) -> str | None:
+                    energy_effect = float(
+                        OUTCOME_EFFECTS.get(candidate.capability, {}).get("energy", 0.0)
+                    )
                     return (
                         None
-                        if focus == "energy" and candidate.capability == "APPROACH"
+                        if focus == "energy" and energy_effect < 0.0
                         else focus
                     )
 

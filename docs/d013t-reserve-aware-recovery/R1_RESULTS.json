@@ -1,0 +1,111 @@
+{
+  "baseline": {
+    "d013s_baseline": "05860573b141323640c78419a6ddae3736e9473a",
+    "d013s_tag_verified": true,
+    "remote_head_before": "52735efe7ccfb0a12f992ae5373004dc5638c57e",
+    "starting_head": "52735efe7ccfb0a12f992ae5373004dc5638c57e"
+  },
+  "d013s_terminal_analysis": {
+    "available_safe_actions": "none that restore energy or reach CHARGE",
+    "causal_chain": "low reserve -> assistance signal/cooldown denials -> autonomous drift -> critical boundary",
+    "classification": "NO_RECOVERY_PATH_AVAILABLE",
+    "route_feasible": false,
+    "starting_energy": 0.0725,
+    "starting_equivalent_tick": 409
+  },
+  "directive": "UMBRA-D-013T-R1",
+  "extended_unreachable_runtime": {
+    "assistance_signals_admitted": 2,
+    "assistance_signals_denied": 6,
+    "critical_boundary_crossed": true,
+    "critical_crossing_cause": "low-reserve drift/action sequence; no assistance recovery",
+    "fixed_action_loop": false,
+    "initial_energy": 0.07,
+    "maximum_idle_streak": 0,
+    "minimum_energy": 0.04799999999999999,
+    "route_became_feasible": false,
+    "state_changing_assistance": false,
+    "terminal_condition": "CRITICAL_PHYSIOLOGY_FAILURE",
+    "terminal_energy": 0.04799999999999999,
+    "ticks": 9,
+    "verified_charge": 0
+  },
+  "finding_1_reproduction": {
+    "capability": "SIGNAL_ASSISTANCE",
+    "critical_crossing": true,
+    "energy_before": 0.0505,
+    "known_energy_effect": -0.001,
+    "pre_fix_guard_result": "accepted_due_to_energy_focus_exemption",
+    "projected_energy": 0.0495,
+    "reproduced": true
+  },
+  "integrity": {
+    "LIBRARY_REVIEW_modified": false,
+    "RECORD_modified": false,
+    "d013s_evidence_modified": false,
+    "evaluator_modified": false,
+    "formal_p0_launched": false,
+    "formal_tag_created": false,
+    "historical_evidence_modified": false,
+    "outcome_effects_modified": false,
+    "thresholds_modified": false,
+    "v2_modified": false
+  },
+  "next_phase_authorized": false,
+  "reachable_runtime": {
+    "critical_boundary_crossed": false,
+    "governance_preserved": true,
+    "identity_preserved": true,
+    "minimum_energy": 0.198,
+    "persistence_preserved": true,
+    "terminal_energy": 0.5979999999999999,
+    "ticks": 100,
+    "verified_charge_count": 6
+  },
+  "recommendation": {
+    "d013s_state_recoverable_under_existing_architecture": false,
+    "external_prior_art_required_next": true,
+    "fresh_formal_run_authorized": false,
+    "immediate_same_focus_defect_closed": true,
+    "integrated_p0_blocker_cleared": false,
+    "next_single_action": "Architect decision and external prior-art review for anticipatory/homeostatic recovery"
+  },
+  "same_focus_correction": {
+    "all_negative_energy_candidates_protected": true,
+    "capability_specific": false,
+    "files_changed": [
+      "umbra_core/arbitration.py",
+      "tests/test_d013t_reserve_aware_recovery.py"
+    ],
+    "mechanism": "energy-focus exemption removed for every known negative energy effect",
+    "outcome_effects_changed": false,
+    "thresholds_changed": false
+  },
+  "signal_assistance": {
+    "actual_recovery_mechanism": "none",
+    "authoritative_energy_recovery": false,
+    "authoritative_resource_change": false,
+    "cooldown_ticks": 6,
+    "governance_semantics": "preauthorized signal with existing cooldown",
+    "partner_response_possible": false,
+    "social_event_emitted": true,
+    "verified_energy_effect": -0.001
+  },
+  "status": "complete",
+  "validation": {
+    "d009": "PASS, 14 files, 3300 raw rows",
+    "d010": "PASS, 1900 raw rows",
+    "d012": "35 passed",
+    "d013a": "passed",
+    "d013j": "passed",
+    "d013m": "passed",
+    "d013p": "passed",
+    "d013p_r1": "passed",
+    "d013r": "passed",
+    "d013t": "13 passed",
+    "focused": "44 passed",
+    "full_suite": "778 passed, 2 skipped, 1 unchanged D-010 inventory failure",
+    "governance": "PASS, 19 files, 10 Cursor rules"
+  },
+  "verdict": "D013T_R1_UNRECOVERABLE_PATH_CONFIRMED"
+}

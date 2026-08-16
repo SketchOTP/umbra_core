@@ -243,3 +243,14 @@
 - Validation: D-013T focused 8 passed; D-013 family 82 passed; D-012 short path 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 774 passed, 2 skipped, 1 unchanged D-010 inventory failure.
 - Integrity: D-013S and historical evidence preserved; .agent/RECORD.md and .agent/LIBRARY_REVIEW.md preserved; no formal P0 or formal tag.
 - Next action: external independent read-only review; fresh formal run remains unauthorized.
+
+## D-013T-R1 independent-review closure
+- ID: UMBRA-D-013T-R1
+- Status: COMPLETE - D013T_R1_UNRECOVERABLE_PATH_CONFIRMED; non-formal review closure only; no formal P0, formal tag, D-013S retry, or V2 change.
+- Baseline: starting head 52735efe7ccfb0a12f992ae5373004dc5638c57e; D-013S baseline 05860573b141323640c78419a6ddae3736e9473a preserved.
+- Finding 1: residual energy-focus SIGNAL_ASSISTANCE crossing reproduced at energy 0.0505 -> 0.0495; guard generalized by known negative energy effect.
+- Finding 2: extended unreachable runtime reached critical energy at tick 9 after two admitted assistance signals, six cooldown denials, no state-changing rescue, no CHARGE, and no route-feasible recovery.
+- Reachable continuation: 100 ticks, minimum energy 0.198, six verified CHARGE recoveries, no critical crossing, identity/governance/persistence preserved.
+- Validation: focused 44 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 778 passed, 2 skipped, 1 unchanged D-010 inventory failure.
+- Integrity: D-013S and historical evidence, thresholds, effects, evaluator, V2 contract, RECORD, and LIBRARY_REVIEW preserved; no formal P0 or tag.
+- Next action: Architect decision plus external prior-art review for anticipatory/homeostatic recovery; integrated P0 blocker remains uncleared.
