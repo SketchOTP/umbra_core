@@ -173,3 +173,11 @@
 - Integrity: `umbra_core/` unchanged; historical evidence, thresholds, verdicts, `.agent/RECORD.md`, and `.agent/LIBRARY_REVIEW.md` preserved; no formal execution/tag/evidence.
 - Review: `APPROVE_WITHOUT_CRITICAL_OR_IMPORTANT_FINDINGS`.
 - Next action: separately authorize a new V2 formal baseline and exactly one P0 run; formal execution remains unauthorized.
+## D-013M denial-conditioned recovery correction
+- ID: D-20260815-UMBRA-D-013M
+- Status: COMPLETE — `D013M_DENIAL_CONDITIONED_RECOVERY_CORRECTION_PASS`; non-formal organism correction only; no D-013L retry or formal P0.
+- Starting head: `5cfb5be6894373abf756f8a94970d25eaeb56226`.
+- Scope: `umbra_core/arbitration.py`, `umbra_core/runtime.py`, focused D-013M tests, and root-cause record.
+- Validation: D-013M/D-013A 5 passed; D-013F/G/H/H-R1/J 47 passed; D-012 short path 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 744 passed, 2 skipped, 1 unchanged D-010 inventory failure.
+- Integrity: D-013L evidence/tag/verdict, historical evidence, thresholds, and verdicts preserved; no formal tag or P0 invocation.
+- Next action: independent review/operator decision; no formal rerun authorized by D-013M.

@@ -1693,8 +1693,17 @@ class Organism:
         action_issued: bool,
     ) -> dict[str, Any]:
         self.governance.apply_physiology(self.phys, outcome)
-        self.arbitrator.note_outcome(outcome.capability, outcome.success)
         pending_params = dict((self._pending_action or {}).get("params") or {})
+        self.arbitrator.note_outcome(
+            outcome.capability,
+            outcome.success,
+            outcome.reason,
+            target_kind=(
+                str(pending_params.get("toward"))
+                if pending_params.get("toward")
+                else None
+            ),
+        )
         self._pending_action = None
         outcome_payload = {
             "capability": outcome.capability,

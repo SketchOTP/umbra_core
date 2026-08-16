@@ -103,6 +103,7 @@ class ArbitrationState:
     max_retries: int = 4
     search_heading: float = 0.0
     recovery_focus: str | None = None
+    last_verified_denial: dict[str, str] | None = None
     # ablation flags
     hide_physiology: bool = False
     mode: str = "full"  # full | random | scripted
@@ -120,6 +121,9 @@ class ArbitrationState:
             "max_retries": self.max_retries,
             "search_heading": self.search_heading,
             "recovery_focus": self.recovery_focus,
+            "last_verified_denial": dict(self.last_verified_denial)
+            if self.last_verified_denial
+            else None,
             "hide_physiology": self.hide_physiology,
             "mode": self.mode,
         }
@@ -137,6 +141,11 @@ class ArbitrationState:
             max_retries=int(d.get("max_retries", 4)),
             search_heading=float(d.get("search_heading", 0.0)),
             recovery_focus=d.get("recovery_focus"),
+            last_verified_denial=(
+                dict(d["last_verified_denial"])
+                if d.get("last_verified_denial")
+                else None
+            ),
             hide_physiology=bool(d.get("hide_physiology", False)),
             mode=str(d.get("mode", "full")),
         )
@@ -145,6 +154,9 @@ class ArbitrationState:
 
 
 SCRIPT_CYCLE = ["ORIENT", "MOVE", "MOVE", "INSPECT", "MOVE", "CHARGE", "REST", "IDLE"]
+RECOVERY_DENIAL_REASONS = frozenset(
+    {"not_at_resource", "not_at_affordance", "not_executable"}
+)
 
 
 def _modifier_cap_for_status(status: str) -> tuple[float, float]:
@@ -522,7 +534,7 @@ class Arbitrator:
         critical = bool(needs or phys.critical_any()) and not self.state.hide_physiology
         if critical:
             crit = phys.critical_vars()
-            # sticky serialized recovery — finish current focus unless energy critical
+            # sticky recovery yields to energy need or a verified denial correction
             ORDER = ("energy", "fatigue", "integrity", "stimulation")
             pool = set(crit) if crit else set(needs)
             if self.state.recovery_focus and self.state.recovery_focus not in pool:
@@ -572,7 +584,14 @@ class Arbitrator:
                     o = next(o for o in observations if o["kind"] == kind)
                     hd = float(o["relative_direction"])
                     dist = float(o["estimated_distance"])
-                    if dist <= 1.5:
+                    denial = self.state.last_verified_denial or {}
+                    denial_target = denial.get("target_kind")
+                    repeated_denial = (
+                        denial.get("capability") == "CHARGE"
+                        and denial.get("reason") in RECOVERY_DENIAL_REASONS
+                        and (not denial_target or denial_target == kind)
+                    )
+                    if dist <= 1.5 and not repeated_denial:
                         chosen = Candidate("CHARGE", {"toward": kind})
                         self._commit(chosen, tick)
                         return chosen
@@ -777,8 +796,22 @@ class Arbitrator:
             self.state.consecutive_same += 1
         self.state.action_counts[cand.capability] = self.state.action_counts.get(cand.capability, 0) + 1
 
-    def note_outcome(self, capability: str, success: bool) -> None:
+    def note_outcome(
+        self,
+        capability: str,
+        success: bool,
+        reason: str | None = None,
+        *,
+        target_kind: str | None = None,
+    ) -> None:
         if success:
             self.state.retry_counts[capability] = 0
+            self.state.last_verified_denial = None
         else:
             self.state.retry_counts[capability] = self.state.retry_counts.get(capability, 0) + 1
+            if reason in RECOVERY_DENIAL_REASONS:
+                self.state.last_verified_denial = {
+                    "capability": capability,
+                    "reason": str(reason),
+                    **({"target_kind": target_kind} if target_kind else {}),
+                }
