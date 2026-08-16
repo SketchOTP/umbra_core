@@ -1,0 +1,16 @@
+{
+  "first_failure": "RECOVERY_FAILED:repeated_denial_without_new_evidence_or_correction",
+  "maxima": {
+    "deduplication_id_count": 0,
+    "expression_retained_count": 64,
+    "habitat_journal_count": 0,
+    "habitat_object_count": 3,
+    "individuality_evidence_count": 24,
+    "memory_count": 22,
+    "perception_observation_count": 0,
+    "routine_count": 0,
+    "social_hypothesis_count": 0,
+    "world_model_count": 9
+  },
+  "pass": true
+}

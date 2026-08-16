@@ -1,0 +1,25 @@
+{
+  "active_runtime_counter": {
+    "committed_seconds": 0.0,
+    "interval_started": null
+  },
+  "configuration_fingerprint": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "created_at": 1786839332.9844644,
+  "database_path": "/mnt/storage1tb/d013l-run/organism.sqlite",
+  "directive": "UMBRA-D-013L",
+  "evidence_path": "/mnt/storage1tb/d013l-run/evidence",
+  "formal_execution_id": "d013l-formal-ff67b87-001",
+  "formal_recovery_contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "freeze_manifest_hash": "430fda96dac20aa8c03537bf57fcab9371522ec3a20b23d1f4ded70744b06f5d",
+  "organism_identity": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+  "ownership_generation": 1,
+  "p0_config_sha256": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+  "starting_commit": "ff67b87",
+  "supervisor_pid": 3331354,
+  "supervisor_process_start_identity": "029fc0e8-c599-4e9c-90ad-4253a673b70d:3331354:312276634",
+  "verdict_namespace": "D013L",
+  "worker_generation": 1,
+  "worker_pid": 3331406,
+  "worker_process_start_identity": "029fc0e8-c599-4e9c-90ad-4253a673b70d:3331406:312276691"
+}

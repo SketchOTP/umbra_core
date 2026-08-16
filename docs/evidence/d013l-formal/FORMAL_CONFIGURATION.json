@@ -1,0 +1,50 @@
+{
+  "directive": "UMBRA-D-012B",
+  "mode": "adaptive_fail_fast_p0",
+  "minimum_active_seconds": 1200,
+  "normal_stop_seconds": 1800,
+  "extension_seconds": 600,
+  "maximum_active_seconds": 3600,
+  "sample_interval_seconds": 10,
+  "tick_hz": 2.0,
+  "events": {
+    "autonomous_no_interaction": 0,
+    "ordinary_habitat_opportunity": 0,
+    "recurring_partner_exposure": 300,
+    "adapter_intake_restart_and_duplicate_burst": 600,
+    "worker_restart": 900,
+    "checkpoint_and_snapshot_restart": 1200
+  },
+  "schedule_indices": {
+    "autonomous_no_interaction": 0,
+    "recurring_partner_exposure": 1,
+    "perception_adapter_restart": 2,
+    "duplicate_observation_burst": 3
+  },
+  "thresholds": {
+    "rss_mib_hard_max": 180,
+    "rss_slope_mib_per_hour_max": 1.0,
+    "cpu_mean_fraction_max": 0.05,
+    "database_growth_bytes_max": 67108864,
+    "event_growth_per_tick_max": 32,
+    "file_descriptor_delta_max": 4,
+    "thread_delta_max": 2,
+    "worker_child_process_max": 0,
+    "supervisor_child_process_max": 1,
+    "perception_observation_max": 256,
+    "deduplication_id_max": 512,
+    "raw_durable_payload_max": 0,
+    "near_hard_limit_fraction": 0.9,
+    "post_startup_seconds": 120,
+    "recent_window_seconds": 600
+  },
+  "threshold_provenance": {
+    "rss_cpu": "qualified D-009 thresholds",
+    "database": "qualified D-009 habitat event storage ceiling",
+    "bounded_state": "runtime collection caps",
+    "process_resources": "launch baseline plus explicit fixed deltas"
+  },
+  "d010_enabled": false,
+  "p1_authorized": false,
+  "p2_authorized": false
+}

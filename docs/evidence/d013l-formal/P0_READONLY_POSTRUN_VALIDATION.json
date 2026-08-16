@@ -1,0 +1,25 @@
+{
+  "chain_status": "ok",
+  "chain_tip_hash": "22934f3d19cd7bc7303253c39b0cffc23ad38c4383dcccedc2b1f11bfc5e3e77",
+  "configuration_fingerprint": "bbb8c18084ac70d33ca359bbcc10bb613da0901665d8b882b79055ca39190596",
+  "contract_fingerprint": "511c6f56d1cde7c5c28e290e7b1679eea85494b642eb57b5642a5295bbdd2ad2",
+  "database": "/mnt/storage1tb/d013l-run/organism.sqlite",
+  "database_exists": true,
+  "directive": "UMBRA-D-013L",
+  "event_count": 551,
+  "formal_execution_id": "d013l-formal-ff67b87-001",
+  "formal_recovery_contract_version": "P0_RECOVERY_CONTRACT_V2",
+  "identity": "551fcb9e-9209-3e74-5857-4c68ac3826b0",
+  "ledger_tip": {
+    "event_hash": "22934f3d19cd7bc7303253c39b0cffc23ad38c4383dcccedc2b1f11bfc5e3e77",
+    "sequence": 551
+  },
+  "max_event_sequence": 551,
+  "mutating_api_used": false,
+  "runtime_ready_count": 1,
+  "snapshot_count": 2,
+  "sqlite_integrity": "ok",
+  "starting_commit": "ff67b87",
+  "validation_status": "PASS",
+  "verdict_namespace": "D013L"
+}
