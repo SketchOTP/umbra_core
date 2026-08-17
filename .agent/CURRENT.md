@@ -254,3 +254,12 @@
 - Validation: focused 44 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance PASS; full suite 778 passed, 2 skipped, 1 unchanged D-010 inventory failure.
 - Integrity: D-013S and historical evidence, thresholds, effects, evaluator, V2 contract, RECORD, and LIBRARY_REVIEW preserved; no formal P0 or tag.
 - Next action: Architect decision plus external prior-art review for anticipatory/homeostatic recovery; integrated P0 blocker remains uncleared.
+
+## D-013U anticipatory viability architecture decision
+- ID: UMBRA-D-013U
+- Status: STOPPED — D013U_UNCERTAINTY_MODEL_INSUFFICIENT; non-formal audit only.
+- Baseline: 89801993a893a94ba6c17160fdd584aa457b108f.
+- Finding: D-013S resource provenance was earlier policy-visible, but existing uncertainty is 1-confidence rather than a distance bound; robust route feasibility cannot be computed without invented semantics.
+- Integrity: trial production/test edits removed; D-013S/D-013T-R1 evidence, thresholds, verdicts, RECORD, and LIBRARY_REVIEW preserved; no formal P0 or tag.
+- Evidence: docs/prior-art/homeostatic-rl/D013U_ANTICIPATORY_REFRESH.md.
+- Next action: separately authorize uncertainty-semantics architecture work before any anticipatory correction.
