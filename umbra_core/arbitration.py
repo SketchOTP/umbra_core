@@ -410,6 +410,48 @@ class Arbitrator:
     ) -> Candidate:
         if chosen.capability in ("CHARGE", "APPROACH") and chosen.params.get("toward") == "resource":
             return chosen
+        # When another need is approaching its recovery target, preserve an
+        # existing energy landmark only if the nominal route plus the already
+        # governed retry/drift allowance no longer fits in the existing
+        # energy reserve. This keeps stochasticity inside a viable candidate
+        # set without making energy universally dominant.
+        if chosen.params.get("toward") == "rest":
+            for observation in observations:
+                if observation.get("kind") not in {"resource", "novel_crystal"}:
+                    continue
+                support = observation.get("distance_support_upper_bound")
+                if support is None or not math.isfinite(float(support)):
+                    continue
+                _, _, route_cost = self._energy_route_budget(phys, observation)
+                approach_cost = max(
+                    0.0, -float(OUTCOME_EFFECTS["APPROACH"].get("energy", 0.0))
+                )
+                drift_cost = max(0.0, -float(DEFAULT_DRIFT.get("energy", 0.0)))
+                retry_cost = self.state.max_retries * (approach_cost + drift_cost)
+                reserve = phys.energy - BOUNDS["energy"].viable_low
+                if reserve >= route_cost + retry_cost:
+                    continue
+                nominal_distance = float(observation.get("estimated_distance", float("inf")))
+                if nominal_distance <= CHARGE_SELECTION_DISTANCE:
+                    preserved = Candidate(
+                        "CHARGE",
+                        {
+                            "toward": observation.get("kind", "resource"),
+                            "source": "retry_aware_recovery_corridor",
+                        },
+                    )
+                else:
+                    preserved = Candidate(
+                        "APPROACH",
+                        {
+                            "heading_delta": float(observation.get("relative_direction", 0.0)),
+                            "step": APPROACH_RECOVERY_STEP,
+                            "toward": observation.get("kind", "resource"),
+                            "source": "retry_aware_recovery_corridor",
+                        },
+                    )
+                self._commit(preserved, tick)
+                return preserved
         for observation in observations:
             if observation.get("kind") != "resource":
                 continue

@@ -647,8 +647,19 @@ class WorldModel:
             for ent in list(self.entities.values()):
                 if ent.entity_kind not in seen_kinds:
                     ent.fact_kind = FactKind.REMEMBERED_ESTIMATE.value
+                    # A directly observed resource with a bounded support region
+                    # is a recovery landmark, not an ordinary transient entity.
+                    # Preserve that bounded landmark until fresh evidence
+                    # contradicts it; it remains REMEMBERED_ESTIMATE and never
+                    # becomes a CURRENT_OBSERVATION through persistence alone.
+                    landmark = (
+                        ent.entity_kind in {"resource", "novel_crystal"}
+                        and ent.distance_support_upper_bound is not None
+                    )
                     decay = PERSISTENCE_DECAY_PER_TICK * (
-                        0.35 if ent.verified_recovery_count > 0 else 1.0
+                        0.0
+                        if landmark
+                        else (0.35 if ent.verified_recovery_count > 0 else 1.0)
                     )
                     ent.confidence = clamp(ent.confidence - decay)
                     ent.uncertainty = clamp(ent.uncertainty + PERSISTENCE_DECAY_PER_TICK)
