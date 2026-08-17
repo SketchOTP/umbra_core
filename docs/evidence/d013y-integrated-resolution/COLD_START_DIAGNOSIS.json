@@ -1,0 +1,14 @@
+{
+  "classification": "ACTION_SELECTION_SUPPRESSES_DISCOVERY",
+  "baseline_seed": 13013,
+  "baseline_first_critical_tick": 168,
+  "baseline_first_direct_resource_tick": 173,
+  "baseline_resource_before_critical": false,
+  "physical_discovery_possible": true,
+  "correction_first_direct_resource_tick": 55,
+  "correction_energy_at_first_direct_resource": 0.326,
+  "correction_discovery_before_critical": true,
+  "hidden_world_truth_used": false,
+  "fixed_location_used": false,
+  "notes": "The correction used normal MOVE actions and direct perception; the first correction run's first direct resource observation was before the historical critical window."
+}

@@ -294,3 +294,13 @@
 - Integrity: production, experiments, tests, thresholds, effects, evaluator, historical evidence, RECORD, and LIBRARY_REVIEW unchanged; no formal P0 or tag.
 - Evidence: `docs/prior-art/homeostatic-rl/D013X_ACTIVE_RESOURCE_REACQUISITION.md` and `D013X_RESULTS.json`.
 - Next action: separately decide how policy-safe resource memory is established/preserved before recovery; stop here.
+
+## D-013Y integrated survival-knowledge cycle
+- ID: UMBRA-D-013Y
+- Status: COMPLETE — `D013Y_CORRECTION_FAIL`; non-formal integrated architecture correction only.
+- Cold-start correction: PASS; first direct resource observation tick 55 at energy 0.326, before the historical critical boundary.
+- Learning/memory: direct observation and verified CHARGE strengthened body-relative resource contact memory; remembered cues remained distinct from current observations.
+- Primary 1000-tick proof: FAIL; bounded active reacquisition began at tick 154 but did not obtain a fresh resource observation before the existing critical energy boundary at tick 204.
+- Integrity: no formal P0/tag, no D-013S evidence or historical verdict changes, thresholds/effects/evaluator unchanged, RECORD and LIBRARY_REVIEW preserved.
+- Evidence: `docs/evidence/d013y-integrated-resolution/`.
+- Next action: architect review of the remaining integrated reacquisition/viability blocker; no automatic formal run or remediation.

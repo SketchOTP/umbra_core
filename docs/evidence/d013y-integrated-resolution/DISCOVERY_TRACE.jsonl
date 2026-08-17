@@ -1,0 +1,2 @@
+{"phase":"baseline","seed":13013,"first_critical_tick":168,"first_direct_resource_tick":173,"resource_discovered_before_critical":false}
+{"phase":"corrected","seed":13013,"first_direct_resource_tick":55,"discovery_action_source":"essential_resource_discovery","resource_discovered_before_critical":true}

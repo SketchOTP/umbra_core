@@ -125,6 +125,8 @@ class WorldEntity:
     distance_support_upper_bound: float | None = None
     fact_kind: str = FactKind.UNKNOWN.value
     last_tick: int = 0
+    verified_recovery_count: int = 0
+    last_verified_success_tick: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -147,6 +149,12 @@ class WorldEntity:
             ),
             persistence_probability=float(d.get("persistence_probability", 0.5)),
             evidence_count=int(d.get("evidence_count", 0)),
+            verified_recovery_count=int(d.get("verified_recovery_count", 0)),
+            last_verified_success_tick=(
+                int(d["last_verified_success_tick"])
+                if d.get("last_verified_success_tick") is not None
+                else None
+            ),
             fact_kind=str(d.get("fact_kind", FactKind.UNKNOWN.value)),
             last_tick=int(d.get("last_tick", 0)),
         )
@@ -571,10 +579,13 @@ class WorldModel:
             for ent in list(self.entities.values()):
                 if ent.entity_kind not in seen_kinds:
                     ent.fact_kind = FactKind.REMEMBERED_ESTIMATE.value
-                    ent.confidence = clamp(ent.confidence - PERSISTENCE_DECAY_PER_TICK)
+                    decay = PERSISTENCE_DECAY_PER_TICK * (
+                        0.35 if ent.verified_recovery_count > 0 else 1.0
+                    )
+                    ent.confidence = clamp(ent.confidence - decay)
                     ent.uncertainty = clamp(ent.uncertainty + PERSISTENCE_DECAY_PER_TICK)
                     ent.persistence_probability = clamp(
-                        ent.persistence_probability - PERSISTENCE_DECAY_PER_TICK
+                        ent.persistence_probability - decay
                     )
                     # predicted location is NOT observation
                     if ent.confidence < 0.05:
@@ -639,8 +650,23 @@ class WorldModel:
                 "distance_support_upper_bound": ent.distance_support_upper_bound,
                 "fact_kind": ent.fact_kind,
                 "source": "world_model_memory",
+                "verified_recovery_count": ent.verified_recovery_count,
+                "last_verified_success_tick": ent.last_verified_success_tick,
             })
         return result
+
+    def has_policy_safe_resource(self) -> bool:
+        """Return whether policy has a bounded, non-coordinate resource cue."""
+        return any(
+            ent.entity_kind in {"resource", "novel_crystal"}
+            and ent.fact_kind in {
+                FactKind.CURRENT_OBSERVATION.value,
+                FactKind.REMEMBERED_ESTIMATE.value,
+            }
+            and ent.distance_support_upper_bound is not None
+            and ent.confidence >= 0.05
+            for ent in self.entities.values()
+        )
 
     def _find_entity(self, kind: str, est: dict[str, float]) -> WorldEntity | None:
         best = None
@@ -829,6 +855,35 @@ class WorldModel:
         if verified_motion_delta is not None and verified_outcome is not None:
             delta = VerifiedMotionDelta(**verified_motion_delta)
             result["verified_motion_updates"] = self.apply_verified_motion(delta, tick=tick)
+        direct_resource = any(
+            str(o.get("kind")) in {"resource", "novel_crystal"}
+            and o.get("source") != "world_model_memory"
+            and o.get("fact_kind") != FactKind.REMEMBERED_ESTIMATE.value
+            for o in observations
+        )
+        if (
+            success
+            and action == "CHARGE"
+            and entity_kind in {"resource", "novel_crystal"}
+            and direct_resource
+        ):
+            strengthened = 0
+            for ent in self.entities.values():
+                if ent.entity_kind == entity_kind:
+                    ent.verified_recovery_count += 1
+                    ent.last_verified_success_tick = tick
+                    # A verified CHARGE establishes contact at the current body
+                    # frame; retain no absolute location or evaluator truth.
+                    ent.estimated_state = {
+                        "relative_direction": 0.0,
+                        "estimated_distance": 0.0,
+                    }
+                    ent.distance_support_upper_bound = 0.0
+                    ent.fact_kind = FactKind.CURRENT_OBSERVATION.value
+                    ent.confidence = clamp(ent.confidence + 0.15)
+                    ent.persistence_probability = clamp(ent.persistence_probability + 0.1)
+                    strengthened += 1
+            result["verified_recovery_memory_strengthened"] = strengthened > 0
         self._pending_prediction = None
         return result
 

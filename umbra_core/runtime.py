@@ -175,7 +175,7 @@ class OrganismConfig:
     temporal_scenario_hook: Any = field(default=None, repr=False)
 
 
-from umbra_core.util import SCHEMA_VERSION, SeededRNG, current_rss_mib, new_id
+from umbra_core.util import SCHEMA_VERSION, SeededRNG, angle_diff, current_rss_mib, new_id
 
 
 def condition_to_self_model_config(condition: str) -> SelfModelConfig:
@@ -1311,7 +1311,7 @@ class Organism:
             policy_expectations=policy_expectations,
             wait_journal=self._wait_journal,
             wait_generation_enabled=wait_on,
-            temporal_modifiers_enabled=modifiers_on,
+            temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()),
         )
 
         # D-004: practice goal generation + arbitration (propose only; no authority)
@@ -1442,7 +1442,7 @@ class Organism:
                 and self.arbitrator.state.mode == "full"
                 and urg.get("energy", 0) > 0.35
             ):
-                kinds = {o.get("kind") for o in obs_dicts}
+                kinds = {o.get("kind") for o in obs_dicts if o.get("kind") not in {"resource", "novel_crystal"} or (o.get("fact_kind") != "REMEMBERED_ESTIMATE" and o.get("source") != "world_model_memory")}
                 if kinds.intersection({"resource", "novel_crystal", "rest"}):
                     prefer = None
                     if self._pending_world_plan:
@@ -1810,7 +1810,7 @@ class Organism:
                 "displacement": math.hypot(dx, dy),
                 "body_relative_dx": dx * math.cos(heading) + dy * math.sin(heading),
                 "body_relative_dy": -dx * math.sin(heading) + dy * math.cos(heading),
-                "heading_delta": float(after.get("heading", heading)) - heading,
+                "heading_delta": angle_diff(float(after.get("heading", heading)), heading),
                 "provenance": "runtime:verified_body_transition",
                 "execution_id": str(outcome.outcome_id),
             }

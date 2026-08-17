@@ -105,6 +105,9 @@ class ArbitrationState:
     hysteresis: float = 0.12
     max_retries: int = 4
     search_heading: float = 0.0
+    discovery_actions_remaining: int = 0
+    discovery_cooldown_until: int = 0
+    reacquisition_streak: int = 0
     recovery_focus: str | None = None
     last_verified_denial: dict[str, str] | None = None
     # ablation flags
@@ -123,6 +126,9 @@ class ArbitrationState:
             "hysteresis": self.hysteresis,
             "max_retries": self.max_retries,
             "search_heading": self.search_heading,
+            "discovery_actions_remaining": self.discovery_actions_remaining,
+            "discovery_cooldown_until": self.discovery_cooldown_until,
+            "reacquisition_streak": self.reacquisition_streak,
             "recovery_focus": self.recovery_focus,
             "last_verified_denial": dict(self.last_verified_denial)
             if self.last_verified_denial
@@ -143,6 +149,9 @@ class ArbitrationState:
             hysteresis=float(d.get("hysteresis", 0.12)),
             max_retries=int(d.get("max_retries", 4)),
             search_heading=float(d.get("search_heading", 0.0)),
+            discovery_actions_remaining=int(d.get("discovery_actions_remaining", 0)),
+            discovery_cooldown_until=int(d.get("discovery_cooldown_until", 0)),
+            reacquisition_streak=int(d.get("reacquisition_streak", 0)),
             recovery_focus=d.get("recovery_focus"),
             last_verified_denial=(
                 dict(d["last_verified_denial"])
@@ -557,6 +566,14 @@ class Arbitrator:
                 gain += urg["fatigue"] * 0.25
                 gain += urg["integrity"] * 0.15
 
+        # Information-seeking is an endogenous affordance when no policy-safe
+        # essential recovery route is known. It is bounded by the state budget
+        # and remains subordinate to ordinary critical recovery above.
+        if cand.params.get("source") == "essential_resource_discovery":
+            gain += 0.55
+        elif cand.params.get("source") == "active_reacquisition":
+            gain += urg["energy"] * 0.8
+
         # option preservation — keep some energy / avoid hazard approaches
         option = 0.2
         if cap in ("MOVE", "APPROACH") and toward == "hazard":
@@ -644,6 +661,7 @@ class Arbitrator:
         routine_proposals: list[dict[str, Any]] | None = None,
         policy_expectations: tuple[PolicyExpectationView, ...] | None = None,
         effective_age_ticks: int | None = None,
+        discovery_needed: bool = False,
         wait_journal: WaitJournal | None = None,
         wait_generation_enabled: bool = True,
         temporal_modifiers_enabled: bool = True,
@@ -752,9 +770,26 @@ class Arbitrator:
                 return fallback
 
             if focus == "energy":
-                if "resource" in kinds or "novel_crystal" in kinds:
-                    kind = "resource" if "resource" in kinds else "novel_crystal"
-                    o = next(o for o in observations if o["kind"] == kind)
+                current = [
+                    o
+                    for o in observations
+                    if o.get("kind") in {"resource", "novel_crystal"}
+                    and o.get("fact_kind") != "REMEMBERED_ESTIMATE"
+                    and o.get("source") != "world_model_memory"
+                ]
+                remembered = [
+                    o
+                    for o in observations
+                    if o.get("kind") in {"resource", "novel_crystal"}
+                    and (
+                        o.get("fact_kind") == "REMEMBERED_ESTIMATE"
+                        or o.get("source") == "world_model_memory"
+                    )
+                ]
+                if current:
+                    self.state.reacquisition_streak = 0
+                    kind = str(current[0]["kind"])
+                    o = current[0]
                     hd = float(o["relative_direction"])
                     nominal_dist = float(o["estimated_distance"])
                     support = o.get("distance_support_upper_bound")
@@ -803,6 +838,24 @@ class Arbitrator:
                         },
                     )
                     return commit_safe_recovery(chosen)
+                if remembered:
+                    cue = remembered[0]
+                    if self.state.reacquisition_streak < 8:
+                        sweep = (0.0, 0.8, -0.8, 1.6, -1.6, 2.4, -2.4, math.pi)
+                        offset = sweep[self.state.reacquisition_streak]
+                        self.state.reacquisition_streak += 1
+                        chosen = Candidate(
+                            "MOVE",
+                            {
+                                "heading_delta": float(cue.get("relative_direction", 0.0)) + offset,
+                                "step": 1.2,
+                                "toward": "resource",
+                                "source": "active_reacquisition",
+                                "fact_kind": "REMEMBERED_ESTIMATE",
+                            },
+                        )
+                        return commit_safe_recovery(chosen)
+                    self.state.reacquisition_streak = 0
                 # persistent absolute search heading
                 if tick % 9 == 0:
                     self.state.search_heading += 0.9
@@ -906,6 +959,25 @@ class Arbitrator:
                 return commit_safe_recovery(chosen)
 
         cands = self.generate_candidates(phys, observations, tick)
+        if discovery_needed and not any(
+            o.get("kind") in {"resource", "novel_crystal"} for o in observations
+        ):
+            if (
+                self.state.discovery_actions_remaining <= 0
+                and tick >= self.state.discovery_cooldown_until
+            ):
+                self.state.discovery_actions_remaining = 12
+            if self.state.discovery_actions_remaining > 0:
+                cands.append(
+                    Candidate(
+                        "MOVE",
+                        {
+                            "heading_delta": 0.25,
+                            "step": 1.2,
+                            "source": "essential_resource_discovery",
+                        },
+                    )
+                )
         if manipulation_bindings:
             for mc in self.generate_manipulation_candidates(
                 manipulation_bindings, phys, tick
@@ -991,6 +1063,13 @@ class Arbitrator:
         return chosen
 
     def _commit(self, cand: Candidate, tick: int) -> None:
+        source = cand.params.get("source")
+        if source == "essential_resource_discovery" and self.state.discovery_actions_remaining > 0:
+            self.state.discovery_actions_remaining -= 1
+            if self.state.discovery_actions_remaining == 0:
+                self.state.discovery_cooldown_until = tick + 48
+        if source == "active_reacquisition":
+            self.state.discovery_actions_remaining = 0
         if cand.capability != self.state.last_capability:
             if self.state.last_capability is not None and tick - self.state.last_switch_tick <= 2:
                 self.state.thrash_events += 1

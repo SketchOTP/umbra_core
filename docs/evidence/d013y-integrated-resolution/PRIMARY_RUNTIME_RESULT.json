@@ -1,0 +1,4368 @@
+{
+  "seed": 13013,
+  "ticks": 1000,
+  "first_direct_resource_ticks": [
+    55,
+    59,
+    63,
+    242,
+    251,
+    255,
+    259,
+    278,
+    282,
+    410,
+    414,
+    432,
+    438,
+    442,
+    467,
+    472,
+    476,
+    480,
+    484,
+    609,
+    613,
+    617,
+    627,
+    633,
+    712,
+    724,
+    759,
+    795,
+    897,
+    901,
+    905,
+    910,
+    926,
+    928,
+    930
+  ],
+  "verified_charge_ticks": [
+    63,
+    64,
+    65,
+    251,
+    255,
+    259,
+    410,
+    438,
+    472,
+    476,
+    609,
+    613,
+    617,
+    724,
+    725,
+    726,
+    727,
+    728,
+    897,
+    901,
+    905
+  ],
+  "reacquisition_ticks": [
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178,
+    179,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196,
+    197
+  ],
+  "minimum_energy": 0.0,
+  "critical_ticks": [
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219,
+    220,
+    221,
+    222,
+    223
+  ],
+  "action_counts": {
+    "MOVE": 671,
+    "APPROACH": 173,
+    "REST": 39,
+    "CHARGE": 42,
+    "ORIENT": 52,
+    "INSPECT": 4,
+    "SIGNAL_ASSISTANCE": 1,
+    "None": 4,
+    "IDLE": 14
+  },
+  "rows": [
+    {
+      "tick": 1,
+      "energy": 0.693,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 11,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": null,
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 2
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 2,
+      "energy": 0.6859999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 10,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 2,
+            "error": 0.0,
+            "prediction_id": "e3f58601-08a3-4bf4-96ae-8f518b178e8f",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 2
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 3,
+      "energy": 0.6809999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 9,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": false,
+        "reason": "movement_slip",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 3,
+            "error": 1.0,
+            "prediction_id": "372b8907-f13d-4267-bfb8-5975826213d5",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 2
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 4,
+      "energy": 0.6739999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 8,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 4,
+            "error": 0.0,
+            "prediction_id": "0643e22c-879f-45de-96c1-49b14a790fe7",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 2
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 5,
+      "energy": 0.6669999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 7,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 5,
+            "error": 0.0,
+            "prediction_id": "bc0b879b-f7cb-4077-b435-ee17b8f9c44c",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 2
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 6,
+      "energy": 0.6599999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 6,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 6,
+            "error": 0.0,
+            "prediction_id": "bc662133-a310-4bae-bc3a-c1aa7c8ed62b",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 7,
+      "energy": 0.6529999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 5,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 7,
+            "error": 0.0,
+            "prediction_id": "18a049ba-13a0-41e4-ad66-fa1367321fc8",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 8,
+      "energy": 0.6459999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 4,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 8,
+            "error": 0.0,
+            "prediction_id": "a55e5bb0-9e76-4cad-b7e2-8228ad820a95",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 9,
+      "energy": 0.6389999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 3,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 9,
+            "error": 0.0,
+            "prediction_id": "fb6cd6b7-2b1b-4e07-9720-0bba48c8d75b",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 10,
+      "energy": 0.6319999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 2,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 10,
+            "error": 0.0,
+            "prediction_id": "e0a19008-d47a-4896-a60c-aa1be95cb923",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 11,
+      "energy": 0.6249999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 1,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 11,
+            "error": 0.0,
+            "prediction_id": "21ee1111-f943-4deb-97f6-0863f75cd844",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 12,
+      "energy": 0.6199999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": false,
+        "reason": "movement_slip",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 12,
+            "error": 1.0,
+            "prediction_id": "20eb5769-27e4-470b-902f-624aca90e858",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 13,
+      "energy": 0.6129999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 13,
+            "error": 0.0,
+            "prediction_id": "fce93dae-4480-43fd-bb42-c81b80cf9e4c",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 14,
+      "energy": 0.6059999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 14,
+            "error": 0.0,
+            "prediction_id": "94c550e3-1445-46ac-81b2-1f0401bd916a",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 15,
+      "energy": 0.5989999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 15,
+            "error": 0.0,
+            "prediction_id": "420df15f-664d-4b7d-8a05-162fc21d2035",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 16,
+      "energy": 0.5919999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 16,
+            "error": 0.0,
+            "prediction_id": "24919915-9507-484c-aff2-87605b19b539",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 17,
+      "energy": 0.5849999999999999,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 17,
+            "error": 0.0,
+            "prediction_id": "0dcecd4d-0c38-4079-a870-5fa1ea35fac7",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 18,
+      "energy": 0.5779999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 18,
+            "error": 0.0,
+            "prediction_id": "a21abb41-c67f-4176-8844-2f0be1810653",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 19,
+      "energy": 0.5709999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 19,
+            "error": 0.0,
+            "prediction_id": "18492298-e595-447c-ad72-ded9857d9d37",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 20,
+      "energy": 0.5639999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 20,
+            "error": 0.0,
+            "prediction_id": "52469255-4298-4035-bb51-1b2a8305621c",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 21,
+      "energy": 0.5569999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 21,
+            "error": 0.0,
+            "prediction_id": "7ab0e461-93c4-456d-835a-12562d3f1b6e",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 22,
+      "energy": 0.5499999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 22,
+            "error": 0.0,
+            "prediction_id": "0abdb844-500f-46cc-83c6-32df600afba6",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 23,
+      "energy": 0.5429999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 23,
+            "error": 0.0,
+            "prediction_id": "a0d36b1a-3b93-45fd-ab43-52f5dd4167ad",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 24,
+      "energy": 0.5359999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 24,
+            "error": 0.0,
+            "prediction_id": "b0c60950-e0e3-4660-863a-ac504efb6caa",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 25,
+      "energy": 0.5289999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 25,
+            "error": 0.0,
+            "prediction_id": "43bc6bdf-79c5-4d1e-a612-628e39f736fe",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 26,
+      "energy": 0.5219999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 26,
+            "error": 0.0,
+            "prediction_id": "df27a837-25dd-4407-94d3-a274ceaa06e9",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 27,
+      "energy": 0.5149999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 27,
+            "error": 0.0,
+            "prediction_id": "de7bcd6b-94e8-4b58-8f31-c6dd52787615",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 28,
+      "energy": 0.5079999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 28,
+            "error": 0.0,
+            "prediction_id": "a5a51c2d-ef7e-4975-a382-ad760b75c818",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 29,
+      "energy": 0.5029999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": false,
+        "reason": "movement_slip",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 29,
+            "error": 1.0,
+            "prediction_id": "d584b080-8dc6-4539-a8be-8d7d0daccbe7",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 30,
+      "energy": 0.4959999999999998,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 30,
+            "error": 0.0,
+            "prediction_id": "2d0ada87-49a2-4fd3-8b65-7e8cee14ff04",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 31,
+      "energy": 0.48899999999999977,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 31,
+            "error": 0.0,
+            "prediction_id": "b66a0d32-04cd-44f0-9e8b-606688cda510",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 32,
+      "energy": 0.48199999999999976,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 32,
+            "error": 0.0,
+            "prediction_id": "bd112478-96f2-4053-93ae-1181d717483a",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 33,
+      "energy": 0.47499999999999976,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 33,
+            "error": 0.0,
+            "prediction_id": "8ac78ff2-532d-4ad0-9376-e04a13f1eb32",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 34,
+      "energy": 0.46799999999999975,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 34,
+            "error": 0.0,
+            "prediction_id": "6cc8eafb-43eb-477d-836e-ddc06f43ad05",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 35,
+      "energy": 0.46099999999999974,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 35,
+            "error": 0.0,
+            "prediction_id": "6a7ff9b0-0a40-48c9-b8d0-e0040a21845d",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 36,
+      "energy": 0.45399999999999974,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 36,
+            "error": 0.0,
+            "prediction_id": "20748231-ceb0-4b64-954e-cd22acafafc9",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 37,
+      "energy": 0.44699999999999973,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -1.2330257130225883,
+            "estimated_distance": 9.222562342443538
+          },
+          "last_observed_at": 37.0,
+          "confidence": 0.39002714093654683,
+          "uncertainty": 0.6099728590634532,
+          "persistence_probability": 0.7,
+          "evidence_count": 1,
+          "distance_support_upper_bound": 11.0,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 37,
+          "verified_recovery_count": 0,
+          "last_verified_success_tick": null
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 37,
+            "error": 0.0,
+            "prediction_id": "210efa77-1d49-4070-99ed-cc453debd6da",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 4
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 38,
+      "energy": 0.4399999999999997,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -1.600046284854908,
+            "estimated_distance": 8.948028389357523
+          },
+          "last_observed_at": 38.0,
+          "confidence": 0.3967300254015913,
+          "uncertainty": 0.5965670901333643,
+          "persistence_probability": 0.7999999999999999,
+          "evidence_count": 2,
+          "distance_support_upper_bound": 11.0,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 38,
+          "verified_recovery_count": 0,
+          "last_verified_success_tick": null
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 38,
+            "error": 0.0,
+            "prediction_id": "6a8cba54-0067-4294-9bce-900c61e97f45",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 39,
+      "energy": 0.4329999999999997,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.2603328853766027,
+            "estimated_distance": 9.852349378453443
+          },
+          "last_observed_at": 39.0,
+          "confidence": 0.41829872567378223,
+          "uncertainty": 0.5601325740540268,
+          "persistence_probability": 0.8999999999999999,
+          "evidence_count": 3,
+          "distance_support_upper_bound": 11.0,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 39,
+          "verified_recovery_count": 0,
+          "last_verified_success_tick": null
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 39,
+            "error": 0.0,
+            "prediction_id": "5cf95a8c-7462-473b-af17-721d81e1642b",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 4
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 40,
+      "energy": 0.4259999999999997,
+      "capability": "MOVE",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.344436493043947,
+            "estimated_distance": 10.149561056793456
+          },
+          "last_observed_at": 40.0,
+          "confidence": 0.3889524737418557,
+          "uncertainty": 0.6403937781900708,
+          "persistence_probability": 0.9999999999999999,
+          "evidence_count": 4,
+          "distance_support_upper_bound": 11.0,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 40,
+          "verified_recovery_count": 0,
+          "last_verified_success_tick": null
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 40,
+            "error": 0.0,
+            "prediction_id": "9a4e92ff-fa32-4b4a-9403-aa36bf5858ef",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 4
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 55,
+      "energy": 0.3259999999999996,
+      "capability": "REST",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -0.09215331657575837,
+            "estimated_distance": 7.163394013115756
+          },
+          "last_observed_at": 55.0,
+          "confidence": 0.491907093548096,
+          "uncertainty": 0.4795702710667318,
+          "persistence_probability": 1.0,
+          "evidence_count": 19,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 55,
+          "verified_recovery_count": 0,
+          "last_verified_success_tick": null
+        }
+      ],
+      "outcome": {
+        "capability": "REST",
+        "success": false,
+        "reason": "not_at_rest",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 55,
+            "error": 0.5,
+            "prediction_id": "fcfb7be8-b648-4739-82de-b924f388ea37",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 59,
+      "energy": 0.3009999999999996,
+      "capability": "REST",
+      "recovery_focus": null,
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.09368941285470933,
+            "estimated_distance": 4.174373905167345
+          },
+          "last_observed_at": 59.0,
+          "confidence": 0.6609429358999291,
+          "uncertainty": 0.30726193883321096,
+          "persistence_probability": 1.0,
+          "evidence_count": 23,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 59,
+          "verified_recovery_count": 0,
+          "last_verified_success_tick": null
+        }
+      ],
+      "outcome": {
+        "capability": "REST",
+        "success": false,
+        "reason": "not_at_rest",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 59,
+            "error": 0.0,
+            "prediction_id": "90c44267-97d1-42f1-b52e-4b2894aad7cd",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 63,
+      "energy": 0.4209999999999996,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 63.0,
+          "confidence": 1.0,
+          "uncertainty": 0.05011825528602876,
+          "persistence_probability": 1.0,
+          "evidence_count": 27,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 63,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 63
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 63,
+            "error": 0.5,
+            "prediction_id": "34d3546b-c13f-4bc1-842c-0d5f3823a3b9",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 64,
+      "energy": 0.5589999999999996,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 64.0,
+          "confidence": 1.0,
+          "uncertainty": 0.08158908227830486,
+          "persistence_probability": 1.0,
+          "evidence_count": 28,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 64,
+          "verified_recovery_count": 2,
+          "last_verified_success_tick": 64
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 64,
+            "error": 0.0,
+            "prediction_id": "e8c54427-90db-4429-b23b-c65ba51ef1ad",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 65,
+      "energy": 0.6969999999999996,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 65.0,
+          "confidence": 1.0,
+          "uncertainty": 0.02087136777348264,
+          "persistence_probability": 1.0,
+          "evidence_count": 29,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 65,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 65
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 65,
+            "error": 0.0,
+            "prediction_id": "112ae13f-2ce1-4add-b169-35b68cad1d57",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 100,
+      "energy": 0.5879999999999995,
+      "capability": "ORIENT",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.304499784720135,
+            "estimated_distance": 0.5922185432059439
+          },
+          "last_observed_at": 100.0,
+          "confidence": 0.9552619002881018,
+          "uncertainty": 0.024840591982742577,
+          "persistence_probability": 1.0,
+          "evidence_count": 64,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 100,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 65
+        }
+      ],
+      "outcome": {
+        "capability": "ORIENT",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.001,
+          "fatigue": 0.001,
+          "stimulation": 0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": null,
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 200,
+      "energy": 0.06699999999999906,
+      "capability": "MOVE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 2,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "e712ad37-462e-ab89-4602-9a03354d3bfe",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -0.8591349556594673,
+            "estimated_distance": 14.56548356052846
+          },
+          "last_observed_at": 146.0,
+          "confidence": 0.10260000245178111,
+          "uncertainty": 1.0,
+          "persistence_probability": 0.7165000000000012,
+          "evidence_count": 110,
+          "distance_support_upper_bound": 75.22224567681137,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 200,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 65
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 200,
+            "error": 0.0,
+            "prediction_id": "b78d5095-c849-446e-8223-ef4f87146d96",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 242,
+      "energy": 0.0,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "08d5c5a4-6ad1-277a-d017-f9859bbad55f",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.8544615549876946,
+            "estimated_distance": 9.553909292744903
+          },
+          "last_observed_at": 242.0,
+          "confidence": 0.4062042262625863,
+          "uncertainty": 0.5937957737374138,
+          "persistence_probability": 0.7,
+          "evidence_count": 1,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 242,
+          "verified_recovery_count": 0,
+          "last_verified_success_tick": null
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 242,
+            "error": 1.0,
+            "prediction_id": "af27eabe-8f5a-4120-bc01-1b759236e3bf",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 251,
+      "energy": 0.14,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "08d5c5a4-6ad1-277a-d017-f9859bbad55f",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 251.0,
+          "confidence": 0.9788632269461096,
+          "uncertainty": 0.09920811487335102,
+          "persistence_probability": 1.0,
+          "evidence_count": 10,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 251,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 251
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 251,
+            "error": 0.0,
+            "prediction_id": "1439775d-f4ab-4351-b8e2-2b89ecd586f4",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 255,
+      "energy": 0.266,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "08d5c5a4-6ad1-277a-d017-f9859bbad55f",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 255.0,
+          "confidence": 1.0,
+          "uncertainty": 0.07603164434458287,
+          "persistence_probability": 1.0,
+          "evidence_count": 14,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 255,
+          "verified_recovery_count": 2,
+          "last_verified_success_tick": 255
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 255,
+            "error": 0.0,
+            "prediction_id": "3e2e2f3c-cf70-4750-a5c9-4615a33d84ea",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 259,
+      "energy": 0.386,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "08d5c5a4-6ad1-277a-d017-f9859bbad55f",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 259.0,
+          "confidence": 1.0,
+          "uncertainty": 0.1182626292488903,
+          "persistence_probability": 1.0,
+          "evidence_count": 18,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 259,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 259
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 259,
+            "error": 0.0,
+            "prediction_id": "7e7e7e1c-40fa-4092-bd5c-bba234238d4c",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 278,
+      "energy": 0.2739999999999999,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "08d5c5a4-6ad1-277a-d017-f9859bbad55f",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.829366386918169,
+            "estimated_distance": 4.623167499514146
+          },
+          "last_observed_at": 278.0,
+          "confidence": 0.724345908564725,
+          "uncertainty": 0.2731990881374735,
+          "persistence_probability": 1.0,
+          "evidence_count": 37,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 278,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 259
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 278,
+            "error": 1.0,
+            "prediction_id": "0450cb84-7bca-4c07-acea-1734a32d9c25",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 282,
+      "energy": 0.2499999999999999,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "08d5c5a4-6ad1-277a-d017-f9859bbad55f",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -0.11439480622322534,
+            "estimated_distance": 2.704602747995046
+          },
+          "last_observed_at": 282.0,
+          "confidence": 0.7603568263986801,
+          "uncertainty": 0.21077291954898802,
+          "persistence_probability": 1.0,
+          "evidence_count": 41,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 282,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 259
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 282,
+            "error": 1.0,
+            "prediction_id": "1392ab5f-6d12-46da-968f-ea0fe76c75c3",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 300,
+      "energy": 0.1569999999999998,
+      "capability": "MOVE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "08d5c5a4-6ad1-277a-d017-f9859bbad55f",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 2.857961019461445,
+            "estimated_distance": 3.792495886503984
+          },
+          "last_observed_at": 300.0,
+          "confidence": 0.7213055452328403,
+          "uncertainty": 0.3028992120541476,
+          "persistence_probability": 1.0,
+          "evidence_count": 59,
+          "distance_support_upper_bound": 11.04491975451711,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 300,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 259
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 300,
+            "error": 0.0,
+            "prediction_id": "1eaae497-6a78-47e1-a782-07f0d975035d",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 1
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 400,
+      "energy": 0.0,
+      "capability": "MOVE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 3,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 400,
+            "error": 0.0,
+            "prediction_id": "718a7d10-d656-483d-9fa3-940744af4ba7",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 2
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 410,
+      "energy": 0.14,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 410.0,
+          "confidence": 0.9597722812418594,
+          "uncertainty": 0.09554309092965252,
+          "persistence_probability": 1.0,
+          "evidence_count": 7,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 410,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 410
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 410,
+            "error": 0.0,
+            "prediction_id": "f33928d1-c274-4a24-a82a-4e5049ded6c9",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 414,
+      "energy": 0.123,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 1.0203334688531316,
+            "estimated_distance": 1.577799592467639
+          },
+          "last_observed_at": 414.0,
+          "confidence": 0.8663398713748622,
+          "uncertainty": 0.13784440673922393,
+          "persistence_probability": 1.0,
+          "evidence_count": 11,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 414,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 410
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 414,
+            "error": 1.0,
+            "prediction_id": "f7bfd34b-42a4-48d1-887d-898f18721635",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 432,
+      "energy": 0.04999999999999993,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 2.1897483908318955,
+            "estimated_distance": 4.287329117300652
+          },
+          "last_observed_at": 432.0,
+          "confidence": 0.7110591633501162,
+          "uncertainty": 0.27991789201733985,
+          "persistence_probability": 1.0,
+          "evidence_count": 29,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 432,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 410
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 432,
+            "error": 1.0,
+            "prediction_id": "31aa3f03-cf62-4110-9916-b8d3762afc62",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 438,
+      "energy": 0.16799999999999993,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 438.0,
+          "confidence": 1.0,
+          "uncertainty": 0.007411771725057692,
+          "persistence_probability": 1.0,
+          "evidence_count": 35,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 438,
+          "verified_recovery_count": 2,
+          "last_verified_success_tick": 438
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 438,
+            "error": 0.0,
+            "prediction_id": "819a7b3f-dae9-44df-a3c6-bdfd8a29caae",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 442,
+      "energy": 0.1509999999999999,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 3.237700405442675,
+            "estimated_distance": 2.6193776796480535
+          },
+          "last_observed_at": 442.0,
+          "confidence": 0.8321883213705467,
+          "uncertainty": 0.20273546261420994,
+          "persistence_probability": 1.0,
+          "evidence_count": 39,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 442,
+          "verified_recovery_count": 2,
+          "last_verified_success_tick": 438
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 442,
+            "error": 1.0,
+            "prediction_id": "96077081-2d89-4e1e-ac04-584af715b3f8",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 467,
+      "energy": 0.04999999999999982,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -3.2173041972077923,
+            "estimated_distance": 6.612904013646886
+          },
+          "last_observed_at": 467.0,
+          "confidence": 0.6128212494306619,
+          "uncertainty": 0.43318358334251417,
+          "persistence_probability": 1.0,
+          "evidence_count": 64,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 467,
+          "verified_recovery_count": 2,
+          "last_verified_success_tick": 438
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 467,
+            "error": 0.0,
+            "prediction_id": "d2e45bdb-440e-4455-962d-aa47f61098ca",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 472,
+      "energy": 0.17199999999999982,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 472.0,
+          "confidence": 0.9710125422748408,
+          "uncertainty": 0.10823264763015406,
+          "persistence_probability": 1.0,
+          "evidence_count": 69,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 472,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 472
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 472,
+            "error": 1.0,
+            "prediction_id": "286ccd32-5ce9-44b6-8d76-25ce451ef9dc",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 476,
+      "energy": 0.2979999999999998,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 476.0,
+          "confidence": 0.9400783928191155,
+          "uncertainty": 0.23083897258378994,
+          "persistence_probability": 1.0,
+          "evidence_count": 73,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 476,
+          "verified_recovery_count": 4,
+          "last_verified_success_tick": 476
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 476,
+            "error": 1.0,
+            "prediction_id": "d35ca02a-68ca-423b-928a-2c9eadb31e75",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 480,
+      "energy": 0.2729999999999998,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -0.2221499015791962,
+            "estimated_distance": 2.5917555642698606
+          },
+          "last_observed_at": 480.0,
+          "confidence": 0.7940042222639665,
+          "uncertainty": 0.1848372870918723,
+          "persistence_probability": 1.0,
+          "evidence_count": 77,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 480,
+          "verified_recovery_count": 4,
+          "last_verified_success_tick": 476
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 480,
+            "error": 0.0,
+            "prediction_id": "4d28dffa-3315-45f8-a38a-e21c04396966",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 484,
+      "energy": 0.24799999999999978,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -0.03574009651687905,
+            "estimated_distance": 3.9787828818938387
+          },
+          "last_observed_at": 484.0,
+          "confidence": 0.6880297976800595,
+          "uncertainty": 0.29364092693008526,
+          "persistence_probability": 1.0,
+          "evidence_count": 81,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 484,
+          "verified_recovery_count": 4,
+          "last_verified_success_tick": 476
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 484,
+            "error": 0.0,
+            "prediction_id": "84f0a74f-4c87-4e45-be36-79edb7dc610b",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 500,
+      "energy": 0.1629999999999997,
+      "capability": "APPROACH",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "673ac5f1-e98d-5e1d-7881-a1afb17ec867",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 2.762983832965357,
+            "estimated_distance": 8.906513062538428
+          },
+          "last_observed_at": 500.0,
+          "confidence": 0.47344186251042564,
+          "uncertainty": 0.5265896566129211,
+          "persistence_probability": 1.0,
+          "evidence_count": 97,
+          "distance_support_upper_bound": 11.399999999999999,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 500,
+          "verified_recovery_count": 4,
+          "last_verified_success_tick": 476
+        }
+      ],
+      "outcome": {
+        "capability": "APPROACH",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.004,
+          "fatigue": 0.003,
+          "stimulation": 0.004
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 500,
+            "error": 0.0,
+            "prediction_id": "a799edb6-77d9-460e-9cdd-eed087edeb99",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 4
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 600,
+      "energy": 0.0,
+      "capability": "MOVE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 2,
+      "current_resource": false,
+      "resource_entities": [],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 600,
+            "error": 0.0,
+            "prediction_id": "e78f50bd-cef0-4920-a01e-390cd6193a02",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 1
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 609,
+      "energy": 0.14,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "4730bf34-b161-5da1-0fce-b168aa63dc2a",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 609.0,
+          "confidence": 0.9640752384634953,
+          "uncertainty": 0.11720336320684488,
+          "persistence_probability": 1.0,
+          "evidence_count": 7,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 609,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 609
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 609,
+            "error": 1.0,
+            "prediction_id": "f92b657c-1651-4b9b-b722-7bfb52e668a9",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 613,
+      "energy": 0.266,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "4730bf34-b161-5da1-0fce-b168aa63dc2a",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 613.0,
+          "confidence": 1.0,
+          "uncertainty": 0.08864866362484825,
+          "persistence_probability": 1.0,
+          "evidence_count": 11,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 613,
+          "verified_recovery_count": 2,
+          "last_verified_success_tick": 613
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 613,
+            "error": 1.0,
+            "prediction_id": "85b4fd57-46bb-48b6-be3c-bd19299f504c",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 617,
+      "energy": 0.387,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "4730bf34-b161-5da1-0fce-b168aa63dc2a",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 617.0,
+          "confidence": 1.0,
+          "uncertainty": 0.0745485409929234,
+          "persistence_probability": 1.0,
+          "evidence_count": 15,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 617,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 617
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 617,
+            "error": 1.0,
+            "prediction_id": "727dcb63-5c1f-499a-9785-92e153825043",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 627,
+      "energy": 0.346,
+      "capability": "REST",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "4730bf34-b161-5da1-0fce-b168aa63dc2a",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.8289993800964295,
+            "estimated_distance": 9.42707875310676
+          },
+          "last_observed_at": 627.0,
+          "confidence": 0.43581576569857305,
+          "uncertainty": 0.5755118341470553,
+          "persistence_probability": 1.0,
+          "evidence_count": 25,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 627,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 617
+        }
+      ],
+      "outcome": {
+        "capability": "REST",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.015,
+          "fatigue": -0.08,
+          "stimulation": -0.02,
+          "integrity": 0.055
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 627,
+            "error": 1.0,
+            "prediction_id": "848def77-e332-4f25-976b-04335bb4a4fa",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 633,
+      "energy": 0.405,
+      "capability": "REST",
+      "recovery_focus": "stimulation",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "4730bf34-b161-5da1-0fce-b168aa63dc2a",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.8289993800964295,
+            "estimated_distance": 9.42707875310676
+          },
+          "last_observed_at": 633.0,
+          "confidence": 0.4246651596005325,
+          "uncertainty": 0.5755118341470553,
+          "persistence_probability": 1.0,
+          "evidence_count": 31,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 633,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 617
+        }
+      ],
+      "outcome": {
+        "capability": "REST",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.015,
+          "fatigue": -0.08,
+          "stimulation": -0.02,
+          "integrity": 0.055
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 633,
+            "error": 0.0,
+            "prediction_id": "64a5b26b-d6db-4f50-8dd8-b45084550e38",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 700,
+      "energy": 0.10799999999999976,
+      "capability": "MOVE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 1,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "4730bf34-b161-5da1-0fce-b168aa63dc2a",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 2.1012651859720877e-16,
+            "estimated_distance": 8.453748966380328
+          },
+          "last_observed_at": 635.0,
+          "confidence": 0.08328241428984218,
+          "uncertainty": 1.0,
+          "persistence_probability": 0.6587500000000015,
+          "evidence_count": 33,
+          "distance_support_upper_bound": 66.36123785489306,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 700,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 617
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 700,
+            "error": 1.0,
+            "prediction_id": "3525415d-ad2d-4ac8-a583-b36101423e0e",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 712,
+      "energy": 0.06099999999999972,
+      "capability": "SIGNAL_ASSISTANCE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.26710458060608355,
+            "estimated_distance": 8.971066303607412
+          },
+          "last_observed_at": 712.0,
+          "confidence": 0.4407706324664899,
+          "uncertainty": 0.55922936753351,
+          "persistence_probability": 0.7,
+          "evidence_count": 1,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 712,
+          "verified_recovery_count": 0,
+          "last_verified_success_tick": null
+        }
+      ],
+      "outcome": {
+        "capability": "SIGNAL_ASSISTANCE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.001
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 712,
+            "error": 0.5,
+            "prediction_id": "115ff3af-3df4-46fc-93b2-912aff84326a",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 724,
+      "energy": 0.1619999999999997,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 724.0,
+          "confidence": 1.0,
+          "uncertainty": 0.06958606341594453,
+          "persistence_probability": 1.0,
+          "evidence_count": 13,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 724,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 724
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 724,
+            "error": 1.0,
+            "prediction_id": "22421734-1bcd-4ce9-8ab6-6b0e6a6efd43",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 725,
+      "energy": 0.2999999999999997,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 725.0,
+          "confidence": 1.0,
+          "uncertainty": 0.03412885903903384,
+          "persistence_probability": 1.0,
+          "evidence_count": 14,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 725,
+          "verified_recovery_count": 2,
+          "last_verified_success_tick": 725
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 725,
+            "error": 1.0,
+            "prediction_id": "5c20797b-92e6-4f2e-8b75-2e129a45f9d5",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 726,
+      "energy": 0.4379999999999997,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 726.0,
+          "confidence": 1.0,
+          "uncertainty": 0.04356655481989791,
+          "persistence_probability": 1.0,
+          "evidence_count": 15,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 726,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 726
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 726,
+            "error": 1.0,
+            "prediction_id": "b5adae14-4ae1-42d4-99ef-78bf0647b0de",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 727,
+      "energy": 0.5759999999999997,
+      "capability": "CHARGE",
+      "recovery_focus": "diagnostic_only",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 727.0,
+          "confidence": 1.0,
+          "uncertainty": 0.0634585383474977,
+          "persistence_probability": 1.0,
+          "evidence_count": 16,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 727,
+          "verified_recovery_count": 4,
+          "last_verified_success_tick": 727
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 727,
+            "error": 0.0,
+            "prediction_id": "531fc92c-6d5c-42b0-ae30-fd1e3b660276",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 728,
+      "energy": 0.7139999999999997,
+      "capability": "CHARGE",
+      "recovery_focus": "diagnostic_only",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 728.0,
+          "confidence": 1.0,
+          "uncertainty": 0.0200429629237725,
+          "persistence_probability": 1.0,
+          "evidence_count": 17,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 728,
+          "verified_recovery_count": 5,
+          "last_verified_success_tick": 728
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 728,
+            "error": 0.0,
+            "prediction_id": "a1bc1720-d033-4435-9225-72873010e605",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 759,
+      "energy": 0.5314999999999996,
+      "capability": "IDLE",
+      "recovery_focus": "stimulation",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 2.654140125351487,
+            "estimated_distance": 4.202111275588265
+          },
+          "last_observed_at": 759.0,
+          "confidence": 0.6833063919422567,
+          "uncertainty": 0.3600554507344176,
+          "persistence_probability": 1.0,
+          "evidence_count": 48,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 759,
+          "verified_recovery_count": 5,
+          "last_verified_success_tick": 728
+        }
+      ],
+      "outcome": {
+        "capability": "IDLE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.0005,
+          "fatigue": 0.0005,
+          "stimulation": -0.001,
+          "integrity": 0.02
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": null,
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 795,
+      "energy": 0.34050000000000014,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 2.8697375287528235,
+            "estimated_distance": 10.14230701208039
+          },
+          "last_observed_at": 795.0,
+          "confidence": 0.3947808633767451,
+          "uncertainty": 0.6053169241454439,
+          "persistence_probability": 1.0,
+          "evidence_count": 84,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 795,
+          "verified_recovery_count": 5,
+          "last_verified_success_tick": 728
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 795,
+            "error": 1.0,
+            "prediction_id": "5e8438ff-353e-484e-8779-8a03568f3094",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 800,
+      "energy": 0.3055000000000001,
+      "capability": "MOVE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "34a1e9a1-cab4-aa5c-f9b1-cdc91dc37f73",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 3.0556278679252746,
+            "estimated_distance": 14.4403168153755
+          },
+          "last_observed_at": 797.0,
+          "confidence": 0.3789575227351034,
+          "uncertainty": 0.650316924145444,
+          "persistence_probability": 0.9842500000000001,
+          "evidence_count": 86,
+          "distance_support_upper_bound": 14.878355781079534,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 800,
+          "verified_recovery_count": 5,
+          "last_verified_success_tick": 728
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 800,
+            "error": 0.11111111111111116,
+            "prediction_id": "9cc2ee70-e12c-4155-bdc8-bb196b7ddf91",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 897,
+      "energy": 0.14,
+      "capability": "CHARGE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 897.0,
+          "confidence": 0.9966222873294857,
+          "uncertainty": 0.05951788837077854,
+          "persistence_probability": 1.0,
+          "evidence_count": 8,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 897,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 897
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 897,
+            "error": 0.0,
+            "prediction_id": "dc4fc48d-9da8-4eb2-af6e-6943d0496b33",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 900,
+      "energy": 0.128,
+      "capability": "APPROACH",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.486348514967457,
+            "estimated_distance": 1.8516546830760738
+          },
+          "last_observed_at": 900.0,
+          "confidence": 0.9104576263604902,
+          "uncertainty": 0.08590389714616053,
+          "persistence_probability": 1.0,
+          "evidence_count": 11,
+          "distance_support_upper_bound": 11.4,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 900,
+          "verified_recovery_count": 1,
+          "last_verified_success_tick": 897
+        }
+      ],
+      "outcome": {
+        "capability": "APPROACH",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.004,
+          "fatigue": 0.003,
+          "stimulation": 0.004
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 900,
+            "error": 0.0,
+            "prediction_id": "f705ff22-b7a6-4e6e-922f-25530c4058b7",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 901,
+      "energy": 0.266,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 901.0,
+          "confidence": 1.0,
+          "uncertainty": 0.12258776363400525,
+          "persistence_probability": 1.0,
+          "evidence_count": 12,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 901,
+          "verified_recovery_count": 2,
+          "last_verified_success_tick": 901
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 901,
+            "error": 0.0,
+            "prediction_id": "16f0d6ed-8730-4d94-8ed9-5b4afdea6504",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 905,
+      "energy": 0.387,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.0,
+            "estimated_distance": 0.0
+          },
+          "last_observed_at": 905.0,
+          "confidence": 1.0,
+          "uncertainty": 0.10134649044982225,
+          "persistence_probability": 1.0,
+          "evidence_count": 16,
+          "distance_support_upper_bound": 0.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 905,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 905
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": 0.14,
+          "fatigue": -0.01,
+          "stimulation": -0.005
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 905,
+            "error": 0.0,
+            "prediction_id": "78535f23-5ac7-4330-b2ba-ae3b2da04d60",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_recovery_memory_strengthened": true
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 910,
+      "energy": 0.358,
+      "capability": "REST",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.9379736455694347,
+            "estimated_distance": 6.977700415403533
+          },
+          "last_observed_at": 910.0,
+          "confidence": 0.6413215487337098,
+          "uncertainty": 0.4458323416259462,
+          "persistence_probability": 1.0,
+          "evidence_count": 21,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 910,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 905
+        }
+      ],
+      "outcome": {
+        "capability": "REST",
+        "success": false,
+        "reason": "not_at_rest",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 910,
+            "error": 1.0,
+            "prediction_id": "5a453ee3-8c76-48cf-912c-2512ff5030a4",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 926,
+      "energy": 0.2769999999999999,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 0.053249682338997295,
+            "estimated_distance": 5.691815688415766
+          },
+          "last_observed_at": 926.0,
+          "confidence": 0.5850212179793335,
+          "uncertainty": 0.3812800767714095,
+          "persistence_probability": 1.0,
+          "evidence_count": 37,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 926,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 905
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 926,
+            "error": 1.0,
+            "prediction_id": "1580c46e-fcf2-45e6-a40e-9c07a73c5cd5",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 928,
+      "energy": 0.2659999999999999,
+      "capability": "REST",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -2.991002696355838,
+            "estimated_distance": 7.086061414203293
+          },
+          "last_observed_at": 928.0,
+          "confidence": 0.5811579800414877,
+          "uncertainty": 0.4366499826965119,
+          "persistence_probability": 1.0,
+          "evidence_count": 39,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 928,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 905
+        }
+      ],
+      "outcome": {
+        "capability": "REST",
+        "success": false,
+        "reason": "not_at_rest",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 928,
+            "error": 0.0,
+            "prediction_id": "b61932f9-4ad9-4ae7-acdb-29bffbbce4af",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 930,
+      "energy": 0.2549999999999999,
+      "capability": "CHARGE",
+      "recovery_focus": "fatigue",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 0,
+      "current_resource": true,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": -3.120024510975853,
+            "estimated_distance": 6.99258811860909
+          },
+          "last_observed_at": 930.0,
+          "confidence": 0.5206638626068255,
+          "uncertainty": 0.49950084320472854,
+          "persistence_probability": 1.0,
+          "evidence_count": 41,
+          "distance_support_upper_bound": 10.0,
+          "fact_kind": "CURRENT_OBSERVATION",
+          "last_tick": 930,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 905
+        }
+      ],
+      "outcome": {
+        "capability": "CHARGE",
+        "success": false,
+        "reason": "not_at_resource",
+        "effects": {
+          "energy": -0.003,
+          "fatigue": 0.002
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 930,
+            "error": 1.0,
+            "prediction_id": "39edfdf9-24c1-49a8-a840-7e51bab785fc",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    },
+    {
+      "tick": 1000,
+      "energy": 0.0,
+      "capability": "MOVE",
+      "recovery_focus": "energy",
+      "discovery_remaining": 0,
+      "reacquisition_streak": 7,
+      "current_resource": false,
+      "resource_entities": [
+        {
+          "entity_id": "14237786-b648-0a85-3e53-92840e663f96",
+          "entity_kind": "resource",
+          "estimated_state": {
+            "relative_direction": 2.440660117438955,
+            "estimated_distance": 19.940404801077413
+          },
+          "last_observed_at": 963.0,
+          "confidence": 0.24565335866290303,
+          "uncertainty": 1.0,
+          "persistence_probability": 0.8057500000000009,
+          "evidence_count": 74,
+          "distance_support_upper_bound": 51.86804175627126,
+          "fact_kind": "REMEMBERED_ESTIMATE",
+          "last_tick": 1000,
+          "verified_recovery_count": 3,
+          "last_verified_success_tick": 905
+        }
+      ],
+      "outcome": {
+        "capability": "MOVE",
+        "success": true,
+        "reason": "ok",
+        "effects": {
+          "energy": -0.005,
+          "fatigue": 0.004,
+          "stimulation": 0.003
+        },
+        "verified": true,
+        "_wm": {
+          "prediction_error": {
+            "tick": 1000,
+            "error": 1.0,
+            "prediction_id": "fc735372-6438-4c44-a2e1-478b1729e77c",
+            "fact_kind_prediction": "PREDICTION",
+            "fact_kind_verified": "VERIFIED_OUTCOME"
+          },
+          "adapted": false,
+          "reidentified": [],
+          "external_not_self": false,
+          "verified_motion_updates": 3
+        },
+        "_dev": null,
+        "_mem": null
+      }
+    }
+  ]
+}

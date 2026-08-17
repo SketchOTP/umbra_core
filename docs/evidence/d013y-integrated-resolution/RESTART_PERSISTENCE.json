@@ -1,0 +1,5 @@
+{
+  "status": "FOCUSED_REGRESSION_COVERED",
+  "direct_restart_campaign": "NOT_EXECUTED_AFTER_PRIMARY_TERMINAL_FAILURE",
+  "memory_current_observation_separation": "covered_by_world_model_contract"
+}

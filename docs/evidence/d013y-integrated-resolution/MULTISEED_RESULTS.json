@@ -1,0 +1,4 @@
+{
+  "status": "NOT_EXECUTED_AFTER_PRIMARY_TERMINAL_FAILURE",
+  "reason": "The required primary 1000-tick non-formal proof crossed the frozen critical energy boundary before bounded reacquisition succeeded."
+}

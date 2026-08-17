@@ -1,0 +1,3 @@
+{"tick":55,"event":"direct_resource_observation","fact_kind":"CURRENT_OBSERVATION","source":"sensor"}
+{"tick":63,"event":"verified_charge","verified_recovery_memory_strengthened":true,"landmark":"body_relative_contact"}
+{"tick":145,"event":"resource_memory","fact_kind":"REMEMBERED_ESTIMATE","current_observation":false,"verified_recovery_count":3}
