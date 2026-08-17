@@ -1,8 +1,8 @@
 # D-013U Anticipatory Viability Refresh
 
-Directive: UMBRA-D-013U  
-Baseline: `89801993a893a94ba6c17160fdd584aa457b108f`  
-Scope: architecture audit and bounded non-formal correction decision  
+Directive: UMBRA-D-013U
+Baseline: `89801993a893a94ba6c17160fdd584aa457b108f`
+Scope: architecture audit and bounded non-formal correction decision
 Date: 2026-08-16
 
 ## Decision
