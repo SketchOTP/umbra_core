@@ -1133,6 +1133,15 @@ class Organism:
         # 2. perceive
         obs = self.perception.perceive(self.embodiment, self.monotonic_time, self.rng)
         obs_dicts = [o.to_dict() for o in obs]
+        if self.world_model is not None:
+            # The membrane retains observations for expiry/state persistence.
+            # World-model current-observation flow accepts only this pass's
+            # sensor rows; cached rows remain available through memory state.
+            obs_dicts = [
+                row for row in obs_dicts
+                if float(row.get("observed_at", self.monotonic_time))
+                >= self.monotonic_time - 1e-9
+            ]
         if self.self_model and self.self_model.config.randomize_observations:
             self.rng.shuffle(obs_dicts)
             for o in obs_dicts:
@@ -1457,7 +1466,12 @@ class Organism:
                             self._pending_world_plan = list(plan.actions[1:]) or None
                             prefer = plan.actions[0]
                             self.metrics["world_plan_used"] += 1
-                    if prefer and prefer not in ("ORIENT", "IDLE") and prefer != cand.capability:
+                    if (
+                        prefer
+                        and prefer not in ("ORIENT", "IDLE")
+                        and prefer != cand.capability
+                        and cand.capability != "CHARGE"
+                    ):
                         need = {
                             "CHARGE": ("resource", "novel_crystal"),
                             "REST": ("rest",),
@@ -1798,7 +1812,7 @@ class Organism:
         if (
             action_issued
             and outcome.verified
-            and outcome.capability in ("MOVE", "APPROACH", "RETREAT")
+            and outcome.capability in ("MOVE", "APPROACH", "RETREAT", "ORIENT")
             and self._body_before_action is not None
         ):
             before = self._body_before_action

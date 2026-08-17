@@ -75,6 +75,7 @@ def test_remembered_resource_requests_bounded_active_reacquisition():
         10,
         SeededRNG(13013),
     )
-    assert chosen.capability == "MOVE"
+    assert chosen.capability == "APPROACH"
+    assert chosen.params["strategy"] == "direct_homing"
     assert chosen.params["source"] == "active_reacquisition"
     assert chosen.params["fact_kind"] == "REMEMBERED_ESTIMATE"

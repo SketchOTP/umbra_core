@@ -123,6 +123,12 @@ class WorldEntity:
     evidence_count: int
     # UNKNOWN means no justified unitful support was supplied by the sensor.
     distance_support_upper_bound: float | None = None
+    # Body-relative bounded support; the scalar remains a derived compatibility view.
+    support_center_dx: float | None = None
+    support_center_dy: float | None = None
+    support_radius: float | None = None
+    support_provenance: str | None = None
+    support_source_kind: str | None = None
     fact_kind: str = FactKind.UNKNOWN.value
     last_tick: int = 0
     verified_recovery_count: int = 0
@@ -130,6 +136,21 @@ class WorldEntity:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+    def refresh_distance_support_upper_bound(self) -> None:
+        if (
+            self.support_center_dx is None
+            or self.support_center_dy is None
+            or self.support_radius is None
+            or not all(math.isfinite(float(v)) for v in (
+                self.support_center_dx, self.support_center_dy, self.support_radius
+            ))
+            or float(self.support_radius) < 0.0
+        ):
+            return
+        self.distance_support_upper_bound = math.hypot(
+            float(self.support_center_dx), float(self.support_center_dy)
+        ) + float(self.support_radius)
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> WorldEntity:
@@ -146,6 +167,31 @@ class WorldEntity:
                 and math.isfinite(float(d["distance_support_upper_bound"]))
                 and float(d["distance_support_upper_bound"]) >= 0.0
                 else None
+            ),
+            support_center_dx=(
+                float(d["support_center_dx"])
+                if d.get("support_center_dx") is not None
+                and math.isfinite(float(d["support_center_dx"]))
+                else None
+            ),
+            support_center_dy=(
+                float(d["support_center_dy"])
+                if d.get("support_center_dy") is not None
+                and math.isfinite(float(d["support_center_dy"]))
+                else None
+            ),
+            support_radius=(
+                float(d["support_radius"])
+                if d.get("support_radius") is not None
+                and math.isfinite(float(d["support_radius"]))
+                and float(d["support_radius"]) >= 0.0
+                else None
+            ),
+            support_provenance=(
+                str(d["support_provenance"]) if d.get("support_provenance") else None
+            ),
+            support_source_kind=(
+                str(d["support_source_kind"]) if d.get("support_source_kind") else None
             ),
             persistence_probability=float(d.get("persistence_probability", 0.5)),
             evidence_count=int(d.get("evidence_count", 0)),
@@ -528,12 +574,25 @@ class WorldModel:
                     self.metrics["support_contradictions"] = (
                         int(self.metrics.get("support_contradictions", 0)) + 1
                     )
+                if support is None:
+                    support_center_dx = support_center_dy = support_radius = None
+                    support_provenance = support_source_kind = None
+                else:
+                    support_center_dx = support_center_dy = 0.0
+                    support_radius = support
+                    support_provenance = "sensor:bounded_body_region"
+                    support_source_kind = "CURRENT_OBSERVATION"
                 existing.estimated_state = est
                 existing.last_observed_at = now
                 existing.last_tick = tick
                 existing.confidence = clamp(0.5 * existing.confidence + 0.5 * conf)
                 existing.uncertainty = unc
                 existing.distance_support_upper_bound = support
+                existing.support_center_dx = support_center_dx
+                existing.support_center_dy = support_center_dy
+                existing.support_radius = support_radius
+                existing.support_provenance = support_provenance
+                existing.support_source_kind = support_source_kind
                 existing.persistence_probability = clamp(
                     existing.persistence_probability + 0.1
                 )
@@ -557,6 +616,15 @@ class WorldModel:
                     confidence=conf,
                     uncertainty=unc,
                     distance_support_upper_bound=support,
+                    support_center_dx=0.0 if support is not None else None,
+                    support_center_dy=0.0 if support is not None else None,
+                    support_radius=support,
+                    support_provenance=(
+                        "sensor:bounded_body_region" if support is not None else None
+                    ),
+                    support_source_kind=(
+                        "CURRENT_OBSERVATION" if support is not None else None
+                    ),
                     persistence_probability=0.7,
                     evidence_count=1,
                     fact_kind=FactKind.CURRENT_OBSERVATION.value,
@@ -607,8 +675,6 @@ class WorldModel:
         s = math.sin(delta.heading_delta)
         for ent in self.entities.values():
             support = ent.distance_support_upper_bound
-            if support is None:
-                continue
             distance = float(ent.estimated_state.get("estimated_distance", 0.0))
             direction = float(ent.estimated_state.get("relative_direction", 0.0))
             # Target vector is body-relative. Subtract body-relative motion, then
@@ -621,7 +687,14 @@ class WorldModel:
                 "relative_direction": math.atan2(next_y, next_x),
                 "estimated_distance": math.hypot(next_x, next_y),
             }
-            ent.distance_support_upper_bound = support + delta.displacement
+            if ent.support_radius is not None and ent.support_center_dx is not None:
+                region_x = float(ent.support_center_dx) - delta.body_relative_dx
+                region_y = float(ent.support_center_dy or 0.0) - delta.body_relative_dy
+                ent.support_center_dx = region_x * c + region_y * s
+                ent.support_center_dy = -region_x * s + region_y * c
+                ent.refresh_distance_support_upper_bound()
+            elif support is not None:
+                ent.distance_support_upper_bound = support + delta.displacement
             ent.last_tick = tick
             ent.fact_kind = FactKind.REMEMBERED_ESTIMATE.value
             changed += 1
@@ -872,13 +945,9 @@ class WorldModel:
                 if ent.entity_kind == entity_kind:
                     ent.verified_recovery_count += 1
                     ent.last_verified_success_tick = tick
-                    # A verified CHARGE establishes contact at the current body
-                    # frame; retain no absolute location or evaluator truth.
-                    ent.estimated_state = {
-                        "relative_direction": 0.0,
-                        "estimated_distance": 0.0,
-                    }
-                    ent.distance_support_upper_bound = 0.0
+                    # Verified CHARGE proves executable interaction, not exact
+                    # coincidence with the resource center. Preserve the freshest
+                    # direct estimate and evidence-grounded support.
                     ent.fact_kind = FactKind.CURRENT_OBSERVATION.value
                     ent.confidence = clamp(ent.confidence + 0.15)
                     ent.persistence_probability = clamp(ent.persistence_probability + 0.1)

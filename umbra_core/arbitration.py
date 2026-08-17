@@ -841,27 +841,33 @@ class Arbitrator:
                 if remembered:
                     cue = remembered[0]
                     if self.state.reacquisition_streak < 8:
-                        sweep = (0.0, 0.8, -0.8, 1.6, -1.6, 2.4, -2.4, math.pi)
-                        offset = sweep[self.state.reacquisition_streak]
+                        # Exploit corrected body-relative belief before widening search.
                         self.state.reacquisition_streak += 1
+                        nominal_dist = float(cue.get("estimated_distance", 1.5))
+                        step = min(1.5, max(0.5, nominal_dist))
                         chosen = Candidate(
-                            "MOVE",
+                            "APPROACH",
                             {
-                                "heading_delta": float(cue.get("relative_direction", 0.0)) + offset,
-                                "step": 1.2,
+                                "heading_delta": float(cue.get("relative_direction", 0.0)),
+                                "step": step,
                                 "toward": "resource",
                                 "source": "active_reacquisition",
+                                "strategy": "direct_homing",
                                 "fact_kind": "REMEMBERED_ESTIMATE",
                             },
                         )
                         return commit_safe_recovery(chosen)
                     self.state.reacquisition_streak = 0
-                # persistent absolute search heading
+                # Widen only after bounded belief exploitation fails.
                 if tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
                     "MOVE",
-                    {"heading": self.state.search_heading, "step": 1.5},
+                    {
+                        "heading": self.state.search_heading,
+                        "step": 1.5,
+                        "source": "bounded_fallback_search",
+                    },
                 )
                 return commit_safe_recovery(chosen)
             if focus == "fatigue":
