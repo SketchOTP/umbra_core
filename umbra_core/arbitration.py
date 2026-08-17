@@ -450,7 +450,6 @@ class Arbitrator:
                             "source": "retry_aware_recovery_corridor",
                         },
                     )
-                self._commit(preserved, tick)
                 return preserved
         for observation in observations:
             if observation.get("kind") != "resource":
@@ -469,7 +468,6 @@ class Arbitrator:
                     ),
                 },
             )
-            self._commit(preserved, tick)
             return preserved
         return chosen
 
@@ -777,12 +775,10 @@ class Arbitrator:
                         phase_hint=phase_hint,
                     )
                 scored.sort(key=lambda c: c.total, reverse=True)
-                chosen = scored[0]
-                self._commit(chosen, tick)
-                return chosen
+                return scored[0]
 
             def commit_safe_recovery(chosen: Candidate) -> Candidate:
-                """Commit a recovery action only if its known effect is safe."""
+                """Adjudicate and commit one recovery action exactly once."""
                 def focus_exemption(candidate: Candidate) -> str | None:
                     energy_effect = float(
                         OUTCOME_EFFECTS.get(candidate.capability, {}).get("energy", 0.0)
@@ -793,23 +789,35 @@ class Arbitrator:
                         else focus
                     )
 
-                if not self._introduces_critical_boundary(
-                    chosen, phys, ignore=focus_exemption(chosen)
-                ):
-                    self._commit(chosen, tick)
-                    return chosen
-                alternatives = [
-                    candidate
-                    for candidate in self.generate_candidates(phys, observations, tick)
-                    if not self._introduces_critical_boundary(
+                def immediately_safe(candidate: Candidate) -> bool:
+                    return not self._introduces_critical_boundary(
                         candidate, phys, ignore=focus_exemption(candidate)
                     )
-                ]
-                if alternatives:
-                    return pick_recovery(alternatives)
-                fallback = Candidate("IDLE", {})
-                self._commit(fallback, tick)
-                return fallback
+
+                if not immediately_safe(chosen):
+                    alternatives = [
+                        candidate
+                        for candidate in self.generate_candidates(phys, observations, tick)
+                        if immediately_safe(candidate)
+                    ]
+                    chosen = pick_recovery(alternatives) if alternatives else Candidate(
+                        "IDLE", {}
+                    )
+
+                # The same cross-variable corridor adjudication applies to
+                # active recovery proposals as to ordinary candidates.  The
+                # helper only proposes a replacement; this boundary commits
+                # exactly once after both safety checks have passed.
+                preserved = self._preserve_recoverability(
+                    phys, observations, chosen, tick
+                )
+                if preserved is not chosen:
+                    chosen = preserved
+                    if not immediately_safe(chosen):
+                        chosen = Candidate("IDLE", {})
+
+                self._commit(chosen, tick)
+                return chosen
 
             if focus == "energy":
                 current = [
@@ -974,8 +982,7 @@ class Arbitrator:
                         o = next(o for o in observations if o["kind"] == "rest")
                         if float(o["estimated_distance"]) <= 2.2:
                             chosen = Candidate("REST", {"toward": "rest"})
-                            self._commit(chosen, tick)
-                            return chosen
+                            return commit_safe_recovery(chosen)
                         chosen = Candidate(
                             "APPROACH",
                             {
@@ -1105,10 +1112,8 @@ class Arbitrator:
                 chosen = prev
 
         preserved = self._preserve_recoverability(phys, observations, chosen, tick)
-        if preserved is not chosen:
-            return preserved
-        self._commit(chosen, tick)
-        return chosen
+        self._commit(preserved, tick)
+        return preserved
 
     def _commit(self, cand: Candidate, tick: int) -> None:
         source = cand.params.get("source")
