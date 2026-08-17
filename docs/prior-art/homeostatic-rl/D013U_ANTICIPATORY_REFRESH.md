@@ -79,4 +79,3 @@ No external production code was adopted.
 - formal tag created: false
 - `.agent/RECORD.md`: unchanged
 - `.agent/LIBRARY_REVIEW.md`: preserved
-
