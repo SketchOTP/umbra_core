@@ -1,0 +1,35 @@
+{
+  "directive": "UMBRA-D-013X",
+  "baseline": "423a661acaabfb393fc005d98933ee12cdda0219",
+  "verdict": "D013X_REACQUISITION_MEMORY_INSUFFICIENT",
+  "d013w_reproduction": {
+    "active_energy_recovery_tick": 116,
+    "active_energy_recovery_energy": 0.295,
+    "first_critical_tick": 168,
+    "first_direct_resource_tick": 173,
+    "first_direct_resource_energy": 0.029,
+    "first_remembered_resource_tick": 223,
+    "remembered_resource_present_before_critical": false,
+    "remembered_cue_available_to_policy": false,
+    "remembered_fact_kind": "REMEMBERED_ESTIMATE"
+  },
+  "reacquisition_architecture": {
+    "implemented": false,
+    "cue_type": null,
+    "treated_as_current_observation": false,
+    "actions_used": [],
+    "new_physical_capability": false,
+    "new_planner": false,
+    "hidden_world_truth_used": false
+  },
+  "integrity": {
+    "formal_p0_launched": false,
+    "formal_tag_created": false,
+    "thresholds_modified": false,
+    "outcome_effects_modified": false,
+    "evaluator_modified": false,
+    "historical_evidence_modified": false,
+    "record_modified": false,
+    "library_review_modified": false
+  }
+}

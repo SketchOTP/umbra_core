@@ -284,3 +284,13 @@
 - Classification: `RESOURCE_REACQUISITION_REQUIRED`; no production correction, formal P0, tag, D-013S retry, threshold, effect, verdict, historical evidence, RECORD, or LIBRARY_REVIEW change.
 - Evidence: `docs/prior-art/homeostatic-rl/D013W_PREDICTIVE_CONTROL_ADJUDICATION.md` and `D013W_RESULTS.json`.
 - Next action: separately authorize active perception or purposeful re-observation architecture work; stop here.
+
+## D-013X purposeful active resource reacquisition
+- ID: UMBRA-D-013X
+- Status: STOPPED — `D013X_REACQUISITION_MEMORY_INSUFFICIENT`; non-formal architecture gate only.
+- Baseline: `423a661acaabfb393fc005d98933ee12cdda0219`.
+- Finding: active energy recovery began at tick 116 (`energy=0.295`), critical crossing occurred at tick 168, first direct resource observation arrived at tick 173 (`energy≈0.029`), and first policy-visible remembered resource cue arrived at tick 223.
+- No remembered resource cue was available before critical failure; no active-perception behavior was implemented.
+- Integrity: production, experiments, tests, thresholds, effects, evaluator, historical evidence, RECORD, and LIBRARY_REVIEW unchanged; no formal P0 or tag.
+- Evidence: `docs/prior-art/homeostatic-rl/D013X_ACTIVE_RESOURCE_REACQUISITION.md` and `D013X_RESULTS.json`.
+- Next action: separately decide how policy-safe resource memory is established/preserved before recovery; stop here.
