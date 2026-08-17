@@ -274,3 +274,13 @@
 - Validation: D-013V focused 7 passed; combined D-013 family 34 passed; D-009 PASS; D-010 PASS after source-line inventory re-anchor; governance PASS.
 - Integrity: no formal P0/tag; D-013S/D-013T-R1 and historical evidence, thresholds, verdicts, RECORD, and LIBRARY_REVIEW preserved.
 - Next action: operator/architect decision only; no automatic remediation or formal run authorized.
+
+## D-013W predictive-control integration adjudication
+- ID: UMBRA-D-013W
+- Status: STOPPED — `D013W_ACTIVE_REACQUISITION_REQUIRED`; non-formal live-path diagnosis only.
+- Baseline: `5c1af04d83e8cdbe53a623de4fd75dd03511ae8d`.
+- Finding: `_preserve_recoverability()` was called 127 times, reached with active recovery 0 times, and triggered 0 times; first critical energy crossing was tick 168 at 0.049 -> 0.047, while first usable resource observation was tick 173 at energy 0.029.
+- Existing rest plans were generated before active energy recovery but produced no verified rest; the energy plan was invoked only after reactive recovery was already active.
+- Classification: `RESOURCE_REACQUISITION_REQUIRED`; no production correction, formal P0, tag, D-013S retry, threshold, effect, verdict, historical evidence, RECORD, or LIBRARY_REVIEW change.
+- Evidence: `docs/prior-art/homeostatic-rl/D013W_PREDICTIVE_CONTROL_ADJUDICATION.md` and `D013W_RESULTS.json`.
+- Next action: separately authorize active perception or purposeful re-observation architecture work; stop here.

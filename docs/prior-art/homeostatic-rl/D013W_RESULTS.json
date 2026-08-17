@@ -1,0 +1,42 @@
+{
+  "directive": "UMBRA-D-013W",
+  "baseline": "5c1af04d83e8cdbe53a623de4fd75dd03511ae8d",
+  "verdict": "D013W_ACTIVE_REACQUISITION_REQUIRED",
+  "d013v_adjudication": {
+    "preservation_helper_calls": 127,
+    "preservation_helper_calls_with_active_recovery": 0,
+    "preservation_helper_triggers": 0,
+    "focused_test_exercised_live_select": false,
+    "anticipatory_interventions_observed": 0
+  },
+  "pre_deficit_analysis": {
+    "first_critical_tick": 168,
+    "energy_before_first_critical": 0.049,
+    "energy_after_first_critical": 0.047,
+    "first_usable_resource_tick": 173,
+    "energy_at_first_usable_resource": 0.029,
+    "resource_nominal_distance": 8.72,
+    "resource_support_upper_bound": 10.0,
+    "rest_plan_ticks": [107, 109, 111, 113],
+    "first_active_energy_recovery_tick": 116,
+    "energy_at_first_active_energy_recovery": 0.295,
+    "verified_rest_before_active_recovery": false
+  },
+  "root_cause": {
+    "classification": "RESOURCE_REACQUISITION_REQUIRED",
+    "correction_performed": false
+  },
+  "integrity": {
+    "production_modified": false,
+    "experiments_modified": false,
+    "tests_modified": false,
+    "historical_evidence_modified": false,
+    "thresholds_modified": false,
+    "outcome_effects_modified": false,
+    "verdicts_modified": false,
+    "formal_p0_launched": false,
+    "formal_tag_created": false,
+    "record_modified": false,
+    "library_review_modified": false
+  }
+}
