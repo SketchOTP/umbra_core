@@ -9,6 +9,7 @@ D-002 loop:
 from __future__ import annotations
 
 import ctypes
+import math
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -358,6 +359,7 @@ class Organism:
         self._mem_body_change_done = False
         self._mem_skill_degrade_done = False
         self._energy_before_action: float | None = None
+        self._body_before_action: dict[str, Any] | None = None
         self._tick_organism_age: int = 0
 
     @property
@@ -1143,6 +1145,11 @@ class Organism:
             self.world_model.ingest_observations(
                 obs_dicts, tick=organism_age, now=self.monotonic_time
             )
+            obs_dicts.extend(
+                self.world_model.policy_observations(
+                    observed_kinds={str(o.get("kind")) for o in obs_dicts}
+                )
+            )
 
         # 3. update current state
         cell = self._cell()
@@ -1156,6 +1163,7 @@ class Organism:
             )
 
         # Complete delayed actuation if any
+        self._body_before_action = self.embodiment.body.to_state()
         committed_outcome: Any = None
         delayed_raw = self.embodiment.tick_actuation(self.rng)
         if delayed_raw is not None and self._delayed_proposal is not None:
@@ -1167,8 +1175,9 @@ class Organism:
             self._delayed_proposal = None
 
         # Capture body before action / external events for prediction/attribution
+        self._body_before_action = self.embodiment.body.to_state()
         if self.self_model is not None:
-            self.self_model.note_body_before(self.embodiment.body.to_state())
+            self.self_model.note_body_before(self._body_before_action)
 
         # I8: external displacement after body_before, without issuing an action this tick
         external_tick = self._maybe_external_displace()
@@ -1530,6 +1539,7 @@ class Organism:
         action_issued = False
         if decision.admitted:
             action_issued = True
+            self._body_before_action = self.embodiment.body.to_state()
             self._pending_action = {
                 "capability": cand.capability,
                 "params": cand.params,
@@ -1784,6 +1794,26 @@ class Organism:
                     self.self_model.record_dimension_evidence("reliability", 0.55, organism_age)
 
         wm_result = None
+        verified_motion_delta = None
+        if (
+            action_issued
+            and outcome.verified
+            and outcome.capability in ("MOVE", "APPROACH", "RETREAT")
+            and self._body_before_action is not None
+        ):
+            before = self._body_before_action
+            after = self.embodiment.body.to_state()
+            dx = float(after.get("x", 0.0)) - float(before.get("x", 0.0))
+            dy = float(after.get("y", 0.0)) - float(before.get("y", 0.0))
+            heading = float(before.get("heading", 0.0))
+            verified_motion_delta = {
+                "displacement": math.hypot(dx, dy),
+                "body_relative_dx": dx * math.cos(heading) + dy * math.sin(heading),
+                "body_relative_dy": -dx * math.sin(heading) + dy * math.cos(heading),
+                "heading_delta": float(after.get("heading", heading)) - heading,
+                "provenance": "runtime:verified_body_transition",
+                "execution_id": str(outcome.outcome_id),
+            }
         if self.world_model is not None:
             params = dict(pending_params)
             # Recover toward from outcome raw when possible
@@ -1810,6 +1840,7 @@ class Organism:
                 observations=obs_dicts,
                 action_issued=action_issued,
                 now=self.monotonic_time,
+                verified_motion_delta=verified_motion_delta,
             )
             if outcome.capability == "MANIPULATE" and outcome.raw:
                 raw = dict(outcome.raw)

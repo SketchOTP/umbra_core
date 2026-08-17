@@ -1,0 +1,85 @@
+{
+  "directive": "UMBRA-D-013V",
+  "baseline": "8bdd8f1c7ccd6db44845569e71cfeb469dd244d7",
+  "formal_p0_launched": false,
+  "formal_tag_created": false,
+  "d013s_bounded_replay": {
+    "last_direct_resource_tick": 367,
+    "last_support_bounded_recoverable_tick": 388,
+    "first_support_bounded_unrecoverable_tick": 389,
+    "support_upper_at_tick_388": 28.16014773685949,
+    "energy_at_tick_388": 0.15649999999999983,
+    "safe_reserve_at_tick_388": 0.10649999999999982,
+    "route_cost_at_tick_388": 0.10600000000000001,
+    "support_upper_at_tick_389": 29.132180259137755,
+    "energy_at_tick_389": 0.1524999999999998,
+    "safe_reserve_at_tick_389": 0.1024999999999998,
+    "route_cost_at_tick_389": 0.112,
+    "transition_proven": true,
+    "motion_bound_method": "verified self-model body error lower bound"
+  },
+  "runtime": {
+    "ticks": 500,
+    "anticipatory_interventions_observed": 0,
+    "verified_charge_count": 13,
+    "minimum_energy": 0.0,
+    "critical_crossing": true,
+    "unrecoverable_state_entered": true,
+    "behavior_released_after_recovery": false,
+    "identity_governance_persistence_preserved": true
+  },
+  "abundant_control": {
+    "ticks": 500,
+    "resource_fixation": false,
+    "continuous_charge_loop": false,
+    "max_consecutive_charge": 3,
+    "action_diversity": 7,
+    "non_energy_behavior": true,
+    "minimum_energy": 0.0,
+    "critical_crossing": true
+  },
+  "correction": {
+    "files_changed": [
+      "umbra_core/perception.py",
+      "umbra_core/world_model/engine.py",
+      "umbra_core/world_model/__init__.py",
+      "umbra_core/runtime.py",
+      "umbra_core/arbitration.py",
+      "tests/test_d013v_observation_support.py",
+      "experiments/d010/runtime-tick-classification.json"
+    ],
+    "world_model_reused": true,
+    "new_estimator_framework": false,
+    "new_planner": false,
+    "fixed_energy_threshold_added": false,
+    "generic_uncertainty_reinterpreted": false,
+    "absolute_coordinates_exposed_to_policy": false
+  },
+  "validation": {
+    "focused": "D013V 7 passed; D013 family 34 passed",
+    "d012": "full-suite D-012 coverage passed; short-path process regression previously governed at 35 passed",
+    "d009": "PASS; 14 files, 3300 raw rows",
+    "d010": "PASS; 1900 raw rows; inventory line locations refreshed only",
+    "governance": "PASS; ADOPTED",
+    "full_suite_before_final_inventory_refresh": "784 passed, 2 skipped, 1 known D-010 inventory failure",
+    "full_suite": "786 passed, 2 skipped, 2 warnings"
+  },
+  "integrity": {
+    "thresholds_modified": false,
+    "outcome_effects_modified": false,
+    "evaluator_modified": false,
+    "v2_modified": false,
+    "historical_evidence_modified": false,
+    "historical_verdicts_modified": false,
+    "RECORD_modified": false,
+    "LIBRARY_REVIEW_modified": false
+  },
+  "verdict": "D013V_CORRECTION_FAIL",
+  "recommendation": {
+    "predictive_world_model_gap_closed": true,
+    "anticipatory_viability_gap_closed": false,
+    "integrated_p0_blocker_cleared": false,
+    "fresh_formal_run_authorized": false,
+    "next_single_action": "separate operator/architect decision; no automatic remediation or formal run"
+  }
+}

@@ -263,3 +263,14 @@
 - Integrity: trial production/test edits removed; D-013S/D-013T-R1 evidence, thresholds, verdicts, RECORD, and LIBRARY_REVIEW preserved; no formal P0 or tag.
 - Evidence: docs/prior-art/homeostatic-rl/D013U_ANTICIPATORY_REFRESH.md.
 - Next action: separately authorize uncertainty-semantics architecture work before any anticipatory correction.
+
+## D-013V observation-support recoverability envelope
+- ID: UMBRA-D-013V
+- Status: COMPLETE — `D013V_CORRECTION_FAIL`; non-formal architecture correction only.
+- Baseline: `8bdd8f1c7ccd6db44845569e71cfeb469dd244d7`.
+- Replay: D-013S last direct observation tick 367; support-bounded recoverable through tick 388; first support-bounded unrecoverable tick 389.
+- Correction: declared sensor support, verified body-relative motion propagation, support invalidation on incompatible re-identification, support-aware route budget, and projected feasible-to-infeasible preservation guard.
+- Runtime: 500 ticks; 13 verified charges; minimum energy 0.0; critical crossing; no clean preservation→recovery→release sequence. Abundant control retained diversity/no charge loop but also crossed critical energy.
+- Validation: D-013V focused 7 passed; combined D-013 family 34 passed; D-009 PASS; D-010 PASS after source-line inventory re-anchor; governance PASS.
+- Integrity: no formal P0/tag; D-013S/D-013T-R1 and historical evidence, thresholds, verdicts, RECORD, and LIBRARY_REVIEW preserved.
+- Next action: operator/architect decision only; no automatic remediation or formal run authorized.

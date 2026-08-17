@@ -54,6 +54,8 @@ class Observation:
     observed_at: float
     expires_at: float
     source: str
+    # Unitful support supplied by the sensing boundary, not an error estimate.
+    distance_support_upper_bound: float | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -66,6 +68,7 @@ class Observation:
             "observed_at": self.observed_at,
             "expires_at": self.expires_at,
             "source": self.source,
+            "distance_support_upper_bound": self.distance_support_upper_bound,
         }
 
     @classmethod
@@ -168,6 +171,11 @@ class PerceptionMembrane:
                 observed_at=now,
                 expires_at=now + self.expire_ttl,
                 source="sensor",
+                distance_support_upper_bound=(
+                    float(body.sensor_range)
+                    if math.isfinite(float(body.sensor_range)) and float(body.sensor_range) > 0.0
+                    else None
+                ),
             )
             new_obs.append(obs)
 

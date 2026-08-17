@@ -328,6 +328,9 @@ class Arbitrator:
         later approaches include one autonomous drift interval between actions.
         """
         distance = float(observation.get("estimated_distance", float("inf")))
+        support = observation.get("distance_support_upper_bound")
+        if support is not None and math.isfinite(float(support)):
+            distance = max(distance, float(support))
         if not math.isfinite(distance):
             return True, 0, 0.0
         # Preserve the existing emergency progress path once criticality
@@ -351,6 +354,73 @@ class Arbitrator:
         route_cost = approaches * approach_cost + max(0, approaches - 1) * drift_cost
         safe_reserve = phys.energy - BOUNDS["energy"].critical_low
         return safe_reserve >= route_cost, approaches, route_cost
+
+    @classmethod
+    def _ordinary_action_destroys_recovery_route(
+        cls, phys: Physiology, observation: dict[str, Any], cand: Candidate
+    ) -> bool:
+        """Detect only a feasible-to-infeasible projected transition."""
+        support = observation.get("distance_support_upper_bound")
+        if support is None or not math.isfinite(float(support)):
+            return False
+        currently_feasible, _, _ = cls._energy_route_budget(phys, observation)
+        if not currently_feasible:
+            return False
+        energy_delta = float(OUTCOME_EFFECTS.get(cand.capability, {}).get("energy", 0.0))
+        projected_energy = phys.energy + float(DEFAULT_DRIFT.get("energy", 0.0)) + energy_delta
+        projected = dict(observation)
+        if cand.capability in ("MOVE", "APPROACH", "RETREAT"):
+            projected["distance_support_upper_bound"] = (
+                float(support) + max(0.0, float(cand.params.get("step", 1.0)))
+            )
+        projected_feasible, _, _ = cls._energy_route_budget_at_energy(
+            projected_energy, projected
+        )
+        return not projected_feasible
+
+    @staticmethod
+    def _energy_route_budget_at_energy(
+        energy: float, observation: dict[str, Any]
+    ) -> tuple[bool, int, float]:
+        distance = float(observation.get("estimated_distance", float("inf")))
+        support = observation.get("distance_support_upper_bound")
+        if support is not None and math.isfinite(float(support)):
+            distance = max(distance, float(support))
+        if not math.isfinite(distance):
+            return True, 0, 0.0
+        approaches = max(
+            0, int(math.ceil(max(0.0, distance - CHARGE_SELECTION_DISTANCE) / APPROACH_RECOVERY_STEP))
+        )
+        approach_cost = max(0.0, -float(OUTCOME_EFFECTS["APPROACH"].get("energy", 0.0)))
+        drift_cost = max(0.0, -float(DEFAULT_DRIFT.get("energy", 0.0)))
+        route_cost = approaches * approach_cost + max(0, approaches - 1) * drift_cost
+        return energy - BOUNDS["energy"].critical_low >= route_cost, approaches, route_cost
+
+    def _preserve_recoverability(
+        self, phys: Physiology, observations: list[dict[str, Any]], chosen: Candidate, tick: int
+    ) -> Candidate:
+        if chosen.capability in ("CHARGE", "APPROACH") and chosen.params.get("toward") == "resource":
+            return chosen
+        for observation in observations:
+            if observation.get("kind") != "resource":
+                continue
+            if not self._ordinary_action_destroys_recovery_route(phys, observation, chosen):
+                continue
+            preserved = Candidate(
+                "APPROACH",
+                {
+                    "heading_delta": float(observation.get("relative_direction", 0.0)),
+                    "step": 1.5,
+                    "toward": "resource",
+                    "source": "preserve_recoverability",
+                    "distance_support_upper_bound": observation.get(
+                        "distance_support_upper_bound"
+                    ),
+                },
+            )
+            self._commit(preserved, tick)
+            return preserved
+        return chosen
 
     def generate_candidates(
         self,
@@ -686,7 +756,14 @@ class Arbitrator:
                     kind = "resource" if "resource" in kinds else "novel_crystal"
                     o = next(o for o in observations if o["kind"] == kind)
                     hd = float(o["relative_direction"])
-                    dist = float(o["estimated_distance"])
+                    nominal_dist = float(o["estimated_distance"])
+                    support = o.get("distance_support_upper_bound")
+                    dist = max(
+                        nominal_dist,
+                        float(support)
+                        if support is not None and math.isfinite(float(support))
+                        else nominal_dist,
+                    )
                     denial = self.state.last_verified_denial or {}
                     denial_target = denial.get("target_kind")
                     repeated_denial = (
@@ -694,7 +771,7 @@ class Arbitrator:
                         and denial.get("reason") in RECOVERY_DENIAL_REASONS
                         and (not denial_target or denial_target == kind)
                     )
-                    if dist <= CHARGE_SELECTION_DISTANCE and not repeated_denial:
+                    if nominal_dist <= CHARGE_SELECTION_DISTANCE and not repeated_denial:
                         chosen = Candidate("CHARGE", {"toward": kind})
                         return commit_safe_recovery(chosen)
                     route_feasible, required_approaches, route_cost = (
@@ -706,7 +783,8 @@ class Arbitrator:
                             {
                                 "toward": kind,
                                 "reason": "energy_recovery_route_infeasible",
-                                "estimated_distance": dist,
+                                "estimated_distance": nominal_dist,
+                                "distance_support_upper_bound": support,
                                 "required_approach_count": required_approaches,
                                 "estimated_route_energy_cost": route_cost,
                             },
@@ -714,7 +792,15 @@ class Arbitrator:
                         return commit_safe_recovery(chosen)
                     chosen = Candidate(
                         "APPROACH",
-                        {"heading_delta": hd, "step": 1.5, "toward": kind},
+                        {
+                            "heading_delta": hd,
+                            "step": 1.5,
+                            "toward": kind,
+                            "source": "preserve_recoverability"
+                            if support is not None
+                            else "energy_recovery",
+                            "distance_support_upper_bound": support,
+                        },
                     )
                     return commit_safe_recovery(chosen)
                 # persistent absolute search heading
@@ -898,6 +984,9 @@ class Arbitrator:
                 self.state.thrash_events += 1
                 chosen = prev
 
+        preserved = self._preserve_recoverability(phys, observations, chosen, tick)
+        if preserved is not chosen:
+            return preserved
         self._commit(chosen, tick)
         return chosen
 

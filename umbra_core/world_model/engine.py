@@ -87,6 +87,30 @@ class FactKind(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
+@dataclass(frozen=True)
+class VerifiedMotionDelta:
+    """Sanitized, verified body-relative motion; never absolute world state."""
+
+    displacement: float
+    body_relative_dx: float
+    body_relative_dy: float
+    heading_delta: float
+    provenance: str
+    execution_id: str
+
+    def validate(self) -> None:
+        values = (
+            self.displacement,
+            self.body_relative_dx,
+            self.body_relative_dy,
+            self.heading_delta,
+        )
+        if not self.provenance or not self.execution_id:
+            raise ValueError("verified_motion_provenance_required")
+        if not all(math.isfinite(float(v)) for v in values) or self.displacement < 0.0:
+            raise ValueError("verified_motion_delta_invalid")
+
+
 @dataclass
 class WorldEntity:
     entity_id: str
@@ -97,6 +121,8 @@ class WorldEntity:
     uncertainty: float
     persistence_probability: float
     evidence_count: int
+    # UNKNOWN means no justified unitful support was supplied by the sensor.
+    distance_support_upper_bound: float | None = None
     fact_kind: str = FactKind.UNKNOWN.value
     last_tick: int = 0
 
@@ -112,6 +138,13 @@ class WorldEntity:
             last_observed_at=float(d.get("last_observed_at", 0.0)),
             confidence=float(d.get("confidence", 0.0)),
             uncertainty=float(d.get("uncertainty", 1.0)),
+            distance_support_upper_bound=(
+                float(d["distance_support_upper_bound"])
+                if d.get("distance_support_upper_bound") is not None
+                and math.isfinite(float(d["distance_support_upper_bound"]))
+                and float(d["distance_support_upper_bound"]) >= 0.0
+                else None
+            ),
             persistence_probability=float(d.get("persistence_probability", 0.5)),
             evidence_count=int(d.get("evidence_count", 0)),
             fact_kind=str(d.get("fact_kind", FactKind.UNKNOWN.value)),
@@ -463,15 +496,36 @@ class WorldModel:
             }
             conf = float(o.get("confidence", 0.5))
             unc = float(o.get("uncertainty", 0.5))
+            raw_support = o.get("distance_support_upper_bound")
+            support = (
+                float(raw_support)
+                if raw_support is not None
+                and math.isfinite(float(raw_support))
+                and float(raw_support) >= 0.0
+                else None
+            )
             existing = self._find_entity(kind, est)
             if existing is not None:
                 # re-identification of remembered entity
                 was_remembered = existing.fact_kind == FactKind.REMEMBERED_ESTIMATE.value
+                if (
+                    was_remembered
+                    and existing.distance_support_upper_bound is not None
+                    and abs(
+                        existing.estimated_state.get("estimated_distance", 0.0)
+                        - est.get("estimated_distance", 0.0)
+                    ) > REIDENTIFY_DISTANCE_THRESHOLD
+                ):
+                    support = None
+                    self.metrics["support_contradictions"] = (
+                        int(self.metrics.get("support_contradictions", 0)) + 1
+                    )
                 existing.estimated_state = est
                 existing.last_observed_at = now
                 existing.last_tick = tick
                 existing.confidence = clamp(0.5 * existing.confidence + 0.5 * conf)
                 existing.uncertainty = unc
+                existing.distance_support_upper_bound = support
                 existing.persistence_probability = clamp(
                     existing.persistence_probability + 0.1
                 )
@@ -494,6 +548,7 @@ class WorldModel:
                     last_observed_at=now,
                     confidence=conf,
                     uncertainty=unc,
+                    distance_support_upper_bound=support,
                     persistence_probability=0.7,
                     evidence_count=1,
                     fact_kind=FactKind.CURRENT_OBSERVATION.value,
@@ -506,6 +561,7 @@ class WorldModel:
                     "kind": kind,
                     "est": est,
                     "confidence": conf,
+                    "distance_support_upper_bound": support,
                     "fact_kind": FactKind.CURRENT_OBSERVATION.value,
                 },
             )
@@ -529,6 +585,62 @@ class WorldModel:
                 if ent.entity_kind not in seen_kinds:
                     del self.entities[eid]
         return reidentified
+
+    def apply_verified_motion(
+        self, delta: VerifiedMotionDelta, *, tick: int
+    ) -> int:
+        """Propagate remembered spatial state using only verified body motion."""
+        delta.validate()
+        changed = 0
+        c = math.cos(delta.heading_delta)
+        s = math.sin(delta.heading_delta)
+        for ent in self.entities.values():
+            support = ent.distance_support_upper_bound
+            if support is None:
+                continue
+            distance = float(ent.estimated_state.get("estimated_distance", 0.0))
+            direction = float(ent.estimated_state.get("relative_direction", 0.0))
+            # Target vector is body-relative. Subtract body-relative motion, then
+            # rotate into the new body frame; no world coordinates are exposed.
+            target_x = distance * math.cos(direction) - delta.body_relative_dx
+            target_y = distance * math.sin(direction) - delta.body_relative_dy
+            next_x = target_x * c + target_y * s
+            next_y = -target_x * s + target_y * c
+            ent.estimated_state = {
+                "relative_direction": math.atan2(next_y, next_x),
+                "estimated_distance": math.hypot(next_x, next_y),
+            }
+            ent.distance_support_upper_bound = support + delta.displacement
+            ent.last_tick = tick
+            ent.fact_kind = FactKind.REMEMBERED_ESTIMATE.value
+            changed += 1
+        if changed:
+            self.metrics["verified_motion_updates"] = (
+                int(self.metrics.get("verified_motion_updates", 0)) + changed
+            )
+        return changed
+
+    def policy_observations(self, *, observed_kinds: set[str]) -> list[dict[str, Any]]:
+        """Expose only bounded remembered estimates with justified support."""
+        result: list[dict[str, Any]] = []
+        for ent in self.entities.values():
+            if ent.entity_kind in observed_kinds:
+                continue
+            if ent.fact_kind != FactKind.REMEMBERED_ESTIMATE.value:
+                continue
+            if ent.distance_support_upper_bound is None:
+                continue
+            result.append({
+                "kind": ent.entity_kind,
+                "relative_direction": ent.estimated_state.get("relative_direction", 0.0),
+                "estimated_distance": ent.estimated_state.get("estimated_distance", 0.0),
+                "confidence": ent.confidence,
+                "uncertainty": ent.uncertainty,
+                "distance_support_upper_bound": ent.distance_support_upper_bound,
+                "fact_kind": ent.fact_kind,
+                "source": "world_model_memory",
+            })
+        return result
 
     def _find_entity(self, kind: str, est: dict[str, float]) -> WorldEntity | None:
         best = None
@@ -652,6 +764,7 @@ class WorldModel:
         observations: list[dict[str, Any]],
         action_issued: bool,
         now: float,
+        verified_motion_delta: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Compare prediction to verified outcome; revise models. Never treat prediction as fact."""
         result: dict[str, Any] = {
@@ -713,6 +826,9 @@ class WorldModel:
             if self.config.affordance_learning:
                 self._update_affordance(action, entity_kind, success, tick)
 
+        if verified_motion_delta is not None and verified_outcome is not None:
+            delta = VerifiedMotionDelta(**verified_motion_delta)
+            result["verified_motion_updates"] = self.apply_verified_motion(delta, tick=tick)
         self._pending_prediction = None
         return result
 
