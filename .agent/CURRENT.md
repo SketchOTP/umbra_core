@@ -340,3 +340,13 @@
 - Integrity: no formal P0/tag; historical evidence, thresholds, effects, evaluator, D-010/D-009 evidence, RECORD, and LIBRARY_REVIEW preserved.
 - Evidence: docs/evidence/d013af-reachable-outcome-branch/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013af-reachable-outcome-branch-r1.
 - Next action: Architect review only; no larger-horizon controller, planner change, or formal P0.
+
+## D-013AG successor-set viability / dead-end causality diagnosis
+- ID: UMBRA-D-013AG
+- Status: STOPPED_ON_E1_MISMATCH — `D013AG_RESIDUAL_MODEL_DEFECT`; bounded non-formal diagnosis only.
+- Baseline: 74743926b33f81e110f1d006c5e59f0d8ae6ad08; repository and GitHub master matched at launch and closeout.
+- Scope: 17 replay traces with final 128 decision opportunities, plus 9 direct evaluator controls; no production correction, planner/controller change, formal tag, or formal P0.
+- Finding: delayed-I3 tick 428 showed production `no_safe_action` after `_preserve_recoverability` replaced safe REST with an unsafe retry-aware APPROACH, while evaluator SAFE1 retained 9 safe candidates.
+- Classification: ordinary traces contained bounded policy-induced backup-loss observations; actuation-I4 remained unresolved; delayed-I3 is the mandatory residual model-defect stop. Global causal closure was not claimed.
+- Evidence: docs/evidence/d013ag-successor-set/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ag-successor-set-r1.
+- Integrity: production, tests, experiments, thresholds/effects, historical evidence, RECORD, and LIBRARY_REVIEW preserved; formal readiness false; return to Architect.
