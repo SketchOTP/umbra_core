@@ -403,3 +403,17 @@
 - Integrity: no formal P0/tag; no threshold, outcome-effect, contract, historical-evidence, historical-verdict, RECORD, or LIBRARY_REVIEW change.
 - Evidence: docs/evidence/d013ak-authority-reachability/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ak-authority-reachability-r1.
 - Next action: return to Architect for the separately scoped multi-step trajectory-viability blocker; formal readiness remains false.
+
+## D-013AL trajectory-horizon diagnosis
+- ID: UMBRA-D-013AL
+- Status: COMPLETE_WITH_ARCHITECTURE_BLOCKER — `D013AL_MISSING_PREDICTIVE_REPRESENTATION`; bounded non-formal diagnosis only.
+- Baseline: c956102ce39a16a73c996f812be47e73b47344d4.
+- Fresh evidence: 17 named cases, 14 unique trajectories; 13 confirmed action-caused viability exits, 1 delayed commitment-caused exit, 0 already-nonviable decisions, 0 semantic defects, 0 unresolved.
+- Horizon: action-caused H_min spans 6–109 ticks; every case exceeds the production WorldModel maximum depth of four.
+- Causal clusters: 10 undirected-motion option losses, 2 recovery-blind motion losses, 1 competing-recovery-route loss; delayed-I3 remains a separate commitment problem.
+- Information finding: all 14 unique cases require a compact policy-provenanced representation of multi-step recoverability across physiology, body delay/cost, and opportunity support. No fixed-depth planner/filter correction was authorized or retained.
+- Controls: formal-S2 reconstruction survives 7,200 ticks; three fresh 256-tick reserve controls pass; restart/replay preserves identity, physiology, embodiment, and classification.
+- Validation: external diagnostic 4 passed; D-013 131 passed; D-013AK 5 passed; D-012 35 passed; D-009 PASS; D-010 validator PASS; governance PASS; full suite 823 passed, 2 skipped, 1 inherited D-010 inventory failure.
+- Integrity: no production/test/experiment/threshold/effect/contract/history change; no formal P0/tag; RECORD and LIBRARY_REVIEW preserved.
+- Evidence: docs/evidence/d013al-trajectory-horizon/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013al-trajectory-horizon-r1.
+- Next action: return to Architect; D-013AM, delayed-actuation redesign, and formal P0 remain unauthorized.

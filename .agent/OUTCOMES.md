@@ -291,3 +291,11 @@ Format:
 - Exact counterfactual closed: verified CHARGE at tick 266 and a 7,200-tick worst-reachable continuation, with identical observations, candidate order, and scores.
 - Fresh qualification did not clear integrated viability: 8/32 default seeds and 6/6 stress controls reached later genuine no-safe states; no critical crossings occurred before fail-closed termination.
 - Formal readiness: false. No P0 or formal tag was created.
+
+## 2026-08-18 — UMBRA-D-013AL
+- Verdict: `D013AL_MISSING_PREDICTIVE_REPRESENTATION`.
+- Reproduced 17 named fresh post-AK cases representing 14 unique trajectories. Thirteen unique cases exit viability because of the selected action; delayed-I3 exits through an already committed delayed action. No case was already nonviable before the decision, and no semantic defect remained.
+- Candidate surgery found preserving alternatives in every action-caused case. Their minimum discriminating horizons span 6–109 ticks, all beyond the production WorldModel's maximum depth of four.
+- The common missing information is a compact policy-provenanced representation of multi-step recovery-route viability across all physiology variables, body delay/cost, and opportunity support—not a new threshold or an unconditional fixed-depth planner.
+- The formal-S2 control survived 7,200 ticks; three reserve controls passed; snapshot/restart preserved identity, physiology, embodiment, and classification.
+- No production correction, formal P0, or formal tag was authorized. Formal readiness remains false and the result returns to Architect.

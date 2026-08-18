@@ -130,3 +130,9 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - Authority may narrow admissible outcome branches without becoming organism policy. In the tick-266 proof, observations, candidate order, and scores remained byte-for-byte equivalent while only safety admissibility changed.
 - Closing a local false-empty safe set does not establish integrated viability. The fresh campaign retained later genuine trajectory losses in 8 default seeds and all 6 stress controls.
 - Runtime-tick inventory remains a known D-010 defect. D-013AK introduced no new direct tick inventory sites and preserved the inherited 27-entry failure footprint.
+
+## 2026-08-18 — D-013AL trajectory horizon
+- Immediate admissibility can be correct while policy still exits the viable trajectory set. The first distinguishable consequences in the fresh cases occur 6–109 ticks later, so a one-step or fixed four-step model cannot represent the relevant recovery-route loss.
+- Hidden habitat truth is valid for offline causal proof but must not enter organism policy. The runtime representation, if separately authorized, must remain derived from policy-provenanced perception, memory, physiology, and body state.
+- A preserving candidate at one state is not itself an architecture prescription. The evidence supports a compact recoverability representation; it does not justify a tree search, MPC layer, generic shield, or arbitrary larger horizon.
+- Delayed commitments form a distinct causal family and should not be silently folded into fresh-action selection. Their redesign remains separately gated.
