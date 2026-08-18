@@ -227,9 +227,19 @@ def verified_outcome_effects(capability: str, success: bool) -> dict[str, float]
 
 def verified_outcome_effect_branches(
     capability: str,
-) -> tuple[dict[str, float], dict[str, float]]:
-    """Return reachable success and failure effects without changing constants."""
-    return (
-        verified_outcome_effects(capability, True),
-        verified_outcome_effects(capability, False),
-    )
+) -> tuple[dict[str, float], ...]:
+    """Return the conservative reachable verified-effect envelope.
+
+    Deterministic primitives must not acquire an imaginary generic failure
+    branch.  IDLE and the signal primitives have no raw failure path in the
+    embodiment.  ORIENT can instead return the real delayed branch, which is
+    verified with no immediate physiology effect.  State-dependent and
+    stochastic primitives retain their failure branch until authoritative
+    execution can narrow it.
+    """
+    success = verified_outcome_effects(capability, True)
+    if capability in {"IDLE", "SIGNAL_PLAY", "SIGNAL_ASSISTANCE"}:
+        return (success,)
+    if capability == "ORIENT":
+        return (success, {})
+    return (success, verified_outcome_effects(capability, False))

@@ -35,8 +35,8 @@ def test_exact_d013s_boundary_rejects_same_focus_critical_crossing():
 
     chosen = arbitrator.select(physiology, _resource(3.8), 414, SeededRNG(13013))
 
-    assert chosen.capability == "IDLE"
-    assert chosen.params["source"] == "no_safe_action"
+    assert chosen.capability == "SIGNAL_ASSISTANCE"
+    assert "source" not in chosen.params
     assert (
         physiology.energy + OUTCOME_EFFECTS["APPROACH"]["energy"]
         < BOUNDS["energy"].critical_low
@@ -84,7 +84,7 @@ def test_charge_remains_eligible_and_restorative():
     chosen = Arbitrator().select(physiology, _resource(1.0), 414, SeededRNG(13013))
 
     assert chosen.capability == "IDLE"
-    assert chosen.params["source"] == "no_safe_action"
+    assert "source" not in chosen.params
 
 
 def test_reachable_energy_recovery_preserves_progress_and_charge():

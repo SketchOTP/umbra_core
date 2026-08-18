@@ -1,6 +1,11 @@
 from umbra_core.arbitration import Arbitrator, Candidate
 from umbra_core.governance import Governance
-from umbra_core.physiology import BOUNDS, DEFAULT_DRIFT, Physiology
+from umbra_core.physiology import (
+    BOUNDS,
+    DEFAULT_DRIFT,
+    Physiology,
+    verified_outcome_effect_branches,
+)
 from umbra_core.util import SeededRNG
 
 
@@ -55,3 +60,24 @@ def test_not_at_rest_denial_is_retained_for_existing_recovery_feedback():
         "reason": "not_at_rest",
         "target_kind": "resource",
     }
+
+
+def test_reachable_envelope_does_not_invent_deterministic_failures():
+    assert len(verified_outcome_effect_branches("IDLE")) == 1
+    assert len(verified_outcome_effect_branches("SIGNAL_PLAY")) == 1
+    assert len(verified_outcome_effect_branches("SIGNAL_ASSISTANCE")) == 1
+    assert verified_outcome_effect_branches("ORIENT")[1] == {}
+    assert len(verified_outcome_effect_branches("REST")) == 2
+
+
+def test_idle_success_remains_safe_at_the_d013ae_false_no_safe_state():
+    physiology = Physiology(
+        energy=0.412,
+        fatigue=0.946,
+        integrity=0.8454,
+        stimulation=0.866,
+    )
+
+    assert not Arbitrator._introduces_critical_boundary(
+        Candidate("IDLE", {}), physiology
+    )

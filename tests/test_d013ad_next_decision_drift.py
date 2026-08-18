@@ -41,4 +41,4 @@ def test_scripted_final_commit_path_uses_safe_fallback():
 
     assert chosen.capability == "IDLE"
     assert chosen.params["source"] == "no_safe_action"
-    assert arbitrator._introduces_critical_boundary(chosen, physiology)
+    assert not arbitrator._introduces_critical_boundary(chosen, physiology)

@@ -328,3 +328,15 @@
 - Integrity: historical evidence, thresholds, verdicts, D009/D010 evidence, RECORD, and LIBRARY_REVIEW preserved; no formal P0 or tag.
 - Evidence: docs/evidence/d013ae-verified-outcome-branch/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ae-verified-outcome-branch-r1.
 - Next action: architect/operator review of no-safe-action and policy-safe executability blockers; no formal P0 or automatic remediation.
+
+## D-013AF reachable outcome-branch closure
+- ID: UMBRA-D-013AF
+- Status: COMPLETE_WITH_BOUNDED_FINDINGS — `D013AF_REACHABLE_OUTCOME_BRANCH_CLOSURE_FAIL`; non-formal branch-reachability correction and robustness qualification only.
+- Baseline: 605aa17e6e11862f3df60c931b78726b404d83bb.
+- Diagnosis: four original no-safe events were false under generic failure over-approximation; four were already true.
+- Correction: deterministic IDLE and signal success-only envelopes; ORIENT success plus delayed zero-effect branch; state-dependent/stochastic branches remain conservative.
+- Result: corrected 32-seed campaign still had 8 no-safe states, 0 critical crossings; all four controls and long seeds 13013/13015/13034 reached no-safe.
+- Validation: D-013 family 119 passed; D-012 35 passed; D-009 PASS; D-010 PASS; governance 5 passed; full suite 810 passed, 2 skipped, 2 inherited D-010 failures.
+- Integrity: no formal P0/tag; historical evidence, thresholds, effects, evaluator, D-010/D-009 evidence, RECORD, and LIBRARY_REVIEW preserved.
+- Evidence: docs/evidence/d013af-reachable-outcome-branch/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013af-reachable-outcome-branch-r1.
+- Next action: Architect review only; no larger-horizon controller, planner change, or formal P0.
