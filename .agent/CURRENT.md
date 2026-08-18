@@ -350,3 +350,16 @@
 - Classification: ordinary traces contained bounded policy-induced backup-loss observations; actuation-I4 remained unresolved; delayed-I3 is the mandatory residual model-defect stop. Global causal closure was not claimed.
 - Evidence: docs/evidence/d013ag-successor-set/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ag-successor-set-r1.
 - Integrity: production, tests, experiments, thresholds/effects, historical evidence, RECORD, and LIBRARY_REVIEW preserved; formal readiness false; return to Architect.
+
+## D-013AH recovery-preservation safety parity closure
+- ID: UMBRA-D-013AH
+- Status: COMPLETE — `D013AH_PRODUCTION_EVALUATOR_PARITY_CLOSED`; bounded non-formal causal correction only.
+- Baseline: 5468bfe03db2d11254296900267194eb4014e15d.
+- Root cause: critical-recovery finalization replaced an already-safe candidate with an unsafe recovery-preservation proposal, then emitted `no_safe_action` without retaining the original or reusing existing safe alternatives.
+- Correction: validate the preservation proposal before substitution; retain the safe original, or reuse existing safe candidate generation if the retained candidate is unsafe. No scores, ordering, branch semantics, thresholds, effects, planner, or controller changed.
+- E1: delayed-I3 false denial at tick 428 closed; 17/17 frozen replay states and 9/9 direct controls agree; zero remaining mismatches.
+- Robustness: 8/32 default seeds and all six runtime controls still reach genuine `no_safe_action`; zero critical crossings; delayed-I3 now stops at tick 429 with an empty safe set; actuation-I4 remains unresolved at tick 169.
+- Validation: focused 20 passed; D-013 family 126 passed; D-012 short/process 35 passed; D-009 PASS; D-010 PASS; governance PASS; restart/replay 2 passed; full suite 817 passed, 2 skipped, 2 inherited D-010 failures.
+- Integrity: historical evidence, thresholds, effects, D-009/D-010 evidence, RECORD, and LIBRARY_REVIEW preserved; no formal P0 or tag.
+- Evidence: docs/evidence/d013ah-recovery-parity/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ah-recovery-parity-r1.
+- Next action: separately authorize a fresh post-correction successor-set causality diagnosis; formal readiness remains false.

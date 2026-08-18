@@ -831,13 +831,16 @@ class Arbitrator:
                 preserved = self._preserve_recoverability(
                     phys, observations, chosen, tick
                 )
-                if preserved is not chosen:
+                if preserved is not chosen and immediately_safe(preserved):
                     chosen = preserved
-                    if not immediately_safe(chosen):
-                        chosen = self._no_safe_action()
 
                 if not immediately_safe(chosen):
-                    chosen = self._no_safe_action()
+                    alternatives = [
+                        candidate
+                        for candidate in self.generate_candidates(phys, observations, tick)
+                        if immediately_safe(candidate)
+                    ]
+                    chosen = pick_recovery(alternatives) if alternatives else self._no_safe_action()
                 self._commit(chosen, tick)
                 return chosen
 
