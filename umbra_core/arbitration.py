@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import math
-from typing import Any
+from typing import Any, Callable
 
 from umbra_core.embodiment import CAPABILITIES
 from umbra_core.physiology import (
@@ -311,7 +311,11 @@ class Arbitrator:
 
     @staticmethod
     def _introduces_critical_boundary(
-        cand: Candidate, phys: Physiology, *, ignore: str | None = None
+        cand: Candidate,
+        phys: Physiology,
+        *,
+        ignore: str | None = None,
+        effect_branches: tuple[dict[str, float], ...] | None = None,
     ) -> bool:
         """Reject actions that make the next decision state critical.
 
@@ -323,7 +327,8 @@ class Arbitrator:
         """
         _ = ignore
         drift = DEFAULT_DRIFT if phys.drift_enabled else {}
-        for effects in verified_outcome_effect_branches(cand.capability):
+        branches = effect_branches or verified_outcome_effect_branches(cand.capability)
+        for effects in branches:
             for name in BOUNDS:
                 before = phys.get(name)
                 after = clamp(
@@ -723,19 +728,32 @@ class Arbitrator:
         wait_journal: WaitJournal | None = None,
         wait_generation_enabled: bool = True,
         temporal_modifiers_enabled: bool = True,
+        authority_effect_branches: Callable[
+            [Candidate], tuple[dict[str, float], ...]
+        ] | None = None,
     ) -> Candidate:
+        def introduces(candidate: Candidate, *, ignore: str | None = None) -> bool:
+            if authority_effect_branches is None:
+                return self._introduces_critical_boundary(
+                    candidate, phys, ignore=ignore
+                )
+            branches = authority_effect_branches(candidate)
+            return self._introduces_critical_boundary(
+                candidate, phys, ignore=ignore, effect_branches=branches
+            )
+
         mode = self.state.mode
         if mode == "random":
             cap = rng.choice(list(CAPABILITIES))
             cand = Candidate(cap, {"step": 1.0, "heading_delta": rng.uniform(-1.0, 1.0)})
-            if self._introduces_critical_boundary(cand, phys):
+            if introduces(cand):
                 cand = self._no_safe_action()
             self._commit(cand, tick)
             return cand
         if mode == "scripted":
             cap = SCRIPT_CYCLE[tick % len(SCRIPT_CYCLE)]
             cand = Candidate(cap, {"step": 1.0, "heading_delta": 0.3})
-            if self._introduces_critical_boundary(cand, phys):
+            if introduces(cand):
                 cand = self._no_safe_action()
             self._commit(cand, tick)
             return cand
@@ -812,9 +830,7 @@ class Arbitrator:
                     )
 
                 def immediately_safe(candidate: Candidate) -> bool:
-                    return not self._introduces_critical_boundary(
-                        candidate, phys, ignore=focus_exemption(candidate)
-                    )
+                    return not introduces(candidate, ignore=focus_exemption(candidate))
 
                 if not immediately_safe(chosen):
                     alternatives = [
@@ -1137,11 +1153,11 @@ class Arbitrator:
                 chosen = prev
 
         preserved = self._preserve_recoverability(phys, observations, chosen, tick)
-        if self._introduces_critical_boundary(preserved, phys):
+        if introduces(preserved):
             safe_scored = [
                 candidate
                 for candidate in scored
-                if not self._introduces_critical_boundary(candidate, phys)
+                if not introduces(candidate)
             ]
             preserved = safe_scored[0] if safe_scored else self._no_safe_action()
         self._commit(preserved, tick)

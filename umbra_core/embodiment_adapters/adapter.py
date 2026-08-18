@@ -357,16 +357,11 @@ class EmbodimentAdapter:
         """Validate; on reject return failed raw (no Embodiment.execute); else
         clamp supported continuous parameters (Supplement S1) and delegate the
         translated request — the original `request.params` is never mutated."""
-        rejection = self._validate_attachment(request)
+        rejection, translated_params, provenance = self.preflight_execution(request)
         if rejection is not None:
             return rejection
         profile = self.profile
-        assert profile is not None  # ATTACHED implies a resolvable profile
-        translated_params, provenance, constraint = self._translate_continuous_limits(
-            request, profile
-        )
-        if constraint is not None:
-            return self._reject(request, "BODY_LIMIT_REJECTED", constraint, profile=profile)
+        assert profile is not None
         raw = embodiment.execute_primitive(request.capability, translated_params, rng)
         raw["body_profile_id"] = self.state.body_profile_id
         raw["profile_definition_hash"] = profile_definition_hash(profile)
@@ -374,6 +369,25 @@ class EmbodimentAdapter:
         if provenance is not None:
             raw.update(provenance)
         return raw
+
+    def preflight_execution(
+        self, request: AdapterRequest
+    ) -> tuple[dict[str, Any] | None, dict[str, Any], dict[str, Any] | None]:
+        """Pure adapter admission and translation shared with execution."""
+        rejection = self._validate_attachment(request)
+        if rejection is not None:
+            return rejection, dict(request.params), None
+        profile = self.profile
+        assert profile is not None
+        translated_params, provenance, constraint = self._translate_continuous_limits(
+            request, profile
+        )
+        if constraint is not None:
+            rejection = self._reject(
+                request, "BODY_LIMIT_REJECTED", constraint, profile=profile
+            )
+            return rejection, dict(request.params), None
+        return None, dict(translated_params), provenance
 
     def _validate_attachment(self, request: AdapterRequest) -> dict[str, Any] | None:
         """Non-continuous admission checks: attachment/generation/hash/capability

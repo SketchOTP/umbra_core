@@ -919,6 +919,62 @@ class Embodiment:
         self.body.y = clamp(self.body.y, r, height - r)
         self.body.heading = (self.body.heading + math.pi) % (2 * math.pi) - math.pi
 
+    def preflight_primitive(
+        self, capability: str, params: dict[str, Any]
+    ) -> dict[str, Any] | None:
+        """Resolve deterministic state-dependent execution without mutation."""
+        body = self.body
+        habitat = self._habitat_read()
+        detail: dict[str, Any] = {
+            "capability": capability,
+            "params": dict(params),
+            "energy_cost_scale": body.energy_cost_scale,
+            "adapter_certified": False,
+        }
+        if capability == "REST":
+            feature, distance = habitat.nearest("rest", body.x, body.y)
+            ok = bool(
+                feature is not None
+                and distance <= feature.radius + 0.3
+                and feature.restable
+            )
+            detail.update(ok_raw=ok, reason="ok" if ok else "not_at_rest")
+            if ok:
+                detail["rested"] = True
+            return detail
+        if capability == "CHARGE":
+            if params.get("toward") == "impossible_node":
+                detail.update(
+                    ok_raw=False,
+                    reason="impossible_target",
+                    object_kind="impossible_node",
+                )
+                return detail
+            feature = None
+            distance = float("inf")
+            for kind in ("resource", "novel_crystal"):
+                candidate, candidate_distance = habitat.nearest(kind, body.x, body.y)
+                if candidate is not None and candidate_distance < distance:
+                    feature, distance = candidate, candidate_distance
+            if feature is None or distance > feature.radius + 0.3:
+                detail.update(ok_raw=False, reason="not_at_resource")
+            elif not feature.chargeable:
+                detail.update(
+                    ok_raw=False,
+                    reason="affordance_denied",
+                    false_affordance=True,
+                    integrity_hit=0.05,
+                )
+            else:
+                detail.update(
+                    ok_raw=True,
+                    reason="ok",
+                    charged=True,
+                    object_kind=feature.kind,
+                )
+            return detail
+        return None
+
     def execute_primitive(
         self,
         capability: str,
@@ -1033,13 +1089,19 @@ class Embodiment:
                 detail["inspected"] = True
                 detail["object_kind"] = "inspect"
         elif capability == "REST":
-            feat, d = h.nearest("rest", b.x, b.y)
-            if feat is None or d > feat.radius + 0.3 or not feat.restable:
-                ok = False
-                reason = "not_at_rest"
-            else:
+            preflight = self.preflight_primitive(capability, params)
+            assert preflight is not None
+            ok = bool(preflight["ok_raw"])
+            reason = str(preflight["reason"])
+            detail.update(
+                {
+                    key: value
+                    for key, value in preflight.items()
+                    if key not in {"capability", "params", "ok_raw", "reason"}
+                }
+            )
+            if ok:
                 b.velocity = 0.0
-                detail["rested"] = True
         elif capability in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE"):
             b.velocity = 0.0
             detail["environmental_event"] = {
@@ -1048,32 +1110,19 @@ class Embodiment:
                 "tick": int(params.get("tick", 0)),
             }
         elif capability == "CHARGE":
-            # resource or novel chargeable kinds (impossible_node never charges)
-            toward = params.get("toward")
-            if toward == "impossible_node":
-                ok = False
-                reason = "impossible_target"
-                detail["object_kind"] = "impossible_node"
-            else:
-                feat = None
-                d = float("inf")
-                for kind in ("resource", "novel_crystal"):
-                    f, dd = h.nearest(kind, b.x, b.y)
-                    if f is not None and dd < d:
-                        feat, d = f, dd
-                if feat is None or d > feat.radius + 0.3:
-                    ok = False
-                    reason = "not_at_resource"
-                elif not feat.chargeable:
-                    ok = False
-                    reason = "affordance_denied"
-                    detail["false_affordance"] = True
-                    # I10: familiar object changed — mild integrity hit
-                    detail["integrity_hit"] = 0.05
-                else:
-                    b.velocity = 0.0
-                    detail["charged"] = True
-                    detail["object_kind"] = feat.kind
+            preflight = self.preflight_primitive(capability, params)
+            assert preflight is not None
+            ok = bool(preflight["ok_raw"])
+            reason = str(preflight["reason"])
+            detail.update(
+                {
+                    key: value
+                    for key, value in preflight.items()
+                    if key not in {"capability", "params", "ok_raw", "reason"}
+                }
+            )
+            if ok:
+                b.velocity = 0.0
         else:
             ok = False
             reason = "unknown_capability"

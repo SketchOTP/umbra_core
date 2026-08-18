@@ -10,6 +10,7 @@ from umbra_core.embodiment_adapters.adapter import AdapterRequest, EmbodimentAda
 from umbra_core.physiology import (
     OUTCOME_EFFECTS,
     Physiology,
+    verified_outcome_effect_branches,
     verified_outcome_effects,
 )
 from umbra_core.util import SeededRNG, new_id
@@ -201,6 +202,100 @@ class VerifiedOutcome:
     physiology_effects: dict[str, float]
     raw: dict[str, Any]
     verified: bool
+
+
+def project_verified_outcome(
+    capability: str, raw: dict[str, Any]
+) -> tuple[bool, dict[str, float]]:
+    """Purely project the effects that verification would authorize."""
+    success = bool(raw.get("ok_raw")) and raw.get("reason") not in (
+        "unknown_capability",
+        "out_of_range",
+        "not_at_rest",
+        "not_at_resource",
+        "delayed",
+        "affordance_denied",
+        "route_blocked",
+    )
+    if raw.get("reason") == "movement_slip":
+        success = False
+    if raw.get("reason") == "delayed" or raw.get("delayed"):
+        success = False
+
+    if raw.get("reason") == "delayed" or raw.get("delayed"):
+        effects: dict[str, float] = {}
+    elif success:
+        effects = verified_outcome_effects(capability, True)
+        if raw.get("hazard_contact"):
+            for key, value in OUTCOME_EFFECTS["HAZARD_HIT"].items():
+                effects[key] = effects.get(key, 0.0) + value
+    else:
+        effects = verified_outcome_effects(capability, False)
+        if raw.get("integrity_hit"):
+            effects["integrity"] = effects.get("integrity", 0.0) - float(
+                raw["integrity_hit"]
+            )
+
+    scale = float(raw.get("energy_cost_scale", 1.0))
+    if scale != 1.0 and effects.get("energy", 0.0) < 0.0:
+        effects["energy"] *= scale
+
+    if "physiology_set" in raw:
+        success = False
+        effects = {}
+    return success, effects
+
+
+def authority_effect_branches(
+    candidate: Any,
+    embodiment: Embodiment,
+    adapter: EmbodimentAdapter | None,
+    *,
+    resolve_params: Callable[[dict[str, Any]], dict[str, Any]],
+) -> tuple[dict[str, float], ...]:
+    """Resolve final-authority reachable effects without policy leakage."""
+    params = resolve_params(dict(candidate.params))
+    if adapter is not None:
+        request = AdapterRequest(
+            request_id="authority-preflight",
+            capability=candidate.capability,
+            params=params,
+            attachment_generation=adapter.state.attachment_generation,
+            # Pure preflight does not execute or emit a timeline event.
+            tick=0,
+        )
+        rejection, params, _ = adapter.preflight_execution(request)
+        if rejection is not None:
+            _, effects = project_verified_outcome(candidate.capability, rejection)
+            return (effects,)
+
+    raw = embodiment.preflight_primitive(candidate.capability, params)
+    if raw is not None:
+        _, effects = project_verified_outcome(candidate.capability, raw)
+        return (effects,)
+
+    scale = embodiment.body.energy_cost_scale
+    base_branches = verified_outcome_effect_branches(candidate.capability)
+    branches: list[dict[str, float]] = []
+    for branch in base_branches:
+        effects = dict(branch)
+        if scale != 1.0 and effects.get("energy", 0.0) < 0.0:
+            effects["energy"] *= scale
+        branches.append(effects)
+
+    if candidate.capability in {"MOVE", "APPROACH", "RETREAT"}:
+        hazard, _ = embodiment._habitat_read().nearest(
+            "hazard", embodiment.body.x, embodiment.body.y
+        )
+        if hazard is not None:
+            for branch in base_branches:
+                hazard_effects = dict(branch)
+                for key, value in OUTCOME_EFFECTS["HAZARD_HIT"].items():
+                    hazard_effects[key] = hazard_effects.get(key, 0.0) + value
+                if scale != 1.0 and hazard_effects.get("energy", 0.0) < 0.0:
+                    hazard_effects["energy"] *= scale
+                branches.append(hazard_effects)
+    return tuple(branches)
 
 
 @dataclass
@@ -428,45 +523,9 @@ class Governance:
 
     def verify_outcome(self, capability: str, raw: dict[str, Any]) -> VerifiedOutcome:
         """Independent verification — capability cannot self-certify."""
-        success = bool(raw.get("ok_raw")) and raw.get("reason") not in (
-            "unknown_capability",
-            "out_of_range",
-            "not_at_rest",
-            "not_at_resource",
-            "delayed",
-            "affordance_denied",
-            "route_blocked",
-        )
-        # movement_slip still "executed" but failed quality
-        if raw.get("reason") == "movement_slip":
-            success = False
-        if raw.get("reason") == "delayed" or raw.get("delayed"):
-            success = False
-
-        effects: dict[str, float] = {}
-        if raw.get("reason") == "delayed" or raw.get("delayed"):
-            effects = {}
-        elif success:
-            effects = verified_outcome_effects(capability, True)
-            if raw.get("hazard_contact"):
-                for k, v in OUTCOME_EFFECTS["HAZARD_HIT"].items():
-                    effects[k] = effects.get(k, 0.0) + v
-        else:
-            effects = verified_outcome_effects(capability, False)
-            if raw.get("integrity_hit"):
-                effects["integrity"] = effects.get("integrity", 0.0) - float(
-                    raw["integrity_hit"]
-                )
-
-        scale = float(raw.get("energy_cost_scale", 1.0))
-        if scale != 1.0 and "energy" in effects and effects["energy"] < 0:
-            effects["energy"] = effects["energy"] * scale
-
-        # Strip any forged physiology_set from raw — never accept as outcome
+        success, effects = project_verified_outcome(capability, raw)
         if "physiology_set" in raw:
             self.state.bypass_attempts += 1
-            success = False
-            effects = {}
 
         self.state.verified_outcomes += 1
         return VerifiedOutcome(

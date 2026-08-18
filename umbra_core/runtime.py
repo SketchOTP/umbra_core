@@ -53,7 +53,7 @@ from umbra_core.events import (
     SNAPSHOT_RETAIN_COUNT,
     WAL_CHECKPOINT_EVERY_TICKS,
 )
-from umbra_core.governance import Governance, GovernanceState
+from umbra_core.governance import Governance, GovernanceState, authority_effect_branches
 from umbra_core.identity import ConstitutionalIdentity, create_birth, verify_identity
 from umbra_core.memory import MemoryConfig, MemoryEngine, condition_to_memory_config
 from umbra_core.perception import PerceptionMembrane
@@ -1320,7 +1320,7 @@ class Organism:
             policy_expectations=policy_expectations,
             wait_journal=self._wait_journal,
             wait_generation_enabled=wait_on,
-            temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()),
+            temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()), authority_effect_branches=lambda candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params),
         )
 
         # D-004: practice goal generation + arbitration (propose only; no authority)
@@ -1508,7 +1508,7 @@ class Organism:
         )
         if sm_status == "dormant" and cand.capability not in ("IDLE", "REST"):
             cand = self.arbitrator._no_safe_action()
-        if self.arbitrator._introduces_critical_boundary(cand, self.phys):
+        if self.arbitrator._introduces_critical_boundary(cand, self.phys, effect_branches=authority_effect_branches(cand, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params)):
             cand = self.arbitrator._no_safe_action()
         if cand.params.get("source") == "no_safe_action":
             self.store.append_event(

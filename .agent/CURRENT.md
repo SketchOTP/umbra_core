@@ -390,3 +390,16 @@
 - Integrity: no production/test/experiment/threshold/effect/historical-evidence change; RECORD and LIBRARY_REVIEW preserved; no formal P0 or tag.
 - Evidence: docs/evidence/d013aj-habitat-viability/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013aj-habitat-viability-r1.
 - Next action: return to Architect for a separate decision on the default-13035 authority-narrowing defect versus earlier multi-step recoverability loss; no remediation or formal execution authorized.
+
+## D-013AK final-authority outcome reachability closure
+- ID: UMBRA-D-013AK
+- Status: COMPLETE_WITH_REMAINING_TRAJECTORY_BLOCKER — `D013AK_AUTHORITY_REACHABILITY_CLOSED`; bounded non-formal causal correction and qualification only.
+- Baseline: 3acfb2a44fe078be9fa873ee3968c2436b45f54b.
+- Root cause: generic CHARGE failure was treated as reachable at default-13035 tick 266 even though final embodiment authority deterministically established in-range, chargeable execution; the imaginary failure branch made the safe set falsely empty.
+- Correction: final body/adapter/governance authority now supplies a pure reachable-effect envelope for safety admissibility. Arbitration observations, candidate order, scores, thresholds, outcome effects, and hidden habitat truth remain outside policy scoring.
+- Exact closure: old generic replay rejects; authority-conditioned replay selects and verifies CHARGE; policy observations/order/scores are identical; worst-reachable continuation survives 7,200 ticks.
+- Robustness: 8/32 defaults and all 6 stress controls still reach later genuine `no_safe_action`; zero critical crossings; 15/15 AJ cases now classify as viable-environment trajectory loss, with no residual branch-reachability mismatch.
+- Validation: focused 5 passed; D-013 family 131 passed; D-012 short path 35 passed; D-009 PASS; D-010 evidence validator PASS; governance PASS; full suite 823 passed, 2 skipped, 1 inherited D-010 inventory failure (27 unchanged entries).
+- Integrity: no formal P0/tag; no threshold, outcome-effect, contract, historical-evidence, historical-verdict, RECORD, or LIBRARY_REVIEW change.
+- Evidence: docs/evidence/d013ak-authority-reachability/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ak-authority-reachability-r1.
+- Next action: return to Architect for the separately scoped multi-step trajectory-viability blocker; formal readiness remains false.
