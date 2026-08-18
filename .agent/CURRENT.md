@@ -315,3 +315,16 @@
 - Integrity: no formal P0/tag; historical evidence, thresholds, verdicts, RECORD, and LIBRARY_REVIEW preserved.
 - Evidence: docs/evidence/d013ad-next-decision-drift/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ad-next-decision-drift-r1.
 - Next action: separately authorize denial-conditioned outcome viability work; no formal P0 or automatic remediation under D-013AD.
+
+
+## D-013AE verified-outcome branch closure
+- ID: UMBRA-D-013AE
+- Status: STOPPED — D013AE_VERIFIED_OUTCOME_BRANCH_CLOSURE_FAIL; bounded non-formal diagnosis/correction/robustness qualification only.
+- Baseline: f3f9ba21a19af86eb232c315fb007ee374c9e740.
+- Finding: H1 success-only branch confirmed; H2 policy/execution mismatch confirmed; H3 denial feedback gap bounded but not causal for the observed REST failures.
+- Correction: shared verified success/failure effects plus one next DEFAULT_DRIFT; explicit no_safe_action denial replaces unsafe IDLE execution; not_at_rest added to existing denial feedback.
+- Robustness: 8/32 default seeds reached no_safe_action; both 5000-tick primary seeds and all four body/actuation controls reached no_safe_action.
+- Validation: D013 family 117 passed; D012 short path 35 passed; D009 PASS; D010 PASS; governance PASS; full suite 809 passed, 2 skipped, 1 unchanged D010 inventory failure.
+- Integrity: historical evidence, thresholds, verdicts, D009/D010 evidence, RECORD, and LIBRARY_REVIEW preserved; no formal P0 or tag.
+- Evidence: docs/evidence/d013ae-verified-outcome-branch/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ae-verified-outcome-branch-r1.
+- Next action: architect/operator review of no-safe-action and policy-safe executability blockers; no formal P0 or automatic remediation.

@@ -7,7 +7,11 @@ from typing import Any, Callable
 
 from umbra_core.embodiment import CAPABILITIES, Embodiment
 from umbra_core.embodiment_adapters.adapter import AdapterRequest, EmbodimentAdapter
-from umbra_core.physiology import OUTCOME_EFFECTS, Physiology
+from umbra_core.physiology import (
+    OUTCOME_EFFECTS,
+    Physiology,
+    verified_outcome_effects,
+)
 from umbra_core.util import SeededRNG, new_id
 from umbra_core.wait_execution import (
     FallbackBias,
@@ -443,16 +447,12 @@ class Governance:
         if raw.get("reason") == "delayed" or raw.get("delayed"):
             effects = {}
         elif success:
-            effects = dict(OUTCOME_EFFECTS.get(capability, {}))
+            effects = verified_outcome_effects(capability, True)
             if raw.get("hazard_contact"):
                 for k, v in OUTCOME_EFFECTS["HAZARD_HIT"].items():
                     effects[k] = effects.get(k, 0.0) + v
         else:
-            if capability in ("MOVE", "APPROACH", "RETREAT"):
-                effects = dict(OUTCOME_EFFECTS["FAILED_MOVE"])
-            else:
-                # failed rest/charge still costs a little effort
-                effects = {"energy": -0.003, "fatigue": 0.002}
+            effects = verified_outcome_effects(capability, False)
             if raw.get("integrity_hit"):
                 effects["integrity"] = effects.get("integrity", 0.0) - float(
                     raw["integrity_hit"]

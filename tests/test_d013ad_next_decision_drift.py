@@ -40,4 +40,5 @@ def test_scripted_final_commit_path_uses_safe_fallback():
     chosen = arbitrator.select(physiology, [], 1, SeededRNG(13034))
 
     assert chosen.capability == "IDLE"
-    assert not arbitrator._introduces_critical_boundary(chosen, physiology)
+    assert chosen.params["source"] == "no_safe_action"
+    assert arbitrator._introduces_critical_boundary(chosen, physiology)

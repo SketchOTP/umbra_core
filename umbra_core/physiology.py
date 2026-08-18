@@ -214,3 +214,22 @@ OUTCOME_EFFECTS: dict[str, dict[str, float]] = {
     "HAZARD_HIT": {"integrity": -0.04, "stimulation": 0.02, "energy": -0.006},
     "FAILED_MOVE": {"energy": -0.003, "fatigue": 0.003},
 }
+
+
+def verified_outcome_effects(capability: str, success: bool) -> dict[str, float]:
+    """Return the existing verified physiology effect for one outcome branch."""
+    if success:
+        return dict(OUTCOME_EFFECTS.get(capability, {}))
+    if capability in ("MOVE", "APPROACH", "RETREAT"):
+        return dict(OUTCOME_EFFECTS["FAILED_MOVE"])
+    return {"energy": -0.003, "fatigue": 0.002}
+
+
+def verified_outcome_effect_branches(
+    capability: str,
+) -> tuple[dict[str, float], dict[str, float]]:
+    """Return reachable success and failure effects without changing constants."""
+    return (
+        verified_outcome_effects(capability, True),
+        verified_outcome_effects(capability, False),
+    )

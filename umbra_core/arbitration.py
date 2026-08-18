@@ -7,7 +7,13 @@ import math
 from typing import Any
 
 from umbra_core.embodiment import CAPABILITIES
-from umbra_core.physiology import BOUNDS, DEFAULT_DRIFT, OUTCOME_EFFECTS, Physiology
+from umbra_core.physiology import (
+    BOUNDS,
+    DEFAULT_DRIFT,
+    OUTCOME_EFFECTS,
+    Physiology,
+    verified_outcome_effect_branches,
+)
 from umbra_core.temporal.policy import PolicyExpectationView
 from umbra_core.util import SeededRNG, clamp
 from umbra_core.wait_execution import (
@@ -167,7 +173,7 @@ class ArbitrationState:
 
 SCRIPT_CYCLE = ["ORIENT", "MOVE", "MOVE", "INSPECT", "MOVE", "CHARGE", "REST", "IDLE"]
 RECOVERY_DENIAL_REASONS = frozenset(
-    {"not_at_resource", "not_at_affordance", "not_executable"}
+    {"not_at_resource", "not_at_affordance", "not_executable", "not_at_rest"}
 )
 
 
@@ -316,18 +322,25 @@ class Arbitrator:
         invariant covers every homeostatic variable.
         """
         _ = ignore
-        effects = OUTCOME_EFFECTS.get(cand.capability, {})
         drift = DEFAULT_DRIFT if phys.drift_enabled else {}
-        for name in BOUNDS:
-            before = phys.get(name)
-            after = clamp(
-                before
-                + float(effects.get(name, 0.0))
-                + float(drift.get(name, 0.0))
-            )
-            if not BOUNDS[name].critical_violation(before) and BOUNDS[name].critical_violation(after):
-                return True
+        for effects in verified_outcome_effect_branches(cand.capability):
+            for name in BOUNDS:
+                before = phys.get(name)
+                after = clamp(
+                    before
+                    + float(effects.get(name, 0.0))
+                    + float(drift.get(name, 0.0))
+                )
+                if not BOUNDS[name].critical_violation(before) and BOUNDS[name].critical_violation(after):
+                    return True
         return False
+
+    @staticmethod
+    def _no_safe_action() -> Candidate:
+        return Candidate(
+            "IDLE",
+            {"source": "no_safe_action", "reason": "no_verified_branch_safe"},
+        )
 
     @staticmethod
     def _energy_route_budget(
@@ -716,14 +729,14 @@ class Arbitrator:
             cap = rng.choice(list(CAPABILITIES))
             cand = Candidate(cap, {"step": 1.0, "heading_delta": rng.uniform(-1.0, 1.0)})
             if self._introduces_critical_boundary(cand, phys):
-                cand = Candidate("IDLE", {})
+                cand = self._no_safe_action()
             self._commit(cand, tick)
             return cand
         if mode == "scripted":
             cap = SCRIPT_CYCLE[tick % len(SCRIPT_CYCLE)]
             cand = Candidate(cap, {"step": 1.0, "heading_delta": 0.3})
             if self._introduces_critical_boundary(cand, phys):
-                cand = Candidate("IDLE", {})
+                cand = self._no_safe_action()
             self._commit(cand, tick)
             return cand
 
@@ -809,9 +822,7 @@ class Arbitrator:
                         for candidate in self.generate_candidates(phys, observations, tick)
                         if immediately_safe(candidate)
                     ]
-                    chosen = pick_recovery(alternatives) if alternatives else Candidate(
-                        "IDLE", {}
-                    )
+                    chosen = pick_recovery(alternatives) if alternatives else self._no_safe_action()
 
                 # The same cross-variable corridor adjudication applies to
                 # active recovery proposals as to ordinary candidates.  The
@@ -823,10 +834,10 @@ class Arbitrator:
                 if preserved is not chosen:
                     chosen = preserved
                     if not immediately_safe(chosen):
-                        chosen = Candidate("IDLE", {})
+                        chosen = self._no_safe_action()
 
                 if not immediately_safe(chosen):
-                    chosen = Candidate("IDLE", {})
+                    chosen = self._no_safe_action()
                 self._commit(chosen, tick)
                 return chosen
 
@@ -1129,11 +1140,13 @@ class Arbitrator:
                 for candidate in scored
                 if not self._introduces_critical_boundary(candidate, phys)
             ]
-            preserved = safe_scored[0] if safe_scored else Candidate("IDLE", {})
+            preserved = safe_scored[0] if safe_scored else self._no_safe_action()
         self._commit(preserved, tick)
         return preserved
 
     def _commit(self, cand: Candidate, tick: int) -> None:
+        if cand.params.get("source") == "no_safe_action":
+            return
         source = cand.params.get("source")
         if source == "essential_resource_discovery" and self.state.discovery_actions_remaining > 0:
             self.state.discovery_actions_remaining -= 1

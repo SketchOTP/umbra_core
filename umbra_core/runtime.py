@@ -1507,9 +1507,43 @@ class Organism:
             self.self_model.capability_status(cand.capability) if self.self_model else "available"
         )
         if sm_status == "dormant" and cand.capability not in ("IDLE", "REST"):
-            cand = Candidate("IDLE", {})
+            cand = self.arbitrator._no_safe_action()
         if self.arbitrator._introduces_critical_boundary(cand, self.phys):
-            cand = Candidate("IDLE", {})
+            cand = self.arbitrator._no_safe_action()
+        if cand.params.get("source") == "no_safe_action":
+            self.store.append_event(
+                agent_id=self.identity.agent_id,
+                event_type="denial",
+                monotonic_time=self.monotonic_time,
+                wall_time=wall,
+                payload={
+                    "capability": "IDLE",
+                    "admitted": False,
+                    "reason": "no_safe_action",
+                    "stage_failed": "verified_outcome_branch_safety",
+                },
+            )
+            if self.phys.in_viable():
+                self.metrics["viable_ticks"] += 1
+            self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
+            snap = self.snapshot_if_due()
+            return {
+                "tick": self.tick,
+                "capability": None,
+                "denied": True,
+                "H": self.phys.as_dict(),
+                "snapshot_id": snap,
+                "outcome": {
+                    "capability": "IDLE",
+                    "success": False,
+                    "reason": "no_safe_action",
+                    "effects": {},
+                    "verified": False,
+                },
+                "self_model": None,
+                "action_issued": False,
+                "no_safe_action": True,
+            }
         # 4b. predict candidate consequences (before govern/execute)
         if self.self_model is not None and self.config.self_model_enabled:
             resolved = self._resolve_params(dict(cand.params))

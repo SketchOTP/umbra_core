@@ -25,6 +25,7 @@ def test_energy_need_preempts_stale_non_energy_recovery_focus():
         SeededRNG(13013),
     )
 
-    # D-013AD extends the same-variable guard through the next mandatory drift.
-    assert chosen.capability != "SIGNAL_ASSISTANCE"
-    assert not arbitrator._introduces_critical_boundary(chosen, physiology)
+    # D-013AE evaluates both verified outcome branches through the next drift.
+    assert chosen.capability == "IDLE"
+    assert chosen.params["source"] == "no_safe_action"
+    assert arbitrator._introduces_critical_boundary(chosen, physiology)
