@@ -304,3 +304,14 @@
 - Integrity: no formal P0/tag, no D-013S evidence or historical verdict changes, thresholds/effects/evaluator unchanged, RECORD and LIBRARY_REVIEW preserved.
 - Evidence: `docs/evidence/d013y-integrated-resolution/`.
 - Next action: architect review of the remaining integrated reacquisition/viability blocker; no automatic formal run or remediation.
+
+## D-013AD next-decision drift-horizon viability closure
+- ID: UMBRA-D-013AD
+- Status: COMPLETE_WITH_BLOCKER — D013AD_NEXT_DECISION_DRIFT_HORIZON_CONFIRMED; non-formal correction and robustness diagnosis.
+- Baseline: de03744082fb53ab0ca76f0818db539e4ba07a1b.
+- Correction: arbitration and final runtime proposal-commit paths now project verified action effects plus the next mandatory DEFAULT_DRIFT across all four homeostatic variables.
+- Result: deterministic next-decision hypothesis confirmed; nominal, body, actuation, and combined live scenarios still fail through a separate denied REST outcome (not_at_rest, verified energy effect -0.003).
+- Validation: D-013 family 114 passed; D-012 short path 35 passed at /mnt/storage1tb/u2; D-009 PASS; D-010 evidence PASS; governance PASS; full suite 804 passed, 2 skipped, 3 operational/known failures.
+- Integrity: no formal P0/tag; historical evidence, thresholds, verdicts, RECORD, and LIBRARY_REVIEW preserved.
+- Evidence: docs/evidence/d013ad-next-decision-drift/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ad-next-decision-drift-r1.
+- Next action: separately authorize denial-conditioned outcome viability work; no formal P0 or automatic remediation under D-013AD.

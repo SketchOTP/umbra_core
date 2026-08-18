@@ -1507,9 +1507,9 @@ class Organism:
             self.self_model.capability_status(cand.capability) if self.self_model else "available"
         )
         if sm_status == "dormant" and cand.capability not in ("IDLE", "REST"):
-            # Prefer idle when model believes capability unavailable — still via arbitration override
             cand = Candidate("IDLE", {})
-
+        if self.arbitrator._introduces_critical_boundary(cand, self.phys):
+            cand = Candidate("IDLE", {})
         # 4b. predict candidate consequences (before govern/execute)
         if self.self_model is not None and self.config.self_model_enabled:
             resolved = self._resolve_params(dict(cand.params))

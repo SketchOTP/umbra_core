@@ -307,19 +307,24 @@ class Arbitrator:
     def _introduces_critical_boundary(
         cand: Candidate, phys: Physiology, *, ignore: str | None = None
     ) -> bool:
-        """Reject effects that create a new critical variable.
+        """Reject actions that make the next decision state critical.
 
-        ignore remains accepted for snapshot/API compatibility. Energy
-        recovery candidates with known negative energy effects never use it;
-        non-energy recovery focuses retain their prior cross-variable
-        behavior so this correction stays scoped to the demonstrated D-013S
-        route defect.
+        The runtime applies DEFAULT_DRIFT at the beginning of the next tick,
+        before perception and arbitration. Safety therefore projects the
+        verified action effect and that unavoidable drift together. The legacy
+        ignore parameter remains for API compatibility, but the next-decision
+        invariant covers every homeostatic variable.
         """
-        for name, delta in OUTCOME_EFFECTS.get(cand.capability, {}).items():
-            if name == ignore:
-                continue
+        _ = ignore
+        effects = OUTCOME_EFFECTS.get(cand.capability, {})
+        drift = DEFAULT_DRIFT if phys.drift_enabled else {}
+        for name in BOUNDS:
             before = phys.get(name)
-            after = clamp(before + float(delta))
+            after = clamp(
+                before
+                + float(effects.get(name, 0.0))
+                + float(drift.get(name, 0.0))
+            )
             if not BOUNDS[name].critical_violation(before) and BOUNDS[name].critical_violation(after):
                 return True
         return False
@@ -710,11 +715,15 @@ class Arbitrator:
         if mode == "random":
             cap = rng.choice(list(CAPABILITIES))
             cand = Candidate(cap, {"step": 1.0, "heading_delta": rng.uniform(-1.0, 1.0)})
+            if self._introduces_critical_boundary(cand, phys):
+                cand = Candidate("IDLE", {})
             self._commit(cand, tick)
             return cand
         if mode == "scripted":
             cap = SCRIPT_CYCLE[tick % len(SCRIPT_CYCLE)]
             cand = Candidate(cap, {"step": 1.0, "heading_delta": 0.3})
+            if self._introduces_critical_boundary(cand, phys):
+                cand = Candidate("IDLE", {})
             self._commit(cand, tick)
             return cand
 
@@ -816,6 +825,8 @@ class Arbitrator:
                     if not immediately_safe(chosen):
                         chosen = Candidate("IDLE", {})
 
+                if not immediately_safe(chosen):
+                    chosen = Candidate("IDLE", {})
                 self._commit(chosen, tick)
                 return chosen
 
@@ -1112,6 +1123,13 @@ class Arbitrator:
                 chosen = prev
 
         preserved = self._preserve_recoverability(phys, observations, chosen, tick)
+        if self._introduces_critical_boundary(preserved, phys):
+            safe_scored = [
+                candidate
+                for candidate in scored
+                if not self._introduces_critical_boundary(candidate, phys)
+            ]
+            preserved = safe_scored[0] if safe_scored else Candidate("IDLE", {})
         self._commit(preserved, tick)
         return preserved
 

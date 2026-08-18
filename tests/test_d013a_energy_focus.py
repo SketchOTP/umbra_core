@@ -25,6 +25,6 @@ def test_energy_need_preempts_stale_non_energy_recovery_focus():
         SeededRNG(13013),
     )
 
-    # D-013T closes the exact same-variable critical-boundary hole.
-    assert chosen.capability == "SIGNAL_ASSISTANCE"
-    assert chosen.params["reason"] == "energy_recovery_route_infeasible"
+    # D-013AD extends the same-variable guard through the next mandatory drift.
+    assert chosen.capability != "SIGNAL_ASSISTANCE"
+    assert not arbitrator._introduces_critical_boundary(chosen, physiology)
