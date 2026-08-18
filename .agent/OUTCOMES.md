@@ -299,3 +299,12 @@ Format:
 - The common missing information is a compact policy-provenanced representation of multi-step recovery-route viability across all physiology variables, body delay/cost, and opportunity support—not a new threshold or an unconditional fixed-depth planner.
 - The formal-S2 control survived 7,200 ticks; three reserve controls passed; snapshot/restart preserved identity, physiology, embodiment, and classification.
 - No production correction, formal P0, or formal tag was authorized. Formal readiness remains false and the result returns to Architect.
+
+## 2026-08-18 — UMBRA-D-013AM
+- Verdict: `D013AM_VERIFIED_CAPABILITY_SUPPORT_REQUIRED`.
+- Canonical Notion was first reconciled through accepted D-013AL and separately records AM authorization; refetch verification passed.
+- Fresh reconstruction matched all 13 ordinary D-013AL boundary states exactly. SelfModel had learned motion, latency, cost, reliability, confidence, and evidence-count values, but no verified progress or duration support in any case.
+- A fixed-size, provenance-complete, zero-rollout recoverability skeleton was qualified as a partial representation with no authority and zero hidden inputs. It structurally separated 13/13 cases but strictly distinguished 0/13 because point expectations and probabilities cannot be treated as conservative route bounds.
+- Field ablation retained a necessary skeleton of physiology slack, authority effect envelope, opportunity support/provenance, capability/body identity, cross-need mapping, and the missing verified capability support primitive.
+- Formal-S2, ample-resource, stale-memory, no-known-opportunity, energy-scale, authority-envelope, and restart controls produced zero false confident collapse.
+- Recommendation is exactly `EXTEND_SELF_MODEL`; action-selection integration and D-013AN remain unauthorized. Formal readiness is false.

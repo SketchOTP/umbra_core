@@ -417,3 +417,19 @@
 - Integrity: no production/test/experiment/threshold/effect/contract/history change; no formal P0/tag; RECORD and LIBRARY_REVIEW preserved.
 - Evidence: docs/evidence/d013al-trajectory-horizon/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013al-trajectory-horizon-r1.
 - Next action: return to Architect; D-013AM, delayed-actuation redesign, and formal P0 remain unauthorized.
+
+## D-013AM recoverability representation qualification
+- ID: UMBRA-D-013AM
+- Status: COMPLETE_WITH_SPECIFIC_MODEL_BLOCKER — `D013AM_VERIFIED_CAPABILITY_SUPPORT_REQUIRED`; evaluator/prototype-only.
+- Baseline: e3549372a20780e49f00c9466eb81c736d337b1d.
+- Notion gate: accepted D-013AL result and separate D-013AM authorization appended and re-fetched before substantive AM work.
+- Reconstruction: all 13 ordinary AL boundaries freshly reproduced with exact physiology and body-profile parity; SelfModel progress/duration support absent in 13/13.
+- Prototype: fixed-size, zero-rollout, zero-hidden-field, provenance-complete recoverability skeleton; no action authority.
+- Result: 13/13 cases structurally separated, but 0/13 strictly qualified as destroying-versus-preserving because learned motion/latency/reliability values are expectations or probabilities, not conservative support bounds.
+- Missing primitive: verified capability progress and duration support envelope with body-schema identity, reachable failure modes, evidence provenance, and explicit support semantics.
+- Location recommendation: EXTEND_SELF_MODEL. Cross-component action-selection integration remains unauthorized.
+- Controls: formal-S2 7,200 pass; three 256-tick ample controls pass; stale/no-route unknown handling pass; energy-scale I7, AK envelope, and default-13013 restart preserved; zero false confident collapse.
+- Validation: diagnostics 6 passed; D-013 131 passed; D-013AK 5 passed; D-012 35 passed; D-009 PASS; D-010 validator PASS; governance PASS; full suite 823 passed, 2 skipped, 1 inherited D-010 inventory failure.
+- Integrity: no production/test/experiment/threshold/effect/contract/history change; no formal P0/tag; RECORD and LIBRARY_REVIEW preserved.
+- Evidence: docs/evidence/d013am-recoverability/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013am-recoverability-r1.
+- Next action: return to Architect for a separately authorized verified-capability-support representation directive; D-013AN and formal P0 remain unauthorized.

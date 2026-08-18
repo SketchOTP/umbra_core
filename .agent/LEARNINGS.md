@@ -136,3 +136,9 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - Hidden habitat truth is valid for offline causal proof but must not enter organism policy. The runtime representation, if separately authorized, must remain derived from policy-provenanced perception, memory, physiology, and body state.
 - A preserving candidate at one state is not itself an architecture prescription. The evidence supports a compact recoverability representation; it does not justify a tree search, MPC layer, generic shield, or arbitrary larger horizon.
 - Delayed commitments form a distinct causal family and should not be silently folded into fresh-action selection. Their redesign remains separately gated.
+
+## 2026-08-18 — D-013AM recoverability representation
+- A learned expectation is not a safety support bound. SelfModel's expected motion, latency, cost, and reliability can describe likely body behavior, but they cannot conservatively certify that a recovery route remains reachable.
+- Keep epistemic failure explicit. When verified progress or duration support is absent, a recoverability view must return `UNKNOWN_CAPABILITY_SUPPORT`, not silently convert confidence, probability, or observed extrema into authority.
+- The cross-component skeleton is small and useful, but it is not yet architecture-ready: physiology slack, WorldModel opportunity support, and authority effects cannot project movement routes without a body-owned support primitive.
+- The narrow ownership decision is `EXTEND_SELF_MODEL`. Only after that primitive is separately earned from verified consequences should a derived cross-component view be retried in shadow mode.
