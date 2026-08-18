@@ -377,3 +377,16 @@
 - Integrity: no production/test/experiment/threshold/effect/evaluator change; no formal P0/tag; historical evidence, RECORD, and LIBRARY_REVIEW preserved.
 - Evidence: docs/evidence/d013ai-successor-causality/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ai-successor-causality-r1.
 - Next action: return to Architect; do not implement a successor-preservation mechanism from one H1 case, and do not expand delayed-actuation scope without a separate directive.
+
+## D-013AJ formal habitat viability and failure-attribution audit
+- ID: UMBRA-D-013AJ
+- Status: COMPLETE_WITH_RESIDUAL_FINDING — `D013AJ_RESIDUAL_SEMANTIC_DEFECT`; non-formal evaluator-only diagnosis.
+- Baseline: ed5c661aeca49e3d5768863a452f8488989807c1.
+- Formal S2: exact D-012 worker/D-009 S2 reconstruction; existential and worst-reachable-movement witnesses both completed 7,200 ticks, therefore 2,400/3,600/7,200 viability PASS; no formal contract gap.
+- S2 margins: existential minimum energy 0.6390, maximum fatigue 0.6010, minimum integrity 0.8948, minimum stimulation 0.3960; worst-reachable movement minimum energy 0.6370, maximum fatigue 0.6010, minimum integrity 0.8942, minimum stimulation 0.3970.
+- Reclassification: all 15 D-013AI environment first failures reproduced exactly; 14 `VIABLE_ENVIRONMENT_TRAJECTORY_LOSS`, 0 globally unviable, 0 local/global unknown, 1 `RESIDUAL_SEMANTIC_DEFECT`, 0 unresolved.
+- Residual: default-13035 retained a 7,200-tick witness from its captured tick-266 no-safe state; the body was authoritatively in resource range and the first witness action was verified CHARGE.
+- Validation: diagnostics 3 passed; D-013 126 passed; D-012 35 passed; D-009 PASS; D-010 validator PASS; governance PASS; full suite 817 passed, 2 skipped, 2 inherited D-010 failures.
+- Integrity: no production/test/experiment/threshold/effect/historical-evidence change; RECORD and LIBRARY_REVIEW preserved; no formal P0 or tag.
+- Evidence: docs/evidence/d013aj-habitat-viability/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013aj-habitat-viability-r1.
+- Next action: return to Architect for a separate decision on the default-13035 authority-narrowing defect versus earlier multi-step recoverability loss; no remediation or formal execution authorized.
