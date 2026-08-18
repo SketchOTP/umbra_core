@@ -363,3 +363,17 @@
 - Integrity: historical evidence, thresholds, effects, D-009/D-010 evidence, RECORD, and LIBRARY_REVIEW preserved; no formal P0 or tag.
 - Evidence: docs/evidence/d013ah-recovery-parity/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ah-recovery-parity-r1.
 - Next action: separately authorize a fresh post-correction successor-set causality diagnosis; formal readiness remains false.
+
+## D-013AI post-parity successor-set causality closure
+- ID: UMBRA-D-013AI
+- Status: COMPLETE_WITH_MIXED_FINDINGS — `D013AI_MIXED_CAUSAL_FAMILIES`; bounded non-formal diagnosis only.
+- Baseline: ca54d2dc72a40c77bf7fc5d329c6c131755dfd96.
+- E1: 17 fresh post-AH traces, zero production/evaluator mismatches; delayed-I3 reaches a genuine empty safe set at tick 429.
+- Classification: 1 policy-induced dead end, 15 environment-unviable trace events, 0 irreducible homeostatic conflicts, 0 residual model defects, 1 unresolved delayed-actuation case.
+- H1: energy-scale-I7 tick 77 only; REST and INSPECT alternatives recovered by tick 101 and moved no-safe from tick 79 to ticks 283/277. E3 is not met because a second independent H1 scenario was not demonstrated.
+- Delayed I3: pending APPROACH commitment remains at tick 429; deeper multi-tick diagnosis requires separate authorization.
+- Controls/restart: five ample-resource/reserve/nominal controls remained viable; 14/14 unique predecessor states and terminal classifications reproduced across snapshot/restart.
+- Validation: D-013 126 passed; D-012 35 passed; D-009 PASS; D-010 validator PASS; governance PASS; full suite 817 passed, 2 skipped, 2 inherited D-010 failures.
+- Integrity: no production/test/experiment/threshold/effect/evaluator change; no formal P0/tag; historical evidence, RECORD, and LIBRARY_REVIEW preserved.
+- Evidence: docs/evidence/d013ai-successor-causality/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ai-successor-causality-r1.
+- Next action: return to Architect; do not implement a successor-preservation mechanism from one H1 case, and do not expand delayed-actuation scope without a separate directive.
