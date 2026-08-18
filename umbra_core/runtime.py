@@ -1173,13 +1173,22 @@ class Organism:
 
         # Complete delayed actuation if any
         self._body_before_action = self.embodiment.body.to_state()
+        if self.self_model is not None and self._delayed_proposal is not None:
+            self.self_model.note_body_before(self._body_before_action)
         committed_outcome: Any = None
         delayed_raw = self.embodiment.tick_actuation(self.rng)
         if delayed_raw is not None and self._delayed_proposal is not None:
             outcome = self.governance.verify_outcome(
                 self._delayed_proposal["capability"], delayed_raw
             )
-            self._finish_outcome(outcome, wall, obs_dicts, action_issued=True)
+            self._finish_outcome(
+                outcome,
+                wall,
+                obs_dicts,
+                action_issued=True,
+                support_issue_tick=self._delayed_proposal.get("issue_tick"),
+                support_body_schema_id=self._delayed_proposal.get("body_schema_id"),
+            )
             committed_outcome = outcome
             self._delayed_proposal = None
 
@@ -1593,6 +1602,10 @@ class Organism:
                 "params": cand.params,
                 "proposal_id": proposal.proposal_id,
                 "tick": self.tick,
+                "support_issue_tick": organism_age,
+                "body_schema_id": (
+                    self.self_model.active.body_schema_id if self.self_model else None
+                ),
             }
             outcome = None
             if (
@@ -1625,6 +1638,10 @@ class Organism:
                 self._delayed_proposal = {
                     "capability": cand.capability,
                     "proposal_id": proposal.proposal_id,
+                    "issue_tick": organism_age,
+                    "body_schema_id": (
+                        self.self_model.active.body_schema_id if self.self_model else None
+                    ),
                 }
                 self._pending_action = None
                 # Attribution still runs for "intent issued, no body change yet"
@@ -1749,9 +1766,23 @@ class Organism:
         obs_dicts: list[dict[str, Any]],
         *,
         action_issued: bool,
+        support_issue_tick: int | None = None,
+        support_body_schema_id: str | None = None,
     ) -> dict[str, Any]:
         self.governance.apply_physiology(self.phys, outcome)
-        pending_params = dict((self._pending_action or {}).get("params") or {})
+        pending_action = dict(self._pending_action or {})
+        pending_params = dict(pending_action.get("params") or {})
+        if support_issue_tick is None:
+            support_issue_tick = pending_action.get(
+                "support_issue_tick", pending_action.get("tick")
+            )
+        if support_body_schema_id is None:
+            support_body_schema_id = pending_action.get("body_schema_id")
+        raw = dict(outcome.raw or {})
+        applied_params_raw = raw.get("applied_parameters", raw.get("params"))
+        applied_params = (
+            dict(applied_params_raw) if isinstance(applied_params_raw, dict) else None
+        )
         self.arbitrator.note_outcome(
             outcome.capability,
             outcome.success,
@@ -1771,7 +1802,7 @@ class Organism:
             "verified": outcome.verified,
         }
         assert "outcome_verified" in AUTHORITATIVE_EVENT_TYPES
-        self.store.append_event(
+        verified_event = self.store.append_event(
             agent_id=self.identity.agent_id,
             event_type="outcome_verified",
             monotonic_time=self.monotonic_time,
@@ -1800,6 +1831,18 @@ class Organism:
                 observation_summary=self._obs_summary(obs_dicts),
                 action_issued=action_issued,
                 now=self.monotonic_time,
+                applied_params=applied_params,
+                issue_tick=(
+                    int(support_issue_tick) if support_issue_tick is not None else None
+                ),
+                sample_body_schema_id=(
+                    str(support_body_schema_id)
+                    if support_body_schema_id is not None
+                    else None
+                ),
+                provenance_ref=(
+                    f"outcome_verified:sequence:{verified_event['sequence']}"
+                ),
             )
             if sm_result.get("prediction_error"):
                 self.metrics["last_prediction_error"] = sm_result["prediction_error"]["body_error"]

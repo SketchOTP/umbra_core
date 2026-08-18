@@ -142,3 +142,11 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - Keep epistemic failure explicit. When verified progress or duration support is absent, a recoverability view must return `UNKNOWN_CAPABILITY_SUPPORT`, not silently convert confidence, probability, or observed extrema into authority.
 - The cross-component skeleton is small and useful, but it is not yet architecture-ready: physiology slack, WorldModel opportunity support, and authority effects cannot project movement routes without a body-owned support primitive.
 - The narrow ownership decision is `EXTEND_SELF_MODEL`. Only after that primitive is separately earned from verified consequences should a derived cross-component view be retried in shadow mode.
+
+## 2026-08-18 — D-013AN verified capability support
+- Finite empirical extrema are useful evidence only when their semantics remain explicit. `VERIFIED_OBSERVED_SUPPORT` must never be silently promoted to `HARD_CONTRACT`, and UNKNOWN is a valid result.
+- Body capability progress should be signed along the applied intended direction; Euclidean displacement would incorrectly count sideways slip as recovery-route progress.
+- Completion evidence belongs to organism lifecycle time: committed decision-tick lag, including delayed actuation, not wall-clock duration or expected latency.
+- Bounded provenance must also be replay-stable. Random outcome UUIDs made independently reconstructed SelfModel hashes diverge; deterministic references to authoritative `outcome_verified` ledger sequence preserve both traceability and birth replay.
+- Empirical support is body-schema-specific. Incompatible supersession must reset the active envelope to UNKNOWN rather than transferring experience across bodies.
+- A shadow evaluator can distinguish observed motion from hard-contract stationary retention without claiming future safety. Directional comparisons between two movement actions remain UNKNOWN until route-relative semantics are separately authorized.

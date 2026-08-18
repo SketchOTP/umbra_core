@@ -308,3 +308,12 @@ Format:
 - Field ablation retained a necessary skeleton of physiology slack, authority effect envelope, opportunity support/provenance, capability/body identity, cross-need mapping, and the missing verified capability support primitive.
 - Formal-S2, ample-resource, stale-memory, no-known-opportunity, energy-scale, authority-envelope, and restart controls produced zero false confident collapse.
 - Recommendation is exactly `EXTEND_SELF_MODEL`; action-selection integration and D-013AN remain unauthorized. Formal readiness is false.
+
+## 2026-08-18 — UMBRA-D-013AN
+- Verdict: `D013AN_VERIFIED_CAPABILITY_SUPPORT_REPRESENTATION_QUALIFIED`.
+- SelfModel now owns fixed-size, non-authoritative support envelopes for MOVE, APPROACH, and RETREAT. Signed progress is measured along applied intended motion, and duration is committed organism-tick completion lag.
+- Learned intervals update only from issued, verified, body-attributed outcomes under the active body schema. Adapter-applied parameters are used; external displacement and denied/unverified actions are excluded.
+- Successful progress, completion, and applied-step support remain `VERIFIED_OBSERVED_SUPPORT`, never a hard future guarantee. Failure evidence is retained separately in a fixed registry; unobserved failure does not mean impossible failure.
+- Body supersession invalidates empirical support. Persistence and legacy migration preserve explicit semantics, and deterministic ledger-sequence provenance restores exact birth-replay equality.
+- The fresh D-013AM shadow achieved 11/13 strict representational distinctions; default-13015 remains UNKNOWN for route-relative direction and combined-I4-C5 remains UNKNOWN because no policy-visible opportunity exists. False-confident and wrong classifications are both zero.
+- No arbitration, WorldModel planning, authority, threshold, effect, contract, or formal behavior was changed. No formal P0 or tag was created; D-013AO remains unauthorized.

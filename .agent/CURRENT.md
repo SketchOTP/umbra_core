@@ -433,3 +433,18 @@
 - Integrity: no production/test/experiment/threshold/effect/contract/history change; no formal P0/tag; RECORD and LIBRARY_REVIEW preserved.
 - Evidence: docs/evidence/d013am-recoverability/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013am-recoverability-r1.
 - Next action: return to Architect for a separately authorized verified-capability-support representation directive; D-013AN and formal P0 remain unauthorized.
+
+## D-013AN verified capability progress/duration support
+- ID: UMBRA-D-013AN
+- Status: COMPLETE — `D013AN_VERIFIED_CAPABILITY_SUPPORT_REPRESENTATION_QUALIFIED`; non-authoritative SelfModel representation only.
+- Baseline: f9eb0cd5e3e8664eb411cf963c92dd1ceb0eeaa6.
+- Representation: fixed-size support envelopes for MOVE, APPROACH, and RETREAT with signed intended-direction progress, committed-tick completion lag, body-schema identity, bounded deterministic ledger provenance, and fixed failure-mode counts.
+- Semantics remain explicit: HARD_CONTRACT, VERIFIED_OBSERVED_SUPPORT, PROBABILISTIC_SUPPORT, UNKNOWN, and NOT_APPLICABLE are not interchangeable; observed extrema are evidence, not future guarantees.
+- Evidence grounding: only issued, verified outcomes with matching body schema and applied adapter parameters update support. External displacement, proposals, denials, and hidden habitat truth do not update it.
+- Body/replay integrity: incompatible body supersession resets empirical support to UNKNOWN; current and legacy snapshots migrate safely; deterministic outcome-event sequence provenance reproduces across birth replay.
+- Capability scope: MOVE/APPROACH/RETREAT qualified; ORIENT/REST/CHARGE explicitly NOT_APPLICABLE for movement progress support.
+- D-013AM shadow: 11/13 strict distinctions, 2 UNKNOWN, 0 false-confident, 0 wrong; no action authority or behavior integration.
+- Validation: focused 12 passed; D-013 family PASS; D-012 short path 35 passed; D-009 PASS; D-010 validator PASS; governance PASS; full suite 835 passed, 2 skipped, 1 inherited D-010 inventory failure.
+- Integrity: no arbitration, WorldModel planning, authority, physiology threshold/effect, formal contract, or historical-evidence change; no formal P0/tag; RECORD and LIBRARY_REVIEW preserved.
+- Evidence: docs/evidence/d013an-capability-support/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013an-capability-support-r1.
+- Next action: return to Architect; D-013AO and action-selection integration remain unauthorized.

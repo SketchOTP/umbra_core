@@ -19,6 +19,14 @@ MAX_MODEL_VERSIONS = 32
 MAX_PREDICTION_HISTORY = 256
 MAX_ERROR_HISTORY = 256
 MAX_CHANGE_EVIDENCE = 64
+MAX_SUPPORT_PROVENANCE_REFS = 16
+MOTION_SUPPORT_CAPABILITIES = ("MOVE", "APPROACH", "RETREAT")
+FIXED_MOVEMENT_FAILURE_MODES = (
+    "MOVEMENT_SLIP",
+    "ROUTE_BLOCKED",
+    "ADAPTER_REJECTED",
+    "OTHER_VERIFIED_FAILURE",
+)
 
 # Preregistered detection thresholds (Gate 3).
 CHANGE_EVIDENCE_THRESHOLD = 15
@@ -32,6 +40,130 @@ class Attribution(str, Enum):
     EXTERNAL_CAUSED = "EXTERNAL_CAUSED"
     MIXED = "MIXED"
     UNKNOWN = "UNKNOWN"
+
+
+class SupportSemantics(str, Enum):
+    """The claim type carried by capability support data."""
+
+    HARD_CONTRACT = "HARD_CONTRACT"
+    VERIFIED_OBSERVED_SUPPORT = "VERIFIED_OBSERVED_SUPPORT"
+    PROBABILISTIC_SUPPORT = "PROBABILISTIC_SUPPORT"
+    UNKNOWN = "UNKNOWN"
+    NOT_APPLICABLE = "NOT_APPLICABLE"
+
+
+@dataclass
+class SupportInterval:
+    """Fixed-size observed interval. It is evidence, never a physical guarantee."""
+
+    minimum: float | None = None
+    maximum: float | None = None
+    semantics: str = SupportSemantics.UNKNOWN.value
+    evidence_count: int = 0
+    provenance: list[str] = field(default_factory=list)
+
+    def observe(self, value: float, provenance_ref: str) -> None:
+        value = float(value)
+        self.minimum = value if self.minimum is None else min(self.minimum, value)
+        self.maximum = value if self.maximum is None else max(self.maximum, value)
+        self.semantics = SupportSemantics.VERIFIED_OBSERVED_SUPPORT.value
+        self.evidence_count += 1
+        if provenance_ref in self.provenance:
+            self.provenance.remove(provenance_ref)
+        self.provenance.append(provenance_ref)
+        del self.provenance[:-MAX_SUPPORT_PROVENANCE_REFS]
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> SupportInterval:
+        return cls(
+            minimum=float(d["minimum"]) if d.get("minimum") is not None else None,
+            maximum=float(d["maximum"]) if d.get("maximum") is not None else None,
+            semantics=str(d.get("semantics", SupportSemantics.UNKNOWN.value)),
+            evidence_count=int(d.get("evidence_count", 0)),
+            provenance=[str(x) for x in d.get("provenance", [])][
+                -MAX_SUPPORT_PROVENANCE_REFS:
+            ],
+        )
+
+
+@dataclass
+class CapabilitySupportEnvelope:
+    """Non-authoritative support learned for one capability and body schema."""
+
+    capability: str
+    body_schema_id: str
+    progress: SupportInterval = field(default_factory=SupportInterval)
+    applied_step: SupportInterval = field(default_factory=SupportInterval)
+    completion: SupportInterval = field(default_factory=SupportInterval)
+    verified_success_count: int = 0
+    observed_failure_modes: dict[str, int] = field(
+        default_factory=lambda: {name: 0 for name in FIXED_MOVEMENT_FAILURE_MODES}
+    )
+    authority_declared_modes: tuple[str, ...] = (
+        "MOVEMENT_SLIP",
+        "ROUTE_BLOCKED",
+        "ADAPTER_REJECTED",
+    )
+    status: str = "unknown"
+    last_verified_tick: int | None = None
+
+    @classmethod
+    def unknown(cls, capability: str, body_schema_id: str) -> CapabilitySupportEnvelope:
+        return cls(capability=capability, body_schema_id=body_schema_id)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "capability": self.capability,
+            "body_schema_id": self.body_schema_id,
+            "progress": self.progress.to_dict(),
+            "applied_step": self.applied_step.to_dict(),
+            "completion": self.completion.to_dict(),
+            "outcome_support": {
+                "verified_success_count": self.verified_success_count,
+                "observed_failure_modes": dict(self.observed_failure_modes),
+                "authority_declared_modes": list(self.authority_declared_modes),
+            },
+            "status": self.status,
+            "last_verified_tick": self.last_verified_tick,
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> CapabilitySupportEnvelope:
+        # Accept both the public nested form and dataclasses.asdict's direct
+        # field form so migration remains deterministic.
+        outcome = dict(d.get("outcome_support") or d)
+        failures = {name: 0 for name in FIXED_MOVEMENT_FAILURE_MODES}
+        for name, count in dict(outcome.get("observed_failure_modes") or {}).items():
+            if name in failures:
+                failures[name] = int(count)
+        return cls(
+            capability=str(d["capability"]),
+            body_schema_id=str(d["body_schema_id"]),
+            progress=SupportInterval.from_dict(dict(d.get("progress") or {})),
+            applied_step=SupportInterval.from_dict(dict(d.get("applied_step") or {})),
+            completion=SupportInterval.from_dict(dict(d.get("completion") or {})),
+            verified_success_count=int(outcome.get("verified_success_count", 0)),
+            observed_failure_modes=failures,
+            authority_declared_modes=tuple(
+                str(x) for x in outcome.get("authority_declared_modes", ())
+            ),
+            status=str(d.get("status", "unknown")),
+            last_verified_tick=(
+                int(d["last_verified_tick"])
+                if d.get("last_verified_tick") is not None
+                else None
+            ),
+        )
+
+
+def _unknown_capability_support(body_schema_id: str) -> dict[str, CapabilitySupportEnvelope]:
+    return {
+        capability: CapabilitySupportEnvelope.unknown(capability, body_schema_id)
+        for capability in MOTION_SUPPORT_CAPABILITIES
+    }
 
 
 @dataclass
@@ -51,11 +183,17 @@ class BodySchema:
     confidence: float
     evidence_count: int
     updated_at: float
+    capability_support: dict[str, CapabilitySupportEnvelope] = field(default_factory=dict)
     superseded_by: str | None = None
     active: bool = True
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        result = asdict(self)
+        result["capability_support"] = {
+            capability: envelope.to_dict()
+            for capability, envelope in self.capability_support.items()
+        }
+        return result
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> BodySchema:
@@ -73,9 +211,19 @@ class BodySchema:
             confidence=float(d.get("confidence", 0.5)),
             evidence_count=int(d.get("evidence_count", 0)),
             updated_at=float(d.get("updated_at", 0.0)),
+            capability_support={
+                str(name): CapabilitySupportEnvelope.from_dict(dict(value))
+                for name, value in dict(d.get("capability_support") or {}).items()
+                if str(name) in MOTION_SUPPORT_CAPABILITIES
+            },
             superseded_by=d.get("superseded_by"),
             active=bool(d.get("active", True)),
-        )
+        )._with_support_defaults()
+
+    def _with_support_defaults(self) -> BodySchema:
+        for capability, envelope in _unknown_capability_support(self.body_schema_id).items():
+            self.capability_support.setdefault(capability, envelope)
+        return self
 
     @classmethod
     def bootstrap(cls, body_binding_id: str, now: float, *, seed: int | None = None, version: int = 1) -> BodySchema:
@@ -99,7 +247,7 @@ class BodySchema:
             if seed is not None
             else new_id()
         )
-        return cls(
+        schema = cls(
             body_schema_id=schema_id,
             body_binding_id=body_binding_id,
             version=version,
@@ -119,6 +267,8 @@ class BodySchema:
             evidence_count=0,
             updated_at=now,
         )
+        schema.capability_support = _unknown_capability_support(schema.body_schema_id)
+        return schema
 
 
 @dataclass
@@ -441,6 +591,92 @@ class SelfModel:
     def capability_status(self, capability: str) -> str:
         return self.active.reachable_affordances.get(capability, "dormant")
 
+    def capability_support(self, capability: str) -> dict[str, Any]:
+        """Return labeled, non-authoritative support for shadow consumers."""
+        envelope = self.active.capability_support.get(capability)
+        if envelope is not None:
+            return envelope.to_dict()
+        return {
+            "capability": capability,
+            "body_schema_id": self.active.body_schema_id,
+            "progress": {"semantics": SupportSemantics.NOT_APPLICABLE.value},
+            "applied_step": {"semantics": SupportSemantics.NOT_APPLICABLE.value},
+            "completion": {"semantics": SupportSemantics.NOT_APPLICABLE.value},
+            "outcome_support": {},
+            "status": "not_applicable",
+            "last_verified_tick": None,
+        }
+
+    @staticmethod
+    def _support_failure_mode(reason: str) -> str:
+        if reason == "movement_slip":
+            return "MOVEMENT_SLIP"
+        if reason == "route_blocked":
+            return "ROUTE_BLOCKED"
+        if reason in {
+            "BODY_DETACHED",
+            "STALE_ATTACHMENT_GENERATION",
+            "PROFILE_HASH_MISMATCH",
+            "UNSUPPORTED_BODY_CAPABILITY",
+            "BODY_LIMIT_REJECTED",
+        }:
+            return "ADAPTER_REJECTED"
+        return "OTHER_VERIFIED_FAILURE"
+
+    def _update_capability_support(
+        self,
+        *,
+        capability: str | None,
+        verified_outcome: dict[str, Any] | None,
+        body_after: dict[str, Any],
+        action_issued: bool,
+        applied_params: dict[str, Any] | None,
+        issue_tick: int | None,
+        tick: int,
+        sample_body_schema_id: str | None,
+        provenance_ref: str | None,
+    ) -> bool:
+        """Learn observed support only from attributed, verified body execution."""
+        if capability not in MOTION_SUPPORT_CAPABILITIES:
+            return False
+        if not action_issued or not verified_outcome or not verified_outcome.get("verified"):
+            return False
+        if sample_body_schema_id != self.active.body_schema_id:
+            return False
+
+        envelope = self.active.capability_support[capability]
+        envelope.last_verified_tick = int(tick)
+        if not bool(verified_outcome.get("success")):
+            mode = self._support_failure_mode(str(verified_outcome.get("reason", "unknown")))
+            envelope.observed_failure_modes[mode] += 1
+            return True
+
+        before = self._body_before
+        if before is None or applied_params is None or issue_tick is None or not provenance_ref:
+            return False
+        try:
+            step = float(
+                applied_params.get("step", 1.2 if capability == "RETREAT" else 1.0)
+            )
+            heading = float(applied_params.get("heading", before.get("heading", 0.0)))
+        except (TypeError, ValueError):
+            return False
+        if not math.isfinite(step) or step <= 0.0 or not math.isfinite(heading):
+            return False
+        if capability == "RETREAT":
+            heading += math.pi
+
+        actual_dx = float(body_after.get("x", 0.0)) - float(before.get("x", 0.0))
+        actual_dy = float(body_after.get("y", 0.0)) - float(before.get("y", 0.0))
+        signed_progress = actual_dx * math.cos(heading) + actual_dy * math.sin(heading)
+        completion_lag = max(0, int(tick) - int(issue_tick))
+        envelope.progress.observe(signed_progress, provenance_ref)
+        envelope.applied_step.observe(step, provenance_ref)
+        envelope.completion.observe(float(completion_lag), provenance_ref)
+        envelope.verified_success_count += 1
+        envelope.status = "supported"
+        return True
+
     def note_body_before(self, body_state: dict[str, Any]) -> None:
         self._body_before = {
             "x": float(body_state.get("x", 0.0)),
@@ -539,6 +775,10 @@ class SelfModel:
         observation_summary: dict[str, float] | None,
         action_issued: bool,
         now: float,
+        applied_params: dict[str, Any] | None = None,
+        issue_tick: int | None = None,
+        sample_body_schema_id: str | None = None,
+        provenance_ref: str | None = None,
     ) -> dict[str, Any]:
         """Compare prediction to verified outcome; attribute; maybe adapt."""
         before = self._body_before or {
@@ -571,6 +811,11 @@ class SelfModel:
                 er = pred.expected_observation_delta.get("range", 10.0)
                 ar = float(observation_summary.get("max_range_seen", er))
                 obs_err = abs(ar - er) / max(er, 1.0)
+            observed_duration = (
+                1.0 + max(0, int(tick) - int(issue_tick))
+                if issue_tick is not None
+                else None
+            )
             err = PredictionError(
                 error_id=new_id(),
                 prediction_id=pred.prediction_id,
@@ -578,7 +823,11 @@ class SelfModel:
                 body_error=float(body_error),
                 observation_error=float(obs_err),
                 success_error=float(success_error),
-                duration_error=0.0,
+                duration_error=(
+                    abs(observed_duration - pred.expected_duration)
+                    if observed_duration is not None
+                    else 0.0
+                ),
                 verified_success=success,
                 capability=pred.capability,
             )
@@ -649,6 +898,18 @@ class SelfModel:
             self.active.evidence_count += 1
             self.active.updated_at = now
 
+        support_updated = self._update_capability_support(
+            capability=capability,
+            verified_outcome=verified_outcome,
+            body_after=body_after,
+            action_issued=action_issued,
+            applied_params=applied_params,
+            issue_tick=issue_tick,
+            tick=tick,
+            sample_body_schema_id=sample_body_schema_id,
+            provenance_ref=provenance_ref,
+        )
+
         self._pending_prediction = None
         self._body_before = None
         return {
@@ -658,6 +919,7 @@ class SelfModel:
             "adapted": adapted,
             "active_schema_id": self.active.body_schema_id,
             "confidence": self.active.confidence,
+            "capability_support_updated": support_updated,
         }
 
     def _attribute(
@@ -843,6 +1105,9 @@ class SelfModel:
             nxt.body_schema_id = deterministic_id(self.seed, f"body_schema_v{nxt.version}")
         else:
             nxt.body_schema_id = new_id()
+        # Empirical support belongs to the superseded schema. A new body-model
+        # version must earn its own evidence rather than inheriting extrema.
+        nxt.capability_support = _unknown_capability_support(nxt.body_schema_id)
         nxt.active = True
         nxt.superseded_by = None
         nxt.evidence_count = 0
@@ -990,6 +1255,7 @@ class SelfModel:
 
     @classmethod
     def from_state(cls, d: dict[str, Any], config: SelfModelConfig | None = None) -> SelfModel:
+        legacy_support_absent = "capability_support" not in dict(d.get("active") or {})
         cfg_d = d.get("config", {})
         cfg = config or SelfModelConfig(
             adaptive=bool(cfg_d.get("adaptive", True)),
@@ -1030,6 +1296,23 @@ class SelfModel:
             _bounded_initialized=bool(d.get("bounded_initialized", False)),
         )
         # Corruption fail-closed: hash mismatch if present
-        if "state_hash" in d and d["state_hash"] != sm.state_hash():
-            raise ValueError("corrupt_body_model")
+        if "state_hash" in d:
+            if legacy_support_absent:
+                expected_hash = sha256_hex(
+                    canon_json(
+                        {
+                            "active": d["active"],
+                            "archive_ids": [
+                                str(item["body_schema_id"])
+                                for item in d.get("archive", [])
+                            ],
+                            "binding": str(d["body_binding_id"]),
+                            "agent_id": str(d["agent_id"]),
+                        }
+                    )
+                )
+            else:
+                expected_hash = sm.state_hash()
+            if d["state_hash"] != expected_hash:
+                raise ValueError("corrupt_body_model")
         return sm
