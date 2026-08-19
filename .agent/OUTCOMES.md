@@ -383,7 +383,7 @@ YES — accept the governance migration before resuming UMBRA-D-013AP.
 - Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ap-soft-bias-r1`
 
 ### Result
-The fresh 32-case manifest was frozen before prior labels or outcomes were inspected. Phase A reviewed the 13 historical rows and the AO held-out rows with supported action-caused exits. The five supported target rows were direct critical-recovery candidate constructions returned through `commit_safe_recovery`, before ordinary scored arbitration, Gaussian variation, and hysteresis. Their captured selected score maps were empty. The authorized negative-only recoverability contribution therefore cannot affect these exits through the permitted `expected_option_preservation` hook.
+The fresh 32-case manifest was frozen before prior labels or outcomes were inspected. Phase A reviewed the 13 historical rows and the AO held-out rows with action-caused exits. Five rows had exhausted status; two had UNKNOWN semantics and correctly received zero bias. The three AP-admissible supported target rows were direct critical-recovery candidate constructions returned through `commit_safe_recovery`, before ordinary scored arbitration, Gaussian variation, and hysteresis. Their captured selected score maps were empty. The authorized negative-only recoverability contribution therefore cannot affect these exits through the permitted `expected_option_preservation` hook.
 
 ### Integrity
 No production code, tests, experiments, historical evidence, thresholds, verdicts, `.agent/RECORD.md`, or formal tags were modified. No AP behavioral campaign or formal execution was launched. `.agent/LIBRARY_REVIEW.md` remains preserved and untouched.

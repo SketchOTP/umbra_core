@@ -19,7 +19,7 @@ The next scientific directive remains `UMBRA-D-013AP`; no AP production implemen
 - D-013AO recommends `SOFT_POLICY_BIAS_CANDIDATE`, not hard admissibility.
 - D-013AP is authorized as a bounded non-formal behavioral qualification using the existing `expected_option_preservation` score.
 - D-013AP fresh manifest is frozen at `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ap-soft-bias-r1/FRESH_AP_SEED_MANIFEST.json` with SHA-256 `ef3e134719e089dd25770119fe1d30e385f9aa6b5abb7df88cf5cae9aef9793b`.
-- D-013AP Phase A found all five supported target rows outside ordinary scored arbitration; no production change, behavioral campaign, formal P0, or formal tag occurred.
+- D-013AP Phase A found all three AP-admissible supported target rows outside ordinary scored arbitration; two UNKNOWN-semantic exhausted rows remained neutral. No production change, behavioral campaign, formal P0, or formal tag occurred.
 - Exact pre-migration mutable governance snapshots are preserved under `.agent/legacy/pre-authority-3.0-20260819/`.
 - Authority 3.0 validation, compatibility validation, fail-closed governance fixtures, focused governance tests, D-009 validation, and D-010 evidence validation pass.
 - The full suite reports `854 passed, 2 skipped, 1 failed`; the sole failure is the unchanged 27-entry D-010 runtime-tick inventory defect.

@@ -182,7 +182,7 @@ Recheck if the canonical Authority package changes schema or if a future validat
 - Confidence: VERIFIED
 
 ### Learning
-Recoverability-informed option preservation cannot qualify a supported action-caused exit when the exit is selected by a direct critical-recovery constructor before ordinary candidate scoring. Empty captured score maps are corroborating evidence that the ordinary score hook was not the causal selection path.
+Recoverability-informed option preservation cannot qualify an AP-admissible supported action-caused exit when the exit is selected by a direct critical-recovery constructor before ordinary candidate scoring. UNKNOWN-semantic exhausted rows remain neutral. Empty captured score maps are corroborating evidence that the ordinary score hook was not the causal selection path.
 
 ### Boundary
 Do not broaden a negative-only soft bias into critical recovery reflexes under D-013AP. A selection-path correction requires a separate Architect decision.

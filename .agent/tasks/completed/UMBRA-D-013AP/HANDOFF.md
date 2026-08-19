@@ -7,7 +7,9 @@ verdict: D013AP_SELECTION_PATH_GAP
 baseline: b0780f8fb4daaaa5ba334e008cfc2900b11b570b
 phase_A:
   historical_cases: 13
-  supported_exits: 5
+  status_exhausted_exits: 5
+  ap_admissible_supported_exits: 3
+  unknown_semantics_zero_bias_exits: 2
   switched_to_preserving: 0
   selection_path_gap: true
 integration:

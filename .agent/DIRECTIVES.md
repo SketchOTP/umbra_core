@@ -221,4 +221,4 @@ Format:
 - Scope: Phase A pre-correction replay and selection-path audit only; external evidence under `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ap-soft-bias-r1`
 - Exclusions: critical-recovery-reflex integration, production correction, behavioral campaign, formal P0, formal tag, and further tuning.
 - Acceptance: Fresh manifest frozen before prior labels/outcomes; supported exits classified; truthful stop preserved with no production/scientific changes.
-- Result: All five supported AP-relevant action-caused rows were direct critical-recovery candidates outside ordinary scored arbitration; no legitimate AP insertion point exists under current authorization.
+- Result: Three AP-admissible supported action-caused rows were direct critical-recovery candidates outside ordinary scored arbitration; two UNKNOWN-semantic exhausted rows correctly received zero bias.
