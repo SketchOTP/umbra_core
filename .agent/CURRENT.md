@@ -1,24 +1,24 @@
 # Current Project State
 
-Last updated: 2026-08-19T13:05:00-04:00
+Last updated: 2026-08-19T13:20:00-04:00
 
 ## Current stage
-Authority 3.0 adopted; D-013AT is complete as a bounded non-formal priority-handoff diagnosis.
+Authority 3.0 adopted; D-013AU stopped at the witness-provenance gate.
 
 ## Current objective
-Return the D-013AT result to Architect. The tested lower-priority fatigue APPROACH did not destroy energy recoverability before the existing energy-precedence handoff.
+Return the D-013AU bounded failure to Architect.
 
 ## Active directive
-None. Last completed directive: UMBRA-D-013AT from exact baseline 913c17d0b1feed3a2930d4db0fadb674f97210da.
+None. Last attempted directive: UMBRA-D-013AU from exact baseline 2be4f5146144b033431b1e41cbaf4c09ea937322.
 
 ## Terminal result
-D013AT_RECOVERY_HANDOFF_NOT_CAUSAL. Architecture recommendation: CURRENT_RECOVERY_HANDOFF_RETAIN.
+D013AU_PRESERVING_WITNESS_NOT_REPRODUCIBLE. No claim was made about production re-entry or minimum continuation span.
 
 ## Scientific boundary
-D-013AR is accepted as D013AR_ORDINARY_VECTOR_PATH_INSUFFICIENT. D-013AT was evaluator-only. D-013AS, D-013AU, production corrections, formal P0, and formal tags remain unauthorized.
+The accepted AL/AO records do not contain replayable ordered witnesses. No new witness, prefix experiment, production correction, formal P0, or formal tag was created.
 
 ## Evidence
-Frozen AT evidence is at /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013at-priority-handoff-r1/ with 41 hashed files. A tracked pointer is at docs/evidence/d013at-priority-handoff/README.md.
+Frozen AU evidence is at /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/ with 14 hashed files. A tracked pointer is at docs/evidence/d013au-preserving-continuation/README.md.
 
 ## Protected state
 .agent/RECORD.md, .agent/LIBRARY_REVIEW.md, production source, experiments, tests, historical evidence, thresholds, verdicts, D-012 contracts, and formal tags were preserved unchanged.

@@ -210,3 +210,13 @@ Do not apply the AP negative-only bias to direct critical-recovery construction.
 - Existing energy precedence already preempts a sticky non-energy recovery focus once energy is in the recovery pool. The three tested target states were lower-priority fatigue APPROACH states immediately before that existing boundary.
 - A one-tick IDLE counterfactual improved reserve by 0.0035 and reduced route cost by 0.006 in each target, but the route remained feasible and the later no-safe-action event was unchanged in all three cases. One body-intervention case reached energy activation/focus/recovery one tick later under IDLE, but both paths still reached the same later no-safe-action event.
 - No policy-visible same-focus preserving alternative, one-step safety gap, repeated preemption starvation, or tunable deferral horizon was demonstrated. Retain the current recovery handoff and return to Architect.
+
+
+## UMBRA-D-013AU — 2026-08-19
+
+- Authorization: non-formal evaluator/diagnostic-only; exact baseline 2be4f5146144b033431b1e41cbaf4c09ea937322.
+- Scope: recover and replay only the three already accepted AL/AO preserving witnesses.
+- Stop: D013AU_PRESERVING_WITNESS_NOT_REPRODUCIBLE.
+- Reason: accepted evidence preserved first IDLE alternatives and aggregate 7200-tick viability summaries, but no ordered witness actions, per-tick parameters, or verified outcomes.
+- Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.

@@ -36,3 +36,13 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Date: 2026-08-19
 - Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013at-priority-handoff-r1/EXTERNAL_DISCOVERY.md`
 - Disposition: reference-only. Prior work on safe interruption, intermittent control, competing homeostatic drives, and autonomous-systems practice supports checking priority transitions against action timing and safety state. It does not authorize an RL, active-inference, MPC, planner, optimizer, behavior-tree, subsumption, or persistent-deferral redesign. The bounded AT evidence did not establish that such a redesign is needed.
+
+
+## UMBRA-D-013AU — 2026-08-19
+
+- Authorization: non-formal evaluator/diagnostic-only; exact baseline 2be4f5146144b033431b1e41cbaf4c09ea937322.
+- Scope: recover and replay only the three already accepted AL/AO preserving witnesses.
+- Stop: D013AU_PRESERVING_WITNESS_NOT_REPRODUCIBLE.
+- Reason: accepted evidence preserved first IDLE alternatives and aggregate 7200-tick viability summaries, but no ordered witness actions, per-tick parameters, or verified outcomes.
+- Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.

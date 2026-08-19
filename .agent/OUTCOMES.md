@@ -426,3 +426,13 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Controls: energy-active, fatigue-only, true-critical-fatigue, UNKNOWN, body replacement, and RNG restart/replay controls passed their required checks; UNKNOWN remained neutral and body-schema incompatibility reset policy support.
 - Validation: focused D-013 family and D-012 process checks 185 passed; D-009 PASS; D-010 PASS; Authority 3.0 PASS; governance PASS; full path-safe suite 851 passed, 2 skipped, 4 governed inherited D-008/D-010 failures.
 - Integrity: production source, tests, experiments, thresholds, effects, candidates, authority, historical evidence, formal tags, RECORD, and LIBRARY_REVIEW unchanged. No formal P0 or tag. Return to Architect; D-013AU and D-013AS unauthorized.
+
+
+## UMBRA-D-013AU — 2026-08-19
+
+- Authorization: non-formal evaluator/diagnostic-only; exact baseline 2be4f5146144b033431b1e41cbaf4c09ea937322.
+- Scope: recover and replay only the three already accepted AL/AO preserving witnesses.
+- Stop: D013AU_PRESERVING_WITNESS_NOT_REPRODUCIBLE.
+- Reason: accepted evidence preserved first IDLE alternatives and aggregate 7200-tick viability summaries, but no ordered witness actions, per-tick parameters, or verified outcomes.
+- Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.

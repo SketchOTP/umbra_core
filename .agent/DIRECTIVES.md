@@ -258,3 +258,13 @@ Format:
 - Protected: RECORD:false | LIBRARY_REVIEW:false | production:false | historical_evidence:false.
 
 - 2026-08-19T13:05:00-04:00 | END | UMBRA-D-013AT | project:UMBRA-D-013AT | status:completed | verdict:D013AT_RECOVERY_HANDOFF_NOT_CAUSAL | recommendation:CURRENT_RECOVERY_HANDOFF_RETAIN | baseline:913c17d0b1feed3a2930d4db0fadb674f97210da | targets:3_reproduced | idle_counterfactual:3_no_substantive_rescue | route_budget:feasible_before_and_after_all_targets | focused:185_passed | d009:PASS | d010:PASS | authority:PASS | governance:PASS | full_suite:851_passed_2_skipped_4_governed_D008_D010_failures | retries:0 | production_modified:false | historical_evidence_modified:false | RECORD_modified:false | LIBRARY_REVIEW_modified:false | formal_p0:false | formal_tag:false | next:return_to_Architect_no_D013AU_or_D013AS
+
+
+## UMBRA-D-013AU — 2026-08-19
+
+- Authorization: non-formal evaluator/diagnostic-only; exact baseline 2be4f5146144b033431b1e41cbaf4c09ea937322.
+- Scope: recover and replay only the three already accepted AL/AO preserving witnesses.
+- Stop: D013AU_PRESERVING_WITNESS_NOT_REPRODUCIBLE.
+- Reason: accepted evidence preserved first IDLE alternatives and aggregate 7200-tick viability summaries, but no ordered witness actions, per-tick parameters, or verified outcomes.
+- Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.
