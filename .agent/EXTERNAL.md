@@ -25,3 +25,8 @@ Adopt the 3.0 router, index, reusable workflow, references, evidence ladder, tas
 
 ### Recheck trigger
 Re-evaluate only if the canonical Authority package publishes a newer schema or if UMBRA demonstrates a material governance gap not covered by 3.0.
+
+## D-013AR external discovery
+- Date: 2026-08-19
+- Disposition: reference-only background on multidimensional homeostasis, predictive regulation, and competing drives; RL, active inference, MPC, learned setpoints, neural controllers, optimizers, and new planning layers rejected as out of scope.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ar-recovery-mode-r1/EXTERNAL_DISCOVERY.md

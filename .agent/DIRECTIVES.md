@@ -224,3 +224,25 @@ Format:
 - Result: Three AP-admissible supported action-caused rows were direct critical-recovery candidates outside ordinary scored arbitration; two UNKNOWN-semantic exhausted rows correctly received zero bias.
 
 2026-08-19T09:20:00-04:00 | END | UMBRA-D-013AQ | status:stopped | baseline:6191881380f30c1a2ca44ec3bde3a12b4f4927ef | scope:critical-recovery-choice-set-diagnosis,three-AP-exit-reconstruction,four-focus-path-audit,evaluator-only-counterfactual-gated | result:D013AQ_NO_LEGITIMATE_SOFT_HOOK | ap_exits:3_fatigue_focus_direct_APPROACH_to_rest | preserving:IDLE_generic_not_same_focus | rest:not_authority_executable_in_captured_approach_states | same_target_fallback:APPROACH_fallback_only | counterfactual:NOT_RUN_no_legitimate_same_focus_set | production:false | thresholds:false | effects:false | historical_evidence:false | formal_p0:false | formal_tag:false | RECORD:false | LIBRARY_REVIEW:false | next:return_to_Architect_do_not_begin_D013AR
+
+
+## UMBRA-D-013AR - authorized start
+- Timestamp: 2026-08-19T11:28:00-04:00
+- Baseline: 566a3c28fb92dd81bdf15668464408881a8b0f5a
+- Status: AUTHORIZED, NON_FORMAL, evaluator/diagnostic-only.
+- Parent: accepted D013AQ_NO_LEGITIMATE_SOFT_HOOK.
+- Scope: separate active recovery need from actual criticality; run exact mode-gate counterfactual and bounded controls/replay.
+- Prohibitions: no production correction, no threshold/effect/score/candidate/authority change, no formal P0/tag, no D-013AS.
+- Required stop: return complete handoff to Architect after AR.
+
+## UMBRA-D-013AR - closeout
+- Closed: 2026-08-19T12:35:00-04:00
+- Baseline: 566a3c28fb92dd81bdf15668464408881a8b0f5a
+- Status: COMPLETE diagnostic handoff; no production or formal work.
+- Verdict: D013AR_ORDINARY_VECTOR_PATH_INSUFFICIENT
+- Recommendation: CURRENT_ESCALATION_SEMANTICS_RETAIN
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ar-recovery-mode-r1/
+- Result: 3/3 target states active-but-noncritical; counterfactual REST, REST, CHARGE were authority-denied and reached no_safe_action earlier than production.
+- Controls: true-critical direct mode preserved for all four variables; all active-noncritical controls exercised; restart/replay semantic parity passed.
+- Integrity: production:false | thresholds:false | historical_evidence:false | formal_p0:false | formal_tag:false | RECORD:false | LIBRARY_REVIEW:false
+- Next: return to Architect; do not begin D-013AS.

@@ -7,11 +7,11 @@
 - GitHub: https://github.com/SketchOTP/umbra_core
 
 ## Current pointers
-- Current stage: Authority 3.0 adopted; D-013AQ stopped at no legitimate soft hook
-- Active directive: UMBRA-D-013AQ — terminal bounded stop `D013AQ_NO_LEGITIMATE_SOFT_HOOK`
-- Active task packet: `.agent/tasks/completed/UMBRA-D-013AQ/`
-- Last accepted outcome: D013AQ_NO_LEGITIMATE_SOFT_HOOK
-- Last state sync: 2026-08-19T09:20:00-04:00
+- Current stage: Authority 3.0 adopted; D-013AR completed, Architect handoff pending
+- Active directive: UMBRA-D-013AR - terminal handoff from exact AQ closeout baseline
+- Active task packet: .agent/tasks/completed/UMBRA-D-013AR/
+- Last accepted outcome: D013AR_ORDINARY_VECTOR_PATH_INSUFFICIENT
+- Last state sync: 2026-08-19T12:35:00-04:00
 
 ## Mandatory kernel
 Read these before substantial work:

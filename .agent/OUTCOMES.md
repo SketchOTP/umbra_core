@@ -408,3 +408,10 @@ The audit covered energy, fatigue, integrity, and stimulation direct constructio
 ### Integrity
 
 No production source, tests, experiments, thresholds, effects, contracts, historical evidence, verdicts, `.agent/RECORD.md`, or `.agent/LIBRARY_REVIEW.md` were modified. No evaluator counterfactual was run because the directive required a proven legitimate same-focus comparison set first. No formal P0 or formal tag was created. Do not begin D-013AR without a new explicit Architect authorization.
+
+## UMBRA-D-013AR - D013AR_ORDINARY_VECTOR_PATH_INSUFFICIENT
+- Closed: 2026-08-19T12:35:00-04:00; baseline 566a3c28fb92dd81bdf15668464408881a8b0f5a
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ar-recovery-mode-r1/; 36 hashed files.
+- Finding: active-but-noncritical recovery entered direct mode in 3/3 targets, but actual-critical-only ordinary arbitration did not rescue any target. REST, REST, and CHARGE were denied as not_at_rest, not_at_rest, and not_at_resource; no_safe_action occurred earlier than production.
+- Validation: D-013 family 158 passed; D-009/D-010/Authority/governance passed; full path-safe suite 851 passed, 2 skipped, 4 governed D-008/D-010 failures.
+- Integrity: production, thresholds, effects, candidates, authority, historical evidence, formal tags, and RECORD unchanged. Return to Architect; D-013AS/formal P0 unauthorized.

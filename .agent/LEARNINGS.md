@@ -199,3 +199,8 @@ An offline recoverability-preserving candidate is not automatically a same-focus
 ### Boundary
 
 Do not apply the AP negative-only bias to direct critical-recovery construction. No evaluator counterfactual or D-013AR integration is justified by AQ. Return the finding to Architect.
+
+## D-013AR - ordinary vector path insufficient
+- The production predicate conflates active recovery need with actual criticality for direct-mode entry.
+- Across all three target cases, actual-critical-only ordinary arbitration selected authority-invalid REST/CHARGE choices and failed earlier than production.
+- No direct-mode gate correction is recommended from AR alone; return to Architect without production or formal work.
