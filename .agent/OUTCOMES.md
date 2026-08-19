@@ -373,3 +373,20 @@ Installed the project-specific 3.0 kernel and reusable workflow, archived replac
 
 ### Architect decision required
 YES — accept the governance migration before resuming UMBRA-D-013AP.
+
+---
+
+## UMBRA-D-013AP — Phase A selection-path stop
+- Date: 2026-08-19T08:30:14-04:00
+- Verdict: `D013AP_SELECTION_PATH_GAP`
+- Baseline: `b0780f8fb4daaaa5ba334e008cfc2900b11b570b`
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ap-soft-bias-r1`
+
+### Result
+The fresh 32-case manifest was frozen before prior labels or outcomes were inspected. Phase A reviewed the 13 historical rows and the AO held-out rows with supported action-caused exits. The five supported target rows were direct critical-recovery candidate constructions returned through `commit_safe_recovery`, before ordinary scored arbitration, Gaussian variation, and hysteresis. Their captured selected score maps were empty. The authorized negative-only recoverability contribution therefore cannot affect these exits through the permitted `expected_option_preservation` hook.
+
+### Integrity
+No production code, tests, experiments, historical evidence, thresholds, verdicts, `.agent/RECORD.md`, or formal tags were modified. No AP behavioral campaign or formal execution was launched. `.agent/LIBRARY_REVIEW.md` remains preserved and untouched.
+
+### Next boundary
+Return to Architect for the selection-path gap. Do not integrate the bias into critical recovery without separate authorization.

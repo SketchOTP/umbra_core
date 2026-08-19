@@ -213,3 +213,12 @@ Format:
 - External discovery: REQUIRED — canonical user-supplied Authority 3.0 Notion package.
 - Stop/escalation conditions: Any historical loss, protected/scientific change, ambiguous strategic policy, or inability to distinguish active 3.0 rules from preserved legacy provenance.
 - Source: User directive and Authority 3.0 package at https://app.notion.com/p/3bf833cb27ff811aae15def88959797e
+
+## UMBRA-D-013AP — Recoverability-informed soft option-preservation qualification
+- Issued: 2026-08-19T08:30:14-04:00
+- Status: STOPPED — `D013AP_SELECTION_PATH_GAP`
+- Parent: D-013AO; reconciled baseline: `b0780f8fb4daaaa5ba334e008cfc2900b11b570b`
+- Scope: Phase A pre-correction replay and selection-path audit only; external evidence under `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ap-soft-bias-r1`
+- Exclusions: critical-recovery-reflex integration, production correction, behavioral campaign, formal P0, formal tag, and further tuning.
+- Acceptance: Fresh manifest frozen before prior labels/outcomes; supported exits classified; truthful stop preserved with no production/scientific changes.
+- Result: All five supported AP-relevant action-caused rows were direct critical-recovery candidates outside ordinary scored arbitration; no legitimate AP insertion point exists under current authorization.

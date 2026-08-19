@@ -174,3 +174,15 @@ This keeps negative results, old directives, scientific provenance, and operator
 
 ### Recheck trigger
 Recheck if the canonical Authority package changes schema or if a future validator cannot distinguish active 3.0 policy from archived provenance.
+
+---
+
+## 2026-08-19 — D-013AP selection-path gap
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ap-soft-bias-r1/SELECTION_PATH_AUDIT.json`
+- Confidence: VERIFIED
+
+### Learning
+Recoverability-informed option preservation cannot qualify a supported action-caused exit when the exit is selected by a direct critical-recovery constructor before ordinary candidate scoring. Empty captured score maps are corroborating evidence that the ordinary score hook was not the causal selection path.
+
+### Boundary
+Do not broaden a negative-only soft bias into critical recovery reflexes under D-013AP. A selection-path correction requires a separate Architect decision.
