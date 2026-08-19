@@ -1,24 +1,32 @@
 # Current Project State
 
-Last updated: 2026-08-19T13:20:00-04:00
+Last updated: 2026-08-19T14:05:00-04:00
 
 ## Current stage
-Authority 3.0 adopted; D-013AU stopped at the witness-provenance gate.
+Authority 3.0 active; D-013AV completed and returned to Architect.
 
 ## Current objective
-Return the D-013AU bounded failure to Architect.
+Preserve the AV bounded causal result and await Architect disposition.
 
 ## Active directive
-None. Last attempted directive: UMBRA-D-013AU from exact baseline 2be4f5146144b033431b1e41cbaf4c09ea937322.
+None. Last completed directive: UMBRA-D-013AV from exact baseline 3db0c75e063ddb3f69f167ee7e3831bbb450f6e7.
 
 ## Terminal result
-D013AU_PRESERVING_WITNESS_NOT_REPRODUCIBLE. No claim was made about production re-entry or minimum continuation span.
+D013AV_LOCAL_ACTION_CORRECTION_NOT_SUPPORTED. The three targets reproduced
+exactly; 852 single-decision alternatives produced three delay-only and zero
+substantive long-run rescues.
 
 ## Scientific boundary
-The accepted AL/AO records do not contain replayable ordered witnesses. No new witness, prefix experiment, production correction, formal P0, or formal tag was created.
+AL/AO evidence is retained as a policy-provenanced shadow recoverability
+representation, not as an executable rescue policy. AV found no demonstrated
+local production action-selection correction and recommends
+RECOVERABILITY_REPRESENTATION_ONLY.
 
 ## Evidence
-Frozen AU evidence is at /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/ with 14 hashed files. A tracked pointer is at docs/evidence/d013au-preserving-continuation/README.md.
+Frozen AV evidence is at /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013av-causal-requalification-r1. A tracked pointer is at
+docs/evidence/d013av-causal-requalification/README.md.
 
 ## Protected state
-.agent/RECORD.md, .agent/LIBRARY_REVIEW.md, production source, experiments, tests, historical evidence, thresholds, verdicts, D-012 contracts, and formal tags were preserved unchanged.
+.agent/RECORD.md, .agent/LIBRARY_REVIEW.md, production source, experiments,
+tests, historical evidence, thresholds, verdicts, D-012 contracts, and formal
+tags were preserved unchanged. No formal P0 or formal tag was created.

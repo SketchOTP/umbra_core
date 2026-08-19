@@ -268,3 +268,14 @@ Format:
 - Reason: accepted evidence preserved first IDLE alternatives and aggregate 7200-tick viability summaries, but no ordered witness actions, per-tick parameters, or verified outcomes.
 - Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.
+
+
+## UMBRA-D-013AV — closeout
+- Closed: 2026-08-19T14:05:00-04:00
+- Baseline: `3db0c75e063ddb3f69f167ee7e3831bbb450f6e7`
+- Status: completed bounded non-formal causal requalification.
+- Verdict: `D013AV_LOCAL_ACTION_CORRECTION_NOT_SUPPORTED`; subsidiary `D013AV_ALAO_EVIDENCE_REINTERPRETED`.
+- Scope result: 3/3 exact reproduction; 852 one-action alternatives; 3 delay-only preliminary rescues; 0 substantive 7200-tick rescues; qualifying cases 0.
+- Recommendation: `RECOVERABILITY_REPRESENTATION_ONLY`.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013av-causal-requalification-r1`; manifest SHA256 `cb093e7f932d3d83fba5a3481c207d210e25c6db9df26cc937286434ebcd1928`.
+- Integrity: production:false | tests:false | experiments:false | historical_evidence:false | thresholds:false | RECORD:false | LIBRARY_REVIEW:false | formal_p0:false | formal_tag:false | next:return_to_Architect

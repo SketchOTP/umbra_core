@@ -436,3 +436,14 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Reason: accepted evidence preserved first IDLE alternatives and aggregate 7200-tick viability summaries, but no ordered witness actions, per-tick parameters, or verified outcomes.
 - Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.
+
+
+## UMBRA-D-013AV — AL/AO causal-evidence requalification
+- Date: 2026-08-19T14:05:00-04:00
+- Verdict: `D013AV_LOCAL_ACTION_CORRECTION_NOT_SUPPORTED`
+- Architecture recommendation: `RECOVERABILITY_REPRESENTATION_ONLY`
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013av-causal-requalification-r1`
+- Result: historical AL/AO semantics were separated from production-policy claims; all three targets reproduced exactly; 852 source-existing single-decision substitutions were scanned; 3 preliminary rescues all became `DELAY_ONLY` by 7200 ticks; no substantive rescue qualified.
+- AO status: shadow representation qualification retained; behavioral causal integration support false.
+- Integrity: no production, tests, experiments, thresholds, historical evidence, RECORD, LIBRARY_REVIEW, formal tag, or formal P0 changes.
+- Next: return to Architect; no D-013AW/D-013AS/formal work authorized.

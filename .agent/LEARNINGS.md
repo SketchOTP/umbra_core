@@ -220,3 +220,10 @@ Do not apply the AP negative-only bias to direct critical-recovery construction.
 - Reason: accepted evidence preserved first IDLE alternatives and aggregate 7200-tick viability summaries, but no ordered witness actions, per-tick parameters, or verified outcomes.
 - Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.
+
+
+## 2026-08-19 — D-013AV causal requalification
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013av-causal-requalification-r1`
+- AL/AO shadow recoverability distinctions do not by themselves establish an executable rescue policy or a causal production action-selection lever.
+- Across three exact target reproductions, existing policy-visible one-action substitutions yielded only delay-only outcomes; no common substantive rescue mechanism met the two-target generality gate.
+- Preserve AO as representation-only unless a future authorized study demonstrates a source-existing, authority-valid, one-decision, long-run causal rescue.

@@ -7,19 +7,17 @@
 - GitHub: https://github.com/SketchOTP/umbra_core
 
 ## Current pointers
-- Current stage: Authority 3.0 adopted; D-013AU stopped at witness-provenance gate
-- Active directive: none; awaiting Architect disposition after D-013AU
-- Active task packet: none; completed packet: .agent/tasks/completed/UMBRA-D-013AU/
-- Last accepted outcome: D013AU_PRESERVING_WITNESS_NOT_REPRODUCIBLE
-- Last state sync: 2026-08-19T13:20:00-04:00
+- Current stage: Authority 3.0 active; D-013AV completed and returned to Architect
+- Active directive: none
+- Active task packet: none
+- Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
+- Last accepted outcome: D013AV_LOCAL_ACTION_CORRECTION_NOT_SUPPORTED
+- Last state sync: 2026-08-19T14:05:00-04:00
 
 ## Mandatory kernel
-Read these before substantial work:
-1. PROJECT_GOAL.md
-2. PROJECT_PROFILE.md
-3. CURRENT.md
-
-Then read the active directive from DIRECTIVES.md and retrieve only the relevant entries from the historical ledgers below.
+Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.
+Then read the active directive from DIRECTIVES.md and retrieve only relevant
+historical ledger entries.
 
 ## Historical ledgers
 - DIRECTIVES.md — issued work and acceptance boundaries.
@@ -29,12 +27,10 @@ Then read the active directive from DIRECTIVES.md and retrieve only the relevant
 - REPO_MAP.md — repository structure and important boundaries.
 - EXTERNAL.md — relevant external prior art and dispositions.
 
-The exact pre-Authority-3.0 mutable snapshots, replaced reusable skill, and v2 validators are preserved under .agent/legacy/pre-authority-3.0-20260819/. The legacy .agents/skills/authority-governance/ workflow and root COMMANDMENTS_OF_THE_CODE.md remain preserved for provenance but are not active Authority 3.0 routers. The completed migration packet is .agent/tasks/completed/AUTHORITY-3.0-MIGRATION-001/.
-The completed D-013AT task packet is .agent/tasks/completed/UMBRA-D-013AT/. Its bulk evidence is externally stored under /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013at-priority-handoff-r1/ and is referenced by docs/evidence/d013at-priority-handoff/README.md.
-The D-013AU bounded-stop packet is .agent/tasks/active/UMBRA-D-013AU/; its bulk evidence is externally stored under /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/ and is referenced by docs/evidence/d013au-preserving-continuation/README.md.
-
-Do not bulk-load entire growing ledgers unless the task genuinely requires it. Do not skip relevant history merely to save context.
+Legacy governance and all prior directives remain preserved. The previous AU
+active pointer is superseded by this current AV snapshot; its historical entry
+is not rewritten.
 
 ## Update rule
-CURRENT.md is the mutable current snapshot.
-Historical ledgers are append-only after adoption. Correct mistakes with a new superseding entry; do not rewrite old evidence.
+CURRENT.md is the mutable current snapshot. Historical ledgers are append-only
+after adoption; correct mistakes with a new superseding entry.
