@@ -448,3 +448,18 @@
 - Integrity: no arbitration, WorldModel planning, authority, physiology threshold/effect, formal contract, or historical-evidence change; no formal P0/tag; RECORD and LIBRARY_REVIEW preserved.
 - Evidence: docs/evidence/d013an-capability-support/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013an-capability-support-r1.
 - Next action: return to Architect; D-013AO and action-selection integration remain unauthorized.
+
+## D-013AO shadow Homeostatic Recoverability View
+- ID: UMBRA-D-013AO
+- Status: COMPLETE — `D013AO_SHADOW_RECOVERABILITY_VIEW_QUALIFIED`; shadow representation only.
+- Baseline: 89dddd2278aa70899d7426233a1e7e803e69bf3b.
+- Representation: pure fixed-size cross-component view combining physiology slack, final-authority effects, policy-safe opportunity geometry, body-schema-specific capability support, timing, and energy-cost scale. No persisted state, rollout, hidden habitat truth, or action authority.
+- Qualification: historical 11/13 strict and 2 correct UNKNOWN; frozen held-out 12 cases, 8 captured action-caused exits, 2 supported and correctly distinguished, 6 UNKNOWN, zero false-confident and zero wrong.
+- Held-out accounting: three frozen cases produced no boundary and one energy-scale boundary search was non-monotonic/unresolved; all four are explicitly non-qualifying and contribute no positive evidence.
+- Neutrality: candidate rows, scores/order, RNG, outcomes/events, physiology, and body state are identical shadow OFF/ON.
+- Controls: formal-S2 7,200 ticks and ample energy/rest/both pass; stale/no-known-opportunity, energy-scale, authority, body-schema, and restart behavior remain bounded.
+- Recommendation: `SOFT_POLICY_BIAS_CANDIDATE`; empirical observed support does not justify hard admissibility.
+- Validation: focused 15 passed; D-012/D-013 185 passed; D-009 PASS; D-010 validator PASS; governance PASS; full suite 850 passed, 2 skipped, 1 inherited D-010 inventory failure.
+- Integrity: no action selection, arbitration scoring, RNG, threshold, effect, formal P0, or formal tag change; RECORD and LIBRARY_REVIEW preserved.
+- Evidence: docs/evidence/d013ao-recoverability-view/ -> /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ao-recoverability-view-r1.
+- Next action: return to Architect. Recoverability-based behavior and every next phase remain unauthorized.

@@ -1152,11 +1152,23 @@ class Organism:
         if self.world_model is not None:
             self.world_model.metrics["last_tick"] = organism_age
             self.world_model.ingest_observations(
-                obs_dicts, tick=organism_age, now=self.monotonic_time
+                obs_dicts,
+                tick=organism_age,
+                now=self.monotonic_time,
+                body_schema_id=(
+                    self.self_model.active.body_schema_id
+                    if self.self_model is not None
+                    else None
+                ),
             )
             obs_dicts.extend(
                 self.world_model.policy_observations(
-                    observed_kinds={str(o.get("kind")) for o in obs_dicts}
+                    observed_kinds={str(o.get("kind")) for o in obs_dicts},
+                    body_schema_id=(
+                        self.self_model.active.body_schema_id
+                        if self.self_model is not None
+                        else None
+                    ),
                 )
             )
 

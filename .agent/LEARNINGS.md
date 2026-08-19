@@ -150,3 +150,11 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - Bounded provenance must also be replay-stable. Random outcome UUIDs made independently reconstructed SelfModel hashes diverge; deterministic references to authoritative `outcome_verified` ledger sequence preserve both traceability and birth replay.
 - Empirical support is body-schema-specific. Incompatible supersession must reset the active envelope to UNKNOWN rather than transferring experience across bodies.
 - A shadow evaluator can distinguish observed motion from hard-contract stationary retention without claiming future safety. Directional comparisons between two movement actions remain UNKNOWN until route-relative semantics are separately authorized.
+
+## 2026-08-19 — D-013AO recoverability view
+- A compact recovery-route signal can generalize without becoming policy: the derived view distinguished supported destroying-versus-preserving actions while remaining byte-for-byte neutral to authoritative trajectories and RNG.
+- Body-relative opportunity geometry must retain the schema under which it was observed. Relabeling remembered support with a replacement body schema silently converts stale coordinates into false current evidence.
+- Fixed-size means bounded structure and bounded external text. Provenance arrays, provenance strings, semantic labels, and candidate labels all require explicit caps or normalization.
+- Held-out accounting must separate qualifying action exits from no-boundary and unresolved replays. Only captured, causally supported cases may earn the gate; unresolved cases remain visible but contribute no positive evidence.
+- Qualification caches are scientific inputs. Reuse is safe only when the frozen manifest, imported implementation tree, source harnesses, and complete prior-evidence input tree all match their recorded fingerprints.
+- Verified observed support justifies at most a separately tested soft policy bias. It does not justify hard admissibility or a formal claim about future action outcomes.

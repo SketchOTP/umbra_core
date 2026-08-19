@@ -129,6 +129,7 @@ class WorldEntity:
     support_radius: float | None = None
     support_provenance: str | None = None
     support_source_kind: str | None = None
+    support_body_schema_id: str | None = None
     fact_kind: str = FactKind.UNKNOWN.value
     last_tick: int = 0
     verified_recovery_count: int = 0
@@ -192,6 +193,11 @@ class WorldEntity:
             ),
             support_source_kind=(
                 str(d["support_source_kind"]) if d.get("support_source_kind") else None
+            ),
+            support_body_schema_id=(
+                str(d["support_body_schema_id"])
+                if d.get("support_body_schema_id")
+                else None
             ),
             persistence_probability=float(d.get("persistence_probability", 0.5)),
             evidence_count=int(d.get("evidence_count", 0)),
@@ -537,6 +543,7 @@ class WorldModel:
         *,
         tick: int,
         now: float,
+        body_schema_id: str | None = None,
     ) -> list[str]:
         """Update entities from sensor observations. Never reads world truth."""
         seen_kinds: set[str] = set()
@@ -593,6 +600,9 @@ class WorldModel:
                 existing.support_radius = support_radius
                 existing.support_provenance = support_provenance
                 existing.support_source_kind = support_source_kind
+                existing.support_body_schema_id = (
+                    str(body_schema_id) if support is not None and body_schema_id else None
+                )
                 existing.persistence_probability = clamp(
                     existing.persistence_probability + 0.1
                 )
@@ -624,6 +634,9 @@ class WorldModel:
                     ),
                     support_source_kind=(
                         "CURRENT_OBSERVATION" if support is not None else None
+                    ),
+                    support_body_schema_id=(
+                        str(body_schema_id) if support is not None and body_schema_id else None
                     ),
                     persistence_probability=0.7,
                     evidence_count=1,
@@ -715,7 +728,12 @@ class WorldModel:
             )
         return changed
 
-    def policy_observations(self, *, observed_kinds: set[str]) -> list[dict[str, Any]]:
+    def policy_observations(
+        self,
+        *,
+        observed_kinds: set[str],
+        body_schema_id: str | None = None,
+    ) -> list[dict[str, Any]]:
         """Expose only bounded remembered estimates with justified support."""
         result: list[dict[str, Any]] = []
         for ent in self.entities.values():
@@ -732,6 +750,18 @@ class WorldModel:
                 "confidence": ent.confidence,
                 "uncertainty": ent.uncertainty,
                 "distance_support_upper_bound": ent.distance_support_upper_bound,
+                # These are the same bounded, body-relative support fields
+                # already persisted by WorldModel.  Exposing them here does
+                # not reveal habitat coordinates; it prevents shadow
+                # consumers from trying to reconstruct geometry from a point
+                # estimate or confidence scalar.
+                "support_center_dx": ent.support_center_dx,
+                "support_center_dy": ent.support_center_dy,
+                "support_radius": ent.support_radius,
+                "support_provenance": ent.support_provenance,
+                "support_source_kind": ent.support_source_kind,
+                "support_semantics": "VERIFIED_OBSERVED_SUPPORT",
+                "support_body_schema_id": ent.support_body_schema_id,
                 "fact_kind": ent.fact_kind,
                 "source": "world_model_memory",
                 "verified_recovery_count": ent.verified_recovery_count,

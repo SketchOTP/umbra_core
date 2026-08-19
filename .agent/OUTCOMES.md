@@ -317,3 +317,11 @@ Format:
 - Body supersession invalidates empirical support. Persistence and legacy migration preserve explicit semantics, and deterministic ledger-sequence provenance restores exact birth-replay equality.
 - The fresh D-013AM shadow achieved 11/13 strict representational distinctions; default-13015 remains UNKNOWN for route-relative direction and combined-I4-C5 remains UNKNOWN because no policy-visible opportunity exists. False-confident and wrong classifications are both zero.
 - No arbitration, WorldModel planning, authority, threshold, effect, contract, or formal behavior was changed. No formal P0 or tag was created; D-013AO remains unauthorized.
+
+## 2026-08-19 — UMBRA-D-013AO
+- Verdict: `D013AO_SHADOW_RECOVERABILITY_VIEW_QUALIFIED`.
+- A pure fixed-size Homeostatic Recoverability View now composes existing policy-provenanced physiology, final-authority effects, bounded opportunity geometry, body-schema-specific capability support, timing, and body cost without persistence, rollout, hidden truth, or action authority.
+- Historical qualification retained 11 strict distinctions, 2 correct UNKNOWN, 0 false-confident, and 0 wrong. The pre-label frozen held-out manifest yielded 8 captured action-caused exits; 2 had sufficient policy support and both were correctly distinguished, with 6 UNKNOWN, 0 false-confident, and 0 wrong.
+- Three held-out cases produced no boundary and one inherited energy-scale boundary search was non-monotonic/unresolved. They were explicitly counted as non-qualifying and supplied no positive evidence.
+- Shadow OFF/ON candidate rows, authoritative events/outcomes, RNG state, physiology, and body state were identical. Formal-S2 survived 7,200 ticks and ample controls passed.
+- Recommendation is `SOFT_POLICY_BIAS_CANDIDATE`, not hard admissibility. No behavioral integration, formal P0, or tag is authorized.
