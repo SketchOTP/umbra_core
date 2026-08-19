@@ -30,3 +30,9 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Date: 2026-08-19
 - Disposition: reference-only background on multidimensional homeostasis, predictive regulation, and competing drives; RL, active inference, MPC, learned setpoints, neural controllers, optimizers, and new planning layers rejected as out of scope.
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ar-recovery-mode-r1/EXTERNAL_DISCOVERY.md
+
+
+## D-013AT external discovery
+- Date: 2026-08-19
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013at-priority-handoff-r1/EXTERNAL_DISCOVERY.md`
+- Disposition: reference-only. Prior work on safe interruption, intermittent control, competing homeostatic drives, and autonomous-systems practice supports checking priority transitions against action timing and safety state. It does not authorize an RL, active-inference, MPC, planner, optimizer, behavior-tree, subsumption, or persistent-deferral redesign. The bounded AT evidence did not establish that such a redesign is needed.

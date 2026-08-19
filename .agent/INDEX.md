@@ -7,11 +7,11 @@
 - GitHub: https://github.com/SketchOTP/umbra_core
 
 ## Current pointers
-- Current stage: Authority 3.0 adopted; D-013AR completed, Architect handoff pending
-- Active directive: UMBRA-D-013AR - terminal handoff from exact AQ closeout baseline
-- Active task packet: .agent/tasks/completed/UMBRA-D-013AR/
-- Last accepted outcome: D013AR_ORDINARY_VECTOR_PATH_INSUFFICIENT
-- Last state sync: 2026-08-19T12:35:00-04:00
+- Current stage: Authority 3.0 adopted; D-013AT priority-handoff diagnosis complete
+- Active directive: none; awaiting Architect disposition after D-013AT
+- Active task packet: none
+- Last accepted outcome: D013AT_RECOVERY_HANDOFF_NOT_CAUSAL
+- Last state sync: 2026-08-19T13:05:00-04:00
 
 ## Mandatory kernel
 Read these before substantial work:
@@ -30,6 +30,7 @@ Then read the active directive from `DIRECTIVES.md` and retrieve only the releva
 - `EXTERNAL.md` — relevant external prior art and dispositions.
 
 The exact pre-Authority-3.0 mutable snapshots, replaced reusable skill, and v2 validators are preserved under `.agent/legacy/pre-authority-3.0-20260819/`. The legacy `.agents/skills/authority-governance/` workflow and root `COMMANDMENTS_OF_THE_CODE.md` remain preserved for provenance but are not active Authority 3.0 routers. The completed migration packet is `.agent/tasks/completed/AUTHORITY-3.0-MIGRATION-001/`.
+The completed D-013AT task packet is `.agent/tasks/completed/UMBRA-D-013AT/`. Its bulk evidence is externally stored under `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013at-priority-handoff-r1/` and is referenced by `docs/evidence/d013at-priority-handoff/README.md`.
 
 Do not bulk-load entire growing ledgers unless the task genuinely requires it. Do not skip relevant history merely to save context.
 

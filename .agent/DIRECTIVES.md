@@ -246,3 +246,15 @@ Format:
 - Controls: true-critical direct mode preserved for all four variables; all active-noncritical controls exercised; restart/replay semantic parity passed.
 - Integrity: production:false | thresholds:false | historical_evidence:false | formal_p0:false | formal_tag:false | RECORD:false | LIBRARY_REVIEW:false
 - Next: return to Architect; do not begin D-013AS.
+
+## UMBRA-D-013AT - authorized start
+- Started: 2026-08-19T12:45:00-04:00
+- Baseline: 913c17d0b1feed3a2930d4db0fadb674f97210da
+- Status: AUTHORIZED, NON_FORMAL, evaluator/diagnostic-only.
+- Parent: D013AR_ORDINARY_VECTOR_PATH_INSUFFICIENT.
+- Scope: exact target reconstruction, priority transition timelines, one-boundary IDLE counterfactual, route-budget comparison, controls, replay, and bounded external discovery.
+- Prohibitions: no production correction, no new state/timer/deferral, no threshold/effect/score/candidate/authority/RNG change, no formal P0/tag, no D-013AS, no D-013AU.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013at-priority-handoff-r1/
+- Protected: RECORD:false | LIBRARY_REVIEW:false | production:false | historical_evidence:false.
+
+- 2026-08-19T13:05:00-04:00 | END | UMBRA-D-013AT | project:UMBRA-D-013AT | status:completed | verdict:D013AT_RECOVERY_HANDOFF_NOT_CAUSAL | recommendation:CURRENT_RECOVERY_HANDOFF_RETAIN | baseline:913c17d0b1feed3a2930d4db0fadb674f97210da | targets:3_reproduced | idle_counterfactual:3_no_substantive_rescue | route_budget:feasible_before_and_after_all_targets | focused:185_passed | d009:PASS | d010:PASS | authority:PASS | governance:PASS | full_suite:851_passed_2_skipped_4_governed_D008_D010_failures | retries:0 | production_modified:false | historical_evidence_modified:false | RECORD_modified:false | LIBRARY_REVIEW_modified:false | formal_p0:false | formal_tag:false | next:return_to_Architect_no_D013AU_or_D013AS

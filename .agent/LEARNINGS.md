@@ -204,3 +204,9 @@ Do not apply the AP negative-only bias to direct critical-recovery construction.
 - The production predicate conflates active recovery need with actual criticality for direct-mode entry.
 - Across all three target cases, actual-critical-only ordinary arbitration selected authority-invalid REST/CHARGE choices and failed earlier than production.
 - No direct-mode gate correction is recommended from AR alone; return to Architect without production or formal work.
+
+
+## 2026-08-19 - D-013AT priority handoff
+- Existing energy precedence already preempts a sticky non-energy recovery focus once energy is in the recovery pool. The three tested target states were lower-priority fatigue APPROACH states immediately before that existing boundary.
+- A one-tick IDLE counterfactual improved reserve by 0.0035 and reduced route cost by 0.006 in each target, but the route remained feasible and the later no-safe-action event was unchanged in all three cases. One body-intervention case reached energy activation/focus/recovery one tick later under IDLE, but both paths still reached the same later no-safe-action event.
+- No policy-visible same-focus preserving alternative, one-step safety gap, repeated preemption starvation, or tunable deferral horizon was demonstrated. Retain the current recovery handoff and return to Architect.

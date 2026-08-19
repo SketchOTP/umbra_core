@@ -1,21 +1,24 @@
 # Current Project State
 
-Last updated: 2026-08-19T12:35:00-04:00
+Last updated: 2026-08-19T13:05:00-04:00
 
 ## Current stage
-Authority 3.0 adopted; D-013AR completed as a bounded non-formal diagnostic and returned to Architect.
+Authority 3.0 adopted; D-013AT is complete as a bounded non-formal priority-handoff diagnosis.
 
 ## Current objective
-Preserve the accepted AR finding and await Architect direction; do not begin D-013AS or formal P0.
+Return the D-013AT result to Architect. The tested lower-priority fatigue APPROACH did not destroy energy recoverability before the existing energy-precedence handoff.
 
 ## Active directive
-UMBRA-D-013AR - terminal handoff from exact baseline 566a3c28fb92dd81bdf15668464408881a8b0f5a.
+None. Last completed directive: UMBRA-D-013AT from exact baseline 913c17d0b1feed3a2930d4db0fadb674f97210da.
+
+## Terminal result
+D013AT_RECOVERY_HANDOFF_NOT_CAUSAL. Architecture recommendation: CURRENT_RECOVERY_HANDOFF_RETAIN.
 
 ## Scientific boundary
-Verdict: D013AR_ORDINARY_VECTOR_PATH_INSUFFICIENT. Recommendation: CURRENT_ESCALATION_SEMANTICS_RETAIN. The actual-critical-only ordinary vector counterfactual did not produce a substantive rescue in any required target.
+D-013AR is accepted as D013AR_ORDINARY_VECTOR_PATH_INSUFFICIENT. D-013AT was evaluator-only. D-013AS, D-013AU, production corrections, formal P0, and formal tags remain unauthorized.
+
+## Evidence
+Frozen AT evidence is at /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013at-priority-handoff-r1/ with 41 hashed files. A tracked pointer is at docs/evidence/d013at-priority-handoff/README.md.
 
 ## Protected state
-Production source, experiments, tests, historical evidence, thresholds, verdicts, formal tags, .agent/RECORD.md, and .agent/LIBRARY_REVIEW.md are unchanged. AR evidence is external at /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ar-recovery-mode-r1.
-
-## Result boundary
-No production correction, formal P0, or formal tag was performed. D-013AS remains unauthorized.
+.agent/RECORD.md, .agent/LIBRARY_REVIEW.md, production source, experiments, tests, historical evidence, thresholds, verdicts, D-012 contracts, and formal tags were preserved unchanged.

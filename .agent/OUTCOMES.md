@@ -415,3 +415,14 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Finding: active-but-noncritical recovery entered direct mode in 3/3 targets, but actual-critical-only ordinary arbitration did not rescue any target. REST, REST, and CHARGE were denied as not_at_rest, not_at_rest, and not_at_resource; no_safe_action occurred earlier than production.
 - Validation: D-013 family 158 passed; D-009/D-010/Authority/governance passed; full path-safe suite 851 passed, 2 skipped, 4 governed D-008/D-010 failures.
 - Integrity: production, thresholds, effects, candidates, authority, historical evidence, formal tags, and RECORD unchanged. Return to Architect; D-013AS/formal P0 unauthorized.
+
+
+## UMBRA-D-013AT - priority handoff diagnosis
+- Closed: 2026-08-19T13:05:00-04:00; baseline `913c17d0b1feed3a2930d4db0fadb674f97210da`.
+- Verdict: `D013AT_RECOVERY_HANDOFF_NOT_CAUSAL`.
+- Recommendation: `CURRENT_RECOVERY_HANDOFF_RETAIN`.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013at-priority-handoff-r1/`; 41 hashed files; tracked pointer `docs/evidence/d013at-priority-handoff/README.md`.
+- Finding: 3/3 target timelines reproduced the lower-priority fatigue APPROACH before the existing energy-precedence handoff. A single evaluator-only IDLE substitution did not change later no-safe-action timing or yield substantive rescue. Existing route budgets stayed feasible after both actions.
+- Controls: energy-active, fatigue-only, true-critical-fatigue, UNKNOWN, body replacement, and RNG restart/replay controls passed their required checks; UNKNOWN remained neutral and body-schema incompatibility reset policy support.
+- Validation: focused D-013 family and D-012 process checks 185 passed; D-009 PASS; D-010 PASS; Authority 3.0 PASS; governance PASS; full path-safe suite 851 passed, 2 skipped, 4 governed inherited D-008/D-010 failures.
+- Integrity: production source, tests, experiments, thresholds, effects, candidates, authority, historical evidence, formal tags, RECORD, and LIBRARY_REVIEW unchanged. No formal P0 or tag. Return to Architect; D-013AU and D-013AS unauthorized.
