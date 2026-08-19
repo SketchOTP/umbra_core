@@ -7,11 +7,11 @@
 - GitHub: https://github.com/SketchOTP/umbra_core
 
 ## Current pointers
-- Current stage: Authority 3.0 adopted; D-013AP Phase A stopped at selection-path gap
-- Active directive: UMBRA-D-013AP — terminal bounded stop `D013AP_SELECTION_PATH_GAP`
-- Active task packet: `.agent/tasks/completed/UMBRA-D-013AP/`
-- Last accepted outcome: D013AO_SHADOW_RECOVERABILITY_VIEW_QUALIFIED
-- Last state sync: 2026-08-19T08:30:14-04:00
+- Current stage: Authority 3.0 adopted; D-013AQ stopped at no legitimate soft hook
+- Active directive: UMBRA-D-013AQ — terminal bounded stop `D013AQ_NO_LEGITIMATE_SOFT_HOOK`
+- Active task packet: `.agent/tasks/completed/UMBRA-D-013AQ/`
+- Last accepted outcome: D013AQ_NO_LEGITIMATE_SOFT_HOOK
+- Last state sync: 2026-08-19T09:20:00-04:00
 
 ## Mandatory kernel
 Read these before substantial work:

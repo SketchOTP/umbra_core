@@ -186,3 +186,16 @@ Recoverability-informed option preservation cannot qualify an AP-admissible supp
 
 ### Boundary
 Do not broaden a negative-only soft bias into critical recovery reflexes under D-013AP. A selection-path correction requires a separate Architect decision.
+
+## 2026-08-19 — D-013AQ critical-recovery choice-set boundary
+
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013aq-critical-recovery-choice-set-r1`
+- Confidence: VERIFIED
+
+### Learning
+
+An offline recoverability-preserving candidate is not automatically a same-focus policy alternative. In the three AP exits, `IDLE` was safe and authority-executable but did not repair the active fatigue need. The existing same-target approach candidate is exposed only through the immediate-safety fallback, while the direct critical branch constructs its action before ordinary scoring and hysteresis. The energy-specific preservation hook must not be generalized to fatigue, integrity, or stimulation without a separately proven choice set.
+
+### Boundary
+
+Do not apply the AP negative-only bias to direct critical-recovery construction. No evaluator counterfactual or D-013AR integration is justified by AQ. Return the finding to Architect.

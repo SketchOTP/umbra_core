@@ -390,3 +390,21 @@ No production code, tests, experiments, historical evidence, thresholds, verdict
 
 ### Next boundary
 Return to Architect for the selection-path gap. Do not integrate the bias into critical recovery without separate authorization.
+
+## UMBRA-D-013AQ — Critical-recovery choice-set diagnosis
+
+- Date: 2026-08-19T09:20:00-04:00
+- Baseline: `6191881380f30c1a2ca44ec3bde3a12b4f4927ef`
+- Verdict: `D013AQ_NO_LEGITIMATE_SOFT_HOOK`
+- Architecture recommendation: `NO_LEGITIMATE_SOFT_HOOK`
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013aq-critical-recovery-choice-set-r1`
+
+### Result
+
+The three AP-admissible exits were reconstructed as `fatigue`-focus direct `APPROACH(... toward="rest")` candidates returned through `commit_safe_recovery` before ordinary scored arbitration, Gaussian variation, and ordinary hysteresis. The AO preserving candidate in each row was `IDLE`. It is policy-visible, immediately safe, and authority-executable, but it does not serve the active fatigue-recovery focus; it is therefore `GENERIC_CANDIDATE_ONLY`, not a legitimate same-focus preserving alternative. `REST` is not authority-executable in the captured approach-to-rest states. A same-target `APPROACH` candidate exists in `generate_candidates`, but is only eligible through the immediate-safety fallback and is not a direct critical-recovery comparison set.
+
+The audit covered energy, fatigue, integrity, and stimulation direct construction, `pick_recovery`, immediate-safety fallback, `_preserve_recoverability`, and final `commit_safe_recovery`. The existing preservation hook is energy-route-specific; no fatigue, integrity, or stimulation same-focus soft hook was established.
+
+### Integrity
+
+No production source, tests, experiments, thresholds, effects, contracts, historical evidence, verdicts, `.agent/RECORD.md`, or `.agent/LIBRARY_REVIEW.md` were modified. No evaluator counterfactual was run because the directive required a proven legitimate same-focus comparison set first. No formal P0 or formal tag was created. Do not begin D-013AR without a new explicit Architect authorization.
