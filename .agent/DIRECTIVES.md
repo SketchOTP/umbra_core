@@ -197,3 +197,19 @@ Format:
 2026-08-18T23:30:00Z | END | UMBRA-D-013AN | status:qualified | verdict:D013AN_VERIFIED_CAPABILITY_SUPPORT_REPRESENTATION_QUALIFIED | baseline:f9eb0cd5e3e8664eb411cf963c92dd1ceb0eeaa6 | representation:SelfModel_fixed_size_non_authoritative | progress:signed_intended_direction | duration:completion_lag_committed_ticks | semantics:HARD_CONTRACT_VERIFIED_OBSERVED_SUPPORT_PROBABILISTIC_SUPPORT_UNKNOWN_NOT_APPLICABLE | grounding:issued_verified_matching_body_applied_params_only | replay:deterministic_event_sequence_provenance | body_change:empirical_support_reset_UNKNOWN | AM_shadow:11_strict_2_unknown_0_false_confident_0_wrong | focused:12_passed | d012:35_passed | d009:PASS | d010_validator:PASS | full_suite:835_passed_2_skipped_1_inherited_D010_inventory_failure | formal_p0:false | formal_tag:false | formal_readiness:false | next:return_to_Architect_no_D013AO_authorized
 2026-08-19T01:34:54Z | START | UMBRA-D-013AO | status:authorized | baseline:89dddd2278aa70899d7426233a1e7e803e69bf3b | scope:pure_fixed_size_policy_provenanced_homeostatic_recoverability_view,shadow_nonformal_qualification,heldout_manifest,controls,restart,validation,evidence,governance | exclusions:action_selection,arbitration,scoring,RNG,authority,thresholds,effects,formal_P0,formal_tag,historical_evidence,RECORD,LIBRARY_REVIEW | evidence_external:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013ao-recoverability-view-r1
 2026-08-19T02:35:00Z | END | UMBRA-D-013AO | status:qualified | verdict:D013AO_SHADOW_RECOVERABILITY_VIEW_QUALIFIED | baseline:89dddd2278aa70899d7426233a1e7e803e69bf3b | view:pure_fixed_size_policy_provenanced_no_authority | historical:11_distinguished_2_correct_UNKNOWN_0_false_confident_0_wrong | heldout:12_cases_8_action_exits_2_supported_2_distinguished_6_UNKNOWN_0_false_confident_0_wrong | manifest:f88db39243d839332bc5f99b0d4783f29581e81aa985abe8d63193bf0a402655_exact_frozen_before_labels | neutrality:all_authoritative_fields_and_RNG_identical | controls:S2_7200_and_ample_controls_PASS | focused:15_passed | d012_d013:185_passed | d009:PASS | d010_validator:PASS | governance:PASS | full_suite:850_passed_2_skipped_1_inherited_D010_inventory_failure | recommendation:SOFT_POLICY_BIAS_CANDIDATE | formal_readiness:false | formal_P0:false | formal_tag:false | RECORD:false | LIBRARY_REVIEW:false | next:return_to_Architect_no_next_phase_authorized
+
+---
+
+## AUTHORITY-3.0-MIGRATION-001 — Install project-specific Authority 3.0 governance
+- Issued: 2026-08-19T07:50:00-04:00
+- Status: COMPLETE
+- Project stage: Governance migration before D-013AP implementation
+- Goal link: Preserve reliable Architect-to-Codex evidence and acceptance boundaries while reducing repeated bulk context loading.
+- Objective: Install the complete canonical Authority 3.0 package, adapted to verified UMBRA state, without deleting or rewriting legacy governance.
+- Scope: `AGENTS.md`, `.agent/`, `.agents/`, governance validators/tests, Notion/GitHub closeout.
+- Exclusions: Production code, experiments, scientific tests/semantics, thresholds, effects, evidence, verdicts, tags, formal P0, and D-013AP execution.
+- Acceptance: All 3.0 files present and project-specific; legacy content preserved; active old routers retired; validation passes; governance-only diff.
+- Required validation: Authority 3.0 validator, fail-closed validator fixtures, focused governance tests, existing scientific validators, full regression suite, preservation hashes, diff review; minimum E4 when broader checks establish no new regression.
+- External discovery: REQUIRED — canonical user-supplied Authority 3.0 Notion package.
+- Stop/escalation conditions: Any historical loss, protected/scientific change, ambiguous strategic policy, or inability to distinguish active 3.0 rules from preserved legacy provenance.
+- Source: User directive and Authority 3.0 package at https://app.notion.com/p/3bf833cb27ff811aae15def88959797e

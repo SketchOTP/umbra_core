@@ -325,3 +325,51 @@ Format:
 - Three held-out cases produced no boundary and one inherited energy-scale boundary search was non-monotonic/unresolved. They were explicitly counted as non-qualifying and supplied no positive evidence.
 - Shadow OFF/ON candidate rows, authoritative events/outcomes, RNG state, physiology, and body state were identical. Formal-S2 survived 7,200 ticks and ample controls passed.
 - Recommendation is `SOFT_POLICY_BIAS_CANDIDATE`, not hard admissibility. No behavioral integration, formal P0, or tag is authorized.
+
+---
+
+## AUTHORITY-3.0-MIGRATION-001-OUTCOME — Directive AUTHORITY-3.0-MIGRATION-001
+- Completed: 2026-08-19T08:10:00-04:00
+- Verdict: COMPLETE
+- Retrieval confidence: ADEQUATE
+- Evidence level: E4_REGRESSION_PROTECTED
+- Git state / commit: Pending closeout commit
+
+### Technical state discovered
+UMBRA already had authoritative legacy goal/history ledgers and a v2 workflow, but lacked the Authority 3.0 index, selective state router, task hierarchy, canonical authority skill/references, result contract, and compatible validation. The old executable validator enforced superseded v2 headings and therefore had to be preserved and retired from active authority.
+
+### Work performed
+Installed the project-specific 3.0 kernel and reusable workflow, archived replaced mutable snapshots/discovery skill/validators byte-for-byte, retained old ledgers as historical truth, migrated the active validator and compatibility command path, and recorded the canonical Authority package as an ADOPT discovery.
+
+### Acceptance results
+- Complete Authority 3.0 file set installed: PASSED
+- Project-specific UMBRA index/profile/current state: PASSED
+- Legacy governance preserved without deletion: PASSED
+- Active v2 parallel router removed: PASSED
+- Production/scientific scope unchanged: PASSED
+- D-013AP not executed: PASSED
+
+### Validation
+- Authority 3.0 validator: PASSED
+- Compatibility validator: PASSED
+- Fail-closed governance fixtures: PASSED
+- Focused governance tests: PASSED — 9 passed
+- D-009 evidence validator: PASSED — 14 files, 3,300 rows
+- D-010 evidence validator: PASSED — 1,900 rows
+- Full suite: FAILED — 854 passed, 2 skipped, 1 unchanged inherited D-010 runtime-tick inventory failure
+- Diff/preservation review: PASSED
+
+### Assumptions confirmed
+- Authority 3.0 can be adopted without changing UMBRA production or scientific semantics.
+- Existing legacy ledgers can remain authoritative historical records without being rewritten into synthetic 3.0 history.
+
+### Assumptions disproven
+- Replacing only `AGENTS.md` was not a complete migration because its referenced 3.0 kernel and workflow were absent.
+- The old v2 validator could not remain active unchanged because it rejected the canonical 3.0 router and discovery skill.
+
+### Risks / blockers
+- Architect acceptance of the migration is pending.
+- The inherited D-010 27-entry runtime-tick inventory failure remains unchanged.
+
+### Architect decision required
+YES — accept the governance migration before resuming UMBRA-D-013AP.

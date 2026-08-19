@@ -158,3 +158,19 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - Held-out accounting must separate qualifying action exits from no-boundary and unresolved replays. Only captured, causally supported cases may earn the gate; unresolved cases remain visible but contribute no positive evidence.
 - Qualification caches are scientific inputs. Reuse is safe only when the frozen manifest, imported implementation tree, source harnesses, and complete prior-evidence input tree all match their recorded fingerprints.
 - Verified observed support justifies at most a separately tested soft policy bias. It does not justify hard admissibility or a formal claim about future action outcomes.
+
+---
+
+## L-AUTHORITY-3-0-001 — Lossless migration of heterogeneous governance history
+- Date: 2026-08-19T08:10:00-04:00
+- Evidence source: AUTHORITY-3.0-MIGRATION-001; canonical Authority 3.0 package; governance validators.
+- Confidence: VERIFIED
+
+### Learning
+Authority 3.0 does not require rewriting legacy UMBRA ledgers into synthetic uniform history. Preserve append-only ledgers as authored, archive exact replaced mutable snapshots and reusable rules, and use `INDEX.md` plus a concise current kernel to route future selective retrieval.
+
+### Why it matters
+This keeps negative results, old directives, scientific provenance, and operator history intact while eliminating parallel active routers and reducing mandatory context.
+
+### Recheck trigger
+Recheck if the canonical Authority package changes schema or if a future validator cannot distinguish active 3.0 policy from archived provenance.

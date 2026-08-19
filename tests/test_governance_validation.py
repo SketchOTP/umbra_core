@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import shutil
 from pathlib import Path
 
 
@@ -12,13 +13,22 @@ SPEC.loader.exec_module(validator)
 
 
 def _authority_root(tmp_path: Path) -> Path:
-    for relative in validator.AUTHORITY_FILES:
+    for relative in (*validator.AUTHORITY_FILES, *validator.AUTHORITY_V3_FILES):
+        source = ROOT / relative
         path = tmp_path / relative
         path.parent.mkdir(parents=True, exist_ok=True)
-        content = "external to UMBRA CORE\n"
-        if relative == ".agent/PROJECT_PROFILE.md":
-            content += "\n".join(validator.REQUIRED_STATUS)
-        path.write_text(content, encoding="utf-8")
+        shutil.copy2(source, path)
+    for relative in validator.LEGACY_ARCHIVE_HASHES:
+        source = ROOT / relative
+        path = tmp_path / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, path)
+    (tmp_path / ".agent/tasks/active").mkdir(parents=True, exist_ok=True)
+    (tmp_path / ".agent/tasks/completed").mkdir(parents=True, exist_ok=True)
+    (tmp_path / ".agent/tasks/active/.gitkeep").write_text(
+        "# Preserves the Authority 3.0 active task-packet directory.\n",
+        encoding="utf-8",
+    )
     return tmp_path
 
 
@@ -48,8 +58,45 @@ def test_rejects_stale_d010_in_progress_claim(tmp_path: Path) -> None:
 
 def test_permits_rejected_or_historical_references(tmp_path: Path) -> None:
     root = _authority_root(tmp_path)
-    (root / "AGENTS.md").write_text(
-        "Historical quoted prior-art record: protocell work is rejected and external to UMBRA CORE.\n",
+    agents = root / "AGENTS.md"
+    agents.write_text(
+        agents.read_text(encoding="utf-8")
+        + "\nHistorical quoted prior-art record: protocell work is rejected and external to UMBRA CORE.\n",
         encoding="utf-8",
     )
     assert validator.validate(root) == []
+
+
+def test_rejects_missing_authority_v3_result_contract(tmp_path: Path) -> None:
+    root = _authority_root(tmp_path)
+    (root / ".agents/skills/authority/references/result-contract.md").unlink()
+    assert any("missing authority file" in error for error in validator.validate(root))
+
+
+def test_rejects_obsolete_jcodemunch_router_requirement(tmp_path: Path) -> None:
+    root = _authority_root(tmp_path)
+    agents = root / "AGENTS.md"
+    agents.write_text(
+        agents.read_text(encoding="utf-8") + "\nAlways use jCodemunch.\n",
+        encoding="utf-8",
+    )
+    assert any("jCodemunch" in error for error in validator.validate(root))
+
+
+def test_rejects_legacy_archive_mutation(tmp_path: Path) -> None:
+    root = _authority_root(tmp_path)
+    relative = next(iter(validator.LEGACY_ARCHIVE_HASHES))
+    path = root / relative
+    path.write_bytes(path.read_bytes() + b"mutated")
+    assert any("legacy archive hash mismatch" in error for error in validator.validate(root))
+
+
+def test_rejects_legacy_authority_skill_as_active_router(tmp_path: Path) -> None:
+    root = _authority_root(tmp_path)
+    agents = root / "AGENTS.md"
+    agents.write_text(
+        agents.read_text(encoding="utf-8")
+        + "\nRead .agents/skills/authority-governance/SKILL.md.\n",
+        encoding="utf-8",
+    )
+    assert any("legacy authority-governance" in error for error in validator.validate(root))

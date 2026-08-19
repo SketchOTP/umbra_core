@@ -1,34 +1,52 @@
 ---
 name: external-discovery
-description: Evaluate relevant external prior art before substantial new engineering while preserving qualified existing work.
+description: Search and evaluate relevant external prior art before substantial reinvention, difficult new engineering, rewrites, repeated failures, new domains, major course corrections, or novelty claims while preserving qualified existing work.
 ---
 
 # External Discovery and Reuse
 
 ## Activation
+Use this skill before substantial new capability/subsystem/framework/algorithm/model/agent mechanism/protocol/infrastructure/evaluation-system work, difficult custom mechanisms, major rewrites, repeated failed attempts, unfamiliar domains, major course corrections, material requirement changes, or novelty claims.
 
-Use this skill before substantial work on a new capability, subsystem, algorithm, infrastructure component, model, memory system, agent mechanism, protocol, evaluation system, or other significant technical decision. Also activate after repeated failed attempts, entry into a new problem domain, a major course correction, or when technical novelty is being claimed. Routine fixes and established architecture do not require an extensive landscape check.
+Routine fixes inside established architecture do not require exhaustive discovery.
 
-## Governing principle
+## Search method
+Search the underlying problem, not only project-specific names.
 
-Preserve what works. Search before building what comes next. Reinvent only when there is a reason.
+Use appropriate sources such as:
+- GitHub/GitLab;
+- package registries;
+- research papers/arXiv;
+- Hugging Face/model hubs;
+- standards/protocols;
+- SDKs/APIs/frameworks;
+- academic projects;
+- benchmarks/datasets;
+- adjacent technical disciplines.
 
-## Existing work
+Scale research depth to the decision's cost and importance.
 
-External discoveries do not automatically justify changing stable or qualified work. Do not re-architect, replace working components, reopen completed stages, invalidate evidence, introduce unnecessary dependencies, or migrate merely because another implementation exists. Propose change only when the material benefit justifies migration, integration, regression, revalidation, dependency, governance, and maintenance costs.
+## Evaluate serious candidates
+Consider:
+- functional overlap;
+- architecture/API fit;
+- license/provenance;
+- maintenance/community maturity;
+- security posture;
+- tests/documentation;
+- dependencies;
+- determinism/performance limits;
+- migration/integration cost;
+- regression/revalidation cost;
+- long-term maintenance.
 
-## Discovery
+Classify material candidates as:
+`ADOPT | WRAP | EXTEND | FORK | COMPOSE | REFERENCE | BENCHMARK | BUILD | REJECT`
 
-Search for the underlying problem, not only project terminology. Use sources appropriate to the decision, such as GitHub, GitLab, package registries, Hugging Face, arXiv, research literature, academic projects, frameworks, SDKs, APIs, standards, protocols, and adjacent technical disciplines. Scale research depth to the cost and importance of the decision; do not turn research into an expensive distraction.
+## Existing qualified work
+External discovery does not automatically authorize replacement. Preserve stable/qualified work unless the material future benefit justifies migration, regression, revalidation, dependency, governance, and maintenance costs.
 
-## Evaluation
+If a discovery materially changes the strategic choice, return it to the Architect instead of silently re-architecting the project.
 
-For serious candidates, consider functional overlap, architecture, license, maintenance, security posture, tests, documentation, dependencies, community maturity, integration complexity, performance limits, and long-term maintenance. For future work, evaluate whether to ADOPT, WRAP, EXTEND, FORK, COMPOSE, REFERENCE, or BUILD.
-
-## Mid-implementation discovery
-
-Do not automatically stop active work when an external candidate is found. Reconsider only when it is likely to eliminate substantial remaining effort or materially improve the architecture. Balance completed work, remaining work, migration cost, validation cost, compatibility, dependency risk, and long-term benefit.
-
-## Reporting
-
-When discovery materially affects a future decision, record a concise note in the appropriate `.agent/` record without rewriting existing data: what was found, the problem addressed, the source, approximate overlap, the proposed disposition, and the rationale. This skill is additive and does not supersede active scope, governance, qualification criteria, architecture, directives, or completed work.
+## Record
+When discovery materially affects current/future decisions, append a concise entry to `.agent/EXTERNAL.md` including source, freshness, overlap, disposition, rationale, and recheck trigger.
