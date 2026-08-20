@@ -247,6 +247,16 @@ Format:
 - Integrity: production:false | thresholds:false | historical_evidence:false | formal_p0:false | formal_tag:false | RECORD:false | LIBRARY_REVIEW:false
 - Next: return to Architect; do not begin D-013AS.
 
+## UMBRA-D-013AW - closed-loop recovery-cycle diagnosis
+- Started and closed: 2026-08-19/20; baseline `0f02a9d4a9de9dc38789c96340bcc85be95e7c24`.
+- Status: completed bounded non-formal evaluator/diagnostic task.
+- Verdict: `D013AW_CAUSALITY_UNRESOLVED`.
+- Recommendation: `UNRESOLVED`.
+- Result: 3/3 exact target reproductions; frozen fatigue/MOVE/APPROACH/CHARGE motif present in both heldouts; viable default-family control shared the motif and survived, so no causal correction qualified.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013aw-recovery-cycle-r1`.
+- Integrity: production:false | tests:false | experiments:false | historical_evidence:false | thresholds:false | RECORD:false | LIBRARY_REVIEW:false | formal_p0:false | formal_tag:false.
+- Next: return to Architect; do not begin D-013AX or D-013AS.
+
 ## UMBRA-D-013AT - authorized start
 - Started: 2026-08-19T12:45:00-04:00
 - Baseline: 913c17d0b1feed3a2930d4db0fadb674f97210da

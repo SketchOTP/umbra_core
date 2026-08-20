@@ -447,3 +447,12 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - AO status: shadow representation qualification retained; behavioral causal integration support false.
 - Integrity: no production, tests, experiments, thresholds, historical evidence, RECORD, LIBRARY_REVIEW, formal tag, or formal P0 changes.
 - Next: return to Architect; no D-013AW/D-013AS/formal work authorized.
+
+## UMBRA-D-013AW - closed-loop recovery-cycle diagnosis
+- Closed: 2026-08-20; baseline `0f02a9d4a9de9dc38789c96340bcc85be95e7c24`.
+- Verdict: `D013AW_CAUSALITY_UNRESOLVED`; architecture recommendation `UNRESOLVED`.
+- Finding: 3/3 exact target reproductions share a source-derived fatigue/MOVE/APPROACH/CHARGE motif, but the viable default-family control shares the frozen motif and an adverse cycle while surviving to 1000 ticks. No common causal correction was demonstrated; no body-I1 matched control existed.
+- Integrity: physiology accounting closed at 1e-9; restart/replay was identical; no hidden truth entered organism policy; production, tests, experiments, historical evidence, thresholds, RECORD, LIBRARY_REVIEW, formal tags, and formal P0 unchanged.
+- Validation: D-013 family 158 passed; D-009/D-010/Authority 3.0/governance/D-012 schedule passed; full suite 854 passed, 1 inherited D-010 inventory failure, 2 skipped.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013aw-recovery-cycle-r1`.
+- Next: return to Architect; no D-013AX/D-013AS/formal P0.

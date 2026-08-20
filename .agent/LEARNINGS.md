@@ -227,3 +227,8 @@ Do not apply the AP negative-only bias to direct critical-recovery construction.
 - AL/AO shadow recoverability distinctions do not by themselves establish an executable rescue policy or a causal production action-selection lever.
 - Across three exact target reproductions, existing policy-visible one-action substitutions yielded only delay-only outcomes; no common substantive rescue mechanism met the two-target generality gate.
 - Preserve AO as representation-only unless a future authorized study demonstrates a source-existing, authority-valid, one-decision, long-run causal rescue.
+
+## 2026-08-20 — D-013AW closed-loop recovery-cycle diagnosis
+- A recurring source-derived fatigue/MOVE/APPROACH/CHARGE sequence across three failing targets is not sufficient causal evidence when a viable matched default-family control shares the same motif and an adverse cycle.
+- Closed-loop cycle accounting must distinguish recurrent pattern from failure-discriminating mechanism; all target cycles showed fatigue accumulation and integrity decline, but the control comparison did not isolate them as the cause of terminal failure.
+- Retain AO as a shadow recoverability representation only. Do not promote this motif into a policy correction, planner, or formal-readiness claim.
