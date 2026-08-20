@@ -232,3 +232,9 @@ Do not apply the AP negative-only bias to direct critical-recovery construction.
 - A recurring source-derived fatigue/MOVE/APPROACH/CHARGE sequence across three failing targets is not sufficient causal evidence when a viable matched default-family control shares the same motif and an adverse cycle.
 - Closed-loop cycle accounting must distinguish recurrent pattern from failure-discriminating mechanism; all target cycles showed fatigue accumulation and integrity decline, but the control comparison did not isolate them as the cause of terminal failure.
 - Retain AO as a shadow recoverability representation only. Do not promote this motif into a policy correction, planner, or formal-readiness claim.
+
+## 2026-08-20 — D-013AXR execution-stop forensics
+- An incomplete bounded search is not a scientific failure or pass. Without a durable logical branch ledger, aggregate summary, and continuation records, it cannot support any rescue or no-rescue conclusion.
+- Parent-memory aggregation with uncaught future propagation is not durable scientific orchestration. Branch IDs must be manifest-keyed and completion records must be atomic and independently auditable.
+- Outcome-dependent frontier scheduling and state-hash deduplication make lossless resume unsafe unless the exact completed and remaining sets are persisted.
+- A clean rerun can preserve the same scientific protocol only as a separately authorized execution with a distinct ID after minimum harness reliability work; the failed attempt remains permanent evidence.

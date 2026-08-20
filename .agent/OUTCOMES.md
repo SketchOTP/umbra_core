@@ -456,3 +456,16 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Validation: D-013 family 158 passed; D-009/D-010/Authority 3.0/governance/D-012 schedule passed; full suite 854 passed, 1 inherited D-010 inventory failure, 2 skipped.
 - Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013aw-recovery-cycle-r1`.
 - Next: return to Architect; no D-013AX/D-013AS/formal P0.
+
+## UMBRA-D-013AXR - AX execution-stop forensics / resume-safety adjudication
+- Closed: 2026-08-20; scientific baseline `706f64fbd28686d27a727f6ddcd0345774282530`.
+- Parent status: `D013AX_EXECUTION_STOP_UNRESOLVED`; no AX scientific verdict exists.
+- Verdict: `D013AXR_EXECUTION_CAUSE_UNRESOLVED`.
+- Cause classification: `CAUSE_UNRESOLVED`; no durable exit code, signal, traceback, OOM, filesystem, or worker-exception evidence was available.
+- Finding: source audit identified an orchestration durability defect capable of producing the incomplete state: parent-memory aggregation, uncaught `future.result()`, PID/counter branch identity, no atomic completion ledger, and no 7200-tick scheduler.
+- Work accounting: preserved AX tree contains 29,655 work directories and 102,705,172,539 file bytes; branch identity/completion is ambiguous; long-run confirmations are not started.
+- Resume: lossless resume is not safe/proven. Clean rerun under the same frozen scientific protocol is only a future candidate with a distinct execution ID.
+- Recommendation: `SEPARATE_AX_HARNESS_REPAIR_REQUIRED`; no repair or rerun was performed under AXR.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axr-execution-stop-r1/`; pointer `docs/evidence/d013axr-execution-stop/README.md`.
+- Integrity: AXR scientific branches 0; production/tests/experiments/historical evidence/thresholds/RECORD/LIBRARY_REVIEW unchanged; formal P0/tag false.
+- Next: return to Architect.

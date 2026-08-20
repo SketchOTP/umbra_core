@@ -289,3 +289,5 @@ Format:
 - Recommendation: `RECOVERABILITY_REPRESENTATION_ONLY`.
 - Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013av-causal-requalification-r1`; manifest SHA256 `cb093e7f932d3d83fba5a3481c207d210e25c6db9df26cc937286434ebcd1928`.
 - Integrity: production:false | tests:false | experiments:false | historical_evidence:false | thresholds:false | RECORD:false | LIBRARY_REVIEW:false | formal_p0:false | formal_tag:false | next:return_to_Architect
+
+2026-08-20T00:00Z | END | UMBRA-D-013AXR | status:completed_execution_stop_adjudication | verdict:D013AXR_EXECUTION_CAUSE_UNRESOLVED | parent:D013AX_EXECUTION_STOP_UNRESOLVED | baseline:706f64fbd28686d27a727f6ddcd0345774282530 | axr_branches_executed:0 | work_dirs:29655 | lossless_resume:false | cause:CAUSE_UNRESOLVED | recommendation:SEPARATE_AX_HARNESS_REPAIR_REQUIRED | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axr-execution-stop-r1 | production_modified:false | formal_p0:false | formal_tag:false | RECORD_modified:false | LIBRARY_REVIEW_modified:false | next:return_to_Architect
