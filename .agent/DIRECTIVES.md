@@ -279,6 +279,19 @@ Format:
 - Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.
 
+## UMBRA-D-013AXH — durable bounded-search harness remediation
+
+- Started and closed: 2026-08-20; governance baseline `45036b018d4d591e51eecbca6e7d9530330b6bd8`.
+- Status: complete synthetic/non-scientific harness qualification; no AX target branch was executed.
+- Verdict: `D013AXH_DURABLE_HARNESS_QUALIFIED`.
+- Recommendation: `CLEAN_AX_RERUN_SAME_PROTOCOL_CANDIDATE` only; not an authorization to rerun AX.
+- Scope: deterministic logical branch identity, durable SQLite execution/frontier/confirmation state, atomic result publication, duplicate fail-closed handling, worker-failure recovery, restart/rebuild behavior, completeness refusal, concurrency invariance, parent termination, and retention.
+- AX protocol fingerprint: `b3b065c2fcc06f9d1d7e4cdde59eac0b69919c9c31427f3f5456249c8c0cf07`; scientific change count `0`.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axh-harness-remediation-r1/`; initial pre-fix campaign preserved separately at `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axh-harness-remediation-initial-r1/`.
+- Validation: AXH focused `13 passed`; D-013 family `171 passed`; D-012 process `35 passed`; Authority 3.0 PASS; governance PASS; path-safe full suite `867 passed, 2 skipped, 1 inherited D-010 runtime-tick inventory failure`.
+- Integrity: production `umbra_core/` false; experiments false; historical evidence false; thresholds false; RECORD false; LIBRARY_REVIEW false; formal P0 false; formal tag false; AX scientific branches `0`.
+- Next: return to Architect; no AX rerun, D-013AY, or formal P0 under AXH.
+
 
 ## UMBRA-D-013AV — closeout
 - Closed: 2026-08-19T14:05:00-04:00

@@ -469,3 +469,14 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axr-execution-stop-r1/`; pointer `docs/evidence/d013axr-execution-stop/README.md`.
 - Integrity: AXR scientific branches 0; production/tests/experiments/historical evidence/thresholds/RECORD/LIBRARY_REVIEW unchanged; formal P0/tag false.
 - Next: return to Architect.
+
+## UMBRA-D-013AXH - durable bounded-search harness qualification
+
+- Verdict: `D013AXH_DURABLE_HARNESS_QUALIFIED`.
+- Recommendation: `CLEAN_AX_RERUN_SAME_PROTOCOL_CANDIDATE` as a future candidate only; no rerun was authorized or executed.
+- Synthetic evidence: all required crash, worker-failure, frontier, deduplication, confirmation, duplicate, concurrency, parent-termination, repeated-restart, completeness-refusal, and retention checks passed.
+- Protocol preservation: original and repaired AX fingerprints are identical at `b3b065c2fcc06f9d1d7e4cdde59eac0b69919c9c31427f3f5456249c8c0cf07`; `scientific_change_count=0`.
+- Validation: AXH focused 13 passed; D-013 family 171 passed; D-012 process 35 passed; Authority 3.0 and governance PASS; full path-safe suite 867 passed, 2 skipped, 1 inherited D-010 runtime-tick inventory failure.
+- Scientific boundary: AX scientific branches executed 0; no AX result is inferred. Production, historical evidence, thresholds, tags, formal P0, RECORD, and LIBRARY_REVIEW unchanged.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axh-harness-remediation-r1/`.
+- Next: return to Architect; do not begin D-013AY or formal P0.

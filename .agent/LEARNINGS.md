@@ -238,3 +238,11 @@ Do not apply the AP negative-only bias to direct critical-recovery construction.
 - Parent-memory aggregation with uncaught future propagation is not durable scientific orchestration. Branch IDs must be manifest-keyed and completion records must be atomic and independently auditable.
 - Outcome-dependent frontier scheduling and state-hash deduplication make lossless resume unsafe unless the exact completed and remaining sets are persisted.
 - A clean rerun can preserve the same scientific protocol only as a separately authorized execution with a distinct ID after minimum harness reliability work; the failed attempt remains permanent evidence.
+
+## 2026-08-20 — D-013AXH durable bounded-search harness
+
+- A bounded scientific search needs durable logical branch identity and atomic completion records; execution IDs, PIDs, temporary paths, timestamps, and completion order must not affect scientific identity or aggregate results.
+- Restart safety requires persisted execution, frontier, confirmation, and deduplication state. Rebuildable summaries must refuse completeness when any branch, parent, or confirmation remains pending, running, failed, or unexpanded.
+- Duplicate results must be fail-closed: identical canonical results are idempotent, while conflicting results raise `NONDETERMINISTIC_DUPLICATE_RESULT`.
+- Synthetic harness qualification is evidence about orchestration reliability only. It cannot convert the incomplete AX attempt into a scientific result or authorize an AX rerun.
+- The AX protocol fingerprint remained unchanged and AX scientific branch execution count was zero; any clean rerun remains separately authorized work.
