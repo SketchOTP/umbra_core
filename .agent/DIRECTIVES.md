@@ -387,3 +387,4 @@ Format:
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q4-current-baseline-r1/.
 - No retry, formal tag, threshold change, or historical-evidence change.
 - Next: return to Architect.
+- 2026-08-22T11:56:11-04:00 | END | UMBRA-D-010Q5 | parent:UMBRA-D-010Q4 | status:completed | baseline:0eda4fc275a32433fe5edc7744bc8bf60955a727 | execution:d010q5-current-baseline-r1 | executor:SERIAL,D010_WORKERS=1 | rows:1900/1900 | gates:0-12 PASS,100k PASS,lifecycle PASS,S3 P0/P1/P2 PASS | verdict:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q5-current-baseline-r1 | retries:0 | production_changes:0 | next:return to Architect; no D-012/D-013 continuation authorized

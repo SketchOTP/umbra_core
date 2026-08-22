@@ -1,6 +1,48 @@
 # Current Project State
 
-Last updated: 2026-08-22T00:00:00-04:00
+Last updated: 2026-08-22T11:56:11-04:00
+
+## D-010Q5 closeout
+
+UMBRA-D-010Q5 completed one fresh current-baseline temporal-continuity
+qualification generation from repository baseline
+`0eda4fc275a32433fe5edc7744bc8bf60955a727`.
+
+- Accepted Q4 production source remains the parent `85afe181e5bdbea6008b48813da4013e9ac54086`.
+- Executor: serial, `D010_WORKERS=1`; multiprocessing was not used.
+- Development serial repeat preflight: PASS; executor classification:
+  `SERIAL_EXECUTION_SCIENTIFICALLY_EQUIVALENT`.
+- Formal execution ID: `d010q5-current-baseline-r1`; exactly one invocation;
+  1,900/1,900 rows completed; scientific change count 0.
+- Gates 0–12: PASS; accelerated 100,000 ticks: PASS; renderer lifecycle:
+  100 cycles PASS; S3 P0/P1/P2: PASS.
+- Verdict: `UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED`.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q5-current-baseline-r1/`.
+- Validation: D-009/D-010 evidence validators PASS; focused D-010 133 passed;
+  D-001–D-011 compatibility 615 passed, 2 skipped; full path-safe suite
+  872 passed, 2 skipped; Authority 3.0 and governance PASS.
+- Cleanup: Q5 temporary roots and workers removed; historical evidence,
+  production code, thresholds, protected records, and formal tags unchanged.
+
+Q5 qualifies current-baseline D-010 temporal continuity only. It does not
+qualify integrated long-horizon organism viability or project completion.
+Historical D-010 results remain authoritative for their original generations.
+
+## Current stage
+Authority 3.0 active; D-010Q5 is terminal and returned to Architect.
+
+## Current objective
+Return to Architect after the accepted current-baseline D-010 qualification.
+No automatic D-012 continuation, D-013 reopening, formal tag, or remediation
+is authorized by this closeout.
+
+## Active directive
+D-010Q5 is terminal and returned to Architect from repository baseline
+`0eda4fc275a32433fe5edc7744bc8bf60955a727`. No retry or second generation was
+performed.
+
+## Terminal result
+`UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED`.
 
 ## D-010Q4 closeout
 
