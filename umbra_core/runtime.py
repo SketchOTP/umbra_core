@@ -361,6 +361,7 @@ class Organism:
         self._energy_before_action: float | None = None
         self._body_before_action: dict[str, Any] | None = None
         self._tick_organism_age: int = 0
+        self._tick_active_ticks: int = 0
 
     @property
     def dt(self) -> float:
@@ -460,12 +461,29 @@ class Organism:
         plan = self.temporal.prepare_advance(sample, self._orchestration_sequence)
         return plan, sample
 
-    def _organism_age_tick(self, temporal_begin: tuple[Any, TrustedSample] | None) -> int:
-        """Effective organism age for this tick (spec §1.8 T/B migration)."""
-        if temporal_begin is not None and self.config.temporal_enabled and self.temporal is not None:
-            plan, _ = temporal_begin
-            return build_tick_temporal_context(plan).effective_age_ticks
+    def _temporal_tick_context(self, temporal_begin: tuple[Any, TrustedSample] | None):
+        if temporal_begin is None or not self.config.temporal_enabled or self.temporal is None:
+            return None
+        plan, _ = temporal_begin
+        return build_tick_temporal_context(plan)
+
+    def _legacy_compatibility_tick(self) -> int:
+        """Pre-D-010 compatibility clock, explicitly orchestration-scoped."""
         return self.tick
+
+    def _organism_age_tick(self, temporal_begin: tuple[Any, TrustedSample] | None) -> int:
+        """Return authoritative age, or the explicit legacy compatibility clock."""
+        context = self._temporal_tick_context(temporal_begin)
+        if context is not None:
+            return context.effective_age_ticks
+        return self._legacy_compatibility_tick()
+
+    def _organism_active_tick(self, temporal_begin: tuple[Any, TrustedSample] | None) -> int:
+        """Return authoritative active time, preserving pre-D-010 compatibility."""
+        context = self._temporal_tick_context(temporal_begin)
+        if context is not None:
+            return context.effective_active_ticks
+        return self._legacy_compatibility_tick()
 
     def _policy_expectation_views(self, organism_age: int):
         if self.temporal is None or not self.config.temporal_enabled:
@@ -1103,6 +1121,7 @@ class Organism:
     ) -> dict[str, Any]:
         self.tick += 1
         self._tick_organism_age = self._organism_age_tick(temporal_begin)
+        self._tick_active_ticks = self._organism_active_tick(temporal_begin)
         organism_age = self._tick_organism_age
         self.monotonic_time += self.dt
         self.metrics["total_ticks"] += 1
@@ -1338,6 +1357,7 @@ class Organism:
             manipulation_bindings=manipulation_bindings,
             routine_proposals=routine_proposals,
             effective_age_ticks=organism_age,
+            effective_active_ticks=self._tick_active_ticks,
             policy_expectations=policy_expectations,
             wait_journal=self._wait_journal,
             wait_generation_enabled=wait_on,

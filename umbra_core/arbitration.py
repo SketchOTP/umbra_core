@@ -724,6 +724,7 @@ class Arbitrator:
         routine_proposals: list[dict[str, Any]] | None = None,
         policy_expectations: tuple[PolicyExpectationView, ...] | None = None,
         effective_age_ticks: int | None = None,
+        effective_active_ticks: int | None = None,
         discovery_needed: bool = False,
         wait_journal: WaitJournal | None = None,
         wait_generation_enabled: bool = True,
@@ -732,6 +733,17 @@ class Arbitrator:
             [Candidate], tuple[dict[str, float], ...]
         ] | None = None,
     ) -> Candidate:
+        # ``tick`` remains the orchestration clock for compatibility and for
+        # explicitly orchestration-scoped modes.  Organism policy cadence must
+        # use the authoritative active clock whenever temporal continuity is
+        # enabled; direct callers without that context retain legacy behavior.
+        orchestration_tick = tick
+        active_tick = (
+            effective_active_ticks
+            if effective_active_ticks is not None
+            else orchestration_tick
+        )
+
         def introduces(candidate: Candidate, *, ignore: str | None = None) -> bool:
             if authority_effect_branches is None:
                 return self._introduces_critical_boundary(
@@ -748,14 +760,14 @@ class Arbitrator:
             cand = Candidate(cap, {"step": 1.0, "heading_delta": rng.uniform(-1.0, 1.0)})
             if introduces(cand):
                 cand = self._no_safe_action()
-            self._commit(cand, tick)
+            self._commit(cand, active_tick)
             return cand
         if mode == "scripted":
-            cap = SCRIPT_CYCLE[tick % len(SCRIPT_CYCLE)]
+            cap = SCRIPT_CYCLE[orchestration_tick % len(SCRIPT_CYCLE)]
             cand = Candidate(cap, {"step": 1.0, "heading_delta": 0.3})
             if introduces(cand):
                 cand = self._no_safe_action()
-            self._commit(cand, tick)
+            self._commit(cand, active_tick)
             return cand
 
         # recovery reflexes — disabled under physiology-hidden ablation (C3)
@@ -799,7 +811,7 @@ class Arbitrator:
                 # individuality modifiers suppressed under critical physiology
                 scored = []
                 for c in cands:
-                    sc = self.score_candidate(c, phys, observations, tick)
+                    sc = self.score_candidate(c, phys, observations, active_tick)
                     sc.total -= sc.scores.get("commitment_continuity", 0.0)
                     if c.capability == "MOVE":
                         sc.total += 0.5
@@ -811,7 +823,7 @@ class Arbitrator:
                         scored,
                         context_scope=context_scope,
                         critical_physiology=True,
-                        tick=tick,
+                        tick=active_tick,
                         phase_hint=phase_hint,
                     )
                 scored.sort(key=lambda c: c.total, reverse=True)
@@ -835,7 +847,7 @@ class Arbitrator:
                 if not immediately_safe(chosen):
                     alternatives = [
                         candidate
-                        for candidate in self.generate_candidates(phys, observations, tick)
+                        for candidate in self.generate_candidates(phys, observations, orchestration_tick)
                         if immediately_safe(candidate)
                     ]
                     chosen = pick_recovery(alternatives) if alternatives else self._no_safe_action()
@@ -845,7 +857,7 @@ class Arbitrator:
                 # helper only proposes a replacement; this boundary commits
                 # exactly once after both safety checks have passed.
                 preserved = self._preserve_recoverability(
-                    phys, observations, chosen, tick
+                    phys, observations, chosen, active_tick
                 )
                 if preserved is not chosen and immediately_safe(preserved):
                     chosen = preserved
@@ -853,11 +865,11 @@ class Arbitrator:
                 if not immediately_safe(chosen):
                     alternatives = [
                         candidate
-                        for candidate in self.generate_candidates(phys, observations, tick)
+                        for candidate in self.generate_candidates(phys, observations, orchestration_tick)
                         if immediately_safe(candidate)
                     ]
                     chosen = pick_recovery(alternatives) if alternatives else self._no_safe_action()
-                self._commit(chosen, tick)
+                self._commit(chosen, active_tick)
                 return chosen
 
             if focus == "energy":
@@ -950,7 +962,7 @@ class Arbitrator:
                         return commit_safe_recovery(chosen)
                     self.state.reacquisition_streak = 0
                 # Widen only after bounded belief exploitation fails.
-                if tick % 9 == 0:
+                if active_tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
                     "MOVE",
@@ -974,7 +986,7 @@ class Arbitrator:
                         {"heading_delta": hd, "step": 1.4, "toward": "rest"},
                     )
                     return commit_safe_recovery(chosen)
-                if tick % 9 == 0:
+                if active_tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
                     "MOVE",
@@ -1006,10 +1018,10 @@ class Arbitrator:
                         {"heading_delta": hd, "step": 1.4, "toward": "rest"},
                     )
                     return commit_safe_recovery(chosen)
-                if tick % 4 == 0:
+                if active_tick % 4 == 0:
                     chosen = Candidate("IDLE", {})
                     return commit_safe_recovery(chosen)
-                if tick % 9 == 0:
+                if active_tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
                     "MOVE",
@@ -1046,7 +1058,7 @@ class Arbitrator:
                         {"heading_delta": hd, "step": 1.3, "toward": "inspect"},
                     )
                     return commit_safe_recovery(chosen)
-                if tick % 9 == 0:
+                if active_tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
                     "MOVE",
@@ -1054,13 +1066,13 @@ class Arbitrator:
                 )
                 return commit_safe_recovery(chosen)
 
-        cands = self.generate_candidates(phys, observations, tick)
+        cands = self.generate_candidates(phys, observations, orchestration_tick)
         if discovery_needed and not any(
             o.get("kind") in {"resource", "novel_crystal"} for o in observations
         ):
             if (
                 self.state.discovery_actions_remaining <= 0
-                and tick >= self.state.discovery_cooldown_until
+                and active_tick >= self.state.discovery_cooldown_until
             ):
                 self.state.discovery_actions_remaining = 12
             if self.state.discovery_actions_remaining > 0:
@@ -1076,7 +1088,7 @@ class Arbitrator:
                 )
         if manipulation_bindings:
             for mc in self.generate_manipulation_candidates(
-                manipulation_bindings, phys, tick
+                manipulation_bindings, phys, orchestration_tick
             ):
                 cands.append(mc.to_candidate())
         if routine_proposals:
@@ -1104,7 +1116,11 @@ class Arbitrator:
                     if candidate.capability not in {"IDLE", "ORIENT"}
                 ]
                 cands = non_idle or safe
-        age_ticks = effective_age_ticks if effective_age_ticks is not None else tick
+        age_ticks = (
+            effective_age_ticks
+            if effective_age_ticks is not None
+            else orchestration_tick
+        )
         if policy_expectations and wait_generation_enabled:
             cands.extend(
                 propose_wait_candidates(
@@ -1113,7 +1129,7 @@ class Arbitrator:
                     wait_journal=wait_journal,
                 )
             )
-        scored = [self.score_candidate(c, phys, observations, tick) for c in cands]
+        scored = [self.score_candidate(c, phys, observations, active_tick) for c in cands]
         if policy_expectations and temporal_modifiers_enabled:
             apply_temporal_modifiers(
                 scored,
@@ -1130,7 +1146,7 @@ class Arbitrator:
                 scored,
                 context_scope=context_scope,
                 critical_physiology=False,
-                tick=tick,
+                tick=active_tick,
                 phase_hint=phase_hint,
             )
         # bounded stochasticity: softmax-ish via noisy argmax
@@ -1143,7 +1159,7 @@ class Arbitrator:
         if (
             self.state.last_capability
             and chosen.capability != self.state.last_capability
-            and tick - self.state.last_switch_tick <= 1
+            and active_tick - self.state.last_switch_tick <= 1
             and self.state.consecutive_same < 2
         ):
             # prefer continuing previous if within hysteresis band
@@ -1152,7 +1168,7 @@ class Arbitrator:
                 self.state.thrash_events += 1
                 chosen = prev
 
-        preserved = self._preserve_recoverability(phys, observations, chosen, tick)
+        preserved = self._preserve_recoverability(phys, observations, chosen, active_tick)
         if introduces(preserved):
             safe_scored = [
                 candidate
@@ -1160,7 +1176,7 @@ class Arbitrator:
                 if not introduces(candidate)
             ]
             preserved = safe_scored[0] if safe_scored else self._no_safe_action()
-        self._commit(preserved, tick)
+        self._commit(preserved, active_tick)
         return preserved
 
     def _commit(self, cand: Candidate, tick: int) -> None:

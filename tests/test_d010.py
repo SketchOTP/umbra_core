@@ -214,6 +214,41 @@ def test_tick_context_uses_proposed_age():
     assert context.prior_state_hash == engine.state.state_hash
 
 
+def test_arbitration_policy_state_uses_authoritative_active_ticks():
+    arb = Arbitrator()
+    chosen = arb.select(
+        Physiology(),
+        [],
+        tick=10_000,
+        rng=SeededRNG(101),
+        effective_age_ticks=50,
+        effective_active_ticks=3,
+    )
+    assert chosen.params.get("source") != "no_safe_action"
+    assert arb.state.last_switch_tick == 3
+
+
+def test_orchestration_tick_alone_cannot_change_temporal_policy_choice():
+    phys = Physiology()
+    first = Arbitrator().select(
+        phys,
+        [],
+        tick=1,
+        rng=SeededRNG(102),
+        effective_age_ticks=50,
+        effective_active_ticks=3,
+    )
+    second = Arbitrator().select(
+        phys,
+        [],
+        tick=10_001,
+        rng=SeededRNG(102),
+        effective_age_ticks=50,
+        effective_active_ticks=3,
+    )
+    assert (first.capability, first.params) == (second.capability, second.params)
+
+
 def test_prepare_advance_does_not_mutate_state():
     engine = _engine_with_age(age=9, active=8, version=3)
     before = engine.state
@@ -1918,6 +1953,40 @@ def test_runtime_subsystem_uses_effective_organism_age_not_orchestration_tick(
     assert org.tick == 1
 
 
+def test_runtime_passes_age_and_active_temporal_context_to_arbitration(
+    tmp_path, monkeypatch
+):
+    org = _temporal_org(tmp_path)
+    captured: list[dict[str, int]] = []
+    original = org.arbitrator.select
+
+    def capture(*args, **kwargs):
+        captured.append(
+            {
+                "age": int(kwargs["effective_age_ticks"]),
+                "active": int(kwargs["effective_active_ticks"]),
+                "orchestration": int(args[2]),
+            }
+        )
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(org.arbitrator, "select", capture)
+
+    def fake_context(plan):
+        base = build_tick_temporal_context(plan)
+        return replace(base, effective_age_ticks=42, effective_active_ticks=17)
+
+    monkeypatch.setattr("umbra_core.runtime.build_tick_temporal_context", fake_context)
+    org.tick_once()
+    assert captured == [{"age": 42, "active": 17, "orchestration": 1}]
+
+
+def test_temporal_disabled_arbitration_retains_legacy_compatibility_clock():
+    arb = Arbitrator()
+    arb.select(Physiology(), [], tick=17, rng=SeededRNG(103))
+    assert arb.state.last_switch_tick == 17
+
+
 # --- Task 10: conditions C0–C13 + scenarios S0–S17 scaffolding ---
 
 
@@ -2517,4 +2586,3 @@ def test_committed_advance_ids_remain_bounded(tmp_path):
     assert len(org.temporal._committed_advance_ids) == 1
     assert next(iter(org.temporal._committed_advance_ids)) == org.temporal.state.last_advance_id
     org.close()
-

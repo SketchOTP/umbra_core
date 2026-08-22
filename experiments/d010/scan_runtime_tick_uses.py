@@ -1,6 +1,7 @@
 """Scan production umbra_core for runtime.tick / self.tick temporal dependencies.
 
-Inventory source of truth: runtime-tick-classification.json (Task 9).
+Inventory source of truth: the current Q4 registry. The historical D-010
+registry remains preserved and is not rewritten.
 """
 
 from __future__ import annotations
@@ -13,7 +14,7 @@ from typing import Any, Iterator
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PRODUCTION_ROOT = REPO_ROOT / "umbra_core"
-INVENTORY_PATH = Path(__file__).resolve().parent / "runtime-tick-classification.json"
+INVENTORY_PATH = Path(__file__).resolve().parent / "d010q4_runtime_tick_registry.json"
 
 
 @dataclass(frozen=True)
