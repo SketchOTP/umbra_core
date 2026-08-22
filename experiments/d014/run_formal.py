@@ -102,6 +102,8 @@ def prepare(seed: int, db: Path, regime: str):
     org = create_organism(config(seed, db, regime))
     for method in ("_ensure_development_intervention", "_ensure_memory_history", "_ensure_social_history", "_ensure_individuality_history"):
         getattr(org, method)()
+    if regime == "R2":
+        org.embodiment.plant_partner(_make_partner("partner:d014", 6.0, 4.0, "H0", index=0))
     scenario = regime_spec()["regimes"][regime]["scenario"]
     engine = HabitatEngine(_habitat_state_for_scenario(scenario))
     org.embodiment.attach_habitat_engine(engine)
@@ -121,7 +123,7 @@ def reload_existing(seed: int, db: Path, regime: str, saved_habitat: Any):
 def adapter_burst(org: Any, seed: int, tick: int) -> bool:
     manifest = AdapterManifest("d014-formal", "1", ("body_telemetry",), {"body_telemetry": "v1"})
     adapter = SyntheticPerceptionAdapter(manifest)
-    envelope = adapter.submit(observation_id=f"d014-{seed}-{tick}", source_id=f"formal-source-{seed % 4}", modality="body_telemetry", schema_version="v1", core_receipt_tick=org.tick, source_timestamp=None, capture_interval=None, derived_features={"temperature_delta": tick % 3}, confidence=0.8, uncertainty=0.2, provenance_chain=(("step", "d014-formal"), ("source", "governed-adapter")), privacy_classification="DERIVED_ONLY", consent_state="CONSENT_GRANTED", retention_class="DERIVED_BOUNDED", replay_class="AUTHORITATIVE", integrity_metadata={"seed": str(seed), "tick": str(tick)})
+    envelope = adapter.submit(observation_id=f"d014-{seed}-{tick}", source_id=f"formal-source-{seed % 4}", modality="body_telemetry", schema_version="v1", core_receipt_tick=org.tick, source_timestamp=None, capture_interval=None, derived_features={"temperature_delta": tick % 3}, confidence=0.8, uncertainty=0.2, provenance_chain=({"step": "d014-formal", "source": "governed-adapter"},), privacy_classification="DERIVED_ONLY", consent_state="CONSENT_GRANTED", retention_class="DERIVED_BOUNDED", replay_class="AUTHORITATIVE", integrity_metadata={"seed": str(seed), "tick": str(tick)})
     return bool(org.submit_perception_observation(envelope, manifest))
 
 
@@ -139,7 +141,6 @@ def run_case(regime: str, seed: int, work: Path, horizon: int) -> dict[str, Any]
             org = state["org"]
             tick = org.tick + 1
             if regime == "R2" and tick == 600:
-                org.embodiment.plant_partner(_make_partner("partner:d014", 6.0, 4.0, "R2", index=0))
                 state["partner_observations"] += 1
             if regime == "R2" and tick == 1200:
                 state["adapter_accepts"] += int(adapter_burst(org, seed, tick))
