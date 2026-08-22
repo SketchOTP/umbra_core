@@ -1,6 +1,32 @@
 # Current Project State
 
-Last updated: 2026-08-22T11:56:11-04:00
+Last updated: 2026-08-22T14:52:00-04:00
+
+## D-012R closeout
+
+UMBRA-D-012R completed one bounded, non-formal current-stack integrated
+viability recheck from baseline
+`90dc9b939e6128b80641cab5c91aa926336451f1`.
+
+- Matched cases: L1/L2 with D-010 disabled; T1/T2 with D-010 enabled.
+- Seed `12012`, S2 habitat, event-0 prefix, maximum 400 logical ticks.
+- All four cases completed 400 ticks without critical physiology failure.
+- L1/L2 and T1/T2 reproduced selected actions and physiology. L→T had a
+  common 400-tick behavioral/physiology prefix; temporal state was present in T
+  without observed action or physiology divergence.
+- Historical D-012B2 tick-181 energy collapse was not reproduced. H→L first
+  materially diverged at tick 34; current L tick 181 energy was `0.6075` with
+  executable resource distance `0.2610`, versus historical `0.0485` after
+  `MOVE` at distance `3.8042`.
+- Verdict: `D012R_HISTORICAL_D012_PHENOTYPE_NOT_REPRODUCED_CURRENT`.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d012r-current-stack-viability-r1/`.
+- Validation: focused D-012/D-010 compatibility 168 passed; D-009/D-010
+  validators, Authority 3.0, and governance PASS.
+- No production, tests, thresholds, formal tag, formal P0, or historical
+  evidence changed. No retry occurred.
+
+Return to Architect. Integrated viability remains unqualified; no next
+experiment is automatically authorized.
 
 ## D-010Q5 closeout
 
