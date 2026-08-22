@@ -387,5 +387,20 @@ Format:
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q4-current-baseline-r1/.
 - No retry, formal tag, threshold change, or historical-evidence change.
 - Next: return to Architect.
+
+## UMBRA-D-014 - current-stack bounded integrated organism stability qualification
+
+- Authorized from D-012R closeout baseline `f59c767ff758fb8d957581c0420a5271f3192f3b`.
+- Formal freeze commit/tag: `b225a759399069d1a7600a4f19adb3c0ce8baa89` /
+  `umbra-d014-formal-baseline-b225a75`.
+- One invocation, execution ID `d014-integrated-stability-r1`; no retry or
+  reseed.
+- Terminal verdict: `UMBRA_D014_PHYSIOLOGICAL_VIABILITY_FAIL`.
+- Five R0 rows completed 7,200 ticks; R0 seed `41241905` failed at tick 813
+  on fatigue critical-boundary crossing after verified failed REST. Remaining
+  26 preregistered rows were not invoked; soak not run.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014-integrated-stability-r1/`.
+- No production, tests, thresholds, historical evidence, RECORD, or
+  LIBRARY_REVIEW changes. Return to Architect.
 - 2026-08-22T11:56:11-04:00 | END | UMBRA-D-010Q5 | parent:UMBRA-D-010Q4 | status:completed | baseline:0eda4fc275a32433fe5edc7744bc8bf60955a727 | execution:d010q5-current-baseline-r1 | executor:SERIAL,D010_WORKERS=1 | rows:1900/1900 | gates:0-12 PASS,100k PASS,lifecycle PASS,S3 P0/P1/P2 PASS | verdict:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q5-current-baseline-r1 | retries:0 | production_changes:0 | next:return to Architect; no D-012/D-013 continuation authorized
 2026-08-22T14:52:00-04:00 | END | UMBRA-D-012R | parent:D-010Q5 | status:completed_non_formal | baseline:90dc9b939e6128b80641cab5c91aa926336451f1 | cases:L1,L2,T1,T2 | ticks:400_each | retries:0 | verdict:D012R_HISTORICAL_D012_PHENOTYPE_NOT_REPRODUCED_CURRENT | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d012r-current-stack-viability-r1 | production_changes:0 | historical_evidence_modified:false | formal_p0:false | formal_tag:false | next:return_to_Architect

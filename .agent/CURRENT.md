@@ -186,3 +186,28 @@ Return to Architect. Do not rerun AX, begin D-013AY, or launch formal work from 
 - Integrity: production, tests, historical evidence, thresholds, RECORD, and
   LIBRARY_REVIEW unchanged.
 - Next: return to Architect; no automatic remediation or formal retry.
+
+## D-014 terminal closeout — current snapshot supersession
+
+UMBRA-D-014 is terminal and returned to Architect.
+
+- Verdict: `UMBRA_D014_PHYSIOLOGICAL_VIABILITY_FAIL`.
+- Baseline: `f59c767ff758fb8d957581c0420a5271f3192f3b`.
+- Formal freeze commit/tag: `b225a759399069d1a7600a4f19adb3c0ce8baa89` /
+  `umbra-d014-formal-baseline-b225a75`.
+- Execution: `d014-integrated-stability-r1`; one invocation; 6/32 rows
+  attempted, 5 complete and 1 failed.
+- First failure: R0 seed `41241905`, tick 813; fatigue
+  `0.9525000000000022` crossed the existing critical high boundary `0.95`
+  after verified failed REST (`reason=not_at_rest`).
+- No retry, reseed, remediation, production change, threshold change, or
+  continuation occurred. The real-time soak was not run after the failure.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014-integrated-stability-r1/`;
+  pointer `docs/evidence/d014-integrated-stability/README.md`.
+- D-009/D-010/D-011/D-012R compatibility, Authority 3.0, and governance
+  validation passed; integrated D-014 qualification failed.
+- Notion closeout was not updated in this session because no Notion connector
+  was available.
+
+Do not automatically start a D-014 retry, remediation, D-013/AX work, or a
+new formal generation. Return to Architect.
