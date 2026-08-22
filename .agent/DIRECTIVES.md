@@ -372,3 +372,18 @@ Format:
 - No registry freeze, formal generation, formal tag, production change, or
   historical-evidence change occurred.
 - Next: return to Architect for temporal-authority migration.
+
+## UMBRA-D-010Q4 - two-site temporal authority migration and requalification
+
+- Authorized baseline: 830a6fec2dfe51768a4de65e9e86926809fde330.
+- Remediation freeze: 85afe181e5bdbea6008b48813da4013e9ac54086.
+- Migration result: 42 current sites; O=42, T=0, B=0, unclassified=0.
+- Validation: focused D-010 133 passed; D-001-D-011 compatibility 657 passed,
+  2 skipped; full suite 872 passed, 2 skipped; validators PASS.
+- Formal execution: one invocation, execution ID
+  d010q4-current-baseline-r1; worker startup failed before organism rows with
+  `ConnectionResetError: [Errno 104] Connection reset by peer`.
+- Verdict: `D010Q4_EXECUTION_STOP_UNRESOLVED`.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q4-current-baseline-r1/.
+- No retry, formal tag, threshold change, or historical-evidence change.
+- Next: return to Architect.

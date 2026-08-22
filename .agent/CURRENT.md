@@ -2,6 +2,28 @@
 
 Last updated: 2026-08-22T00:00:00-04:00
 
+## D-010Q4 closeout
+
+UMBRA-D-010Q4 completed its bounded temporal-authority migration and stopped
+at the single formal execution boundary from baseline
+85afe181e5bdbea6008b48813da4013e9ac54086.
+
+- Remediation commits: d808a7d8057692b5db4bb02315224bb881bc0877 and
+  85afe181e5bdbea6008b48813da4013e9ac54086.
+- Current registry: 42 sites; O=42, T=0, B=0, unclassified=0; semantic
+  fingerprints present.
+- Validation: focused D-010 133 passed; D-001-D-011 compatibility 657 passed,
+  2 skipped; full path-safe suite 872 passed, 2 skipped; D-009/D-010,
+  Authority 3.0, and governance validators PASS.
+- Formal execution: exactly one invocation created execution ID
+  d010q4-current-baseline-r1, produced zero formal rows, and failed at
+  multiprocessing worker startup with ConnectionResetError [Errno 104].
+- Verdict: D010Q4_EXECUTION_STOP_UNRESOLVED. No retry was performed and no
+  scientific D-010 qualification verdict is claimed.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q4-current-baseline-r1/.
+- Formal tag: none. Historical D-010 PERFORMANCE_FAIL, thresholds, and
+  historical evidence remain authoritative.
+
 ## D-010Q3 closeout
 
 UMBRA-D-010Q3 stopped at the hard temporal-authority gate from baseline
@@ -24,19 +46,20 @@ The next decision is temporal-authority migration and a separately authorized
 fresh qualification. Do not launch D-010 formal work from this stop.
 
 ## Current stage
-Authority 3.0 active; D-010Q3 is terminal and returned to Architect.
+Authority 3.0 active; D-010Q4 is terminal and returned to Architect.
 
 ## Current objective
-Resolve the two unmigrated runtime-tick authority paths before any fresh D-010
-qualification. Production and frozen thresholds remain unchanged.
+Return to Architect after the Q4 formal worker-startup stop. Do not retry the
+formal execution automatically. The Q4 temporal-authority migration is frozen
+and the remaining blocker is operational execution readiness.
 
 ## Active directive
-D-010Q3 is terminal and returned to Architect from repository baseline
-8035fe75250dcaefcc6fdb40b395206f111584ff. No formal generation or production
-remediation is authorized by this closeout.
+D-010Q4 is terminal and returned to Architect from repository baseline
+85afe181e5bdbea6008b48813da4013e9ac54086. No retry, new formal invocation,
+dependency installation, or further remediation is authorized by this closeout.
 
 ## Terminal result
-`D010Q3_TEMPORAL_AUTHORITY_MIGRATION_REQUIRED`. The historical
+`D010Q4_EXECUTION_STOP_UNRESOLVED`. The historical
 `UMBRA_D010_PERFORMANCE_FAIL` remains permanent and is not superseded.
 
 ## Scientific boundary

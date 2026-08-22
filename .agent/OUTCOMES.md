@@ -526,3 +526,5 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Evidence:
   /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q3-authority-reconciliation-r1/.
 - Next: return to Architect for temporal-authority migration.
+
+2026-08-22T04:28:37Z | END | UMBRA-D-010Q4 | status:execution_stop_unresolved | verdict:D010Q4_EXECUTION_STOP_UNRESOLVED | baseline:85afe181e5bdbea6008b48813da4013e9ac54086 | remediation:d808a7d8057692b5db4bb02315224bb881bc0877 | registry:42_O_0_T_0_B_0_unclassified | focused:133_passed | compatibility:657_passed_2_skipped | full_suite:872_passed_2_skipped | formal_execution_id:d010q4-current-baseline-r1 | invocation_count:1 | formal_rows:0 | worker_failure:ConnectionResetError_104 | retry:false | production_modified:true_bounded_migration | thresholds_modified:false | historical_evidence_modified:false | formal_tag:false | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q4-current-baseline-r1 | next:return_to_Architect

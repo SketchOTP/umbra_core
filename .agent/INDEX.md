@@ -7,12 +7,12 @@
 - GitHub: https://github.com/SketchOTP/umbra_core
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-010Q3 terminal authority stop returned to Architect
-- Active directive: D-010Q3 terminal; returned to Architect
+- Current stage: Authority 3.0 active; D-010Q4 terminal execution stop returned to Architect
+- Active directive: D-010Q4 terminal; returned to Architect
 - Active task packet: none
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D010Q3_TEMPORAL_AUTHORITY_MIGRATION_REQUIRED
-- Last state sync: 2026-08-22T00:00:00-04:00
+- Last accepted outcome: D010Q4_EXECUTION_STOP_UNRESOLVED
+- Last state sync: 2026-08-22T00:30:00-04:00
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.
