@@ -340,3 +340,22 @@ Format:
   formal tag changed. D-013 was not reopened.
 - Recommendation: `CURRENT_BASELINE_D010_REQUALIFICATION_CANDIDATE`; no
   remediation or qualification run is authorized by D-010R.
+
+
+## UMBRA-D-010Q - current-baseline temporal continuity requalification
+
+- Authorized from exact baseline `0d3234002a9ddd49fe31a226e2943c2ecf5552bf`.
+- Status: terminal; returned to Architect.
+- Execution: `d010q-current-baseline-r1`; evidence root
+  `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q-current-baseline-r1/`.
+- Scope honored: new contract/equivalence freeze, full current Gates 0–12,
+  accelerated 100k, exact S3 sequence, prior-capability validation, and
+  evidence closeout; no production behavior change.
+- Terminal result: `UMBRA_D010_PERFORMANCE_FAIL`. The required renderer
+  lifecycle stopped before execution because Atlas lacks `libtk8.6.so` /
+  `python3-tk`; P0/P1/P2 were not executed.
+- Prohibitions honored: no retry, no dependency installation, no threshold or
+  protocol change, no historical evidence rewrite, no formal tag, no formal P0,
+  and no D-013 work.
+- Protected: `.agent/RECORD.md` and `.agent/LIBRARY_REVIEW.md` unchanged.
+- Next: return to Architect; no automatic continuation is authorized.

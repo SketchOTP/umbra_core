@@ -7,12 +7,12 @@
 - GitHub: https://github.com/SketchOTP/umbra_core
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-013AV completed and returned to Architect
-- Active directive: none
+- Current stage: Authority 3.0 active; D-010Q completed and returned to Architect
+- Active directive: D-010Q terminal; returned to Architect
 - Active task packet: none
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D013AV_LOCAL_ACTION_CORRECTION_NOT_SUPPORTED
-- Last state sync: 2026-08-19T14:05:00-04:00
+- Last accepted outcome: UMBRA_D010_PERFORMANCE_FAIL
+- Last state sync: 2026-08-21T22:45:00-04:00
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.

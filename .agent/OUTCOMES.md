@@ -484,3 +484,27 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 2026-08-21T00:00Z | END | UMBRA-D-013AXS | status:completed_non_formal_evidence_salvage | verdict:D013AXS_COMPLETED_EVIDENCE_NO_DEMONSTRATED_RESCUE | parent:d013ax2-20260820-r1 | baseline:fca0b259c6c7c2e4fce6ba95d86b407b21d59994 | completed:255022 | depth2_complete:true | depth3_complete:true | depth4_complete:false | confirmations:0 | preliminary_rescues:0 | substantive_rescues:0 | retained_raw_audit_records:78 | actual_exception_cases:0 | deleted_result_bytes:373347151307 | deleted_work_bytes:25545524760 | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axs-partial-salvage-r1 | production_modified:false | formal_p0:false | formal_tag:false | next:return_to_Architect
 
 2026-08-21T00:00Z | END | UMBRA-D-010R | status:completed_non_formal_growth_attribution | verdict:D010R_HISTORICAL_GROWTH_NOT_REPRODUCED_CURRENT | baseline:8630ce013623fb92d7a1348cf4600109067de3d0 | d009_commit:a93cc551a9c30b97d4ad5929214ef5648a735d44 | d010_commit:a1342ee1b6ad16e66c8475b374e6366f9db13675 | historical_gate13:UMBRA_D010_PERFORMANCE_FAIL | current_temporal_id_sets_bounded:true | current_short_rss_step:supported_not_confirmed | d010_tests:128_passed_1_inherited_failure | d009_validator:PASS | d010_validator:PASS | authority3:PASS | governance:PASS | production_modified:false | thresholds_modified:false | historical_evidence_modified:false | formal_p0:false | formal_tag:false | recommendation:CURRENT_BASELINE_D010_REQUALIFICATION_CANDIDATE | next:return_to_Architect
+
+
+## UMBRA-D-010Q - current-baseline temporal continuity requalification
+
+- Closed: 2026-08-21; baseline `0d3234002a9ddd49fe31a226e2943c2ecf5552bf`.
+- Execution: `d010q-current-baseline-r1`; one frozen generation; zero retries.
+- Verdict: `UMBRA_D010_PERFORMANCE_FAIL`.
+- Functional result: 1,900/1,900 current-baseline rows; Gates 0–12 PASS.
+- Accelerated result: 100,000 ticks PASS with boundedness and restart continuity.
+- Gate 13 result: renderer lifecycle stopped fail-closed before execution because
+  Atlas lacks `libtk8.6.so` / `python3-tk`; P0/P1/P2 were not executed.
+- Runtime inventory: stale historical registry retained; D-010Q rebound a new
+  42-site current inventory, validated PASS, without production or historical
+  evidence changes.
+- Validation: D-010 focused 129 passed; D-001–D-009 and D-011 compatibility
+  suite 512 passed, 2 skipped; full path-safe suite 868 passed, 2 skipped;
+  D-009/D-010 validators PASS; Authority 3.0 PASS; governance PASS.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q-current-baseline-r1/`;
+  pointer `docs/evidence/d010q-current-baseline/README.md`.
+- Integrity: production, tests, historical evidence, thresholds, formal tags,
+  `.agent/RECORD.md`, and `.agent/LIBRARY_REVIEW.md` unchanged.
+- Historical result preserved: `UMBRA_D010_PERFORMANCE_FAIL` remains permanent.
+- Next: return to Architect. No retry, dependency installation, remediation,
+  D-013 reopening, formal P0, or unrelated formal tagging.
