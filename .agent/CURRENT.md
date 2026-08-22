@@ -211,3 +211,33 @@ UMBRA-D-014 is terminal and returned to Architect.
 
 Do not automatically start a D-014 retry, remediation, D-013/AX work, or a
 new formal generation. Return to Architect.
+
+
+## D-014A terminal closeout — current snapshot supersession
+
+UMBRA-D-014A is terminal and returned to Architect.
+
+- Baseline: `4bc55bc91cef5623f20fe78f97408e4d339f58b3`.
+- Parent formal result: `UMBRA_D014_PHYSIOLOGICAL_VIABILITY_FAIL`.
+- Exact R0 seed `41241905` failure was reproduced. The first critical fatigue
+  crossing occurred at tick 813 during `POST_DRIFT`, before the failed REST
+  outcome completed.
+- The source-level REST selection/executability gap and missing denial-aware
+  handoff were causally supported. Evaluator-only CF1 rescued the failing seed
+  through 7,200 ticks, but the same local production correction introduced new
+  stimulation failures in two previously successful R0 controls.
+- Terminal verdict:
+  `D014A_CAUSE_CONFIRMED_REMEDIATION_REQUIRES_BROADER_ARCHITECTURE`.
+- The attempted production correction was reverted. Production, tests,
+  thresholds, historical evidence, `.agent/RECORD.md`, and
+  `.agent/LIBRARY_REVIEW.md` remain unchanged from the D-014 closeout commit.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014a-fatigue-recovery-r1/`;
+  pointer `docs/evidence/d014a-fatigue-recovery/README.md`.
+- Validation: focused recovery 5 passed; D-011/D-012 compatibility 42 passed;
+  D-009/D-010/Authority 3.0/governance PASS; full path-safe suite 872 passed,
+  2 skipped.
+- Notion closeout was not updated in this session because no Notion connector
+  was available.
+
+Do not automatically start another D-014 generation, a broader recovery fix,
+D-013/AX work, or formal P0. Return to Architect.

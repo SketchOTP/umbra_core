@@ -404,3 +404,19 @@ Format:
   LIBRARY_REVIEW changes. Return to Architect.
 - 2026-08-22T11:56:11-04:00 | END | UMBRA-D-010Q5 | parent:UMBRA-D-010Q4 | status:completed | baseline:0eda4fc275a32433fe5edc7744bc8bf60955a727 | execution:d010q5-current-baseline-r1 | executor:SERIAL,D010_WORKERS=1 | rows:1900/1900 | gates:0-12 PASS,100k PASS,lifecycle PASS,S3 P0/P1/P2 PASS | verdict:UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q5-current-baseline-r1 | retries:0 | production_changes:0 | next:return to Architect; no D-012/D-013 continuation authorized
 2026-08-22T14:52:00-04:00 | END | UMBRA-D-012R | parent:D-010Q5 | status:completed_non_formal | baseline:90dc9b939e6128b80641cab5c91aa926336451f1 | cases:L1,L2,T1,T2 | ticks:400_each | retries:0 | verdict:D012R_HISTORICAL_D012_PHENOTYPE_NOT_REPRODUCED_CURRENT | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d012r-current-stack-viability-r1 | production_changes:0 | historical_evidence_modified:false | formal_p0:false | formal_tag:false | next:return_to_Architect
+
+
+## UMBRA-D-014A - fatigue recovery failure causal localization
+
+- Authorized from `4bc55bc91cef5623f20fe78f97408e4d339f58b3` after the accepted
+  D-014 integrated stability failure.
+- Exact failure reproduced for R0 seed `41241905`; first critical crossing was
+  tick 813 at POST_DRIFT, with the prior no-safe-action state at tick 812.
+- Verified REST/not_at_rest denial loop was localized. Evaluator-only denial
+  handoff rescued the failing seed, but the bounded production correction
+  caused new stimulation failures in two previously successful R0 controls.
+- Verdict:
+  `D014A_CAUSE_CONFIRMED_REMEDIATION_REQUIRES_BROADER_ARCHITECTURE`.
+- Production correction was reverted. No formal D-014 rerun, D-013/AX work, or
+  automatic broader remediation is authorized. Return to Architect.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014a-fatigue-recovery-r1/`.
