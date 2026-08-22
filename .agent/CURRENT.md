@@ -3,25 +3,24 @@
 Last updated: 2026-08-21T00:00:00-04:00
 
 ## Current stage
-Authority 3.0 active; D-013AXS is complete and returned to Architect.
+Authority 3.0 active; D-010R is complete and returned to Architect.
 
 ## Current objective
-Preserve the stopped AX2 execution as bounded, compact evidence after the
-authorized AXS salvage. The completed evidence contains no demonstrated
-long-horizon rescue; incomplete depth-4 and confirmation populations remain
-unknown.
+Attribute the historical D-010 Gate-13 growth without changing production or
+frozen thresholds. The historical unbounded temporal-ID mechanism is absent on
+the current baseline; a current-baseline Gate-13 requalification remains a
+future candidate.
 
 ## Active directive
-D-013AXS is complete and returned to Architect from repository baseline
-fca0b259c6c7c2e4fce6ba95d86b407b21d59994. No AX rerun, D-013AY, production
-correction, formal P0, or formal tag is authorized by AXS.
+D-010R is complete and returned to Architect from repository baseline
+8630ce013623fb92d7a1348cf4600109067de3d0. No production remediation, formal
+D-010 requalification, D-013 reopening, formal P0, or formal tag is authorized
+by D-010R.
 
 ## Terminal result
-D013AXS_COMPLETED_EVIDENCE_NO_DEMONSTRATED_RESCUE. The compact completed
-dataset contains 255,022 branches with zero preliminary, viable, substantive,
-delay-only, or alternate-failure rescues. Depths 2 and 3 are complete; depth 4
-and 7,200-tick confirmations are incomplete and cannot support global negative
-claims.
+D010R_HISTORICAL_GROWTH_NOT_REPRODUCED_CURRENT. D-010 Gate 13 remains formally
+unqualified. The smallest next action is a separately authorized
+current-baseline D-010 Gate-13 requalification candidate.
 
 ## Scientific boundary
 AL/AO evidence is retained as a policy-provenanced shadow recoverability

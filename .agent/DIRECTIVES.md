@@ -320,3 +320,23 @@ Format:
   or confirmation was changed or created.
 - Recommendation: `D013_CAUSAL_TARGET_RELOCALIZATION_CANDIDATE`; no next
   scientific phase is authorized by AXS.
+
+## UMBRA-D-010R - Gate-13 growth attribution / qualification relocalization
+
+- Status: complete; returned to Architect.
+- Baseline: `8630ce013623fb92d7a1348cf4600109067de3d0`.
+- Verdict: `D010R_HISTORICAL_GROWTH_NOT_REPRODUCED_CURRENT`.
+- Historical result preserved: `UMBRA_D010_PERFORMANCE_FAIL`.
+- Finding: the historical unbounded temporal advance/observation ID-set
+  mechanism is absent on the current baseline; current sets remained size 1
+  through 2,000 accelerated ticks. A short anonymous/private-dirty RSS step
+  near the 200-tick snapshot boundary remains supported but unconfirmed as a
+  remediation target.
+- Validation: D-009 validator PASS; D-010 validator PASS; D-010 focused tests
+  128 passed and 1 inherited runtime-tick inventory test failed; Authority 3.0
+  PASS; governance PASS.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010r-growth-attribution-r1/`.
+- Integrity: no production, thresholds, historical evidence, formal run, or
+  formal tag changed. D-013 was not reopened.
+- Recommendation: `CURRENT_BASELINE_D010_REQUALIFICATION_CANDIDATE`; no
+  remediation or qualification run is authorized by D-010R.
