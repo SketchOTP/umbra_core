@@ -110,6 +110,14 @@ def prepare(seed: int, db: Path, regime: str):
     return org, engine
 
 
+def reload_existing(seed: int, db: Path, regime: str, saved_habitat: Any):
+    """Reload the persisted organism; preserve habitat state independently."""
+    org = load_organism(config(seed, db, regime))
+    engine = HabitatEngine(copy.deepcopy(saved_habitat))
+    org.embodiment.attach_habitat_engine(engine)
+    return org, engine
+
+
 def adapter_burst(org: Any, seed: int, tick: int) -> bool:
     manifest = AdapterManifest("d014-formal", "1", ("body_telemetry",), {"body_telemetry": "v1"})
     adapter = SyntheticPerceptionAdapter(manifest)
@@ -137,9 +145,10 @@ def run_case(regime: str, seed: int, work: Path, horizon: int) -> dict[str, Any]
                 state["adapter_accepts"] += int(adapter_burst(org, seed, tick))
             if regime == "R2" and tick == 1800:
                 identity = org.identity.agent_id
+                saved_habitat = copy.deepcopy(state["engine"].state)
                 org.snapshot_if_due(force=True)
                 org.close()
-                org, engine = prepare(seed, db, regime)
+                org, engine = reload_existing(seed, db, regime, saved_habitat)
                 state.update(org=org, engine=engine, restart_count=state["restart_count"] + 1, restart_identity_preserved=org.identity.agent_id == identity)
             if regime == "R2" and tick == 2400:
                 org.embodiment.set_occlusion("partner", True)
