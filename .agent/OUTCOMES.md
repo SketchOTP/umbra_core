@@ -480,3 +480,5 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Scientific boundary: AX scientific branches executed 0; no AX result is inferred. Production, historical evidence, thresholds, tags, formal P0, RECORD, and LIBRARY_REVIEW unchanged.
 - Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axh-harness-remediation-r1/`.
 - Next: return to Architect; do not begin D-013AY or formal P0.
+
+2026-08-21T00:00Z | END | UMBRA-D-013AXS | status:completed_non_formal_evidence_salvage | verdict:D013AXS_COMPLETED_EVIDENCE_NO_DEMONSTRATED_RESCUE | parent:d013ax2-20260820-r1 | baseline:fca0b259c6c7c2e4fce6ba95d86b407b21d59994 | completed:255022 | depth2_complete:true | depth3_complete:true | depth4_complete:false | confirmations:0 | preliminary_rescues:0 | substantive_rescues:0 | retained_raw_audit_records:78 | actual_exception_cases:0 | deleted_result_bytes:373347151307 | deleted_work_bytes:25545524760 | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axs-partial-salvage-r1 | production_modified:false | formal_p0:false | formal_tag:false | next:return_to_Architect

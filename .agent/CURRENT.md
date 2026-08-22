@@ -1,23 +1,27 @@
 # Current Project State
 
-Last updated: 2026-08-20T00:00:00-04:00
+Last updated: 2026-08-21T00:00:00-04:00
 
 ## Current stage
-Authority 3.0 active; D-013AXR is complete and returned to Architect.
+Authority 3.0 active; D-013AXS is complete and returned to Architect.
 
 ## Current objective
-Preserve scientific integrity after the D-013AX execution stop. AXR adjudicated
-the failed orchestration state and found that lossless resume is not provable.
+Preserve the stopped AX2 execution as bounded, compact evidence after the
+authorized AXS salvage. The completed evidence contains no demonstrated
+long-horizon rescue; incomplete depth-4 and confirmation populations remain
+unknown.
 
 ## Active directive
-D-013AXR is complete and returned to Architect from exact baseline
-706f64fbd28686d27a727f6ddcd0345774282530. Any harness repair or AX clean rerun
-requires separate authorization.
+D-013AXS is complete and returned to Architect from repository baseline
+fca0b259c6c7c2e4fce6ba95d86b407b21d59994. No AX rerun, D-013AY, production
+correction, formal P0, or formal tag is authorized by AXS.
 
 ## Terminal result
-D013AXR_EXECUTION_CAUSE_UNRESOLVED. The AX parent exited before aggregate
-outputs; no AX scientific verdict exists. Lossless resume is unsafe/unproven;
-separate AX harness repair is required before any future rerun candidate.
+D013AXS_COMPLETED_EVIDENCE_NO_DEMONSTRATED_RESCUE. The compact completed
+dataset contains 255,022 branches with zero preliminary, viable, substantive,
+delay-only, or alternate-failure rescues. Depths 2 and 3 are complete; depth 4
+and 7,200-tick confirmations are incomplete and cannot support global negative
+claims.
 
 ## Scientific boundary
 AL/AO evidence is retained as a policy-provenanced shadow recoverability

@@ -304,3 +304,19 @@ Format:
 - Integrity: production:false | tests:false | experiments:false | historical_evidence:false | thresholds:false | RECORD:false | LIBRARY_REVIEW:false | formal_p0:false | formal_tag:false | next:return_to_Architect
 
 2026-08-20T00:00Z | END | UMBRA-D-013AXR | status:completed_execution_stop_adjudication | verdict:D013AXR_EXECUTION_CAUSE_UNRESOLVED | parent:D013AX_EXECUTION_STOP_UNRESOLVED | baseline:706f64fbd28686d27a727f6ddcd0345774282530 | axr_branches_executed:0 | work_dirs:29655 | lossless_resume:false | cause:CAUSE_UNRESOLVED | recommendation:SEPARATE_AX_HARNESS_REPAIR_REQUIRED | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axr-execution-stop-r1 | production_modified:false | formal_p0:false | formal_tag:false | RECORD_modified:false | LIBRARY_REVIEW_modified:false | next:return_to_Architect
+
+## UMBRA-D-013AXS - partial AX2 evidence salvage
+
+- Status: complete; returned to Architect.
+- Baseline: `fca0b259c6c7c2e4fce6ba95d86b407b21d59994`.
+- Verdict: `D013AXS_COMPLETED_EVIDENCE_NO_DEMONSTRATED_RESCUE`.
+- Scope: compact and validate the stopped AX2 ledger, retain deterministic raw
+  audit evidence, then reclaim only manifest-authorized result/work storage.
+- Result: 255,022 completed branches; scientific depths 2 and 3 complete;
+  depth 4 incomplete; zero confirmations and zero demonstrated rescues.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013axs-partial-salvage-r1/`.
+- Integrity: no production, tests, experiments, historical evidence,
+  thresholds, RECORD, LIBRARY_REVIEW, formal tag, formal P0, new AX2 branch,
+  or confirmation was changed or created.
+- Recommendation: `D013_CAUSAL_TARGET_RELOCALIZATION_CANDIDATE`; no next
+  scientific phase is authorized by AXS.
