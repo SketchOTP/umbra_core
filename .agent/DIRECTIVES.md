@@ -359,3 +359,16 @@ Format:
   and no D-013 work.
 - Protected: `.agent/RECORD.md` and `.agent/LIBRARY_REVIEW.md` unchanged.
 - Next: return to Architect; no automatic continuation is authorized.
+
+## UMBRA-D-010Q3 - runtime-tick authority reconciliation
+
+- Authorized from exact baseline 8035fe75250dcaefcc6fdb40b395206f111584ff.
+- Terminal verdict: D010Q3_TEMPORAL_AUTHORITY_MIGRATION_REQUIRED.
+- Current scan: 42 sites; semantic adjudication 40 O and 2 unmigrated B.
+- Offending sites: umbra_core/runtime.py:468 and
+  umbra_core/runtime.py:1333.
+- Evidence:
+  /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q3-authority-reconciliation-r1/.
+- No registry freeze, formal generation, formal tag, production change, or
+  historical-evidence change occurred.
+- Next: return to Architect for temporal-authority migration.

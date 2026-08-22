@@ -1,26 +1,43 @@
 # Current Project State
 
-Last updated: 2026-08-21T22:45:00-04:00
+Last updated: 2026-08-22T00:00:00-04:00
+
+## D-010Q3 closeout
+
+UMBRA-D-010Q3 stopped at the hard temporal-authority gate from baseline
+8035fe75250dcaefcc6fdb40b395206f111584ff.
+
+- Verdict: D010Q3_TEMPORAL_AUTHORITY_MIGRATION_REQUIRED.
+- Current source scan: 42 runtime-tick sites; semantic adjudication 40 O and
+  2 unmigrated B sites.
+- Offending sites: umbra_core/runtime.py:468 (_organism_age_tick) and
+  umbra_core/runtime.py:1333 (_tick_once_body -> Arbitrator.select).
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q3-authority-reconciliation-r1/.
+- Formal generation: not started; execution ID: none; formal tag: none.
+- Validation: D-009, D-010, Authority 3.0, and governance PASS; short
+  disk-backed full suite 867 passed, 2 skipped, 1 inherited D-010 registry
+  failure.
+- Production, thresholds, historical evidence, RECORD, and LIBRARY_REVIEW
+  remain unchanged.
+
+The next decision is temporal-authority migration and a separately authorized
+fresh qualification. Do not launch D-010 formal work from this stop.
 
 ## Current stage
-Authority 3.0 active; D-010Q is complete and returned to Architect.
+Authority 3.0 active; D-010Q3 is terminal and returned to Architect.
 
 ## Current objective
-Complete the current-baseline D-010 temporal qualification without changing
-production or frozen thresholds. D-010Q completed Gates 0–12 and accelerated
-100k, but Gate 13 stopped at the renderer-lifecycle infrastructure precondition
-because Atlas lacks `libtk8.6.so` / `python3-tk`.
+Resolve the two unmigrated runtime-tick authority paths before any fresh D-010
+qualification. Production and frozen thresholds remain unchanged.
 
 ## Active directive
-D-010Q is complete and returned to Architect from repository baseline
-`0d3234002a9ddd49fe31a226e2943c2ecf5552bf`. No retry, dependency
-installation, production remediation, D-013 reopening, formal P0, or formal
-tag is authorized by this closeout.
+D-010Q3 is terminal and returned to Architect from repository baseline
+8035fe75250dcaefcc6fdb40b395206f111584ff. No formal generation or production
+remediation is authorized by this closeout.
 
 ## Terminal result
-`UMBRA_D010_PERFORMANCE_FAIL`. D-010Q is not qualified because the required
-renderer lifecycle could not start. The historical `UMBRA_D010_PERFORMANCE_FAIL`
-remains permanent and is not superseded.
+`D010Q3_TEMPORAL_AUTHORITY_MIGRATION_REQUIRED`. The historical
+`UMBRA_D010_PERFORMANCE_FAIL` remains permanent and is not superseded.
 
 ## Scientific boundary
 AL/AO evidence is retained as a policy-provenanced shadow recoverability

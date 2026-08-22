@@ -508,3 +508,21 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Historical result preserved: `UMBRA_D010_PERFORMANCE_FAIL` remains permanent.
 - Next: return to Architect. No retry, dependency installation, remediation,
   D-013 reopening, formal P0, or unrelated formal tagging.
+
+## UMBRA-D-010Q3 - runtime-tick authority reconciliation
+
+- Closed: 2026-08-22; baseline 8035fe75250dcaefcc6fdb40b395206f111584ff.
+- Verdict: D010Q3_TEMPORAL_AUTHORITY_MIGRATION_REQUIRED.
+- Finding: 42 current runtime-tick sites were semantically adjudicated as 40
+  orchestration-only and 2 unmigrated mixed-authority sites:
+  runtime.py:468 raw organism-age fallback and runtime.py:1333 raw
+  arbitration policy-time input.
+- Qualification: stopped before registry freeze and before formal generation.
+  No formal tag, production change, threshold change, or historical-evidence
+  change.
+- Validation: D-009/D-010/Authority 3.0/governance PASS; focused D-010 128
+  passed and 1 inherited registry test failed; short disk-backed full suite
+  867 passed, 2 skipped, and the same 1 inherited registry failure.
+- Evidence:
+  /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d010q3-authority-reconciliation-r1/.
+- Next: return to Architect for temporal-authority migration.
