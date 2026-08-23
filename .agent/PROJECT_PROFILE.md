@@ -30,7 +30,7 @@
 ## Compatibility commitments
 - Preserve constitutional identity, event-ledger authority, deterministic replay, governance boundaries, verified-outcome learning, and body-independent organism semantics.
 - Preserve qualified D-001 through D-009 results and sealed historical evidence.
-- D-010 remains `UMBRA_D010_PERFORMANCE_FAIL`; D-012 historical formal failures remain authoritative.
+- Historical D-010 failures remain permanent evidence for their original generations; current D-010Q5 temporal continuity is qualified as `UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED`. D-012 historical formal failures remain authoritative.
 - Renderers, language systems, bodies, and external interfaces must not become organism authority.
 
 ## Safety / operational constraints
@@ -42,11 +42,13 @@
 
 ## Current scientific status
 - Qualified sequential baseline: D-009 seal `af35371`.
-- D-010 verdict: `UMBRA_D010_PERFORMANCE_FAIL`; Gates 0-12 PASS, Gate 13 FAIL, Stage B v7 not created, parent Mimir open.
+- Historical D-010 verdict remains `UMBRA_D010_PERFORMANCE_FAIL`; current D-010Q5 verdict is `UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED`. Historical Gates 0-12/13 and parent-Mimir state remain permanent for that generation.
 - D-011 is independently qualified under the D-009 predecessor.
 - D-012B2 remains `UMBRA_D012B_P0_INTEGRITY_FAIL`.
 - D-013AO is accepted as `D013AO_SHADOW_RECOVERABILITY_VIEW_QUALIFIED`.
-- D-013AP is authorized only as a non-formal, fixed, negative-only, hysteresis-capped soft option-preservation qualification.
+- D-014 through D-014D are current integrated-viability evidence. D-014D is terminal with verdict `D014D_FAILURES_HAVE_DISTINCT_MECHANISMS`.
+- D-014E is the active non-formal compositional recovery-contract architecture directive from baseline `52ffaf7e27b31edebe90dea0d1b2ca60568602fa`.
+- Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 
 ## Source-of-truth boundaries
 - Notion: strategic/project understanding and Architect acceptance/authorization.

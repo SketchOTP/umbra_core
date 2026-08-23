@@ -1,5 +1,23 @@
 # Current Project State
 
+## D-014E active snapshot
+
+UMBRA-D-014E is active from baseline
+`52ffaf7e27b31edebe90dea0d1b2ca60568602fa`, superseding the D-014D
+return-to-Architect boundary.
+
+- Scope: shadow-first compositional recovery contracts for executability and
+  denial freshness, failure/retry reserve, route progress/staleness, and
+  anticipatory horizon/activation.
+- Governance synchronization is the first required phase. Historical
+  D-010 failures remain permanent evidence; current D-010Q5 temporal
+  continuity is qualified; D-014 through D-014D remain integrated-viability
+  evidence; integrated long-horizon viability is unqualified.
+- Production changes are conditional on a passing shadow gate. No formal
+  D-014 run, formal tag, D-013/AX work, threshold/drift/effect change, or
+  hidden-truth policy use is authorized.
+- Evidence root: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014e-compositional-recovery-r1/`.
+
 ## D-014C closeout
 
 UMBRA-D-014C is terminal and returned to Architect from baseline
