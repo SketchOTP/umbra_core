@@ -8,12 +8,12 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014A terminal causal localization returned to Architect
-- Active directive: D-014A terminal; returned to Architect
+- Current stage: Authority 3.0 active; D-014C terminal bounded authority-order diagnosis returned to Architect
+- Active directive: D-014C terminal; returned to Architect
 - Active task packet: none
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014A_CAUSE_CONFIRMED_REMEDIATION_REQUIRES_BROADER_ARCHITECTURE
-- Last state sync: 2026-08-22T18:10:03-04:00
+- Last accepted outcome: D014C_AUTHORITY_ORDER_CONFIRMED_BUT_RECOVERY_DEFECT_PERSISTS
+- Last state sync: 2026-08-22T18:30:00-04:00
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.

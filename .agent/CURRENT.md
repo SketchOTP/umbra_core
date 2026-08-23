@@ -1,5 +1,40 @@
 # Current Project State
 
+## D-014C closeout
+
+UMBRA-D-014C is terminal and returned to Architect from baseline
+`d60cbc7d750697f45f94a63713c1408e0a992277`.
+
+- Verdict: `D014C_AUTHORITY_ORDER_CONFIRMED_BUT_RECOVERY_DEFECT_PERSISTS`.
+- A0-A9 reconstruction found downstream world-model replacement contributory
+  in the seed `79871850` failure; the `27526357` failure did not show an
+  authority-order replacement at its failure decision.
+- The conditional final-boundary correction was evaluated but failed the
+  required eight-seed R0, 7,200-tick gate. Four required seeds failed before
+  7,200 ticks; four completed. The correction was reverted.
+- Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014c-authority-path-r1/`.
+- Validation: D-009 and D-010 validators PASS; D-012 readonly validation and
+  schedule validation PASS; full suite not run after the failed gate.
+- No production correction, formal tag, formal P0, retry, threshold change,
+  or historical evidence change was retained. Protected RECORD and
+  LIBRARY_REVIEW were preserved.
+
+Integrated viability remains unqualified. Return to Architect; no next
+experiment is authorized by this closeout.
+
+## Current stage
+Authority 3.0 active; D-014C is terminal and returned to Architect.
+
+## Current objective
+Return to Architect after the D-014C bounded authority-order diagnosis. Do not
+launch formal D-014 work or begin another remediation automatically.
+
+## Active directive
+D-014C is terminal from baseline `d60cbc7d750697f45f94a63713c1408e0a992277`.
+
+## Terminal result
+`D014C_AUTHORITY_ORDER_CONFIRMED_BUT_RECOVERY_DEFECT_PERSISTS`.
+
 Last updated: 2026-08-22T14:52:00-04:00
 
 ## D-012R closeout

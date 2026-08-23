@@ -420,3 +420,4 @@ Format:
 - Production correction was reverted. No formal D-014 rerun, D-013/AX work, or
   automatic broader remediation is authorized. Return to Architect.
 - Evidence: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014a-fatigue-recovery-r1/`.
+- D-20260822-umbra-d014c-authority-path | project:UMBRA-D-014C | status:started | scope:read-only lineage diagnostics, conditional final viability gate, external evidence | ask:Determine whether downstream authority-order replacement contributes to D-014B failures and evaluate one minimal final-boundary correction only if causal | accept:A0-A9 reconstruction, conditional R0 gate, evidence closeout, no formal run | plan:reconstruct, gate, validate+close | baseline:d60cbc7d750697f45f94a63713c1408e0a992277
