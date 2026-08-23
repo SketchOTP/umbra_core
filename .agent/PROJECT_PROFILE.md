@@ -52,7 +52,9 @@
 - D-013/AX evidence is historical and not active.
 - D-014 through D-014D are current integrated-viability evidence. D-014D is terminal with verdict `D014D_FAILURES_HAVE_DISTINCT_MECHANISMS`.
 - D-014E reached D014E_EXECUTION_STOP_UNRESOLVED after a passing shadow gate and conditional implementation; required long validation is storage-blocked and D-014E is terminal.
-- D-014E1 is active from `a5960efd5c61a7f19192e5cccf5ed8c56c9304da`; RPI5 evidence migration and shared-evidence preflight passed. The exact D-014E long validation is the remaining authorized work.
+- D-014E1 is terminal with `D014E1_R1_SCIENTIFIC_FAILURE`: R0 passed 8/8 x 7,200; R1 seed `57531938` failed at tick 372 with fatigue 0.951 after verified MOVE; R2/R3 were not run.
+- D-014E2 is the active non-formal causal reconciliation from `767496ad5572ba57f6fe4acde59eccece56b8d25`. It must test dynamic opportunity loss, bounded search/reserve metadata, critical-branch candidate suppression, and complete verified effect-vector competition before any generalized production correction.
+- D-014E2 prohibits formal D-014, formal tags, D-013/AX work, threshold/effect/habitat changes, hidden truth, reseeding, retries, and fixed rescue actions.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 
 ## Source-of-truth boundaries

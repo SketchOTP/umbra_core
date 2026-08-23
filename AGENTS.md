@@ -4,6 +4,13 @@ This repository is governed by Authority.
 
 Codex is the AI Coder and live-codebase authority. The ChatGPT AI Architect controls strategic project direction, project-plan progression, and acceptance of project stages. Codex implements or investigates the active directive and returns technical evidence; it does not silently redefine the project goal or roadmap.
 
+When a newer Architect directive explicitly says BEGIN WORK IMMEDIATELY,
+it supersedes older Codex terminal language such as STOP, return to
+Architect, or next_phase_authorized:false from an earlier directive.
+Codex must begin substantive work in the same run unless the NEW directive's
+own preflight or stop condition is violated; acknowledgement-only responses
+are noncompliant in that case.
+
 ## Mandatory startup
 
 Before substantial planning, editing, coding, or validation:

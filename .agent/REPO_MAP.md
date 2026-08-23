@@ -4,12 +4,13 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 - `.agent/PROJECT_GOAL.md` — sole product SoT (companion organism core; Digital Cell/protocell work external)
-- `.agent/PROJECT_PROFILE.md` — identity, Mimir binding `7777645d52a91b49`, program status (D-009 QUALIFIED; D-010 PERFORMANCE_FAIL)
+- `.agent/PROJECT_PROFILE.md` — identity, current D-010Q5 qualification, RPI5 evidence authority, and active D-014E2 status
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
 - `COMMANDMENTS_OF_THE_CODE.md` — ethical/execution principles
 - `.cursor/rules/` — Cursor rules (incl. `04-umbra-architecture.mdc`, `06-storage1tb-archive.mdc`)
 - `.cursor/rules/06-storage1tb-archive.mdc` — root-disk pressure → archive closed trees to `/mnt/storage1tb/archived-projects/` + symlink + `ARCHIVE_MANIFEST.jsonl` (not a backup)
 - `.agents/skills/authority-governance/SKILL.md` — canonical Codex-first Authority lifecycle, `.agent` preflight, append-only, validation, and reporting contract
+- Current routing: D-014E1 is terminal scientific failure; UMBRA-D-014E2 is the active non-formal critical-recovery architecture reconciliation from `767496ad5572ba57f6fe4acde59eccece56b8d25`.
 - `.agents/skills/external-discovery/SKILL.md` — additive prior-art/discovery activation and disposition workflow
 - `scripts/validate_governance.py` — canonical Authority validator with bounded UMBRA preserved-state compatibility validation
 - `scripts/test_validate_governance.py` — canonical validator mode tests

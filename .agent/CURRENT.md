@@ -1,5 +1,21 @@
 # Current Project State
 
+## D-014E2 active snapshot
+
+UMBRA-D-014E2 is the active Architect-authorized non-formal causal
+reconciliation from baseline
+767496ad5572ba57f6fe4acde59eccece56b8d25.
+
+- D-014E1 is terminal: R0 8/8 x 7,200 passed; R1 seed 57531938 failed at
+  tick 372 with fatigue 0.951 after verified MOVE.
+- D-014E2 must first reconstruct that failure and test the legacy
+  critical-recovery architecture, bounded search/reserve metadata, and
+  verified effect-vector competition.
+- No formal D-014, formal tag, D-013/AX work, threshold/effect/habitat
+  changes, hidden truth, reseed, retry, or fixed rescue action is authorized.
+- Permanent evidence is finalized on the RPI5 canonical root; active
+  SQLite/WAL/AF_UNIX scratch remains off SMB.
+
 ## D-014E1 terminal snapshot
 
 UMBRA-D-014E1 completed the storage-authority migration and stopped at the
@@ -14,13 +30,15 @@ first genuine development-only long-validation failure.
 - Integrated long-horizon viability remains unqualified.
 
 ## Current stage
-Authority 3.0 active; D-014E1 is terminal and returned to Architect.
+Authority 3.0 active; D-014E2 causal reconciliation is in progress.
 
 ## Current objective
-Review the D-014E1 scientific failure and select the next authorized action. No automatic remediation or formal D-014 launch.
+Reconstruct the D-014E1 R1 S16 failure, adjudicate the authorized causal
+hypotheses, and advance only an evidence-supported generalized correction.
 
 ## Active directive
-D-014E1 is terminal from repository closeout master; no new directive is active.
+D-014E2 is active from repository closeout master
+767496ad5572ba57f6fe4acde59eccece56b8d25.
 
 ## Terminal result
 D014E1_R1_SCIENTIFIC_FAILURE.
