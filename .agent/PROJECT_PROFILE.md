@@ -43,9 +43,12 @@
 ## Current scientific status
 - Qualified sequential baseline: D-009 seal `af35371`.
 - Historical D-010 verdict remains `UMBRA_D010_PERFORMANCE_FAIL`; current D-010Q5 verdict is `UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED`. Historical Gates 0-12/13 and parent-Mimir state remain permanent for that generation.
+- D-010 verdict: `UMBRA_D010_PERFORMANCE_FAIL` remains the historical verdict; current D-010Q5 is qualified separately.
 - D-011 is independently qualified under the D-009 predecessor.
 - D-012B2 remains `UMBRA_D012B_P0_INTEGRITY_FAIL`.
 - D-013AO is accepted as `D013AO_SHADOW_RECOVERABILITY_VIEW_QUALIFIED`.
+- D-013AP is authorized only as a non-formal, fixed, negative-only, hysteresis-capped soft option-preservation qualification in its historical directive record; it is not active now.
+- D-013/AX evidence is historical and not active.
 - D-014 through D-014D are current integrated-viability evidence. D-014D is terminal with verdict `D014D_FAILURES_HAVE_DISTINCT_MECHANISMS`.
 - D-014E is the active non-formal compositional recovery-contract architecture directive from baseline `52ffaf7e27b31edebe90dea0d1b2ca60568602fa`.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
