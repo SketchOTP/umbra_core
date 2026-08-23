@@ -8,12 +8,13 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014E terminal operational storage stop returned to Architect
-- Active directive: none; D-014E terminal from baseline `52ffaf7e27b31edebe90dea0d1b2ca60568602fa`
-- Active task packet: none
+- Current stage: Authority 3.0 active; D-014E1 exact long-validation resume
+- Active directive: UMBRA-D-014E1 from `a5960efd5c61a7f19192e5cccf5ed8c56c9304da`
+- Active task packet: storage authority amendment and exact D-014E validation
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014E_EXECUTION_STOP_UNRESOLVED
-- Last state sync: 2026-08-23T15:45:00Z
+- Last accepted outcome: D014E_EXECUTION_STOP_UNRESOLVED; operational storage stop superseded by D-014E1
+- Canonical permanent evidence: `\\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE`
+- Last state sync: 2026-08-23T16:00:00Z
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.

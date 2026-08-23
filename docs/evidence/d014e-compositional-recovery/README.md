@@ -6,7 +6,9 @@ Closeout/master: 464f1b181bb9320581c22214f106a29c11f3987f
 Verdict: D014E_EXECUTION_STOP_UNRESOLVED
 
 Evidence dossier:
- /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014e-compositional-recovery-r1/
+ `\\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014e-compositional-recovery-r1\`
+
+The former `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/` location was migrated with independent SHA-256 verification under UMBRA-D-014E1 and is no longer the permanent evidence authority.
 
 The shadow gate passed and the smallest conditional production implementation
 was published. Long validation was not launched because root free space was

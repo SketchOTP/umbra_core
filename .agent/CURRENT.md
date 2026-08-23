@@ -1,5 +1,31 @@
 # Current Project State
 
+## D-014E1 active snapshot
+
+UMBRA-D-014E1 is active under the Architect storage-authority amendment.
+
+- Repository baseline: `a5960efd5c61a7f19192e5cccf5ed8c56c9304da`; production implementation remains the published `a4684368f954ba60572c8454cf868a6159e4f577`.
+- Permanent evidence authority: `\\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE`.
+- Verified Atlas backing path: `/srv/RPI5Pool/100_ACTIVE/Projects/UMBRA-CORE`; convenience mount: `/home/sketch/RPI5Canonical/100_ACTIVE/Projects/UMBRA-CORE`.
+- Canonical evidence root: `/srv/RPI5Pool/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/`.
+- Existing governed evidence migration: PASS; 58 dossiers, source/destination SHA-256, size, and symlink manifests matched, independent second SHA pass matched, old source removed only after verification, destination reverified.
+- Shared evidence preflight: PASS; active SQLite/WAL remains prohibited on SMB.
+- Runtime scratch: `/mnt/storage1tb/umbra-scratch/d014e1-validation-r1`; short AF_UNIX root: `/tmp/u14e1`.
+- Exact D-014E R0 long validation has not started yet. Integrated long-horizon viability remains unqualified.
+
+## Current stage
+Authority 3.0 active; D-014E1 is the sole active directive.
+
+## Current objective
+Resume the exact non-formal D-014E long validation using the fixed R0 population, then the authorized development-only R1/R2/R3 checks and required validators. No formal D-014, tag, D-013/AX, reseed, threshold change, or recovery redesign.
+
+## Active directive
+UMBRA-D-014E1 from `a5960efd5c61a7f19192e5cccf5ed8c56c9304da`.
+
+## Terminal result
+None; D-014E1 is in progress.
+
+
 ## D-014E terminal snapshot
 
 UMBRA-D-014E reached an operational terminal stop after the shadow gate and

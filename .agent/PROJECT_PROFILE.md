@@ -24,7 +24,8 @@
 ## Important integrations
 - GitHub remote `github` — committed implementation and publication authority.
 - Canonical Notion project page — strategic state and Architect decisions.
-- `/mnt/storage1tb` — external evidence/archive storage; tracked repository symlinks point to governed evidence where applicable.
+- `\\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE` — canonical permanent evidence authority. Verified Atlas backing path: `/srv/RPI5Pool/100_ACTIVE/Projects/UMBRA-CORE`; convenience mount: `/home/sketch/RPI5Canonical/100_ACTIVE/Projects/UMBRA-CORE`.
+- `/mnt/storage1tb` remains transient/direct-attached scratch only.
 - Mimir/Serena configuration — optional repository navigation support when configured and reachable; never a prerequisite for ordinary source inspection.
 
 ## Compatibility commitments
@@ -37,7 +38,7 @@
 - No formal P0 or formal tag without an explicit Architect directive.
 - Preserve historical evidence, thresholds, verdicts, tags, and append-only governance history.
 - Do not edit `.agent/LIBRARY_REVIEW.md`; it is librarian-managed and intentionally untracked.
-- Root storage gate for formal work is at least 15 GiB free; store new large evidence under `/mnt/storage1tb`.
+- Permanent evidence must be finalized on the RPI5 shared drive. Active SQLite/WAL, AF_UNIX sockets, and process scratch remain on local/direct-attached storage such as `/mnt/storage1tb/umbra-scratch`; never run active SQLite/WAL directly on SMB. The 50 GiB evidence-capacity gate applies to the RPI5 canonical evidence filesystem; scratch requires workload-specific headroom.
 - Do not force-push, rewrite history, or alter unrelated `main`.
 
 ## Current scientific status
@@ -51,6 +52,7 @@
 - D-013/AX evidence is historical and not active.
 - D-014 through D-014D are current integrated-viability evidence. D-014D is terminal with verdict `D014D_FAILURES_HAVE_DISTINCT_MECHANISMS`.
 - D-014E reached D014E_EXECUTION_STOP_UNRESOLVED after a passing shadow gate and conditional implementation; required long validation is storage-blocked and D-014E is terminal.
+- D-014E1 is active from `a5960efd5c61a7f19192e5cccf5ed8c56c9304da`; RPI5 evidence migration and shared-evidence preflight passed. The exact D-014E long validation is the remaining authorized work.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 
 ## Source-of-truth boundaries
