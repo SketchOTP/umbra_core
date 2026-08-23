@@ -50,7 +50,7 @@
 - D-013AP is authorized only as a non-formal, fixed, negative-only, hysteresis-capped soft option-preservation qualification in its historical directive record; it is not active now.
 - D-013/AX evidence is historical and not active.
 - D-014 through D-014D are current integrated-viability evidence. D-014D is terminal with verdict `D014D_FAILURES_HAVE_DISTINCT_MECHANISMS`.
-- D-014E is the active non-formal compositional recovery-contract architecture directive from baseline `52ffaf7e27b31edebe90dea0d1b2ca60568602fa`.
+- D-014E reached D014E_EXECUTION_STOP_UNRESOLVED after a passing shadow gate and conditional implementation; required long validation is storage-blocked and D-014E is terminal.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 
 ## Source-of-truth boundaries

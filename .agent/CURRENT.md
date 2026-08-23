@@ -1,22 +1,38 @@
 # Current Project State
 
-## D-014E active snapshot
+## D-014E terminal snapshot
 
-UMBRA-D-014E is active from baseline
-`52ffaf7e27b31edebe90dea0d1b2ca60568602fa`, superseding the D-014D
-return-to-Architect boundary.
+UMBRA-D-014E reached an operational terminal stop after the shadow gate and
+smallest conditional production implementation.
 
-- Scope: shadow-first compositional recovery contracts for executability and
-  denial freshness, failure/retry reserve, route progress/staleness, and
-  anticipatory horizon/activation.
-- Governance synchronization is the first required phase. Historical
-  D-010 failures remain permanent evidence; current D-010Q5 temporal
-  continuity is qualified; D-014 through D-014D remain integrated-viability
-  evidence; integrated long-horizon viability is unqualified.
-- Production changes are conditional on a passing shadow gate. No formal
-  D-014 run, formal tag, D-013/AX work, threshold/drift/effect change, or
-  hidden-truth policy use is authorized.
-- Evidence root: `/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014e-compositional-recovery-r1/`.
+- Verdict: D014E_EXECUTION_STOP_UNRESOLVED.
+- Shadow gate: PASS; focused contracts and D-013 family: 177 passed.
+- D-009, D-010, D-012 schedule, Authority 3.0, and governance: PASS.
+- D-012 process checks: 33 passed with short /tmp/u14e; the long attached-drive
+  attempt is preserved as the known AF_UNIX path startup failure.
+- Required long-validation gate: BLOCKED_STORAGE; root free 3.793 GiB versus
+  the required 50 GiB minimum.
+- R0, R1/R2/R3, compatibility campaign, and full suite: not started.
+- Production implementation is not non-formally qualified until long validation
+  completes. Integrated long-horizon viability remains unqualified.
+- No formal D-014 run/tag and no D-013/AX work occurred.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014e-compositional-recovery-r1/.
+- Closeout commit: 464f1b181bb9320581c22214f106a29c11f3987f.
+
+## Current stage
+Authority 3.0 active; D-014E terminal and returned to Architect.
+
+## Current objective
+Resolve the explicit 50 GiB root-storage gate before any D-014E long validation.
+No next experiment is authorized automatically.
+
+## Active directive
+None. D-014E is terminal and returned to Architect.
+
+## Terminal result
+D014E_EXECUTION_STOP_UNRESOLVED.
+
+Last updated: 2026-08-23T15:45:00Z
 
 ## D-014C closeout
 

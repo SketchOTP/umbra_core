@@ -537,3 +537,16 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 2026-08-22T18:10:03-04:00 | END | UMBRA-D-014A | status:completed_non_formal_causal_localization | verdict:D014A_CAUSE_CONFIRMED_REMEDIATION_REQUIRES_BROADER_ARCHITECTURE | baseline:4bc55bc91cef5623f20fe78f97408e4d339f58b3 | failure:R0_seed_41241905_tick_813_POST_DRIFT_fatigue_0.9505 | CF1:failing_seed_7200_pass_no_critical | remediated_controls:2_new_stimulation_failures_of_5_controls | production_modified:false_after_revert | thresholds_modified:false | historical_evidence_modified:false | focused:5_passed | compatibility:42_passed | full_suite:872_passed_2_skipped | d009:PASS | d010:PASS | authority3:PASS | governance:PASS | evidence:/mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014a-fatigue-recovery-r1 | recommendation:BROADER_RECOVERY_ARCHITECTURE_REQUIRED | next:return_to_Architect
 
 - D-20260822-umbra-d014c-authority-path | status:done | files:.agent/{CURRENT,DIRECTIVES,INDEX,OUTCOMES}.md,docs/evidence/d014c-authority-path/README.md | tests:D-009 validator PASS; D-010 validator PASS; D-012 readonly/schedule PASS; R0 4/8 completed and 4/8 failed; full suite not run after failed gate | accept:not met | summary:Authority-order replacement was contributory in one D-014B failure, but the conditional final-boundary correction failed the required R0 viability gate and was reverted | next:return to Architect; integrated viability remains unqualified; no formal D-014
+
+## UMBRA-D-014E closeout
+
+- Verdict: D014E_EXECUTION_STOP_UNRESOLVED.
+- Shadow gate passed; the bounded compositional implementation was published
+  but is not non-formally qualified because the required long-validation gate
+  needs 50 GiB root free and Atlas had 3.793 GiB.
+- Focused contracts/D-013 regression: 177 passed. D-009, D-010, D-012
+  schedule, Authority 3.0, and governance passed. D-012 process checks passed
+  with short /tmp/u14e; attached-drive failure was the known AF_UNIX path issue.
+- R0/R1/R2/R3 and full suite were not started. No formal D-014 run/tag or
+  D-013/AX work occurred.
+- Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014e-compositional-recovery-r1/.

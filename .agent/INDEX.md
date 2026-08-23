@@ -8,12 +8,12 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014E compositional recovery-contract architecture in progress
-- Active directive: UMBRA-D-014E from baseline `52ffaf7e27b31edebe90dea0d1b2ca60568602fa`
-- Active task packet: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014e-compositional-recovery-r1/
+- Current stage: Authority 3.0 active; D-014E terminal operational storage stop returned to Architect
+- Active directive: none; D-014E terminal from baseline `52ffaf7e27b31edebe90dea0d1b2ca60568602fa`
+- Active task packet: none
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014D_FAILURES_HAVE_DISTINCT_MECHANISMS
-- Last state sync: 2026-08-23T15:28:00Z
+- Last accepted outcome: D014E_EXECUTION_STOP_UNRESOLVED
+- Last state sync: 2026-08-23T15:45:00Z
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.
