@@ -1,30 +1,29 @@
 # Current Project State
 
-## D-014E1 active snapshot
+## D-014E1 terminal snapshot
 
-UMBRA-D-014E1 is active under the Architect storage-authority amendment.
+UMBRA-D-014E1 completed the storage-authority migration and stopped at the
+first genuine development-only long-validation failure.
 
-- Repository baseline: `a5960efd5c61a7f19192e5cccf5ed8c56c9304da`; production implementation remains the published `a4684368f954ba60572c8454cf868a6159e4f577`.
-- Permanent evidence authority: `\\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE`.
-- Verified Atlas backing path: `/srv/RPI5Pool/100_ACTIVE/Projects/UMBRA-CORE`; convenience mount: `/home/sketch/RPI5Canonical/100_ACTIVE/Projects/UMBRA-CORE`.
-- Canonical evidence root: `/srv/RPI5Pool/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/`.
-- Existing governed evidence migration: PASS; 58 dossiers, source/destination SHA-256, size, and symlink manifests matched, independent second SHA pass matched, old source removed only after verification, destination reverified.
-- Shared evidence preflight: PASS; active SQLite/WAL remains prohibited on SMB.
-- Runtime scratch: `/mnt/storage1tb/umbra-scratch/d014e1-validation-r1`; short AF_UNIX root: `/tmp/u14e1`.
-- Exact D-014E R0 long validation has not started yet. Integrated long-horizon viability remains unqualified.
+- Verdict: D014E1_R1_SCIENTIFIC_FAILURE.
+- R0 fixed population: 8/8 completed 7,200 logical ticks with no critical physiology failure.
+- R1 stopped at seed 57531938, tick 372, after a verified MOVE outcome; fatigue crossed the critical boundary at 0.951.
+- R2 and R3 were not launched after the terminal R1 failure.
+- RPI5 migration and shared-evidence preflight passed. Final evidence is retained at the RPI5 canonical root.
+- No retry, reseed, formal D-014 run, formal tag, D-013/AX work, threshold change, or production change occurred.
+- Integrated long-horizon viability remains unqualified.
 
 ## Current stage
-Authority 3.0 active; D-014E1 is the sole active directive.
+Authority 3.0 active; D-014E1 is terminal and returned to Architect.
 
 ## Current objective
-Resume the exact non-formal D-014E long validation using the fixed R0 population, then the authorized development-only R1/R2/R3 checks and required validators. No formal D-014, tag, D-013/AX, reseed, threshold change, or recovery redesign.
+Review the D-014E1 scientific failure and select the next authorized action. No automatic remediation or formal D-014 launch.
 
 ## Active directive
-UMBRA-D-014E1 from `a5960efd5c61a7f19192e5cccf5ed8c56c9304da`.
+D-014E1 is terminal from repository closeout master; no new directive is active.
 
 ## Terminal result
-None; D-014E1 is in progress.
-
+D014E1_R1_SCIENTIFIC_FAILURE.
 
 ## D-014E terminal snapshot
 

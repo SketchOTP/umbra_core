@@ -550,3 +550,4 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - R0/R1/R2/R3 and full suite were not started. No formal D-014 run/tag or
   D-013/AX work occurred.
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014e-compositional-recovery-r1/.
+2026-08-23T17:20:00-04:00 | END | UMBRA-D-014E1 | verdict:D014E1_R1_SCIENTIFIC_FAILURE | storage:RPI5_migration_and_shared_preflight_PASS | R0:8_fixed_seeds_completed_7200 | R1:seed_57531938_tick_372_fatigue_0.951_after_verified_MOVE | R2_R3:not_started_after_terminal_failure | production:0 | thresholds:0 | retries:0 | reseeds:0 | formal_D014:false | formal_tag:false | evidence:RPI5_UMBRA_ROOT/evidence/live-evidence/d014e1-validation-resume-r1 | next:return_to_Architect
