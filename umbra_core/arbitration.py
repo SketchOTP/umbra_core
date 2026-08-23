@@ -22,6 +22,7 @@ from umbra_core.wait_execution import (
     WaitJournal,
     wait_deadline_age_tick,
 )
+from umbra_core.recoverability.contracts import candidate_is_admissible
 
 # ponytail: frozen modifier caps at D-010 Task 6; hardened at Stage B freeze.
 ACTIVE_POSITIVE_CAP = 0.35
@@ -754,6 +755,19 @@ class Arbitrator:
                 candidate, phys, ignore=ignore, effect_branches=branches
             )
 
+        def contract_admissible(candidate: Candidate) -> bool:
+            branches = (
+                authority_effect_branches(candidate)
+                if authority_effect_branches is not None
+                else None
+            )
+            return candidate_is_admissible(
+                candidate,
+                physiology=phys,
+                observations=observations,
+                arbitration_state=self.state,
+                effect_branches=branches,
+            )
         mode = self.state.mode
         if mode == "random":
             cap = rng.choice(list(CAPABILITIES))
@@ -848,7 +862,7 @@ class Arbitrator:
                     alternatives = [
                         candidate
                         for candidate in self.generate_candidates(phys, observations, orchestration_tick)
-                        if immediately_safe(candidate)
+                        if immediately_safe(candidate) and contract_admissible(candidate)
                     ]
                     chosen = pick_recovery(alternatives) if alternatives else self._no_safe_action()
 
@@ -860,13 +874,21 @@ class Arbitrator:
                     phys, observations, chosen, active_tick
                 )
                 if preserved is not chosen and immediately_safe(preserved):
-                    chosen = preserved
+                    if contract_admissible(preserved):
+                        chosen = preserved
+                    else:
+                        alternatives = [
+                            candidate
+                            for candidate in self.generate_candidates(phys, observations, orchestration_tick)
+                            if immediately_safe(candidate) and contract_admissible(candidate)
+                        ]
+                        chosen = pick_recovery(alternatives) if alternatives else self._no_safe_action()
 
                 if not immediately_safe(chosen):
                     alternatives = [
                         candidate
                         for candidate in self.generate_candidates(phys, observations, orchestration_tick)
-                        if immediately_safe(candidate)
+                        if immediately_safe(candidate) and contract_admissible(candidate)
                     ]
                     chosen = pick_recovery(alternatives) if alternatives else self._no_safe_action()
                 self._commit(chosen, active_tick)
@@ -1169,11 +1191,11 @@ class Arbitrator:
                 chosen = prev
 
         preserved = self._preserve_recoverability(phys, observations, chosen, active_tick)
-        if introduces(preserved):
+        if introduces(preserved) or not contract_admissible(preserved):
             safe_scored = [
                 candidate
                 for candidate in scored
-                if not introduces(candidate)
+                if not introduces(candidate) and contract_admissible(candidate)
             ]
             preserved = safe_scored[0] if safe_scored else self._no_safe_action()
         self._commit(preserved, active_tick)
