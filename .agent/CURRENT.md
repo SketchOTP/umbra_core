@@ -1,20 +1,21 @@
 # Current Project State
 
-## D-014E2 active snapshot
+## D-014E2 terminal snapshot
 
-UMBRA-D-014E2 is the active Architect-authorized non-formal causal
-reconciliation from baseline
-767496ad5572ba57f6fe4acde59eccece56b8d25.
+UMBRA-D-014E2 completed the authorized non-formal causal reconciliation from
+baseline 767496ad5572ba57f6fe4acde59eccece56b8d25.
 
-- D-014E1 is terminal: R0 8/8 x 7,200 passed; R1 seed 57531938 failed at
-  tick 372 with fatigue 0.951 after verified MOVE.
-- D-014E2 must first reconstruct that failure and test the legacy
-  critical-recovery architecture, bounded search/reserve metadata, and
-  verified effect-vector competition.
-- No formal D-014, formal tag, D-013/AX work, threshold/effect/habitat
-  changes, hidden truth, reseed, retry, or fixed rescue action is authorized.
-- Permanent evidence is finalized on the RPI5 canonical root; active
-  SQLite/WAL/AF_UNIX scratch remains off SMB.
+- Verdict: D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE.
+- Exact R1 seed 57531938 reconstruction reproduced tick 372, action counts,
+  and terminal fatigue 0.951 after verified MOVE.
+- Three preregistered policy shadows ran exactly once each; none produced a
+  substantive 7,200-tick rescue.
+- No production correction is retained; production, thresholds, effects,
+  habitat, protected evidence, and protected agent files are unchanged.
+- Permanent evidence is finalized at the RPI5 canonical root; active
+  SQLite/WAL/AF_UNIX scratch was kept off SMB and cleaned.
+- No formal D-014 run/tag and no D-013/AX work occurred. Integrated viability
+  remains unqualified. Return to Architect.
 
 ## D-014E1 terminal snapshot
 

@@ -8,13 +8,13 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014E2 non-formal causal reconciliation in progress
-- Active directive: UMBRA-D-014E2 from `767496ad5572ba57f6fe4acde59eccece56b8d25`
-- Active task packet: none; D-014E2 is governed as a complex bounded investigation
+- Current stage: Authority 3.0 active; D-014E2 terminal and returned to Architect
+- Active directive: None; D-014E2 terminal from `767496ad5572ba57f6fe4acde59eccece56b8d25`
+- Active task packet: none; no next scientific directive is authorized by this closeout
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014E1_R1_SCIENTIFIC_FAILURE
+- Last accepted outcome: D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE
 - Canonical permanent evidence: `\\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE`
-- Last state sync: 2026-08-23T17:20:00Z
+- Last state sync: 2026-08-24T00:00:00Z
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.

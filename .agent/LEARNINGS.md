@@ -246,3 +246,19 @@ Do not apply the AP negative-only bias to direct critical-recovery construction.
 - Duplicate results must be fail-closed: identical canonical results are idempotent, while conflicting results raise `NONDETERMINISTIC_DUPLICATE_RESULT`.
 - Synthetic harness qualification is evidence about orchestration reliability only. It cannot convert the incomplete AX attempt into a scientific result or authorize an AX rerun.
 - The AX protocol fingerprint remained unchanged and AX scientific branch execution count was zero; any clean rerun remains separately authorized work.
+
+
+## 2026-08-24 — D-014E2 critical-recovery causal reconciliation
+
+- Evidence: RPI5 canonical share at \\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014e2-critical-recovery-r1
+- Confidence: VERIFIED BOUNDED FAILURE
+
+### Learning
+
+Exact reproduction of D-014E1 R1 seed 57531938 localized a combined legacy critical-recovery defect: dynamic rest-opportunity invalidation exposed fixed-focus fatigue recovery; the direct fatigue fallback emitted MOVE search actions without reserve/horizon/progress metadata and bypassed ordinary candidate generation.
+
+Three preregistered shadows tested reserve metadata, the existing urgent candidate slate, and complete verified effect-vector regulatory scoring. None produced a substantive 7,200-tick rescue, so no production correction is justified from D-014E2.
+
+### Boundary
+
+Do not treat the causal localization as a qualified remedy. Do not promote the shadow candidate slate or effect-vector scoring into production, and do not reopen D-013/AX or launch formal D-014 without a new Architect directive.

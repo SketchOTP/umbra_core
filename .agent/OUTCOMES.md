@@ -551,3 +551,16 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
   D-013/AX work occurred.
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d014e-compositional-recovery-r1/.
 2026-08-23T17:20:00-04:00 | END | UMBRA-D-014E1 | verdict:D014E1_R1_SCIENTIFIC_FAILURE | storage:RPI5_migration_and_shared_preflight_PASS | R0:8_fixed_seeds_completed_7200 | R1:seed_57531938_tick_372_fatigue_0.951_after_verified_MOVE | R2_R3:not_started_after_terminal_failure | production:0 | thresholds:0 | retries:0 | reseeds:0 | formal_D014:false | formal_tag:false | evidence:RPI5_UMBRA_ROOT/evidence/live-evidence/d014e1-validation-resume-r1 | next:return_to_Architect
+
+
+## UMBRA-D-014E2 closeout
+
+- Baseline: 767496ad5572ba57f6fe4acde59eccece56b8d25; execution closeout commit is recorded in GitHub after governance/evidence pointer updates.
+- Verdict: D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE.
+- Exact R1 S16 reconstruction reproduced seed 57531938 through tick 372, including action counts and terminal fatigue 0.951 after verified MOVE.
+- Three preregistered shadows ran exactly once: reserve/horizon metadata only, general urgent candidate slate, and verified effect-vector regulatory scoring. All failed before 7,200 ticks; substantive rescues: 0.
+- Causal finding: dynamic opportunity invalidation exposes legacy fixed-focus critical recovery; the fatigue fallback can consume reserve through MOVE and suppresses the broader policy-visible candidate slate. Complete effect-vector scoring alone did not rescue the organism.
+- Production changes: 0. Threshold/effect/habitat changes: 0. Hidden truth in policy: false. Retries/reseeds: 0. Formal D-014/tag: false. D-013/AX: not reopened.
+- Focused recovery-contract tests: 6 passed. Authority 3.0 and governance: PASS. D-009/D-010/D-011/D-012 compatibility and full suite: not run after the terminal non-qualifying shadow gate.
+- Evidence: RPI5 canonical share at \\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014e2-critical-recovery-r1 (Atlas mount: /home/sketch/RPI5Canonical/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014e2-critical-recovery-r1/).
+- No generalized correction is authorized by this result; return to Architect. Integrated viability remains unqualified.
