@@ -396,6 +396,30 @@ class Organism:
             "evidence": evidence,
         })
 
+    def _attach_trace_lineage(
+        self,
+        row: dict[str, Any],
+        transitions: list[dict[str, Any]],
+        base_candidate: Any,
+    ) -> None:
+        row["base_candidate_scores"] = (
+            dict(getattr(base_candidate, "scores", {}) or {})
+            if base_candidate is not None
+            else None
+        )
+        row["final_candidate_lineage"] = transitions
+        for source in (
+            "development",
+            "memory",
+            "social",
+            "world_model",
+            "dormant_capability",
+            "final_safety",
+        ):
+            row[f"{source}_transition"] = [
+                transition for transition in transitions if transition.get("source") == source
+            ]
+
     def _emit_decision_trace(self, row: dict[str, Any]) -> None:
         if self._decision_trace.enabled:
             self._decision_trace.record(row)
@@ -1441,9 +1465,16 @@ class Organism:
         base_candidate = cand
         if self._decision_trace.enabled:
             trace_data.update({
-                "manipulation_bindings": canonical_fingerprint(manipulation_bindings or []),
-                "routine_proposals": canonical_fingerprint(routine_proposals),
-                "temporal_proposals_or_modifiers": canonical_fingerprint({
+                "manipulation_bindings": manipulation_bindings or [],
+                "manipulation_bindings_fingerprint": canonical_fingerprint(manipulation_bindings or []),
+                "routine_proposals": routine_proposals,
+                "routine_proposals_fingerprint": canonical_fingerprint(routine_proposals),
+                "temporal_proposals_or_modifiers": {
+                    "expectations": policy_expectations or (),
+                    "wait_enabled": wait_on,
+                    "modifiers_enabled": modifiers_on,
+                },
+                "temporal_proposals_or_modifiers_fingerprint": canonical_fingerprint({
                     "expectations": policy_expectations or (),
                     "wait_enabled": wait_on,
                     "modifiers_enabled": modifiers_on,
@@ -1734,12 +1765,12 @@ class Organism:
             trace_data.update({
                 "base_candidate": candidate_to_trace(base_candidate),
                 "final_candidate": candidate_to_trace(cand),
-                "final_candidate_lineage": trace_transitions,
                 "governance_proposal": None,
                 "governance_decision": {"admitted": False, "reason": "no_safe_action"},
                 "verified_outcome_linkage": None,
                 "terminal_reason": "no_safe_action",
             })
+            self._attach_trace_lineage(trace_data, trace_transitions, base_candidate)
             self._emit_decision_trace(trace_data)
             return {
                 "tick": self.tick,
@@ -1760,7 +1791,7 @@ class Organism:
             }
         trace_data["base_candidate"] = candidate_to_trace(base_candidate)
         trace_data["final_candidate"] = candidate_to_trace(cand)
-        trace_data["final_candidate_lineage"] = trace_transitions
+        self._attach_trace_lineage(trace_data, trace_transitions, base_candidate)
 
         # 4b. predict candidate consequences (before govern/execute)
         if self.self_model is not None and self.config.self_model_enabled:
