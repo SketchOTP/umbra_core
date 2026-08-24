@@ -2,8 +2,9 @@
 
 ## UMBRA-D-014H active snapshot
 
-UMBRA-D-014H is the sole active scientific directive from exact baseline
-`78280db037a47899ce17a9c0bb167307a86c3d39`, verified against GitHub `master`.
+UMBRA-D-014H is the sole active scientific directive from scientific starting baseline
+`78280db037a47899ce17a9c0bb167307a86c3d39`. Governance start commit
+`09cd8df57bf986ef8b8be6fa3a177abde1eefb` is now the verified GitHub `master` tip.
 
 - Classification: non-formal, shadow-only, fresh prospective-regulation
   generation; production authority remains zero.
