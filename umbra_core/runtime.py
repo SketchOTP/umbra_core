@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from umbra_core.arbitration import ArbitrationState, Arbitrator, Candidate
+from umbra_core.decision_trace import DecisionTraceSink, candidate_to_trace, canonical_fingerprint
 from umbra_core.development import (
     DevelopmentConfig,
     DevelopmentEngine,
@@ -173,6 +174,8 @@ class OrganismConfig:
     temporal_config: TemporalConfig | None = None
     temporal_scenario_id: str | None = None
     temporal_scenario_hook: Any = field(default=None, repr=False)
+    # D-014H2: opt-in read-only trace; never consulted by organism policy.
+    decision_trace_path: str | None = field(default=None, repr=False)
 
 
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, angle_diff, current_rss_mib, new_id
@@ -279,6 +282,8 @@ class Organism:
         self.governance = governance
         self.rng = rng
         self.config = config
+        self._decision_trace = DecisionTraceSink(config.decision_trace_path)
+        self._last_verified_event_sequence: int | None = None
         if config.habitat_config is not None:
             self._habitat_config = config.habitat_config
         elif config.habitat_enabled:
@@ -366,6 +371,37 @@ class Organism:
     @property
     def dt(self) -> float:
         return 1.0  # logical tick unit; wall cadence separate
+
+    def _trace_transition(
+        self,
+        transitions: list[dict[str, Any]],
+        source: str,
+        before: Any,
+        after: Any,
+        *,
+        reason: str | None = None,
+        evidence: Any = None,
+    ) -> None:
+        if not self._decision_trace.enabled:
+            return
+        before_row = candidate_to_trace(before)
+        after_row = candidate_to_trace(after)
+        transitions.append({
+            "source": source,
+            "changed": before_row != after_row,
+            "candidate_before": before_row,
+            "candidate_emitted": after_row,
+            "candidate_after": after_row,
+            "reason": reason,
+            "evidence": evidence,
+        })
+
+    def _emit_decision_trace(self, row: dict[str, Any]) -> None:
+        if self._decision_trace.enabled:
+            self._decision_trace.record(row)
+
+    def close_decision_trace(self) -> None:
+        self._decision_trace.close()
 
     def authoritative_state(self) -> dict[str, Any]:
         return {
@@ -1123,6 +1159,13 @@ class Organism:
         self._tick_organism_age = self._organism_age_tick(temporal_begin)
         self._tick_active_ticks = self._organism_active_tick(temporal_begin)
         organism_age = self._tick_organism_age
+        trace_transitions: list[dict[str, Any]] = []
+        trace_data: dict[str, Any] = {
+            "tick": self.tick,
+            "organism_age": organism_age,
+            "active_ticks": self._tick_active_ticks,
+            "decision_cycle": True,
+        }
         self.monotonic_time += self.dt
         self.metrics["total_ticks"] += 1
         self._ensure_intervention()
@@ -1259,6 +1302,22 @@ class Organism:
             )
             self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
             snap = self.snapshot_if_due()
+            trace_data.update({
+                "decision_cycle": False,
+                "physiology": self.phys.as_dict(),
+                "policy_observation_fingerprint": None,
+                "base_candidate": None,
+                "final_candidate": None,
+                "final_candidate_lineage": [],
+                "governance_proposal": None,
+                "governance_decision": None,
+                "verified_outcome_linkage": {
+                    "event_sequence": self._last_verified_event_sequence,
+                    "external_displacement": True,
+                },
+                "terminal_reason": "external_displacement",
+            })
+            self._emit_decision_trace(trace_data)
             return {
                 "tick": self.tick,
                 "capability": None,
@@ -1274,6 +1333,22 @@ class Organism:
         policy_view = self.perception.policy_view()
         if not self.config.leak_world_truth and "WORLD_TRUTH_LEAK" in policy_view:
             raise RuntimeError("world_truth_leaked_to_policy")
+        if self._decision_trace.enabled:
+            trace_data.update({
+                "physiology": self.phys.as_dict(),
+                "policy_observation_fingerprint": canonical_fingerprint(policy_view),
+                "body_schema_generation": (
+                    self.self_model.active.body_schema_id
+                    if self.self_model is not None
+                    else None
+                ),
+                "critical_recovery_context": {
+                    "active_recovery_needs": self.phys.active_recovery_needs(),
+                    "critical_vars": self.phys.critical_vars(),
+                    "recovery_focus": self.arbitrator.state.recovery_focus,
+                    "last_verified_denial": dict(self.arbitrator.state.last_verified_denial or {}),
+                },
+            })
 
         # D-006: recognition + pending resolution (design §5 steps 4–5) — every tick,
         # independent of whether social proposes anything below (critical or not).
@@ -1363,6 +1438,63 @@ class Organism:
             wait_generation_enabled=wait_on,
             temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()), authority_effect_branches=lambda candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params),
         )
+        base_candidate = cand
+        if self._decision_trace.enabled:
+            trace_data.update({
+                "manipulation_bindings": canonical_fingerprint(manipulation_bindings or []),
+                "routine_proposals": canonical_fingerprint(routine_proposals),
+                "temporal_proposals_or_modifiers": canonical_fingerprint({
+                    "expectations": policy_expectations or (),
+                    "wait_enabled": wait_on,
+                    "modifiers_enabled": modifiers_on,
+                }),
+                "individuality_context": {
+                    "scope": indiv_scope,
+                    "phase_hint": phase_hint,
+                    "enabled": indiv_apply is not None,
+                },
+            })
+            self._trace_transition(trace_transitions, "base_arbitration", None, base_candidate, reason="arbitrator.select")
+            if self.phys.critical_any() or self.phys.active_recovery_needs():
+                self._trace_transition(
+                    trace_transitions,
+                    "critical_recovery",
+                    None,
+                    base_candidate,
+                    reason="critical_recovery_context",
+                )
+            if manipulation_bindings:
+                self._trace_transition(
+                    trace_transitions,
+                    "manipulation",
+                    None,
+                    base_candidate,
+                    reason="policy_visible_manipulation_bindings",
+                )
+            if routine_proposals:
+                self._trace_transition(
+                    trace_transitions,
+                    "routine",
+                    None,
+                    base_candidate,
+                    reason="policy_visible_routine_proposals",
+                )
+            if policy_expectations or wait_on or modifiers_on:
+                self._trace_transition(
+                    trace_transitions,
+                    "temporal",
+                    None,
+                    base_candidate,
+                    reason="temporal_expectation_or_wait_modifier",
+                )
+            if indiv_apply is not None:
+                self._trace_transition(
+                    trace_transitions,
+                    "individuality",
+                    None,
+                    base_candidate,
+                    reason="individuality_modifier_context",
+                )
 
         # D-004: practice goal generation + arbitration (propose only; no authority)
         practice_goal = None
@@ -1415,6 +1547,7 @@ class Organism:
                 if self.development
                 else 0.0
             )
+            development_before = cand
             if (
                 practice_goal is not None
                 and self.arbitrator.state.mode == "full"
@@ -1435,8 +1568,13 @@ class Organism:
                         self.development.metrics["play_ticks"] = (
                             int(self.development.metrics.get("play_ticks", 0)) + 1
                         )
+            self._trace_transition(
+                trace_transitions, "development", development_before, cand,
+                reason="practice_goal" if cand is not development_before else None,
+            )
 
         # D-005: bounded retrieval may bias action selection (propose only; never authority)
+        memory_before = cand
         if self.memory is not None and self.config.memory_enabled and self.memory.config.episodic_enabled:
             urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
             critical_rec = bool(
@@ -1469,10 +1607,12 @@ class Organism:
                                 # Avoid repeatedly selecting known-failing affordance
                                 cand = Candidate("INSPECT", {})
                                 break
+        self._trace_transition(trace_transitions, "memory", memory_before, cand, reason="memory_bias")
 
         # D-006: soft social proposal — exactly one more Candidate for the same
         # arbitrate→govern→execute path; never authority, never bypasses governance.
         # Critical physiology (`social_critical`) overrides social (design §5/§9).
+        social_before = cand
         if (
             self.social is not None
             and self.config.social_enabled
@@ -1483,8 +1623,10 @@ class Organism:
             )
             if social_cand is not None:
                 cand = social_cand
+        self._trace_transition(trace_transitions, "social", social_before, cand, reason="social_proposal")
 
         # D-003: world-model planning may bias toward a proposed capability (propose only)
+        world_before = cand
         if self.world_model is not None and self.config.world_model_enabled:
             urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
             if (
@@ -1541,16 +1683,27 @@ class Organism:
                                     break
                             cand = alt
             _ = self.world_model.propose_capability_bias(obs_dicts, urg)
+        self._trace_transition(trace_transitions, "world_model", world_before, cand, reason="world_model_proposal")
 
         # Dormant/degraded capabilities: arbitration still proposes; governance admits;
         # self-model may skip prediction usefulness but cannot revoke grants.
         sm_status = (
             self.self_model.capability_status(cand.capability) if self.self_model else "available"
         )
+        dormant_before = cand
         if sm_status == "dormant" and cand.capability not in ("IDLE", "REST"):
             cand = self.arbitrator._no_safe_action()
+        self._trace_transition(
+            trace_transitions, "dormant_capability", dormant_before, cand,
+            reason="dormant_capability" if dormant_before is not cand else None,
+        )
+        final_safety_before = cand
         if self.arbitrator._introduces_critical_boundary(cand, self.phys, effect_branches=authority_effect_branches(cand, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params)):
             cand = self.arbitrator._no_safe_action()
+        self._trace_transition(
+            trace_transitions, "final_safety", final_safety_before, cand,
+            reason="verified_outcome_branch_safety" if final_safety_before is not cand else None,
+        )
         if cand.params.get("source") == "no_safe_action":
             self.store.append_event(
                 agent_id=self.identity.agent_id,
@@ -1568,6 +1721,16 @@ class Organism:
                 self.metrics["viable_ticks"] += 1
             self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
             snap = self.snapshot_if_due()
+            trace_data.update({
+                "base_candidate": candidate_to_trace(base_candidate),
+                "final_candidate": candidate_to_trace(cand),
+                "final_candidate_lineage": trace_transitions,
+                "governance_proposal": None,
+                "governance_decision": {"admitted": False, "reason": "no_safe_action"},
+                "verified_outcome_linkage": None,
+                "terminal_reason": "no_safe_action",
+            })
+            self._emit_decision_trace(trace_data)
             return {
                 "tick": self.tick,
                 "capability": None,
@@ -1585,6 +1748,10 @@ class Organism:
                 "action_issued": False,
                 "no_safe_action": True,
             }
+        trace_data["base_candidate"] = candidate_to_trace(base_candidate)
+        trace_data["final_candidate"] = candidate_to_trace(cand)
+        trace_data["final_candidate_lineage"] = trace_transitions
+
         # 4b. predict candidate consequences (before govern/execute)
         if self.self_model is not None and self.config.self_model_enabled:
             resolved = self._resolve_params(dict(cand.params))
@@ -1610,6 +1777,22 @@ class Organism:
                 if e not in ("grant_capability", "modify_identity", "modify_physiology_direct")
             ]
         decision = self.governance.admit(proposal, tick=organism_age)
+        trace_data["governance_proposal"] = {
+            "capability": proposal.capability,
+            "params": dict(proposal.params),
+            "requested_effects": list(proposal.requested_effects),
+            "proposal_fingerprint": canonical_fingerprint({
+                "capability": proposal.capability,
+                "params": proposal.params,
+                "requested_effects": proposal.requested_effects,
+            }),
+        }
+        trace_data["governance_decision"] = {
+            "admitted": bool(decision.admitted),
+            "stage_failed": decision.stage_failed,
+            "reason": decision.reason,
+            "capability": decision.capability,
+        }
         self.store.append_event(
             agent_id=self.identity.agent_id,
             event_type="proposal" if decision.admitted else "denial",
@@ -1780,6 +1963,14 @@ class Organism:
 
         self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
         snap = self.snapshot_if_due()
+        trace_data["verified_outcome_linkage"] = {
+            "event_sequence": self._last_verified_event_sequence,
+            "capability": outcome_payload.get("capability") if outcome_payload else None,
+            "success": outcome_payload.get("success") if outcome_payload else None,
+            "reason": outcome_payload.get("reason") if outcome_payload else None,
+            "effects": outcome_payload.get("effects") if outcome_payload else None,
+        }
+        self._emit_decision_trace(trace_data)
         return {
             "tick": self.tick,
             "capability": cand.capability if decision.admitted else None,
@@ -1841,6 +2032,7 @@ class Organism:
             wall_time=wall,
             payload=outcome_payload,
         )
+        self._last_verified_event_sequence = int(verified_event["sequence"])
         self.metrics["actions"][outcome.capability] = (
             self.metrics["actions"].get(outcome.capability, 0) + 1
         )
@@ -2263,6 +2455,7 @@ class Organism:
         return n
 
     def close(self) -> None:
+        self.close_decision_trace()
         self.store.close()
 
 
