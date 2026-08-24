@@ -1,5 +1,24 @@
 # Current Project State
 
+## D-014G1 active snapshot
+
+UMBRA-D-014G1 is active from exact operational baseline
+`5609414259e99aae5f3e932c7181f1107130c922`, superseding the D-014G
+fail-closed shadow boundary for one evidence-only recovery attempt.
+
+- Objective: determine whether the exact frozen D-014F prospective
+  `RegulatoryOpportunity` mechanism is reproducibly recoverable from retained
+  Atlas evidence and specification.
+- Scope: artifact forensics, semantic completeness classification, and
+  replay qualification only; no new mechanism may be designed or inferred.
+- Required stop: any behaviorally relevant ambiguous or missing semantic rule
+  makes the D-014F artifact unrecoverable; no approximation is permitted.
+- Evidence authority: Atlas canonical project root; active SQLite/WAL/AF_UNIX
+  scratch remains off SMB.
+- D-014G parent integration remains blocked unless a replay-qualified source
+  is established. No production authority, formal D-014, D-013/AX work, or
+  formal tag is authorized by this phase.
+
 ## D-014G active snapshot
 
 UMBRA-D-014G is active from exact repository baseline

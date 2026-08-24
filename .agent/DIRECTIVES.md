@@ -460,3 +460,17 @@ Format:
   RL/MPC/CBF/HJ mechanism, or fixed priority.
 - Evidence authority: ATLAS 100_ACTIVE Projects UMBRA-CORE; active
   SQLite/WAL/AF_UNIX scratch remains off SMB.
+## UMBRA-D-014G1 — D-014F prospective proposal artifact recovery / replay qualification
+
+- Started: 2026-08-24T13:55:00Z.
+- Status: active, non-formal, evidence-forensics and replay-qualification only.
+- Baseline: `5609414259e99aae5f3e932c7181f1107130c922`; local and GitHub `master`
+  verified; publication remote is `github` and no `origin` remote is configured.
+- Parent: D-014G fail-closed shadow boundary; D-014F remains terminal and its
+  historical claims are not strengthened.
+- Objective: inventory every retained D-014F artifact and classify all
+  behaviorally relevant proposal-generator semantics as exact, uniquely
+  derivable, ambiguous, or missing. Only an exact evidence-backed replay may
+  resume D-014G prospective integration.
+- Required boundary: do not design a new mechanism, infer missing semantics,
+  promote D-013AO, modify production, launch formal D-014, reopen D-013/AX,
