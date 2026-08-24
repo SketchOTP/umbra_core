@@ -1704,6 +1704,16 @@ class Organism:
             trace_transitions, "final_safety", final_safety_before, cand,
             reason="verified_outcome_branch_safety" if final_safety_before is not cand else None,
         )
+        if self._decision_trace.enabled:
+            trace_data["final_authority_reachable_effect_branches"] = [
+                dict(branch)
+                for branch in authority_effect_branches(
+                    cand,
+                    self.embodiment,
+                    self.embodiment_adapter,
+                    resolve_params=self._resolve_params,
+                )
+            ]
         if cand.params.get("source") == "no_safe_action":
             self.store.append_event(
                 agent_id=self.identity.agent_id,
