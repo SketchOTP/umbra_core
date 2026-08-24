@@ -8,13 +8,14 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014F terminal shadow failure returned to Architect
-- Active directive: none; D-014F terminal from `edbd9ce168000d9d7b72b4de56d17144f51bbb83`
-- Terminal task packet: `.agent/tasks/active/UMBRA-D-014F/`
+- Current stage: Authority 3.0 active; D-014G unified candidate authority investigation in progress
+- Active directive: UMBRA-D-014G from `c198b46413731444222e8e1fa8495d932f2aa836`
+- Active task packet: .agent/tasks/active/UMBRA-D-014G/
+- Terminal predecessor packet: .agent/tasks/active/UMBRA-D-014F/
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
 - Last accepted outcome: D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL
 - Canonical permanent evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE`
-- Last state sync: 2026-08-24T03:00:00Z
+- Last state sync: 2026-08-24T03:35:00Z
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.

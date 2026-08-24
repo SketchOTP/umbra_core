@@ -1,6 +1,28 @@
 # Current Project State
 
-## D-014F terminal snapshot
+## D-014G active snapshot
+
+UMBRA-D-014G is active from exact repository baseline
+`c198b46413731444222e8e1fa8495d932f2aa836`. The newer Architect directive
+supersedes the D-014F terminal boundary and requires substantive same-run
+execution.
+
+- Objective: unify candidate proposal sources under one final selection
+  authority while preserving current behavior when the prospective mechanism
+  is disabled, then test whether the frozen D-014F prospective proposal can
+  survive the full runtime.
+- Scope: read-only authority-topology investigation and shadow-first bounded
+  refactor qualification; production authority remains conditional on the
+  shadow gates.
+- Required first work: enumerate candidate creation/replacement sources,
+  freeze the proposal-pool/final-selection contract, and identify exact
+  replacement sites.
+- Prohibitions: no physiology, drift, outcome, habitat, identity, temporal,
+  learned-model, recovery-threshold, D-013/AX, or formal-D-014 changes.
+- Evidence authority: Atlas canonical project root; active SQLite/WAL/AF_UNIX
+  scratch remains off SMB.
+
+## D-014F terminal predecessor
 
 UMBRA-D-014F is terminal from exact scientific baseline `edbd9ce168000d9d7b72b4de56d17144f51bbb83`.
 
@@ -9,11 +31,13 @@ UMBRA-D-014F is terminal from exact scientific baseline `edbd9ce168000d9d7b72b4d
 - The prospective opportunity architecture was frozen for shadow only. The direct Governance/Embodiment/VerifiedOutcome probe passed R1 and 8/8 R0 as mechanism evidence, but the full unmodified runtime shadow diverged at tick 1 because later proposal sources overwrote the shadow candidate; R1 failed at tick 233 and all 8 fixed R0 controls failed at tick 233.
 - No production implementation, threshold/effect/habitat change, D-013/AX work, formal D-014 run/tag, retry, reseed, or hidden-truth policy use occurred.
 - Permanent evidence and retained outputs use Atlas at `\\atlas\ATLAS`; active SQLite/WAL/AF_UNIX scratch remained off SMB and was cleaned.
-- Evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014f-prospective-regulation-r1\`
+- Evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014f-prospective-regulation-r1`
 
 ## D-014F decision boundary
 
-The policy-visible opportunity architecture is not qualified and no production correction is retained. Return to Architect. A later directive must address the demonstrated pre-final-selection authority fragmentation before proposing production implementation.
+The policy-visible opportunity architecture is not qualified and no production
+correction is retained. D-014G is the newer active directive addressing the
+demonstrated pre-final-selection authority fragmentation.
 ## D-014E2 terminal snapshot
 
 UMBRA-D-014E2 completed the authorized non-formal causal reconciliation from
@@ -46,20 +70,21 @@ first genuine development-only long-validation failure.
 - Integrated long-horizon viability remains unqualified.
 
 ## Current stage
-Authority 3.0 active; D-014F objective-viability and prospective-regulation work is in progress.
+Authority 3.0 active; D-014G unified candidate authority investigation is in
+progress.
 
 ## Current objective
-First test objective viability of the unchanged R1/S16 regime, then, only if
-viable, identify and shadow-test the smallest policy-visible prospective
-homeostatic opportunity architecture.
+Enumerate and reconcile every candidate creation/replacement source into a
+single proposal-pool/final-selection boundary, while preserving baseline
+semantics and testing the frozen D-014F mechanism as proposal-only behavior.
 
 ## Active directive
-D-014F is active from repository closeout master
-edbd9ce168000d9d7b72b4de56d17144f51bbb83.
+D-014G is active from repository closeout master
+c198b46413731444222e8e1fa8495d932f2aa836.
 
 ## Terminal result
-D-014F is non-terminal; D-014E2 remains the last accepted terminal result:
-D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE.
+D-014G has no terminal result yet. The last accepted scientific predecessor is
+D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL; it remains historical and unchanged.
 
 ## D-014E terminal snapshot
 

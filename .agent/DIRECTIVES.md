@@ -441,3 +441,22 @@ Format:
 - Current status: STARTED; governance reconciliation is the first committed phase.
 
 - 2026-08-24T03:00:00Z | END | UMBRA-D-014F | status:terminal_shadow_fail | baseline:edbd9ce168000d9d7b72b4de56d17144f51bbb83 | verdict:D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL | physical_viability:constructive_7200_bound | information_class:F1 | direct_probe:R1_plus_8_R0_pass_mechanism_only | runtime_shadow:first_divergence_tick_1 | runtime_shadow:R1_fail_tick_233_R0_0_of_8 | production_changes:0 | hidden_truth_exposed_to_policy:false | retries:0 | reseeds:0 | formal_D014:false | formal_tag:false | d013_reopened:false | evidence:ATLAS_UMBRA_ROOT/evidence/live-evidence/d014f-prospective-regulation-r1 | next:return_to_Architect
+
+## UMBRA-D-014G  unified candidate proposal / single final selection authority
+
+- Started: 2026-08-24T03:35:00Z.
+- Status: active, non-formal, shadow-first authority-topology investigation.
+- Baseline: c198b46413731444222e8e1fa8495d932f2aa836 (local and GitHub master
+  verified; publication remote is github, not origin).
+- Parent: accepted D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL.
+- Scope: enumerate every candidate creation/replacement source; freeze the
+  proposal-pool/final-selection contract; prove a translation-only shadow
+  preserves current final-candidate semantics with the prospective mechanism
+  disabled; then test whether the frozen D-014F prospective proposal survives
+  the full runtime under one final selection boundary.
+- Prohibitions: no production physiology/homeostasis rule, threshold, effect,
+  habitat, identity, temporal, learned-model, D-013/AX, formal D-014, or formal
+  tag changes. No hidden truth, scripted rescue, scalar survival controller,
+  RL/MPC/CBF/HJ mechanism, or fixed priority.
+- Evidence authority: ATLAS 100_ACTIVE Projects UMBRA-CORE; active
+  SQLite/WAL/AF_UNIX scratch remains off SMB.
