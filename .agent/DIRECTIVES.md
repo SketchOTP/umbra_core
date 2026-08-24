@@ -535,3 +535,6 @@ Format:
 
 - D-20260824-1615-umbra-d014h1-closeout | project:UMBRA-D-014H1 | status:terminal | verdict:D014H1_TRANSLATION_UNEXPLAINED | freeze:0308403870d41c0b1b2ba48c4340c21c94f6be1e | focused:5_passed | replay:byte_equal | synthetic_source_coverage:12_of_12 | production_trace_rows:0 | organism_outcomes:0 | r0:not_run | holdouts:not_run | production_modified:false | next:return_to_Architect
 - D-20260824-1633-umbra-d014h2 | status:started | scope:production trace seam, H1 translation adapter, .agent/*, experiments/research/non-production/*, docs/evidence/d014h2* | ask:Qualify a zero-semantic-impact production-native decision trace and translate real runtime rows through frozen H1 | accept:Parity, replay, live source coverage, and H1 translation gates or exact H2 stop | plan:freeze trace contract, qualify seam, translate and close fail-closed
+
+
+- D-20260824-1700-umbra-d014h2-closeout | status:terminal | verdict:D014H2_UNIFIED_POOL_BASELINE_FAIL | closeout:45034ef41ccb7f7e6328e8f666402951f5badf85 | r0:8_of_8_x7200 | r1:seed_57531938_tick_372_fatigue_0.951 | holdouts:r1_3_failures_r2_runner_stop_r3_not_run | translation:qualified_zero_rejections_zero_overflows_zero_trace_hash_mismatches | production_semantic_changes:false | formal:false | tag:false | retries:0 | reseeds:0 | next:return_to_Architect

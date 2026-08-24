@@ -1,24 +1,44 @@
 # Current Project State
 
-## UMBRA-D-014H2 active snapshot
+## UMBRA-D-014H2 terminal snapshot
 
-UMBRA-D-014H2 is active from exact H1 closeout
-7fa795ddd3a1b782382c51e9b7068d7ecd438f6d.
+UMBRA-D-014H2 is terminal from exact H1 closeout baseline
+`7fa795ddd3a1b782382c51e9b7068d7ecd438f6d`.
 
-- Objective: establish a replayable, production-native, read-only decision trace
-  and translate real rows into the unchanged frozen H1 unified-pool evaluator.
-- Frozen H1 unified-pool artifact:
-  0308403870d41c0b1b2ba48c4340c21c94f6be1e.
-- Frozen H prospective artifact:
-  9af6b634815e90958a45b55414fa63318819b76b.
-- Production decision semantics remain unchanged; instrumentation must be
-  default-disabled, non-authoritative, non-persistent, and RNG/timing neutral.
-- Evidence root:
-  /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h2-production-trace-translation-r1/.
-- If complete source lineage cannot be observed, stop D014H2_TRACE_SEAM_INSUFFICIENT;
-  if parity fails, stop D014H2_TRACE_PARITY_FAIL.
-- D-014I, formal D-014, D-013/AX, retries, reseeds, tuning, and decision
-  changes are not authorized.
+- Closeout commit and GitHub `master`: `45034ef41ccb7f7e6328e8f666402951f5badf85`.
+- Verdict: `D014H2_UNIFIED_POOL_BASELINE_FAIL`.
+- The default-disabled production trace is read-only, non-authoritative,
+  non-persistent, and behaviorally neutral under the frozen contract.
+- Real production rows translated through the unchanged H1 unified-pool
+  evaluator: 57,600 R0 rows and the known R1/holdout rows; all translated
+  rows had zero trace-hash mismatches, rejected proposals, and overflows.
+- Fixed R0: 8/8 reached 7,200 ticks with zero critical physiology crossing.
+- Known R1 seed `57531938`: reproduced the governed fatigue failure at tick 372,
+  fatigue `0.951` after verified MOVE. Three R1 holdouts also failed before
+  3,600 ticks. The first R2 holdout executed once to tick 2,400, then the
+  existing runner raised `HabitatWriteRejected` at its scheduled occlusion;
+  R2/R3 were not retried.
+- H1 translation qualification therefore did not become integrated organism
+  qualification. `no_safe_action` observations remain preserved as evidence.
+- Evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014h2-production-trace-translation-r1`.
+- Active SQLite/WAL/AF_UNIX scratch was direct-attached only; no active database
+  ran on SMB. Evidence was hash-verified on Atlas.
+- Production semantic changes: none; only opt-in trace instrumentation was
+  retained. Formal D-014/tag, D-013/AX, retry, reseed, and remediation: none.
+- Integrated long-horizon viability remains unqualified; D-014I is not
+  authorized automatically. Return to Architect.
+
+## Current stage
+Authority 3.0 active; D-014H2 is terminal and returned to Architect.
+
+## Active directive
+None. D-014H2 is terminal; no D-014I or formal work is inferred.
+
+## Terminal result
+`D014H2_UNIFIED_POOL_BASELINE_FAIL`.
+
+## Last updated
+2026-08-24T17:00:00Z
 
 ## UMBRA-D-014H1 terminal snapshot
 
@@ -136,8 +156,8 @@ UMBRA-D-014F is terminal from exact scientific baseline `edbd9ce168000d9d7b72b4d
 - An evaluator-only constructive route/cost bound established unchanged S16 physical viability through 7,200 ticks; the lowest demonstrated information class was F1 current policy observation.
 - The prospective opportunity architecture was frozen for shadow only. The direct Governance/Embodiment/VerifiedOutcome probe passed R1 and 8/8 R0 as mechanism evidence, but the full unmodified runtime shadow diverged at tick 1 because later proposal sources overwrote the shadow candidate; R1 failed at tick 233 and all 8 fixed R0 controls failed at tick 233.
 - No production implementation, threshold/effect/habitat change, D-013/AX work, formal D-014 run/tag, retry, reseed, or hidden-truth policy use occurred.
-- Permanent evidence and retained outputs use Atlas at `\\atlas\ATLAS`; active SQLite/WAL/AF_UNIX scratch remained off SMB and was cleaned.
-- Evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014f-prospective-regulation-r1`
+- Permanent evidence and retained outputs use Atlas at `\\\\atlas\ATLAS`; active SQLite/WAL/AF_UNIX scratch remained off SMB and was cleaned.
+- Evidence: `\\\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014f-prospective-regulation-r1`
 
 ## D-014F decision boundary
 
@@ -157,7 +177,7 @@ baseline 767496ad5572ba57f6fe4acde59eccece56b8d25.
 - No production correction is retained; production, thresholds, effects,
   habitat, protected evidence, and protected agent files are unchanged.
 - The historical closeout recorded the former RPI5 canonical root; the current
-  permanent evidence authority is Atlas at \\atlas\ATLAS. Active SQLite/WAL/AF_UNIX
+  permanent evidence authority is Atlas at \\\\atlas\ATLAS. Active SQLite/WAL/AF_UNIX
   scratch was kept off SMB and cleaned.
 - No formal D-014 run/tag and no D-013/AX work occurred. Integrated viability
   remains unqualified. Return to Architect.

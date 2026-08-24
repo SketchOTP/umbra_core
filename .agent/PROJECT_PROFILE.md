@@ -24,7 +24,7 @@
 ## Important integrations
 - GitHub remote `github` — committed implementation and publication authority.
 - Canonical Notion project page — strategic state and Architect decisions.
-- `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE` — canonical permanent evidence authority. Atlas Linux mount: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE`.
+- `\\\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE` — canonical permanent evidence authority. Atlas Linux mount: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE`.
 - `/mnt/storage1tb` remains transient/direct-attached scratch only.
 - Mimir/Serena configuration — optional repository navigation support when configured and reachable; never a prerequisite for ordinary source inspection.
 
@@ -43,16 +43,22 @@
 
 ## Current scientific status
 
-### Active authority: UMBRA-D-014H2
+### Terminal authority: UMBRA-D-014H2
 
-D-014H2 is active from H1 closeout 7fa795ddd3a1b782382c51e9b7068d.
-It is an observability and translation-qualification directive only. The trace
-must be default-disabled, read-only, non-authoritative, and behavior-parity
-proven. The frozen H1 unified-pool artifact is
-0308403870d41c0b1b2ba48c4340c21c94f6be1e; the H prospective artifact is
-9af6b634815e90958a45b55414fa63318819b76b. H2 may not alter action-selection
-semantics or begin D-014I. Evidence is finalized under the Atlas canonical
-root at /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h2-production-trace-translation-r1/.
+D-014H2 closed from H1 closeout `7fa795ddd3a1b782382c51e9b7068d7ecd438f6d`
+with verdict `D014H2_UNIFIED_POOL_BASELINE_FAIL`. The default-disabled trace
+contract passed parity/replay and complete required-field checks. Real rows
+translated through unchanged H1 with zero rejected proposals, overflows, or
+trace-hash mismatches. Fixed R0 completed 8/8 x 7,200 without critical failure,
+but known R1 reproduced fatigue failure at tick 372 and three R1 holdouts also
+failed. The first R2 holdout stopped at an existing runner `HabitatWriteRejected`
+at the scheduled occlusion; it and R2/R3 were not retried.
+
+Closeout commit/master: `45034ef41ccb7f7e6328e8f666402951f5badf85`.
+Evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014h2-production-trace-translation-r1/`.
+Production semantic changes: 0; no formal D-014/tag, D-013/AX, retry, reseed,
+or remediation. Integrated viability remains unqualified and D-014I is not
+authorized automatically.
 
 ### Terminal authority: UMBRA-D-014H1
 

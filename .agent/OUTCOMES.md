@@ -607,3 +607,13 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Production, tests, historical evidence, thresholds, effects, habitat, formal tags, D-013/AX, retries, and reseeds: unchanged/not started.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h1-fresh-unified-pool-r1/.
 - Next: return to Architect; do not begin D-014I automatically.
+
+
+## UMBRA-D-014H2 closeout (2026-08-24T17:00:00Z)
+
+- Verdict: `D014H2_UNIFIED_POOL_BASELINE_FAIL`.
+- Closeout/master: `45034ef41ccb7f7e6328e8f666402951f5badf85`.
+- Production trace seam qualified: default-disabled, parity/replay PASS, required trace fields present, and H1 translation accepted 57,600 R0 rows plus completed R1/holdout rows with zero rejected proposals, overflows, or trace-hash mismatches.
+- Current fixed R0 completed 8/8 x 7,200 with zero critical physiology failures. Known R1 reproduced tick-372 fatigue 0.951; three R1 holdouts failed; the first R2 holdout stopped at existing runner HabitatWriteRejected at tick 2400 and was not retried.
+- Permanent evidence: `\\atlas\\ATLAS\\100_ACTIVE\\Projects\\UMBRA-CORE\\evidence\\live-evidence\\d014h2-production-trace-translation-r1`. Active SQLite/WAL remained off SMB.
+- No production semantic change beyond opt-in trace instrumentation; no formal D-014/tag, D-013/AX, retry, reseed, or remediation. Integrated viability remains unqualified.

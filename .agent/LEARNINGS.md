@@ -262,3 +262,8 @@ Three preregistered shadows tested reserve metadata, the existing urgent candida
 ### Boundary
 
 Do not treat the causal localization as a qualified remedy. Do not promote the shadow candidate slate or effect-vector scoring into production, and do not reopen D-013/AX or launch formal D-014 without a new Architect directive.
+
+
+## D-014H2 evidence and storage learning (2026-08-24T17:00:00Z)
+
+A production-native trace can remain behavior-neutral when it is default-disabled, side-effect-free, RNG/timing neutral, and sink-failure fail-closed. H1 translation must be kept separate from organism outcomes: all translated rows may be evaluator-selected while the current organism still fails the known R1 viability trajectory. Finalized traces and translations belong on `\\atlas\\ATLAS\\100_ACTIVE\\Projects\\UMBRA-CORE`; active SQLite/WAL/AF_UNIX scratch remains direct-attached only.

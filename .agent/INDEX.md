@@ -8,23 +8,24 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014H2 production-native trace qualification
-- Active directive: UMBRA-D-014H2
-- Active task packet: .agent/tasks/active/UMBRA-D-014H2/
+- Current stage: Authority 3.0 active; D-014H2 terminal / returned to Architect
+- Active directive: None; D-014H2 terminal
+- Completed task packet: .agent/tasks/completed/UMBRA-D-014H2/
 - Parent terminal task packet: .agent/tasks/completed/UMBRA-D-014H1/
 - Terminal predecessor packet: .agent/tasks/completed/UMBRA-D-014H/
 - Terminal predecessor packets: .agent/tasks/completed/UMBRA-D-014F/, .agent/tasks/completed/UMBRA-D-014G/, .agent/tasks/completed/UMBRA-D-014G1/
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014H1_TRANSLATION_UNEXPLAINED
-- Canonical permanent evidence: \atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
-- Last state sync: 2026-08-24T16:33:00Z
+- Last accepted outcome: D014H2_UNIFIED_POOL_BASELINE_FAIL
+- Canonical permanent evidence: \\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
+- Last state sync: 2026-08-24T17:00:00Z
 
-## UMBRA-D-014H2 active routing
+## UMBRA-D-014H2 terminal routing
 
-D-014H2 is active from exact starting tip 7fa795ddd3a1b782382c51e9b7068d7ecd438f6.
-It establishes a default-disabled, read-only production decision trace and
-qualifies translation of real runtime rows into the unchanged H1 unified-pool
-artifact. D-014I remains unauthorized.
+D-014H2 is terminal from exact H1 closeout tip 7fa795ddd3a1b782382c51e9b7068d7ecd438f6d.
+Verdict: D014H2_UNIFIED_POOL_BASELINE_FAIL. Closeout commit/master: 45034ef41ccb7f7e6328e8f666402951f5badf85.
+The default-disabled, read-only production trace and real-row translation
+qualified at the instrumentation boundary, but downstream organism outcome
+gates failed on known R1/holdout failures. D-014I remains unauthorized.
 
 Frozen inputs:
 - H1 unified-pool artifact: 0308403870d41c0b1b2ba48c4340c21c94f6be1e
