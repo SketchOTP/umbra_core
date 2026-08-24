@@ -21,6 +21,14 @@ execution.
   learned-model, recovery-threshold, D-013/AX, or formal-D-014 changes.
 - Evidence authority: Atlas canonical project root; active SQLite/WAL/AF_UNIX
   scratch remains off SMB.
+- Translation-only authority shadow: PASS for 16 comparisons across 32
+  bounded ticks.
+- D-014F prospective integration shadow: NOT RUN. The governed repository and
+  retained D-014F evidence contain no executable RegulatoryOpportunity generator
+  or ordered runtime proposal trace; only the frozen external specification and
+  related D-013AO view/contracts exist. No mechanism was invented or promoted.
+- D-014G is therefore active at a fail-closed shadow boundary; no production
+  authority, formal D-014, D-013/AX work, or tag is authorized by this state.
 
 ## D-014F terminal predecessor
 
