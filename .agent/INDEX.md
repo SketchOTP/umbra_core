@@ -10,21 +10,19 @@
 ## Current pointers
 - Current stage: Authority 3.0 active; D-014H terminal at the unified-pool artifact boundary
 - Active directive: none inferred; return to Architect
-- Terminal task packet: .agent/tasks/completed/UMBRA-D-014H/
+- Terminal task packet: .agent/tasks/completed/UMBRA-D-014H1/
+- Terminal predecessor packet: .agent/tasks/completed/UMBRA-D-014H/
 - Terminal predecessor packets: .agent/tasks/completed/UMBRA-D-014F/, .agent/tasks/completed/UMBRA-D-014G/, .agent/tasks/completed/UMBRA-D-014G1/
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
 - Last accepted outcome: D014G1_D014F_ARTIFACT_UNRECOVERABLE
 - Canonical permanent evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE`
 - Last state sync: 2026-08-24T16:00:00Z
 
-## UMBRA-D-014H1 routing
+## UMBRA-D-014H1 terminal routing
 
-D-014H is accepted and terminal. D-014H1 is the sole active directive from
-exact baseline ce8807d9786eb93dfc7a25449e76b16a4cf0c854.
-
-Scope is fresh shadow-only unified candidate-pool generation from current
-production source behavior. D-014G/D-014F missing semantics must not be
-reconstructed. Production authority is zero until a later directive.
+D-014H1 is terminal with D014H1_TRANSLATION_UNEXPLAINED. The frozen shadow
+passed its synthetic gates but produced no production-runtime translation rows.
+No active directive is inferred; return to Architect. D-014I is not authorized.
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.

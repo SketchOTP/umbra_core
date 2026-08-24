@@ -1,23 +1,24 @@
 # Current Project State
 
-## UMBRA-D-014H1 active snapshot
+## UMBRA-D-014H1 terminal snapshot
 
-UMBRA-D-014H1 is authorized from exact governance baseline
-`ce8807d9786eb93dfc7a25449e76b16a4cf0c854`, matching local `master` and the
-published `github/master`.
+UMBRA-D-014H1 stopped fail-closed at the current-production translation
+boundary from governance baseline ce8807d9786eb93dfc7a25449e76b16a4cf0c854.
 
-- Parent D-014H is accepted and terminal with
-  `D014H_UNIFIED_POOL_ARTIFACT_INSUFFICIENT`.
-- Frozen D-014H prospective source remains
-  `9af6b634815e90958a45b55414fa63318819b76b` and is read-only input.
-- Scope is fresh, non-production, replay-first unified candidate-pool
-  generation from current production source semantics.
-- Production authority remains zero. No formal D-014, formal tag, D-013/AX,
-  hidden truth, fixed source priority, scalar survival controller, retries,
-  reseeds, tuning, or threshold/effect/habitat changes are authorized.
-- First gate: complete current-production authority inventory, then a 36-category
-  exact unified-pool specification before any organism outcome is inspected.
-- Evidence authority: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h1-fresh-unified-pool-r1/`.
+- Verdict: D014H1_TRANSLATION_UNEXPLAINED.
+- Freeze commit: 0308403870d41c0b1b2ba48c4340c21c94f6be1e.
+- The fresh 36-category unified-pool specification is exact; focused tests
+  passed 5/5; deterministic synthetic replay is byte-equal.
+- Synthetic source coverage represents 12/12 policy-side source classes and
+  post-selection replacement is zero in the shadow.
+- Production-runtime translation produced zero trace rows, so no current
+  production translation or organism outcome can be claimed.
+- R0, D-014H prospective integration, holdouts, agency, boundedness, and
+  organism outcome gates were NOT RUN. Production authority remained zero.
+- No formal D-014, formal tag, D-013/AX, retry, reseed, tuning, or threshold/
+  effect/habitat change occurred.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h1-fresh-unified-pool-r1/.
+- Return to Architect; do not start D-014I automatically.
 
 ## UMBRA-D-014H terminal snapshot
 
