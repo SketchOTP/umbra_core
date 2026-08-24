@@ -1,0 +1,100 @@
+{
+  "baseline": "ce8807d9786eb93dfc7a25449e76b16a4cf0c854",
+  "current_post_selection_mutation_sites": 7,
+  "directive": "UMBRA-D-014H1",
+  "generation": "FRESH_D014H1_UNIFIED_POOL_GENERATION",
+  "production_authority": 0,
+  "source_order_is_not_behavioral_precedence": true,
+  "sources": [
+    {
+      "classification": "PROPOSAL_SOURCE",
+      "source_file": "umbra_core/arbitration.py",
+      "source_function": "Arbitrator.select/generate_candidates",
+      "source_name": "base_arbitration"
+    },
+    {
+      "classification": "PROPOSAL_SOURCE",
+      "source_file": "umbra_core/arbitration.py",
+      "source_function": "commit_safe_recovery",
+      "source_name": "critical_recovery"
+    },
+    {
+      "classification": "PROPOSAL_SOURCE",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "manipulation_bindings",
+      "source_name": "manipulation"
+    },
+    {
+      "classification": "PROPOSAL_SOURCE",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "routine_soft_proposals",
+      "source_name": "routine_habit"
+    },
+    {
+      "classification": "PROPOSAL_SOURCE",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "select_practice_goal",
+      "source_name": "development"
+    },
+    {
+      "classification": "SOFT_MODIFIER",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "retrieve/predict_from_memory",
+      "source_name": "memory"
+    },
+    {
+      "classification": "PROPOSAL_SOURCE",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "social.propose",
+      "source_name": "social"
+    },
+    {
+      "classification": "PROPOSAL_SOURCE",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "world_model.plan/propose_capability_bias",
+      "source_name": "world_model"
+    },
+    {
+      "classification": "SOFT_MODIFIER",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "policy_expectation_views",
+      "source_name": "temporal"
+    },
+    {
+      "classification": "SOFT_MODIFIER",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "individuality.apply_modifiers",
+      "source_name": "individuality"
+    },
+    {
+      "classification": "CONSTRAINT",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "capability_status",
+      "source_name": "dormant_capability"
+    },
+    {
+      "classification": "CONSTRAINT",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "authority_effect_branches",
+      "source_name": "final_safety"
+    },
+    {
+      "classification": "GOVERNANCE_AUTHORITY",
+      "source_file": "umbra_core/governance.py",
+      "source_function": "Governance.propose/admit",
+      "source_name": "governance"
+    },
+    {
+      "classification": "EXECUTION_AUTHORITY",
+      "source_file": "umbra_core/runtime.py",
+      "source_function": "execution and verified outcome",
+      "source_name": "execution_verified_outcome"
+    },
+    {
+      "classification": "LEARNING_ONLY",
+      "source_file": "experiments/research/non-production/d014h_regulation.py",
+      "source_function": "evaluate",
+      "source_name": "d014h_prospective_disabled"
+    }
+  ]
+}
