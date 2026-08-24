@@ -43,6 +43,27 @@
 
 ## Current scientific status
 
+### Terminal authority: UMBRA-D-014H3
+
+D-014H3 began from exact baseline
+40fd210c47d9a0dc180804e92ce5545a90cc50b1 as a fresh, shadow-only,
+non-production integrated prospective action-selection generation. Phase A
+governance reconciliation was performed, but the required R2 runner-authority
+preflight stopped with D014H3_R2_RUNNER_UNRESOLVED.
+
+The historical R2 runner calls Embodiment.set_occlusion after attaching the
+authoritative HabitatEngine, so the call raises
+HabitatWriteRejected: habitat_engine_is_sole_writer. The S10 authoritative
+state has no social object and projects no partner; direct engine mutation of
+partner:d014 fails with MutationRejected: missing_object:partner:d014.
+No workaround was accepted because bypassing the engine or inventing a social
+object would alter the frozen scenario semantics.
+
+No H3 selector implementation, fresh holdout outcome, formal D-014 run/tag,
+production change, retry, or reseed occurred. Permanent evidence is on the
+Atlas share at
+\\\\atlas\\ATLAS\\100_ACTIVE\\Projects\\UMBRA-CORE\\evidence\\live-evidence\\d014h3-integrated-prospective-selection-r1/.
+
 ### Terminal authority: UMBRA-D-014H2
 
 D-014H2 closed from H1 closeout `7fa795ddd3a1b782382c51e9b7068d7ecd438f6d`

@@ -1,5 +1,41 @@
 # Current Project State
 
+## UMBRA-D-014H3 terminal preflight stop
+
+UMBRA-D-014H3 was authorized and terminally stopped from exact baseline
+40fd210c47d9a0dc180804e92ce5545a90cc50b1 as a fresh, shadow-only,
+non-production integrated prospective affordance competition generation.
+
+Phase A was performed. Local master and GitHub master matched the required
+baseline; the working tree contained only preserved pre-existing untracked
+.agent/LIBRARY_REVIEW.md and research/course_correction/d013ax2_harness/.
+Canonical Notion already recorded H3 as the current authority. H2 remains
+historical with coder verdict D014H2_UNIFIED_POOL_BASELINE_FAIL, while the
+Architect interpretation accepts H2 trace parity/replay, real translation,
+and fixed R0 8/8 x 7,200.
+
+The H2 protocol deviation is preserved: known R1 57531938 failed before the
+holdout gate, but three R1 holdouts and part of R2 executed. Those seeds are
+consumed, formal-ineligible, and not reusable as holdouts.
+
+H3 stopped before selector implementation or any organism outcome at the
+required R2 runner-authority preflight. The historical runner calls
+Embodiment.set_occlusion("partner", ...) after attaching HabitatEngine,
+which raises HabitatWriteRejected: habitat_engine_is_sole_writer. The
+authoritative S10 state contains only resource:0 and rest:0, projects zero
+partners, and has no partner:d014 object for a valid HabitatEngine
+mutation. Bypassing the engine or inventing a missing social object would
+change the frozen scenario semantics.
+
+Terminal H3 preflight verdict:
+D014H3_R2_RUNNER_UNRESOLVED.
+
+No H3 selector/spec freeze, fresh holdout outcome, formal D-014 run/tag,
+D-013/AX work, production change, retry, or reseed occurred. Permanent
+evidence is on Atlas at
+\\atlas\\ATLAS\\100_ACTIVE\\Projects\\UMBRA-CORE\\evidence\\live-evidence\\d014h3-integrated-prospective-selection-r1/.
+Active SQLite/WAL/AF_UNIX scratch remained local and was cleaned.
+
 ## UMBRA-D-014H2 terminal snapshot
 
 UMBRA-D-014H2 is terminal from exact H1 closeout baseline

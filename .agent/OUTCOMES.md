@@ -617,3 +617,21 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Current fixed R0 completed 8/8 x 7,200 with zero critical physiology failures. Known R1 reproduced tick-372 fatigue 0.951; three R1 holdouts failed; the first R2 holdout stopped at existing runner HabitatWriteRejected at tick 2400 and was not retried.
 - Permanent evidence: `\\atlas\\ATLAS\\100_ACTIVE\\Projects\\UMBRA-CORE\\evidence\\live-evidence\\d014h2-production-trace-translation-r1`. Active SQLite/WAL remained off SMB.
 - No production semantic change beyond opt-in trace instrumentation; no formal D-014/tag, D-013/AX, retry, reseed, or remediation. Integrated viability remains unqualified.
+
+## UMBRA-D-014H3 preflight stop (2026-08-24T18:00:00Z)
+
+- Baseline and remote: 40fd210c47d9a0dc180804e92ce5545a90cc50b1.
+- Phase A: PASSED. H2 terminal interpretation was reconciled to the
+  Architect disposition; the historical coder verdict was preserved.
+- H2 deviation: the known R1 failure preceded the holdout gate, but three R1
+  holdouts and part of R2 executed. Those development seeds are consumed,
+  formal-ineligible, and not reusable as holdouts.
+- R2 runner preflight: FAILED fail-closed. The historical runner calls
+  Embodiment.set_occlusion after HabitatEngine attachment and receives
+  HabitatWriteRejected: habitat_engine_is_sole_writer. The authoritative S10
+  state contains only resource:0 and rest:0; no partner:d014 object is
+  present for an engine mutation, and zero partners are projected.
+- Verdict: D014H3_R2_RUNNER_UNRESOLVED.
+- No selector implementation, H3 freeze, fresh holdout outcome, formal D-014,
+  formal tag, production change, retry, or reseed occurred.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3-integrated-prospective-selection-r1/.

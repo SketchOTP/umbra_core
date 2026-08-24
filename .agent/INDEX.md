@@ -8,8 +8,9 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014H2 terminal / returned to Architect
-- Active directive: None; D-014H2 terminal
+- Current stage: Authority 3.0 active; D-014H3 terminal at R2 runner authority
+- Active directive: None; D-014H3 terminal fail-closed
+- Completed task packet: .agent/tasks/completed/UMBRA-D-014H3/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H2/
 - Parent terminal task packet: .agent/tasks/completed/UMBRA-D-014H1/
 - Terminal predecessor packet: .agent/tasks/completed/UMBRA-D-014H/
@@ -17,7 +18,26 @@
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
 - Last accepted outcome: D014H2_UNIFIED_POOL_BASELINE_FAIL
 - Canonical permanent evidence: \\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
-- Last state sync: 2026-08-24T17:00:00Z
+- Last state sync: 2026-08-24T18:00:00Z
+
+## UMBRA-D-014H3 terminal routing
+
+D-014H3 is authorized from exact baseline
+40fd210c47d9a0dc180804e92ce5545a90cc50b1 as a fresh, non-production,
+replay-first integrated prospective affordance competition shadow.
+
+Phase A governance reconciliation started and the H2 protocol deviation is
+preserved. H2-executed development seeds are consumed, formal-ineligible, and
+not reusable as holdouts.
+
+The required R2 runner-authority preflight stopped fail-closed:
+D014H3_R2_RUNNER_UNRESOLVED. The historical runner calls
+Embodiment.set_occlusion after an authoritative HabitatEngine is attached;
+the call is rejected, and the authoritative S10 state contains no
+partner:d014 object for a legitimate engine mutation. No H3 selector,
+fresh holdout outcome, organism shadow, formal run, or tag was started.
+Evidence is finalized under
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3-integrated-prospective-selection-r1/.
 
 ## UMBRA-D-014H2 terminal routing
 

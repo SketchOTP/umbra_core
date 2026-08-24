@@ -267,3 +267,16 @@ Do not treat the causal localization as a qualified remedy. Do not promote the s
 ## D-014H2 evidence and storage learning (2026-08-24T17:00:00Z)
 
 A production-native trace can remain behavior-neutral when it is default-disabled, side-effect-free, RNG/timing neutral, and sink-failure fail-closed. H1 translation must be kept separate from organism outcomes: all translated rows may be evaluator-selected while the current organism still fails the known R1 viability trajectory. Finalized traces and translations belong on `\\atlas\\ATLAS\\100_ACTIVE\\Projects\\UMBRA-CORE`; active SQLite/WAL/AF_UNIX scratch remains direct-attached only.
+## 2026-08-24 — D-014H3 R2 runner authority
+
+- Embodiment.set_occlusion is correctly rejected after an authoritative
+  HabitatEngine is attached; runner scenario mutations must use the
+  authoritative engine API.
+- The existing D-014 S10 runner plants partner:d014 only in the legacy
+  embodiment habitat before attaching an engine. The authoritative S10 engine
+  state contains no social object and projects zero partners.
+- A missing authoritative target cannot be repaired by bypassing the engine or
+  inventing a social object without changing frozen scenario semantics.
+- Therefore H3 must stop at D014H3_R2_RUNNER_UNRESOLVED until a separately
+  authorized runner/scenario correction proves an unchanged authoritative R2
+  state. No H3 selector or organism outcome may be inferred from this stop.
