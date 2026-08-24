@@ -1,0 +1,82 @@
+{
+  "authoritative": false,
+  "coverage_sources": [
+    "base_arbitration",
+    "critical_recovery",
+    "manipulation",
+    "routine_habit",
+    "development",
+    "memory",
+    "social",
+    "world_model",
+    "temporal",
+    "individuality",
+    "dormant_capability",
+    "final_safety"
+  ],
+  "default_enabled": false,
+  "directive": "UMBRA-D-014H2",
+  "failure_policy": "trace_sink_failure_is_non_authoritative_and_must_not_change_organism_behavior",
+  "fingerprinting": {
+    "algorithm": "sha256",
+    "canonical_json": true,
+    "observation_fingerprint_excludes_hidden_truth": true
+  },
+  "governance_or_execution_changed": false,
+  "h1_translation": {
+    "artifact_commit": "0308403870d41c0b1b2ba48c4340c21c94f6be1e",
+    "missing_field_policy": "UNKNOWN_OR_ABSENT_PER_FROZEN_H1_SEMANTICS",
+    "semantic_inference": false,
+    "synthetic_source_bonus": false
+  },
+  "hidden_world_truth": false,
+  "persistent_organism_state": false,
+  "policy_fields_only": true,
+  "proposal_order_changed": false,
+  "purpose": "read-only production-native decision observability and H1 translation",
+  "replay_requirements": {
+    "governance_handoff_equal": true,
+    "identical_deterministic_inputs": true,
+    "lineage_equal": true,
+    "rows_equal": true,
+    "verified_outcome_linkage_equal": true
+  },
+  "required_decision_fields": [
+    "tick",
+    "organism_age",
+    "active_ticks",
+    "physiology",
+    "policy_observation_fingerprint",
+    "body_schema_generation",
+    "manipulation_bindings",
+    "routine_proposals",
+    "temporal_proposals_or_modifiers",
+    "individuality_context",
+    "critical_recovery_context",
+    "base_candidate",
+    "base_candidate_scores",
+    "development_transition",
+    "memory_transition",
+    "social_transition",
+    "world_model_transition",
+    "dormant_capability_transition",
+    "final_safety_transition",
+    "final_candidate",
+    "final_candidate_lineage",
+    "governance_proposal",
+    "governance_decision",
+    "verified_outcome_linkage"
+  ],
+  "rng_consumed": false,
+  "schema_version": "d014h2.production-decision-trace.v1",
+  "semantics_changed": false,
+  "timing_accounting_changed": false,
+  "transition_schema": {
+    "candidate_after": "candidate_or_null",
+    "candidate_before": "candidate_or_null",
+    "candidate_emitted": "candidate_or_null",
+    "evidence": "policy-visible bounded summary or null",
+    "reason": "policy-visible bounded text or null",
+    "source": "base_arbitration|development|memory|social|world_model|dormant_capability|final_safety"
+  }
+}
