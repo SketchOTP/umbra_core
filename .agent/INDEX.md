@@ -8,13 +8,13 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014E2 terminal and returned to Architect
-- Active directive: None; D-014E2 terminal from `767496ad5572ba57f6fe4acde59eccece56b8d25`
-- Active task packet: none; no next scientific directive is authorized by this closeout
+- Current stage: Authority 3.0 active; D-014F objective-viability and prospective-regulation work in progress
+- Active directive: UMBRA-D-014F from `edbd9ce168000d9d7b72b4de56d17144f51bbb83`
+- Active task packet: `.agent/tasks/active/UMBRA-D-014F/`
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
 - Last accepted outcome: D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE
-- Canonical permanent evidence: `\\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE`
-- Last state sync: 2026-08-24T00:00:00Z
+- Canonical permanent evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE`
+- Last state sync: 2026-08-24T02:00:00Z
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.

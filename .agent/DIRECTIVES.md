@@ -428,3 +428,14 @@ Format:
 2026-08-23T23:01:00Z | START | UMBRA-D-014E2 | status:authorized | baseline:767496ad5572ba57f6fe4acde59eccece56b8d25 | scope:governance_reconciliation,r1_s16_causal_reconstruction,critical_recovery_architecture_audit,maximum_three_shadow_counterfactuals,conditional_generalized_correction,non_formal_validation | ask:Determine whether dynamic opportunity loss, unbounded search, missing recovery metadata, fixed critical-recovery branching, effect-vector scoring, fixed focus ordering, stale world-model state, or activation latency caused the R1 failure | accept:governance_sync,exact_failure_reconstruction,causal_hypothesis_adjudication,shadow_counterfactuals,conditional_production_correction,required_validation,no_formal_D014 | constraints:no_hidden_truth,no_fixed_rescue_action,no_threshold_or_effect_changes,no_reseed,no_retry,no_formal_tag,no_D013_AX
 
 2026-08-24T00:00:00Z | END | UMBRA-D-014E2 | status:terminal_causal_failure | baseline:767496ad5572ba57f6fe4acde59eccece56b8d25 | verdict:D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE | reconstruction:seed_57531938_tick_372_exact | shadows:3_executed_0_substantive_7200_rescues | production_changes:0 | threshold_changes:0 | hidden_truth:false | retries:0 | reseeds:0 | formal_D014:false | formal_tag:false | d013_reopened:false | evidence:RPI5_UMBRA_ROOT/evidence/live-evidence/d014e2-critical-recovery-r1 | next:return_to_Architect
+
+
+## UMBRA-D-014F — R1 objective viability / unified prospective homeostatic opportunity architecture
+
+- Authorized immediately by Architect from exact baseline `edbd9ce168000d9d7b72b4de56d17144f51bbb83` after acceptance of D-014E2.
+- Scope: shadow-first, non-formal objective-feasibility and broader organism-architecture work; production changes are conditional and require all stated viability, policy-visible, R1-shadow, R0-shadow, boundedness, agency, and validation gates.
+- First question: whether unchanged D-014 R1/S16 physics has any legal 7,200-tick viable continuation. Evaluator-only hidden truth may be used for this feasibility question only and must never enter policy or later shadows.
+- If objectively viable, identify and freeze the smallest policy-visible prospective homeostatic opportunity architecture using learned/verified evidence, vector physiology envelopes, bounded route-to-benefit estimates, UNKNOWN neutrality, proposal-only semantics, and one final action boundary.
+- Prohibitions: no threshold/effect/habitat/identity/D-010 changes, no hidden-truth policy, no fixed need-action mapping, no scalar survival controller, no exhaustive action tree, no D-013/AX, no formal D-014, and no formal tag.
+- Evidence authority: `ATLAS_UMBRA_ROOT/evidence/live-evidence/d014f-prospective-regulation-r1/`; active SQLite/WAL/AF_UNIX scratch remains off SMB. Historical D-014 evidence remains immutable.
+- Current status: STARTED; governance reconciliation is the first committed phase.

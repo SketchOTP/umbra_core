@@ -1,5 +1,24 @@
 # Current Project State
 
+## D-014F active snapshot
+
+UMBRA-D-014F is authorized from exact baseline
+`edbd9ce168000d9d7b72b4de56d17144f51bbb83`.
+
+- Objective: first determine whether the unchanged D-014 R1/S16 regime is objectively viable; only if viable, investigate the smallest policy-visible prospective homeostatic opportunity architecture.
+- Scope: shadow-first, non-formal, bounded organism-architecture work with conditional production validation only after every required shadow gate passes.
+- Integrated viability remains unqualified. D-014E2 remains terminal and permanent evidence.
+- No D-013/AX work, formal D-014 run, formal tag, threshold/effect/habitat change, retry, reseed, or hidden-truth policy use is authorized.
+- Permanent evidence and new retained outputs use the Atlas authority `\\atlas\ATLAS`; active SQLite/WAL/AF_UNIX scratch remains off SMB.
+- Start baseline: `edbd9ce168000d9d7b72b4de56d17144f51bbb83`.
+
+## D-014F current decision boundary
+
+If the evaluator-only bounded viability analysis cannot establish a legal
+7,200-tick continuation under unchanged S16 physics, stop with
+`D014F_R1_REGIME_NOT_VIABLE`. If the regime is viable, keep evaluator truth
+separate and proceed only through the frozen policy-visible shadow gates.
+
 ## D-014E2 terminal snapshot
 
 UMBRA-D-014E2 completed the authorized non-formal causal reconciliation from
@@ -12,8 +31,9 @@ baseline 767496ad5572ba57f6fe4acde59eccece56b8d25.
   substantive 7,200-tick rescue.
 - No production correction is retained; production, thresholds, effects,
   habitat, protected evidence, and protected agent files are unchanged.
-- Permanent evidence is finalized at the RPI5 canonical root; active
-  SQLite/WAL/AF_UNIX scratch was kept off SMB and cleaned.
+- The historical closeout recorded the former RPI5 canonical root; the current
+  permanent evidence authority is Atlas at \\atlas\ATLAS. Active SQLite/WAL/AF_UNIX
+  scratch was kept off SMB and cleaned.
 - No formal D-014 run/tag and no D-013/AX work occurred. Integrated viability
   remains unqualified. Return to Architect.
 
@@ -26,23 +46,25 @@ first genuine development-only long-validation failure.
 - R0 fixed population: 8/8 completed 7,200 logical ticks with no critical physiology failure.
 - R1 stopped at seed 57531938, tick 372, after a verified MOVE outcome; fatigue crossed the critical boundary at 0.951.
 - R2 and R3 were not launched after the terminal R1 failure.
-- RPI5 migration and shared-evidence preflight passed. Final evidence is retained at the RPI5 canonical root.
+- The prior RPI5 migration and shared-evidence preflight passed; current retained evidence follows the Atlas canonical authority.
 - No retry, reseed, formal D-014 run, formal tag, D-013/AX work, threshold change, or production change occurred.
 - Integrated long-horizon viability remains unqualified.
 
 ## Current stage
-Authority 3.0 active; D-014E2 causal reconciliation is in progress.
+Authority 3.0 active; D-014F objective-viability and prospective-regulation work is in progress.
 
 ## Current objective
-Reconstruct the D-014E1 R1 S16 failure, adjudicate the authorized causal
-hypotheses, and advance only an evidence-supported generalized correction.
+First test objective viability of the unchanged R1/S16 regime, then, only if
+viable, identify and shadow-test the smallest policy-visible prospective
+homeostatic opportunity architecture.
 
 ## Active directive
-D-014E2 is active from repository closeout master
-767496ad5572ba57f6fe4acde59eccece56b8d25.
+D-014F is active from repository closeout master
+edbd9ce168000d9d7b72b4de56d17144f51bbb83.
 
 ## Terminal result
-D014E1_R1_SCIENTIFIC_FAILURE.
+D-014F is non-terminal; D-014E2 remains the last accepted terminal result:
+D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE.
 
 ## D-014E terminal snapshot
 

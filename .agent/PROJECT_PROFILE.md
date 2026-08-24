@@ -24,7 +24,7 @@
 ## Important integrations
 - GitHub remote `github` — committed implementation and publication authority.
 - Canonical Notion project page — strategic state and Architect decisions.
-- `\\RPI5\RPI5SharedDrive\100_ACTIVE\Projects\UMBRA-CORE` — canonical permanent evidence authority. Verified Atlas backing path: `/srv/RPI5Pool/100_ACTIVE/Projects/UMBRA-CORE`; convenience mount: `/home/sketch/RPI5Canonical/100_ACTIVE/Projects/UMBRA-CORE`.
+- `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE` — canonical permanent evidence authority. Atlas Linux mount: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE`.
 - `/mnt/storage1tb` remains transient/direct-attached scratch only.
 - Mimir/Serena configuration — optional repository navigation support when configured and reachable; never a prerequisite for ordinary source inspection.
 
@@ -38,7 +38,7 @@
 - No formal P0 or formal tag without an explicit Architect directive.
 - Preserve historical evidence, thresholds, verdicts, tags, and append-only governance history.
 - Do not edit `.agent/LIBRARY_REVIEW.md`; it is librarian-managed and intentionally untracked.
-- Permanent evidence must be finalized on the RPI5 shared drive. Active SQLite/WAL, AF_UNIX sockets, and process scratch remain on local/direct-attached storage such as `/mnt/storage1tb/umbra-scratch`; never run active SQLite/WAL directly on SMB. The 50 GiB evidence-capacity gate applies to the RPI5 canonical evidence filesystem; scratch requires workload-specific headroom.
+- Permanent evidence must be finalized on the Atlas shared drive. The retired `\rpi5\RPI5SharedDrive` path must not be used for new work. Active SQLite/WAL, AF_UNIX sockets, and process scratch remain on local/direct-attached storage such as `/mnt/storage1tb/umbra-scratch`; never run active SQLite/WAL directly on SMB. The 50 GiB evidence-capacity gate applies to the Atlas canonical evidence filesystem; scratch requires workload-specific headroom.
 - Do not force-push, rewrite history, or alter unrelated `main`.
 
 ## Current scientific status
@@ -55,6 +55,7 @@
 - D-014E1 is terminal with `D014E1_R1_SCIENTIFIC_FAILURE`: R0 passed 8/8 x 7,200; R1 seed `57531938` failed at tick 372 with fatigue 0.951 after verified MOVE; R2/R3 were not run.
 - D-014E2 is terminal from `767496ad5572ba57f6fe4acde59eccece56b8d25` with `D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE`. Exact R1 reconstruction succeeded; three preregistered shadows produced zero substantive 7,200-tick rescues.
 - D-014E2 retained no production correction, changed no thresholds/effects/habitat, used no hidden truth, reseeded, retried, created no formal tag, and did not reopen D-013/AX.
+- D-014F is active from `edbd9ce168000d9d7b72b4de56d17144f51bbb83`: first establish objective R1/S16 viability under unchanged physics, then conditionally evaluate a policy-visible prospective homeostatic opportunity architecture. No production implementation is retained unless all shadow gates pass.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 
 ## Source-of-truth boundaries
