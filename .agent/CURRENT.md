@@ -1,5 +1,30 @@
 # Current Project State
 
+## UMBRA-D-014H active snapshot
+
+UMBRA-D-014H is the sole active scientific directive from exact baseline
+`78280db037a47899ce17a9c0bb167307a86c3d39`, verified against GitHub `master`.
+
+- Classification: non-formal, shadow-only, fresh prospective-regulation
+  generation; production authority remains zero.
+- Objective: design and qualify a new policy-visible, proposal-only regulatory
+  context without reconstructing or strengthening D-014F.
+- Required order: reconcile governance; establish the D-014F historical
+  firewall; perform bounded prior-art review; preregister sealed R1/R2/R3
+  holdouts; complete an exact 32-category specification; implement only under
+  `experiments/research/non-production`; freeze source/spec/harness before
+  outcomes; prove replay; then run the governed baseline/known/holdout
+  shadows if every gate passes.
+- Prohibitions: no production edits, no D-014F semantic reconstruction, no
+  hidden truth in policy, no scalar survival controller, no RL/active-inference
+  wholesale import, no MPC/CBF/HJ/global planner, no D-013/AX, no formal
+  D-014, no formal tag, no retries/reseeds/tuning.
+- Permanent evidence authority:
+  `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h-fresh-prospective-regulation-r1/`.
+- Active SQLite/WAL/AF_UNIX scratch remains local/direct-attached only.
+- Task packet: `.agent/tasks/active/UMBRA-D-014H/`.
+
+
 ## D-014G1 terminal snapshot
 
 UMBRA-D-014G1 reached its defined fail-closed boundary from operational baseline

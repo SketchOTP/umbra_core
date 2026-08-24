@@ -8,15 +8,14 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014G1 terminal at the fail-closed artifact-recovery boundary
-- Active directive: none inferred; return to Architect
-- Terminal task packet: .agent/tasks/active/UMBRA-D-014G1/
-- Parent boundary packet: .agent/tasks/active/UMBRA-D-014G/
-- Terminal predecessor packet: .agent/tasks/active/UMBRA-D-014F/
+- Current stage: Authority 3.0 active; D-014H fresh prospective-regulation generation
+- Active directive: UMBRA-D-014H
+- Active task packet: .agent/tasks/active/UMBRA-D-014H/
+- Terminal task packets: .agent/tasks/completed/UMBRA-D-014F/, .agent/tasks/completed/UMBRA-D-014G/, .agent/tasks/completed/UMBRA-D-014G1/
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
 - Last accepted outcome: D014G1_D014F_ARTIFACT_UNRECOVERABLE
 - Canonical permanent evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE`
-- Last state sync: 2026-08-24T13:55:00Z
+- Last state sync: 2026-08-24T14:10:00Z
 
 ## Mandatory kernel
 Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.

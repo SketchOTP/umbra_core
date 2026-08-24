@@ -489,3 +489,23 @@ Format:
   policy false; historical D-014F evidence unchanged; D-013/AX and formal D-014
   not started; formal tag not created.
 - Next: return to Architect; no active scientific directive is inferred.
+
+## UMBRA-D-014H — fresh prospective regulation generation
+
+- Started: 2026-08-24; baseline `78280db037a47899ce17a9c0bb167307a86c3d39`,
+  verified locally and against GitHub `master`.
+- Parent: accepted `D014G1_D014F_ARTIFACT_UNRECOVERABLE`.
+- Status: active, non-formal, replay-first and shadow-only.
+- Objective: develop a fresh policy-visible, proposal-only regulatory context
+  from current source semantics without reconstructing D-014F or granting
+  production authority.
+- Required gates: exact 32-category preregistration, sealed fresh holdouts,
+  executable non-production source and harness, deterministic replay, unified
+  pool artifact sufficiency, baseline/known/holdout shadows, agency and
+  boundedness checks, Authority 3.0, and governance.
+- Prohibitions: production changes, D-014F semantic reconstruction, hidden
+  truth in policy, scalar survival control, RL/active-inference wholesale
+  import, MPC/CBF/HJ/global planning, D-013/AX, formal D-014, formal tag,
+  retries, reseeds, or tuning.
+- Evidence authority:
+  `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h-fresh-prospective-regulation-r1/`.
