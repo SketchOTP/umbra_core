@@ -509,3 +509,25 @@ Format:
   retries, reseeds, or tuning.
 - Evidence authority:
   `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h-fresh-prospective-regulation-r1/`.
+
+## UMBRA-D-014H closeout
+
+- Status: terminal, non-formal, shadow-only; scientific starting baseline
+  78280db037a47899ce17a9c0bb167307a86c3d39.
+- Freeze commit: 9af6b634815e90958a45b55414fa63318819b76b.
+- Verdict: D014H_UNIFIED_POOL_ARTIFACT_INSUFFICIENT.
+- Fresh specification: 32/32 categories EXACTLY_SPECIFIED.
+- Non-production focused tests: 3 passed. Synthetic deterministic replay:
+  PASS. Holdout manifest sealed; holdouts inspected: false.
+- D-014G artifact check: contract/topology/translation artifacts present,
+  but no executable baseline unified-pool shadow, complete ordered source
+  proposal trace, candidate lineage, or exact pool dedup/tie/overflow
+  semantics. Phase N was not started because continuing would require semantic
+  invention.
+- Organism outcome runs: 0. Production changes: 0. Formal D-014/tag:
+  false. D-013/AX: not reopened. Retries/reseeds/tuning: 0.
+- Evidence:
+  /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h-fresh-prospective-regulation-r1/.
+- Authority 3.0: PASS. Governance: PASS.
+- Next: return to Architect; no D-014I or further D-014H execution is
+  authorized by this closeout.

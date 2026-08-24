@@ -57,7 +57,7 @@
 - D-014E2 retained no production correction, changed no thresholds/effects/habitat, used no hidden truth, reseeded, retried, created no formal tag, and did not reopen D-013/AX.
 - D-014F is terminal from `edbd9ce168000d9d7b72b4de56d17144f51bbb83` as `D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL`: objective S16 physical viability was shown by an evaluator-only bound, but the full-runtime policy-visible shadow was overwritten after arbitration and failed R1 plus fixed R0 compatibility. No production implementation was retained.
 - D-014G1 is terminal as `D014G1_D014F_ARTIFACT_UNRECOVERABLE`: the exact D-014F prospective generator cannot be replayed from retained artifacts without semantic choices. No replay artifact or D-014G reintegration shadow was run.
-- D-014H is the active non-formal fresh prospective-regulation generation from `78280db037a47899ce17a9c0bb167307a86c3d39`: replay-first, proposal-only, policy-visible shadow qualification with preregistered holdouts; D-014F/D-014G/D-014G1 remain terminal historical evidence and no production authority is granted.
+- D-014H is terminal as D014H_UNIFIED_POOL_ARTIFACT_INSUFFICIENT: fresh preregistration, non-production source freeze, and replay passed, but the retained D-014G unified-pool artifact lacks executable baseline replay semantics; no organism outcome run or production authority occurred.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 
 ## Source-of-truth boundaries

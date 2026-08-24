@@ -46,3 +46,11 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Reason: accepted evidence preserved first IDLE alternatives and aggregate 7200-tick viability summaries, but no ordered witness actions, per-tick parameters, or verified outcomes.
 - Boundary: no witness synthesis, prefix release, re-entry claim, production change, formal tag, or formal P0.
 - Evidence: /mnt/storage1tb/project-archives/UMBRA-CORE/live-evidence/d013au-preserving-continuation-r1/, 14 hashed files.
+
+## UMBRA-D-014H external principles
+
+- Date: 2026-08-24
+- Scope: bounded prior-art review for fresh prospective regulation.
+- Sterling, Ramsay and Woods, and Tyrrell support predictive policy-visible regulation, full interacting homeostatic state, and one common evidence-combination boundary. These were recorded as bounded ADAPT/ADOPT principles only.
+- Wholesale RL, active inference, MPC, CBF/HJ, global planning/search, scalar survival utility, fixed need-to-action mapping, and authored recovery macros were rejected as out of scope.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h-fresh-prospective-regulation-r1/D014H_EXTERNAL_PRINCIPLES.md

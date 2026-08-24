@@ -584,3 +584,14 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014g1-d014f-artifact-recovery-r1/`.
 - Protected `.agent/RECORD.md` and `.agent/LIBRARY_REVIEW.md` hashes unchanged.
 - Next: return to Architect; no active scientific directive is inferred.
+
+## UMBRA-D-014H closeout
+
+- Status: terminal; closed 2026-08-24 at the D-014G unified-pool artifact boundary.
+- Scientific baseline: 78280db037a47899ce17a9c0bb167307a86c3d39.
+- Verdict: D014H_UNIFIED_POOL_ARTIFACT_INSUFFICIENT.
+- The 32-category prospective proposal specification was exact, the non-production shadow source was frozen at 9af6b634815e90958a45b55414fa63318819b76b, focused tests passed 3/3, and deterministic replay was byte-equal.
+- Retained D-014G artifacts do not provide an executable baseline unified-pool shadow, complete per-source ordered proposal traces, complete candidate lineage, or canonical deduplication/tie/overflow semantics. Continuing would require semantic invention.
+- Phase N/O/P were not started; organism outcomes: 0; holdouts inspected: false; formal D-014: false; formal tag: false; production changes: 0; retries/reseeds/tuning: 0.
+- Validation: Authority 3.0 PASS; governance PASS. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h-fresh-prospective-regulation-r1/
+- Protected RECORD and LIBRARY_REVIEW files were unchanged. Next: return to Architect; no D-014I is authorized automatically.
