@@ -1,5 +1,25 @@
 # Current Project State
 
+## UMBRA-D-014H2 active snapshot
+
+UMBRA-D-014H2 is active from exact H1 closeout
+7fa795ddd3a1b782382c51e9b7068d7ecd438f6d.
+
+- Objective: establish a replayable, production-native, read-only decision trace
+  and translate real rows into the unchanged frozen H1 unified-pool evaluator.
+- Frozen H1 unified-pool artifact:
+  0308403870d41c0b1b2ba48c4340c21c94f6be1e.
+- Frozen H prospective artifact:
+  9af6b634815e90958a45b55414fa63318819b76b.
+- Production decision semantics remain unchanged; instrumentation must be
+  default-disabled, non-authoritative, non-persistent, and RNG/timing neutral.
+- Evidence root:
+  /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h2-production-trace-translation-r1/.
+- If complete source lineage cannot be observed, stop D014H2_TRACE_SEAM_INSUFFICIENT;
+  if parity fails, stop D014H2_TRACE_PARITY_FAIL.
+- D-014I, formal D-014, D-013/AX, retries, reseeds, tuning, and decision
+  changes are not authorized.
+
 ## UMBRA-D-014H1 terminal snapshot
 
 UMBRA-D-014H1 stopped fail-closed at the current-production translation
@@ -18,7 +38,7 @@ boundary from governance baseline ce8807d9786eb93dfc7a25449e76b16a4cf0c854.
 - No formal D-014, formal tag, D-013/AX, retry, reseed, tuning, or threshold/
   effect/habitat change occurred.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h1-fresh-unified-pool-r1/.
-- Return to Architect; do not start D-014I automatically.
+- This historical H1 snapshot is superseded by the active H2 snapshot above.
 
 ## UMBRA-D-014H terminal snapshot
 

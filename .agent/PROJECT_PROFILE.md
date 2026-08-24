@@ -43,6 +43,17 @@
 
 ## Current scientific status
 
+### Active authority: UMBRA-D-014H2
+
+D-014H2 is active from H1 closeout 7fa795ddd3a1b782382c51e9b7068d.
+It is an observability and translation-qualification directive only. The trace
+must be default-disabled, read-only, non-authoritative, and behavior-parity
+proven. The frozen H1 unified-pool artifact is
+0308403870d41c0b1b2ba48c4340c21c94f6be1e; the H prospective artifact is
+9af6b634815e90958a45b55414fa63318819b76b. H2 may not alter action-selection
+semantics or begin D-014I. Evidence is finalized under the Atlas canonical
+root at /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h2-production-trace-translation-r1/.
+
 ### Terminal authority: UMBRA-D-014H1
 
 D-014H1 stopped with D014H1_TRANSLATION_UNEXPLAINED from governance baseline
