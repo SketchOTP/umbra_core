@@ -1,24 +1,19 @@
 # Current Project State
 
-## D-014F active snapshot
+## D-014F terminal snapshot
 
-UMBRA-D-014F is authorized from exact baseline
-`edbd9ce168000d9d7b72b4de56d17144f51bbb83`.
+UMBRA-D-014F is terminal from exact scientific baseline `edbd9ce168000d9d7b72b4de56d17144f51bbb83`.
 
-- Objective: first determine whether the unchanged D-014 R1/S16 regime is objectively viable; only if viable, investigate the smallest policy-visible prospective homeostatic opportunity architecture.
-- Scope: shadow-first, non-formal, bounded organism-architecture work with conditional production validation only after every required shadow gate passes.
-- Integrated viability remains unqualified. D-014E2 remains terminal and permanent evidence.
-- No D-013/AX work, formal D-014 run, formal tag, threshold/effect/habitat change, retry, reseed, or hidden-truth policy use is authorized.
-- Permanent evidence and new retained outputs use the Atlas authority `\\atlas\ATLAS`; active SQLite/WAL/AF_UNIX scratch remains off SMB.
-- Start baseline: `edbd9ce168000d9d7b72b4de56d17144f51bbb83`.
+- Verdict: `D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL`.
+- An evaluator-only constructive route/cost bound established unchanged S16 physical viability through 7,200 ticks; the lowest demonstrated information class was F1 current policy observation.
+- The prospective opportunity architecture was frozen for shadow only. The direct Governance/Embodiment/VerifiedOutcome probe passed R1 and 8/8 R0 as mechanism evidence, but the full unmodified runtime shadow diverged at tick 1 because later proposal sources overwrote the shadow candidate; R1 failed at tick 233 and all 8 fixed R0 controls failed at tick 233.
+- No production implementation, threshold/effect/habitat change, D-013/AX work, formal D-014 run/tag, retry, reseed, or hidden-truth policy use occurred.
+- Permanent evidence and retained outputs use Atlas at `\\atlas\ATLAS`; active SQLite/WAL/AF_UNIX scratch remained off SMB and was cleaned.
+- Evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE\evidence\live-evidence\d014f-prospective-regulation-r1\`
 
-## D-014F current decision boundary
+## D-014F decision boundary
 
-If the evaluator-only bounded viability analysis cannot establish a legal
-7,200-tick continuation under unchanged S16 physics, stop with
-`D014F_R1_REGIME_NOT_VIABLE`. If the regime is viable, keep evaluator truth
-separate and proceed only through the frozen policy-visible shadow gates.
-
+The policy-visible opportunity architecture is not qualified and no production correction is retained. Return to Architect. A later directive must address the demonstrated pre-final-selection authority fragmentation before proposing production implementation.
 ## D-014E2 terminal snapshot
 
 UMBRA-D-014E2 completed the authorized non-formal causal reconciliation from

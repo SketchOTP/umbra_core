@@ -55,7 +55,7 @@
 - D-014E1 is terminal with `D014E1_R1_SCIENTIFIC_FAILURE`: R0 passed 8/8 x 7,200; R1 seed `57531938` failed at tick 372 with fatigue 0.951 after verified MOVE; R2/R3 were not run.
 - D-014E2 is terminal from `767496ad5572ba57f6fe4acde59eccece56b8d25` with `D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE`. Exact R1 reconstruction succeeded; three preregistered shadows produced zero substantive 7,200-tick rescues.
 - D-014E2 retained no production correction, changed no thresholds/effects/habitat, used no hidden truth, reseeded, retried, created no formal tag, and did not reopen D-013/AX.
-- D-014F is active from `edbd9ce168000d9d7b72b4de56d17144f51bbb83`: first establish objective R1/S16 viability under unchanged physics, then conditionally evaluate a policy-visible prospective homeostatic opportunity architecture. No production implementation is retained unless all shadow gates pass.
+- D-014F is terminal from `edbd9ce168000d9d7b72b4de56d17144f51bbb83` as `D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL`: objective S16 physical viability was shown by an evaluator-only bound, but the full-runtime policy-visible shadow was overwritten after arbitration and failed R1 plus fixed R0 compatibility. No production implementation was retained.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 
 ## Source-of-truth boundaries

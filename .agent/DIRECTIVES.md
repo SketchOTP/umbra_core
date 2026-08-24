@@ -439,3 +439,5 @@ Format:
 - Prohibitions: no threshold/effect/habitat/identity/D-010 changes, no hidden-truth policy, no fixed need-action mapping, no scalar survival controller, no exhaustive action tree, no D-013/AX, no formal D-014, and no formal tag.
 - Evidence authority: `ATLAS_UMBRA_ROOT/evidence/live-evidence/d014f-prospective-regulation-r1/`; active SQLite/WAL/AF_UNIX scratch remains off SMB. Historical D-014 evidence remains immutable.
 - Current status: STARTED; governance reconciliation is the first committed phase.
+
+- 2026-08-24T03:00:00Z | END | UMBRA-D-014F | status:terminal_shadow_fail | baseline:edbd9ce168000d9d7b72b4de56d17144f51bbb83 | verdict:D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL | physical_viability:constructive_7200_bound | information_class:F1 | direct_probe:R1_plus_8_R0_pass_mechanism_only | runtime_shadow:first_divergence_tick_1 | runtime_shadow:R1_fail_tick_233_R0_0_of_8 | production_changes:0 | hidden_truth_exposed_to_policy:false | retries:0 | reseeds:0 | formal_D014:false | formal_tag:false | d013_reopened:false | evidence:ATLAS_UMBRA_ROOT/evidence/live-evidence/d014f-prospective-regulation-r1 | next:return_to_Architect
