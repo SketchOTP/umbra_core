@@ -566,3 +566,21 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - No generalized correction is authorized by this result; return to Architect. Integrated viability remains unqualified.
 
 - D-20260824-0300-umbra-d014f | project:UMBRA-D-014F | status:terminal | files:.agent/INDEX.md,.agent/CURRENT.md,.agent/PROJECT_PROFILE.md,.agent/DIRECTIVES.md,.agent/OUTCOMES.md | tests:Authority 3 PASS; governance PASS; objective evaluator bound 7200 PASS; direct shadow R1+8/8 R0 mechanism probe PASS; full-runtime shadow R1 failed tick 233 and all fixed R0 failed tick 233 | accept:partial | summary:Physical S16 viability was established, but the policy-visible opportunity shadow was overwritten after arbitration and failed the full-runtime R1/R0 gate; no production implementation retained | next:return_to_Architect
+
+## UMBRA-D-014G1 closeout
+
+- Closed: 2026-08-24; operational baseline `5609414259e99aae5f3e932c7181f1107130c922`.
+- Verdict: `D014G1_D014F_ARTIFACT_UNRECOVERABLE`.
+- Phase B artifact forensics found 14 retained D-014F files, all listed source
+  hashes matching the historical manifest. No executable generator, command or
+  argv capture, script hash, ordered proposal trace, or complete proposal rows
+  were found. Repository history/reflog contained only governance/pointer artifacts.
+- Phase C classified 1 rule EXACTLY_SPECIFIED, 0 DERIVABLE_WITHOUT_CHOICE,
+  11 AMBIGUOUS, and 8 MISSING. Exact replay would require semantic choices.
+- No replay artifact was created and the D-014G prospective integration shadow
+  was not resumed. Historical D-014F evidence was not modified.
+- Production/threshold/effect/habitat changes: 0; hidden truth in policy: false;
+  retries/reseeds: 0; D-013/AX reopened: false; formal D-014/tag: false.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014g1-d014f-artifact-recovery-r1/`.
+- Protected `.agent/RECORD.md` and `.agent/LIBRARY_REVIEW.md` hashes unchanged.
+- Next: return to Architect; no active scientific directive is inferred.

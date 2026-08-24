@@ -1,6 +1,6 @@
 # UMBRA-D-014G1 — D-014F Prospective Proposal Artifact Recovery / Replay Qualification
 
-- Status: active
+- Status: terminal; verdict: `D014G1_D014F_ARTIFACT_UNRECOVERABLE`
 - Baseline: `5609414259e99aae5f3e932c7181f1107130c922`
 - Parent: D-014G fail-closed shadow boundary
 - Mode: non-formal, evidence-forensics and replay qualification only
@@ -37,3 +37,11 @@ Permanent root:
 
 The evidence root is new and isolated from the retained D-014F dossier.
 
+
+## Closeout
+
+Verdict: `D014G1_D014F_ARTIFACT_UNRECOVERABLE`.
+
+Exact replay was stopped because retained D-014F semantics are incomplete.
+No replay artifact was created and the parent D-014G prospective integration
+shadow was not resumed. Evidence is frozen under the Atlas root recorded above.

@@ -8,13 +8,13 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014G1 D-014F artifact recovery and replay qualification in progress
-- Active directive: UMBRA-D-014G1 from `5609414259e99aae5f3e932c7181f1107130c922`
-- Active task packet: .agent/tasks/active/UMBRA-D-014G1/
-- Parent task packet: .agent/tasks/active/UMBRA-D-014G/
+- Current stage: Authority 3.0 active; D-014G1 terminal at the fail-closed artifact-recovery boundary
+- Active directive: none inferred; return to Architect
+- Terminal task packet: .agent/tasks/active/UMBRA-D-014G1/
+- Parent boundary packet: .agent/tasks/active/UMBRA-D-014G/
 - Terminal predecessor packet: .agent/tasks/active/UMBRA-D-014F/
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL
+- Last accepted outcome: D014G1_D014F_ARTIFACT_UNRECOVERABLE
 - Canonical permanent evidence: `\\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE`
 - Last state sync: 2026-08-24T13:55:00Z
 

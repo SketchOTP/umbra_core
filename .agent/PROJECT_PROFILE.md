@@ -56,6 +56,7 @@
 - D-014E2 is terminal from `767496ad5572ba57f6fe4acde59eccece56b8d25` with `D014E2_CAUSE_CONFIRMED_REQUIRES_BROADER_ARCHITECTURE`. Exact R1 reconstruction succeeded; three preregistered shadows produced zero substantive 7,200-tick rescues.
 - D-014E2 retained no production correction, changed no thresholds/effects/habitat, used no hidden truth, reseeded, retried, created no formal tag, and did not reopen D-013/AX.
 - D-014F is terminal from `edbd9ce168000d9d7b72b4de56d17144f51bbb83` as `D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL`: objective S16 physical viability was shown by an evaluator-only bound, but the full-runtime policy-visible shadow was overwritten after arbitration and failed R1 plus fixed R0 compatibility. No production implementation was retained.
+- D-014G1 is terminal as `D014G1_D014F_ARTIFACT_UNRECOVERABLE`: the exact D-014F prospective generator cannot be replayed from retained artifacts without semantic choices. No replay artifact or D-014G reintegration shadow was run.
 - D-014G1 is the active non-formal artifact-recovery phase from `5609414259e99aae5f3e932c7181f1107130c922`: recoverability of the exact frozen D-014F prospective mechanism must be established from retained evidence or stopped as unrecoverable; semantic guessing and D-013AO promotion are prohibited.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 

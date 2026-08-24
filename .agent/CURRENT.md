@@ -1,6 +1,24 @@
 # Current Project State
 
-## D-014G1 active snapshot
+## D-014G1 terminal snapshot
+
+UMBRA-D-014G1 reached its defined fail-closed boundary from operational baseline
+`5609414259e99aae5f3e932c7181f1107130c922`.
+
+- Verdict: `D014G1_D014F_ARTIFACT_UNRECOVERABLE`.
+- The frozen D-014F dossier contains specifications and aggregate/sample
+  outputs, but no executable generator, invocation record, ordered proposal
+  trace, complete proposal rows, or complete deterministic semantics.
+- Eleven required rules are ambiguous and eight are missing; exact replay
+  would require semantic choices.
+- No replay artifact was created and D-014G prospective integration was not
+  resumed.
+- Production, thresholds, effects, habitat, historical D-014F evidence,
+  protected agent files, D-013/AX, formal D-014, and formal tags are
+  unchanged.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014g1-d014f-artifact-recovery-r1/`.
+
+## D-014G1 start snapshot (historical)
 
 UMBRA-D-014G1 is active from exact operational baseline
 `5609414259e99aae5f3e932c7181f1107130c922`, superseding the D-014G
@@ -97,21 +115,19 @@ first genuine development-only long-validation failure.
 - Integrated long-horizon viability remains unqualified.
 
 ## Current stage
-Authority 3.0 active; D-014G unified candidate authority investigation is in
-progress.
+Authority 3.0 active; D-014G1 is terminal at the fail-closed artifact
+recovery boundary.
 
 ## Current objective
-Enumerate and reconcile every candidate creation/replacement source into a
-single proposal-pool/final-selection boundary, while preserving baseline
-semantics and testing the frozen D-014F mechanism as proposal-only behavior.
+Preserve the D-014G1 artifact-unrecoverability result and return to Architect
+with the exact missing/ambiguous D-014F semantics. No parent reintegration is
+permitted without a separately recovered or newly authorized artifact.
 
 ## Active directive
-D-014G is active from repository closeout master
-c198b46413731444222e8e1fa8495d932f2aa836.
+No active scientific directive is inferred after D-014G1; return to Architect.
 
 ## Terminal result
-D-014G has no terminal result yet. The last accepted scientific predecessor is
-D014F_PROSPECTIVE_OPPORTUNITY_SHADOW_FAIL; it remains historical and unchanged.
+D014G1_D014F_ARTIFACT_UNRECOVERABLE.
 
 ## D-014E terminal snapshot
 

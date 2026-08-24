@@ -474,3 +474,18 @@ Format:
   resume D-014G prospective integration.
 - Required boundary: do not design a new mechanism, infer missing semantics,
   promote D-013AO, modify production, launch formal D-014, reopen D-013/AX,
+
+## UMBRA-D-014G1 closeout
+
+- Closed: 2026-08-24; baseline `5609414259e99aae5f3e932c7181f1107130c922`.
+- Verdict: `D014G1_D014F_ARTIFACT_UNRECOVERABLE`.
+- The retained D-014F dossier lacks an exact executable generator, ordered
+  proposal trace, complete proposal rows, and multiple behaviorally relevant
+  semantics required for deterministic replay; reconstruction would require
+  semantic choices.
+- Replay artifact: not created. Parent D-014G prospective integration: not resumed.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014g1-d014f-artifact-recovery-r1/`.
+- Integrity: production/threshold/effect/habitat changes 0; hidden truth in
+  policy false; historical D-014F evidence unchanged; D-013/AX and formal D-014
+  not started; formal tag not created.
+- Next: return to Architect; no active scientific directive is inferred.
