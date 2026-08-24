@@ -1,5 +1,24 @@
 # Current Project State
 
+## UMBRA-D-014H1 active snapshot
+
+UMBRA-D-014H1 is authorized from exact governance baseline
+`ce8807d9786eb93dfc7a25449e76b16a4cf0c854`, matching local `master` and the
+published `github/master`.
+
+- Parent D-014H is accepted and terminal with
+  `D014H_UNIFIED_POOL_ARTIFACT_INSUFFICIENT`.
+- Frozen D-014H prospective source remains
+  `9af6b634815e90958a45b55414fa63318819b76b` and is read-only input.
+- Scope is fresh, non-production, replay-first unified candidate-pool
+  generation from current production source semantics.
+- Production authority remains zero. No formal D-014, formal tag, D-013/AX,
+  hidden truth, fixed source priority, scalar survival controller, retries,
+  reseeds, tuning, or threshold/effect/habitat changes are authorized.
+- First gate: complete current-production authority inventory, then a 36-category
+  exact unified-pool specification before any organism outcome is inspected.
+- Evidence authority: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h1-fresh-unified-pool-r1/`.
+
 ## UMBRA-D-014H terminal snapshot
 
 UMBRA-D-014H stopped fail-closed at the D-014G unified-pool artifact gate from

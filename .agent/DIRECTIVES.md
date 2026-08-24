@@ -531,3 +531,4 @@ Format:
 - Authority 3.0: PASS. Governance: PASS.
 - Next: return to Architect; no D-014I or further D-014H execution is
   authorized by this closeout.
+- D-20260824-1600-umbra-d014h1 | project:UMBRA-D-014H1 | status:started | scope:.agent/*,docs/evidence/d014h1-fresh-unified-pool,experiments/research/non-production | ask:Generate a fresh replay-first unified candidate-pool shadow from current production authority sources and conditionally run its bounded shadow gates | accept:36/36 exact semantics, frozen executable shadow, byte-equal replay, complete source translation, authorized shadow gates, evidence and governance closeout | plan:inventory and freeze, replay and translate, bounded shadows and seal | baseline:ce8807d9786eb93dfc7a25449e76b16a4cf0c854

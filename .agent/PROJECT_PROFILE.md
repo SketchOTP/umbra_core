@@ -42,6 +42,19 @@
 - Do not force-push, rewrite history, or alter unrelated `main`.
 
 ## Current scientific status
+
+### Active authority: UMBRA-D-014H1
+
+D-014H1 is authorized from ce8807d9786eb93dfc7a25449e76b16a4cf0c854.
+It is a fresh, replay-first, non-production unified candidate-pool shadow
+generation. The frozen D-014H prospective source at
+9af6b634815e90958a45b55414fa63318819b76b is read-only input. D-014G/D-014F
+missing pool semantics must not be reconstructed. Production authority,
+formal D-014, formal tagging, D-013/AX, hidden truth, fixed source priority,
+scalar survival control, retries, reseeds, tuning, and threshold/effect/
+habitat changes remain prohibited.
+
+Evidence root: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h1-fresh-unified-pool-r1/
 - Qualified sequential baseline: D-009 seal `af35371`.
 - Historical D-010 verdict remains `UMBRA_D010_PERFORMANCE_FAIL`; current D-010Q5 verdict is `UMBRA_D010_TEMPORAL_CONTINUITY_QUALIFIED`. Historical Gates 0-12/13 and parent-Mimir state remain permanent for that generation.
 - D-010 verdict: `UMBRA_D010_PERFORMANCE_FAIL` remains the historical verdict; current D-010Q5 is qualified separately.
