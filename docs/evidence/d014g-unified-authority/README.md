@@ -32,3 +32,17 @@ D-013AO recoverability view/contracts are not silently promoted into D-014F
 behavior. Production changes remain conditional on the D-014G shadow gates.
 
 Protected state and scientific source remain unchanged.
+
+
+Current shadow gate status:
+
+- Translation-only compatibility: PASS (16 comparisons across 32 bounded ticks).
+- D-014F prospective integration: NOT RUN.
+- Reason: no executable RegulatoryOpportunity generator or ordered runtime
+  proposal trace exists in the repository/evidence; only the frozen external
+  specification and related D-013AO view/contracts are available.
+- No candidate was invented, no D-013AO semantics were promoted, and no
+  production change was made.
+
+Atlas evidence also contains D014G_SHADOW_GATE_STATUS.json and
+EVIDENCE_HASHES.json.

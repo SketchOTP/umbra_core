@@ -26,3 +26,12 @@ umbra_core/runtime.py calls Arbitrator.select() at the primary selection site,
 then later assigns cand from development practice, memory retrieval, social
 proposal, world-model planning, dormant-capability handling, and final
 safety/no-safe-action handling before Governance.propose().
+
+
+## Current phase status
+
+Phase A and the translation-only compatibility shadow are complete. The
+prospective D-014F integration shadow is blocked fail-closed because no
+executable policy-visible RegulatoryOpportunity generator or ordered runtime
+proposal trace exists in the governed repository/evidence. No mechanism was
+invented and no production authority was exercised.
