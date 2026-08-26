@@ -6,151 +6,40 @@
 - Canonical Notion: https://app.notion.com/p/3b3833cb27ff80309f1fe73e7af37fe6
 - GitHub: https://github.com/SketchOTP/umbra_core
 
-
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3D active causal selector completion
-- Active directive: UMBRA-D-014H3D
-- Active task packet: .agent/tasks/active/UMBRA-D-014H3D/
-- Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3A/
-- Completed task packet: .agent/tasks/completed/UMBRA-D-014H3A/
-- Completed task packet: .agent/tasks/completed/UMBRA-D-014H3/
-- Completed task packet: .agent/tasks/completed/UMBRA-D-014H2/
-- Parent terminal task packet: .agent/tasks/completed/UMBRA-D-014H1/
-- Terminal predecessor packet: .agent/tasks/completed/UMBRA-D-014H/
-- Terminal predecessor packets: .agent/tasks/completed/UMBRA-D-014F/, .agent/tasks/completed/UMBRA-D-014G/, .agent/tasks/completed/UMBRA-D-014G1/
-- Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014H3C_KNOWN_R1_GATE_FAIL
-- Canonical permanent evidence: \\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
-- Last state sync: 2026-08-26T10:44:56Z
+- Current stage: Authority 3.0; D-014H3D terminal bounded stop
+- Active directive: none
+- Terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
+- Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
+- Last accepted outcome: D014H3D_EXECUTION_STOP_UNRESOLVED
+- Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
+- Last state sync: 2026-08-26T11:16:00Z
 
-## UMBRA-D-014H3D active routing
+## UMBRA-D-014H3D terminal routing
 
-D-014H3D is authorized from exact baseline
-f054f24af0d5847f3d4b96270184f72d09fdbf41. The Architect interpretation
-preserves the historical coder verdict D014H3C_KNOWN_R1_GATE_FAIL but
-reclassifies the H3C organism rows as current-stack baseline reproductions:
-the H3C outcome runner never invoked its evaluator-only shadow selector.
-H3C's selector artifact also lacks the authorized bounded route-to-benefit
-semantics and its sealed holdout population is protocol-invalid at two per
-regime. These H3C defects and artifacts remain historical and unchanged.
+D-014H3D completed the frozen selector-completeness and causal-injection
+gates from baseline f054f24af0d5847f3d4b96270184f72d09fdbf41. R0 passed 8/8
+at 7,200 ticks and known R1 seed 57531938 passed at 7,200 ticks with the
+experiment-only selector enabled, exact Governance to VerifiedOutcome
+lineage, zero post-selection replacements, and no production-default
+selector authority.
 
-H3D must first audit completeness and establish an experiment-only causal seam.
-It must prove sentinel and real-selector handoff through Governance,
-Embodiment, and VerifiedOutcome before any organism gate. The fresh selector
-must preserve full physiology, UNKNOWN neutrality, policy-visible evidence,
-one final selection boundary, and bounded route-to-benefit semantics.
-Production selector authority, formal D-014, D-013/AX, retries, reseeds,
-threshold/effect changes, storage migration, retired Atlas paths, mergerfs,
-and old pool paths are prohibited.
+The fresh 3xR1/R2/R3 holdout manifest was sealed before outcomes, but the
+frozen runner exposes no holdout execution mode and the frozen runtime only
+defines the S0 population. It therefore cannot execute the required R2
+H3B social lifecycle or R3 frozen body-change schedule without changing the
+scientific harness after freeze. Terminal verdict:
+D014H3D_EXECUTION_STOP_UNRESOLVED.
+
+No fresh holdout outcomes, integrated robustness conclusion, formal D-014,
+formal tag, D-013/AX work, retry, reseed, or production qualification claim
+was made. H3C evidence and the invalid two-per-regime manifest remain
+historical and unchanged.
 
 Permanent evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3d-causal-integrated-selector-r1/
 
-## UMBRA-D-014H3B terminal routing
-
-D-014H3B is terminal from exact baseline
-f37521828f9127ab4714cb08150a18da383a326e with verdict
-`D014H3B_R2_AUTHORITY_PREFLIGHT_QUALIFIED`. The current-stack bridge binds
-authoritative SOCIAL_ENTITY state to the trusted perception boundary while
-keeping identity hidden from policy and SocialEngine. The corrected R2
-preflight passed twice deterministically through tick 2600. Evidence is
-retained at `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/`.
-
-Recommendation: `D014H3_PREFLIGHT_RESUME_CANDIDATE`. No selector, holdout,
-organism qualification, formal D-014, D-013/AX, retry, or reseed is authorized
-by this closeout.
-
-## UMBRA-D-014H3A terminal routing
-
-D-014H3A closed from exact baseline
-d7877ca2fc24741434eebbdf60f257d6ac793c63 after acceptance of the H3
-R2 runner-authority preflight stop. It was limited to authority-correct
-scenario reconciliation and preflight requalification; H3 selector work,
-fresh holdouts, organism qualification, formal D-014, D-013/AX, retries,
-reseeds, and production decision changes remain prohibited.
-
-The source investigation found no complete current binding from an
-authoritative HabitatEngine SOCIAL_ENTITY to the legacy partner cue/policy
-path. ImmutablePartnerView currently exposes only hidden_partner_id, x, and
-y; PerceptionMembrane partner processing requires visibility, true_cues, and
-response_policy. H3A stopped fail-closed with
-D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING. No H3 selector, fresh holdout,
-organism qualification, formal D-014, D-013/AX, retry, reseed, or production
-decision work occurred.
-
-Evidence is finalized at
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3a-r2-authority-repair-r1/.
-
-## UMBRA-D-014H3 terminal routing
-
-D-014H3 is authorized from exact baseline
-40fd210c47d9a0dc180804e92ce5545a90cc50b1 as a fresh, non-production,
-replay-first integrated prospective affordance competition shadow.
-
-Phase A governance reconciliation started and the H2 protocol deviation is
-preserved. H2-executed development seeds are consumed, formal-ineligible, and
-not reusable as holdouts.
-
-The required R2 runner-authority preflight stopped fail-closed:
-D014H3_R2_RUNNER_UNRESOLVED. The historical runner calls
-Embodiment.set_occlusion after an authoritative HabitatEngine is attached;
-the call is rejected, and the authoritative S10 state contains no
-partner:d014 object for a legitimate engine mutation. No H3 selector,
-fresh holdout outcome, organism shadow, formal run, or tag was started.
-Evidence is finalized under
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3-integrated-prospective-selection-r1/.
-
-## UMBRA-D-014H2 terminal routing
-
-D-014H2 is terminal from exact H1 closeout tip 7fa795ddd3a1b782382c51e9b7068d7ecd438f6d.
-Verdict: D014H2_UNIFIED_POOL_BASELINE_FAIL. Closeout commit/master: 45034ef41ccb7f7e6328e8f666402951f5badf85.
-The default-disabled, read-only production trace and real-row translation
-qualified at the instrumentation boundary, but downstream organism outcome
-gates failed on known R1/holdout failures. D-014I remains unauthorized.
-
-Frozen inputs:
-- H1 unified-pool artifact: 0308403870d41c0b1b2ba48c4340c21c94f6be1e
-- H prospective artifact: 9af6b634815e90958a45b55414fa63318819b76b
-- Evidence root: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h2-production-trace-translation-r1/
-
-## Mandatory kernel
-Read PROJECT_GOAL.md, PROJECT_PROFILE.md, and CURRENT.md before substantial work.
-Then read the active directive from DIRECTIVES.md and retrieve only relevant
-historical ledger entries.
-
-## Historical ledgers
-- DIRECTIVES.md — issued work and acceptance boundaries.
-- OUTCOMES.md — what happened and the evidence achieved.
-- LEARNINGS.md — durable verified technical/project learnings.
-- RECORD.md — major decisions, milestones, reversals, governance events.
-- REPO_MAP.md — repository structure and important boundaries.
-- EXTERNAL.md — relevant external prior art and dispositions.
-
-Legacy governance and all prior directives remain preserved. The previous AU
-active pointer is superseded by this current AV snapshot; its historical entry
-is not rewritten.
-
-## Update rule
-CURRENT.md is the mutable current snapshot. Historical ledgers are append-only
-after adoption; correct mistakes with a new superseding entry.
-
-
-## UMBRA-D-014H3C active routing
-
-D-014H3C is authorized from exact baseline 5c18693283fc48bef738bd1e0ca5fad678ce211a. The H3B bridge is
-accepted as a bounded prerequisite; H3C now runs the fresh replay-first,
-development-only integrated affordance competition shadow. The required order
-is bridge-regression classification, contract/holdout freeze, fixed R0, known
-R1 seed 57531938, then fresh sealed R1/R2/R3 development holdouts exactly once.
-
-No formal D-014, D-013/AX, automatic D-014I, production selector authority,
-threshold/effect/recovery changes, hidden truth in policy, retries, reseeds,
-or storage migration are authorized.
-
-Permanent evidence:
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/
-
-## UMBRA-D-014H3C terminal routing
+ routing
 
 D-014H3C stopped at the required known-R1 predecessor gate from exact starting
 baseline 5c18693283fc48bef738bd1e0ca5fad678ce211a. Fixed R0 passed 8/8 x 7,200;

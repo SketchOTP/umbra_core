@@ -679,3 +679,15 @@ contract tests: 6 passed; no production authority. No H3B-specific regression;
 inherited D-010 inventory and D-012 worker-startup failures remain unchanged.
 Production/threshold/historical evidence changes: 0; retries/reseeds/formal
 D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1. Next: return to Architect.
+
+## UMBRA-D-014H3D closeout — 2026-08-26
+
+- Verdict: D014H3D_EXECUTION_STOP_UNRESOLVED.
+- Freeze: 32a1129b3a557e86582a16440cff8e62331e346f.
+- R0: 8/8 completed 7,200 ticks with H3D selector enabled; selector calls 7,200 per row; post-selection replacements 0.
+- Known R1: seed 57531938 completed 7,200 ticks with H3D selector enabled; selector calls 7,200; post-selection replacements 0.
+- Fresh holdouts: manifest sealed at 3 each for R1/R2/R3, outcomes not executed.
+- Stop: frozen run_d014h3d.py has no holdout execution mode; frozen d014h3d_runtime.py only defines S0, so required H3B R2 social lifecycle and R3 body schedule cannot be executed without a post-freeze harness change.
+- No fresh holdout, integrated robustness, formal, tag, retry, reseed, or production-default selector claim.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3d-causal-integrated-selector-r1/.
+- Next: return to Architect; no follow-on directive is implied by this closeout.

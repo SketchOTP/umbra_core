@@ -1,34 +1,37 @@
 # Current Project State
 
-## UMBRA-D-014H3D active — causal selector injection and completion
+## UMBRA-D-014H3D terminal — frozen holdout execution boundary
 
-D-014H3D began at exact baseline
-f054f24af0d5847f3d4b96270184f72d09fdbf41; local and GitHub master match.
-The Architect interpretation preserves H3C's historical coder verdict
-D014H3C_KNOWN_R1_GATE_FAIL but records that H3C's R0/R1 outcome runner never
-called the H3C selector. H3C is therefore a valid current-stack baseline
-reproduction, not a selector causal result. Its evaluator is also incomplete
-against the authorized route-to-benefit contract, and its 2-per-regime sealed
-holdout manifest is protocol-invalid for H3D reuse.
+D-014H3D started at exact baseline
+f054f24af0d5847f3d4b96270184f72d09fdbf41. Governance start commit:
+198d63d76889e5d5b87708951c73587405e87a7c. Scientific freeze commit:
+32a1129b3a557e86582a16440cff8e62331e346f.
 
-H3D is a fresh non-production generation. First audit the H3C implementation,
-then freeze a complete selector specification and a legitimate experiment-only
-causal seam. The required order is disabled-hook parity, sentinel causal
-injection, real H3D causal divergence, replay, fresh 3xR1/R2/R3 holdout seal,
-fixed R0 8/8 x 7,200 with H3D enabled, known R1 seed 57531938 x 7,200, then
-fresh holdouts only if both predecessor gates pass.
+The fresh selector specification, experiment-only final-choice seam,
+route-to-benefit evaluator, full-physiology envelope, UNKNOWN neutrality,
+disabled parity, sentinel Governance/Embodiment/VerifiedOutcome handoff,
+real selector divergence fixture, replay, and fresh 3xR1/R2/R3 manifest
+were completed and frozen before organism outcomes.
 
-H3C evidence remains immutable and is marked formal-ineligible, protocol
-invalid for H3C qualification, unexecuted as H3C selector science, and not
-reusable as H3D holdouts. No production selector authority, formal D-014,
-D-013/AX, retry, reseed, threshold/effect change, or storage migration is
-authorized.
+H3D R0 passed 8/8 at 7,200 ticks. Known R1 seed 57531938 passed at 7,200
+ticks. Both used the H3D selector causally, each decision had 7,200 selector
+calls, and post-selection replacement count was zero.
 
-Permanent evidence root:
+The required fresh holdout phase cannot proceed from the frozen harness.
+run_d014h3d.py exposes proof, seal, r0, and r1 only. Its runtime defines
+only the S0 configuration and run_r0_case; no frozen path implements the
+required R2 H3B social lifecycle or R3 frozen body-change schedule. Adding
+that capability after the scientific freeze would violate H3D scope.
+
+Terminal verdict: D014H3D_EXECUTION_STOP_UNRESOLVED. No fresh holdout
+outcomes or integrated robustness conclusion are claimed. No formal D-014,
+formal tag, D-013/AX work, retry, reseed, or production-default selector
+change occurred.
+
+Permanent evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3d-causal-integrated-selector-r1/
-Active SQLite/WAL/AF_UNIX scratch remains local/direct-attached.
 
-## UMBRA-D-014H3C terminal — known R1 predecessor gate failure
+ — known R1 predecessor gate failure
 
 D-014H3C began from exact baseline 5c18693283fc48bef738bd1e0ca5fad678ce211a; local and GitHub master match.
 The H3B bridge prerequisite is accepted and preserved. H3C is the sole active
