@@ -1,9 +1,7 @@
 # UMBRA-D-014H3E evidence
 
-Permanent root:
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3e-regime-faithful-integrated-selector-r1/
+Status: TERMINAL / STOP.
 
-H3D freeze and closeout artifacts are immutable historical inputs. H3E
-evidence must be isolated from H3D and finalized on Atlas. Active
-SQLite/WAL/AF_UNIX scratch must remain local or direct-attached and must not
-be placed on SMB.
+Verdict: D014H3E_CORE_SOCIAL_HABITAT_BRIDGE_MISSING.
+
+Evidence is finalized at /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3e-regime-faithful-integrated-selector-r1/. The R2 restart preflight raised KeyError: response_policy while loading a snapshot containing an authoritative SOCIAL_ENTITY projection. No organism qualification outcomes or holdouts were executed.

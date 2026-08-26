@@ -1789,6 +1789,10 @@ class Organism:
                 ),
                 "current_candidate": candidate_to_trace(cand),
                 "candidate_pool": captured_pool,
+                "candidate_transitions": [dict(transition) for transition in trace_transitions],
+                "critical_recovery_context": dict(
+                    trace_data.get("critical_recovery_context", {})
+                ),
                 "effect_branches": effect_branches,
             }
             selection = self._experimental_final_selector(selector_context)

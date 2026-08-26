@@ -1,9 +1,9 @@
 # UMBRA-D-014H3E handoff
 
-Status: ACTIVE.
+Status: TERMINAL / STOP.
 
-Baseline and GitHub master must both be
-04fc267213aedb7f7e50185c9103a727075e2a8f. H3D is preserved as a terminal
-partial causal result; its known-R1 result is S0-only. Continue with regime
-contract and selector-input/proposal-capture audit before any H3E organism
-outcome is inspected.
+Verdict: D014H3E_CORE_SOCIAL_HABITAT_BRIDGE_MISSING.
+
+The required R2 restart preflight cannot load the organism after an authoritative HabitatEngine SOCIAL_ENTITY exists. Embodiment.to_state() serializes ImmutablePartnerView into legacy Habitat.partners; the legacy loader then requires response_policy, which the immutable projection does not carry. Exact evidence is at /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3e-regime-faithful-integrated-selector-r1/D014H3E_PREFLIGHT_STOP.json.
+
+No organism outcomes, R0/R1 gates, or holdouts were executed.

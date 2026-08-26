@@ -1,5 +1,12 @@
 # Current Project State
 
+## UMBRA-D-014H3E terminal - social/habitat persistence bridge missing
+
+D-014H3E started from exact baseline 04fc267213aedb7f7e50185c9103a727075e2a8f. The regime and selector-input work reached the R2 restart preflight, where the current authoritative social entity cannot round-trip through organism snapshot/load. Embodiment.to_state() serializes the read-only ImmutablePartnerView projection into legacy Habitat.partners, while PartnerEntity.from_state() requires response_policy; the restart raises KeyError: response_policy before a faithful R2/R3 lifecycle can be proven.
+
+Terminal verdict: D014H3E_CORE_SOCIAL_HABITAT_BRIDGE_MISSING. No H3E selector science, R0/R1 qualification, holdout execution, formal D-014, retry, reseed, or production-default selector authority occurred. H3D historical evidence is unchanged. Permanent evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3e-regime-faithful-integrated-selector-r1/
+
+
 ## UMBRA-D-014H3E active — regime-faithful integrated selector validation
 
 D-014H3E is active and authorized from exact baseline

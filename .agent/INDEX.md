@@ -7,12 +7,12 @@
 - GitHub: https://github.com/SketchOTP/umbra_core
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3E active regime-faithful selector validation
-- Active directive: UMBRA-D-014H3E
+- Current stage: Authority 3.0; D-014H3E terminal bridge preflight stop
+- Active directive: none; D-014H3E terminal
 - Active task packet: .agent/tasks/active/UMBRA-D-014H3E/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: D014H3D_EXECUTION_STOP_UNRESOLVED
+- Last accepted outcome: D014H3E_CORE_SOCIAL_HABITAT_BRIDGE_MISSING
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Last state sync: 2026-08-26T15:01:37Z
 
