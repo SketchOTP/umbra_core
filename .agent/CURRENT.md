@@ -1,5 +1,41 @@
 # Current Project State
 
+## UMBRA-D-014H3E active — regime-faithful integrated selector validation
+
+D-014H3E is active and authorized from exact baseline
+04fc267213aedb7f7e50185c9103a727075e2a8f, the accepted H3D closeout. H3D's
+terminal verdict remains D014H3D_EXECUTION_STOP_UNRESOLVED and its evidence,
+freeze, and sealed holdout manifest are historical and immutable.
+
+H3D evidence is accepted as a partial causal-mechanism result: disabled-hook
+parity, sentinel causal injection, real selector divergence, replay, and
+selector-enabled R0 8/8 x 7,200 passed. The H3D `known_r1` result is
+reclassified as seed 57531938 under S0 because the frozen runner hard-coded
+S0; it is not an R1/S16 result.
+
+H3E must establish regime fidelity and endogenous input fidelity before
+interpreting robustness outcomes. The frozen contract is R0=S0, R1=S16,
+R2=S10 with H3B authoritative social lifecycle, and R3=S12 with the
+frozen body swap at tick 3600. Proposal capture must distinguish actual
+source proposals from modifier context, constraints, and no-proposal
+transitions. Policy-visible remembered, world-model, affordance, transition,
+body, social, temporal, routine, development, and D-014 context may be
+populated only where current code legitimately exposes it; absent evidence
+remains neutral.
+
+Required order is: reconcile governance; freeze the regime/input/runner
+contract; prove R2/R3 preflight, disabled parity, causal handoff, replay, and
+holdout carry-forward; freeze scientifically; run H3E R0 8/8 x 7,200; run
+actual R1/S16 seed 57531938 x 7,200; then execute carried-forward R1/R2/R3
+holdouts only if both predecessor gates pass. No post-freeze harness or
+selector changes are allowed.
+
+No production-default selector authority, formal D-014, D-013/AX, retry,
+reseed, threshold/effect change, or storage change is permitted. Permanent
+evidence root:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3e-regime-faithful-integrated-selector-r1/
+
+
 ## UMBRA-D-014H3D terminal — frozen holdout execution boundary
 
 D-014H3D started at exact baseline
