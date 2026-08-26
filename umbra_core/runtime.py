@@ -176,6 +176,9 @@ class OrganismConfig:
     temporal_scenario_hook: Any = field(default=None, repr=False)
     # D-014H2: opt-in read-only trace; never consulted by organism policy.
     decision_trace_path: str | None = field(default=None, repr=False)
+    # D-014H3D: experiment-only final-choice seam. None preserves ordinary
+    # runtime behavior and consumes no RNG or persistent organism state.
+    experimental_final_selector: Any | None = field(default=None, repr=False)
 
 
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, angle_diff, current_rss_mib, new_id
@@ -283,6 +286,9 @@ class Organism:
         self.rng = rng
         self.config = config
         self._decision_trace = DecisionTraceSink(config.decision_trace_path)
+        # D-014H3D: this is an opt-in research callback only. It is never
+        # persisted and is absent from ordinary configurations.
+        self._experimental_final_selector = config.experimental_final_selector
         self._last_verified_event_sequence: int | None = None
         if config.habitat_config is not None:
             self._habitat_config = config.habitat_config
@@ -1735,6 +1741,100 @@ class Organism:
             trace_transitions, "final_safety", final_safety_before, cand,
             reason="verified_outcome_branch_safety" if final_safety_before is not cand else None,
         )
+
+        # D-014H3D: replace only the final pre-Governance choice. The callback
+        # is experiment-only, default-disabled, non-persistent, and must select
+        # an exact candidate already emitted by the current pipeline. It cannot
+        # invent capability/params or bypass final authority.
+        if self._experimental_final_selector is not None:
+            if not self._decision_trace.enabled:
+                raise RuntimeError("d014h3d_selector_requires_trace")
+            captured_pool: list[dict[str, Any]] = []
+            for transition in trace_transitions:
+                emitted = transition.get("candidate_after")
+                if not isinstance(emitted, dict) or not emitted.get("capability"):
+                    continue
+                row = dict(emitted)
+                row["source_name"] = transition.get("source")
+                captured_pool.append(row)
+            if not captured_pool:
+                raise RuntimeError("d014h3d_empty_candidate_pool")
+            effect_branches: dict[str, list[dict[str, Any]]] = {}
+            for row in captured_pool:
+                probe = Candidate(str(row["capability"]), dict(row.get("params") or {}))
+                effect_branches.setdefault(
+                    probe.capability,
+                    [
+                        dict(branch)
+                        for branch in authority_effect_branches(
+                            probe,
+                            self.embodiment,
+                            self.embodiment_adapter,
+                            resolve_params=self._resolve_params,
+                        )
+                    ],
+                )
+            selector_context = {
+                "tick": self.tick,
+                "organism_age": organism_age,
+                "active_ticks": self._tick_active_ticks,
+                "physiology": self.phys.as_dict(),
+                "observations": [dict(row) for row in obs_dicts],
+                "policy_view": dict(policy_view),
+                "body": self.embodiment.body.to_state(),
+                "body_schema_generation": (
+                    self.self_model.active.body_schema_id
+                    if self.self_model is not None
+                    else None
+                ),
+                "current_candidate": candidate_to_trace(cand),
+                "candidate_pool": captured_pool,
+                "effect_branches": effect_branches,
+            }
+            selection = self._experimental_final_selector(selector_context)
+            if not isinstance(selection, dict) or not isinstance(selection.get("candidate"), Candidate):
+                raise RuntimeError("d014h3d_invalid_selector_result")
+            selected = selection["candidate"]
+            selected_row = candidate_to_trace(selected)
+            pool_keys = {
+                (
+                    str(row.get("capability")),
+                    canonical_fingerprint(row.get("params") or {}),
+                )
+                for row in captured_pool
+            }
+            selected_key = (
+                str(selected_row.get("capability")),
+                canonical_fingerprint(selected_row.get("params") or {}),
+            )
+            if selected_key not in pool_keys:
+                raise RuntimeError("d014h3d_selector_invented_candidate")
+            if self.arbitrator._introduces_critical_boundary(
+                selected,
+                self.phys,
+                effect_branches=authority_effect_branches(
+                    selected,
+                    self.embodiment,
+                    self.embodiment_adapter,
+                    resolve_params=self._resolve_params,
+                ),
+            ):
+                raise RuntimeError("d014h3d_selector_selected_unsafe_candidate")
+            trace_data["d014h3d_selector"] = dict(selection.get("trace") or {})
+            trace_data["d014h3d_selector"].update({
+                "candidate_pool": captured_pool,
+                "selected_candidate": selected_row,
+                "post_selection_replacement_count": 0,
+            })
+            self._trace_transition(
+                trace_transitions,
+                "d014h3d_selector",
+                cand,
+                selected,
+                reason="experiment_only_final_pre_governance_choice",
+            )
+            cand = selected
+
         if self._decision_trace.enabled:
             trace_data["final_authority_reachable_effect_branches"] = [
                 dict(branch)
