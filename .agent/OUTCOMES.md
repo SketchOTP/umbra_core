@@ -753,3 +753,21 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Scope: audit behavioral candidate identity, exact candidate-specific authority safety, actual proposal capture, and existing endogenous score evidence; then freeze and validate a fresh selector before gated organism outcomes.
 - Boundaries: preserve H3D/H3F/H3G evidence and sealed H3D holdouts; no H3F/H3G retry, production-default selector, threshold/effect change, retry, reseed, formal D-014, D-013/AX, or storage change.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3h-deterministic-authority-safe-selector-r1/.
+
+## UMBRA-D-014H3H closeout   2026-08-26
+
+- Verdict: D014H3H_EXECUTION_STOP_UNRESOLVED.
+- Focused H3H tests: 11 passed; H3D compatibility passed; R2/R3 authority
+  preflight passed; Authority 3.0 and governance passed.
+- The first authorized R0 population invocation started with seed 41241905
+  and stopped at the experiment-only callback with
+  RuntimeError: d014h3h_no_selected_candidate because the callback did not
+  preserve an existing production no_safe_action denial. The runner did not
+  persist a per-run failure envelope, so no scientific viability result is
+  claimed.
+- No retry, reseed, known-R1 run, sealed holdout execution, production-default
+  selector authority, formal D-014, D-013/AX, threshold/effect change, or
+  historical evidence rewrite occurred.
+- Evidence:
+  /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3h-deterministic-authority-safe-selector-r1/.
+- Return to Architect for any further H3H authorization.

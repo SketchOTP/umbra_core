@@ -10,14 +10,30 @@
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3H active deterministic authority-safe selector
-- Active directive: UMBRA-D-014H3H; last terminal directive: UMBRA-D-014H3G
-- Active task packet: .agent/tasks/active/UMBRA-D-014H3H/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3G/
+- Current stage: Authority 3.0; D-014H3H terminal execution stop
+- Active directive: none; last terminal directive: UMBRA-D-014H3H
+- Last task packet: .agent/tasks/active/UMBRA-D-014H3H/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3G/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: D014H3G_UNSAFE_SELECTION_CAUSE_UNRESOLVED
+- Last accepted outcome: D014H3H_EXECUTION_STOP_UNRESOLVED
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
-- Last state sync: 2026-08-26T19:15:00Z
+- Last state sync: 2026-08-26T20:10:00Z
+
+## UMBRA-D-014H3H terminal routing
+
+D-014H3H started from exact baseline
+b2435089ccf11e3c3e354443115ee61934003aff. Focused tests, H3D compatibility,
+R2/R3 authority preflight, Authority 3.0, and governance passed. The first
+authorized R0 population invocation started with seed 41241905 and stopped
+at the experiment-only callback with RuntimeError:
+d014h3h_no_selected_candidate. The wrapper did not persist a failure
+envelope, so no scientific viability result is claimed.
+
+The frozen H3H contract prohibits retry, reseed, known-R1, and sealed-holdout
+execution after this stop. Production-default selector behavior, thresholds,
+effects, historical evidence, and sealed H3D holdouts remain unchanged.
+Permanent H3H evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3h-deterministic-authority-safe-selector-r1/
 
 ## UMBRA-D-014H3G terminal routing
 

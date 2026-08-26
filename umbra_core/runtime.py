@@ -1752,30 +1752,35 @@ class Organism:
             if not self._decision_trace.enabled:
                 raise RuntimeError("d014h3d_selector_requires_trace")
             captured_pool: list[dict[str, Any]] = []
-            for transition in trace_transitions:
+            for transition_index, transition in enumerate(trace_transitions):
                 emitted = transition.get("candidate_after")
                 if not isinstance(emitted, dict) or not emitted.get("capability"):
                     continue
                 row = dict(emitted)
+                row["candidate_ref"] = f"runtime:{transition_index}"
                 row["source_name"] = transition.get("source")
                 captured_pool.append(row)
             if not captured_pool:
                 raise RuntimeError("d014h3d_empty_candidate_pool")
+            # Preserve the legacy capability map for D-014H3D/H3F callbacks.
+            # H3H additionally receives exact-candidate branches keyed by the
+            # stable trace candidate_ref, because authority is params/body/
+            # adapter/habitat dependent and cannot be aliased by capability.
             effect_branches: dict[str, list[dict[str, Any]]] = {}
+            effect_branches_exact: dict[str, list[dict[str, Any]]] = {}
             for row in captured_pool:
                 probe = Candidate(str(row["capability"]), dict(row.get("params") or {}))
-                effect_branches.setdefault(
-                    probe.capability,
-                    [
-                        dict(branch)
-                        for branch in authority_effect_branches(
-                            probe,
-                            self.embodiment,
-                            self.embodiment_adapter,
-                            resolve_params=self._resolve_params,
-                        )
-                    ],
-                )
+                exact = [
+                    dict(branch)
+                    for branch in authority_effect_branches(
+                        probe,
+                        self.embodiment,
+                        self.embodiment_adapter,
+                        resolve_params=self._resolve_params,
+                    )
+                ]
+                effect_branches_exact[str(row["candidate_ref"])] = exact
+                effect_branches.setdefault(probe.capability, exact)
             selector_context = {
                 "tick": self.tick,
                 "organism_age": organism_age,
@@ -1796,7 +1801,13 @@ class Organism:
                     trace_data.get("critical_recovery_context", {})
                 ),
                 "effect_branches": effect_branches,
+                "effect_branches_exact": effect_branches_exact,
             }
+            selector_label = (
+                "d014h3h_selector"
+                if getattr(self._experimental_final_selector, "__module__", "").endswith("d014h3h_runtime")
+                else "d014h3d_selector"
+            )
             selection = self._experimental_final_selector(selector_context)
             if not isinstance(selection, dict) or not isinstance(selection.get("candidate"), Candidate):
                 raise RuntimeError("d014h3d_invalid_selector_result")
@@ -1826,15 +1837,15 @@ class Organism:
                 ),
             ):
                 raise RuntimeError("d014h3d_selector_selected_unsafe_candidate")
-            trace_data["d014h3d_selector"] = dict(selection.get("trace") or {})
-            trace_data["d014h3d_selector"].update({
+            trace_data[selector_label] = dict(selection.get("trace") or {})
+            trace_data[selector_label].update({
                 "candidate_pool": captured_pool,
                 "selected_candidate": selected_row,
                 "post_selection_replacement_count": 0,
             })
             self._trace_transition(
                 trace_transitions,
-                "d014h3d_selector",
+                selector_label,
                 cand,
                 selected,
                 reason="experiment_only_final_pre_governance_choice",

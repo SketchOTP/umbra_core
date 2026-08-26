@@ -1,18 +1,26 @@
-## UMBRA-D-014H3H active — deterministic candidate identity / authority-safe selector
+# Current Project State
 
-D-014H3H is the sole active directive from exact baseline
-b2435089ccf11e3c3e354443115ee61934003aff, following accepted H3G terminal
-verdict D014H3G_UNSAFE_SELECTION_CAUSE_UNRESOLVED. H3F's unsafe-selector
-exception remains an unresolved historical execution anomaly and must not be
-retroactively assigned a cause.
+## UMBRA-D-014H3H terminal   execution stop unresolved
 
-H3H will audit behavioral versus provenance-only candidate identity, preserve
-full candidate parameters and existing endogenous scores, bind authority
-effect branches to exact candidates, and keep hard safety constraints before
-experimental ranking. It is fresh non-formal experimental work; production
-default selector behavior, thresholds, effects, historical evidence, H3D
-holdouts, formal D-014, D-013/AX, retries, reseeds, and storage changes are
-prohibited. The H3D 3xR1/R2/R3 holdout manifest remains sealed and unexecuted.
+D-014H3H began from exact baseline
+b2435089ccf11e3c3e354443115ee61934003aff. Focused selector/runtime tests
+(11 passed), H3D compatibility, R2/R3 authority preflight, Authority 3.0,
+and governance passed.
+
+The first authorized H3H R0 population invocation started with seed 41241905
+and stopped at the experiment-only callback with
+RuntimeError: d014h3h_no_selected_candidate at
+experiments/research/non-production/d014h3h_runtime.py:209. This occurred when
+the selector returned no selected candidate while the existing production
+pipeline had already emitted the authoritative no_safe_action denial. The
+wrapper did not persist a per-run failure envelope, so no scientific viability
+result is claimed.
+
+Terminal verdict: D014H3H_EXECUTION_STOP_UNRESOLVED. Per the frozen H3H
+contract, no retry, reseed, known-R1 run, or sealed holdout execution was
+performed. Production-default selector behavior, thresholds, effects,
+historical evidence, and H3D sealed holdouts remain unchanged. No formal
+D-014, D-013/AX, or storage work occurred.
 
 Permanent H3H evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3h-deterministic-authority-safe-selector-r1/
