@@ -705,3 +705,13 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
   until H3F persistence and predecessor gates pass.
 - Permanent evidence root:
   /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/.
+
+
+## UMBRA-D-014H3F closeout
+
+- Verdict: D014H3F_EXECUTION_STOP_UNRESOLVED.
+- Persistence-authority correction, exact reattachment, H3B R2 restart/replay, disabled parity, R2/R3 preflight, and focused validation passed.
+- The one authorized R0 population invocation started on seed 41241905 and stopped on RuntimeError: d014h3d_selector_selected_unsafe_candidate at umbra_core/runtime.py:1828; no scientific viability result is claimed because the runner did not persist a failure envelope.
+- No retry, reseed, known-R1, holdout, formal D-014, D-013/AX, or further H3F population occurred.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/.
+- Next: return to Architect.

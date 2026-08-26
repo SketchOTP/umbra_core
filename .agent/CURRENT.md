@@ -1,28 +1,20 @@
 # Current Project State
 
-## UMBRA-D-014H3F active - habitat snapshot authority separation
 
-D-014H3F is active and authorized from exact baseline
-b0858d8588646cd5d0e6e822e5ad8982466381c2, following the accepted H3E
-social/habitat persistence bridge stop. H3E remains terminal and its evidence
-is historical and unchanged.
+## UMBRA-D-014H3F terminal - selector execution stop
 
-The active objective is to keep HabitatEngine authoritative across restart
-without enriching the sanitized ImmutablePartnerView or serializing that
-projection as legacy Habitat truth. First freeze and implement the smallest
-engine-bound snapshot/reattachment contract, preserve legacy no-engine
-snapshots, and requalify the H3B R2 restart lifecycle. Only if those gates
-pass may the fresh H3F regime-faithful selector robustness generation use the
-sealed H3D holdouts.
+D-014H3F persistence-authority correction, legacy compatibility, exact
+engine reattachment guards, H3B R2 restart/replay, disabled parity, and
+R2/R3 regime preflight all passed. The single authorized H3F R0 population
+invocation then started and stopped on seed 41241905 when the experiment-only
+selector raised RuntimeError: d014h3d_selector_selected_unsafe_candidate at
+umbra_core/runtime.py:1828. The runner did not persist a per-tick failure
+envelope, so no scientific viability result is claimed.
 
-Permanent evidence:
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/
-
-No hidden social truth in projections, projection-as-restart-authority,
-silent legacy fallback, production-default selector authority, H3D/H3E
-historical rewrites, retries, reseeds, formal D-014, D-013/AX, storage
-migration, old Atlas paths, mergerfs, or Dewey-layout changes are allowed.
-
+Terminal verdict: D014H3F_EXECUTION_STOP_UNRESOLVED. No retry, reseed,
+known-R1, holdout, formal D-014, D-013/AX, or further H3F population was
+started. H3D/H3E historical evidence remains unchanged.
+Permanent evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/
 
 ## UMBRA-D-014H3E terminal - social/habitat persistence bridge missing
 

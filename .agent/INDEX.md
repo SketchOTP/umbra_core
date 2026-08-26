@@ -7,27 +7,28 @@
 - GitHub: https://github.com/SketchOTP/umbra_core
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3F active habitat snapshot authority correction
-- Active directive: UMBRA-D-014H3F
+- Current stage: Authority 3.0; D-014H3F terminal selector execution stop
+- Active directive: NONE; last terminal directive: UMBRA-D-014H3F
 - Active task packet: .agent/tasks/active/UMBRA-D-014H3F/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: D014H3E_CORE_SOCIAL_HABITAT_BRIDGE_MISSING
+- Last accepted outcome: D014H3F_EXECUTION_STOP_UNRESOLVED
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
-- Last state sync: 2026-08-26T16:15:05Z
+- Last state sync: 2026-08-26T16:40:00Z
 
-## UMBRA-D-014H3F active routing
+## UMBRA-D-014H3F terminal routing
 
-D-014H3F is authorized from exact baseline
-b0858d8588646cd5d0e6e822e5ad8982466381c2. It corrects the H3E persistence
-boundary: HabitatEngine state remains the authoritative habitat snapshot, the
-read-only projection remains sanitized, and engine-bound organism snapshots
-must require exact authoritative reattachment before ticking. Legacy
-no-engine snapshots remain supported. The H3F persistence gates must pass
-before any selector-enabled organism outcomes or H3D holdouts are inspected.
+D-014H3F corrected the HabitatEngine snapshot-authority boundary and passed
+the persistence, reattachment, disabled-parity, H3B R2 restart, R2/R3
+preflight, and focused validation gates. Its single R0 population invocation
+then stopped on seed 41241905 with
+RuntimeError: d014h3d_selector_selected_unsafe_candidate at
+umbra_core/runtime.py:1828 before a result envelope was persisted.
 
-Permanent H3F evidence:
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/
+Terminal verdict: D014H3F_EXECUTION_STOP_UNRESOLVED. No scientific viability
+result is claimed. No retry, reseed, known-R1, holdout, formal D-014, or
+follow-on directive is implied. Permanent H3F evidence:
+ /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/
 
 ## UMBRA-D-014H3E active routing
 
