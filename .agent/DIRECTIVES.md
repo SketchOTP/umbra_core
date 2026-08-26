@@ -549,3 +549,6 @@ Format:
 
 
 - D-20260826T094806-umbra-d014h3c | project:UMBRA-D-014H3C | status:started | baseline:5c18693283fc48bef738bd1e0ca5fad678ce211a | parent:D014H3B_R2_AUTHORITY_PREFLIGHT_QUALIFIED | scope:bridge_regression, replay_first_selector_shadow, fixed_R0, known_R1_gate, fresh_sealed_R1_R2_R3 | constraints:no_production_selector,no_formal_D014,no_D013_AX,no_auto_D014I,no_hidden_truth,no_retry,no_reseed,no_storage_migration | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/
+
+
+- D-20260826T095932-umbra-d014h3c-closeout | project:UMBRA-D-014H3C | status:terminal | verdict:D014H3C_KNOWN_R1_GATE_FAIL | baseline:5c18693283fc48bef738bd1e0ca5fad678ce211a | r0:8_of_8_x7200 | known_r1:57531938_tick_372_fatigue_0.951_after_verified_MOVE | fresh_holdouts:sealed_not_executed | focused_shadow:6_passed | bridge_regression:inherited_D010_D012_only | production_changes:0 | retries:0 | reseeds:0 | formal:false | d013_reopened:false | d014i:false | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1 | next:return_to_Architect

@@ -667,3 +667,15 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Focused validation: 191 passed; corrected R2 preflight: two deterministic passes.
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/`.
 - Recommendation: `D014H3_PREFLIGHT_RESUME_CANDIDATE`; return to Architect.
+
+
+## UMBRA-D-014H3C closeout — 2026-08-26T09:59:32Z
+
+Verdict: D014H3C_KNOWN_R1_GATE_FAIL. Fixed R0 passed 8/8 x 7,200 without
+critical physiology failure. Known R1 seed 57531938 reproduced fatigue 0.951
+at tick 372 after verified MOVE. Fresh R1/R2/R3 holdouts were sealed before
+outcomes and not executed after the predecessor gate failed. H3C shadow
+contract tests: 6 passed; no production authority. No H3B-specific regression;
+inherited D-010 inventory and D-012 worker-startup failures remain unchanged.
+Production/threshold/historical evidence changes: 0; retries/reseeds/formal
+D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1. Next: return to Architect.

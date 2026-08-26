@@ -309,3 +309,13 @@ persisted with authoritative state; a read-only projection alone cannot supply
 legacy PartnerEntity semantics. The safe seam is a trusted sensing adapter that
 preserves anonymous noisy cues and never exports entity_ref. Canonical creation
 and visibility events plus state hashes provide deterministic restart/replay.
+
+
+## 2026-08-26 — D-014H3C known-R1 gate
+
+The accepted H3B social/habitat bridge did not introduce a focused or full-suite
+regression. Fixed R0 completed 8/8 x 7,200, while known R1 seed 57531938
+reproduced the accepted tick-372 fatigue failure after verified MOVE. A fresh
+selector shadow contract can be replayable and policy-visible without
+production authority, but it cannot be promoted or evaluated as an integrated
+rescue when the known-R1 predecessor gate fails. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/

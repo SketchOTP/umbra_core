@@ -169,3 +169,12 @@ competition shadow. The evidence root is /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CO
 R1 seed gate the fresh sealed holdouts; H3C does not authorize production
 selector changes, formal D-014, D-013/AX, automatic D-014I, retries, reseeds,
 or storage migration.
+
+
+## UMBRA-D-014H3C closeout — 2026-08-26T09:59:32Z
+
+D-014H3C stopped at the required known-R1 gate. Fixed R0 passed 8/8 x 7,200;
+known R1 seed 57531938 reproduced the accepted fatigue failure at tick 372.
+Fresh holdouts remained sealed and unexecuted. The evaluator-only shadow
+contract passed 6 focused tests; no production selector authority or organism
+rescue was demonstrated. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/. Return to Architect.

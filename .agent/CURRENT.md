@@ -1,6 +1,6 @@
 # Current Project State
 
-## UMBRA-D-014H3C active — fresh integrated prospective affordance competition
+## UMBRA-D-014H3C terminal — known R1 predecessor gate failure
 
 D-014H3C began from exact baseline 5c18693283fc48bef738bd1e0ca5fad678ce211a; local and GitHub master match.
 The H3B bridge prerequisite is accepted and preserved. H3C is the sole active
@@ -37,7 +37,7 @@ D-014, D-013/AX, retry, reseed, or production decision change occurred.
 Evidence is finalized at
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3a-r2-authority-repair-r1/.
 
-Current stage: Authority 3.0 active; D-014H3C is active from the accepted H3B closeout.
+Current stage: Authority 3.0 active; D-014H3C is terminal and returned to Architect.
 
 ## UMBRA-D-014H3A start record (superseded by terminal closeout)
 

@@ -8,9 +8,9 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3C active integrated prospective affordance competition shadow
-- Active directive: UMBRA-D-014H3C — Fresh Integrated Prospective Affordance Competition / Whole-Organism Shadow
-- Active task packet: .agent/tasks/active/UMBRA-D-014H3C/
+- Current stage: Authority 3.0; D-014H3C terminal bounded gate failure returned to Architect
+- Active directive: none; last terminal directive UMBRA-D-014H3C
+- Active task packet: none
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3/
@@ -19,9 +19,9 @@
 - Terminal predecessor packet: .agent/tasks/completed/UMBRA-D-014H/
 - Terminal predecessor packets: .agent/tasks/completed/UMBRA-D-014F/, .agent/tasks/completed/UMBRA-D-014G/, .agent/tasks/completed/UMBRA-D-014G1/
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014H3B_R2_AUTHORITY_PREFLIGHT_QUALIFIED
+- Last accepted outcome: D014H3C_KNOWN_R1_GATE_FAIL
 - Canonical permanent evidence: \\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
-- Last state sync: 2026-08-26T09:48:06Z
+- Last state sync: 2026-08-26T09:59:32Z
 
 ## UMBRA-D-014H3B terminal routing
 
@@ -126,3 +126,15 @@ or storage migration are authorized.
 
 Permanent evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/
+
+## UMBRA-D-014H3C terminal routing
+
+D-014H3C stopped at the required known-R1 predecessor gate from exact starting
+baseline 5c18693283fc48bef738bd1e0ca5fad678ce211a. Fixed R0 passed 8/8 x 7,200;
+known R1 seed 57531938 reproduced fatigue failure at tick 372. Fresh sealed
+holdouts were not executed. The evaluator-only shadow contract passed focused
+tests, but no selector outcome or organism rescue is claimed.
+
+Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/
+Return to Architect. No D-014I, formal D-014, D-013/AX, or production selector
+integration is inferred.
