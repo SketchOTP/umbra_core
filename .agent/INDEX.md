@@ -10,14 +10,30 @@
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3F terminal selector execution stop
-- Active directive: NONE; last terminal directive: UMBRA-D-014H3F
-- Active task packet: .agent/tasks/active/UMBRA-D-014H3F/
+- Current stage: Authority 3.0; D-014H3G candidate-specific safety alignment
+- Active directive: UMBRA-D-014H3G
+- Active task packet: .agent/tasks/active/UMBRA-D-014H3G/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
 - Last accepted outcome: D014H3F_EXECUTION_STOP_UNRESOLVED
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
-- Last state sync: 2026-08-26T16:40:00Z
+- Last state sync: 2026-08-26T18:55:00Z
+
+## UMBRA-D-014H3G active routing
+
+D-014H3G is authorized from exact baseline
+2be05c7f661abb1c4d8505eb932d74eadc30114b after accepted H3F execution-stop
+verdict. First reproduce H3F R0/S0 seed 41241905 with complete diagnostic
+capture. Only if the cause is resolved may H3G freeze candidate-specific
+authority safety, prove focused fixtures, disabled parity, replay, and then
+run the newly frozen selector-enabled R0, actual R1/S16 seed 57531938, and
+the exact sealed H3D holdouts in the directive's gated order.
+
+H3F evidence is historical and preserved. No retry of H3F, formal D-014,
+D-013/AX, production-default selector authority, hidden-truth policy,
+threshold/effect changes, storage changes, or H3D holdout regeneration is
+authorized. Permanent H3G evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3g-candidate-safety-selector-r1/
 
 ## UMBRA-D-014H3F terminal routing
 

@@ -1,3 +1,17 @@
+## UMBRA-D-014H3G start — 2026-08-26T18:55:00Z
+
+- Architect accepted H3F as D014H3F_EXECUTION_STOP_UNRESOLVED and authorized
+  H3G from exact baseline 2be05c7f661abb1c4d8505eb932d74eadc30114b.
+- H3G first performs one bounded diagnostic reproduction of H3F R0/S0 seed
+  41241905, retaining the complete candidate/effect/authority envelope.
+- Only a fully identified cause may justify the experiment-only candidate
+  safety alignment. UNKNOWN remains neutral after hard authoritative
+  admissibility; the post-selection safety check remains an assertion.
+- H3F evidence, H3D sealed holdouts, protected state, and Atlas storage rules
+  are preserved. No H3F retry, formal D-014, D-013/AX, storage migration,
+  threshold/effect change, or production-default selector authority is
+  authorized.
+
 # OUTCOMES.md
 
 Append-only task-end log for UMBRA-CORE. Never rewrite, reorder, or delete history.

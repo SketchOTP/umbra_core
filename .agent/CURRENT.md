@@ -1,6 +1,25 @@
 # Current Project State
 
 
+## UMBRA-D-014H3G active - candidate-specific safety alignment
+
+D-014H3G is the sole active directive from exact baseline
+2be05c7f661abb1c4d8505eb932d74eadc30114b, following accepted H3F verdict
+D014H3F_EXECUTION_STOP_UNRESOLVED. H3F persistence/restart correction and
+predecessor gates remain accepted; its single R0 invocation is historical and
+must not be retried.
+
+H3G first reproduces the H3F experiment-only unsafe-selector exception on
+R0/S0 seed 41241905 with a complete pre-exception envelope. It then may
+correct only the experiment-only selector seam so exact candidate-specific
+authority safety is applied before prospective ranking, while preserving
+UNKNOWN neutrality and the existing post-selection safety assertion.
+
+No production-default selector authority, formal D-014, D-013/AX, retry,
+reseed, threshold/effect change, storage change, or H3D historical rewrite is
+permitted. Permanent H3G evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3g-candidate-safety-selector-r1/
+
 ## UMBRA-D-014H3F terminal - selector execution stop
 
 D-014H3F persistence-authority correction, legacy compatibility, exact
