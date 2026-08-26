@@ -1,21 +1,26 @@
 # Current Project State
 
-## UMBRA-D-014H3J active - R0 failure causal decomposition
+## UMBRA-D-014H3J terminal - retained evidence insufficient
 
-D-014H3J is the sole active diagnostic directive from exact baseline
-a568769980aff4589552401372a388e121fda55c, following accepted terminal
-D014H3I_R0_GATE_FAIL. H3I remains a valid frozen scientific failure
-population: all eight fixed R0 seeds ran once and failed physiologically;
-R1/S16 and sealed H3D holdouts remain unexecuted.
+D-014H3J performed the authorized read-only inventory and source contract audit
+against exact baseline a568769980aff4589552401372a388e121fda55c. The H3I
+manifest verified 11/11 files with zero mismatches, and the source audit
+confirmed a contradiction between H3I's UNKNOWN-neutral contract and its
+KNOWN_FEASIBLE-only selection implementation.
 
-H3J is read-only analysis of retained H3I evidence. It must determine whether
-the H3I implementation collapsed hard-admissible UNKNOWN candidates into
-NO_SAFE_ACTION, and whether that mechanism is common, partial, secondary, or
-unresolvable across the eight seeds.
+The retained H3I R0 artifacts contain aggregate terminal physiology, failure
+ticks, first no-safe summaries, and no harness exceptions, but decision_trace
+is null and candidate pools, selector inputs, hard-admissibility rows,
+prospective statuses, no-safe origin, production-serial candidates, and
+per-tick episode vectors are absent for all eight seeds. No causal commonality
+can be established without forbidden reruns.
 
-No H3I retry, selector/wrapper/runtime correction, R1/R2/R3 or H3D holdout
-execution, formal D-014, D-013/AX, threshold/effect change, hidden truth,
-new seed, reseed, or storage change is authorized. Canonical H3J evidence:
+Terminal verdict: D014H3J_EVIDENCE_INSUFFICIENT. No H3I retry, R1/R2/R3 or
+sealed H3D holdout execution, selector/wrapper/runtime correction, production
+change, new seed, retry/reseed, hidden truth, threshold/effect change, formal
+D-014, D-013/AX, or storage change occurred.
+
+Permanent H3J evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3j-r0-causal-decomposition-r1/
 
 ## UMBRA-D-014H3I terminal - R0 gate failed

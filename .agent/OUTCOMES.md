@@ -802,3 +802,14 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Scope: retained evidence inventory, UNKNOWN contract audit, eight-seed chronology, no-safe origin, drift consequence, recorded-input counterfactuals, production-serial comparison, and cross-seed taxonomy.
 - Boundaries: no H3I retry, no R1/R2/R3 or sealed H3D holdouts, no selector/wrapper/runtime correction, no production changes, no new seeds, no retry/reseed, no hidden truth, no thresholds/effects, no formal D-014, no D-013/AX, and no storage change.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3j-r0-causal-decomposition-r1/
+
+## UMBRA-D-014H3J closeout - 2026-08-26
+
+- Verdict: D014H3J_EVIDENCE_INSUFFICIENT.
+- H3I manifest: 11/11 files hash-match; H3I R0 aggregate population: 8/8 fixed seeds failed once with zero harness exceptions.
+- Source audit: H3I UNKNOWN-neutral contract contradicts KNOWN_FEASIBLE-only selection and NO_SAFE_ACTION on an empty feasible set.
+- Per-seed causal decomposition: incomplete for all 8 because decision_trace is null and candidate pools, selector inputs, no-safe origins, production-serial candidates, and per-tick physiology vectors are absent.
+- Recorded-input counterfactuals, drift episode classification, alternative-mechanism causality, and common-cause classification: not performed because required inputs are absent.
+- Scientific retries, reseeds, new seeds, R1/R2/R3, sealed H3D holdouts, selector/wrapper changes, production changes, threshold/effect changes, formal D-014, D-013/AX, and storage changes: 0.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3j-r0-causal-decomposition-r1/.
+- H3J is terminal; return to Architect.

@@ -10,14 +10,14 @@
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3J active read-only R0 causal decomposition
-- Active directive: UMBRA-D-014H3J; last terminal directive: UMBRA-D-014H3I
-- Last task packet: .agent/tasks/active/UMBRA-D-014H3J/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3I/
+- Current stage: Authority 3.0; D-014H3J terminal evidence insufficiency
+- Active directive: none; last terminal directive: UMBRA-D-014H3J
+- Last task packet: .agent/tasks/completed/UMBRA-D-014H3J/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3I/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: D014H3I_R0_GATE_FAIL
+- Last accepted outcome: D014H3J_EVIDENCE_INSUFFICIENT
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
-- Last state sync: 2026-08-26T20:50:28Z
+- Last state sync: 2026-08-26T21:30:33Z
 
 ## UMBRA-D-014H3I terminal routing
 
