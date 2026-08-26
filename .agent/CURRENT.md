@@ -1,5 +1,29 @@
 # Current Project State
 
+## UMBRA-D-014H3F active - habitat snapshot authority separation
+
+D-014H3F is active and authorized from exact baseline
+b0858d8588646cd5d0e6e822e5ad8982466381c2, following the accepted H3E
+social/habitat persistence bridge stop. H3E remains terminal and its evidence
+is historical and unchanged.
+
+The active objective is to keep HabitatEngine authoritative across restart
+without enriching the sanitized ImmutablePartnerView or serializing that
+projection as legacy Habitat truth. First freeze and implement the smallest
+engine-bound snapshot/reattachment contract, preserve legacy no-engine
+snapshots, and requalify the H3B R2 restart lifecycle. Only if those gates
+pass may the fresh H3F regime-faithful selector robustness generation use the
+sealed H3D holdouts.
+
+Permanent evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/
+
+No hidden social truth in projections, projection-as-restart-authority,
+silent legacy fallback, production-default selector authority, H3D/H3E
+historical rewrites, retries, reseeds, formal D-014, D-013/AX, storage
+migration, old Atlas paths, mergerfs, or Dewey-layout changes are allowed.
+
+
 ## UMBRA-D-014H3E terminal - social/habitat persistence bridge missing
 
 D-014H3E started from exact baseline 04fc267213aedb7f7e50185c9103a727075e2a8f. The regime and selector-input work reached the R2 restart preflight, where the current authoritative social entity cannot round-trip through organism snapshot/load. Embodiment.to_state() serializes the read-only ImmutablePartnerView projection into legacy Habitat.partners, while PartnerEntity.from_state() requires response_policy; the restart raises KeyError: response_policy before a faithful R2/R3 lifecycle can be proven.

@@ -691,3 +691,17 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - No fresh holdout, integrated robustness, formal, tag, retry, reseed, or production-default selector claim.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3d-causal-integrated-selector-r1/.
 - Next: return to Architect; no follow-on directive is implied by this closeout.
+
+## UMBRA-D-014H3F start — 2026-08-26T16:15:05Z
+
+- D-014H3E is accepted and terminal with verdict
+  D014H3E_CORE_SOCIAL_HABITAT_BRIDGE_MISSING; D-014H3F is the active
+  successor from baseline b0858d8588646cd5d0e6e822e5ad8982466381c2.
+- H3F will correct restart authority separation without enriching the
+  sanitized ImmutablePartnerView: authoritative HabitatEngine.state is
+  persisted independently and must be reattached with matching identity,
+  version, and hash before any engine-bound organism can tick.
+- H3D holdouts remain sealed and unexecuted. Selector outcomes are blocked
+  until H3F persistence and predecessor gates pass.
+- Permanent evidence root:
+  /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/.
