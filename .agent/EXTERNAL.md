@@ -54,3 +54,12 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Sterling, Ramsay and Woods, and Tyrrell support predictive policy-visible regulation, full interacting homeostatic state, and one common evidence-combination boundary. These were recorded as bounded ADAPT/ADOPT principles only.
 - Wholesale RL, active inference, MPC, CBF/HJ, global planning/search, scalar survival utility, fixed need-to-action mapping, and authored recovery macros were rejected as out of scope.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h-fresh-prospective-regulation-r1/D014H_EXTERNAL_PRINCIPLES.md
+
+## UMBRA-D-014H3B external principles
+
+- Date: 2026-08-25
+- Scope: bounded review for an authoritative social-entity environment bridge.
+- Adopted only: hidden environment state remains separate from policy observations; persistent environment entities retain stable identity/state across updates and restart; one authoritative environment state feeds derived observations.
+- Rejected: importing a planner, RL/active-inference controller, MPC/CBF/HJ layer, scene-graph stack, or hidden-truth policy field.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/D014H3B_EXTERNAL_PRINCIPLES.md
+- Recheck trigger: revisit if the bridge exposes an observability/persistence failure or the cited sources materially change.
