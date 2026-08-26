@@ -793,3 +793,12 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Focused H3I: 8 passed; H3H compatibility: 6 passed; D-009, D-010, D-012 schedule, Authority 3.0, and governance: PASS.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3i-no-safe-composition-r1/.
 - Next: return to Architect; no automatic H3I correction or retry is authorized by this closeout.
+
+## UMBRA-D-014H3J start - 2026-08-26
+
+- Status: ACTIVE; diagnostic-only read-only decomposition of the accepted H3I R0 failure population.
+- Baseline: a568769980aff4589552401372a388e121fda55c, verified locally and on GitHub master.
+- Parent: D014H3I_R0_GATE_FAIL; H3I remains permanent scientific evidence.
+- Scope: retained evidence inventory, UNKNOWN contract audit, eight-seed chronology, no-safe origin, drift consequence, recorded-input counterfactuals, production-serial comparison, and cross-seed taxonomy.
+- Boundaries: no H3I retry, no R1/R2/R3 or sealed H3D holdouts, no selector/wrapper/runtime correction, no production changes, no new seeds, no retry/reseed, no hidden truth, no thresholds/effects, no formal D-014, no D-013/AX, and no storage change.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3j-r0-causal-decomposition-r1/

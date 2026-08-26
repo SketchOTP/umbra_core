@@ -1,5 +1,23 @@
 # Current Project State
 
+## UMBRA-D-014H3J active - R0 failure causal decomposition
+
+D-014H3J is the sole active diagnostic directive from exact baseline
+a568769980aff4589552401372a388e121fda55c, following accepted terminal
+D014H3I_R0_GATE_FAIL. H3I remains a valid frozen scientific failure
+population: all eight fixed R0 seeds ran once and failed physiologically;
+R1/S16 and sealed H3D holdouts remain unexecuted.
+
+H3J is read-only analysis of retained H3I evidence. It must determine whether
+the H3I implementation collapsed hard-admissible UNKNOWN candidates into
+NO_SAFE_ACTION, and whether that mechanism is common, partial, secondary, or
+unresolvable across the eight seeds.
+
+No H3I retry, selector/wrapper/runtime correction, R1/R2/R3 or H3D holdout
+execution, formal D-014, D-013/AX, threshold/effect change, hidden truth,
+new seed, reseed, or storage change is authorized. Canonical H3J evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3j-r0-causal-decomposition-r1/
+
 ## UMBRA-D-014H3I terminal - R0 gate failed
 
 D-014H3I froze a fresh experiment-only selector/wrapper contract from
