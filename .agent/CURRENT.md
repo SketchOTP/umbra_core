@@ -1,5 +1,33 @@
 # Current Project State
 
+## UMBRA-D-014H3D active — causal selector injection and completion
+
+D-014H3D began at exact baseline
+f054f24af0d5847f3d4b96270184f72d09fdbf41; local and GitHub master match.
+The Architect interpretation preserves H3C's historical coder verdict
+D014H3C_KNOWN_R1_GATE_FAIL but records that H3C's R0/R1 outcome runner never
+called the H3C selector. H3C is therefore a valid current-stack baseline
+reproduction, not a selector causal result. Its evaluator is also incomplete
+against the authorized route-to-benefit contract, and its 2-per-regime sealed
+holdout manifest is protocol-invalid for H3D reuse.
+
+H3D is a fresh non-production generation. First audit the H3C implementation,
+then freeze a complete selector specification and a legitimate experiment-only
+causal seam. The required order is disabled-hook parity, sentinel causal
+injection, real H3D causal divergence, replay, fresh 3xR1/R2/R3 holdout seal,
+fixed R0 8/8 x 7,200 with H3D enabled, known R1 seed 57531938 x 7,200, then
+fresh holdouts only if both predecessor gates pass.
+
+H3C evidence remains immutable and is marked formal-ineligible, protocol
+invalid for H3C qualification, unexecuted as H3C selector science, and not
+reusable as H3D holdouts. No production selector authority, formal D-014,
+D-013/AX, retry, reseed, threshold/effect change, or storage migration is
+authorized.
+
+Permanent evidence root:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3d-causal-integrated-selector-r1/
+Active SQLite/WAL/AF_UNIX scratch remains local/direct-attached.
+
 ## UMBRA-D-014H3C terminal — known R1 predecessor gate failure
 
 D-014H3C began from exact baseline 5c18693283fc48bef738bd1e0ca5fad678ce211a; local and GitHub master match.

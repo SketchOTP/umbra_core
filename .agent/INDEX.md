@@ -8,9 +8,9 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3C terminal bounded gate failure returned to Architect
-- Active directive: none; last terminal directive UMBRA-D-014H3C
-- Active task packet: none
+- Current stage: Authority 3.0; D-014H3D active causal selector completion
+- Active directive: UMBRA-D-014H3D
+- Active task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3/
@@ -21,7 +21,30 @@
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
 - Last accepted outcome: D014H3C_KNOWN_R1_GATE_FAIL
 - Canonical permanent evidence: \\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
-- Last state sync: 2026-08-26T09:59:32Z
+- Last state sync: 2026-08-26T10:44:56Z
+
+## UMBRA-D-014H3D active routing
+
+D-014H3D is authorized from exact baseline
+f054f24af0d5847f3d4b96270184f72d09fdbf41. The Architect interpretation
+preserves the historical coder verdict D014H3C_KNOWN_R1_GATE_FAIL but
+reclassifies the H3C organism rows as current-stack baseline reproductions:
+the H3C outcome runner never invoked its evaluator-only shadow selector.
+H3C's selector artifact also lacks the authorized bounded route-to-benefit
+semantics and its sealed holdout population is protocol-invalid at two per
+regime. These H3C defects and artifacts remain historical and unchanged.
+
+H3D must first audit completeness and establish an experiment-only causal seam.
+It must prove sentinel and real-selector handoff through Governance,
+Embodiment, and VerifiedOutcome before any organism gate. The fresh selector
+must preserve full physiology, UNKNOWN neutrality, policy-visible evidence,
+one final selection boundary, and bounded route-to-benefit semantics.
+Production selector authority, formal D-014, D-013/AX, retries, reseeds,
+threshold/effect changes, storage migration, retired Atlas paths, mergerfs,
+and old pool paths are prohibited.
+
+Permanent evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3d-causal-integrated-selector-r1/
 
 ## UMBRA-D-014H3B terminal routing
 
