@@ -36,6 +36,7 @@ from umbra_core.util import new_id
 HABITAT_INITIALIZED = "habitat_initialized"
 HABITAT_ZONE_ADDED = "habitat_zone_added"
 HABITAT_OBJECT_CREATED = "habitat_object_created"
+HABITAT_OBJECT_VISIBILITY_CHANGED = "habitat_object_visibility_changed"
 HABITAT_OBJECT_STATE_CHANGED = "habitat_object_state_changed"
 HABITAT_OBJECT_MOVED = "habitat_object_moved"
 HABITAT_OBJECT_PICKED_UP = "habitat_object_picked_up"
@@ -52,6 +53,7 @@ HABITAT_EVENT_TYPES = frozenset(
         HABITAT_INITIALIZED,
         HABITAT_ZONE_ADDED,
         HABITAT_OBJECT_CREATED,
+        HABITAT_OBJECT_VISIBILITY_CHANGED,
         HABITAT_OBJECT_STATE_CHANGED,
         HABITAT_OBJECT_MOVED,
         HABITAT_OBJECT_PICKED_UP,
@@ -194,7 +196,22 @@ def _object_state_from_payload(payload: dict[str, Any]) -> ObjectState:
     if kind == "ACTIVATABLE":
         return ActivatableState(active=bool(payload["active"]))
     if kind == "SOCIAL_ENTITY":
-        return SocialEntitySpatialState(entity_ref=str(payload["entity_ref"]))
+        return SocialEntitySpatialState(
+            entity_ref=str(payload["entity_ref"]),
+            history_code=str(payload.get("history_code", "H0")),
+            motion_signature=tuple(float(x) for x in payload.get("motion_signature", ())),
+            appearance_signature=tuple(float(x) for x in payload.get("appearance_signature", ())),
+            response_timing_pattern=tuple(float(x) for x in payload.get("response_timing_pattern", ())),
+            interaction_style_cues=tuple(float(x) for x in payload.get("interaction_style_cues", ())),
+            response_mode=str(payload.get("response_mode", "contingent")),
+            contingent_probability=float(payload.get("contingent_probability", 0.85)),
+            flip_at=float(payload["flip_at"]) if payload.get("flip_at") is not None else None,
+            absent_windows=tuple(
+                (float(window[0]), float(window[1]))
+                for window in payload.get("absent_windows", ())
+            ),
+            active=bool(payload.get("active", True)),
+        )
     raise HabitatEventError(f"unknown_object_state_kind:{kind}")
 
 
@@ -373,13 +390,35 @@ def build_habitat_event(
     }
 
 
+def build_object_visibility_event(
+    state_before: HabitatState,
+    state_after: HabitatState,
+    *,
+    object_id: str,
+    **kwargs: Any,
+) -> dict[str, Any]:
+    obj = state_after.objects[object_id]
+    return build_habitat_event(
+        state_before,
+        state_after,
+        HABITAT_OBJECT_VISIBILITY_CHANGED,
+        extra_payload={
+            "object_id": object_id,
+            "occluded": obj.occluded,
+            "visibility": obj.visibility,
+        },
+        **kwargs,
+    )
+
+
 def build_initialized_event(state: HabitatState, **kwargs: Any) -> dict[str, Any]:
+    event_id = kwargs.pop("event_id", None)
     init_state = replace(state, state_version=0, state_hash="")
     init_state = with_state_hash(init_state)
     payload = _envelope_fields(None, init_state, **kwargs)
     payload["initial_state"] = habitat_state_to_init_payload(init_state)
     return {
-        "event_id": kwargs.get("event_id") or new_id(),
+        "event_id": event_id or new_id(),
         "event_type": HABITAT_INITIALIZED,
         "payload": payload,
     }
@@ -486,6 +525,18 @@ def _apply_mutation(
                 definition_hash=definition_hash,
             )
         )
+
+    if event_type == HABITAT_OBJECT_VISIBILITY_CHANGED:
+        object_id = str(payload["object_id"])
+
+        def change_visibility(obj: HabitatObject) -> HabitatObject:
+            return replace(
+                obj,
+                occluded=bool(payload["occluded"]),
+                visibility=str(payload.get("visibility", obj.visibility)),
+            )
+
+        return _mutate_object(state, object_id, change_visibility)
 
     if event_type == HABITAT_OBJECT_STATE_CHANGED:
         object_id = str(payload["object_id"])

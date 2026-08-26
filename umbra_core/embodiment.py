@@ -863,16 +863,22 @@ class Embodiment:
 
     def hidden_partner_truth_for_eval(self) -> list[dict[str, Any]]:
         """Evaluator-only accessor — never pass to policy, SocialEngine, or arbitration."""
-        habitat = self._habitat_read()
-        partners = habitat.partners
         if self._habitat_engine is not None:
             return [
                 {
-                    "partner_id": p.hidden_partner_id,
-                    "x": p.x,
-                    "y": p.y,
+                    "partner_id": obj.state.entity_ref,
+                    "x": obj.location.x,
+                    "y": obj.location.y,
+                    "history": obj.state.history_code,
+                    "true_cues": {
+                        "motion_signature": list(obj.state.motion_signature),
+                        "appearance_signature": list(obj.state.appearance_signature),
+                        "response_timing_pattern": list(obj.state.response_timing_pattern),
+                        "interaction_style_cues": list(obj.state.interaction_style_cues),
+                    },
+                    "occluded": obj.occluded or not obj.state.active,
                 }
-                for p in partners
+                for obj in self._habitat_engine.authoritative_social_entities()
             ]
         return [
             {

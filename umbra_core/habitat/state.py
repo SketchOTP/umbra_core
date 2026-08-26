@@ -128,6 +128,16 @@ class ActivatableState:
 @dataclass(frozen=True)
 class SocialEntitySpatialState:
     entity_ref: str
+    history_code: str = "H0"
+    motion_signature: tuple[float, ...] = ()
+    appearance_signature: tuple[float, ...] = ()
+    response_timing_pattern: tuple[float, ...] = ()
+    interaction_style_cues: tuple[float, ...] = ()
+    response_mode: str = "contingent"
+    contingent_probability: float = 0.85
+    flip_at: float | None = None
+    absent_windows: tuple[tuple[float, float], ...] = ()
+    active: bool = True
     kind: str = "SOCIAL_ENTITY"
 
 
@@ -355,6 +365,59 @@ def _make_object(
     definition_hash = compute_object_definition_hash(base)
     with_definition = replace(base, definition_hash=definition_hash)
     return with_object_state_hash(with_definition)
+
+
+def make_social_entity_object(
+    *,
+    object_id: str,
+    entity_ref: str,
+    location: FreeLocation,
+    history_code: str,
+    motion_signature: tuple[float, ...],
+    appearance_signature: tuple[float, ...],
+    response_timing_pattern: tuple[float, ...],
+    interaction_style_cues: tuple[float, ...],
+    response_mode: str,
+    contingent_probability: float,
+    flip_at: float | None,
+    absent_windows: tuple[tuple[float, float], ...] = (),
+    active: bool = True,
+    occluded: bool = False,
+) -> HabitatObject:
+    """Build an environment-owned SOCIAL_ENTITY object for an engine transaction."""
+    state = SocialEntitySpatialState(
+        entity_ref=entity_ref,
+        history_code=history_code,
+        motion_signature=motion_signature,
+        appearance_signature=appearance_signature,
+        response_timing_pattern=response_timing_pattern,
+        interaction_style_cues=interaction_style_cues,
+        response_mode=response_mode,
+        contingent_probability=contingent_probability,
+        flip_at=flip_at,
+        absent_windows=absent_windows,
+        active=active,
+    )
+    base = HabitatObject(
+        object_id=object_id,
+        object_kind=ObjectKind.SOCIAL_ENTITY,
+        definition_version=INITIAL_DEFINITION_VERSION,
+        definition_hash="",
+        object_version=INITIAL_OBJECT_VERSION,
+        object_state_hash="",
+        location=location,
+        state=state,
+        mass_class="LIGHT",
+        portable=False,
+        passable=True,
+        occluded=occluded,
+        collision_radius=0.5,
+        affordance_ids=(),
+        visibility="VISIBLE",
+        condition=1.0,
+        cooldowns=(),
+    )
+    return with_object_state_hash(replace(base, definition_hash=compute_object_definition_hash(base)))
 
 
 def sample_habitat_state() -> HabitatState:

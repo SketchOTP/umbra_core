@@ -6,7 +6,14 @@ import math
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from umbra_core.embodiment import Embodiment, HabitatFeature, PartnerEntity, _partner_salt
+from umbra_core.embodiment import (
+    Embodiment,
+    HabitatFeature,
+    PartnerEntity,
+    PartnerResponsePolicy,
+    PartnerTrueCues,
+    _partner_salt,
+)
 from umbra_core.util import SeededRNG, angle_diff, clamp, sha256_hex
 from umbra_core.perception_adapters import AdapterManifest, ObservationEnvelope
 
@@ -267,6 +274,41 @@ class PerceptionMembrane:
     ) -> list[dict[str, Any]]:
         body = embodiment.body
         cues: list[dict[str, Any]] = []
+        if embodiment._habitat_engine is not None:
+            for obj in embodiment._habitat_engine.authoritative_social_entities():
+                from umbra_core.habitat.state import FreeLocation, SocialEntitySpatialState
+
+                if not isinstance(obj.location, FreeLocation):
+                    continue
+                if not isinstance(obj.state, SocialEntitySpatialState):
+                    continue
+                profile = obj.state
+                # This adapter is trusted environment-side only. The proxy's entity_ref
+                # is used solely to derive deterministic sensor noise and is never
+                # included in the returned cue or policy view.
+                partner = PartnerEntity(
+                    hidden_partner_id=profile.entity_ref,
+                    x=obj.location.x,
+                    y=obj.location.y,
+                    true_cues=PartnerTrueCues(
+                        motion_signature=profile.motion_signature,
+                        appearance_signature=profile.appearance_signature,
+                        response_timing_pattern=profile.response_timing_pattern,
+                        interaction_style_cues=profile.interaction_style_cues,
+                    ),
+                    response_policy=PartnerResponsePolicy(
+                        history_code=profile.history_code,
+                        mode=profile.response_mode,
+                        contingent_probability=profile.contingent_probability,
+                        flip_at=profile.flip_at,
+                        absent_windows=list(profile.absent_windows),
+                    ),
+                    active=profile.active and not obj.occluded,
+                )
+                cue = self._noisy_partner_cue(partner, body, now, rng)
+                if cue is not None:
+                    cues.append(cue)
+            return cues
         for partner in embodiment.habitat.partners:
             cue = self._noisy_partner_cue(partner, body, now, rng)
             if cue is not None:

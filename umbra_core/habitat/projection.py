@@ -45,9 +45,12 @@ class ImmutableHabitatFeature:
 
 @dataclass(frozen=True)
 class ImmutablePartnerView:
-    hidden_partner_id: str
     x: float
     y: float
+    occluded: bool
+    source_state_version: int
+    source_object_version: int
+    source_state_hash: str
 
 
 @dataclass(frozen=True)
@@ -94,7 +97,14 @@ def _project_object(
         return None
 
     if obj.object_kind == ObjectKind.SOCIAL_ENTITY and isinstance(obj.state, SocialEntitySpatialState):
-        return ImmutablePartnerView(hidden_partner_id=obj.state.entity_ref, x=x, y=y)
+        return ImmutablePartnerView(
+            x=x,
+            y=y,
+            occluded=obj.occluded or not obj.state.active,
+            source_state_version=state_version,
+            source_object_version=obj.object_version,
+            source_state_hash=state_hash,
+        )
 
     chargeable, restable, inspectable = _feature_flags_for_object(obj)
     return ImmutableHabitatFeature(
@@ -248,7 +258,14 @@ class HabitatProjectionFacade:
             "delayed_consequence_ticks": self._projection.delayed_consequence_ticks,
             "misleading_correlation": self._projection.misleading_correlation,
             "partners": [
-                {"hidden_partner_id": p.hidden_partner_id, "x": p.x, "y": p.y}
+                {
+                    "x": p.x,
+                    "y": p.y,
+                    "occluded": p.occluded,
+                    "source_state_version": p.source_state_version,
+                    "source_object_version": p.source_object_version,
+                    "source_state_hash": p.source_state_hash,
+                }
                 for p in self._projection.partners
             ],
             "state_version": self._projection.state_version,

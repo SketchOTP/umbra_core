@@ -11,6 +11,11 @@ from umbra_core.habitat.projection import (
     project_features,
     validate_projection,
 )
+from umbra_core.habitat.events import (
+    HABITAT_OBJECT_CREATED,
+    build_habitat_event,
+    build_object_visibility_event,
+)
 from umbra_core.habitat.state import (
     FreeLocation,
     HabitatObject,
@@ -18,6 +23,11 @@ from umbra_core.habitat.state import (
     HeldByLocation,
     MutationRejected,
     apply_committed_object_mutation,
+    canonical_serialize,
+    compute_habitat_definition_hash,
+    compute_object_state_hash,
+    ObjectKind,
+    SocialEntitySpatialState,
     with_state_hash,
 )
 
@@ -193,6 +203,15 @@ class HabitatEngine:
         slots = self.hold_index.get(body_instance_id, {})
         return tuple(slots[slot] for slot in sorted(slots))
 
+    def authoritative_social_entities(self) -> tuple[HabitatObject, ...]:
+        """Trusted sensing-boundary view; never pass entity_ref to policy."""
+        return tuple(
+            self._state.objects[object_id]
+            for object_id in sorted(self._state.objects)
+            if self._state.objects[object_id].object_kind == ObjectKind.SOCIAL_ENTITY
+            and isinstance(self._state.objects[object_id].state, SocialEntitySpatialState)
+        )
+
     def snapshot_view(self) -> HabitatSnapshot:
         return HabitatSnapshot(
             habitat_id=self._state.habitat_id,
@@ -245,6 +264,67 @@ class HabitatEngine:
         bumped = replace(self._state, objects=new_objects, state_version=self._state.state_version + 1)
         self._state = with_state_hash(bumped)
         self._rebuild_indexes()
+
+    def commit_object_creation(
+        self,
+        obj: HabitatObject,
+        *,
+        event_id: str | None = None,
+        transaction_id: str | None = None,
+        request_id: str | None = None,
+    ) -> dict[str, object]:
+        """Create an object through the sole habitat authority and return its ledger event."""
+        if obj.object_id in self._state.objects:
+            raise MutationRejected(f"duplicate_object:{obj.object_id}")
+        before = self._state
+        objects = dict(before.objects)
+        objects[obj.object_id] = obj
+        after = replace(
+            before,
+            objects=objects,
+            definition_hash=compute_habitat_definition_hash(replace(before, objects=objects)),
+            state_version=before.state_version + 1,
+        )
+        self._state = with_state_hash(after)
+        self._rebuild_indexes()
+        return build_habitat_event(
+            before,
+            self._state,
+            HABITAT_OBJECT_CREATED,
+            extra_payload={"object": canonical_serialize(obj)},
+            event_id=event_id,
+            transaction_id=transaction_id,
+            request_id=request_id,
+        )
+
+    def commit_object_visibility(
+        self,
+        object_id: str,
+        *,
+        occluded: bool,
+        event_id: str | None = None,
+        transaction_id: str | None = None,
+        request_id: str | None = None,
+    ) -> dict[str, object]:
+        """Authoritatively change occlusion and return its canonical replay event."""
+        obj = self._state.objects.get(object_id)
+        if obj is None:
+            raise MutationRejected(f"missing_object:{object_id}")
+        before = self._state
+        updated = replace(obj, object_version=obj.object_version + 1, occluded=bool(occluded), object_state_hash="")
+        updated = replace(updated, object_state_hash=compute_object_state_hash(updated))
+        objects = dict(before.objects)
+        objects[object_id] = updated
+        self._state = with_state_hash(replace(before, objects=objects, state_version=before.state_version + 1))
+        self._rebuild_indexes()
+        return build_object_visibility_event(
+            before,
+            self._state,
+            object_id=object_id,
+            event_id=event_id,
+            transaction_id=transaction_id,
+            request_id=request_id,
+        )
 
     def commit_free_location(
         self,

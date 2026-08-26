@@ -48,6 +48,7 @@ HABITAT_EVENT_AUTHORITY: dict[str, str] = {
     "habitat_initialized": "AUTHORITATIVE",
     "habitat_zone_added": "AUTHORITATIVE",
     "habitat_object_created": "AUTHORITATIVE",
+    "habitat_object_visibility_changed": "AUTHORITATIVE",
     "habitat_object_state_changed": "AUTHORITATIVE",
     "habitat_object_moved": "AUTHORITATIVE",
     "habitat_object_picked_up": "AUTHORITATIVE",
