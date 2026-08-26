@@ -43,6 +43,26 @@
 
 ## Current scientific status
 
+### Terminal authority: UMBRA-D-014H3A
+
+D-014H3A closed from the accepted H3 closeout tip
+d7877ca2fc24741434eebbdf60f257d6ac793c63. It is limited to reconciling the
+historical R2 social-event runner with current authoritative habitat/social
+semantics and stopped fail-closed before runner repair. H3 selector science,
+fresh holdouts, organism qualification, formal D-014, D-013/AX, retries,
+reseeds, and production decision changes were not started.
+
+The canonical Atlas project path is /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE.
+The existing direct Atlas filesystem and Dewey layout are preserved; no
+storage topology change, pool operation, or migration is part of H3A.
+
+Initial source inspection found that the authoritative HabitatEngine
+SOCIAL_ENTITY projection carries only hidden_partner_id, x, and y, while
+legacy partner perception requires visibility, true cues, and response policy.
+A complete authority-consistent bridge is absent from the current source
+semantics. Verdict: D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING. Evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3a-r2-authority-repair-r1/.
+
 ### Terminal authority: UMBRA-D-014H3
 
 D-014H3 began from exact baseline

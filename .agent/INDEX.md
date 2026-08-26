@@ -8,17 +8,39 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014H3 terminal at R2 runner authority
-- Active directive: None; D-014H3 terminal fail-closed
+- Current stage: Authority 3.0 active; D-014H3A terminal at core social/habitat bridge
+- Active directive: None; D-014H3A terminal fail-closed
+- Completed task packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H2/
 - Parent terminal task packet: .agent/tasks/completed/UMBRA-D-014H1/
 - Terminal predecessor packet: .agent/tasks/completed/UMBRA-D-014H/
 - Terminal predecessor packets: .agent/tasks/completed/UMBRA-D-014F/, .agent/tasks/completed/UMBRA-D-014G/, .agent/tasks/completed/UMBRA-D-014G1/
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014H2_UNIFIED_POOL_BASELINE_FAIL
+- Last accepted outcome: D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING
 - Canonical permanent evidence: \\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
-- Last state sync: 2026-08-24T18:00:00Z
+- Last state sync: 2026-08-26T00:00:00Z
+
+## UMBRA-D-014H3A terminal routing
+
+D-014H3A closed from exact baseline
+d7877ca2fc24741434eebbdf60f257d6ac793c63 after acceptance of the H3
+R2 runner-authority preflight stop. It was limited to authority-correct
+scenario reconciliation and preflight requalification; H3 selector work,
+fresh holdouts, organism qualification, formal D-014, D-013/AX, retries,
+reseeds, and production decision changes remain prohibited.
+
+The source investigation found no complete current binding from an
+authoritative HabitatEngine SOCIAL_ENTITY to the legacy partner cue/policy
+path. ImmutablePartnerView currently exposes only hidden_partner_id, x, and
+y; PerceptionMembrane partner processing requires visibility, true_cues, and
+response_policy. H3A stopped fail-closed with
+D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING. No H3 selector, fresh holdout,
+organism qualification, formal D-014, D-013/AX, retry, reseed, or production
+decision work occurred.
+
+Evidence is finalized at
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3a-r2-authority-repair-r1/.
 
 ## UMBRA-D-014H3 terminal routing
 

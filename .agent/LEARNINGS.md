@@ -280,3 +280,16 @@ A production-native trace can remain behavior-neutral when it is default-disable
 - Therefore H3 must stop at D014H3_R2_RUNNER_UNRESOLVED until a separately
   authorized runner/scenario correction proves an unchanged authoritative R2
   state. No H3 selector or organism outcome may be inferred from this stop.
+
+## 2026-08-26 — D-014H3A social/habitat authority investigation
+
+- HabitatEngine can represent a SOCIAL_ENTITY and canonical habitat events can create/replay an authoritative spatial object.
+- The current ImmutablePartnerView contains only hidden_partner_id, x, and y; it does not carry the authoritative object's occluded state or the legacy partner's cue/response semantics.
+- PerceptionMembrane._perceive_partners consumes a legacy PartnerEntity with is_visible(), true_cues, and response_policy. No complete authority-consistent binding from the current social spatial projection to that partner semantic object was found during initial inspection.
+- Do not fabricate partner cues, response policy, or occlusion behavior in a runner. If no existing bridge is proven, H3A must stop as a core social/habitat bridge gap.
+
+## 2026-08-26 — D-014H3A terminal social/habitat bridge gap
+
+- HabitatEngine spatial authority and legacy PartnerEntity cue/response semantics are not currently behaviorally composable. The spatial projection omits occlusion and the legacy perception path cannot consume ImmutablePartnerView.
+- A runner-only repair would either bypass HabitatEngine, create a second writer, fabricate cue/policy truth, or silently change the historical R2 semantics. All are prohibited.
+- H3 selector science must remain paused until a separately authorized core social/habitat integration change establishes the missing binding and its restart/replay semantics.

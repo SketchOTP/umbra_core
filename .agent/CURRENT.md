@@ -1,5 +1,48 @@
 # Current Project State
 
+## UMBRA-D-014H3A terminal — core social/habitat bridge missing
+
+D-014H3A closed fail-closed from exact baseline
+d7877ca2fc24741434eebbdf60f257d6ac793c63.
+
+The authoritative HabitatEngine can represent and replay a SOCIAL_ENTITY
+spatial object, but the current ImmutablePartnerView exposes only
+hidden_partner_id, x, and y. The legacy PerceptionMembrane partner path
+requires is_visible(), true_cues, and response_policy. A read-only diagnostic
+reproduced AttributeError: ImmutablePartnerView has no attribute is_visible.
+HabitatObject.occluded is also not carried into the SOCIAL_ENTITY projection.
+
+Verdict: D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING.
+
+No runner repair, H3 selector, fresh holdout, organism qualification, formal
+D-014, D-013/AX, retry, reseed, or production decision change occurred.
+Evidence is finalized at
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3a-r2-authority-repair-r1/.
+
+Current stage: Authority 3.0 active; D-014H3A terminal and returned to
+Architect. Active directive: None.
+
+## UMBRA-D-014H3A start record (superseded by terminal closeout)
+
+D-014H3A began from exact baseline
+d7877ca2fc24741434eebbdf60f257d6ac793c63 after the accepted H3 terminal
+preflight stop D014H3_R2_RUNNER_UNRESOLVED.
+
+Phase A passed: local and GitHub master matched, the accepted H3 stop and
+protected state were preserved, and the canonical permanent evidence path is
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE. Atlas topology was not changed.
+
+H3A was limited to runner/scenario authority reconciliation. No selector work,
+fresh holdouts, organism qualification, formal D-014, D-013/AX, retries,
+reseeds, or production decision changes were authorized or performed.
+
+The initial source investigation showed the H3A stop boundary: HabitatEngine
+can represent an authoritative SOCIAL_ENTITY and canonical creation events
+can replay it, but ImmutablePartnerView exposes only hidden_partner_id, x,
+and y. The legacy partner perception path requires is_visible(), true_cues,
+and response_policy; no complete current binding was proven. H3A did not
+fabricate that bridge in the runner.
+
 ## UMBRA-D-014H3 terminal preflight stop
 
 UMBRA-D-014H3 was authorized and terminally stopped from exact baseline

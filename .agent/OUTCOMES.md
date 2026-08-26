@@ -635,3 +635,19 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - No selector implementation, H3 freeze, fresh holdout outcome, formal D-014,
   formal tag, production change, retry, or reseed occurred.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3-integrated-prospective-selection-r1/.
+
+## UMBRA-D-014H3A start (2026-08-26)
+
+- Baseline: d7877ca2fc24741434eebbdf60f257d6ac793c63, verified locally and on GitHub master.
+- Scope: runner/scenario authority reconciliation only; no selector, holdout, organism, formal, D-013/AX, retry, reseed, or production decision work.
+- Storage: canonical permanent evidence path /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE; existing direct Atlas filesystem and Dewey layout preserved; no migration or topology change.
+- Initial source finding: authoritative HabitatEngine SOCIAL_ENTITY projection exposes only identity reference and coordinates, while legacy partner perception requires visibility, true cues, and response policy. H3A is investigating whether a complete existing bridge exists; semantic invention is prohibited.
+
+## UMBRA-D-014H3A closeout (2026-08-26)
+
+- Verdict: D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING.
+- The authoritative HabitatEngine can represent/replay a SOCIAL_ENTITY spatial object, but ImmutablePartnerView exposes only hidden_partner_id, x, and y; it omits occlusion and has no PartnerTrueCues or PartnerResponsePolicy binding.
+- The existing PerceptionMembrane partner path requires PartnerEntity.is_visible(), true_cues, and response_policy. A read-only diagnostic reproduced AttributeError: ImmutablePartnerView has no attribute is_visible.
+- No complete authority-consistent bridge was found. The historical runner cannot be repaired honestly by bypassing HabitatEngine, writing legacy state after attachment, fabricating cues/policy, or reconstructing hidden truth.
+- Focused D-009 authority/projection tests: 4 passed, 104 deselected. Authority 3.0 and governance validation were run at closeout. No selector, holdout, organism, formal, retry, reseed, or production work occurred.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3a-r2-authority-repair-r1/.
