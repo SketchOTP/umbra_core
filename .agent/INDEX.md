@@ -10,9 +10,9 @@
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3G terminal unresolved diagnostic
-- Active directive: NONE; last terminal directive: UMBRA-D-014H3G
-- Active task packet: NONE; terminal task packet: .agent/tasks/active/UMBRA-D-014H3G/
+- Current stage: Authority 3.0; D-014H3H active deterministic authority-safe selector
+- Active directive: UMBRA-D-014H3H; last terminal directive: UMBRA-D-014H3G
+- Active task packet: .agent/tasks/active/UMBRA-D-014H3H/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3G/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
 - Last accepted outcome: D014H3G_UNSAFE_SELECTION_CAUSE_UNRESOLVED
@@ -119,3 +119,21 @@ tests, but no selector outcome or organism rescue is claimed.
 Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/
 Return to Architect. No D-014I, formal D-014, D-013/AX, or production selector
 integration is inferred.
+
+## UMBRA-D-014H3H active routing
+
+D-014H3H is authorized from exact baseline
+b2435089ccf11e3c3e354443115ee61934003aff after accepted H3G terminal
+verdict. H3G's non-reproduction remains historical and does not establish a
+cause for H3F. H3H must first audit behavioral candidate identity, exact
+authority-effect branches, actual proposal capture, and existing endogenous
+candidate scores, then freeze a fresh non-production selector contract before
+any gated R0/R1/holdout outcomes.
+
+The original H3D holdout manifest remains sealed, exact, and unexecuted.
+Canonical H3H evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3h-deterministic-authority-safe-selector-r1/
+
+No production-default selector authority, threshold/effect changes, retries,
+reseeds, storage migration, formal D-014, D-013/AX, or holdout regeneration
+is authorized.

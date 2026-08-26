@@ -744,3 +744,12 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Evidence is finalized under
   /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3g-candidate-safety-selector-r1/.
 - Authority 3.0 and governance validation passed. Return to Architect.
+
+## UMBRA-D-014H3H start — 2026-08-26
+
+- Status: ACTIVE; fresh non-formal experimental selector-contract qualification.
+- Baseline: b2435089ccf11e3c3e354443115ee61934003aff, verified locally and on GitHub master.
+- Parent: D014H3G_UNSAFE_SELECTION_CAUSE_UNRESOLVED; H3G non-reproduction remains historical and H3F cause remains unknown.
+- Scope: audit behavioral candidate identity, exact candidate-specific authority safety, actual proposal capture, and existing endogenous score evidence; then freeze and validate a fresh selector before gated organism outcomes.
+- Boundaries: preserve H3D/H3F/H3G evidence and sealed H3D holdouts; no H3F/H3G retry, production-default selector, threshold/effect change, retry, reseed, formal D-014, D-013/AX, or storage change.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3h-deterministic-authority-safe-selector-r1/.
