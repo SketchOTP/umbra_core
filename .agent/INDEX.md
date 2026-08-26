@@ -8,8 +8,10 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014H3A terminal at core social/habitat bridge
-- Active directive: None; D-014H3A terminal fail-closed
+- Current stage: Authority 3.0 active; D-014H3B social/habitat bridge correction in progress
+- Active directive: UMBRA-D-014H3B — Authoritative Social Entity Environment Bridge / Persistent Partner Perception
+- Active task packet: .agent/tasks/active/UMBRA-D-014H3B/
+- Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H2/

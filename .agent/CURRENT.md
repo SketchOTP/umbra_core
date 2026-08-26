@@ -599,3 +599,20 @@ UMBRA-D-014A is terminal and returned to Architect.
 
 Do not automatically start another D-014 generation, a broader recovery fix,
 D-013/AX work, or formal P0. Return to Architect.
+
+## UMBRA-D-014H3B active — authoritative social entity environment bridge
+
+D-014H3B is authorized from exact baseline
+f37521828f9127ab4714cb08150a18da383a326e. It is a non-formal core
+architecture correction with compatibility-first validation. H3 selector work,
+fresh H3 holdouts, organism qualification, formal D-014, D-013/AX, retries,
+reseeds, and unrelated production changes remain prohibited.
+
+The accepted H3A finding is preserved: HabitatEngine can represent a
+SOCIAL_ENTITY, but the current social projection/perception bridge lacks
+authoritative occlusion and environment-side cue/response binding. H3B must
+freeze the ownership contract before implementation and preserve the D-006
+anonymous-cue / learned-PartnerHypothesis boundary.
+
+Permanent evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/
+Canonical storage remains /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE; active

@@ -137,3 +137,16 @@ Evidence root: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/
 - Codex working tree/runtime: live technical state.
 - `.agent/PROJECT_GOAL.md`: sole authoritative UMBRA product goal.
 - `.agent/INDEX.md`: Authority 3.0 state router.
+
+## UMBRA-D-014H3B active routing
+
+D-014H3B is active from exact baseline
+f37521828f9127ab4714cb08150a18da383a326e. It is authorized to repair the
+core bridge between authoritative HabitatEngine social entities and the
+trusted perception membrane, while keeping SocialEngine hidden-identity-free.
+The current H3A terminal finding, historical D-014 runner/evidence, D-006
+relationship semantics, physiology, recovery, H3 selector, and formal D-014
+boundaries remain protected.
+
+Permanent H3B evidence belongs at
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/.

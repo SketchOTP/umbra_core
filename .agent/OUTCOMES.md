@@ -651,3 +651,11 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - No complete authority-consistent bridge was found. The historical runner cannot be repaired honestly by bypassing HabitatEngine, writing legacy state after attachment, fabricating cues/policy, or reconstructing hidden truth.
 - Focused D-009 authority/projection tests: 4 passed, 104 deselected. Authority 3.0 and governance validation were run at closeout. No selector, holdout, organism, formal, retry, reseed, or production work occurred.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3a-r2-authority-repair-r1/.
+
+## UMBRA-D-014H3B start — 2026-08-26
+
+- Status: ACTIVE; non-formal core social/habitat architecture correction.
+- Baseline: f37521828f9127ab4714cb08150a18da383a326e; local and GitHub master verified.
+- Parent: D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING.
+- Scope: freeze the authority contract, audit current social/habitat/perception/response/persistence paths, perform bounded prior-art review, and implement only the smallest compatible bridge if evidence supports it.
+- Prohibitions: no H3 selector, fresh H3 holdouts, organism qualification, formal D-014, D-013/AX, storage migration, retry, or reseed.

@@ -293,3 +293,11 @@ A production-native trace can remain behavior-neutral when it is default-disable
 - HabitatEngine spatial authority and legacy PartnerEntity cue/response semantics are not currently behaviorally composable. The spatial projection omits occlusion and the legacy perception path cannot consume ImmutablePartnerView.
 - A runner-only repair would either bypass HabitatEngine, create a second writer, fabricate cue/policy truth, or silently change the historical R2 semantics. All are prohibited.
 - H3 selector science must remain paused until a separately authorized core social/habitat integration change establishes the missing binding and its restart/replay semantics.
+
+## D-014H3B active investigation — 2026-08-26
+
+H3A's missing bridge is now the active architecture target. The investigation
+must keep HabitatEngine as the sole owner of social spatial/existence/occlusion
+facts, route hidden environment social truth only through trusted perception,
+and keep SocialEngine limited to anonymous cue-derived PartnerHypothesis state.
+No implementation choice is justified until current cue, response, occlusion,
