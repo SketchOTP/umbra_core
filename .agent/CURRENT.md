@@ -1,23 +1,22 @@
 # Current Project State
 
 
-## UMBRA-D-014H3G active - candidate-specific safety alignment
+## UMBRA-D-014H3G terminal - unsafe-selection cause unresolved
 
-D-014H3G is the sole active directive from exact baseline
-2be05c7f661abb1c4d8505eb932d74eadc30114b, following accepted H3F verdict
-D014H3F_EXECUTION_STOP_UNRESOLVED. H3F persistence/restart correction and
-predecessor gates remain accepted; its single R0 invocation is historical and
-must not be retried.
+D-014H3G performed its one authorized bounded diagnostic reproduction using
+R0/S0 seed 41241905 and the unchanged H3F selector behavior. The organism
+completed 7,200 ticks without reproducing the historical
+d014h3d_selector_selected_unsafe_candidate assertion.
 
-H3G first reproduces the H3F experiment-only unsafe-selector exception on
-R0/S0 seed 41241905 with a complete pre-exception envelope. It then may
-correct only the experiment-only selector seam so exact candidate-specific
-authority safety is applied before prospective ranking, while preserving
-UNKNOWN neutrality and the existing post-selection safety assertion.
+Terminal verdict: D014H3G_UNSAFE_SELECTION_CAUSE_UNRESOLVED. The H3F causal
+envelope was therefore not obtained, so no root-cause category can be selected
+and no candidate-specific safety alignment or selector population is justified.
+This is not a viability pass and does not invalidate H3F.
 
-No production-default selector authority, formal D-014, D-013/AX, retry,
-reseed, threshold/effect change, storage change, or H3D historical rewrite is
-permitted. Permanent H3G evidence:
+No H3F retry, H3G scientific population, known-R1, H3D holdout, formal D-014,
+D-013/AX, production-default selector authority, threshold/effect change,
+storage change, or H3D historical rewrite occurred. H3F evidence and H3D
+sealed holdouts remain preserved. Permanent H3G evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3g-candidate-safety-selector-r1/
 
 ## UMBRA-D-014H3F terminal - selector execution stop

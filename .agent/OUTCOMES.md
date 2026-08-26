@@ -729,3 +729,18 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - No retry, reseed, known-R1, holdout, formal D-014, D-013/AX, or further H3F population occurred.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3f-habitat-restart-selector-robustness-r1/.
 - Next: return to Architect.
+
+## UMBRA-D-014H3G closeout — 2026-08-26T19:15:00Z
+
+- Verdict: D014H3G_UNSAFE_SELECTION_CAUSE_UNRESOLVED.
+- The one authorized bounded diagnostic reproduction used unchanged H3F
+  selector behavior, R0/S0, seed 41241905, and completed 7,200 ticks without
+  reproducing d014h3d_selector_selected_unsafe_candidate.
+- The H3F causal envelope was not obtained. No root-cause category, candidate
+  safety alignment, selector-enabled population, known R1, or H3D holdout
+  outcome is claimed.
+- No H3F retry, reseed, production change, threshold/effect change, historical
+  evidence rewrite, formal D-014, D-013/AX, or storage change occurred.
+- Evidence is finalized under
+  /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3g-candidate-safety-selector-r1/.
+- Authority 3.0 and governance validation passed. Return to Architect.

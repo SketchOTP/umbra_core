@@ -10,16 +10,16 @@
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3G candidate-specific safety alignment
-- Active directive: UMBRA-D-014H3G
-- Active task packet: .agent/tasks/active/UMBRA-D-014H3G/
+- Current stage: Authority 3.0; D-014H3G terminal unresolved diagnostic
+- Active directive: NONE; last terminal directive: UMBRA-D-014H3G
+- Active task packet: NONE; terminal task packet: .agent/tasks/active/UMBRA-D-014H3G/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: D014H3F_EXECUTION_STOP_UNRESOLVED
+- Last accepted outcome: D014H3G_UNSAFE_SELECTION_CAUSE_UNRESOLVED
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
-- Last state sync: 2026-08-26T18:55:00Z
+- Last state sync: 2026-08-26T19:15:00Z
 
-## UMBRA-D-014H3G active routing
+## UMBRA-D-014H3G terminal routing
 
 D-014H3G is authorized from exact baseline
 2be05c7f661abb1c4d8505eb932d74eadc30114b after accepted H3F execution-stop
@@ -33,6 +33,18 @@ H3F evidence is historical and preserved. No retry of H3F, formal D-014,
 D-013/AX, production-default selector authority, hidden-truth policy,
 threshold/effect changes, storage changes, or H3D holdout regeneration is
 authorized. Permanent H3G evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3g-candidate-safety-selector-r1/
+
+## UMBRA-D-014H3G terminal routing
+
+D-014H3G performed one bounded R0/S0 seed 41241905 reproduction using
+unchanged H3F selector behavior. The organism completed 7,200 ticks without
+reproducing the historical unsafe-selector assertion. Terminal verdict:
+D014H3G_UNSAFE_SELECTION_CAUSE_UNRESOLVED. The H3F causal envelope was not
+obtained; no root-cause category, candidate-safety alignment, selector
+population, known R1, or holdout result is claimed. No H3F retry occurred.
+
+Permanent H3G evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3g-candidate-safety-selector-r1/
 
 ## UMBRA-D-014H3F terminal routing
