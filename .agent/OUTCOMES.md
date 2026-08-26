@@ -771,3 +771,14 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Evidence:
   /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3h-deterministic-authority-safe-selector-r1/.
 - Return to Architect for any further H3H authorization.
+
+## UMBRA-D-014H3I start - no-safe composition / hard-admissibility qualification
+
+- Status: ACTIVE; fresh non-production selector/wrapper generation.
+- Baseline: b122131db31679bbfedf153bb7a1c15265c7fcc0, verified locally and on GitHub master.
+- Parent: accepted D014H3H_EXECUTION_STOP_UNRESOLVED.
+- H3I preserves H3H as a permanent execution-wrapper stop and does not retry it.
+- Scope: structured candidate-vs-NO_SAFE_ACTION output, exact-candidate hard admissibility, UNKNOWN neutrality, no KNOWN_INFEASIBLE fallback selection, one fail-closed regime runner, and durable failure envelopes.
+- Required order: freeze before outcomes; R0 8/8 x 7,200; actual R1/S16 seed 57531938 x 7,200; exact sealed H3D 3xR1/R2/R3 holdouts only after predecessor gates.
+- Prohibitions: no production-default selector authority, formal D-014, D-013/AX, threshold/effect changes, hidden truth, storage changes, retries, reseeds, or H3D holdout regeneration.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3i-no-safe-composition-r1/.

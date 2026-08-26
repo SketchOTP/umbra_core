@@ -10,14 +10,33 @@
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3H terminal execution stop
-- Active directive: none; last terminal directive: UMBRA-D-014H3H
-- Last task packet: .agent/tasks/active/UMBRA-D-014H3H/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3G/
+- Current stage: Authority 3.0; D-014H3I active
+- Active directive: UMBRA-D-014H3I; last terminal directive: UMBRA-D-014H3H
+- Last task packet: .agent/tasks/active/UMBRA-D-014H3I/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3H/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
 - Last accepted outcome: D014H3H_EXECUTION_STOP_UNRESOLVED
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Last state sync: 2026-08-26T20:10:00Z
+
+## UMBRA-D-014H3I active routing
+
+D-014H3I is authorized from exact baseline
+b122131db31679bbfedf153bb7a1c15265c7fcc0 after the accepted H3H terminal
+wrapper stop. It is a fresh experiment-only generation: structured candidate
+versus NO_SAFE_ACTION output, exact-candidate hard admissibility, UNKNOWN
+neutrality, no KNOWN_INFEASIBLE fallback selection, exact existing no-safe
+semantics, one fail-closed regime runner, and durable failure envelopes.
+
+Freeze before outcomes, then require R0 8/8 x 7,200 and actual R1/S16 seed
+57531938 x 7,200 before the exact still-sealed H3D 3xR1/R2/R3 holdouts. H3H
+is historical and will not be retried. No production-default selector
+authority, formal D-014, D-013/AX, threshold/effect changes, hidden truth,
+storage changes, retries, reseeds, or holdout regeneration are authorized.
+
+Permanent H3I evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3i-no-safe-composition-r1/
+
 
 ## UMBRA-D-014H3H terminal routing
 
