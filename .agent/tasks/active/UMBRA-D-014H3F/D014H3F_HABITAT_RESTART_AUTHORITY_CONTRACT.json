@@ -1,0 +1,32 @@
+{
+  "authoritative_state_persisted_independently": true,
+  "directive": "UMBRA-D-014H3F",
+  "engine_binding": {
+    "mode": "HABITAT_ENGINE",
+    "required_fields": [
+      "habitat_id",
+      "state_version",
+      "state_hash"
+    ],
+    "schema_version": "d014h3f.habitat-engine-binding.v1"
+  },
+  "invariants": [
+    "HabitatEngine remains the sole authoritative habitat writer.",
+    "HabitatProjectionFacade and ImmutableHabitatProjection are read models only.",
+    "ImmutablePartnerView remains sanitized and hidden-identity-free.",
+    "Engine-bound organism snapshots store only a bounded habitat binding, not authoritative engine state.",
+    "Legacy no-engine snapshots retain existing Habitat persistence semantics.",
+    "Projection-shaped historical snapshots migrate without fabricating response policy, true cues, or hidden identity.",
+    "Engine-bound snapshots require matching habitat_id, state_version, and state_hash reattachment.",
+    "Missing or mismatched authoritative HabitatEngine fails closed before organism tick or consequential access.",
+    "No silent fallback from an engine-bound snapshot to legacy Habitat.",
+    "No dual habitat authority or duplicate legacy social partner activation."
+  ],
+  "legacy_compatibility": true,
+  "projection_policy": {
+    "hidden_identity_in_projection": false,
+    "response_policy_in_projection": false,
+    "true_cues_in_projection": false
+  },
+  "schema_version": "d014h3f.habitat-restart-authority.v1"
+}

@@ -1172,6 +1172,8 @@ class Organism:
         """One organism loop iteration (D-002 extended)."""
         if not self._runtime_ready:
             raise RuntimeError("tick_before_runtime_ready")
+        # An engine-bound restart cannot silently fall back to legacy habitat.
+        self.embodiment.assert_habitat_authority_ready()
         wall = float(self.config.wall_time_fn())
         temporal_begin = self._begin_temporal_tick(wall)
         try:

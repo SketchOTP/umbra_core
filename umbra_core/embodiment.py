@@ -12,6 +12,10 @@ if TYPE_CHECKING:
     from umbra_core.habitat.engine import HabitatEngine
 
 
+class HabitatAuthorityError(Exception):
+    pass
+
+
 CAPABILITIES = (
     "IDLE",
     "ORIENT",
@@ -421,10 +425,12 @@ class Embodiment:
     _body_instance_id: str = field(default="body:default", repr=False)
     _body_pose_version: int = field(default=0, repr=False)
     _attachment_generation: int = field(default=0, repr=False)
+    _habitat_authority_binding: dict[str, Any] | None = field(default=None, repr=False)
 
     @property
     def habitat(self) -> Habitat | Any:
         """Read-only projection when HabitatEngine is attached; legacy mutable Habitat otherwise."""
+        self.assert_habitat_authority_ready()
         if self._habitat_engine is not None:
             from umbra_core.habitat.projection import HabitatProjectionFacade
 
@@ -443,7 +449,36 @@ class Embodiment:
         return self._habitat
 
     def attach_habitat_engine(self, engine: HabitatEngine) -> None:
+        snapshot = engine.snapshot_view()
+        expected = self._habitat_authority_binding
+        if expected is not None:
+            for key in ("habitat_id", "state_version", "state_hash"):
+                if snapshot.__dict__[key] != expected[key]:
+                    raise HabitatAuthorityError(f"habitat_reattachment_{key}_mismatch")
         self._habitat_engine = engine
+        self._habitat_authority_binding = self._engine_authority_binding(snapshot)
+
+    @staticmethod
+    def _engine_authority_binding(snapshot: Any) -> dict[str, Any]:
+        return {
+            "schema_version": "d014h3f.habitat-engine-binding.v1",
+            "mode": "HABITAT_ENGINE",
+            "habitat_id": snapshot.habitat_id,
+            "state_version": snapshot.state_version,
+            "state_hash": snapshot.state_hash,
+        }
+
+    def assert_habitat_authority_ready(self) -> None:
+        if self._habitat_authority_binding is not None and self._habitat_engine is None:
+            raise HabitatAuthorityError("habitat_engine_reattachment_required")
+
+    @property
+    def habitat_authority_binding(self) -> dict[str, Any] | None:
+        return (
+            dict(self._habitat_authority_binding)
+            if self._habitat_authority_binding is not None
+            else None
+        )
 
     def _reject_habitat_mutation_when_engine_attached(self) -> None:
         if self._habitat_engine is not None:
@@ -1143,8 +1178,19 @@ class Embodiment:
         return detail
 
     def to_state(self) -> dict[str, Any]:
+        self.assert_habitat_authority_ready()
+        habitat_state = self._habitat.to_state()
+        authority = None
+        if self._habitat_engine is not None:
+            snapshot = self._habitat_engine.snapshot_view()
+            authority = self._engine_authority_binding(snapshot)
+            # Legacy partners are never an overlay when HabitatEngine owns the
+            # authoritative social world. This prevents duplicate activation
+            # after reattachment without exposing hidden social truth.
+            habitat_state["partners"] = []
         return {
-            "habitat": self.habitat.to_state(),
+            "habitat": habitat_state,
+            "habitat_authority": authority,
             "body": self.body.to_state(),
             "pending_actuation": self._pending_actuation,
             "delay_remaining": self._delay_remaining,
@@ -1152,10 +1198,45 @@ class Embodiment:
 
     @classmethod
     def from_state(cls, d: dict[str, Any]) -> Embodiment:
+        habitat_state = dict(d.get("habitat", {}))
+        authority = d.get("habitat_authority")
+        projection_rows = list(habitat_state.get("partners", [])) + list(
+            habitat_state.get("features", [])
+        )
+        projection_shape = (
+            {"state_version", "state_hash", "habitat_id"}.issubset(habitat_state)
+            and all(
+                "response_policy" not in partner
+                for partner in projection_rows
+            )
+            and any(
+                "source_state_version" in partner
+                or "source_state_hash" in partner
+                for partner in projection_rows
+            )
+        )
+        if authority is not None:
+            authority = dict(authority)
+            if authority.get("mode") != "HABITAT_ENGINE":
+                raise HabitatAuthorityError("unknown_habitat_authority_mode")
+            for key in ("habitat_id", "state_version", "state_hash"):
+                if key not in authority:
+                    raise HabitatAuthorityError("incomplete_habitat_authority_binding")
+            habitat_state["partners"] = []
+        elif projection_shape:
+            authority = {
+                "schema_version": "d014h3f.habitat-engine-binding.v1",
+                "mode": "HABITAT_ENGINE",
+                "habitat_id": habitat_state["habitat_id"],
+                "state_version": habitat_state["state_version"],
+                "state_hash": habitat_state["state_hash"],
+            }
+            habitat_state["partners"] = []
         emb = cls(
-            _habitat=Habitat.from_state(d.get("habitat", {})),
+            _habitat=Habitat.from_state(habitat_state),
             body=Body.from_state(d.get("body", {})),
         )
+        emb._habitat_authority_binding = authority
         emb._pending_actuation = d.get("pending_actuation")
         emb._delay_remaining = int(d.get("delay_remaining", 0))
         return emb
