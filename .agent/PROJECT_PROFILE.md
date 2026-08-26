@@ -158,3 +158,14 @@ boundaries remain protected.
 
 Permanent H3B evidence belongs at
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/.
+
+
+## UMBRA-D-014H3C active routing — 2026-08-26T09:48:06Z
+
+H3B is accepted as the bounded social/habitat authority prerequisite at
+5c18693283fc48bef738bd1e0ca5fad678ce211a. H3C is now authorized from that
+exact tip for a fresh integrated, replay-first, development-only affordance
+competition shadow. The evidence root is /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/. Fixed R0 and the known
+R1 seed gate the fresh sealed holdouts; H3C does not authorize production
+selector changes, formal D-014, D-013/AX, automatic D-014I, retries, reseeds,
+or storage migration.

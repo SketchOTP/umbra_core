@@ -8,9 +8,9 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3B terminal preflight qualification returned to Architect
-- Active directive: none; last terminal directive UMBRA-D-014H3B
-- Active task packet: none
+- Current stage: Authority 3.0; D-014H3C active integrated prospective affordance competition shadow
+- Active directive: UMBRA-D-014H3C — Fresh Integrated Prospective Affordance Competition / Whole-Organism Shadow
+- Active task packet: .agent/tasks/active/UMBRA-D-014H3C/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3/
@@ -19,9 +19,9 @@
 - Terminal predecessor packet: .agent/tasks/completed/UMBRA-D-014H/
 - Terminal predecessor packets: .agent/tasks/completed/UMBRA-D-014F/, .agent/tasks/completed/UMBRA-D-014G/, .agent/tasks/completed/UMBRA-D-014G1/
 - Completed packet: .agent/tasks/completed/UMBRA-D-013AV/
-- Last accepted outcome: D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING
+- Last accepted outcome: D014H3B_R2_AUTHORITY_PREFLIGHT_QUALIFIED
 - Canonical permanent evidence: \\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
-- Last state sync: 2026-08-26T00:00:00Z
+- Last state sync: 2026-08-26T09:48:06Z
 
 ## UMBRA-D-014H3B terminal routing
 
@@ -110,3 +110,19 @@ is not rewritten.
 ## Update rule
 CURRENT.md is the mutable current snapshot. Historical ledgers are append-only
 after adoption; correct mistakes with a new superseding entry.
+
+
+## UMBRA-D-014H3C active routing
+
+D-014H3C is authorized from exact baseline 5c18693283fc48bef738bd1e0ca5fad678ce211a. The H3B bridge is
+accepted as a bounded prerequisite; H3C now runs the fresh replay-first,
+development-only integrated affordance competition shadow. The required order
+is bridge-regression classification, contract/holdout freeze, fixed R0, known
+R1 seed 57531938, then fresh sealed R1/R2/R3 development holdouts exactly once.
+
+No formal D-014, D-013/AX, automatic D-014I, production selector authority,
+threshold/effect/recovery changes, hidden truth in policy, retries, reseeds,
+or storage migration are authorized.
+
+Permanent evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/

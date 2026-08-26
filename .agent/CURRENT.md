@@ -1,5 +1,23 @@
 # Current Project State
 
+## UMBRA-D-014H3C active — fresh integrated prospective affordance competition
+
+D-014H3C began from exact baseline 5c18693283fc48bef738bd1e0ca5fad678ce211a; local and GitHub master match.
+The H3B bridge prerequisite is accepted and preserved. H3C is the sole active
+directive and is development-only/non-formal.
+
+Required order: bridge-regression gate; fresh replay-first selector contract
+and sealed holdout freeze; fixed R0 8/8 x 7,200; known R1 seed 57531938 x 7,200;
+then fresh R1/R2/R3 holdouts exactly once. No selector outcome may be inferred
+before these gates. No hidden truth, fixed source/need priority, scalar
+survival objective, production authority, formal D-014, D-013/AX, automatic
+D-014I, retry, reseed, or storage migration is allowed.
+
+Permanent evidence root:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/
+Active scratch remains local/direct-attached.
+
+
 ## UMBRA-D-014H3A terminal — core social/habitat bridge missing
 
 D-014H3A closed fail-closed from exact baseline
@@ -19,8 +37,7 @@ D-014, D-013/AX, retry, reseed, or production decision change occurred.
 Evidence is finalized at
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3a-r2-authority-repair-r1/.
 
-Current stage: Authority 3.0 active; D-014H3A terminal and returned to
-Architect. Active directive: None.
+Current stage: Authority 3.0 active; D-014H3C is active from the accepted H3B closeout.
 
 ## UMBRA-D-014H3A start record (superseded by terminal closeout)
 
