@@ -5,6 +5,9 @@
 - Authority schema: 3.0
 - Canonical Notion: https://app.notion.com/p/3b3833cb27ff80309f1fe73e7af37fe6
 - GitHub: https://github.com/SketchOTP/umbra_core
+- Project goal: .agent/PROJECT_GOAL.md
+- Project profile: .agent/PROJECT_PROFILE.md
+- Current state: .agent/CURRENT.md
 
 ## Current pointers
 - Current stage: Authority 3.0; D-014H3F terminal selector execution stop
