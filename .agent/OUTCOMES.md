@@ -782,3 +782,14 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Required order: freeze before outcomes; R0 8/8 x 7,200; actual R1/S16 seed 57531938 x 7,200; exact sealed H3D 3xR1/R2/R3 holdouts only after predecessor gates.
 - Prohibitions: no production-default selector authority, formal D-014, D-013/AX, threshold/effect changes, hidden truth, storage changes, retries, reseeds, or H3D holdout regeneration.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3i-no-safe-composition-r1/.
+
+## UMBRA-D-014H3I closeout - 2026-08-26
+
+- Verdict: D014H3I_R0_GATE_FAIL.
+- The fresh experiment-only contract froze before outcomes with exact runtime hard-admissibility, UNKNOWN neutrality, no KNOWN_INFEASIBLE fallback, and structured existing NO_SAFE_ACTION semantics.
+- The one authorized R0 population ran all 8 fixed seeds exactly once. All 8 organisms started and all 8 ended in genuine physiological failure at ticks 272, 295, 294, 295, 183, 298, 171, and 295. Harness exceptions: 0.
+- R1/S16 seed 57531938 and the exact sealed H3D 3xR1/R2/R3 holdouts were not executed because the R0 predecessor gate failed.
+- H3I is not a H3H retry, formal D-014 result, or production-default selector qualification. No thresholds, effects, hidden truth, historical evidence, retries, reseeds, or storage changed.
+- Focused H3I: 8 passed; H3H compatibility: 6 passed; D-009, D-010, D-012 schedule, Authority 3.0, and governance: PASS.
+- Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3i-no-safe-composition-r1/.
+- Next: return to Architect; no automatic H3I correction or retry is authorized by this closeout.

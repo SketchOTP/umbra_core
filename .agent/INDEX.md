@@ -10,8 +10,8 @@
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3I active
-- Active directive: UMBRA-D-014H3I; last terminal directive: UMBRA-D-014H3H
+- Current stage: Authority 3.0; D-014H3I terminal R0 gate failure
+- Active directive: none; last terminal directive: UMBRA-D-014H3I
 - Last task packet: .agent/tasks/active/UMBRA-D-014H3I/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3H/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
@@ -19,23 +19,23 @@
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Last state sync: 2026-08-26T20:10:00Z
 
-## UMBRA-D-014H3I active routing
+## UMBRA-D-014H3I terminal routing
 
-D-014H3I is authorized from exact baseline
-b122131db31679bbfedf153bb7a1c15265c7fcc0 after the accepted H3H terminal
-wrapper stop. It is a fresh experiment-only generation: structured candidate
-versus NO_SAFE_ACTION output, exact-candidate hard admissibility, UNKNOWN
-neutrality, no KNOWN_INFEASIBLE fallback selection, exact existing no-safe
-semantics, one fail-closed regime runner, and durable failure envelopes.
+D-014H3I froze a fresh experiment-only selector/wrapper contract from exact
+baseline b122131db31679bbfedf153bb7a1c15265c7fcc0. The R0 population ran all
+eight fixed seeds once; all eight ended in genuine physiological failure
+after the structured NO_SAFE_ACTION path, with no harness exception. Failure
+ticks were 272, 295, 294, 295, 183, 298, 171, and 295. R1/S16 and the sealed
+H3D holdouts were not run because the R0 predecessor gate failed.
 
-Freeze before outcomes, then require R0 8/8 x 7,200 and actual R1/S16 seed
-57531938 x 7,200 before the exact still-sealed H3D 3xR1/R2/R3 holdouts. H3H
-is historical and will not be retried. No production-default selector
-authority, formal D-014, D-013/AX, threshold/effect changes, hidden truth,
-storage changes, retries, reseeds, or holdout regeneration are authorized.
+Terminal verdict: D014H3I_R0_GATE_FAIL. H3H was not retried. No production
+default selector authority, formal D-014, D-013/AX, threshold/effect change,
+hidden truth, historical evidence rewrite, retry, reseed, or storage change
+occurred.
 
 Permanent H3I evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3i-no-safe-composition-r1/
+
 
 
 ## UMBRA-D-014H3H terminal routing

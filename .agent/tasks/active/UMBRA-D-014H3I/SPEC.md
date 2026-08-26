@@ -23,3 +23,9 @@ b122131db31679bbfedf153bb7a1c15265c7fcc0
 ## Evidence
 
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3i-no-safe-composition-r1/
+
+## Closeout
+
+Terminal verdict: D014H3I_R0_GATE_FAIL. R0 ran once for all eight fixed seeds;
+all eight had genuine physiological failures after structured NO_SAFE_ACTION.
+No R1, sealed holdouts, retry, or reseed occurred.

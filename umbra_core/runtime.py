@@ -1768,6 +1768,7 @@ class Organism:
             # adapter/habitat dependent and cannot be aliased by capability.
             effect_branches: dict[str, list[dict[str, Any]]] = {}
             effect_branches_exact: dict[str, list[dict[str, Any]]] = {}
+            hard_admissibility_exact: dict[str, bool] = {}
             for row in captured_pool:
                 probe = Candidate(str(row["capability"]), dict(row.get("params") or {}))
                 exact = [
@@ -1779,7 +1780,13 @@ class Organism:
                         resolve_params=self._resolve_params,
                     )
                 ]
-                effect_branches_exact[str(row["candidate_ref"])] = exact
+                ref = str(row["candidate_ref"])
+                effect_branches_exact[ref] = exact
+                hard_admissibility_exact[ref] = not self.arbitrator._introduces_critical_boundary(
+                    probe,
+                    self.phys,
+                    effect_branches=tuple(exact),
+                )
                 effect_branches.setdefault(probe.capability, exact)
             selector_context = {
                 "tick": self.tick,
@@ -1802,10 +1809,14 @@ class Organism:
                 ),
                 "effect_branches": effect_branches,
                 "effect_branches_exact": effect_branches_exact,
+                "hard_admissibility_exact": hard_admissibility_exact,
             }
+            selector_module = getattr(self._experimental_final_selector, "__module__", "")
             selector_label = (
-                "d014h3h_selector"
-                if getattr(self._experimental_final_selector, "__module__", "").endswith("d014h3h_runtime")
+                "d014h3i_selector"
+                if selector_module.endswith("d014h3i_runtime")
+                else "d014h3h_selector"
+                if selector_module.endswith("d014h3h_runtime")
                 else "d014h3d_selector"
             )
             selection = self._experimental_final_selector(selector_context)
@@ -1824,9 +1835,10 @@ class Organism:
                 str(selected_row.get("capability")),
                 canonical_fingerprint(selected_row.get("params") or {}),
             )
-            if selected_key not in pool_keys:
+            is_existing_no_safe = selected.params.get("source") == "no_safe_action"
+            if selected_key not in pool_keys and not is_existing_no_safe:
                 raise RuntimeError("d014h3d_selector_invented_candidate")
-            if self.arbitrator._introduces_critical_boundary(
+            if selected.params.get("source") != "no_safe_action" and self.arbitrator._introduces_critical_boundary(
                 selected,
                 self.phys,
                 effect_branches=authority_effect_branches(

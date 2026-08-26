@@ -1,27 +1,26 @@
 # Current Project State
 
-## UMBRA-D-014H3I active - no-safe composition / hard-admissibility qualification
+## UMBRA-D-014H3I terminal - R0 gate failed
 
-D-014H3I is the sole active directive from exact baseline
-b122131db31679bbfedf153bb7a1c15265c7fcc0, following the accepted H3H terminal
-execution-wrapper stop D014H3H_EXECUTION_STOP_UNRESOLVED.
+D-014H3I froze a fresh experiment-only selector/wrapper contract from
+b122131db31679bbfedf153bb7a1c15265c7fcc0. The contract implemented exact
+runtime hard-admissibility before ranking, kept UNKNOWN neutral, prohibited
+KNOWN_INFEASIBLE fallback selection, and passed structured NO_SAFE_ACTION
+through the existing denial representation.
 
-H3I is a fresh non-production generation. It must correct the H3H wrapper
-composition boundary with structured candidate-vs-NO_SAFE_ACTION output,
-explicit exact-candidate hard admissibility, UNKNOWN neutrality, and no
-KNOWN_INFEASIBLE fallback selection. A legal no-safe result must preserve the
-existing production denial semantics. The H3H wrapper stop is historical and
-must not be retried.
+The single authorized H3I R0 population ran all eight fixed seeds exactly once.
+All eight organisms started and reached genuine physiological failure after
+the structured no-safe path, at ticks 272, 295, 294, 295, 183, 298, 171, and
+295. No harness exception occurred. Because the R0 predecessor gate failed,
+R1/S16 seed 57531938 and the exact sealed H3D holdouts were not executed.
 
-Required gated order: freeze the H3I selector/wrapper contract before outcomes;
-run fixed R0 8 x 7,200; run actual R1/S16 seed 57531938 x 7,200; then execute
-the exact still-sealed H3D 3 x R1/R2/R3 holdouts once only if both predecessor
-gates pass. No production-default selector authority, formal D-014, D-013/AX,
-threshold/effect changes, hidden truth, storage changes, retries, reseeds, or
-H3D holdout regeneration are authorized.
+Terminal verdict: D014H3I_R0_GATE_FAIL. This is not a H3H retry, formal D-014
+result, or production-default selector qualification. No thresholds, effects,
+hidden truth, historical evidence, or storage policy changed.
 
-Canonical H3I evidence:
+Permanent H3I evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3i-no-safe-composition-r1/
+
 
 
 ## UMBRA-D-014H3H terminal   execution stop unresolved
