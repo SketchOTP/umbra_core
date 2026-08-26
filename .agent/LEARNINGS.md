@@ -301,3 +301,11 @@ must keep HabitatEngine as the sole owner of social spatial/existence/occlusion
 facts, route hidden environment social truth only through trusted perception,
 and keep SocialEngine limited to anonymous cue-derived PartnerHypothesis state.
 No implementation choice is justified until current cue, response, occlusion,
+
+## D-014H3B terminal learning — 2026-08-26
+
+A HabitatEngine SOCIAL_ENTITY needs an environment-side cue/policy profile
+persisted with authoritative state; a read-only projection alone cannot supply
+legacy PartnerEntity semantics. The safe seam is a trusted sensing adapter that
+preserves anonymous noisy cues and never exports entity_ref. Canonical creation
+and visibility events plus state hashes provide deterministic restart/replay.

@@ -8,9 +8,9 @@
 
 
 ## Current pointers
-- Current stage: Authority 3.0 active; D-014H3B social/habitat bridge correction in progress
-- Active directive: UMBRA-D-014H3B — Authoritative Social Entity Environment Bridge / Persistent Partner Perception
-- Active task packet: .agent/tasks/active/UMBRA-D-014H3B/
+- Current stage: Authority 3.0; D-014H3B terminal preflight qualification returned to Architect
+- Active directive: none; last terminal directive UMBRA-D-014H3B
+- Active task packet: none
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3A/
 - Completed task packet: .agent/tasks/completed/UMBRA-D-014H3/
@@ -22,6 +22,20 @@
 - Last accepted outcome: D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING
 - Canonical permanent evidence: \\atlas\ATLAS\100_ACTIVE\Projects\UMBRA-CORE
 - Last state sync: 2026-08-26T00:00:00Z
+
+## UMBRA-D-014H3B terminal routing
+
+D-014H3B is terminal from exact baseline
+f37521828f9127ab4714cb08150a18da383a326e with verdict
+`D014H3B_R2_AUTHORITY_PREFLIGHT_QUALIFIED`. The current-stack bridge binds
+authoritative SOCIAL_ENTITY state to the trusted perception boundary while
+keeping identity hidden from policy and SocialEngine. The corrected R2
+preflight passed twice deterministically through tick 2600. Evidence is
+retained at `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/`.
+
+Recommendation: `D014H3_PREFLIGHT_RESUME_CANDIDATE`. No selector, holdout,
+organism qualification, formal D-014, D-013/AX, retry, or reseed is authorized
+by this closeout.
 
 ## UMBRA-D-014H3A terminal routing
 

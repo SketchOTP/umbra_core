@@ -659,3 +659,11 @@ No production source, tests, experiments, thresholds, effects, contracts, histor
 - Parent: D014H3A_CORE_SOCIAL_HABITAT_BRIDGE_MISSING.
 - Scope: freeze the authority contract, audit current social/habitat/perception/response/persistence paths, perform bounded prior-art review, and implement only the smallest compatible bridge if evidence supports it.
 - Prohibitions: no H3 selector, fresh H3 holdouts, organism qualification, formal D-014, D-013/AX, storage migration, retry, or reseed.
+
+## UMBRA-D-014H3B closeout — 2026-08-26
+
+- Verdict: `D014H3B_R2_AUTHORITY_PREFLIGHT_QUALIFIED`.
+- Baseline: `f37521828f9127ab4714cb08150a18da383a326e`; closeout source: `461c60a5504a5857ff61429687b651b2b7e6eab1`.
+- Focused validation: 191 passed; corrected R2 preflight: two deterministic passes.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/`.
+- Recommendation: `D014H3_PREFLIGHT_RESUME_CANDIDATE`; return to Architect.

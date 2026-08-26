@@ -616,3 +616,23 @@ anonymous-cue / learned-PartnerHypothesis boundary.
 
 Permanent evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/
 Canonical storage remains /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE; active
+
+## UMBRA-D-014H3B terminal closeout
+
+D-014H3B is terminal with `D014H3B_R2_AUTHORITY_PREFLIGHT_QUALIFIED`.
+
+- Baseline: `f37521828f9127ab4714cb08150a18da383a326e`.
+- Governance start: `6d68b40efde3fa8d187ef027512d0fd97932897f`.
+- Contract freeze: `8506671b63a5be75014871d29378424268b0eb8b`.
+- Implementation/closeout source: `461c60a5504a5857ff61429687b651b2b7e6eab1`.
+- Focused validation: 191 passed; Authority 3.0 and governance passed.
+- Corrected R2 preflight: two deterministic passes through tick 2600.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/`.
+- Historical D-014 runner/evidence, RECORD, and LIBRARY_REVIEW were preserved.
+- No selector, holdout, organism qualification, formal D-014 run, D-013/AX
+  work, retry, or reseed occurred.
+- Full path-safe suite remained 881 passed, 3 failed, 2 skipped; failures are
+  inherited D-010 inventory and D-012 worker-startup failures.
+
+Return to Architect. Do not automatically start H3 selector work or organism
+qualification from this preflight result.

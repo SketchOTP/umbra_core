@@ -131,6 +131,14 @@ Evidence root: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/
 - D-014H is terminal as D014H_UNIFIED_POOL_ARTIFACT_INSUFFICIENT: fresh preregistration, non-production source freeze, and replay passed, but the retained D-014G unified-pool artifact lacks executable baseline replay semantics; no organism outcome run or production authority occurred.
 - Integrated long-horizon viability remains unqualified; UMBRA CORE remains incomplete.
 
+## D-014H3B closeout
+
+The current social/habitat authority bridge is preflight-qualified, not an
+organism qualification. HabitatEngine remains the sole spatial writer;
+environment-side social profiles persist with SOCIAL_ENTITY state; Perception
+emits anonymous noisy cues; SocialEngine remains hidden-identity-free. Evidence
+is permanent under `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/`.
+
 ## Source-of-truth boundaries
 - Notion: strategic/project understanding and Architect acceptance/authorization.
 - GitHub: committed implementation evidence.
