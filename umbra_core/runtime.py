@@ -1453,6 +1453,200 @@ class Organism:
                 self.config.temporal_scenario_id,
                 organism_age,
             )
+        # Collect current-tick source proposals before final arbitration.
+        # These calls retain their existing policy-visible semantics; they no
+        # longer overwrite a candidate selected by Arbitrator.select.
+        late_candidates: list[Candidate] = []
+        practice_goal = None
+        practice_candidate: Candidate | None = None
+        if self.development is not None and self.config.development_enabled:
+            self.development.metrics["last_tick"] = organism_age
+            wu = 0.0
+            if self.world_model is not None:
+                errs = list(self.world_model._prediction_errors)
+                wu = sum(errs[-8:]) / max(1, len(errs[-8:])) if errs else 0.0
+            failed = []
+            if self.metrics["failed_actions"] and self._pending_action:
+                failed.append(self._pending_action)
+            body_caps = {}
+            if self.self_model is not None:
+                for cap in ("MOVE", "CHARGE", "INSPECT", "REST", "APPROACH", "RETREAT"):
+                    st = self.self_model.capability_status(cap)
+                    body_caps[cap] = 0.2 if st == "dormant" else (0.5 if st == "degraded" else 1.0)
+            self.development.generate_from_experience(
+                obs_dicts,
+                world_uncertainty=wu,
+                failed_actions=failed,
+                body_capabilities=body_caps or None,
+                intervention_tags=self._dev_tags,
+            )
+            self.development.decay_unused(organism_age)
+            urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
+            critical_rec = bool(
+                self.phys.critical_any()
+                or (urg.get("energy", 0) > 0.45)
+                or (urg.get("integrity", 0) > 0.55)
+                or (urg.get("fatigue", 0) > 0.55)
+                or self.arbitrator.state.recovery_focus
+            )
+            scarce = bool(self._dev_tags.get("resource_scarce"))
+            if not (scarce and self.phys.energy < 0.45):
+                practice_goal = self.development.select_practice_goal(
+                    self.phys,
+                    world_uncertainty=wu,
+                    critical_recovery=critical_rec,
+                    rng=self.rng,
+                    resource_scarce=scarce,
+                    observations=obs_dicts,
+                )
+            ready = self.development.physiological_readiness(self.phys)
+            if (
+                practice_goal is not None
+                and self.arbitrator.state.mode == "full"
+                and not critical_rec
+                and ready >= 0.45
+            ):
+                pref = self.development.capability_for_goal(practice_goal)
+                params = self.development.params_for_goal(practice_goal, obs_dicts)
+                if pref not in ("IDLE",) and practice_goal.risk < 0.7:
+                    params["source"] = "development_practice"
+                    practice_candidate = Candidate(pref, params)
+                    late_candidates.append(practice_candidate)
+
+        memory_hits = []
+        if (
+            self.memory is not None
+            and self.config.memory_enabled
+            and self.memory.config.episodic_enabled
+            and self.arbitrator.state.mode == "full"
+            and not self.phys.critical_any()
+        ):
+            memory_hits = self.memory.retrieve(query={}, rng=self.rng, limit=4)
+            if memory_hits:
+                self.metrics["memory_retrieval_hits"] += 1
+                for hit in memory_hits:
+                    if hit.kind == "PROCEDURAL_KNOWLEDGE" and hit.score >= 0.45:
+                        applicability = dict(hit.content.get("applicability") or {})
+                        action = applicability.get("action")
+                        if action and action != "IDLE":
+                            params = {"source": "memory", "memory_item_id": hit.item_id}
+                            entity = applicability.get("entity_kind")
+                            if entity:
+                                params["toward"] = entity
+                            late_candidates.append(Candidate(str(action), params))
+                    if (
+                        hit.kind == "DERIVED_BELIEF"
+                        and "success=True" in str(hit.content.get("proposition"))
+                    ):
+                        proposition = str(hit.content.get("proposition"))
+                        action = None
+                        for name in ("CHARGE", "REST", "MOVE", "APPROACH", "INSPECT", "MANIPULATE"):
+                            if f"action={name}" in proposition:
+                                action = name
+                                break
+                        if action is not None:
+                            predicted = self.memory.predict_from_memory(action=action)
+                            if predicted is not None and predicted < 0.35:
+                                late_candidates.append(
+                                    Candidate(
+                                        "INSPECT",
+                                        {
+                                            "source": "memory_uncertainty_reduction",
+                                            "memory_item_id": hit.item_id,
+                                        },
+                                    )
+                                )
+
+        social_candidate = None
+        if (
+            self.social is not None
+            and self.config.social_enabled
+            and self.arbitrator.state.mode == "full"
+        ):
+            social_candidate = self.social.propose(
+                self.phys, social_cues, organism_age, social_critical, memory=self.memory
+            )
+            if social_candidate is not None:
+                late_candidates.append(social_candidate)
+
+        if self.world_model is not None and self.config.world_model_enabled:
+            urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
+            critical_rec = bool(
+                self.phys.critical_any()
+                or (urg.get("energy", 0) > 0.45)
+                or (urg.get("integrity", 0) > 0.55)
+                or (urg.get("fatigue", 0) > 0.55)
+                or self.arbitrator.state.recovery_focus
+            )
+            if (
+                not self.phys.critical_any()
+                and self.world_model.config.planning_enabled
+                and self.arbitrator.state.mode == "full"
+                and urg.get("energy", 0) > 0.35
+            ):
+                kinds = {
+                    o.get("kind")
+                    for o in obs_dicts
+                    if o.get("kind") not in {"resource", "novel_crystal"}
+                    or (
+                        o.get("fact_kind") != "REMEMBERED_ESTIMATE"
+                        and o.get("source") != "world_model_memory"
+                    )
+                }
+                if kinds.intersection({"resource", "novel_crystal", "rest"}):
+                    prefer = None
+                    if self._pending_world_plan:
+                        prefer = self._pending_world_plan[0]
+                        self._pending_world_plan = self._pending_world_plan[1:] or None
+                    else:
+                        goal = "energy" if urg.get("energy", 0) > 0.4 else "rest"
+                        plan = self.world_model.plan(
+                            goal, tick=organism_age, observations=obs_dicts
+                        )
+                        if plan and plan.actions:
+                            self._pending_world_plan = list(plan.actions[1:]) or None
+                            prefer = plan.actions[0]
+                            self.metrics["world_plan_used"] += 1
+                    if prefer and prefer not in ("ORIENT", "IDLE"):
+                        need = {
+                            "CHARGE": ("resource", "novel_crystal"),
+                            "REST": ("rest",),
+                            "APPROACH": ("resource", "rest", "novel_crystal"),
+                        }.get(prefer, ())
+                        if need and kinds.intersection(need):
+                            params = {"source": "world_model", "toward": prefer.lower()}
+                            for observation in obs_dicts:
+                                if observation.get("kind") in need:
+                                    params["heading_delta"] = float(
+                                        observation.get("relative_direction", 0.0)
+                                    )
+                                    params["toward"] = observation.get("kind")
+                                    break
+                            late_candidates.append(Candidate(prefer, params))
+            _ = self.world_model.propose_capability_bias(obs_dicts, urg)
+
+        if self._decision_trace.enabled:
+            for proposal_source, proposal in (
+                ("development", practice_candidate),
+                ("memory", next((c for c in late_candidates if c.params.get("source") == "memory"), None)),
+                ("social", social_candidate),
+                ("world_model", next((c for c in late_candidates if c.params.get("source") == "world_model"), None)),
+            ):
+                self._trace_transition(
+                    trace_transitions,
+                    proposal_source,
+                    None,
+                    proposal,
+                    reason="current_tick_proposal" if proposal is not None else "no_proposal",
+                )
+            trace_data["combined_proposal_count"] = len(late_candidates)
+
+        def candidate_allowed(candidate: Candidate) -> bool:
+            if self.self_model is None:
+                return True
+            status = self.self_model.capability_status(candidate.capability)
+            return status != "dormant" or candidate.capability in ("IDLE", "REST")
+
         cand = self.arbitrator.select(
             self.phys,
             obs_dicts,
@@ -1469,6 +1663,11 @@ class Organism:
             wait_journal=self._wait_journal,
             wait_generation_enabled=wait_on,
             temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()), authority_effect_branches=lambda candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params),
+            # ``None`` preserves the established in-method authority path
+            # when this tick has no auxiliary proposal. Non-empty proposal
+            # sets activate the unified cross-subsystem candidate pool.
+            additional_candidates=late_candidates or None,
+            candidate_allowed=candidate_allowed,
         )
         base_candidate = cand
         if self._decision_trace.enabled:
@@ -1535,213 +1734,16 @@ class Organism:
                     reason="individuality_modifier_context",
                 )
 
-        # D-004: practice goal generation + arbitration (propose only; no authority)
-        practice_goal = None
-        if self.development is not None and self.config.development_enabled:
-            self.development.metrics["last_tick"] = organism_age
-            wu = 0.0
-            if self.world_model is not None:
-                errs = list(self.world_model._prediction_errors)
-                wu = sum(errs[-8:]) / max(1, len(errs[-8:])) if errs else 0.0
-            failed = []
-            if self.metrics["failed_actions"] and self._pending_action:
-                failed.append(self._pending_action)
-            body_caps = {}
-            if self.self_model is not None:
-                for cap in ("MOVE", "CHARGE", "INSPECT", "REST", "APPROACH", "RETREAT"):
-                    st = self.self_model.capability_status(cap)
-                    body_caps[cap] = 0.2 if st == "dormant" else (0.5 if st == "degraded" else 1.0)
-            self.development.generate_from_experience(
-                obs_dicts,
-                world_uncertainty=wu,
-                failed_actions=failed,
-                body_capabilities=body_caps or None,
-                intervention_tags=self._dev_tags,
-            )
-            self.development.decay_unused(organism_age)
-            urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
-            critical_rec = bool(
-                self.phys.critical_any()
-                or (urg.get("energy", 0) > 0.45)
-                or (urg.get("integrity", 0) > 0.55)
-                or (urg.get("fatigue", 0) > 0.55)
-                or self.arbitrator.state.recovery_focus
-            )
-            scarce = bool(self._dev_tags.get("resource_scarce"))
-            if scarce and self.phys.energy < 0.45:
-                # Scarcity reduces optional practice
-                practice_goal = None
-            else:
-                practice_goal = self.development.select_practice_goal(
-                    self.phys,
-                    world_uncertainty=wu,
-                    critical_recovery=critical_rec,
-                    rng=self.rng,
-                    resource_scarce=scarce,
-                    observations=obs_dicts,
-                )
-            # Practice is optional — never displace active recovery arbitration
-            ready = (
-                self.development.physiological_readiness(self.phys)
-                if self.development
-                else 0.0
-            )
-            development_before = cand
-            if (
-                practice_goal is not None
-                and self.arbitrator.state.mode == "full"
-                and not critical_rec
-                and ready >= 0.45
-            ):
-                pref = self.development.capability_for_goal(practice_goal)
-                params = self.development.params_for_goal(practice_goal, obs_dicts)
-                # Prefer practice when readiness allows — still goes through governance
-                if pref not in ("IDLE",) and practice_goal.risk < 0.7:
-                    cand = Candidate(pref, params)
-                    self.metrics["practice_actions"] += 1
-                    self.development.metrics["practice_ticks"] = (
-                        int(self.development.metrics.get("practice_ticks", 0)) + 1
-                    )
-                    if self.development.play_active:
-                        self.metrics["play_ticks"] += 1
-                        self.development.metrics["play_ticks"] = (
-                            int(self.development.metrics.get("play_ticks", 0)) + 1
-                        )
-            self._trace_transition(
-                trace_transitions, "development", development_before, cand,
-                reason="practice_goal" if cand is not development_before else None,
-            )
-
-        # D-005: bounded retrieval may bias action selection (propose only; never authority)
-        memory_before = cand
-        if self.memory is not None and self.config.memory_enabled and self.memory.config.episodic_enabled:
-            urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
-            critical_rec = bool(
-                self.phys.critical_any()
-                or (urg.get("energy", 0) > 0.45)
-                or self.arbitrator.state.recovery_focus
-            )
-            if not critical_rec and self.arbitrator.state.mode == "full":
-                hits = self.memory.retrieve(
-                    query={"action": cand.capability if cand else None},
-                    rng=self.rng,
-                    limit=4,
-                )
-                if hits:
-                    self.metrics["memory_retrieval_hits"] += 1
-                    # Prefer procedural/belief-supported affordances when confident
-                    for h in hits:
-                        if h.kind == "PROCEDURAL_KNOWLEDGE" and h.score >= 0.45:
-                            action = (h.content.get("applicability") or {}).get("action")
-                            if action and action != "IDLE":
-                                cand = Candidate(action, dict(cand.params) if cand else {})
-                                break
-                        if h.kind == "DERIVED_BELIEF" and "success=True" in str(
-                            h.content.get("proposition")
-                        ):
-                            pred = self.memory.predict_from_memory(
-                                action=cand.capability if cand else "CHARGE"
-                            )
-                            if pred is not None and pred < 0.35 and cand and cand.capability == "CHARGE":
-                                # Avoid repeatedly selecting known-failing affordance
-                                cand = Candidate("INSPECT", {})
-                                break
-        self._trace_transition(trace_transitions, "memory", memory_before, cand, reason="memory_bias")
-
-        # D-006: soft social proposal — exactly one more Candidate for the same
-        # arbitrate→govern→execute path; never authority, never bypasses governance.
-        # Critical physiology (`social_critical`) overrides social (design §5/§9).
-        social_before = cand
-        if (
-            self.social is not None
-            and self.config.social_enabled
-            and self.arbitrator.state.mode == "full"
-        ):
-            social_cand = self.social.propose(
-                self.phys, social_cues, organism_age, social_critical, memory=self.memory
-            )
-            if social_cand is not None:
-                cand = social_cand
-        self._trace_transition(trace_transitions, "social", social_before, cand, reason="social_proposal")
-
-        # D-003: world-model planning may bias toward a proposed capability (propose only)
-        world_before = cand
-        if self.world_model is not None and self.config.world_model_enabled:
-            urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
-            if (
-                self.world_model.config.planning_enabled
-                and self.arbitrator.state.mode == "full"
-                and urg.get("energy", 0) > 0.35
-            ):
-                kinds = {o.get("kind") for o in obs_dicts if o.get("kind") not in {"resource", "novel_crystal"} or (o.get("fact_kind") != "REMEMBERED_ESTIMATE" and o.get("source") != "world_model_memory")}
-                if kinds.intersection({"resource", "novel_crystal", "rest"}):
-                    prefer = None
-                    if self._pending_world_plan:
-                        prefer = self._pending_world_plan[0]
-                        self._pending_world_plan = self._pending_world_plan[1:] or None
-                    else:
-                        goal = "energy" if urg.get("energy", 0) > 0.4 else "rest"
-                        plan = self.world_model.plan(
-                            goal, tick=organism_age, observations=obs_dicts
-                        )
-                        if plan and plan.actions:
-                            self._pending_world_plan = list(plan.actions[1:]) or None
-                            prefer = plan.actions[0]
-                            self.metrics["world_plan_used"] += 1
-                    if (
-                        prefer
-                        and prefer not in ("ORIENT", "IDLE")
-                        and prefer != cand.capability
-                        and cand.capability != "CHARGE"
-                    ):
-                        need = {
-                            "CHARGE": ("resource", "novel_crystal"),
-                            "REST": ("rest",),
-                            "APPROACH": ("resource", "rest", "novel_crystal"),
-                        }.get(prefer, ())
-                        if need and kinds.intersection(need):
-                            alt = Candidate(prefer, dict(cand.params))
-                            toward = {
-                                "CHARGE": "resource",
-                                "REST": "rest",
-                                "APPROACH": "resource",
-                            }.get(prefer)
-                            if prefer == "CHARGE" and "novel_crystal" in kinds and "resource" not in kinds:
-                                toward = "novel_crystal"
-                            if toward:
-                                alt.params["toward"] = toward
-                            for o in obs_dicts:
-                                if o.get("kind") == toward or (
-                                    prefer in ("CHARGE", "APPROACH")
-                                    and o.get("kind") in need
-                                ):
-                                    alt.params["heading_delta"] = float(
-                                        o["relative_direction"]
-                                    )
-                                    alt.params["toward"] = o.get("kind")
-                                    break
-                            cand = alt
-            _ = self.world_model.propose_capability_bias(obs_dicts, urg)
-        self._trace_transition(trace_transitions, "world_model", world_before, cand, reason="world_model_proposal")
-
-        # Dormant/degraded capabilities: arbitration still proposes; governance admits;
-        # self-model may skip prediction usefulness but cannot revoke grants.
-        sm_status = (
-            self.self_model.capability_status(cand.capability) if self.self_model else "available"
-        )
-        dormant_before = cand
-        if sm_status == "dormant" and cand.capability not in ("IDLE", "REST"):
-            cand = self.arbitrator._no_safe_action()
+        # Dormant capability and final outcome-branch safety are authoritative
+        # constraints applied inside Arbitrator.select before the one final
+        # behavioral selection. No candidate is replaced here.
         self._trace_transition(
-            trace_transitions, "dormant_capability", dormant_before, cand,
-            reason="dormant_capability" if dormant_before is not cand else None,
+            trace_transitions, "dormant_capability", cand, cand,
+            reason="pre_selection_authority_constraint",
         )
-        final_safety_before = cand
-        if self.arbitrator._introduces_critical_boundary(cand, self.phys, effect_branches=authority_effect_branches(cand, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params)):
-            cand = self.arbitrator._no_safe_action()
         self._trace_transition(
-            trace_transitions, "final_safety", final_safety_before, cand,
-            reason="verified_outcome_branch_safety" if final_safety_before is not cand else None,
+            trace_transitions, "final_safety", cand, cand,
+            reason="pre_selection_verified_outcome_constraint",
         )
 
         # D-014H3D: replace only the final pre-Governance choice. The callback

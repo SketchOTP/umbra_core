@@ -813,3 +813,13 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Scientific retries, reseeds, new seeds, R1/R2/R3, sealed H3D holdouts, selector/wrapper changes, production changes, threshold/effect changes, formal D-014, D-013/AX, and storage changes: 0.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3j-r0-causal-decomposition-r1/.
 - H3J is terminal; return to Architect.
+- UMBRA-CLOSE-02 start (2026-08-26): active from exact H3J closeout
+  178f0e37855c42a3b97975189b7700b5b16b7506. H3I/H3J remain permanent
+  terminal history and the H3 prospective-selector lineage is retired from
+  the completion path. CLOSE-02 will inspect the live production authority
+  topology, freeze a no-new-semantics final-authority contract if
+  representable, implement only the minimum required seam, and gate any
+  integrated qualification on structural parity. The configured Git remote
+  is github; no origin remote exists. Pre-existing untracked
+  .agent/LIBRARY_REVIEW.md and research/course_correction/d013ax2_harness/
+  remain preserved.

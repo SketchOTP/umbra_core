@@ -1,3 +1,19 @@
+## UMBRA-CLOSE-02 active routing
+
+UMBRA-CLOSE-02 is the sole active directive from exact baseline
+178f0e37855c42a3b97975189b7700b5b16b7506. H3I remains a terminal scientific
+failure and H3J remains terminal evidence insufficiency; the H3 prospective
+selector lineage is retired from the completion path. CLOSE-02 will inspect
+and, if representable without new scoring semantics, implement one final
+production action-authority path before gated integrated qualification.
+
+Canonical evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-final-authority-r1/
+
+The configured Git remote is named github (not origin); publication checks use
+github/master without changing remote configuration.
+
+
 # Authority Project-State Index
 
 ## Project identity

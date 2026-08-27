@@ -1,3 +1,28 @@
+## UMBRA-CLOSE-02 active — minimal final action authority / integrated qualification
+
+UMBRA-CLOSE-02 is the sole active directive from exact baseline
+178f0e37855c42a3b97975189b7700b5b16b7506. H3I remains a terminal scientific
+failure and H3J remains terminal evidence insufficiency. The H3/H3I
+prospective-selector lineage is retired from the completion architecture.
+
+CLOSE-02 is inspecting the live production authority topology and will make
+only the smallest representable correction needed to produce one endogenous
+final selection before Governance, with no post-arbitration behavioral
+replacement. It must preserve existing candidate/arbitrator semantics,
+uncertainty neutrality, governance, embodiment authority, verified-outcome
+learning, and all historical evidence. No new planner, score, source priority,
+threshold/effect, hidden truth, D-013/AX work, storage work, or H3 retry is
+authorized.
+
+Start baseline: 178f0e37855c42a3b97975189b7700b5b16b7506
+Configured publication remote: github (required origin ref is absent)
+Atlas evidence root:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-final-authority-r1/
+
+Pre-existing untracked .agent/LIBRARY_REVIEW.md and
+research/course_correction/d013ax2_harness/ are preserved.
+
+
 # Current Project State
 
 ## UMBRA-D-014H3J terminal - retained evidence insufficient
