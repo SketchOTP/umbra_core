@@ -823,3 +823,16 @@ D-014/D-013/AX/D-014I: none. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
   is github; no origin remote exists. Pre-existing untracked
   .agent/LIBRARY_REVIEW.md and research/course_correction/d013ax2_harness/
   remain preserved.
+
+
+## 2026-08-26 — CLOSE-02 terminal disposition
+
+The fragmented runtime candidate-replacement topology was replaced with a
+common proposal path into existing arbitration for ticks with auxiliary
+proposals; Governance and embodiment execution remain downstream. Structural
+checks passed (`37 passed`), and no scoring, threshold, effect, identity,
+or authority semantics were added. The full suite matched all seven known
+baseline failures (`885 passed, 7 failed, 2 skipped`).
+
+CLOSE-02 did not launch G1 because its required canonical Atlas evidence
+directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP_UNRESOLVED`.

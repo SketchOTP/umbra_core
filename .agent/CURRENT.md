@@ -859,3 +859,17 @@ D-014H3B is terminal with `D014H3B_R2_AUTHORITY_PREFLIGHT_QUALIFIED`.
 
 Return to Architect. Do not automatically start H3 selector work or organism
 qualification from this preflight result.
+
+## UMBRA-CLOSE-02 terminal status — 2026-08-26
+
+CLOSE-02 stopped before G1 with `CLOSE02_EXECUTION_STOP_UNRESOLVED`.
+The final authority correction was implemented and pushed at commit
+`20542be24c90317aefbb0df9cfdc2202b9d8942b`. The canonical Atlas evidence
+directory became unresponsive during the G1 freeze, while stale validation
+processes remained in uninterruptible kernel waits. No G1 organism run, tag,
+or formal qualification was launched.
+
+The full path-safe suite was `885 passed, 7 failed, 2 skipped`; all seven
+failures were reproduced from the untouched starting baseline and are
+inherited (D-006 x2, D-008 memory fixture, D-010 inventory, D-012 x2,
+D-013AK). CLOSE-02 focused structural/governance validation was `37 passed`.

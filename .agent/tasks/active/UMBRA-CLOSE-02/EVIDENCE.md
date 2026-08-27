@@ -1,13 +1,16 @@
-# CLOSE-02 evidence log
+# CLOSE-02 evidence index
 
-## Start
+Permanent target: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-final-authority-r1/`
 
-- Baseline verified locally at 178f0e37855c42a3b97975189b7700b5b16b7506.
-- Configured publication remote is github; github/master is the required
-  publication ref. No origin remote is configured.
-- Worktree preserved pre-existing untracked .agent/LIBRARY_REVIEW.md and
-  research/course_correction/d013ax2_harness/.
-- Atlas canonical project path /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
-  is mounted and available.
-- Evidence root:
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-final-authority-r1/
+The authority map and final contract were created before implementation. The
+canonical target became unresponsive during the G1 freeze, so no claim is
+made that a final evidence manifest or G1 result was written. The repository
+closeout records the stop and the exact validation outputs.
+
+- Focused structural/governance: `37 passed in 0.41s`
+- Full path-safe suite: `885 passed, 7 failed, 2 skipped in 49.74s`
+- D-012 short-path underlying failure: `OWNERSHIP_GENERATION_CONFLICT` on
+  worker generation 3; same failure reproduced from the untouched baseline
+- Baseline comparison: all seven full-suite failures matched the untouched
+  `178f0e...` checkout
+- G1: not launched (`run_count=0`)

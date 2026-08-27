@@ -575,3 +575,16 @@ D-20260826T150137-umbra-d014h3e | project:UMBRA-D-014H3E | status:started | base
 D-20260826T-H3J-START | project:UMBRA-D-014H3J | status:started | baseline:a568769980aff4589552401372a388e121fda55c | parent:D014H3I_R0_GATE_FAIL | scope:retained_h3i_evidence_inventory,unknown_semantics_audit,eight_seed_causal_decomposition,recorded_input_counterfactual,alternative_mechanisms | ask:Determine whether H3I prematurely collapsed hard-admissible UNKNOWN candidates into NO_SAFE_ACTION across the eight valid R0 failures | accept:read_only_inventory,contract_audit,per_seed_chronology,no_safe_origin,drift_consequence,recorded_input_counterfactual,taxonomy,integrity_closeout | constraints:no_h3i_retry,no_r1_or_holdouts,no_selector_or_wrapper_change,no_production_change,no_new_seeds,no_reseed,no_formal_d014,no_d013_ax,no_storage_change | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3j-r0-causal-decomposition-r1/
 D-20260826T-H3J-CLOSEOUT | project:UMBRA-D-014H3J | status:terminal_evidence_insufficient | baseline:a568769980aff4589552401372a388e121fda55c | verdict:D014H3J_EVIDENCE_INSUFFICIENT | h3i_manifest:11_of_11_verified | seeds_analyzed:8 | decision_records:absent | counterfactuals:not_run | retries:0 | reseeds:0 | r1_r2_r3:false | sealed_holdouts:false | selector_changed:false | wrapper_changed:false | production_changed:false | historical_evidence_modified:false | formal:false | d013_ax:false | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3j-r0-causal-decomposition-r1/ | next:return_to_Architect
 - D-20260826T-CLOSE02-START | project:UMBRA-CLOSE-02 | status:active | baseline:178f0e37855c42a3b97975189b7700b5b16b7506 | parent:D014H3J_EVIDENCE_INSUFFICIENT | scope:live_authority_topology,minimal_final_authority,structural_parity,conditional_integrated_qualification | constraints:no_H3_selector,no_new_planner,no_new_scoring,no_source_priority,no_unknown_veto,no_hidden_truth,no_D013_AX,no_storage_work,no_retry,no_reseed,no_threshold_or_effect_changes | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-final-authority-r1/ | remote:github
+
+
+## D-20260826T-CLOSE02-CLOSEOUT
+
+`UMBRA-CLOSE-02` stopped with `CLOSE02_EXECUTION_STOP_UNRESOLVED` before
+G1 because the mandated permanent evidence directory under
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/
+umbra-close-02-final-authority-r1/` hung on read/write. The mount reported
+healthy capacity, but the exact evidence directory was inaccessible while
+validation processes were stuck in kernel waits. No G1, formal tag, or formal
+run occurred. Commit `20542be24c90317aefbb0df9cfdc2202b9d8942b` contains the
+production final-authority correction and governance/test additions and was
+pushed to `github/master`.
