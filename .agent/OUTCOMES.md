@@ -897,3 +897,14 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
   prohibited.
 - No contract freeze, organism gate, formal tag, or qualification run has
   started. Production source and historical evidence remain unchanged.
+## UMBRA-CLOSE-02-DECIDE start — 2026-08-27
+
+- CLOSE-02F remains terminal with CLOSE02F_R0_DEVELOPMENT_FAIL after the
+  single fresh R0/S0 seed 45878900 failed at tick 220.
+- CLOSE-02-DECIDE is a fresh diagnostic-only A/B attribution comparison from
+  governance baseline a6a00301c05952f2cbb699e2129b966d285c3448.
+- Control A is pre-CLOSE-02 commit 178f0e37855c42a3b97975189b7700b5b16b7506;
+  candidate B is final-authority commit 20542be24c90317aefbb0df9cfdc2202b9d8942b.
+- Exactly one R0/S0 run per checkout will use seed 45878900 and observational
+  instrumentation only. No production edits, retries, reseeds, or qualification
+  work are authorized.

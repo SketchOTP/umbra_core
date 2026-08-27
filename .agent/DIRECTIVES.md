@@ -2,6 +2,8 @@
 
 Append-only task-start log for UMBRA-CORE. Never rewrite, reorder, or delete history.
 
+- D-20260827-close02-decide | status:started | scope:.agent/*,isolated diagnostic checkouts,Atlas evidence | ask:Attribute the CLOSE-02F R0 failure by one exact traced control/candidate comparison | accept:one observational A/B execution aligned with an evidence-grounded verdict and no production changes | plan:freeze source/config, run A and B once, align and closeout
+
 Format:
 ```md
 - D-YYYYMMDD-HHMM-slug | status:started | scope:<files/modules> | ask:<one sentence> | accept:<observable done condition> | plan:<max 3 tiny steps>
