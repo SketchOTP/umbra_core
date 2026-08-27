@@ -603,3 +603,18 @@ pushed to `github/master`.
   or automatic CLOSE-03
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/`
 - Remote: `github`
+
+## D-20260827T-CLOSE02Q-CLOSEOUT
+
+- Directive: `UMBRA-CLOSE-02Q`
+- Status: terminal; stopped before qualification
+- Verdict: `CLOSE02Q_STORAGE_PREFLIGHT_FAIL`
+- Baseline: `90dc15c61e4f98909775596aae478e3ac7e299c2`
+- Storage: Atlas mount and capacity passed; first canonical evidence-path
+  write/fsync probe hung in `sync -f` with the probe process in `D` state
+- Cleanup: probe process terminated; temporary probe file removed; no project
+  data or unrelated system backup process touched
+- Organism gates: not run; contract freeze: not created; formal tag: none
+- Retries/reseeds: 0
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/`
+- Next authority: return to Architect; no automatic retry or fallback storage

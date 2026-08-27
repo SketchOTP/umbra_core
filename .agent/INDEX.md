@@ -1,8 +1,9 @@
-## UMBRA-CLOSE-02Q active routing
+## UMBRA-CLOSE-02Q terminal routing
 
-UMBRA-CLOSE-02 is terminal with `CLOSE02_EXECUTION_STOP_UNRESOLVED`; its G1
-was not run. UMBRA-CLOSE-02Q is the sole active qualification-only directive
-from exact baseline `90dc15c61e4f98909775596aae478e3ac7e299c2`.
+UMBRA-CLOSE-02Q stopped before qualification on
+`CLOSE02Q_STORAGE_PREFLIGHT_FAIL`. CLOSE-02 remains terminal with
+`CLOSE02_EXECUTION_STOP_UNRESOLVED`; its G1 was not run. No active directive
+is inferred from this stop.
 
 Canonical evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/
@@ -23,12 +24,12 @@ github/master without changing remote configuration.
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; CLOSE-02Q final-authority qualification
-- Active directive: UMBRA-CLOSE-02Q; last terminal directive: UMBRA-CLOSE-02
+- Current stage: Authority 3.0; CLOSE-02Q storage preflight stop
+- Active directive: none; last terminal directive: UMBRA-CLOSE-02Q
 - Last task packet: .agent/tasks/completed/UMBRA-D-014H3J/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3I/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: CLOSE02_EXECUTION_STOP_UNRESOLVED
+- Last accepted outcome: CLOSE02Q_STORAGE_PREFLIGHT_FAIL
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Last state sync: 2026-08-26T21:30:33Z
 

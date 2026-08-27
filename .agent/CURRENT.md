@@ -1,16 +1,19 @@
-## UMBRA-CLOSE-02Q active — final authority qualification only
+## UMBRA-CLOSE-02Q terminal — storage preflight failed
 
-UMBRA-CLOSE-02 is terminal with
-`CLOSE02_EXECUTION_STOP_UNRESOLVED`; its interrupted G1 was not resumed.
-The already-implemented final-authority candidate is qualified by the fresh
-CLOSE-02Q generation from exact baseline
-`90dc15c61e4f98909775596aae478e3ac7e299c2`.
+CLOSE-02Q stopped before any organism gate because the first required
+read/write/fsync evidence-path probe did not complete. The Atlas mount and
+capacity checks passed, and the probe file was created, but `sync -f` on the
+canonical CLOSE-02Q evidence root entered uninterruptible `D` state and
+exceeded the bounded probe window. The probe process was terminated and its
+temporary probe file was removed; no project data was touched.
 
-CLOSE-02Q is the sole active directive. It permits qualification harness,
-evidence, and governance work only: no architecture redesign, H3 retry,
-new planner/scoring/priority, threshold/effect change, hidden truth,
-D-013/AX, or automatic CLOSE-03. Permanent evidence belongs at the
-canonical Atlas path:
+Verdict: `CLOSE02Q_STORAGE_PREFLIGHT_FAIL`.
+
+CLOSE-02 remains terminal with `CLOSE02_EXECUTION_STOP_UNRESOLVED`; its
+interrupted G1 was not resumed. CLOSE-02Q is no longer active. No contract
+freeze, organism gate, formal tag, or qualification run occurred.
+
+Canonical evidence path remains:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/`.
 
 Configured publication remote: github (required origin ref is absent)

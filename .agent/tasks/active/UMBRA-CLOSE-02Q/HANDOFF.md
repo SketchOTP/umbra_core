@@ -7,5 +7,6 @@ CLOSE-02 is terminal with `CLOSE02_EXECUTION_STOP_UNRESOLVED`; its G1 was not
 run and is not being resumed. This packet tracks the fresh qualification-only
 successor.
 
-Phase A start record: repository routing synchronized; live organism gates not
-yet started.
+Phase A stopped before qualification: `CLOSE02Q_STORAGE_PREFLIGHT_FAIL`.
+The first evidence-path fsync probe hung in uninterruptible `D` state. No
+organism gate or formal tag was started.

@@ -850,3 +850,17 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - Canonical evidence root is
   `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/`.
 - No organism gate, formal tag, or qualification outcome has occurred yet.
+
+## 2026-08-27 — CLOSE-02Q storage preflight stop
+
+- Verdict: `CLOSE02Q_STORAGE_PREFLIGHT_FAIL`.
+- Atlas mount and capacity checks passed, but the first required canonical
+  evidence-path probe hung during `sync -f`; the probe process entered
+  uninterruptible `D` state and exceeded the bounded probe window.
+- The probe process was terminated and its temporary file removed. An
+  unrelated system Timeshift `rsync` process was observed in `D` state and was
+  not touched.
+- No qualification contract freeze, organism gate, formal tag, retry, reseed,
+  fallback storage, or scientific outcome occurred.
+- CLOSE-02 remains permanently terminal with
+  `CLOSE02_EXECUTION_STOP_UNRESOLVED`; CLOSE-02Q returns to Architect.
