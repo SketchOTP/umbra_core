@@ -1,15 +1,18 @@
-## UMBRA-CLOSE-02F active routing
+## UMBRA-CLOSE-02F terminal routing
 
-UMBRA-CLOSE-02F is the sole active directive from exact baseline
-`c4f387433f42ffa5517b40c0667a97b6e03af4d0`. It is a fresh qualification-only
-generation for the already-implemented final-authority candidate.
+UMBRA-CLOSE-02F was the qualification directive from exact baseline
+`c4f387433f42ffa5517b40c0667a97b6e03af4d0`. It is now terminal with
+`CLOSE02F_R0_DEVELOPMENT_FAIL`: the first fresh R0 seed failed at tick 220
+after first `no_safe_action` at tick 219. No later gate or formal population
+was opened, and no automatic successor is authorized.
 
-The immediate gate is file-scoped evidence durability at
+Its file-scoped Atlas durability and regime-fidelity preflights passed. The
+qualification evidence is at
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02f-final-authority-qualification-r1/`.
 The qualification probe must use file `fsync`, atomic rename, containing
 directory `fsync`, readback, hashing, and cleanup. `sync`, `sync -f`, and
-`syncfs` are prohibited. CLOSE-02 and CLOSE-02Q remain terminal historical
-records; no organism or formal qualification has started.
+`syncfs` were not used. CLOSE-02 and CLOSE-02Q remain terminal historical
+records.
 
 ## UMBRA-CLOSE-02Q terminal routing
 
@@ -37,12 +40,12 @@ github/master without changing remote configuration.
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; CLOSE-02F file-scoped durability qualification
-- Active directive: UMBRA-CLOSE-02F; last terminal directive: UMBRA-CLOSE-02Q
+- Current stage: Authority 3.0; CLOSE-02F R0 development failure
+- Active directive: none; last terminal directive: UMBRA-CLOSE-02F
 - Last task packet: .agent/tasks/completed/UMBRA-D-014H3J/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3I/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: CLOSE02Q_STORAGE_PREFLIGHT_FAIL; CLOSE-02F active
+- Last accepted outcome: CLOSE02F_R0_DEVELOPMENT_FAIL
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Last state sync: 2026-08-26T21:30:33Z
 

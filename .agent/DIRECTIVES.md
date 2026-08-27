@@ -619,6 +619,23 @@ pushed to `github/master`.
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/`
 - Next authority: return to Architect; no automatic retry or fallback storage
 
+## D-20260827T-CLOSE02F-CLOSEOUT
+
+- Directive: `UMBRA-CLOSE-02F`
+- Status: terminal; stopped at the first scientific R0 development failure
+- Verdict: `CLOSE02F_R0_DEVELOPMENT_FAIL`
+- Baseline: `c4f387433f42ffa5517b40c0667a97b6e03af4d0`
+- Closeout state: file-scoped durability probes passed 2/2; regime fidelity
+  and deterministic replay passed; fresh R0 seed `45878900` failed at tick
+  220 after first `no_safe_action` at tick 219
+- Execution: one R0 seed executed exactly once; no second seed, later
+  development gate, formal tag, formal run, retry, reseed, remediation, or
+  CLOSE-03 work started
+- Integrity: production source, thresholds/effects, historical evidence, and
+  protected files unchanged
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02f-final-authority-qualification-r1/`
+- Next authority: return to Architect; no automatic successor
+
 ## D-20260827T-CLOSE02F-START
 
 - Directive: `UMBRA-CLOSE-02F`

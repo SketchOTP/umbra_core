@@ -865,6 +865,26 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - CLOSE-02 remains permanently terminal with
   `CLOSE02_EXECUTION_STOP_UNRESOLVED`; CLOSE-02Q returns to Architect.
 
+## 2026-08-27 — CLOSE-02F terminal R0 development failure
+
+- Verdict: `CLOSE02F_R0_DEVELOPMENT_FAIL`.
+- File-scoped evidence durability passed both sequential probes; no
+  filesystem-wide sync operation was used.
+- Disposable regime-fidelity checks passed twice for R2 and twice for R3,
+  including current HabitatEngine social creation/restart/occlusion/reentry,
+  body change, identity continuity, and deterministic authority traces.
+- The first fresh R0 development seed `45878900` was executed exactly once
+  for the 7,200-tick gate. It reached tick 220 and failed physiologically;
+  first `no_safe_action` was tick 219. The R0 predecessor gate stopped
+  immediately.
+- No second R0 seed, known R1, sealed development population, agency review,
+  formal tag, formal population, retry, reseed, remediation, or CLOSE-03 work
+  started.
+- Production source and historical evidence were unchanged; the existing
+  untracked `.agent/LIBRARY_REVIEW.md` and
+  `research/course_correction/d013ax2_harness/` were preserved.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02f-final-authority-qualification-r1/`.
+
 ## 2026-08-27 — CLOSE-02F start
 
 - `UMBRA-CLOSE-02F` is active from exact baseline

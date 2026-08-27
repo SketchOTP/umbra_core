@@ -1,19 +1,21 @@
-## UMBRA-CLOSE-02F active — file-scoped durability qualification
+## UMBRA-CLOSE-02F terminal — R0 development gate failed
 
 CLOSE-02 and CLOSE-02Q remain permanently terminal. CLOSE-02 stopped before
 G1 with `CLOSE02_EXECUTION_STOP_UNRESOLVED`; CLOSE-02Q stopped before
 qualification with `CLOSE02Q_STORAGE_PREFLIGHT_FAIL` because its broad
 `sync -f` probe entered D-state. Neither produced an organism result.
 
-CLOSE-02F is a fresh qualification-only generation from exact baseline
-`c4f387433f42ffa5517b40c0667a97b6e03af4d0`. It may validate the existing
-final-authority implementation only. It must not redesign UMBRA, alter
-storage topology, retry either predecessor, change thresholds/effects,
-reopen H3/D-013/AX, or use filesystem-wide sync operations.
+CLOSE-02F was a fresh qualification-only generation from exact baseline
+`c4f387433f42ffa5517b40c0667a97b6e03af4d0`. Its file-scoped durability and
+regime-fidelity gates passed, but the first fresh R0 development seed
+`45878900` failed at tick `220` after first `no_safe_action` at tick `219`.
+The frozen R0 predecessor gate therefore failed and this generation is
+terminal. It must not retry, reseed, remediate, reopen H3/D-013/AX, or start
+formal qualification.
 
-Current phase: Phase A synchronization complete; Phase B storage-semantics
-inspection and the file-scoped durability preflight are next. No contract
-freeze, organism gate, formal tag, or qualification run has started.
+Verdict: `CLOSE02F_R0_DEVELOPMENT_FAIL`. One R0 seed was executed exactly
+once; no later development population, agency review, formal tag, or formal
+run started. The implementation and historical evidence remain unchanged.
 
 Canonical permanent evidence:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/`
