@@ -1,3 +1,30 @@
+## UMBRA-CLOSE-02F active — file-scoped durability qualification
+
+CLOSE-02 and CLOSE-02Q remain permanently terminal. CLOSE-02 stopped before
+G1 with `CLOSE02_EXECUTION_STOP_UNRESOLVED`; CLOSE-02Q stopped before
+qualification with `CLOSE02Q_STORAGE_PREFLIGHT_FAIL` because its broad
+`sync -f` probe entered D-state. Neither produced an organism result.
+
+CLOSE-02F is a fresh qualification-only generation from exact baseline
+`c4f387433f42ffa5517b40c0667a97b6e03af4d0`. It may validate the existing
+final-authority implementation only. It must not redesign UMBRA, alter
+storage topology, retry either predecessor, change thresholds/effects,
+reopen H3/D-013/AX, or use filesystem-wide sync operations.
+
+Current phase: Phase A synchronization complete; Phase B storage-semantics
+inspection and the file-scoped durability preflight are next. No contract
+freeze, organism gate, formal tag, or qualification run has started.
+
+Canonical permanent evidence:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/`
+
+Configured publication remote: github (not origin).
+
+Pre-existing untracked `.agent/LIBRARY_REVIEW.md` and
+`research/course_correction/d013ax2_harness/` are preserved.
+
+---
+
 ## UMBRA-CLOSE-02Q terminal — storage preflight failed
 
 CLOSE-02Q stopped before any organism gate because the first required

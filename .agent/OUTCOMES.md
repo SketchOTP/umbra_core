@@ -864,3 +864,16 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
   fallback storage, or scientific outcome occurred.
 - CLOSE-02 remains permanently terminal with
   `CLOSE02_EXECUTION_STOP_UNRESOLVED`; CLOSE-02Q returns to Architect.
+
+## 2026-08-27 — CLOSE-02F start
+
+- `UMBRA-CLOSE-02F` is active from exact baseline
+  `c4f387433f42ffa5517b40c0667a97b6e03af4d0`.
+- CLOSE-02 and CLOSE-02Q remain terminal; this is a fresh qualification-only
+  generation, not a retry or continuation of either predecessor.
+- The first required gate is the canonical Atlas file-scoped durability
+  contract: file `fsync`, atomic rename, containing-directory `fsync`,
+  readback/hash, and cleanup. Filesystem-wide `sync`/`sync -f`/`syncfs` are
+  prohibited.
+- No contract freeze, organism gate, formal tag, or qualification run has
+  started. Production source and historical evidence remain unchanged.

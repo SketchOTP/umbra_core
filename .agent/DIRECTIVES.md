@@ -618,3 +618,18 @@ pushed to `github/master`.
 - Retries/reseeds: 0
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/`
 - Next authority: return to Architect; no automatic retry or fallback storage
+
+## D-20260827T-CLOSE02F-START
+
+- Directive: `UMBRA-CLOSE-02F`
+- Status: active; fresh qualification-only generation after terminal CLOSE-02Q
+- Baseline: `c4f387433f42ffa5517b40c0667a97b6e03af4d0`
+- Parent: `CLOSE02Q_STORAGE_PREFLIGHT_FAIL`
+- Scope: file-scoped Atlas evidence durability, implementation immutability,
+  structural authority reconfirmation, and the exact gated qualification
+  program specified by CLOSE-02F
+- Constraints: no predecessor retry, storage-topology change,
+  filesystem-wide sync, architecture redesign, H3/D-013/AX, threshold/effect
+  change, retry, reseed, or automatic CLOSE-03
+- Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02f-final-authority-qualification-r1/`
+- Publication remote: `github`

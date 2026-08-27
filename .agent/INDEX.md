@@ -1,3 +1,16 @@
+## UMBRA-CLOSE-02F active routing
+
+UMBRA-CLOSE-02F is the sole active directive from exact baseline
+`c4f387433f42ffa5517b40c0667a97b6e03af4d0`. It is a fresh qualification-only
+generation for the already-implemented final-authority candidate.
+
+The immediate gate is file-scoped evidence durability at
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02f-final-authority-qualification-r1/`.
+The qualification probe must use file `fsync`, atomic rename, containing
+directory `fsync`, readback, hashing, and cleanup. `sync`, `sync -f`, and
+`syncfs` are prohibited. CLOSE-02 and CLOSE-02Q remain terminal historical
+records; no organism or formal qualification has started.
+
 ## UMBRA-CLOSE-02Q terminal routing
 
 UMBRA-CLOSE-02Q stopped before qualification on
@@ -24,12 +37,12 @@ github/master without changing remote configuration.
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; CLOSE-02Q storage preflight stop
-- Active directive: none; last terminal directive: UMBRA-CLOSE-02Q
+- Current stage: Authority 3.0; CLOSE-02F file-scoped durability qualification
+- Active directive: UMBRA-CLOSE-02F; last terminal directive: UMBRA-CLOSE-02Q
 - Last task packet: .agent/tasks/completed/UMBRA-D-014H3J/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3I/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: CLOSE02Q_STORAGE_PREFLIGHT_FAIL
+- Last accepted outcome: CLOSE02Q_STORAGE_PREFLIGHT_FAIL; CLOSE-02F active
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Last state sync: 2026-08-26T21:30:33Z
 
