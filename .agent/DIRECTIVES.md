@@ -588,3 +588,18 @@ validation processes were stuck in kernel waits. No G1, formal tag, or formal
 run occurred. Commit `20542be24c90317aefbb0df9cfdc2202b9d8942b` contains the
 production final-authority correction and governance/test additions and was
 pushed to `github/master`.
+
+## D-20260827T-CLOSE02Q-START
+
+- Directive: `UMBRA-CLOSE-02Q`
+- Status: active; qualification-only successor to terminal CLOSE-02
+- Baseline: `90dc15c61e4f98909775596aae478e3ac7e299c2`
+- Parent: `CLOSE02_EXECUTION_STOP_UNRESOLVED`; CLOSE-02 G1 remains unrun
+- Scope: implementation immutability, final-authority reconfirmation, Atlas
+  evidence preflight, preregistered regime/seed freeze, and gated integrated
+  qualification
+- Constraints: no architecture redesign, H3 retry, new planner/scoring or
+  priority, threshold/effect change, hidden truth, D-013/AX, retry, reseed,
+  or automatic CLOSE-03
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/`
+- Remote: `github`

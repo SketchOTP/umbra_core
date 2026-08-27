@@ -836,3 +836,17 @@ baseline failures (`885 passed, 7 failed, 2 skipped`).
 
 CLOSE-02 did not launch G1 because its required canonical Atlas evidence
 directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP_UNRESOLVED`.
+
+## 2026-08-27 — CLOSE-02Q start
+
+- `UMBRA-CLOSE-02` remains permanently terminal with
+  `CLOSE02_EXECUTION_STOP_UNRESOLVED`; its G1 organism gate was not run.
+- `UMBRA-CLOSE-02Q` is active from exact baseline
+  `90dc15c61e4f98909775596aae478e3ac7e299c2` as a fresh qualification-only
+  generation for the already-implemented final-authority path.
+- Phase A verified local `master` and `github/master` at the exact baseline,
+  with only the pre-existing untracked `.agent/LIBRARY_REVIEW.md` and
+  `research/course_correction/d013ax2_harness/` preserved.
+- Canonical evidence root is
+  `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/`.
+- No organism gate, formal tag, or qualification outcome has occurred yet.

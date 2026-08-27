@@ -1,14 +1,11 @@
-## UMBRA-CLOSE-02 active routing
+## UMBRA-CLOSE-02Q active routing
 
-UMBRA-CLOSE-02 is the sole active directive from exact baseline
-178f0e37855c42a3b97975189b7700b5b16b7506. H3I remains a terminal scientific
-failure and H3J remains terminal evidence insufficiency; the H3 prospective
-selector lineage is retired from the completion path. CLOSE-02 will inspect
-and, if representable without new scoring semantics, implement one final
-production action-authority path before gated integrated qualification.
+UMBRA-CLOSE-02 is terminal with `CLOSE02_EXECUTION_STOP_UNRESOLVED`; its G1
+was not run. UMBRA-CLOSE-02Q is the sole active qualification-only directive
+from exact baseline `90dc15c61e4f98909775596aae478e3ac7e299c2`.
 
 Canonical evidence:
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-final-authority-r1/
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02q-final-authority-qualification-r1/
 
 The configured Git remote is named github (not origin); publication checks use
 github/master without changing remote configuration.
@@ -26,12 +23,12 @@ github/master without changing remote configuration.
 - Current state: .agent/CURRENT.md
 
 ## Current pointers
-- Current stage: Authority 3.0; D-014H3J terminal evidence insufficiency
-- Active directive: none; last terminal directive: UMBRA-D-014H3J
+- Current stage: Authority 3.0; CLOSE-02Q final-authority qualification
+- Active directive: UMBRA-CLOSE-02Q; last terminal directive: UMBRA-CLOSE-02
 - Last task packet: .agent/tasks/completed/UMBRA-D-014H3J/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3I/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: D014H3J_EVIDENCE_INSUFFICIENT
+- Last accepted outcome: CLOSE02_EXECUTION_STOP_UNRESOLVED
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Last state sync: 2026-08-26T21:30:33Z
 
