@@ -908,3 +908,16 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - Exactly one R0/S0 run per checkout will use seed 45878900 and observational
   instrumentation only. No production edits, retries, reseeds, or qualification
   work are authorized.
+## UMBRA-CLOSE-02-DECIDE closeout — execution stop unresolved — 2026-08-27
+
+- Terminal verdict: CLOSE02DECIDE_EXECUTION_STOP_UNRESOLVED.
+- Control A started exactly once from 178f0e37855c42a3b97975189b7700b5b16b7506,
+  reached trace tick 3869, and stopped when the external observational
+  collector reached its imposed 180-second wrapper limit before a natural
+  scientific terminal state or the 7200-tick horizon.
+- Candidate B was not started. No final-authority attribution, scientific
+  verdict, retry, or second invocation is claimed.
+- The partial A trace is preserved under the canonical Atlas evidence root.
+- No production source, historical evidence, thresholds, or protected files
+  were modified. No qualification, formal tag, remediation, or successor
+  directive was started.

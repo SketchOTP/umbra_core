@@ -1,3 +1,20 @@
+## UMBRA-CLOSE-02-DECIDE terminal routing
+
+UMBRA-CLOSE-02-DECIDE terminated with
+CLOSE02DECIDE_EXECUTION_STOP_UNRESOLVED. Control A started once at
+178f0e37855c42a3b97975189b7700b5b16b7506 and reached trace tick 3869 before
+the external collector's 180-second wrapper limit. Candidate B was not
+started, so no final-authority attribution is established.
+
+Partial evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-decide-r0-attribution-r1/CLOSE02_DECIDE_A_TRACE_PARTIAL.jsonl
+
+No retry, production change, remediation, qualification, formal tag, or
+successor directive occurred. CLOSE-02F, CLOSE-02Q, and CLOSE-02 remain
+terminal historical directives.
+
+---
+
 ## UMBRA-CLOSE-02F terminal routing
 
 UMBRA-CLOSE-02F was the qualification directive from exact baseline
@@ -202,18 +219,3 @@ Canonical H3H evidence:
 No production-default selector authority, threshold/effect changes, retries,
 reseeds, storage migration, formal D-014, D-013/AX, or holdout regeneration
 is authorized.
-## UMBRA-CLOSE-02-DECIDE active routing
-
-The current active directive is UMBRA-CLOSE-02-DECIDE, a diagnostic-only
-attribution comparison. CLOSE-02F remains terminal with
-CLOSE02F_R0_DEVELOPMENT_FAIL; CLOSE-02 and CLOSE-02Q remain terminal.
-
-Compare exactly one isolated control at
-178f0e37855c42a3b97975189b7700b5b16b7506 with exactly one isolated
-candidate at 20542be24c90317aefbb0df9cfdc2202b9d8942b, both R0/S0 seed
-45878900, with no production edits or retries.
-
-Permanent diagnostic evidence:
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-decide-r0-attribution-r1/
-
----

@@ -1,3 +1,18 @@
+## UMBRA-CLOSE-02-DECIDE terminal — execution stop unresolved
+
+The diagnostic is terminal with CLOSE02DECIDE_EXECUTION_STOP_UNRESOLVED.
+Control A started once from 178f0e37855c42a3b97975189b7700b5b16b7506 but the
+external observational collector reached its imposed 180-second wrapper limit
+at trace tick 3869 before a natural scientific terminal state or the 7200-tick
+horizon. Candidate B was not started. No attribution result is established.
+
+The partial A trace is preserved at
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-decide-r0-attribution-r1/CLOSE02_DECIDE_A_TRACE_PARTIAL.jsonl.
+No retry, B execution, production change, remediation, qualification, formal
+tag, or successor directive occurred.
+
+---
+
 ## UMBRA-CLOSE-02F terminal — R0 development gate failed
 
 CLOSE-02 and CLOSE-02Q remain permanently terminal. CLOSE-02 stopped before
@@ -901,23 +916,3 @@ The full path-safe suite was `885 passed, 7 failed, 2 skipped`; all seven
 failures were reproduced from the untouched starting baseline and are
 inherited (D-006 x2, D-008 memory fixture, D-010 inventory, D-012 x2,
 D-013AK). CLOSE-02 focused structural/governance validation was `37 passed`.
-## UMBRA-CLOSE-02-DECIDE active — R0 failure attribution
-
-CLOSE-02F remains terminal with CLOSE02F_R0_DEVELOPMENT_FAIL: its first
-fresh R0/S0 seed 45878900 failed at tick 220 after first no_safe_action at
-tick 219. CLOSE-02 and CLOSE-02Q remain terminal. This new directive is a
-fresh diagnostic, not a retry or qualification generation.
-
-UMBRA-CLOSE-02-DECIDE is active from governance baseline
-a6a00301c05952f2cbb699e2129b966d285c3448. It compares exactly one
-pre-CLOSE-02 control at 178f0e37855c42a3b97975189b7700b5b16b7506 with one
-final-authority candidate at 20542be24c90317aefbb0df9cfdc2202b9d8942b,
-using R0/S0, seed 45878900, matched configuration, and observational
-instrumentation only.
-
-Evidence is isolated at
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-decide-r0-attribution-r1/.
-No production edits, remediation, qualification, formal tag, R1/R2/R3,
-D-013/AX, H3, threshold/effect changes, retries, or reseeds are authorized.
-
----
