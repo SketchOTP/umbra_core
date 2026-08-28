@@ -916,3 +916,22 @@ The full path-safe suite was `885 passed, 7 failed, 2 skipped`; all seven
 failures were reproduced from the untouched starting baseline and are
 inherited (D-006 x2, D-008 memory fixture, D-010 inventory, D-012 x2,
 D-013AK). CLOSE-02 focused structural/governance validation was `37 passed`.
+
+## UMBRA-CLOSE-02-ATTRIB active — Candidate-B reproduction and attribution
+
+The newer Architect directive supersedes the predecessor's terminal
+no-successor boundary for this fresh diagnostic only. CLOSE-02-DECIDE remains
+permanently terminal with `CLOSE02DECIDE_EXECUTION_STOP_UNRESOLVED`; its
+Control-A trace is preserved read-only through tick 3869 and Candidate B was
+not run under that predecessor.
+
+`UMBRA-CLOSE-02-ATTRIB` is active from governance baseline
+`14d26a248f26d0167c85b819a17f7b51bdfb6292`. It permits exactly one Candidate-B
+R0/S0 diagnostic from immutable commit
+`20542be24c90317aefbb0df9cfdc2202b9d8942b`, seed `45878900`, with
+observational tracing and a 500-tick ceiling or natural failure. Control A is
+not rerun. No production changes, retries, reseeds, qualification, formal
+tag, R1/R2/R3, H3, D-013/AX, or threshold/effect changes are authorized.
+
+New evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`

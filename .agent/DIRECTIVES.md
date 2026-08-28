@@ -652,3 +652,5 @@ pushed to `github/master`.
   change, retry, reseed, or automatic CLOSE-03
 - Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02f-final-authority-qualification-r1/`
 - Publication remote: `github`
+
+- D-20260828-close02-attrib | status:started | scope:.agent/*,isolated candidate checkout,Atlas evidence | ask:Reproduce Candidate B once and attribute the CLOSE-02F R0 failure against preserved Control A evidence | accept:one observational Candidate-B diagnostic aligned with a truthful attribution verdict and no production changes | plan:audit preserved A, run B once, align and closeout

@@ -178,3 +178,19 @@ known R1 seed 57531938 reproduced the accepted fatigue failure at tick 372.
 Fresh holdouts remained sealed and unexecuted. The evaluator-only shadow
 contract passed 6 focused tests; no production selector authority or organism
 rescue was demonstrated. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/. Return to Architect.
+
+## Current status supersession — UMBRA-CLOSE-02-ATTRIB
+
+As of 2026-08-28, the sole active directive is
+`UMBRA-CLOSE-02-ATTRIB`, from governance baseline
+`14d26a248f26d0167c85b819a17f7b51bdfb6292`. CLOSE-02-DECIDE remains terminal
+with `CLOSE02DECIDE_EXECUTION_STOP_UNRESOLVED`; its preserved Control-A trace
+through tick 3869 is read-only and Candidate B was not run under that
+predecessor. This fresh diagnostic authorizes exactly one immutable Candidate-B
+R0/S0 run at `20542be24c90317aefbb0df9cfdc2202b9d8942b`, seed `45878900`, with
+observational tracing and a 500-tick ceiling or natural failure. No Control-A
+rerun, production change, qualification, remediation, retry, reseed, formal
+tag, R1/R2/R3, H3, D-013/AX, or threshold/effect change is authorized.
+
+Permanent evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`.
