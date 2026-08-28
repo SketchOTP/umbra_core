@@ -940,7 +940,7 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - Recommendation: `REPLACE_CLOSE02_FINAL_AUTHORITY_ARCHITECTURE`. This is a
   bounded attribution result, not integrated viability qualification and not
   authorization to implement a replacement.
-- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`; 11 artifacts hash-verified with manifest hash `c0f4197651e7e9237e85ee4ead0d7515aacb72e37a26906f6ef85449f38892b0`.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`; 11 artifacts hash-verified with manifest hash `d375a2b20d13a36f58e7193dff080a7ff066ca3b96d8afa4828baeda20d8e2cc`.
 - Authority 3.0 and governance validation passed. No production source,
   historical evidence, thresholds, effects, or protected files changed. No
   retry, reseed, qualification, formal tag, or successor directive started.

@@ -961,7 +961,7 @@ or authorization to implement the replacement.
 Evidence:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`
 with 11 hashed artifacts and manifest hash
-`c0f4197651e7e9237e85ee4ead0d7515aacb72e37a26906f6ef85449f38892b0`.
+`d375a2b20d13a36f58e7193dff080a7ff066ca3b96d8afa4828baeda20d8e2cc`.
 
 No production source changed; thresholds, effects, historical evidence,
 protected files, and the preserved Control-A dossier remain unchanged. No
