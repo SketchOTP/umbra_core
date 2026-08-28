@@ -955,3 +955,12 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - Focused hierarchy fixtures: 9 passed. Authority 3.0, governance, D-009, and D-010 validation passed. Full-suite failures were inherited/setup findings; no new regression was identified.
 - Permanent evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-hierarchical-intent-r1/
 - Historical evidence, production after freeze, and protected files were unchanged. No successor is authorized automatically.
+
+
+## UMBRA-CLOSE-02R-ATTRIB start - 2026-08-28
+
+- CLOSE-02R remains terminal with CLOSE02R_R0_DEVELOPMENT_FAIL; no prior result is reopened.
+- The new authorized work is diagnostic-only attribution of seed 22023239 late fatigue.
+- One pre-CLOSE control run is authorized first; one CLOSE-02R reproduction is conditional on the control not materially matching the historical phenotype.
+- No production, qualification, formal, retry, reseed, new-seed, H3, D-013/AX, or storage work is authorized.
+- Permanent evidence root: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-attrib-fatigue-r1/.

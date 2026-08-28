@@ -1,17 +1,15 @@
 # Project Profile
 
-## Current authority — UMBRA-CLOSE-02R
+## Current authority - UMBRA-CLOSE-02R-ATTRIB
 
-As of 2026-08-28, UMBRA-CLOSE-02R is the active authorized completion-mode
-architecture replacement from f085d0e7b3c3ad0120caca6e7e485aeb71152170.
-The accepted CLOSE-02 attribution showed that its flat cross-subsystem pool
-discarded an already-selected developmental intention. CLOSE-02R is testing a
-hierarchical intent-gated contract: higher-level sources retain native
-selection, valid intent-backed actions form the low-level candidate subset,
-and the existing Arbitrator makes the single final choice before unchanged
-Governance and Embodiment. This is not a planner, source-priority table, or
-new scoring system. Historical evidence and qualified D-001 through D-011
-results remain permanent.
+As of 2026-08-28, CLOSE-02R is terminal with CLOSE02R_R0_DEVELOPMENT_FAIL.
+The sole active work is the fresh diagnostic-only CLOSE-02R-ATTRIB decision
+from governance tip 4d1e377a89666addd680f125e7ad50f05b89fb6b: compare one
+pre-CLOSE control at 178f0e37855c42a3b97975189b7700b5b16b7506, seed 22023239,
+against frozen CLOSE-02R candidate 6ef712af9bf5470683fbfa7d926fa311e226c035
+only if the control does not materially match the historical fatigue/no-safe
+failure. No production change, remediation, qualification, formal work,
+retry, reseed, or automatic successor is authorized.
 
 ## Repository
 - Name: UMBRA-CORE

@@ -1,19 +1,25 @@
-## UMBRA-CLOSE-02R terminal — hierarchical intent-gated authority qualification
+## UMBRA-CLOSE-02R-ATTRIB active - fresh R0 fatigue attribution diagnostic
 
-CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION was accepted and the explicitly
-authorized hierarchical replacement was implemented and frozen at
-6ef712af9bf5470683fbfa7d926fa311e226c035. The historical 45878900 diagnostic
-passed 500 ticks, but the first fresh R0 development gate stopped at the first
-genuine scientific failure: seed 22023239 reached NO_SAFE_ACTION at tick 3272
-and critical fatigue at tick 3273.
+UMBRA-CLOSE-02R remains terminal with CLOSE02R_R0_DEVELOPMENT_FAIL: the
+hierarchical intent-gated qualification completed three fresh R0 seeds and
+stopped on seed 22023239 at NO_SAFE_ACTION tick 3272 followed by critical
+fatigue at tick 3273. That failure is preserved and is not being retried.
 
-Verdict: CLOSE02R_R0_DEVELOPMENT_FAIL. Three fresh R0 seeds completed 7200
-ticks; the failed row was preserved. No later development population, agency
-gate, formal population, formal tag, retry, reseed, or remediation started.
-Permanent evidence is at
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-hierarchical-intent-r1/.
-No successor directive is authorized automatically. Protected files and
-historical evidence remain unchanged.
+The sole active directive is UMBRA-CLOSE-02R-ATTRIB from exact governance tip
+4d1e377a89666addd680f125e7ad50f05b89fb6b. It is diagnostic-only and authorizes
+one compact observational control at pre-CLOSE commit
+178f0e37855c42a3b97975189b7700b5b16b7506, seed 22023239, R0/S0, through tick
+3500 or natural failure. Only if that control survives the relevant window or
+fails by a materially different mechanism may one frozen CLOSE-02R diagnostic
+reproduction run from 6ef712af9bf5470683fbfa7d926fa311e226c035. No production
+changes, remediation, retries, reseeds, new seeds, qualification/formal work,
+R1/R2/R3, H3, D-013/AX, threshold/effect changes, or storage work are
+authorized. Candidate R must not run if Control A materially matches the
+historical fatigue/no-safe phenotype.
+
+Evidence root:
+ /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-attrib-fatigue-r1/
+
 
 ## UMBRA-CLOSE-02-DECIDE terminal — execution stop unresolved
 
