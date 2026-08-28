@@ -1,5 +1,18 @@
 # Project Profile
 
+## Current authority — UMBRA-CLOSE-02R
+
+As of 2026-08-28, UMBRA-CLOSE-02R is the active authorized completion-mode
+architecture replacement from f085d0e7b3c3ad0120caca6e7e485aeb71152170.
+The accepted CLOSE-02 attribution showed that its flat cross-subsystem pool
+discarded an already-selected developmental intention. CLOSE-02R is testing a
+hierarchical intent-gated contract: higher-level sources retain native
+selection, valid intent-backed actions form the low-level candidate subset,
+and the existing Arbitrator makes the single final choice before unchanged
+Governance and Embodiment. This is not a planner, source-priority table, or
+new scoring system. Historical evidence and qualified D-001 through D-011
+results remain permanent.
+
 ## Repository
 - Name: UMBRA-CORE
 - Root: `/home/sketch/Projects/UMBRA-CORE`

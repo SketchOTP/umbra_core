@@ -1,3 +1,20 @@
+## UMBRA-CLOSE-02R active — hierarchical intent-gated final authority
+
+CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION is accepted and historical. The
+failed CLOSE-02 architecture flattened native higher-level proposals into the
+ordinary low-level action pool; the matched Candidate-B diagnostic reproduced
+the tick-220 failure while preserved Control-A remained noncritical through
+tick 3869. The replacement must preserve native intent selection while using
+one final existing low-level arbitration and unchanged downstream authority.
+
+UMBRA-CLOSE-02R is active from exact baseline
+f085d0e7b3c3ad0120caca6e7e485aeb71152170. Its evidence root is
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-hierarchical-intent-r1/.
+The contract and source-role audit must freeze before organism outcomes. The
+known attribution fixture is first; fresh development and formal populations
+are strictly gated. No H3, D-013/AX, old D-014 formal lineage, threshold or
+effect change, retry, reseed, or storage work is authorized.
+
 ## UMBRA-CLOSE-02-DECIDE terminal — execution stop unresolved
 
 The diagnostic is terminal with CLOSE02DECIDE_EXECUTION_STOP_UNRESOLVED.

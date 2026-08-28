@@ -63,3 +63,14 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Rejected: importing a planner, RL/active-inference controller, MPC/CBF/HJ layer, scene-graph stack, or hidden-truth policy field.
 - Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3b-social-habitat-bridge-r1/D014H3B_EXTERNAL_PRINCIPLES.md
 - Recheck trigger: revisit if the bridge exposes an observability/persistence failure or the cited sources materially change.
+
+## UMBRA-CLOSE-02R external discovery — 2026-08-28
+
+- Trigger: completion-mode replacement of the failed flat final-authority architecture.
+- Sources: Paul Cisek, “Cortical mechanisms of action selection: the affordance competition hypothesis” (2007), https://pmc.ncbi.nlm.nih.gov/articles/PMC2440773/; Giovanni Pezzulo and Paul Cisek, “Navigating the Affordance Landscape: Feedback Control as a Process Model of Behavior and Cognition” (2016), https://pubmed.ncbi.nlm.nih.gov/27118642/.
+- Freshness: primary source pages checked 2026-08-28.
+- Adopted as reference-only principles: currently available executable affordances compete at the action level; higher-level goals/context bias or gate that competition; action selection can link multiple abstraction levels without flattening them into one undifferentiated score space.
+- Rejected imports: active inference, RL, POMDP, basal-ganglia simulation, behavior trees, new planners, source weights, and global survival utility.
+- Disposition: REFERENCE; no external dependency or architecture copied.
+- Recheck trigger: only if implementation evidence shows the bounded intent/affordance contract cannot preserve endogenous source influence or single final authority.
+
