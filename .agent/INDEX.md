@@ -1,10 +1,10 @@
-## UMBRA-CLOSE-02S active routing
+## UMBRA-CLOSE-02S terminal routing
 
 UMBRA-CLOSE-02S supersedes the terminal CLOSE-02R-ATTRIB routing for this
 new architecture-replan generation. Start baseline:
 6e43037454283bd1d27993aa74bbb1498f31246f.
 
-Scope is non-production architecture research, existing-semantics audit,
+The completed scope was non-production architecture research, existing-semantics audit,
 bounded external discovery, pure decision-contract fixtures, and retained
 trace-constraint analysis. No organism population, formal tag, production
 change, threshold/effect change, H3, or D-013/AX work is authorized.
@@ -278,3 +278,12 @@ Canonical H3H evidence:
 No production-default selector authority, threshold/effect changes, retries,
 reseeds, storage migration, formal D-014, D-013/AX, or holdout regeneration
 is authorized.
+
+## UMBRA-CLOSE-02S terminal — interruptible intent contract supported
+
+`UMBRA-CLOSE-02S` closed with `CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED`.
+The bounded contract is source-neutral, preserves native intent, opens only
+existing preventive regulation, preserves hard recovery, and keeps one final
+existing arbitration authority. No organism run or production change occurred.
+Recommendation: `UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE`;
+no automatic successor.

@@ -74,3 +74,10 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Disposition: REFERENCE; no external dependency or architecture copied.
 - Recheck trigger: only if implementation evidence shows the bounded intent/affordance contract cannot preserve endogenous source influence or single final authority.
 
+## UMBRA-CLOSE-02S external discovery — 2026-08-28
+
+- Sources reviewed: Cisek (2007) affordance competition; Pezzulo & Cisek (2016) hierarchical affordance competition; Seth (2007) ecology of action selection; Maes (1990) situated agents and goals; Tyrrell (1993/1994) action-selection evaluation.
+- Adopted only as bounded reference principles: parallel current opportunities, contextual bias without hierarchy flattening, feedback/interruption, and separation of mechanism from observed behavior.
+- Rejected imports: RL, POMDP, active inference, behavior trees, basal-ganglia simulation, global utility, new planners/controllers, source weights, and fixed source priority.
+- Disposition: REFERENCE ONLY. No external architecture was copied and no production behavior changed.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/CLOSE02S_EXTERNAL_REVIEW.md`

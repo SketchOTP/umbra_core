@@ -1,29 +1,14 @@
-## Current authority supersession — UMBRA-CLOSE-02S
-
-As of 2026-08-28, the terminal CLOSE-02R-ATTRIB result
-CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION remains historical and
-immutable. The sole active authority is UMBRA-CLOSE-02S, starting from
-6e43037454283bd1d27993aa74bbb1498f31246f. CLOSE-02S is a non-production,
-non-formal architecture replan. It may inspect source and retained evidence,
-perform bounded external discovery, and run pure decision-contract fixtures,
-but may not modify production behavior, run organisms, alter thresholds or
-effects, create formal tags, reopen H3/D-013/AX, or authorize a successor.
-
-Its permanent evidence root is
-/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/
 # Project Profile
 
-## Current authority - UMBRA-CLOSE-02R-ATTRIB terminal
+## Current authority - UMBRA-CLOSE-02S terminal
 
-As of 2026-08-28, CLOSE-02R-ATTRIB is terminal with verdict
-CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION. The pre-CLOSE matched control
-at 178f0e37855c42a3b97975189b7700b5b16b7506 survived 3500 diagnostic ticks;
-the frozen CLOSE-02R candidate at 6ef712af9bf5470683fbfa7d926fa311e226c035
-reproduced NO_SAFE_ACTION at tick 3272 and critical fatigue at tick 3273.
-The attribution supports a hierarchy-specific exclusive ordinary intent-pool
-regression. No unexecuted rescue is claimed. No production change,
-qualification, formal work, retry, reseed, or automatic successor is
-authorized; return to Architect.
+As of 2026-08-28, CLOSE-02S is terminal with
+`CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED`. Its non-production
+architecture research supports one bounded implementation candidate using
+existing UMBRA semantics. It does not authorize production implementation,
+organism runs, qualification, formal tags, H3, or D-013/AX. Recommendation:
+`UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE`; return to
+Architect.
 
 ## Repository
 - Name: UMBRA-CORE
@@ -232,3 +217,13 @@ basis. Recommendation: `REPLACE_CLOSE02_FINAL_AUTHORITY_ARCHITECTURE`.
 No production change, qualification, retry, reseed, formal tag, or automatic
 successor is authorized by this closeout. Evidence is permanently retained at
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`.
+
+## Current authority — UMBRA-CLOSE-02S terminal
+
+As of 2026-08-28, CLOSE-02S is terminal with
+`CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED`. Its non-production
+architecture research supports one bounded implementation candidate using
+existing UMBRA semantics. It does not authorize production implementation,
+organism runs, qualification, formal tags, H3, or D-013/AX. Recommendation:
+`UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE`; return to
+Architect.

@@ -1,4 +1,4 @@
-## UMBRA-CLOSE-02S active — trace-constrained final-authority architecture replan
+## UMBRA-CLOSE-02S terminal — trace-constrained final-authority architecture replan
 
 CLOSE-02R-ATTRIB is terminal and accepted as
 CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION. The matched evidence showed
@@ -6,7 +6,7 @@ that flat cross-level competition erased a valid native intention, while
 exclusive intent gating suppressed ordinary/preventive regulation. Those
 historical findings remain immutable.
 
-UMBRA-CLOSE-02S is the sole active directive from exact baseline
+UMBRA-CLOSE-02S was the active directive from exact baseline
 6e43037454283bd1d27993aa74bbb1498f31246f. It is non-production,
 non-formal, research/design-only work: audit existing UMBRA regulatory and
 intent semantics, review bounded prior art, derive at most one interruptible
@@ -1002,3 +1002,18 @@ No production source changed; thresholds, effects, historical evidence,
 protected files, and the preserved Control-A dossier remain unchanged. No
 retry, reseed, qualification population, formal tag, or successor directive
 was started. Return to Architect.
+
+## UMBRA-CLOSE-02S terminal result
+
+Verdict: `CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED`.
+
+The non-production source/evidence review found an existing preventive signal
+(`Physiology.vector_urgency` / `expected_regulatory_gain`) and a structurally
+supported interruptible-intent contract. It preserves valid native intent,
+admits only matching preventive regulation, retains hard recovery, and leaves
+one final action to existing arbitration. Nine focused pure-contract tests,
+Authority 3.0, governance, and evidence hashing passed. No organism run,
+production change, threshold/effect change, or formal tag occurred.
+
+Recommendation: `UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE`.
+No successor is automatically authorized; return to Architect.
