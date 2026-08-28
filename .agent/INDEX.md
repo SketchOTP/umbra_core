@@ -1,4 +1,4 @@
-ACTIVE: UMBRA-CLOSE-02T from baseline 6ca23c1e2b29d37535986a601721f04dc1bafb37; production contract implementation and gated qualification authorized; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/.
+TERMINAL: UMBRA-CLOSE-02T from baseline 6ca23c1e2b29d37535986a601721f04dc1bafb37; verdict=CLOSE02T_KNOWN_R1_FAIL; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/; no successor authorized.
 ## UMBRA-CLOSE-02S terminal routing
 
 UMBRA-CLOSE-02S supersedes the terminal CLOSE-02R-ATTRIB routing for this
@@ -118,11 +118,11 @@ github/master without changing remote configuration.
 
 ## Current pointers
 - Current stage: Authority 3.0; CLOSE-02F R0 development failure
-- Active directive: UMBRA-CLOSE-02T; last terminal directive: UMBRA-CLOSE-02S
+- Active directive: NONE; last terminal directive: UMBRA-CLOSE-02T
 - Last task packet: .agent/tasks/completed/UMBRA-D-014H3J/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3I/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
-- Last accepted outcome: CLOSE02F_R0_DEVELOPMENT_FAIL
+- Last accepted outcome: CLOSE02T_KNOWN_R1_FAIL
 - Canonical permanent evidence: Atlas /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE
 - Last state sync: 2026-08-26T21:30:33Z
 

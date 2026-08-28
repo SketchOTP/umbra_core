@@ -1,10 +1,11 @@
-UMBRA-CLOSE-02T ACTIVE from 6ca23c1e2b29d37535986a601721f04dc1bafb37: implement and qualify accepted CLOSE-02S interruptible-intent contract; stop at first directive-specific failure; no new thresholds, source weights/priorities, planner, hidden truth, H3, D-013/AX, retry, or reseed.
-## UMBRA-CLOSE-02T active — interruptible-intent final authority qualification
+UMBRA-CLOSE-02T TERMINAL from 6ca23c1e2b29d37535986a601721f04dc1bafb37: `CLOSE02T_KNOWN_R1_FAIL`; known R1 seed 57531938 reached NO_SAFE_ACTION at tick 490 and critical fatigue at tick 491. No later gate opened.
+## UMBRA-CLOSE-02T terminal — interruptible-intent qualification
 
-CLOSE-02S is terminal and accepted. CLOSE-02T supersedes its current routing
-for this fresh generation and is the sole active directive. No CLOSE-02T
-organism outcome has been inspected; the production implementation is being
-validated before freeze.
+CLOSE-02S is terminal and accepted. CLOSE-02T was the fresh implementation and
+qualification generation. Its freeze and one-shot diagnostics passed the
+required preconditions, R0 development completed 8/8, and the known R1 gate
+failed on seed 57531938 at tick 491 after NO_SAFE_ACTION at tick 490. CLOSE-02T
+is terminal and returned to Architect; no automatic successor is authorized.
 
 CLOSE-02R-ATTRIB is terminal and accepted as
 CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION. The matched evidence showed

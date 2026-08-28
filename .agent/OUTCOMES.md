@@ -970,6 +970,22 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - D-20260828-close02s-start | status:started | baseline:6e43037454283bd1d27993aa74bbb1498f31246f | scope:non-production trace-constrained final-authority architecture replan | accept:derive and test at most one existing-semantics contract against both accepted regressions, or stop with evidence | integrity:organism_runs 0,production_changes 0,formal_tags 0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/
 
 - D-20260828-close02s-closeout | Directive: UMBRA-CLOSE-02S | status:completed | verdict:CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED | basis:existing urgency/regulatory signal; both accepted failure constraints structurally satisfied; source-neutral multi-intent handling; focused pure shadow PASS | integrity:organism_runs 0,production_changes 0,formal_tags 0,historical_evidence_modified false | recommendation:UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE | next:return to Architect
+
+## UMBRA-CLOSE-02T terminal closeout — 2026-08-28
+
+- Verdict: `CLOSE02T_KNOWN_R1_FAIL`.
+- The two one-shot historical diagnostics passed: seed `45878900` through
+  500 ticks and seed `22023239` through 3,500 ticks.
+- Fresh R0 development completed all 8 preregistered seeds for 7,200 ticks.
+- The known R1 seed `57531938` ran once and reached `NO_SAFE_ACTION` at tick
+  490, followed by critical fatigue at tick 491. This first genuine failure
+  terminated the generation.
+- Fresh R1/R2/R3 development and the formal 32-run population were not
+  started. No retry, reseed, remediation, threshold/effect change, or
+  historical/protected-file modification occurred.
+- Freeze/runner commit: `1c9a163dff973402c875546ebbbe32e36daba81d`; evidence:
+  `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/`.
+- No automatic successor is authorized; return to Architect.
 ## UMBRA-CLOSE-02T start — 2026-08-28
 
 - Directive: `UMBRA-CLOSE-02T`
