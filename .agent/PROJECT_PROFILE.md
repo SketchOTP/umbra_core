@@ -1,6 +1,6 @@
 # Project Profile
 
-Current authority: UMBRA-CLOSE-02T TERMINAL from 6ca23c1e2b29d37535986a601721f04dc1bafb37; verdict=CLOSE02T_KNOWN_R1_FAIL; permanent evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/; CLOSE-02S remains terminal and accepted; no successor is authorized.
+Current authority: UMBRA-CLOSE-02T-ATTRIB ACTIVE from d320046555cd822752d586f2de47b3de754098a4; diagnostic-only causal decomposition of the frozen CLOSE-02T known-R1/S16 failure; no production changes or successor architecture authorized. Parent CLOSE-02T remains terminal with verdict=CLOSE02T_KNOWN_R1_FAIL; permanent parent evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/.
 ## Previous authority - UMBRA-CLOSE-02S terminal
 
 As of 2026-08-28, CLOSE-02S is terminal with

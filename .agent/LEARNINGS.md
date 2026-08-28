@@ -1,3 +1,10 @@
+## 2026-08-28 — CLOSE-02T-ATTRIB start
+
+The CLOSE-02T aggregate known-R1 artifact records the terminal envelope and
+action totals but not the per-tick preventive-regulation, candidate eligibility,
+authority, or selection lineage needed to attribute the tick-490/491 failure.
+Do not infer preventive opportunity realization or safe-window loss from that
+aggregate alone.
 # LEARNINGS.md
 
 Append-only repo-specific lessons for UMBRA-CORE. Format:
