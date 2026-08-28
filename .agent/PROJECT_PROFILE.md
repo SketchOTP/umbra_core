@@ -1,15 +1,16 @@
 # Project Profile
 
-## Current authority - UMBRA-CLOSE-02R-ATTRIB
+## Current authority - UMBRA-CLOSE-02R-ATTRIB terminal
 
-As of 2026-08-28, CLOSE-02R is terminal with CLOSE02R_R0_DEVELOPMENT_FAIL.
-The sole active work is the fresh diagnostic-only CLOSE-02R-ATTRIB decision
-from governance tip 4d1e377a89666addd680f125e7ad50f05b89fb6b: compare one
-pre-CLOSE control at 178f0e37855c42a3b97975189b7700b5b16b7506, seed 22023239,
-against frozen CLOSE-02R candidate 6ef712af9bf5470683fbfa7d926fa311e226c035
-only if the control does not materially match the historical fatigue/no-safe
-failure. No production change, remediation, qualification, formal work,
-retry, reseed, or automatic successor is authorized.
+As of 2026-08-28, CLOSE-02R-ATTRIB is terminal with verdict
+CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION. The pre-CLOSE matched control
+at 178f0e37855c42a3b97975189b7700b5b16b7506 survived 3500 diagnostic ticks;
+the frozen CLOSE-02R candidate at 6ef712af9bf5470683fbfa7d926fa311e226c035
+reproduced NO_SAFE_ACTION at tick 3272 and critical fatigue at tick 3273.
+The attribution supports a hierarchy-specific exclusive ordinary intent-pool
+regression. No unexecuted rescue is claimed. No production change,
+qualification, formal work, retry, reseed, or automatic successor is
+authorized; return to Architect.
 
 ## Repository
 - Name: UMBRA-CORE

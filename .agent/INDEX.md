@@ -1,16 +1,13 @@
-## UMBRA-CLOSE-02R-ATTRIB active routing
+## UMBRA-CLOSE-02R-ATTRIB terminal routing
 
-The current active directive is UMBRA-CLOSE-02R-ATTRIB, a diagnostic-only
-attribution of the terminal CLOSE-02R R0 failure. It starts from exact
-governance/master 4d1e377a89666addd680f125e7ad50f05b89fb6b, runs one
-pre-CLOSE control at 178f0e37855c42a3b97975189b7700b5b16b7506, and
-conditionally runs one frozen CLOSE-02R reproduction. No production changes,
-retries, reseeds, qualification/formal work, H3, D-013/AX, or storage changes
-are authorized.
-
-Evidence root:
+UMBRA-CLOSE-02R-ATTRIB is terminal with
+CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION. The matched pre-CLOSE control
+survived 3500 diagnostic ticks, while the frozen CLOSE-02R candidate reproduced
+NO_SAFE_ACTION at tick 3272 and critical fatigue at tick 3273. Evidence is
+permanently stored under the canonical Atlas path:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-attrib-fatigue-r1/
-
+No automatic successor, qualification, formal work, retry, reseed, or
+production remediation is authorized.
 ## UMBRA-CLOSE-02R terminal routing
 
 UMBRA-CLOSE-02R is terminal from exact baseline
