@@ -1664,9 +1664,9 @@ class Organism:
             wait_generation_enabled=wait_on,
             temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()), authority_effect_branches=lambda candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params),
             # ``None`` preserves the established in-method authority path
-            # when this tick has no auxiliary proposal. Non-empty proposal
-            # sets activate the unified cross-subsystem candidate pool.
-            additional_candidates=late_candidates or None,
+            # when this tick has no auxiliary proposal. Non-empty intent
+            # sets activate the hierarchical intent gate.
+            intent_candidates=late_candidates or None,
             candidate_allowed=candidate_allowed,
         )
         base_candidate = cand

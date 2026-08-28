@@ -24,14 +24,14 @@ def test_existing_candidate_enters_one_ordinary_final_choice():
         [],
         1,
         ZeroNoise(),
-        additional_candidates=[Candidate("INSPECT", {"source": "existing"})],
+        intent_candidates=[Candidate("INSPECT", {"source": "existing"})],
     )
 
     assert chosen.capability == "INSPECT"
     assert chosen.params["source"] == "existing"
 
 
-def test_existing_candidate_enters_one_critical_final_choice():
+def test_existing_candidate_does_not_enter_critical_recovery_competition():
     arb = Arbitrator()
     arb._introduces_critical_boundary = lambda *args, **kwargs: False
     arb._preserve_recoverability = lambda phys, observations, candidate, tick: candidate
@@ -42,8 +42,8 @@ def test_existing_candidate_enters_one_critical_final_choice():
         [],
         1,
         ZeroNoise(),
-        additional_candidates=[Candidate("INSPECT", {"source": "existing"})],
+        intent_candidates=[Candidate("INSPECT", {"source": "existing"})],
     )
 
-    assert chosen.capability == "INSPECT"
-    assert chosen.params["source"] == "existing"
+    assert chosen.capability != "INSPECT"
+    assert chosen.params.get("source") != "existing"

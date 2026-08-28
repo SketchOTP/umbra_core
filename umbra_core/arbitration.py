@@ -15,7 +15,7 @@ from umbra_core.physiology import (
     verified_outcome_effect_branches,
 )
 from umbra_core.temporal.policy import PolicyExpectationView
-from umbra_core.util import SeededRNG, clamp
+from umbra_core.util import SeededRNG, canon_json, clamp
 from umbra_core.wait_execution import (
     FallbackBias,
     MAXIMUM_WAIT_TICKS,
@@ -340,6 +340,50 @@ class Arbitrator:
                 if not BOUNDS[name].critical_violation(before) and BOUNDS[name].critical_violation(after):
                     return True
         return False
+
+    @staticmethod
+    def _intent_behavioral_params(value: Any) -> Any:
+        provenance_keys = {
+            "source", "memory_item_id", "practice_goal_id", "routine_skill_id",
+            "goal_id", "trace_id", "provenance",
+        }
+        if isinstance(value, dict):
+            return {
+                str(key): Arbitrator._intent_behavioral_params(item)
+                for key, item in value.items()
+                if str(key) not in provenance_keys
+            }
+        if isinstance(value, list):
+            return [Arbitrator._intent_behavioral_params(item) for item in value]
+        if isinstance(value, tuple):
+            return tuple(Arbitrator._intent_behavioral_params(item) for item in value)
+        return value
+
+    @classmethod
+    def _canonical_intent_candidates(
+        cls, candidates: list[Candidate]
+    ) -> list[Candidate]:
+        # Canonicalize and deduplicate active intents without source weight.
+        ordered = sorted(
+            candidates,
+            key=lambda candidate: (
+                str(candidate.capability),
+                canon_json(cls._intent_behavioral_params(candidate.params)),
+                canon_json(candidate.params),
+            ),
+        )
+        unique: list[Candidate] = []
+        seen: set[tuple[str, bytes]] = set()
+        for candidate in ordered:
+            key = (
+                str(candidate.capability),
+                canon_json(cls._intent_behavioral_params(candidate.params)),
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            unique.append(candidate)
+        return unique
 
     @staticmethod
     def _no_safe_action() -> Candidate:
@@ -733,7 +777,7 @@ class Arbitrator:
         authority_effect_branches: Callable[
             [Candidate], tuple[dict[str, float], ...]
         ] | None = None,
-        additional_candidates: list[Candidate] | None = None,
+        intent_candidates: list[Candidate] | None = None,
         candidate_allowed: Callable[[Candidate], bool] | None = None,
     ) -> Candidate:
         # ``tick`` remains the orchestration clock for compatibility and for
@@ -774,11 +818,6 @@ class Arbitrator:
         def candidate_allowed_here(candidate: Candidate) -> bool:
             return candidate_allowed is None or candidate_allowed(candidate)
 
-        supplied_candidates = [
-            candidate
-            for candidate in (additional_candidates or [])
-            if candidate_allowed_here(candidate)
-        ]
         mode = self.state.mode
         if mode == "random":
             cap = rng.choice(list(CAPABILITIES))
@@ -869,87 +908,32 @@ class Arbitrator:
                 def immediately_safe(candidate: Candidate) -> bool:
                     return not introduces(candidate, ignore=focus_exemption(candidate))
 
-                # Preserve the established direct-call behavior when no
-                # competing source proposal exists. The unified authority
-                # contract is activated only by an actual additional candidate.
-                if additional_candidates is None:
-                    if not immediately_safe(chosen):
-                        alternatives = [
-                            candidate
-                            for candidate in self.generate_candidates(
-                                phys, observations, orchestration_tick
-                            )
-                            if candidate_allowed_here(candidate)
-                            and immediately_safe(candidate)
-                            and contract_admissible(candidate)
-                        ]
-                        chosen = (
-                            pick_recovery(alternatives)
-                            if alternatives
-                            else self._no_safe_action()
-                        )
-
-                    preserved = self._preserve_recoverability(
-                        phys, observations, chosen, active_tick
-                    )
-                    if preserved is not chosen and immediately_safe(preserved):
-                        if contract_admissible(preserved):
-                            chosen = preserved
-                        else:
-                            alternatives = [
-                                candidate
-                                for candidate in self.generate_candidates(
-                                    phys, observations, orchestration_tick
-                                )
-                                if candidate_allowed_here(candidate)
-                                and immediately_safe(candidate)
-                                and contract_admissible(candidate)
-                            ]
-                            chosen = (
-                                pick_recovery(alternatives)
-                                if alternatives
-                                else self._no_safe_action()
-                            )
-
-                    if not immediately_safe(chosen):
-                        alternatives = [
-                            candidate
-                            for candidate in self.generate_candidates(
-                                phys, observations, orchestration_tick
-                            )
-                            if candidate_allowed_here(candidate)
-                            and immediately_safe(candidate)
-                            and contract_admissible(candidate)
-                        ]
-                        chosen = (
-                            pick_recovery(alternatives)
-                            if alternatives
-                            else self._no_safe_action()
-                        )
-                else:
-                    # All current-tick proposals, recovery construction, and
-                    # preservation proposals compete once at this boundary.
-                    proposals = [chosen]
-                    proposals.extend(
-                        self.generate_candidates(
+                # Optional higher-level intents never gate urgent recovery.
+                # Recovery remains on its established authority path.
+                if not immediately_safe(chosen):
+                    alternatives = [
+                        candidate
+                        for candidate in self.generate_candidates(
                             phys, observations, orchestration_tick
                         )
-                    )
-                    preserved = self._preserve_recoverability(
-                        phys, observations, chosen, active_tick
-                    )
-                    if preserved is not chosen:
-                        proposals.append(preserved)
-                    proposals.extend(supplied_candidates)
-                    safe = [
-                        candidate
-                        for candidate in proposals
                         if candidate_allowed_here(candidate)
                         and immediately_safe(candidate)
                         and contract_admissible(candidate)
                     ]
-                    if not safe:
-                        safe = [
+                    chosen = (
+                        pick_recovery(alternatives)
+                        if alternatives
+                        else self._no_safe_action()
+                    )
+
+                preserved = self._preserve_recoverability(
+                    phys, observations, chosen, active_tick
+                )
+                if preserved is not chosen and immediately_safe(preserved):
+                    if contract_admissible(preserved):
+                        chosen = preserved
+                    else:
+                        alternatives = [
                             candidate
                             for candidate in self.generate_candidates(
                                 phys, observations, orchestration_tick
@@ -958,9 +942,25 @@ class Arbitrator:
                             and immediately_safe(candidate)
                             and contract_admissible(candidate)
                         ]
+                        chosen = (
+                            pick_recovery(alternatives)
+                            if alternatives
+                            else self._no_safe_action()
+                        )
+
+                if not immediately_safe(chosen):
+                    alternatives = [
+                        candidate
+                        for candidate in self.generate_candidates(
+                            phys, observations, orchestration_tick
+                        )
+                        if candidate_allowed_here(candidate)
+                        and immediately_safe(candidate)
+                        and contract_admissible(candidate)
+                    ]
                     chosen = (
-                        pick_recovery(safe)
-                        if safe
+                        pick_recovery(alternatives)
+                        if alternatives
                         else self._no_safe_action()
                     )
 
@@ -1162,24 +1162,11 @@ class Arbitrator:
                 )
                 return commit_safe_recovery(chosen)
 
-        cands = [
+        base_cands = [
             candidate
             for candidate in self.generate_candidates(phys, observations, orchestration_tick)
             if candidate_allowed_here(candidate)
         ]
-        cands.extend(supplied_candidates)
-        # Convert the existing recoverability-preservation hook into proposals
-        # before the one final arbitration. It must not replace the selected
-        # candidate after ranking.
-        preservation_proposals: list[Candidate] = []
-        if additional_candidates is not None:
-            for candidate in list(cands):
-                preserved = self._preserve_recoverability(
-                    phys, observations, candidate, active_tick
-                )
-                if preserved is not candidate and candidate_allowed_here(preserved):
-                    preservation_proposals.append(preserved)
-            cands.extend(preservation_proposals)
         if discovery_needed and not any(
             o.get("kind") in {"resource", "novel_crystal"} for o in observations
         ):
@@ -1189,7 +1176,7 @@ class Arbitrator:
             ):
                 self.state.discovery_actions_remaining = 12
             if self.state.discovery_actions_remaining > 0:
-                cands.append(
+                base_cands.append(
                     Candidate(
                         "MOVE",
                         {
@@ -1203,10 +1190,10 @@ class Arbitrator:
             for mc in self.generate_manipulation_candidates(
                 manipulation_bindings, phys, orchestration_tick
             ):
-                cands.append(mc.to_candidate())
+                base_cands.append(mc.to_candidate())
         if routine_proposals:
             for proposal in routine_proposals:
-                cands.append(
+                base_cands.append(
                     Candidate(
                         "MANIPULATE",
                         {
@@ -1218,7 +1205,7 @@ class Arbitrator:
         if diagnostic_only and not needs:
             safe = [
                 candidate
-                for candidate in cands
+                for candidate in base_cands
                 if not self._worsens_diagnostic_overshoot(
                     candidate, phys, diagnostic_only
                 )
@@ -1228,20 +1215,39 @@ class Arbitrator:
                     candidate for candidate in safe
                     if candidate.capability not in {"IDLE", "ORIENT"}
                 ]
-                cands = non_idle or safe
+                base_cands = non_idle or safe
         age_ticks = (
             effective_age_ticks
             if effective_age_ticks is not None
             else orchestration_tick
         )
         if policy_expectations and wait_generation_enabled:
-            cands.extend(
+            base_cands.extend(
                 propose_wait_candidates(
                     policy_expectations,
                     effective_age_ticks=age_ticks,
                     wait_journal=wait_journal,
                 )
             )
+        intent_mode = False
+        if intent_candidates:
+            admissible_intents = []
+            for candidate in self._canonical_intent_candidates(intent_candidates):
+                if (
+                    candidate_allowed_here(candidate)
+                    and not introduces(candidate)
+                    and contract_admissible(candidate)
+                ):
+                    admissible_intents.append(candidate)
+            if admissible_intents:
+                cands = admissible_intents
+                intent_mode = True
+            else:
+                # Optional intent failure must not manufacture NO_SAFE_ACTION.
+                cands = base_cands
+        else:
+            cands = base_cands
+
         scored = [self.score_candidate(c, phys, observations, active_tick) for c in cands]
         if policy_expectations and temporal_modifiers_enabled:
             apply_temporal_modifiers(
@@ -1281,8 +1287,8 @@ class Arbitrator:
                 self.state.thrash_events += 1
                 chosen = prev
 
-        if additional_candidates is not None:
-            # Final selection is now the last behavioral choice. Existing
+        if intent_mode:
+            # Valid intent selection is the final low-level choice. Existing
             # safety and contract checks only narrow the admissible set; they
             # do not replace the selected candidate after arbitration.
             if (
@@ -1299,8 +1305,7 @@ class Arbitrator:
                 ]
                 chosen = safe_scored[0] if safe_scored else self._no_safe_action()
         else:
-            # Legacy direct callers with no competing proposal retain the
-            # established preservation-hook semantics.
+            # No active valid intent retains the established base semantics.
             preserved = self._preserve_recoverability(
                 phys, observations, chosen, active_tick
             )
