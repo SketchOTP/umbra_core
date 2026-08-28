@@ -194,3 +194,16 @@ tag, R1/R2/R3, H3, D-013/AX, or threshold/effect change is authorized.
 
 Permanent evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`.
+
+## UMBRA-CLOSE-02-ATTRIB terminal supersession
+
+The one authorized Candidate-B diagnostic completed exactly once and ended
+with `CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION`. The historical R0/S0 seed
+`45878900` phenotype was exactly reproduced at `no_safe_action` tick 219 and
+critical tick 220 from candidate commit `20542be24c90317aefbb0df9cfdc2202b9d8942b`.
+The preserved Control-A trace was not rerun and remains read-only through tick
+3869. The first final-action divergence at tick 1 is the bounded attribution
+basis. Recommendation: `REPLACE_CLOSE02_FINAL_AUTHORITY_ARCHITECTURE`.
+No production change, qualification, retry, reseed, formal tag, or automatic
+successor is authorized by this closeout. Evidence is permanently retained at
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`.

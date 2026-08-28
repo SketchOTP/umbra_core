@@ -921,3 +921,26 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - No production source, historical evidence, thresholds, or protected files
   were modified. No qualification, formal tag, remediation, or successor
   directive was started.
+
+## UMBRA-CLOSE-02-ATTRIB closeout — 2026-08-28
+
+- Verdict: `CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION`.
+- Candidate B ran exactly once from immutable commit
+  `20542be24c90317aefbb0df9cfdc2202b9d8942b`, R0/S0, seed `45878900`, using
+  the existing observational DecisionTraceSink and a 500-tick ceiling.
+- The historical phenotype was exactly reproduced: first `no_safe_action` at
+  tick 219 and critical physiology at tick 220 with identical terminal
+  physiology.
+- Preserved Control A was not rerun; its 3,869-row trace remains manifest-
+  verified and noncritical through tick 220.
+- The first final-action divergence is tick 1: A serially replaces its
+  arbitrated `ORIENT` with `CHARGE` through development, while B keeps the
+  development proposal and final arbitration selects `ORIENT`. Physiology
+  first diverges at tick 2.
+- Recommendation: `REPLACE_CLOSE02_FINAL_AUTHORITY_ARCHITECTURE`. This is a
+  bounded attribution result, not integrated viability qualification and not
+  authorization to implement a replacement.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`; 11 artifacts hash-verified with manifest hash `c0f4197651e7e9237e85ee4ead0d7515aacb72e37a26906f6ef85449f38892b0`.
+- Authority 3.0 and governance validation passed. No production source,
+  historical evidence, thresholds, effects, or protected files changed. No
+  retry, reseed, qualification, formal tag, or successor directive started.

@@ -935,3 +935,35 @@ tag, R1/R2/R3, H3, D-013/AX, or threshold/effect changes are authorized.
 
 New evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`
+
+## UMBRA-CLOSE-02-ATTRIB terminal closeout — final-authority regression
+
+The sole authorized Candidate-B diagnostic completed exactly once from
+immutable commit `20542be24c90317aefbb0df9cfdc2202b9d8942b`, R0/S0, seed
+`45878900`. It reached natural scientific failure at tick 220 after
+`no_safe_action` at tick 219. The historical phenotype was exactly
+reproduced, including terminal physiology energy
+`0.04649999999999915`, fatigue `0.8415000000000004`, integrity
+`0.9160000000000049`, and stimulation `0.8750000000000003`.
+
+Verdict: `CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION`.
+Recommendation: `REPLACE_CLOSE02_FINAL_AUTHORITY_ARCHITECTURE`.
+
+The preserved pre-CLOSE-02 Control-A trace was not rerun, remains manifest-
+verified through tick 3869, and is noncritical through tick 220. The first
+final-action divergence is tick 1: Control A's serial development path
+replaces the arbitrated `ORIENT` with `CHARGE`, while Candidate B retains the
+development proposal and its final arbitration selects `ORIENT`; physiology
+first diverges at tick 2. The evidence establishes bounded attribution for
+this matched seed/configuration only, not integrated viability qualification
+or authorization to implement the replacement.
+
+Evidence:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`
+with 11 hashed artifacts and manifest hash
+`c0f4197651e7e9237e85ee4ead0d7515aacb72e37a26906f6ef85449f38892b0`.
+
+No production source changed; thresholds, effects, historical evidence,
+protected files, and the preserved Control-A dossier remain unchanged. No
+retry, reseed, qualification population, formal tag, or successor directive
+was started. Return to Architect.

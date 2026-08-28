@@ -1,18 +1,18 @@
-## UMBRA-CLOSE-02-ATTRIB active routing
+## UMBRA-CLOSE-02-ATTRIB terminal routing
 
-`UMBRA-CLOSE-02-ATTRIB` is the sole active directive from exact governance
-baseline `14d26a248f26d0167c85b819a17f7b51bdfb6292`. It authorizes exactly one
-isolated Candidate-B R0/S0 diagnostic at commit
-`20542be24c90317aefbb0df9cfdc2202b9d8942b` with seed `45878900`, using
+`UMBRA-CLOSE-02-ATTRIB` is terminal with
+`CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION`. Its exactly-one Candidate-B
+R0/S0 diagnostic ran from immutable commit
+`20542be24c90317aefbb0df9cfdc2202b9d8942b`, seed `45878900`, with
 observational tracing and a 500-tick ceiling or natural failure. The preserved
-Control-A trace is reused read-only; Control A is not rerun. No production
-changes, qualification, remediation, retries, reseeds, R1/R2/R3, formal tag,
-H3, D-013/AX, or threshold/effect changes are authorized.
+Control-A trace was reused read-only and was not rerun. No production change,
+qualification, remediation, retry, reseed, R1/R2/R3, formal tag, H3,
+D-013/AX, or threshold/effect change occurred.
 
 Permanent evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02-attrib-b-r1/`
 
-The predecessor `CLOSE-02-DECIDE` is terminal with
+The predecessor `CLOSE-02-DECIDE` remains terminal with
 `CLOSE02DECIDE_EXECUTION_STOP_UNRESOLVED`; its preserved A trace and
 uncertainty remain unchanged.
 
