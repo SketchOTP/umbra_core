@@ -1,19 +1,19 @@
-## UMBRA-CLOSE-02R active — hierarchical intent-gated final authority
+## UMBRA-CLOSE-02R terminal — hierarchical intent-gated authority qualification
 
-CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION is accepted and historical. The
-failed CLOSE-02 architecture flattened native higher-level proposals into the
-ordinary low-level action pool; the matched Candidate-B diagnostic reproduced
-the tick-220 failure while preserved Control-A remained noncritical through
-tick 3869. The replacement must preserve native intent selection while using
-one final existing low-level arbitration and unchanged downstream authority.
+CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION was accepted and the explicitly
+authorized hierarchical replacement was implemented and frozen at
+6ef712af9bf5470683fbfa7d926fa311e226c035. The historical 45878900 diagnostic
+passed 500 ticks, but the first fresh R0 development gate stopped at the first
+genuine scientific failure: seed 22023239 reached NO_SAFE_ACTION at tick 3272
+and critical fatigue at tick 3273.
 
-UMBRA-CLOSE-02R is active from exact baseline
-f085d0e7b3c3ad0120caca6e7e485aeb71152170. Its evidence root is
+Verdict: CLOSE02R_R0_DEVELOPMENT_FAIL. Three fresh R0 seeds completed 7200
+ticks; the failed row was preserved. No later development population, agency
+gate, formal population, formal tag, retry, reseed, or remediation started.
+Permanent evidence is at
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-hierarchical-intent-r1/.
-The contract and source-role audit must freeze before organism outcomes. The
-known attribution fixture is first; fresh development and formal populations
-are strictly gated. No H3, D-013/AX, old D-014 formal lineage, threshold or
-effect change, retry, reseed, or storage work is authorized.
+No successor directive is authorized automatically. Protected files and
+historical evidence remain unchanged.
 
 ## UMBRA-CLOSE-02-DECIDE terminal — execution stop unresolved
 

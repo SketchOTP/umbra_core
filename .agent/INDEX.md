@@ -1,14 +1,14 @@
-## UMBRA-CLOSE-02R active routing
+## UMBRA-CLOSE-02R terminal routing
 
-UMBRA-CLOSE-02R is the sole active directive from exact baseline
+UMBRA-CLOSE-02R is terminal from exact baseline
 f085d0e7b3c3ad0120caca6e7e485aeb71152170, authorized after accepted
 CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION. It replaces the failed CLOSE-02
 flat candidate pool with hierarchical intent-gated affordance competition:
 native higher-level sources emit intents, the existing low-level Arbitrator
 selects once among valid intent-backed actions, and Governance/Embodiment/
-VerifiedOutcome remain downstream. The directive permits one production
-architecture replacement followed by gated development and integrated
-qualification; any terminal failure stops the generation.
+VerifiedOutcome remain downstream. The directive permitted one production architecture replacement followed by gated
+development and integrated qualification. It stopped at the first fresh R0
+scientific failure; no later gate or automatic successor is authorized.
 
 Permanent evidence root:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-hierarchical-intent-r1/

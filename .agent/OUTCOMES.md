@@ -944,3 +944,14 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - Authority 3.0 and governance validation passed. No production source,
   historical evidence, thresholds, effects, or protected files changed. No
   retry, reseed, qualification, formal tag, or successor directive started.
+
+## UMBRA-CLOSE-02R closeout — 2026-08-28
+
+- Verdict: CLOSE02R_R0_DEVELOPMENT_FAIL.
+- Freeze commit: 6ef712af9bf5470683fbfa7d926fa311e226c035; published on github.
+- Historical diagnostic seed 45878900 passed 500 ticks without critical physiology or NO_SAFE_ACTION.
+- Fresh R0 development ran exactly once: 39944071, 84326092, and 77178411 completed 7200 ticks; 22023239 failed at tick 3273 after NO_SAFE_ACTION at tick 3272, with critical fatigue.
+- The first genuine failure stopped the generation. No R1/R2/R3 development, agency gate, formal population, formal tag, retry, reseed, or remediation occurred.
+- Focused hierarchy fixtures: 9 passed. Authority 3.0, governance, D-009, and D-010 validation passed. Full-suite failures were inherited/setup findings; no new regression was identified.
+- Permanent evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-hierarchical-intent-r1/
+- Historical evidence, production after freeze, and protected files were unchanged. No successor is authorized automatically.
