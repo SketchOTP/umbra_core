@@ -118,7 +118,7 @@ github/master without changing remote configuration.
 
 ## Current pointers
 - Current stage: Authority 3.0; CLOSE-02F R0 development failure
-- Active directive: none; last terminal directive: UMBRA-CLOSE-02F
+- Active directive: UMBRA-CLOSE-02T; last terminal directive: UMBRA-CLOSE-02S
 - Last task packet: .agent/tasks/completed/UMBRA-D-014H3J/; prior terminal packet: .agent/tasks/active/UMBRA-D-014H3I/
 - Previous terminal task packet: .agent/tasks/active/UMBRA-D-014H3D/
 - Parent terminal packet: .agent/tasks/completed/UMBRA-D-014H3B/
@@ -288,3 +288,12 @@ existing preventive regulation, preserves hard recovery, and keeps one final
 existing arbitration authority. No organism run or production change occurred.
 Recommendation: `UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE`;
 no automatic successor.
+## UMBRA-CLOSE-02T active routing
+
+UMBRA-CLOSE-02T is the sole active directive from exact baseline
+`6ca23c1e2b29d37535986a601721f04dc1bafb37`. It authorizes one production
+translation of the accepted CLOSE-02S interruptible-intent eligibility
+contract, followed by gated qualification. CLOSE-02S remains terminal.
+
+Permanent evidence:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/`

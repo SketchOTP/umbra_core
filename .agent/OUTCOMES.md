@@ -970,3 +970,11 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - D-20260828-close02s-start | status:started | baseline:6e43037454283bd1d27993aa74bbb1498f31246f | scope:non-production trace-constrained final-authority architecture replan | accept:derive and test at most one existing-semantics contract against both accepted regressions, or stop with evidence | integrity:organism_runs 0,production_changes 0,formal_tags 0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/
 
 - D-20260828-close02s-closeout | Directive: UMBRA-CLOSE-02S | status:completed | verdict:CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED | basis:existing urgency/regulatory signal; both accepted failure constraints structurally satisfied; source-neutral multi-intent handling; focused pure shadow PASS | integrity:organism_runs 0,production_changes 0,formal_tags 0,historical_evidence_modified false | recommendation:UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE | next:return to Architect
+## UMBRA-CLOSE-02T start — 2026-08-28
+
+- Directive: `UMBRA-CLOSE-02T`
+- Status: active; production translation and gated qualification authorized
+- Baseline: `6ca23c1e2b29d37535986a601721f04dc1bafb37`
+- Parent: `CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED`
+- Integrity at start: organism runs 0; retries 0; reseeds 0; historical and protected evidence preserved
+- Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/`

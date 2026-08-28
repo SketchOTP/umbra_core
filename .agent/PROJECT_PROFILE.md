@@ -1,15 +1,13 @@
 # Project Profile
 
 Current authority: UMBRA-CLOSE-02T ACTIVE from 6ca23c1e2b29d37535986a601721f04dc1bafb37; permanent evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/; production boundary=umbra_core/arbitration.py; CLOSE-02S remains terminal and accepted.
-## Current authority - UMBRA-CLOSE-02S terminal
+## Previous authority - UMBRA-CLOSE-02S terminal
 
 As of 2026-08-28, CLOSE-02S is terminal with
 `CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED`. Its non-production
-architecture research supports one bounded implementation candidate using
-existing UMBRA semantics. It does not authorize production implementation,
-organism runs, qualification, formal tags, H3, or D-013/AX. Recommendation:
-`UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE`; return to
-Architect.
+architecture research supports the CLOSE-02T implementation candidate using
+existing UMBRA semantics. CLOSE-02T is now the active implementation and
+qualification directive.
 
 ## Repository
 - Name: UMBRA-CORE

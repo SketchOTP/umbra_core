@@ -12,6 +12,7 @@ from umbra_core.physiology import (
     DEFAULT_DRIFT,
     OUTCOME_EFFECTS,
     Physiology,
+    verified_outcome_effects,
     verified_outcome_effect_branches,
 )
 from umbra_core.temporal.policy import PolicyExpectationView
@@ -384,6 +385,48 @@ class Arbitrator:
             seen.add(key)
             unique.append(candidate)
         return unique
+
+    @staticmethod
+    def _preventive_attention_dimensions(phys: Physiology) -> frozenset[str]:
+        """Return noncritical dimensions already marked urgent by physiology."""
+        if phys.critical_any():
+            return frozenset()
+        active = set(phys.active_recovery_needs())
+        urgency = phys.vector_urgency()
+        return frozenset(
+            name
+            for name in BOUNDS
+            if name not in active and float(urgency.get(name, 0.0)) > 0.0
+        )
+
+    @classmethod
+    def _candidate_regulatory_dimensions(
+        cls, candidate: Candidate, phys: Physiology
+    ) -> frozenset[str]:
+        """Derive support from existing verified effects and visible route meaning."""
+        attention = cls._preventive_attention_dimensions(phys)
+        if not attention:
+            return frozenset()
+        effects = verified_outcome_effects(candidate.capability, True)
+        dimensions: set[str] = set()
+        for name in attention:
+            value = phys.get(name)
+            ideal = BOUNDS[name].ideal
+            direction = 1.0 if value < ideal else -1.0 if value > ideal else 0.0
+            delta = float(effects.get(name, 0.0))
+            if direction and delta * direction > 0.0:
+                dimensions.add(name)
+
+        toward = candidate.params.get("toward")
+        if toward in {"resource", "novel_crystal"} and "energy" in attention:
+            dimensions.add("energy")
+        if toward == "rest" and "fatigue" in attention:
+            dimensions.add("fatigue")
+        if toward == "inspect" and "stimulation" in attention:
+            dimensions.add("stimulation")
+        if candidate.params.get("from") == "hazard" and "integrity" in attention:
+            dimensions.add("integrity")
+        return frozenset(dimensions)
 
     @staticmethod
     def _no_safe_action() -> Candidate:
@@ -1229,7 +1272,9 @@ class Arbitrator:
                     wait_journal=wait_journal,
                 )
             )
+        preventive_dimensions = self._preventive_attention_dimensions(phys)
         intent_mode = False
+        preventive_only_mode = False
         if intent_candidates:
             admissible_intents = []
             for candidate in self._canonical_intent_candidates(intent_candidates):
@@ -1240,13 +1285,50 @@ class Arbitrator:
                 ):
                     admissible_intents.append(candidate)
             if admissible_intents:
-                cands = admissible_intents
+                if preventive_dimensions:
+                    regulatory_base = [
+                        candidate
+                        for candidate in base_cands
+                        if (
+                            candidate_allowed_here(candidate)
+                            and not introduces(candidate)
+                            and contract_admissible(candidate)
+                            and self._candidate_regulatory_dimensions(
+                                candidate, phys
+                            ).intersection(preventive_dimensions)
+                        )
+                    ]
+                    cands = self._canonical_intent_candidates(
+                        [*admissible_intents, *regulatory_base]
+                    )
+                else:
+                    cands = admissible_intents
                 intent_mode = True
             else:
                 # Optional intent failure must not manufacture NO_SAFE_ACTION.
                 cands = base_cands
         else:
-            cands = base_cands
+            if preventive_dimensions:
+                regulatory_base = [
+                    candidate
+                    for candidate in base_cands
+                    if (
+                        candidate_allowed_here(candidate)
+                        and not introduces(candidate)
+                        and contract_admissible(candidate)
+                        and self._candidate_regulatory_dimensions(
+                            candidate, phys
+                        ).intersection(preventive_dimensions)
+                    )
+                ]
+                if regulatory_base:
+                    cands = regulatory_base
+                    preventive_only_mode = True
+                else:
+                    # Preventive attention must not manufacture NO_SAFE_ACTION.
+                    cands = base_cands
+            else:
+                cands = base_cands
 
         scored = [self.score_candidate(c, phys, observations, active_tick) for c in cands]
         if policy_expectations and temporal_modifiers_enabled:
@@ -1291,6 +1373,21 @@ class Arbitrator:
             # Valid intent selection is the final low-level choice. Existing
             # safety and contract checks only narrow the admissible set; they
             # do not replace the selected candidate after arbitration.
+            if (
+                not candidate_allowed_here(chosen)
+                or introduces(chosen)
+                or not contract_admissible(chosen)
+            ):
+                safe_scored = [
+                    candidate
+                    for candidate in scored
+                    if candidate_allowed_here(candidate)
+                    and not introduces(candidate)
+                    and contract_admissible(candidate)
+                ]
+                chosen = safe_scored[0] if safe_scored else self._no_safe_action()
+        elif preventive_only_mode:
+            # Keep State 4 restricted to existing regulatory base actions.
             if (
                 not candidate_allowed_here(chosen)
                 or introduces(chosen)

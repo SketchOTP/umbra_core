@@ -1,0 +1,81 @@
+{
+  "directive": "UMBRA-CLOSE-02T",
+  "reference_contract": "experiments/research/non-production/close02s_contract.py",
+  "production_module": "umbra_core/arbitration.py",
+  "new_semantics": false,
+  "mappings": {
+    "intent_candidates": {
+      "production_function": "umbra_core.runtime.Organism._tick_once proposal collection",
+      "source_of_truth": "native development, memory, social, world-model, routine and temporal proposal sources",
+      "translation": "Arbitrator.select(intent_candidates=late_candidates)",
+      "new_semantics": false
+    },
+    "base_candidates": {
+      "production_function": "Arbitrator.generate_candidates plus existing discovery/manipulation/routine/wait additions",
+      "source_of_truth": "existing ordinary candidate construction in Arbitrator.select",
+      "translation": "base_cands",
+      "new_semantics": false
+    },
+    "preventive_signal": {
+      "production_function": "Physiology.vector_urgency",
+      "source_of_truth": "existing urgency calculation relative to BOUNDS ideals, excluding active_recovery_needs and critical_any",
+      "translation": "_preventive_attention_dimensions",
+      "new_semantics": false
+    },
+    "hard_recovery": {
+      "production_function": "Arbitrator.select recovery reflex block",
+      "source_of_truth": "existing active_recovery_needs or critical_any path before ordinary candidate construction",
+      "translation": "existing recovery path returns before interruptible-intent eligibility",
+      "new_semantics": false
+    },
+    "hard_recovery_candidates": {
+      "production_function": "pick_recovery and commit_safe_recovery",
+      "source_of_truth": "existing recovery candidate generation, authority_effect_branches, candidate_is_admissible and immediate safety",
+      "translation": "unchanged recovery candidate path",
+      "new_semantics": false
+    },
+    "authority_valid": {
+      "production_function": "candidate_allowed callback and candidate_is_admissible",
+      "source_of_truth": "body capability status, verified authority effect branches and recovery contracts",
+      "translation": "candidate filtering before final action arbitration",
+      "new_semantics": false
+    },
+    "immediately_safe": {
+      "production_function": "_introduces_critical_boundary and authority_effect_branches",
+      "source_of_truth": "existing next-decision critical-boundary projection",
+      "translation": "candidate filtering before preventive admission and final fallback",
+      "new_semantics": false
+    },
+    "regulatory_dimensions": {
+      "production_function": "_candidate_regulatory_dimensions",
+      "source_of_truth": "verified_outcome_effects relative to existing BOUNDS ideals plus existing visible toward/from route semantics",
+      "translation": "derived per decision; no authored capability-to-need labels",
+      "new_semantics": false
+    },
+    "behavioral_deduplication": {
+      "production_function": "_canonical_intent_candidates and _intent_behavioral_params",
+      "source_of_truth": "capability plus behaviorally relevant params; provenance keys excluded",
+      "translation": "canonical source-order-independent intent and mixed eligibility set",
+      "new_semantics": false
+    },
+    "final_action_arbitration": {
+      "production_function": "score_candidate, existing modifiers, bounded RNG argmax, anti-thrash and _commit",
+      "source_of_truth": "existing Arbitrator.select",
+      "translation": "one final selected Candidate proceeds to existing Governance/Embodiment path",
+      "new_semantics": false
+    },
+    "NO_SAFE_ACTION": {
+      "production_function": "_no_safe_action",
+      "source_of_truth": "existing final authority fallback after all candidates are rejected",
+      "translation": "preventive attention alone never empties a valid intent set and does not manufacture the sentinel",
+      "new_semantics": false
+    }
+  },
+  "states": {
+    "STATE_1_NO_INTENT_NO_PREVENTIVE_ATTENTION": "base_cands",
+    "STATE_2_INTENT_ACTIVE_NO_REGULATORY_ATTENTION": "admissible_intents",
+    "STATE_3_INTENT_ACTIVE_PREVENTIVE_REGULATORY_ATTENTION": "admissible_intents plus authority-valid matching regulatory base candidates",
+    "STATE_4_NO_INTENT_PREVENTIVE_REGULATORY_ATTENTION": "authority-valid matching regulatory base candidates, with established base fallback if none exists",
+    "STATE_5_ACTIVE_OR_CRITICAL_RECOVERY": "existing recovery path, before this contract"
+  }
+}

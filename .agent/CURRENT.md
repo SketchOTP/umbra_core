@@ -1,5 +1,10 @@
 UMBRA-CLOSE-02T ACTIVE from 6ca23c1e2b29d37535986a601721f04dc1bafb37: implement and qualify accepted CLOSE-02S interruptible-intent contract; stop at first directive-specific failure; no new thresholds, source weights/priorities, planner, hidden truth, H3, D-013/AX, retry, or reseed.
-## UMBRA-CLOSE-02S terminal — trace-constrained final-authority architecture replan
+## UMBRA-CLOSE-02T active — interruptible-intent final authority qualification
+
+CLOSE-02S is terminal and accepted. CLOSE-02T supersedes its current routing
+for this fresh generation and is the sole active directive. No CLOSE-02T
+organism outcome has been inspected; the production implementation is being
+validated before freeze.
 
 CLOSE-02R-ATTRIB is terminal and accepted as
 CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION. The matched evidence showed
@@ -7,14 +12,11 @@ that flat cross-level competition erased a valid native intention, while
 exclusive intent gating suppressed ordinary/preventive regulation. Those
 historical findings remain immutable.
 
-UMBRA-CLOSE-02S was the active directive from exact baseline
-6e43037454283bd1d27993aa74bbb1498f31246f. It is non-production,
-non-formal, research/design-only work: audit existing UMBRA regulatory and
-intent semantics, review bounded prior art, derive at most one interruptible
-intent contract only if existing semantics support it, and test the two
-known failure constraints with retained evidence and pure fixtures. No
-organism runs, production changes, thresholds/effects, formal tags, H3, or
-D-013/AX work are authorized.
+UMBRA-CLOSE-02S was the preceding non-production directive from exact
+baseline 6e43037454283bd1d27993aa74bbb1498f31246f. It is terminal with
+`CLOSE02S_INTERRUPTIBLE_INTENT_CONTRACT_SUPPORTED`; its evidence and pure
+contract remain preserved. CLOSE-02T is now the active implementation and
+qualification boundary.
 
 Permanent CLOSE-02S evidence:
 /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/

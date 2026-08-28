@@ -1,0 +1,14 @@
+{
+  "directive": "UMBRA-CLOSE-02T",
+  "derivation": "existing verified success effects relative to Physiology ideal, with existing visible route semantics",
+  "authored_capability_need_table": false,
+  "new_threshold": false,
+  "entries": [
+    {"dimension": "energy", "direct_rule": "positive verified effect while energy is below ideal", "route_rule": "toward resource or novel_crystal", "source": "verified_outcome_effects and score_candidate"},
+    {"dimension": "fatigue", "direct_rule": "negative verified effect while fatigue is above ideal", "route_rule": "toward rest", "source": "verified_outcome_effects and score_candidate"},
+    {"dimension": "integrity", "direct_rule": "positive verified effect while integrity is below ideal", "route_rule": "from hazard", "source": "verified_outcome_effects and score_candidate"},
+    {"dimension": "stimulation", "direct_rule": "verified effect moves stimulation toward ideal", "route_rule": "toward inspect", "source": "verified_outcome_effects and score_candidate"}
+  ],
+  "authority_filter": "candidate_allowed plus _introduces_critical_boundary plus candidate_is_admissible",
+  "hidden_truth_used": false
+}
