@@ -1,3 +1,4 @@
+UMBRA-CLOSE-02T ACTIVE from 6ca23c1e2b29d37535986a601721f04dc1bafb37: implement and qualify accepted CLOSE-02S interruptible-intent contract; stop at first directive-specific failure; no new thresholds, source weights/priorities, planner, hidden truth, H3, D-013/AX, retry, or reseed.
 ## UMBRA-CLOSE-02S terminal — trace-constrained final-authority architecture replan
 
 CLOSE-02R-ATTRIB is terminal and accepted as

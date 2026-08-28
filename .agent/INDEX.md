@@ -1,3 +1,4 @@
+ACTIVE: UMBRA-CLOSE-02T from baseline 6ca23c1e2b29d37535986a601721f04dc1bafb37; production contract implementation and gated qualification authorized; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/.
 ## UMBRA-CLOSE-02S terminal routing
 
 UMBRA-CLOSE-02S supersedes the terminal CLOSE-02R-ATTRIB routing for this

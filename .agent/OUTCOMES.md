@@ -1,3 +1,4 @@
+- D-20260828-close02t-start | Directive: UMBRA-CLOSE-02T | status:started | baseline:6ca23c1e2b29d37535986a601721f04dc1bafb37 | scope:production translation of accepted CLOSE02S contract and gated qualification | integrity:organism_runs 0; retries 0; reseeds 0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/
 ## UMBRA-D-014H3G start — 2026-08-26T18:55:00Z
 
 - Architect accepted H3F as D014H3F_EXECUTION_STOP_UNRESOLVED and authorized

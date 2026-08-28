@@ -1,5 +1,6 @@
 # Project Profile
 
+Current authority: UMBRA-CLOSE-02T ACTIVE from 6ca23c1e2b29d37535986a601721f04dc1bafb37; permanent evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/; production boundary=umbra_core/arbitration.py; CLOSE-02S remains terminal and accepted.
 ## Current authority - UMBRA-CLOSE-02S terminal
 
 As of 2026-08-28, CLOSE-02S is terminal with
