@@ -319,3 +319,4 @@ reproduced the accepted tick-372 fatigue failure after verified MOVE. A fresh
 selector shadow contract can be replayable and policy-visible without
 production authority, but it cannot be promoted or evaluated as an integrated
 rescue when the known-R1 predecessor gate fails. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/
+- 2026-08-28 | area:attribution | lesson:Exclusive ordinary intent gating is a supported hierarchy-specific regression mechanism for matched seed 22023239; untested rescue remains unclaimed | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-attrib-fatigue-r1/CLOSE02RATTRIB_VERDICT.json

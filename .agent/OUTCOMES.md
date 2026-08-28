@@ -964,3 +964,5 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - One pre-CLOSE control run is authorized first; one CLOSE-02R reproduction is conditional on the control not materially matching the historical phenotype.
 - No production, qualification, formal, retry, reseed, new-seed, H3, D-013/AX, or storage work is authorized.
 - Permanent evidence root: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-attrib-fatigue-r1/.
+
+- D-20260828-close02r-attrib-closeout | status:done | files:.agent/CURRENT.md,.agent/INDEX.md,.agent/PROJECT_PROFILE.md,.agent/DIRECTIVES.md,.agent/OUTCOMES.md,.agent/LEARNINGS.md,Atlas evidence/umbra-close-02r-attrib-fatigue-r1 | tests:collector parity PASS; scripts/validate_authority_v3.py PASS; scripts/validate_governance.py PASS; evidence read-back/hash PASS | accept:met | summary:Matched pre-CLOSE control survived 3500 ticks while frozen CLOSE-02R reproduced historical tick-3272 no-safe and tick-3273 critical fatigue, supporting hierarchy-specific attribution | next:return to Architect; no automatic successor
