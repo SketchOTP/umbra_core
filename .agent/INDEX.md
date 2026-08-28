@@ -1,3 +1,16 @@
+## UMBRA-CLOSE-02S active routing
+
+UMBRA-CLOSE-02S supersedes the terminal CLOSE-02R-ATTRIB routing for this
+new architecture-replan generation. Start baseline:
+6e43037454283bd1d27993aa74bbb1498f31246f.
+
+Scope is non-production architecture research, existing-semantics audit,
+bounded external discovery, pure decision-contract fixtures, and retained
+trace-constraint analysis. No organism population, formal tag, production
+change, threshold/effect change, H3, or D-013/AX work is authorized.
+
+Permanent evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/
 ## UMBRA-CLOSE-02R-ATTRIB terminal routing
 
 UMBRA-CLOSE-02R-ATTRIB is terminal with

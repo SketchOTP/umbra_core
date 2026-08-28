@@ -1,3 +1,16 @@
+## Current authority supersession — UMBRA-CLOSE-02S
+
+As of 2026-08-28, the terminal CLOSE-02R-ATTRIB result
+CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION remains historical and
+immutable. The sole active authority is UMBRA-CLOSE-02S, starting from
+6e43037454283bd1d27993aa74bbb1498f31246f. CLOSE-02S is a non-production,
+non-formal architecture replan. It may inspect source and retained evidence,
+perform bounded external discovery, and run pure decision-contract fixtures,
+but may not modify production behavior, run organisms, alter thresholds or
+effects, create formal tags, reopen H3/D-013/AX, or authorize a successor.
+
+Its permanent evidence root is
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/
 # Project Profile
 
 ## Current authority - UMBRA-CLOSE-02R-ATTRIB terminal

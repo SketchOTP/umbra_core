@@ -1,3 +1,4 @@
+- D-20260828-close02s-start | Directive: UMBRA-CLOSE-02S | status:active | baseline:6e43037454283bd1d27993aa74bbb1498f31246f | parent:CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION | scope:trace-constrained final-authority architecture replan, bounded prior-art review, existing-semantics audit, pure decision shadow | constraints:no production changes,no organism runs,no formal tag,no thresholds/effects,no H3,no D013_AX,no new selector population,no retry,no reseed,no automatic successor | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/ | remote:github
 # DIRECTIVES.md
 
 Append-only task-start log for UMBRA-CORE. Never rewrite, reorder, or delete history.

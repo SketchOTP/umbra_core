@@ -1,3 +1,22 @@
+## UMBRA-CLOSE-02S active — trace-constrained final-authority architecture replan
+
+CLOSE-02R-ATTRIB is terminal and accepted as
+CLOSE02RATTRIB_HIERARCHICAL_INTENT_REGRESSION. The matched evidence showed
+that flat cross-level competition erased a valid native intention, while
+exclusive intent gating suppressed ordinary/preventive regulation. Those
+historical findings remain immutable.
+
+UMBRA-CLOSE-02S is the sole active directive from exact baseline
+6e43037454283bd1d27993aa74bbb1498f31246f. It is non-production,
+non-formal, research/design-only work: audit existing UMBRA regulatory and
+intent semantics, review bounded prior art, derive at most one interruptible
+intent contract only if existing semantics support it, and test the two
+known failure constraints with retained evidence and pure fixtures. No
+organism runs, production changes, thresholds/effects, formal tags, H3, or
+D-013/AX work are authorized.
+
+Permanent CLOSE-02S evidence:
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/
 ## UMBRA-CLOSE-02R-ATTRIB terminal — hierarchical intent regression attribution
 
 CLOSE-02R-ATTRIB is terminal with verdict
