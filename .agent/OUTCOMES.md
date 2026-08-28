@@ -6,6 +6,7 @@ CLOSE-02T known-R1/S16 failure. Parent result remains permanently
 limited to source/evidence reconstruction and, only if necessary, one
 observational diagnostic reproduction of seed `57531938`.
 - D-20260828-close02t-start | Directive: UMBRA-CLOSE-02T | status:started | baseline:6ca23c1e2b29d37535986a601721f04dc1bafb37 | scope:production translation of accepted CLOSE02S contract and gated qualification | integrity:organism_runs 0; retries 0; reseeds 0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/
+- D-20260828-close02t-attrib-closeout | Directive: UMBRA-CLOSE-02T-ATTRIB | status:done | files:.agent/*,Atlas evidence | tests:trace parity 3 passed; parent CLOSE-02T manifest 28/28; Authority 3.0 PASS; governance PASS; evidence manifest PASS | accept:met | summary:One exact observational R1/S16 reproduction matched CLOSE-02T NO_SAFE_ACTION 490 and critical fatigue 491; bounded attribution is PREVENTIVE_ROUTE_UNAVAILABLE without a rescue claim | next:return to Architect; no automatic successor
 ## UMBRA-D-014H3G start — 2026-08-26T18:55:00Z
 
 - Architect accepted H3F as D014H3F_EXECUTION_STOP_UNRESOLVED and authorized

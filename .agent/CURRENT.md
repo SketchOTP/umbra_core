@@ -1,4 +1,4 @@
-UMBRA-CLOSE-02T-ATTRIB ACTIVE from d320046555cd822752d586f2de47b3de754098a4: diagnostic-only causal decomposition of the frozen CLOSE-02T known-R1/S16 failure for seed 57531938. No production changes, qualification, retry, reseed, or successor architecture is authorized.
+UMBRA-CLOSE-02T-ATTRIB TERMINAL from d320046555cd822752d586f2de47b3de754098a4: diagnostic-only causal decomposition completed with CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE. No production changes, qualification, retry, reseed, or successor architecture is authorized; return to Architect.
 
 Parent CLOSE-02T remains terminal from 6ca23c1e2b29d37535986a601721f04dc1bafb37 with `CLOSE02T_KNOWN_R1_FAIL`: known R1 seed 57531938 reached NO_SAFE_ACTION at tick 490 and critical fatigue at tick 491.
 ## UMBRA-CLOSE-02T terminal — interruptible-intent qualification

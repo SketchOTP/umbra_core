@@ -327,6 +327,7 @@ selector shadow contract can be replayable and policy-visible without
 production authority, but it cannot be promoted or evaluated as an integrated
 rescue when the known-R1 predecessor gate fails. Evidence: /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/d014h3c-integrated-affordance-competition-r1/
 - 2026-08-28 | area:attribution | lesson:Exclusive ordinary intent gating is a supported hierarchy-specific regression mechanism for matched seed 22023239; untested rescue remains unclaimed | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-attrib-fatigue-r1/CLOSE02RATTRIB_VERDICT.json
+- 2026-08-28 | area:attribution | lesson:Known R1 failure reached active fatigue recovery without a policy-visible REST route before terminal no-safe action; no rescue is claimed | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-attrib-fatigue-r1/CLOSE02TATTRIB_VERDICT.json
 
 ## D-20260828 — CLOSE-02S final-authority replan
 
