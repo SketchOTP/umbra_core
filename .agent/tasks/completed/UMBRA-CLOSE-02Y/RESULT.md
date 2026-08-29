@@ -4,6 +4,7 @@
 - Verdict: `CLOSE02Y_CANDIDATE_STABLE_STOCHASTIC_CONTRACT_SUPPORTED`
 - Baseline: `80bcec23e02ec465307b72e9256e38d00305e81b`
 - Governance start: `dd0098247fdd02cd9c76d491d69f7baa00e1289d`
+- Architecture closeout: `1aca26b0d4da17911790db8c46d69bb3407dce27`
 - Production behavior changes: 0
 - Organism runs: 0
 - Pure contract fixtures: 10/10 PASS

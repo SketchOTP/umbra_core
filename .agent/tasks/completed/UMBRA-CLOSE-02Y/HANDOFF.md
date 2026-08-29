@@ -7,8 +7,8 @@ verdict: CLOSE02Y_CANDIDATE_STABLE_STOCHASTIC_CONTRACT_SUPPORTED
 baseline:
   start_commit: 80bcec23e02ec465307b72e9256e38d00305e81b
   governance_start: dd0098247fdd02cd9c76d491d69f7baa00e1289d
-  closeout_commit: recorded by publication closeout
-  remote_master: recorded by publication closeout
+  closeout_commit: 1aca26b0d4da17911790db8c46d69bb3407dce27
+  remote_master: publication record commit containing this handoff
 
 contract:
   organism_basis: persistent existing basis
