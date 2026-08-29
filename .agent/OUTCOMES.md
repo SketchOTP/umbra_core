@@ -1,3 +1,6 @@
+## UMBRA-CLOSE-02V-ATTRIB start (2026-08-29)
+The accepted V-R terminal result remains `CLOSE02VR_KNOWN_R1_FAIL`: diagnostics A/B passed and known R1/S16 seed `57531938` failed at tick 555 after `NO_SAFE_ACTION` at 554. CLOSE-02V-ATTRIB is active from baseline `77350e19e976904cca1ef5120fb27801543497a4` for retained-evidence-first source-delta attribution against U. No production change, rollback, remediation, qualification, retry, reseed, or successor architecture work is authorized. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02v-attrib-r1/`.
+
 ## UMBRA-CLOSE-02T-ATTRIB — START (2026-08-28)
 
 Started the authorized non-formal causal decomposition of the frozen

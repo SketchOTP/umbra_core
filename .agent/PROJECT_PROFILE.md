@@ -1,6 +1,8 @@
 # Project Profile
 
-Current authority: UMBRA-CLOSE-02V-R ACTIVE from `bb9372e4c73717fd9f5bead7bb5e41593d72f51c`. Phase 0 confirmed diagnostics A/B partially executed and passed before the wrapper stop; no V fresh seed executed. V-R repairs only the frozen runner/manifest contract and preserves the frozen production candidate `8350df72c5a3dc4fd9ee05276176233803a51ff5`.
+Current authority: UMBRA-CLOSE-02V-ATTRIB ACTIVE from `77350e19e976904cca1ef5120fb27801543497a4`. V-R is terminal with `CLOSE02VR_KNOWN_R1_FAIL`: diagnostics A/B passed, then R1/S16 seed `57531938` failed at tick 555 after `NO_SAFE_ACTION` at 554. This directive is diagnostic-only and compares the frozen V candidate against retained U/U-ATTRIB evidence; production changes, rollback, remediation, qualification, retries, reseeds, and successor architecture work are prohibited.
+
+Previous authority: UMBRA-CLOSE-02V-R ACTIVE from `bb9372e4c73717fd9f5bead7bb5e41593d72f51c`. Phase 0 confirmed diagnostics A/B partially executed and passed before the wrapper stop; no V fresh seed executed. V-R repairs only the frozen runner/manifest contract and preserves the frozen production candidate `8350df72c5a3dc4fd9ee05276176233803a51ff5`.
 
 Current authority: UMBRA-CLOSE-02V TERMINAL from freeze commit `8350df72c5a3dc4fd9ee05276176233803a51ff5`. Verdict: `CLOSE02V_EXECUTION_STOP_UNRESOLVED`. The first authorized diagnostic invocation executed zero organism ticks because the frozen runner expected `development[known_R1]`, absent from the sealed fresh R0-R3 development manifest; known R1 is separately fixed at seed `57531938`. No scientific outcome is claimed and no runner correction/retry is authorized without Architect review.
 
