@@ -56,6 +56,14 @@ CAPABILITY_TO_AFFORDANCE = {
     "MANIPULATE": "use",
 }
 
+# Existing interaction conventions used by the authored priors and runtime
+# outcome path.  This is target-kind validation, not a need or source-priority
+# table: it only identifies which observed entity an interaction addressed.
+VERIFIED_RECOVERY_TARGET_KINDS = {
+    "CHARGE": frozenset(("resource", "novel_crystal")),
+    "REST": frozenset(("rest",)),
+}
+
 REQUIRED_ENVIRONMENTAL_ANCHOR_KEYS = (
     "execution_id",
     "request_id",
@@ -666,8 +674,14 @@ class WorldModel:
                     # contradicts it; it remains REMEMBERED_ESTIMATE and never
                     # becomes a CURRENT_OBSERVATION through persistence alone.
                     landmark = (
-                        ent.entity_kind in {"resource", "novel_crystal"}
-                        and ent.distance_support_upper_bound is not None
+                        ent.distance_support_upper_bound is not None
+                        and (
+                            ent.entity_kind in {"resource", "novel_crystal"}
+                            or (
+                                ent.entity_kind == "rest"
+                                and ent.verified_recovery_count > 0
+                            )
+                        )
                     )
                     decay = PERSISTENCE_DECAY_PER_TICK * (
                         0.0
@@ -969,26 +983,27 @@ class WorldModel:
         if verified_motion_delta is not None and verified_outcome is not None:
             delta = VerifiedMotionDelta(**verified_motion_delta)
             result["verified_motion_updates"] = self.apply_verified_motion(delta, tick=tick)
-        direct_resource = any(
-            str(o.get("kind")) in {"resource", "novel_crystal"}
+        target_kinds = VERIFIED_RECOVERY_TARGET_KINDS.get(action, frozenset())
+        direct_supported_target = any(
+            str(o.get("kind")) == entity_kind
+            and entity_kind in target_kinds
             and o.get("source") != "world_model_memory"
             and o.get("fact_kind") != FactKind.REMEMBERED_ESTIMATE.value
+            and o.get("distance_support_upper_bound") is not None
+            and math.isfinite(float(o.get("distance_support_upper_bound")))
+            and float(o.get("distance_support_upper_bound")) >= 0.0
             for o in observations
         )
-        if (
-            success
-            and action == "CHARGE"
-            and entity_kind in {"resource", "novel_crystal"}
-            and direct_resource
-        ):
+        verified_execution = bool(verified.get("verified", True))
+        if success and verified_execution and direct_supported_target:
             strengthened = 0
             for ent in self.entities.values():
                 if ent.entity_kind == entity_kind:
                     ent.verified_recovery_count += 1
                     ent.last_verified_success_tick = tick
-                    # Verified CHARGE proves executable interaction, not exact
-                    # coincidence with the resource center. Preserve the freshest
-                    # direct estimate and evidence-grounded support.
+                    # A verified restorative interaction proves executable use,
+                    # not exact coincidence with the entity center. Preserve the
+                    # freshest direct estimate and bounded support.
                     ent.fact_kind = FactKind.CURRENT_OBSERVATION.value
                     ent.confidence = clamp(ent.confidence + 0.15)
                     ent.persistence_probability = clamp(ent.persistence_probability + 0.1)
