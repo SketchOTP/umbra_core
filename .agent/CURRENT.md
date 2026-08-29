@@ -1,3 +1,5 @@
+UMBRA-CLOSE-02U-ATTRIB ACTIVE / diagnostic-only from 68746231742a904112eed89d759a22f7f384e23b: audit CLOSE-02U runner-order independence and attribute the delayed R1/S16 failure for seed 57531938. At most one dedicated observational reproduction is permitted; no production changes, qualification retry, reseed, or successor implementation.
+
 CLOSE-02U TERMINAL from d44b453ae2f091fb31f1498724ab16c1c0e02387 with verdict CLOSE02U_KNOWN_R1_FAIL: verified recovery-landmark continuity delayed but did not clear the known R1/S16 failure. Diagnostics A/B passed; known R1 seed 57531938 failed at tick 1484 after NO_SAFE_ACTION at tick 1483. Fresh R1/R2/R3 and formal populations did not run. No arbitration redesign, threshold/effect change, hidden truth, retry, reseed, H3/D-013/AX, or automatic CLOSE-03.
 
 Parent CLOSE-02T remains terminal from 6ca23c1e2b29d37535986a601721f04dc1bafb37 with `CLOSE02T_KNOWN_R1_FAIL`: known R1 seed 57531938 reached NO_SAFE_ACTION at tick 490 and critical fatigue at tick 491.
