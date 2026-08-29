@@ -375,3 +375,7 @@ The V-R wrapper recovery separated the prior execution-history problem from the 
 ## 2026-08-29 - CLOSE-02V-ATTRIB convergence checkpoint
 
 V is materially worse than U on the same known R1/S16 seed: critical fatigue moved from tick 1484 to 555. V-specific liveness risk is supported, but V1 urgent contract gating and V2/V3 reacquisition were not isolated because the one allowed parity harness did not retain semantic off-run rows; UUID-bearing full-result comparison is not scientific parity. This is evidence that local recovery rules are interacting around the seed, not authorization for another local patch. Stop local recovery patching pending Architect replan.
+
+## CLOSE-02W — prospective recoverability can reuse the existing derived view
+
+The generic E/R/P/H contracts currently lack natural production producers for required attempts, retry reserve, progress, and horizon fields. However, UMBRA already has a stronger fixed-size `HOMEOSTATIC_RECOVERABILITY_VIEW_V1` that derives bounded per-dimension route margins from policy-visible world support, verified effects, learned motion support, drift, and critical bounds without hidden truth, rollout, or action authority. The supported future contract is candidate-relative: only a demonstrated supported-positive to supported-exhausted transition may constrain an ordinary candidate before active recovery; UNKNOWN must remain neutral. Retained failures across energy, fatigue, and stimulation support this beyond one seed, but no historical rescue is established.

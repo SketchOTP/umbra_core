@@ -1,6 +1,6 @@
 # UMBRA-CLOSE-02W — Prospective Recoverability / Anticipatory Regulation Architecture Replan
 
-Status: ACTIVE
+Status: TERMINAL
 Classification: NON-PRODUCTION ARCHITECTURE RESEARCH / NON-FORMAL / ZERO ORGANISM RUNS
 Start baseline: `6fdcb16381f0aeee07db2f22d34fd769c39a4e8d`
 Behavioral reference: `f8d029d3ccd9e91c3418dd5bdbf55c84c16dbb4c` (read-only; no rollback)
