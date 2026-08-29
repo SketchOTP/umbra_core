@@ -1,0 +1,12 @@
+{
+  "directive": "UMBRA-CLOSE-02X",
+  "physiology": "existing umbra_core.physiology.BOUNDS and critical_any semantics",
+  "horizon_ticks": 7200,
+  "no_safe_terminal_allowed": false,
+  "maximum_single_action_fraction": 0.95,
+  "maximum_trace_bytes_per_run": 268435456,
+  "maximum_peak_rss_mib": 2048,
+  "mechanism_requires_fresh_population_activation": true,
+  "unknown_must_remain_neutral": true,
+  "new_physiology_thresholds": false
+}

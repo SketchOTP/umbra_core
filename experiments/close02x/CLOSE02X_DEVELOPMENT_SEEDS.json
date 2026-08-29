@@ -1,0 +1,13 @@
+{
+  "directive": "UMBRA-CLOSE-02X",
+  "seed_status": "sealed_before_any_x_organism_execution",
+  "derivation": "SHA-256('UMBRA-CLOSE-02X|199304fc|index') mapped to [1000000,98999999] with collision rejection",
+  "historical_values_checked": 1892,
+  "formal_ineligible": true,
+  "seeds": {
+    "R0": [28595449, 43294570, 12660052, 41233372, 34564808, 48024986, 52407398, 15522460],
+    "R1": [90391496, 38995070, 55460696],
+    "R2": [32691274, 42609677, 56412991],
+    "R3": [95302241, 76822187, 79034535]
+  }
+}

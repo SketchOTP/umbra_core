@@ -1,0 +1,28 @@
+{
+  "directive": "UMBRA-CLOSE-02X",
+  "status": "sealed_before_any_x_organism_execution",
+  "stages": [
+    {"index": 1, "stage": "DIAGNOSTIC_A", "regime": "R0", "seeds": [45878900], "horizon": 500, "failure_verdict": "CLOSE02X_FLAT_AUTHORITY_REGRESSION"},
+    {"index": 2, "stage": "DIAGNOSTIC_B", "regime": "R0", "seeds": [22023239], "horizon": 3500, "failure_verdict": "CLOSE02X_HIERARCHICAL_AUTHORITY_REGRESSION"},
+    {"index": 3, "stage": "KNOWN_R1", "regime": "R1", "seeds": [57531938], "horizon": 7200, "failure_verdict": "CLOSE02X_KNOWN_R1_FAIL"},
+    {"index": 4, "stage": "R0_DEVELOPMENT", "regime": "R0", "seed_source": "development.R0", "horizon": 7200, "failure_verdict": "CLOSE02X_R0_DEVELOPMENT_FAIL"},
+    {"index": 5, "stage": "R1_DEVELOPMENT", "regime": "R1", "seed_source": "development.R1", "horizon": 7200, "failure_verdict": "CLOSE02X_R1_DEVELOPMENT_FAIL"},
+    {"index": 6, "stage": "R2_DEVELOPMENT", "regime": "R2", "seed_source": "development.R2", "horizon": 7200, "failure_verdict": "CLOSE02X_R2_DEVELOPMENT_FAIL"},
+    {"index": 7, "stage": "R3_DEVELOPMENT", "regime": "R3", "seed_source": "development.R3", "horizon": 7200, "failure_verdict": "CLOSE02X_R3_DEVELOPMENT_FAIL"},
+    {"index": 8, "stage": "AGENCY_BOUNDEDNESS", "seed_source": "aggregate_development", "failure_verdict": "CLOSE02X_AGENCY_OR_BOUNDEDNESS_FAIL"},
+    {"index": 9, "stage": "FORMAL_R0", "regime": "R0", "seed_source": "formal.R0", "horizon": 7200, "failure_verdict": "CLOSE02X_FORMAL_INTEGRATED_VIABILITY_FAIL"},
+    {"index": 10, "stage": "FORMAL_R1", "regime": "R1", "seed_source": "formal.R1", "horizon": 7200, "failure_verdict": "CLOSE02X_FORMAL_INTEGRATED_VIABILITY_FAIL"},
+    {"index": 11, "stage": "FORMAL_R2", "regime": "R2", "seed_source": "formal.R2", "horizon": 7200, "failure_verdict": "CLOSE02X_FORMAL_INTEGRATED_VIABILITY_FAIL"},
+    {"index": 12, "stage": "FORMAL_R3", "regime": "R3", "seed_source": "formal.R3", "horizon": 7200, "failure_verdict": "CLOSE02X_FORMAL_INTEGRATED_VIABILITY_FAIL"},
+    {"index": 13, "stage": "REGRESSIONS", "seed_source": "none", "failure_verdict": "CLOSE02X_PRIOR_REGRESSION_FAIL"}
+  ],
+  "assertions": {
+    "strict_order": true,
+    "first_failure_stops": true,
+    "development_before_formal": true,
+    "agency_before_formal": true,
+    "regressions_after_formal": true,
+    "retries": 0,
+    "reseeds": 0
+  }
+}
