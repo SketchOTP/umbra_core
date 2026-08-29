@@ -1,4 +1,4 @@
-UMBRA-CLOSE-02T-ATTRIB TERMINAL from d320046555cd822752d586f2de47b3de754098a4: diagnostic-only causal decomposition completed with CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE. No production changes, qualification, retry, reseed, or successor architecture is authorized; return to Architect.
+UMBRA-CLOSE-02U ACTIVE from d44b453ae2f091fb31f1498724ab16c1c0e02387: verify and, if proven, implement source-neutral verified recovery-landmark continuity, then run the frozen gated qualification. CLOSE-02T-ATTRIB remains terminal with CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE; its evidence is immutable. No arbitration redesign, threshold/effect change, hidden truth, retry, reseed, H3/D-013/AX, or automatic CLOSE-03.
 
 Parent CLOSE-02T remains terminal from 6ca23c1e2b29d37535986a601721f04dc1bafb37 with `CLOSE02T_KNOWN_R1_FAIL`: known R1 seed 57531938 reached NO_SAFE_ACTION at tick 490 and critical fatigue at tick 491.
 ## UMBRA-CLOSE-02T terminal — interruptible-intent qualification

@@ -338,3 +338,11 @@ preserve authority-valid intent actions; when existing vector urgency indicates
 preventive attention, admit only existing base actions mapped to that dimension;
 retain hard recovery and one final existing arbitration authority. This is a
 contract recommendation, not an implemented correction or viability claim.
+
+## 2026-08-29 — CLOSE-02U start
+
+CLOSE-02T attribution identified a policy-visible recovery-route availability
+loss: active fatigue recovery had no REST route through tick 489. CLOSE-02U
+tests whether existing bounded WorldModel remembered-estimate semantics can
+retain a verified restorative landmark generically, without changing final
+arbitration or physiology semantics. No organism result is claimed at start.

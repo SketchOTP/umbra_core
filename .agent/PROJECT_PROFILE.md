@@ -1,6 +1,6 @@
 # Project Profile
 
-Current authority: UMBRA-CLOSE-02T-ATTRIB TERMINAL from d320046555cd822752d586f2de47b3de754098a4; verdict=CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE; no production changes or successor architecture authorized. Parent CLOSE-02T remains terminal with verdict=CLOSE02T_KNOWN_R1_FAIL; permanent evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-attrib-fatigue-r1/.
+Current authority: UMBRA-CLOSE-02U ACTIVE from d44b453ae2f091fb31f1498724ab16c1c0e02387; source-neutral verified recovery-landmark continuity implementation candidate plus gated qualification. CLOSE-02T-ATTRIB remains terminal with verdict=CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE; parent and evidence are immutable. Permanent CLOSE-02U evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/.
 ## Previous authority - UMBRA-CLOSE-02S terminal
 
 As of 2026-08-28, CLOSE-02S is terminal with

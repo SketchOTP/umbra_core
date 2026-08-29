@@ -1,4 +1,5 @@
-TERMINAL: UMBRA-CLOSE-02T-ATTRIB from governance/master d320046555cd822752d586f2de47b3de754098a4; verdict=CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-attrib-fatigue-r1/; no production changes, qualification, retry, reseed, or successor architecture authorized; return to Architect.
+ACTIVE: UMBRA-CLOSE-02U from governance/master d44b453ae2f091fb31f1498724ab16c1c0e02387; objective=verified recovery landmark continuity and gated current-stack qualification; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/; no arbitration redesign, threshold/effect change, hidden truth, retry, reseed, H3/D-013/AX, or automatic CLOSE-03.
+TERMINAL PARENT: UMBRA-CLOSE-02T-ATTRIB from d320046555cd822752d586f2de47b3de754098a4; verdict=CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-attrib-fatigue-r1/; immutable.
 TERMINAL PARENT: UMBRA-CLOSE-02T from baseline 6ca23c1e2b29d37535986a601721f04dc1bafb37; verdict=CLOSE02T_KNOWN_R1_FAIL; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/.
 ## UMBRA-CLOSE-02S terminal routing
 
