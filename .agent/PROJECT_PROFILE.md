@@ -1,3 +1,5 @@
+Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE_COMPARABILITY_FAIL`. The one authorized V R1/S16 diagnostic reproduced failure at tick `555` after `NO_SAFE_ACTION` at `554`, versus U's retained failure at `1484` after `1483`. V changed only arbitration recovery semantics relative to U, but exact semantic parity and component isolation were not established; V liveness regression is supported, not fully attributed. Integrated viability remains unqualified and further local recovery patching is not justified without Architect replan.
+
 # Project Profile
 
 Current authority: UMBRA-CLOSE-02V-ATTRIB ACTIVE from `77350e19e976904cca1ef5120fb27801543497a4`. V-R is terminal with `CLOSE02VR_KNOWN_R1_FAIL`: diagnostics A/B passed, then R1/S16 seed `57531938` failed at tick 555 after `NO_SAFE_ACTION` at 554. This directive is diagnostic-only and compares the frozen V candidate against retained U/U-ATTRIB evidence; production changes, rollback, remediation, qualification, retries, reseeds, and successor architecture work are prohibited.

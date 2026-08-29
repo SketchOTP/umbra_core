@@ -372,3 +372,6 @@ The original V invocation did execute organism work: diagnostic A completed 500 
 ## 2026-08-29 - CLOSE-02V-R scientific failure
 
 The V-R wrapper recovery separated the prior execution-history problem from the scientific result. Fixed diagnostics A and B passed; the corrected known R1/S16 run then failed at tick 555 after `NO_SAFE_ACTION` at tick 554 and critical fatigue. The CLOSE-02V verified-denial-aware recovery candidate therefore remains unqualified. Do not proceed to fresh populations or automatically remediate; return to Architect.
+## 2026-08-29 - CLOSE-02V-ATTRIB convergence checkpoint
+
+V is materially worse than U on the same known R1/S16 seed: critical fatigue moved from tick 1484 to 555. V-specific liveness risk is supported, but V1 urgent contract gating and V2/V3 reacquisition were not isolated because the one allowed parity harness did not retain semantic off-run rows; UUID-bearing full-result comparison is not scientific parity. This is evidence that local recovery rules are interacting around the seed, not authorization for another local patch. Stop local recovery patching pending Architect replan.
