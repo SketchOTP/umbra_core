@@ -1043,3 +1043,7 @@ The Architect accepted `CLOSE02W_PROSPECTIVE_RECOVERABILITY_CONTRACT_SUPPORTED` 
 ## UMBRA-CLOSE-02X terminal — 2026-08-29
 
 `CLOSE02X_KNOWN_R1_FAIL` is the terminal scientific result. Frozen diagnostics A and B passed their complete horizons. The fixed R1/S16 seed `57531938` then produced `NO_SAFE_ACTION` at tick 923 and critical fatigue at tick 924, ending the generation before fresh development. The prospective view did execute causally, recording three supported-positive to supported-exhausted energy constraints while UNKNOWN remained neutral. This is not integrated qualification and does not establish why the R1 failure persisted. Fresh development, agency/boundedness, formal qualification, and regressions were not run. No retry, reseed, remediation, or successor was started.
+
+## UMBRA-CLOSE-02X-ATTRIB start — 2026-08-29
+
+The Architect accepted X's known-R1 failure and authorized a diagnostic-only attribution from exact closeout `af78ddfe97132970bbb3b6d17488bcd2e85db2e9`. The target is the energy-only prospective realization versus fatigue terminal failure: reconstruct fatigue support, distinguish candidate-induced from passive drift/time/non-progress loss, and test whether energy constraints causally altered liveness. Retained evidence is primary; one observational frozen-X reproduction is permitted only because the X dossier lacks per-tick fatigue-view lineage. No production or qualification authority is granted.
