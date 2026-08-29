@@ -1,4 +1,4 @@
-UMBRA-CLOSE-02U-ATTRIB TERMINAL / diagnostic-only from 68746231742a904112eed89d759a22f7f384e23b: verdict CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST, secondary CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED. The single dedicated observational reproduction matched NO_SAFE_ACTION at tick 1483; retained U evidence records critical fatigue at tick 1484. The verified rest landmark remained policy-visible, but repeated not_at_rest denials and rising fatigue closed the executable route. No production changes, qualification retry, reseed, or successor implementation.
+UMBRA-CLOSE-02V ACTIVE / authorized bounded correction and gated qualification from f8d029d3ccd9e91c3418dd5bdbf55c84c16dbb4c. Parent UMBRA-CLOSE-02U-ATTRIB remains terminal with verdict CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST and secondary CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED. The current target is urgent recovery contract enforcement plus current-vs-remembered contact evidence and verified-denial-aware reacquisition. No organism outcome is valid before translation, pure proof, structural freeze, and ordered diagnostics pass. No retry, reseed, hidden truth, scripted REST, planner, threshold/effect change, H3/D-013/AX reopening, or automatic CLOSE-03.
 
 CLOSE-02U TERMINAL from d44b453ae2f091fb31f1498724ab16c1c0e02387 with verdict CLOSE02U_KNOWN_R1_FAIL: verified recovery-landmark continuity delayed but did not clear the known R1/S16 failure. Diagnostics A/B passed; known R1 seed 57531938 failed at tick 1484 after NO_SAFE_ACTION at tick 1483. Fresh R1/R2/R3 and formal populations did not run. No arbitration redesign, threshold/effect change, hidden truth, retry, reseed, H3/D-013/AX, or automatic CLOSE-03.
 
@@ -1043,3 +1043,15 @@ critical fatigue at tick 1484. Verdict:
 `CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST`, secondary
 `CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED`. No production implementation or
 successor is authorized.
+
+## UMBRA-CLOSE-02V start
+
+CLOSE-02V is the sole active directive from the exact published baseline
+`f8d029d3ccd9e91c3418dd5bdbf55c84c16dbb4c`. It is a fresh generation after
+terminal CLOSE-02U-ATTRIB, not a retry. Phase A is recording the exact source
+translation for urgent recovery admissibility, current-vs-remembered
+interaction evidence, and verified-denial-aware reacquisition. The permitted
+production surface is limited to the smallest proven correction in
+`umbra_core/arbitration.py`; CLOSE-02T authority, world-model landmark
+continuity, physiology, effects, thresholds, Governance, Embodiment, and
+VerifiedOutcome remain protected.
