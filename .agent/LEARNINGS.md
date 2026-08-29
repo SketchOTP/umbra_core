@@ -349,3 +349,15 @@ loss: active fatigue recovery had no REST route through tick 489. CLOSE-02U
 tests whether existing bounded WorldModel remembered-estimate semantics can
 retain a verified restorative landmark generically, without changing final
 arbitration or physiology semantics. No organism result is claimed at start.
+
+## 2026-08-29 — CLOSE-02U-ATTRIB closeout
+
+CLOSE-02U's learned rest landmark remained policy-visible through the dedicated
+R1/S16 reproduction, so landmark continuity itself was not lost. The route was
+not executable in time: REST was repeatedly denied as `not_at_rest`, while the
+bounded remembered estimate retained substantial uncertainty/support extent.
+REST first became immediately unsafe at tick 1482; `NO_SAFE_ACTION` followed at
+tick 1483 and retained aggregate evidence records critical fatigue at tick
+1484. Classify this as `CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST` with
+secondary `CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED`. Do not claim rescue or
+authorize an automatic successor.

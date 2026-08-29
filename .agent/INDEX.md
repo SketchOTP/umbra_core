@@ -1,4 +1,4 @@
-CURRENT AUTHORITY: UMBRA-CLOSE-02U-ATTRIB ACTIVE; baseline=68746231742a904112eed89d759a22f7f384e23b; diagnostic-only runner-order independence audit and delayed R1/S16 causal decomposition for seed 57531938; at most one dedicated observational reproduction; no production change, qualification retry, reseed, or successor.
+CURRENT AUTHORITY: UMBRA-CLOSE-02U-ATTRIB TERMINAL; baseline=68746231742a904112eed89d759a22f7f384e23b; verdict=CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST; secondary=CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED; one dedicated observational reproduction matched NO_SAFE_ACTION 1483 and retained critical fatigue 1484; no production change, qualification retry, reseed, or successor.
 
 CLOSE-02U: TERMINAL; verdict=CLOSE02U_KNOWN_R1_FAIL; baseline=d44b453ae2f091fb31f1498724ab16c1c0e02387; known R1 seed 57531938 failed at tick 1484 after NO_SAFE_ACTION at tick 1483; diagnostics A/B passed; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/; fresh R1/R2/R3 and formal populations not run; return to Architect.
 TERMINAL PARENT: UMBRA-CLOSE-02T-ATTRIB from d320046555cd822752d586f2de47b3de754098a4; verdict=CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-attrib-fatigue-r1/; immutable.
@@ -301,3 +301,5 @@ contract, followed by gated qualification. CLOSE-02S remains terminal.
 
 Permanent evidence:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-interruptible-intent-r1/`
+
+CURRENT TERMINAL: UMBRA-CLOSE-02U-ATTRIB; evidence=`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-attrib-r1/`; no next phase authorized.

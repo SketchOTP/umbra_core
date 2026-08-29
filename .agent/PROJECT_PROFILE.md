@@ -1,6 +1,6 @@
 # Project Profile
 
-Current authority: UMBRA-CLOSE-02U-ATTRIB ACTIVE / diagnostic-only from 68746231742a904112eed89d759a22f7f384e23b. Audit whether CLOSE-02U runner ordering could contaminate the known R1 result, then perform at most one dedicated observational R1/S16 seed 57531938 reproduction if retained evidence is insufficient. No production changes, qualification retry, reseed, or automatic successor.
+Current authority: UMBRA-CLOSE-02U-ATTRIB TERMINAL / diagnostic-only from 68746231742a904112eed89d759a22f7f384e23b. Verdict `CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST`, secondary `CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED`: the single dedicated observational R1/S16 seed 57531938 reproduction matched `NO_SAFE_ACTION` tick 1483 and retained critical fatigue tick 1484; the learned rest landmark remained visible but did not yield an executable route. No production changes, qualification retry, reseed, or automatic successor.
 
 Previous authority: UMBRA-CLOSE-02U TERMINAL with verdict=CLOSE02U_KNOWN_R1_FAIL from d44b453ae2f091fb31f1498724ab16c1c0e02387. Diagnostics A/B passed; known R1 seed 57531938 failed at tick 1484 after NO_SAFE_ACTION at tick 1483. Permanent evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/; no automatic successor was authorized.
 ## Previous authority - UMBRA-CLOSE-02S terminal

@@ -1,4 +1,4 @@
-UMBRA-CLOSE-02U-ATTRIB ACTIVE / diagnostic-only from 68746231742a904112eed89d759a22f7f384e23b: audit CLOSE-02U runner-order independence and attribute the delayed R1/S16 failure for seed 57531938. At most one dedicated observational reproduction is permitted; no production changes, qualification retry, reseed, or successor implementation.
+UMBRA-CLOSE-02U-ATTRIB TERMINAL / diagnostic-only from 68746231742a904112eed89d759a22f7f384e23b: verdict CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST, secondary CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED. The single dedicated observational reproduction matched NO_SAFE_ACTION at tick 1483; retained U evidence records critical fatigue at tick 1484. The verified rest landmark remained policy-visible, but repeated not_at_rest denials and rising fatigue closed the executable route. No production changes, qualification retry, reseed, or successor implementation.
 
 CLOSE-02U TERMINAL from d44b453ae2f091fb31f1498724ab16c1c0e02387 with verdict CLOSE02U_KNOWN_R1_FAIL: verified recovery-landmark continuity delayed but did not clear the known R1/S16 failure. Diagnostics A/B passed; known R1 seed 57531938 failed at tick 1484 after NO_SAFE_ACTION at tick 1483. Fresh R1/R2/R3 and formal populations did not run. No arbitration redesign, threshold/effect change, hidden truth, retry, reseed, H3/D-013/AX, or automatic CLOSE-03.
 
@@ -1025,3 +1025,21 @@ production change, threshold/effect change, or formal tag occurred.
 
 Recommendation: `UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE`.
 No successor is automatically authorized; return to Architect.
+
+## UMBRA-CLOSE-02U-ATTRIB terminal closeout
+
+The runner-order deviation in CLOSE-02U is preserved as a protocol limitation,
+but source audit found fresh seeded RNG, separate SQLite/WAL/SHM state, and no
+shared action cache or persistent cross-row state. The dedicated R1/S16
+reproduction matched the retained known-R1 boundary without proving
+qualification-row contamination.
+
+The rest recovery landmark remained a policy-visible bounded
+`REMEMBERED_ESTIMATE` with verified recovery history. It did not guarantee
+arrival: REST was repeatedly denied as `not_at_rest`; at tick 1482 the REST
+branch first became immediately unsafe, and at tick 1483 all reachable branches
+were rejected, producing `NO_SAFE_ACTION`. The retained aggregate records
+critical fatigue at tick 1484. Verdict:
+`CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST`, secondary
+`CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED`. No production implementation or
+successor is authorized.
