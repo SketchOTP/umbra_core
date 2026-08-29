@@ -1,6 +1,6 @@
 # UMBRA-CLOSE-02X-ATTRIB — Prospective Recoverability Coverage / Cross-Dimension Liveness Attribution
 
-Status: ACTIVE
+Status: TERMINAL
 Classification: DIAGNOSTIC / NON-FORMAL / NO PRODUCTION CHANGES
 Start baseline: `af78ddfe97132970bbb3b6d17488bcd2e85db2e9`
 Parent verdict: `CLOSE02X_KNOWN_R1_FAIL`
