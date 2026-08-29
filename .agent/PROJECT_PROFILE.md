@@ -1,6 +1,6 @@
 # Project Profile
 
-Current authority: UMBRA-CLOSE-02U ACTIVE from d44b453ae2f091fb31f1498724ab16c1c0e02387; source-neutral verified recovery-landmark continuity implementation candidate plus gated qualification. CLOSE-02T-ATTRIB remains terminal with verdict=CLOSE02TATTRIB_PREVENTIVE_ROUTE_UNAVAILABLE; parent and evidence are immutable. Permanent CLOSE-02U evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/.
+Current authority: UMBRA-CLOSE-02U TERMINAL with verdict=CLOSE02U_KNOWN_R1_FAIL from d44b453ae2f091fb31f1498724ab16c1c0e02387. Diagnostics A/B passed; known R1 seed 57531938 failed at tick 1484 after NO_SAFE_ACTION at tick 1483. Permanent evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/; no automatic successor is authorized.
 ## Previous authority - UMBRA-CLOSE-02S terminal
 
 As of 2026-08-28, CLOSE-02S is terminal with

@@ -329,6 +329,9 @@ rescue when the known-R1 predecessor gate fails. Evidence: /srv/ATLAS/100_ACTIVE
 - 2026-08-28 | area:attribution | lesson:Exclusive ordinary intent gating is a supported hierarchy-specific regression mechanism for matched seed 22023239; untested rescue remains unclaimed | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02r-attrib-fatigue-r1/CLOSE02RATTRIB_VERDICT.json
 - 2026-08-28 | area:attribution | lesson:Known R1 failure reached active fatigue recovery without a policy-visible REST route before terminal no-safe action; no rescue is claimed | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02t-attrib-fatigue-r1/CLOSE02TATTRIB_VERDICT.json
 
+- 2026-08-29 | area:integrated-viability | lesson:Verified restorative REST landmark continuity delayed the known R1 fatigue/no-safe phenotype from parent tick 491 to tick 1484 but did not establish long-horizon viability; the remaining blocker is not cleared | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/CLOSE02U_VERDICT.json
+- 2026-08-29 | area:qualification-integrity | lesson:CLOSE-02U raw fresh R0 observations ran before the known-R1 gate because the cloned runner order differed from the directive; they remain preserved but are excluded from qualification claims | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/CLOSE02U_VERDICT.json
+
 ## D-20260828 — CLOSE-02S final-authority replan
 
 The accepted CLOSE-02 and CLOSE-02R failures rule out both flattening a valid

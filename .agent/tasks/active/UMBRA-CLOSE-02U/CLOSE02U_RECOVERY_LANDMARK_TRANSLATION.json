@@ -1,0 +1,41 @@
+{
+  "directive": "UMBRA-CLOSE-02U",
+  "baseline": "d44b453ae2f091fb31f1498724ab16c1c0e02387",
+  "retrieval_confidence": "ADEQUATE",
+  "source_findings": {
+    "observed_entity_to_world_entity": "WorldModel.ingest_observations creates or refreshes WorldEntity from sensor rows, retaining kind, relative estimate, confidence, uncertainty, bounded distance support, provenance, source kind, and body schema.",
+    "bounded_spatial_support": "distance_support_upper_bound plus support_center_dx/support_center_dy/support_radius are accepted only from finite nonnegative observation support and are propagated body-relatively by VerifiedMotionDelta.",
+    "remembered_estimate": "Unobserved entities become REMEMBERED_ESTIMATE under object_persistence; persistence does not promote them back to CURRENT_OBSERVATION.",
+    "verified_motion": "apply_verified_motion updates estimated relative state and bounded support using only verified body motion, without world coordinates.",
+    "policy_exposure": "policy_observations exports only REMEMBERED_ESTIMATE rows with bounded support and includes provenance, support semantics, body schema, and verified recovery metadata.",
+    "runtime_injection": "runtime ingests current sensor rows, then appends WorldModel.policy_observations before arbitration.",
+    "current_charge_strengthening": "observe_outcome currently increments verified_recovery_count and strengthens confidence/persistence only for successful CHARGE on directly observed resource/novel_crystal.",
+    "current_rest_gap": "successful REST on a directly observed supported rest entity currently does not increment verified_recovery_count or receive equivalent recovery-landmark retention.",
+    "restart": "WorldEntity fields, including support and verified recovery metadata, are included in WorldModel.to_state and restored by WorldModel.from_state."
+  },
+  "contract": {
+    "eligible_actions": ["CHARGE", "REST"],
+    "target_kind_conventions": {
+      "CHARGE": ["resource", "novel_crystal"],
+      "REST": ["rest"]
+    },
+    "qualification_requirements": [
+      "successful verified outcome",
+      "matching existing interaction target kind",
+      "direct current observation rather than world-model memory",
+      "finite nonnegative bounded spatial support",
+      "existing verified interaction semantics"
+    ],
+    "negative_guards": [
+      "failed or denied execution does not qualify",
+      "unsupported or memory-only observation does not qualify",
+      "unrelated entity kinds do not qualify",
+      "no hidden habitat truth enters policy",
+      "no direct action selection or need priority is introduced"
+    ]
+  },
+  "production_change_required": "generalize the existing CHARGE-only verified recovery strengthening to the existing REST/rest interaction convention and use verified recovery count when deciding whether a rest landmark receives existing slow/zero persistence treatment; preserve resource behavior byte/semantically.",
+  "production_files_in_scope": ["umbra_core/world_model/engine.py"],
+  "protected_files": ["umbra_core/arbitration.py", "umbra_core/runtime.py"],
+  "hidden_truth_used": false
+}

@@ -997,6 +997,14 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 - No automatic successor is authorized; return to Architect.
 ## UMBRA-CLOSE-02T start — 2026-08-28
 
+## UMBRA-CLOSE-02U terminal — 2026-08-29
+
+- Verdict: `CLOSE02U_KNOWN_R1_FAIL`.
+- The source-neutral verified recovery-landmark change preserved existing CHARGE behavior and added verified REST landmark strengthening without changing arbitration, runtime, physiology, thresholds, or effects.
+- Historical authority diagnostics A and B passed. Known R1/S16 seed `57531938` failed once at tick 1484 after `NO_SAFE_ACTION` at tick 1483, compared with the parent CLOSE-02T failure at ticks 491/490. This is a delayed failure, not a substantive rescue or qualification.
+- Eight fresh R0 rows were observed by the cloned runner before the required known-R1 gate; they are retained raw but excluded from qualification claims. Fresh R1/R2/R3 and formal populations were not run after the first genuine failure. No retry, reseed, remediation, or automatic successor is authorized.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02u-recovery-landmark-r1/` (25 manifest-listed artifacts, zero hash mismatches).
+
 - Directive: `UMBRA-CLOSE-02T`
 - Status: active; production translation and gated qualification authorized
 - Baseline: `6ca23c1e2b29d37535986a601721f04dc1bafb37`
