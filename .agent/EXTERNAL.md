@@ -81,3 +81,12 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Rejected imports: RL, POMDP, active inference, behavior trees, basal-ganglia simulation, global utility, new planners/controllers, source weights, and fixed source priority.
 - Disposition: REFERENCE ONLY. No external architecture was copied and no production behavior changed.
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02s-final-authority-replan-r1/CLOSE02S_EXTERNAL_REVIEW.md`
+
+## UMBRA-CLOSE-02Y external principles — 2026-08-29
+
+- JAX PRNG design: https://docs.jax.dev/en/latest/jep/263-prng.html
+- Random123 primary paper: https://www.thesalmons.org/john/random123/papers/random123sc11.pdf
+- Adopted as reference-only principles: explicit keyed/splittable random state avoids artificial sequencing dependencies; explicit key/counter transforms can provide reproducible independent samples without advancing one shared sequence.
+- Rejected imports: JAX, Random123, Threefry, Philox, AES, a global RNG rewrite, planner, policy replacement, or external dependency.
+- UMBRA translation: candidate-scoring terms are keyed by existing persistent organism basis, authoritative active tick, a versioned candidate-scoring namespace, and canonical source-neutral behavioral identity.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02y-stochastic-composition-r1/CLOSE02Y_PRIOR_ART_REVIEW.md`
