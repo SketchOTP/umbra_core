@@ -1,0 +1,23 @@
+{
+  "directive": "UMBRA-CLOSE-02X",
+  "classification": "production implementation and gated integrated qualification",
+  "implementation_commit": "199304fc1d23e21139c46af521983f6e912e8deb",
+  "diagnostics": [
+    {"name": "DIAGNOSTIC_A", "regime": "R0", "seed": 45878900, "horizon": 500},
+    {"name": "DIAGNOSTIC_B", "regime": "R0", "seed": 22023239, "horizon": 3500},
+    {"name": "KNOWN_R1", "regime": "R1", "seed": 57531938, "horizon": 7200}
+  ],
+  "development_population": {"R0": 8, "R1": 3, "R2": 3, "R3": 3},
+  "formal_population": {"R0": 8, "R1": 8, "R2": 8, "R3": 8},
+  "candidate_constraint": "SUPPORTED_MARGIN_POSITIVE to SUPPORTED_MARGIN_EXHAUSTED only",
+  "unknown_neutral": true,
+  "one_candidate_projection": true,
+  "planner": false,
+  "global_scalar": false,
+  "direct_execution_authority": false,
+  "new_candidate_authority": false,
+  "source_priority": false,
+  "retries": 0,
+  "reseeds": 0,
+  "first_failure_stops": true
+}

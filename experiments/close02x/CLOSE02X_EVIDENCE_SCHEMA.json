@@ -1,0 +1,16 @@
+{
+  "directive": "UMBRA-CLOSE-02X",
+  "schema": "CLOSE02X_EVIDENCE_V1",
+  "run_fields": [
+    "stage", "regime", "seed", "ticks", "target_ticks", "terminal",
+    "critical_failure", "first_no_safe_action", "actions", "physiology_extrema",
+    "restart_continuity", "body_continuity", "prospective", "peak_rss_mib"
+  ],
+  "prospective_fields": [
+    "candidate_views", "unknown_views", "positive_to_exhausted",
+    "constrained_by_dimension", "first_prospective_transition", "trace_bytes"
+  ],
+  "durability": ["file_fsync", "atomic_rename", "directory_fsync", "readback_sha256"],
+  "active_sqlite_location": "local_direct_attached_scratch",
+  "permanent_evidence_root": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02x-prospective-recoverability-r1"
+}

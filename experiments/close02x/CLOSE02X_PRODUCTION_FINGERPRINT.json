@@ -1,0 +1,15 @@
+{
+  "directive": "UMBRA-CLOSE-02X",
+  "implementation_commit": "199304fc1d23e21139c46af521983f6e912e8deb",
+  "runner_parent_commit": "fa51194c6e4f2cc20305c7aabcf17c32447090dd",
+  "files": {
+    "umbra_core/arbitration.py": "7737c5801c4fd7352b0c2c7a56b7dd166941f9bd5e7c915f6d95925460792ea3",
+    "umbra_core/runtime.py": "83652d072d74b517aeb3e0a3e885404ca491f337aee9c37a4147a79778f57e1f",
+    "umbra_core/recoverability/view.py": "ebe59c62ab2060e7331771a8865678c09e4112fd4817deb5a3c9d890b71f4673",
+    "umbra_core/recoverability/__init__.py": "ae1b2842a41bc03cf27b54a617664fa731457b081203ded21ad13c2a3f4e4fc2",
+    "umbra_core/world_model/engine.py": "0809b92abb95ae9ac973e2fc28d3898fdea0be912b4c1c937a2197222f050a64"
+  },
+  "pre_v_arbitration_restored_before_x": true,
+  "close02u_world_model_preserved": true,
+  "active_critical_recovery_changed_by_x": false
+}

@@ -1,0 +1,17 @@
+{
+  "directive": "UMBRA-CLOSE-02X",
+  "status": "frozen_before_any_x_organism_execution",
+  "implementation_commit": "199304fc1d23e21139c46af521983f6e912e8deb",
+  "runner_parent_commit": "fa51194c6e4f2cc20305c7aabcf17c32447090dd",
+  "runner_sha256": "db4222a507251271626ecc84b1a887156e5f2f483525d6f388ef3097c6b6a12c",
+  "development_seeds_sha256": "97b5e6adb0f7e26f3103b402d51130f1d348c60294f4eff9e1fe7df67036dfb0",
+  "formal_seeds_sha256": "84f4591224323c0984d2b3d81ec0f62dfe4c9b955b811c13450614cdb3eaeb36",
+  "stage_manifest_sha256": "de73cd831d4c390c127e1fa1ac1c3e2200bee11b5cbb59f12ec6c6b2cb781da9",
+  "thresholds_sha256": "22b7811277355ecdfd1fb675e74cc87d94f3e4e5bb419dd5cafc0ae4e2221996",
+  "production_test_sha256": "5e94636066aed367b1ab7400d4579fe5ff2b391aacdc9e002bfb5800d64fb15f",
+  "runner_test_sha256": "fce332a253dbbf8a3fdd277825ead8ecda9a6f273693725be8ad2d881039e870",
+  "organism_runs_before_freeze": 0,
+  "stage_order_machine_tested": true,
+  "authority_3_pass": true,
+  "governance_pass": true
+}
