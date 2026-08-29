@@ -361,3 +361,7 @@ tick 1483 and retained aggregate evidence records critical fatigue at tick
 1484. Classify this as `CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST` with
 secondary `CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED`. Do not claim rescue or
 authorize an automatic successor.
+
+## 2026-08-29 - CLOSE-02V execution stop
+
+The V translation and pure contract passed, and the bounded correction was frozen at `8350df72c5a3dc4fd9ee05276176233803a51ff5`. The first diagnostic invocation executed no organism ticks because the frozen runner attempted `development[known_R1]`, but the sealed development manifest intentionally stores fresh R0-R3 populations only; the known R1 diagnostic is separately fixed at seed `57531938`. This is an execution-wrapper contract mismatch, not a scientific outcome. Preserve the stop as `CLOSE02V_EXECUTION_STOP_UNRESOLVED`; require Architect review before any correction or retry.

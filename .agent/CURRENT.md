@@ -1055,3 +1055,8 @@ production surface is limited to the smallest proven correction in
 `umbra_core/arbitration.py`; CLOSE-02T authority, world-model landmark
 continuity, physiology, effects, thresholds, Governance, Embodiment, and
 VerifiedOutcome remain protected.
+
+## UMBRA-CLOSE-02V terminal stop
+
+D-014V completed translation, pure proof, implementation freeze, and publication. Focused V contract tests passed 32/32; Authority 3.0, governance, and compile validation passed. The qualification runner then stopped before any organism execution with KeyError: known_R1, a sealed-manifest/runner-contract mismatch discovered after the freeze commit. This is CLOSE02V_EXECUTION_STOP_UNRESOLVED; production source is unchanged after freeze, historical evidence is unchanged, and no retry or correction is authorized under V.
+UMBRA-CLOSE-02V TERMINAL / execution stop from freeze commit 8350df72c5a3dc4fd9ee05276176233803a51ff5. Verdict: CLOSE02V_EXECUTION_STOP_UNRESOLVED. The first authorized diagnostic invocation executed zero organism ticks because the frozen runner expected development[known_R1], while the sealed V development manifest contains fresh R0-R3 populations and the known R1 diagnostic is separately fixed at seed 57531938. No scientific outcome is claimed; no runner correction or retry is authorized without Architect review.
