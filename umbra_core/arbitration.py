@@ -953,7 +953,7 @@ class Arbitrator:
 
                 # Optional higher-level intents never gate urgent recovery.
                 # Recovery remains on its established authority path.
-                if not immediately_safe(chosen):
+                if not immediately_safe(chosen) or not contract_admissible(chosen):
                     alternatives = [
                         candidate
                         for candidate in self.generate_candidates(
@@ -1113,18 +1113,59 @@ class Arbitrator:
                 )
                 return commit_safe_recovery(chosen)
             if focus == "fatigue":
-                if "rest" in kinds:
-                    o = next(o for o in observations if o["kind"] == "rest")
+                rest_observations = [
+                    o
+                    for o in observations
+                    if o.get("kind") == "rest"
+                ]
+                current_rest = [
+                    o
+                    for o in rest_observations
+                    if o.get("fact_kind") != "REMEMBERED_ESTIMATE"
+                    and o.get("source") != "world_model_memory"
+                ]
+                remembered_rest = [
+                    o
+                    for o in rest_observations
+                    if o.get("fact_kind") == "REMEMBERED_ESTIMATE"
+                    or o.get("source") == "world_model_memory"
+                ]
+                if current_rest:
+                    self.state.reacquisition_streak = 0
+                    o = current_rest[0]
                     hd = float(o["relative_direction"])
                     dist = float(o["estimated_distance"])
                     if dist <= 2.2:
-                        chosen = Candidate("REST", {"toward": "rest"})
-                        return commit_safe_recovery(chosen)
+                        params = {"toward": "rest"}
+                        if o.get("observation_version") is not None:
+                            params["observation_version"] = o["observation_version"]
+                        chosen = Candidate("REST", params)
+                    else:
+                        chosen = Candidate(
+                            "APPROACH",
+                            {"heading_delta": hd, "step": 1.4, "toward": "rest"},
+                        )
+                    return commit_safe_recovery(chosen)
+                if remembered_rest and self.state.reacquisition_streak < 8:
+                    self.state.reacquisition_streak += 1
+                    o = remembered_rest[0]
                     chosen = Candidate(
                         "APPROACH",
-                        {"heading_delta": hd, "step": 1.4, "toward": "rest"},
+                        {
+                            "heading_delta": float(o.get("relative_direction", 0.0)),
+                            "step": min(
+                                1.5,
+                                max(0.5, float(o.get("estimated_distance", 1.5))),
+                            ),
+                            "toward": "rest",
+                            "source": "active_reacquisition",
+                            "strategy": "direct_homing",
+                            "fact_kind": "REMEMBERED_ESTIMATE",
+                        },
                     )
                     return commit_safe_recovery(chosen)
+                if remembered_rest:
+                    self.state.reacquisition_streak = 0
                 if active_tick % 9 == 0:
                     self.state.search_heading += 0.9
                 chosen = Candidate(
@@ -1146,17 +1187,61 @@ class Arbitrator:
                             },
                         )
                         return commit_safe_recovery(chosen)
-                if "rest" in kinds:
-                    o = next(o for o in observations if o["kind"] == "rest")
-                    hd = float(o["relative_direction"])
+                rest_observations = [
+                    o
+                    for o in observations
+                    if o.get("kind") == "rest"
+                ]
+                current_rest = [
+                    o
+                    for o in rest_observations
+                    if o.get("fact_kind") != "REMEMBERED_ESTIMATE"
+                    and o.get("source") != "world_model_memory"
+                ]
+                remembered_rest = [
+                    o
+                    for o in rest_observations
+                    if o.get("fact_kind") == "REMEMBERED_ESTIMATE"
+                    or o.get("source") == "world_model_memory"
+                ]
+                if current_rest:
+                    self.state.reacquisition_streak = 0
+                    o = current_rest[0]
                     if float(o["estimated_distance"]) <= 2.2:
-                        chosen = Candidate("REST", {"toward": "rest"})
-                        return commit_safe_recovery(chosen)
+                        params = {"toward": "rest"}
+                        if o.get("observation_version") is not None:
+                            params["observation_version"] = o["observation_version"]
+                        chosen = Candidate("REST", params)
+                    else:
+                        chosen = Candidate(
+                            "APPROACH",
+                            {
+                                "heading_delta": float(o["relative_direction"]),
+                                "step": 1.4,
+                                "toward": "rest",
+                            },
+                        )
+                    return commit_safe_recovery(chosen)
+                if remembered_rest and self.state.reacquisition_streak < 8:
+                    self.state.reacquisition_streak += 1
+                    o = remembered_rest[0]
                     chosen = Candidate(
                         "APPROACH",
-                        {"heading_delta": hd, "step": 1.4, "toward": "rest"},
+                        {
+                            "heading_delta": float(o.get("relative_direction", 0.0)),
+                            "step": min(
+                                1.5,
+                                max(0.5, float(o.get("estimated_distance", 1.5))),
+                            ),
+                            "toward": "rest",
+                            "source": "active_reacquisition",
+                            "strategy": "direct_homing",
+                            "fact_kind": "REMEMBERED_ESTIMATE",
+                        },
                     )
                     return commit_safe_recovery(chosen)
+                if remembered_rest:
+                    self.state.reacquisition_streak = 0
                 if active_tick % 4 == 0:
                     chosen = Candidate("IDLE", {})
                     return commit_safe_recovery(chosen)
@@ -1170,20 +1255,61 @@ class Arbitrator:
             if focus == "stimulation":
                 # overshoot: calm down via REST/IDLE rather than more inspect/move
                 if phys.stimulation > BOUNDS["stimulation"].viable_high:
-                    if "rest" in kinds:
-                        o = next(o for o in observations if o["kind"] == "rest")
+                    rest_observations = [
+                        o
+                        for o in observations
+                        if o.get("kind") == "rest"
+                    ]
+                    current_rest = [
+                        o
+                        for o in rest_observations
+                        if o.get("fact_kind") != "REMEMBERED_ESTIMATE"
+                        and o.get("source") != "world_model_memory"
+                    ]
+                    remembered_rest = [
+                        o
+                        for o in rest_observations
+                        if o.get("fact_kind") == "REMEMBERED_ESTIMATE"
+                        or o.get("source") == "world_model_memory"
+                    ]
+                    if current_rest:
+                        self.state.reacquisition_streak = 0
+                        o = current_rest[0]
                         if float(o["estimated_distance"]) <= 2.2:
-                            chosen = Candidate("REST", {"toward": "rest"})
-                            return commit_safe_recovery(chosen)
+                            params = {"toward": "rest"}
+                            if o.get("observation_version") is not None:
+                                params["observation_version"] = o["observation_version"]
+                            chosen = Candidate("REST", params)
+                        else:
+                            chosen = Candidate(
+                                "APPROACH",
+                                {
+                                    "heading_delta": float(o["relative_direction"]),
+                                    "step": 1.2,
+                                    "toward": "rest",
+                                },
+                            )
+                        return commit_safe_recovery(chosen)
+                    if remembered_rest and self.state.reacquisition_streak < 8:
+                        self.state.reacquisition_streak += 1
+                        o = remembered_rest[0]
                         chosen = Candidate(
                             "APPROACH",
                             {
-                                "heading_delta": float(o["relative_direction"]),
-                                "step": 1.2,
+                                "heading_delta": float(o.get("relative_direction", 0.0)),
+                                "step": min(
+                                    1.5,
+                                    max(0.5, float(o.get("estimated_distance", 1.5))),
+                                ),
                                 "toward": "rest",
+                                "source": "active_reacquisition",
+                                "strategy": "direct_homing",
+                                "fact_kind": "REMEMBERED_ESTIMATE",
                             },
                         )
                         return commit_safe_recovery(chosen)
+                    if remembered_rest:
+                        self.state.reacquisition_streak = 0
                     chosen = Candidate("IDLE", {})
                     return commit_safe_recovery(chosen)
                 if "inspect" in kinds:
