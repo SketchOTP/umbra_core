@@ -1,3 +1,7 @@
+## UMBRA-CLOSE-02Z — START (2026-08-29)
+
+- D-20260829-close02z-start | Directive: UMBRA-CLOSE-02Z | status:active | baseline:8300c637fb4af859c48632020246320db308d024 | parent:CLOSE02Y_CANDIDATE_STABLE_STOCHASTIC_CONTRACT_SUPPORTED | scope:forward restoration of exact X production delta followed by bounded candidate-stable ordinary competition stochastic implementation and compatibility qualification | constraints:no known R1,no viability populations,no fatigue-support or positive-preparation work,no V revival,no threshold/effect/source-priority/planner/global-scalar changes,no H3,no D013_AX,no automatic CLOSE-03 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02z-candidate-stochastic-r1/ | remote:github
+
 ## UMBRA-CLOSE-02V-ATTRIB — START (2026-08-29)
 
 - D-20260829-close02v-attrib-start | Directive: UMBRA-CLOSE-02V-ATTRIB | status:active | baseline:77350e19e976904cca1ef5120fb27801543497a4 | parent:CLOSE02VR_KNOWN_R1_FAIL | scope:retained-evidence and exact-source-delta attribution of V safety/liveness regression versus U; at most one parity-proven V R1/S16 diagnostic through tick 700 if retained lineage is insufficient | constraints:no production change,no rollback,no remediation,no qualification,no retry,no reseed,no new threshold/effect,no selector,no planner,no H3,no D013_AX,no automatic CLOSE-03 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02v-attrib-r1/ | remote:github
