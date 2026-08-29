@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import math
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 
 from umbra_core.embodiment import CAPABILITIES
 from umbra_core.physiology import (
@@ -24,6 +24,7 @@ from umbra_core.wait_execution import (
     wait_deadline_age_tick,
 )
 from umbra_core.recoverability.contracts import candidate_is_admissible
+from umbra_core.recoverability import prospective_recoverability_transition
 
 # ponytail: frozen modifier caps at D-010 Task 6; hardened at Stage B freeze.
 ACTIVE_POSITIVE_CAP = 0.35
@@ -429,6 +430,47 @@ class Arbitrator:
         return frozenset(dimensions)
 
     @staticmethod
+    def _prospective_recoverability_filter(
+        *,
+        candidates: list[Candidate],
+        phys: Physiology,
+        observations: list[dict[str, Any]],
+        tick: int,
+        attended_dimensions: frozenset[str],
+        context: Mapping[str, Any] | None,
+        effect_branches: Callable[[Candidate], tuple[dict[str, float], ...]] | None,
+    ) -> tuple[list[Candidate], list[dict[str, Any]]]:
+        """Constrain only supported positive-to-exhausted option loss."""
+        if not attended_dimensions or context is None:
+            return list(candidates), []
+        kept: list[Candidate] = []
+        events: list[dict[str, Any]] = []
+        for candidate in candidates:
+            branches = (
+                effect_branches(candidate)
+                if effect_branches is not None
+                else verified_outcome_effect_branches(candidate.capability)
+            )
+            event = prospective_recoverability_transition(
+                organism_tick=int(tick),
+                body_schema_id=str(context.get("body_schema_id", "unknown")),
+                physiology=phys.to_state(),
+                attended_dimensions=tuple(attended_dimensions),
+                observations=observations,
+                candidate=candidate,
+                authority_effect_branches=branches,
+                capability_support=dict(context.get("capability_support") or {}),
+                body_energy_cost_scale=float(
+                    context.get("body_energy_cost_scale", 1.0)
+                ),
+                pending_commitment=bool(context.get("pending_commitment", False)),
+            )
+            events.append(event)
+            if not event["constrained"]:
+                kept.append(candidate)
+        return kept, events
+
+    @staticmethod
     def _no_safe_action() -> Candidate:
         return Candidate(
             "IDLE",
@@ -822,6 +864,9 @@ class Arbitrator:
         ] | None = None,
         intent_candidates: list[Candidate] | None = None,
         candidate_allowed: Callable[[Candidate], bool] | None = None,
+        prospective_recoverability_context: Mapping[str, Any] | None = None,
+        prospective_recoverability_observer: Callable[[dict[str, Any]], None]
+        | None = None,
     ) -> Candidate:
         # ``tick`` remains the orchestration clock for compatibility and for
         # explicitly orchestration-scoped modes.  Organism policy cadence must
@@ -1329,6 +1374,26 @@ class Arbitrator:
                     cands = base_cands
             else:
                 cands = base_cands
+
+        # CLOSE-02X is a pre-crisis candidate constraint only.  It consumes
+        # the already-composed CLOSE-02T pool and cannot create, rank, or
+        # execute an action.  UNKNOWN and already-exhausted states remain.
+        cands, prospective_events = self._prospective_recoverability_filter(
+            candidates=cands,
+            phys=phys,
+            observations=observations,
+            tick=active_tick,
+            attended_dimensions=preventive_dimensions,
+            context=prospective_recoverability_context,
+            effect_branches=authority_effect_branches,
+        )
+        if prospective_recoverability_observer is not None:
+            for event in prospective_events:
+                prospective_recoverability_observer(event)
+        if not cands:
+            chosen = self._no_safe_action()
+            self._commit(chosen, active_tick)
+            return chosen
 
         scored = [self.score_candidate(c, phys, observations, active_tick) for c in cands]
         if policy_expectations and temporal_modifiers_enabled:
