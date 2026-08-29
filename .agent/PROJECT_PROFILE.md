@@ -1,5 +1,7 @@
 # Project Profile
 
+Current authority: UMBRA-CLOSE-02V-R ACTIVE from `bb9372e4c73717fd9f5bead7bb5e41593d72f51c`. Phase 0 confirmed diagnostics A/B partially executed and passed before the wrapper stop; no V fresh seed executed. V-R repairs only the frozen runner/manifest contract and preserves the frozen production candidate `8350df72c5a3dc4fd9ee05276176233803a51ff5`.
+
 Current authority: UMBRA-CLOSE-02V TERMINAL from freeze commit `8350df72c5a3dc4fd9ee05276176233803a51ff5`. Verdict: `CLOSE02V_EXECUTION_STOP_UNRESOLVED`. The first authorized diagnostic invocation executed zero organism ticks because the frozen runner expected `development[known_R1]`, absent from the sealed fresh R0-R3 development manifest; known R1 is separately fixed at seed `57531938`. No scientific outcome is claimed and no runner correction/retry is authorized without Architect review.
 
 Current authority: UMBRA-CLOSE-02V ACTIVE from f8d029d3ccd9e91c3418dd5bdbf55c84c16dbb4c. Parent CLOSE02U-ATTRIB is terminal with `CLOSE02UATTRIB_SUPPORT_UNCERTAINTY_ROUTE_LOST`, secondary `CLOSE02UATTRIB_RECOVERY_HORIZON_EXHAUSTED`: the learned rest landmark remained visible but repeated verified `not_at_rest` denials closed the executable route. CLOSE-02V permits only the source translation, pure proof, smallest verified-denial-aware recovery/reacquisition correction if proven, and the explicitly ordered qualification gates. No new selector, planner, physiology/threshold/effect change, hidden truth, retry, reseed, H3/D-013/AX reopening, or automatic CLOSE-03.

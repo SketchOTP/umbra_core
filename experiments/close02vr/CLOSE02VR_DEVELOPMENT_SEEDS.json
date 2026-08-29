@@ -1,0 +1,14 @@
+{
+  "directive": "UMBRA-CLOSE-02V-R",
+  "seed_status": "sealed_before_new_organism_execution",
+  "historical_diagnostics": [45878900, 22023239, 57531938],
+  "seeds": {
+    "R0": [13000001, 13000002, 13000003, 13000004, 13000005, 13000006, 13000007, 13000008],
+    "R1": [13000009, 13000010, 13000011],
+    "R2": [13000012, 13000013, 13000014],
+    "R3": [13000015, 13000016, 13000017]
+  },
+  "all_fresh": true,
+  "formal_ineligible": true,
+  "known_r1_is_fixed_diagnostic_not_population_member": true
+}

@@ -1017,3 +1017,7 @@ directory became unresponsive during the freeze. Result: `CLOSE02_EXECUTION_STOP
 ## UMBRA-CLOSE-02V - terminal execution stop (2026-08-29)
 
 `CLOSE02V_EXECUTION_STOP_UNRESOLVED` is recorded. The implementation freeze was published at `8350df72c5a3dc4fd9ee05276176233803a51ff5`; focused V contract tests passed 32/32 and Authority 3.0/governance passed. The first authorized diagnostic invocation executed zero organism ticks and raised `KeyError: known_R1`: the sealed development manifest contains only fresh R0-R3 populations, while known R1 seed `57531938` is a separate fixed diagnostic. No scientific result, retry, reseed, or runner correction is claimed or authorized under V. Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02v-recovery-reacquisition-r1/`.
+
+## UMBRA-CLOSE-02V-R start (2026-08-29)
+
+Phase 0 reconciled the prior stop as `CLOSE02VR_PARTIAL_EXECUTION_CONFIRMED`: diagnostic A (seed `45878900`, 500 ticks) and diagnostic B (seed `22023239`, 3,500 ticks) both completed and passed before the runner failed at the known-R1 manifest lookup. Their outputs are preserved as consumed V evidence. No V fresh development/formal seed executed. V-R is wrapper-only recovery with production candidate `8350df72c5a3dc4fd9ee05276176233803a51ff5` retained byte-identically.

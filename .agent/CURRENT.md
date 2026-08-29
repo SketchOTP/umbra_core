@@ -1059,4 +1059,8 @@ VerifiedOutcome remain protected.
 ## UMBRA-CLOSE-02V terminal stop
 
 D-014V completed translation, pure proof, implementation freeze, and publication. Focused V contract tests passed 32/32; Authority 3.0, governance, and compile validation passed. The qualification runner then stopped before any organism execution with KeyError: known_R1, a sealed-manifest/runner-contract mismatch discovered after the freeze commit. This is CLOSE02V_EXECUTION_STOP_UNRESOLVED; production source is unchanged after freeze, historical evidence is unchanged, and no retry or correction is authorized under V.
+
+## UMBRA-CLOSE-02V-R start
+
+Wrapper recovery is active from governance baseline `bb9372e4c73717fd9f5bead7bb5e41593d72f51c`. Phase 0 confirmed partial execution: fixed diagnostic A and B completed successfully before the frozen runner stopped at the known-R1 manifest lookup. No V fresh development seed executed. V-R is limited to preserving those outputs, repairing the runner contract, sealing fresh V-R seed manifests and stage order, and continuing the authorized gated qualification with production byte-identical to freeze candidate `8350df72c5a3dc4fd9ee05276176233803a51ff5`.
 UMBRA-CLOSE-02V TERMINAL / execution stop from freeze commit 8350df72c5a3dc4fd9ee05276176233803a51ff5. Verdict: CLOSE02V_EXECUTION_STOP_UNRESOLVED. The first authorized diagnostic invocation executed zero organism ticks because the frozen runner expected development[known_R1], while the sealed V development manifest contains fresh R0-R3 populations and the known R1 diagnostic is separately fixed at seed 57531938. No scientific outcome is claimed; no runner correction or retry is authorized without Architect review.

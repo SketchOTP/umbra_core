@@ -305,4 +305,6 @@ Permanent evidence:
 CURRENT ACTIVE: UMBRA-CLOSE-02V; evidence=`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02v-recovery-reacquisition-r1/`; parent U remains terminal and immutable.
 
 CURRENT TERMINAL: UMBRA-CLOSE-02V; evidence=`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02v-recovery-reacquisition-r1/`; no scientific outcome, qualification, retry, or successor.
+
+CURRENT AUTHORITY: UMBRA-CLOSE-02V-R ACTIVE; baseline=bb9372e4c73717fd9f5bead7bb5e41593d72f51c; parent=CLOSE02V_EXECUTION_STOP_UNRESOLVED; scope=partial-execution audit, wrapper-only repair, fresh sealed V-R manifests, and exact gated qualification; production candidate=8350df72c5a3dc4fd9ee05276176233803a51ff5; evidence=/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02v-runner-recovery-r1/.
 CURRENT AUTHORITY: UMBRA-CLOSE-02V TERMINAL; verdict=CLOSE02V_EXECUTION_STOP_UNRESOLVED; freeze=8350df72c5a3dc4fd9ee05276176233803a51ff5; first invocation ran 0 organism ticks due to sealed-manifest/runner key mismatch (development[known_R1] absent; known diagnostic seed is 57531938); no retry or correction authorized without Architect review.

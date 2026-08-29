@@ -1,0 +1,25 @@
+{
+  "directive": "UMBRA-CLOSE-02V-R",
+  "stage_manifest_status": "sealed_before_new_organism_execution",
+  "known_r1_source": "fixed_constant_57531938",
+  "stages": [
+    {"index": 1, "stage": "DIAGNOSTIC_A", "regime": "R0", "seed_source": "fixed_diagnostic", "seeds": [45878900], "horizon": 500, "prerequisite": null, "failure_verdict": "CLOSE02VR_FLAT_AUTHORITY_REGRESSION", "kind": "diagnostic"},
+    {"index": 2, "stage": "DIAGNOSTIC_B", "regime": "R0", "seed_source": "fixed_diagnostic", "seeds": [22023239], "horizon": 3500, "prerequisite": "DIAGNOSTIC_A_PASS", "failure_verdict": "CLOSE02VR_HIERARCHICAL_AUTHORITY_REGRESSION", "kind": "diagnostic"},
+    {"index": 3, "stage": "KNOWN_R1", "regime": "R1", "seed_source": "fixed_constant", "seeds": [57531938], "horizon": 7200, "prerequisite": "DIAGNOSTIC_B_PASS", "failure_verdict": "CLOSE02VR_KNOWN_R1_FAIL", "kind": "diagnostic"},
+    {"index": 4, "stage": "R0_DEVELOPMENT", "regime": "R0", "seed_source": "fresh_development_manifest", "horizon": 7200, "prerequisite": "KNOWN_R1_PASS", "failure_verdict": "CLOSE02VR_R0_DEVELOPMENT_FAIL", "kind": "development"},
+    {"index": 5, "stage": "R1_DEVELOPMENT", "regime": "R1", "seed_source": "fresh_development_manifest", "horizon": 7200, "prerequisite": "R0_DEVELOPMENT_PASS", "failure_verdict": "CLOSE02VR_R1_DEVELOPMENT_FAIL", "kind": "development"},
+    {"index": 6, "stage": "R2_DEVELOPMENT", "regime": "R2", "seed_source": "fresh_development_manifest", "horizon": 7200, "prerequisite": "R1_DEVELOPMENT_PASS", "failure_verdict": "CLOSE02VR_R2_DEVELOPMENT_FAIL", "kind": "development"},
+    {"index": 7, "stage": "R3_DEVELOPMENT", "regime": "R3", "seed_source": "fresh_development_manifest", "horizon": 7200, "prerequisite": "R2_DEVELOPMENT_PASS", "failure_verdict": "CLOSE02VR_R3_DEVELOPMENT_FAIL", "kind": "development"},
+    {"index": 8, "stage": "AGENCY_BOUNDEDNESS", "regime": "all", "seed_source": "aggregate_development_results", "horizon": null, "prerequisite": "R3_DEVELOPMENT_PASS", "failure_verdict": "CLOSE02VR_AGENCY_OR_BOUNDEDNESS_FAIL", "kind": "gate"},
+    {"index": 9, "stage": "FORMAL_R0", "regime": "R0", "seed_source": "fresh_formal_manifest", "horizon": 7200, "prerequisite": "AGENCY_BOUNDEDNESS_PASS", "failure_verdict": "CLOSE02VR_FORMAL_INTEGRATED_VIABILITY_FAIL", "kind": "formal"},
+    {"index": 10, "stage": "FORMAL_R1", "regime": "R1", "seed_source": "fresh_formal_manifest", "horizon": 7200, "prerequisite": "FORMAL_R0_PASS", "failure_verdict": "CLOSE02VR_FORMAL_INTEGRATED_VIABILITY_FAIL", "kind": "formal"},
+    {"index": 11, "stage": "FORMAL_R2", "regime": "R2", "seed_source": "fresh_formal_manifest", "horizon": 7200, "prerequisite": "FORMAL_R1_PASS", "failure_verdict": "CLOSE02VR_FORMAL_INTEGRATED_VIABILITY_FAIL", "kind": "formal"},
+    {"index": 12, "stage": "FORMAL_R3", "regime": "R3", "seed_source": "fresh_formal_manifest", "horizon": 7200, "prerequisite": "FORMAL_R2_PASS", "failure_verdict": "CLOSE02VR_FORMAL_INTEGRATED_VIABILITY_FAIL", "kind": "formal"}
+  ],
+  "assertions": {
+    "known_r1_not_in_development_manifest": true,
+    "fresh_r0_after_known_r1": true,
+    "formal_after_all_development_and_agency": true,
+    "stop_on_predecessor_failure": true
+  }
+}
