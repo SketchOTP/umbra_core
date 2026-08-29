@@ -1039,3 +1039,7 @@ CLOSE-02W begins from exact governance baseline `6fdcb16381f0aeee07db2f22d34fd76
 ## UMBRA-CLOSE-02X start — 2026-08-29
 
 The Architect accepted `CLOSE02W_PROSPECTIVE_RECOVERABILITY_CONTRACT_SUPPORTED` and authorized X from exact baseline `9b7a3c5232edffe7fcc00ff04c0e2dbd2f0b9b59`. Phase 0 removed only the rejected V production delta: `umbra_core/arbitration.py` was restored exactly to pre-V/U blob `1b7c333a22be0e8753861ea9c2d2a5ac6a2ac2c7` and published in forward commit `1daeac57f211a4a5af0b605f50c1f3280c651a6c`; `umbra_core/world_model/engine.py` remains exact CLOSE-02U blob `d512d9f5ffb5825bdc798d17336013f31c23c655`. Historical V evidence remains unchanged. No organism run has begun. The active gate is exact W translation and pure proof before any production implementation or scientific execution.
+
+## UMBRA-CLOSE-02X terminal — 2026-08-29
+
+`CLOSE02X_KNOWN_R1_FAIL` is the terminal scientific result. Frozen diagnostics A and B passed their complete horizons. The fixed R1/S16 seed `57531938` then produced `NO_SAFE_ACTION` at tick 923 and critical fatigue at tick 924, ending the generation before fresh development. The prospective view did execute causally, recording three supported-positive to supported-exhausted energy constraints while UNKNOWN remained neutral. This is not integrated qualification and does not establish why the R1 failure persisted. Fresh development, agency/boundedness, formal qualification, and regressions were not run. No retry, reseed, remediation, or successor was started.

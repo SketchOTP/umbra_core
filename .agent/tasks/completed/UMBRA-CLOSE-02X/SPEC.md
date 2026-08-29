@@ -1,6 +1,6 @@
 # UMBRA-CLOSE-02X — Prospective Recoverability Implementation Candidate
 
-Status: ACTIVE
+Status: TERMINAL — `CLOSE02X_KNOWN_R1_FAIL`
 Classification: PRODUCTION IMPLEMENTATION + GATED INTEGRATED QUALIFICATION
 Start baseline: `9b7a3c5232edffe7fcc00ff04c0e2dbd2f0b9b59`
 Parent: `UMBRA-CLOSE-02W`

@@ -379,3 +379,7 @@ V is materially worse than U on the same known R1/S16 seed: critical fatigue mov
 ## CLOSE-02W — prospective recoverability can reuse the existing derived view
 
 The generic E/R/P/H contracts currently lack natural production producers for required attempts, retry reserve, progress, and horizon fields. However, UMBRA already has a stronger fixed-size `HOMEOSTATIC_RECOVERABILITY_VIEW_V1` that derives bounded per-dimension route margins from policy-visible world support, verified effects, learned motion support, drift, and critical bounds without hidden truth, rollout, or action authority. The supported future contract is candidate-relative: only a demonstrated supported-positive to supported-exhausted transition may constrain an ordinary candidate before active recovery; UNKNOWN must remain neutral. Retained failures across energy, fatigue, and stimulation support this beyond one seed, but no historical rescue is established.
+
+## 2026-08-29 — CLOSE-02X known-R1 boundary
+
+The prospective recoverability mechanism can be implemented as a bounded, policy-provenanced candidate constraint and can preserve both previously cleared R0 authority diagnostics. Its realization alone is not sufficient evidence of integrated viability: on the frozen R1/S16 seed `57531938`, three energy positive-to-exhausted constraints occurred, yet the organism still reached `NO_SAFE_ACTION` at tick 923 and critical fatigue at tick 924. Do not infer a specific cause or remediate without a new Architect decision.
