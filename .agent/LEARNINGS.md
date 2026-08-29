@@ -369,3 +369,6 @@ The V translation and pure contract passed, and the bounded correction was froze
 ## 2026-08-29 - CLOSE-02V-R partial execution audit
 
 The original V invocation did execute organism work: diagnostic A completed 500 ticks and diagnostic B completed 3,500 ticks, both passing, before the later known-R1 manifest dereference stopped the wrapper. The correct audit result is `CLOSE02VR_PARTIAL_EXECUTION_CONFIRMED`, not zero-tick confirmation. Preserve both outputs as consumed evidence and do not treat them as V fresh development results.
+## 2026-08-29 - CLOSE-02V-R scientific failure
+
+The V-R wrapper recovery separated the prior execution-history problem from the scientific result. Fixed diagnostics A and B passed; the corrected known R1/S16 run then failed at tick 555 after `NO_SAFE_ACTION` at tick 554 and critical fatigue. The CLOSE-02V verified-denial-aware recovery candidate therefore remains unqualified. Do not proceed to fresh populations or automatically remediate; return to Architect.

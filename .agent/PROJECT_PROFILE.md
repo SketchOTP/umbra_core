@@ -232,3 +232,4 @@ existing UMBRA semantics. It does not authorize production implementation,
 organism runs, qualification, formal tags, H3, or D-013/AX. Recommendation:
 `UMBRA-CLOSE-02T_INTERRUPTIBLE_INTENT_IMPLEMENTATION_CANDIDATE`; return to
 Architect.
+Current authority: UMBRA-CLOSE-02V-R TERMINAL with `CLOSE02VR_KNOWN_R1_FAIL`. The wrapper contract was repaired without production drift; diagnostics A/B passed, but known R1/S16 seed `57531938` failed at tick `555` after `NO_SAFE_ACTION` at `554` and critical fatigue. Fresh development and formal qualification did not start. Integrated viability remains unqualified.
