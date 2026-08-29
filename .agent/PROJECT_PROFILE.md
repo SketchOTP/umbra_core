@@ -1,3 +1,5 @@
+Current authority: UMBRA-CLOSE-02W ACTIVE from `6fdcb16381f0aeee07db2f22d34fd769c39a4e8d`. CLOSE-02V is rejected as the forward completion candidate; pre-V/U `f8d029d3ccd9e91c3418dd5bdbf55c84c16dbb4c` is a read-only behavioral reference. The current project question is whether existing UMBRA semantics can express bounded per-dimension prospective recoverability before active recovery without a planner, survival scalar, hidden truth, new threshold, or direct execution authority. Integrated viability remains unqualified.
+
 Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE_COMPARABILITY_FAIL`. The one authorized V R1/S16 diagnostic reproduced failure at tick `555` after `NO_SAFE_ACTION` at `554`, versus U's retained failure at `1484` after `1483`. V changed only arbitration recovery semantics relative to U, but exact semantic parity and component isolation were not established; V liveness regression is supported, not fully attributed. Integrated viability remains unqualified and further local recovery patching is not justified without Architect replan.
 
 # Project Profile
