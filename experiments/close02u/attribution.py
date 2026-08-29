@@ -378,7 +378,7 @@ def run_trace(work: Path, output: Path, built_in_trace: Path | None) -> dict[str
     def safety_factory(original):
         @functools.wraps(original)
         def wrapped(self, cand, phys, *args, **kwargs):
-            result = original(self, cand, phys, *args, **kwargs)
+            result = original(cand, phys, *args, **kwargs)
             capture.row().setdefault("immediate_safety_checks", []).append({
                 "candidate": candidate(cand),
                 "safe": not bool(result),
