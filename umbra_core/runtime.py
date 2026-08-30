@@ -1647,23 +1647,6 @@ class Organism:
             status = self.self_model.capability_status(candidate.capability)
             return status != "dormant" or candidate.capability in ("IDLE", "REST")
 
-        prospective_context = None
-        prospective_events: list[dict[str, Any]] | None = None
-        if self.self_model is not None:
-            prospective_context = {
-                "body_schema_id": self.self_model.active.body_schema_id,
-                "capability_support": {
-                    capability: self.self_model.capability_support(capability)
-                    for capability in ("MOVE", "APPROACH", "RETREAT")
-                },
-                "body_energy_cost_scale": float(
-                    self.embodiment.body.energy_cost_scale
-                ),
-                "pending_commitment": bool(self._delayed_proposal),
-            }
-        if self._decision_trace.enabled:
-            prospective_events = []
-
         cand = self.arbitrator.select(
             self.phys,
             obs_dicts,
@@ -1685,12 +1668,6 @@ class Organism:
             # sets activate the hierarchical intent gate.
             intent_candidates=late_candidates or None,
             candidate_allowed=candidate_allowed,
-            prospective_recoverability_context=prospective_context,
-            prospective_recoverability_observer=(
-                prospective_events.append
-                if prospective_events is not None
-                else None
-            ),
         )
         base_candidate = cand
         if self._decision_trace.enabled:
@@ -1714,7 +1691,6 @@ class Organism:
                     "phase_hint": phase_hint,
                     "enabled": indiv_apply is not None,
                 },
-                "prospective_recoverability": prospective_events or [],
             })
             self._trace_transition(trace_transitions, "base_arbitration", None, base_candidate, reason="arbitrator.select")
             if self.phys.critical_any() or self.phys.active_recovery_needs():
