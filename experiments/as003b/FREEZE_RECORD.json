@@ -1,0 +1,44 @@
+{
+  "schema": "AS003B_DEDICATED_FREEZE_V1",
+  "directive": "UMBRA-AS-003B",
+  "status": "FROZEN",
+  "frozen_parent_commit": "6ff333b11af63d99a9bea5d203ae8bdac3a704da",
+  "freeze_commit_resolution": "The commit containing this record is the sole AS-003B freeze commit; closeout records resolve its SHA without modifying frozen production or tests.",
+  "production_commit": "074376d48cde4c55db38ddf8adec9d40c92bf4f6",
+  "production_tree_fingerprint": "ed5eaf31edac7365aa048b5382b4774b2c206ec03fdfecd710d322c8677cbb51",
+  "contract": "SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1",
+  "frozen_repository_artifacts": {
+    "experiments/as003b/diagnostics.py": "629438dd20aa23785c2da9701600d4e4752e85c16f7552d9d29fa18a73b804af",
+    "experiments/as003b/POSTFREEZE_TEST_SELECTION.json": "fbee96a8e42dac5454fbf0d2f345b5e86d6b5ad74935ea62bc69a8f0e2f30848",
+    "experiments/as003b/FREEZE_PROTOCOL.json": "6b5bbfa7ec4cef27a885496496c7c779ec034c0e066b17b7f8d8fec18ff07ed0",
+    "tests/test_as003b_qualification_support.py": "e034e069d200375e2856684606eae9502fdbc2c0e613588e7caaef4460dfbeae",
+    "tools/as003b_capture.py": "a6100fcf5c4ac364ba23d440c3d5fa966b4f30357633cd3bde59ac60ccb4f127"
+  },
+  "frozen_external_artifacts": {
+    "AS003B_EVIDENCE_POLICY.json": "f8884ab49cb317a60e6c5f508e99b098a12e319dd446423bc6671f48cb9cdd76",
+    "AS003B_PRE_FREEZE_EVIDENCE_MANIFEST.json": "20fd5daf346799740ec04458117cda6b458c894d307e90b5cfbb1956da989a3e"
+  },
+  "post_freeze_sequence": [
+    "retained replay",
+    "Diagnostic A R0/S0 seed 45878900 horizon 500",
+    "Diagnostic B R0/S0 seed 22023239 horizon 3500 only after A PASS",
+    "mechanism/frontier-pressure evaluation of the frozen traces",
+    "stochastic/boundedness evaluation",
+    "subsystem regressions",
+    "applicable suite and conditional exact-baseline comparator"
+  ],
+  "prohibitions_after_freeze": [
+    "No production modification.",
+    "No test modification or selection change.",
+    "No threshold, contract, dominance, frontier, weight, source-priority, or planner change.",
+    "No retry, reseed, known R1/S16, fresh population, AS-004, or CLOSE-03.",
+    "Any frozen failure terminates AS-003B."
+  ],
+  "integrity_before_freeze": {
+    "organism_runs": 0,
+    "diagnostic_runs": 0,
+    "retries": 0,
+    "reseeds": 0,
+    "known_r1_runs": 0
+  }
+}
