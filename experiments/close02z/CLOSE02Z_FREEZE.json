@@ -1,0 +1,41 @@
+{
+  "directive": "UMBRA-CLOSE-02Z",
+  "implementation_commit": "aee1e42c010bd3ef174e0db6efa666ea8674f577",
+  "restoration_commit": "3901c9a486216bee4c02f644e35b6f3b2d9e91aa",
+  "stochastic_contract": {
+    "schema": "CANDIDATE_STABLE_STOCHASTIC_TERM_V1",
+    "namespace": "ordinary_candidate_competition:v1",
+    "sigma": 0.08,
+    "key_fields": [
+      "persistent organism SeededRNG.seed",
+      "authoritative active tick",
+      "versioned namespace",
+      "canonical source-neutral behavioral identity"
+    ]
+  },
+  "production_fingerprints": {
+    "umbra_core/arbitration.py": {
+      "git_blob": "94751315c22095cd634a19bd1367d0dff53651ad",
+      "sha256": "d02a758d3a07c425a75e446c05534f6ace62e1a14c55fd58a8b0cbb18bbec6c0"
+    },
+    "umbra_core/stochastic_competition.py": {
+      "git_blob": "9500f800f9da06817c5ea536105729de7e80f7fb",
+      "sha256": "5352ce2a5021458b88deffae09ea659f813d9e13cd1d7ab15c0cbf104f99473f"
+    },
+    "umbra_core/runtime.py": {
+      "git_blob": "32ebf583bdbe92a26b61e6a5c11406a753baa884",
+      "sha256": "428c3d4808ae2b6118c5bea5ddf47b75ff945540f61caaa54c5b8119e03625bf"
+    },
+    "umbra_core/world_model/engine.py": {
+      "git_blob": "d512d9f5ffb5825bdc798d17336013f31c23c655",
+      "sha256": "0809b92abb95ae9ac973e2fc28d3898fdea0be912b4c1c937a2197222f050a64"
+    }
+  },
+  "compatibility_order": [
+    "DIAGNOSTIC_A:R0/S0:45878900:500",
+    "DIAGNOSTIC_B:R0/S0:22023239:3500"
+  ],
+  "known_r1_authorized": false,
+  "fresh_population_authorized": false,
+  "post_freeze_remediation": false
+}
