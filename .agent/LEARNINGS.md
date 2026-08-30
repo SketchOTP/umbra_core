@@ -1,3 +1,7 @@
+## 2026-08-30 — AS-003B prospective-evidence boundary
+
+- Lost aggregate test observations must remain non-interpretable across successor generations; a fresh qualification may use only prospectively frozen evidence with durable per-test capture.
+
 ## 2026-08-30 — AS-003A retained-evidence boundary
 
 - A recorded pytest aggregate cannot support individual failure attribution. Preserve command, node ID, assertion, output, and baseline differential as first-class durable evidence; otherwise a no-rerun attribution directive must terminate `EVIDENCE_INSUFFICIENT`.
