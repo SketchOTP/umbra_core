@@ -675,6 +675,8 @@ pushed to `github/master`.
 - Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02f-final-authority-qualification-r1/`
 - Publication remote: `github`
 
+- D-20260830-as003-start | Directive: UMBRA-AS-003 | status:active | baseline:283beb3216ba4137829f0d776d795c60e1cb5ccb | parent:AS002_DISTRIBUTED_COMPETITION_CONTRACT_SUPPORTED | contract:SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1 | scope:ordinary_nonactive_noncritical_scalar_authority_replacement,pure_views,evidence_channels,simultaneous_supported_dominance,Z_frontier_resolution,bounded_architecture_qualification | constraints:no_known_R1,no_viability_or_formal_population,no_retry,no_reseed,no_hidden_utility_or_weights_or_source_priority,no_planner,no_contract_mutation,no_automatic_successor | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003-distributed-competition-implementation-r1/ | remote:github
+
 - D-20260828-close02-attrib | status:started | scope:.agent/*,isolated candidate checkout,Atlas evidence | ask:Reproduce Candidate B once and attribute the CLOSE-02F R0 failure against preserved Control A evidence | accept:one observational Candidate-B diagnostic aligned with a truthful attribution verdict and no production changes | plan:audit preserved A, run B once, align and closeout
 
 - D-20260828-close02-attrib-closeout | status:closed | scope:.agent/*,Atlas evidence | ask:Close the one-shot Candidate-B attribution diagnostic with preserved A comparison | accept:CLOSE02ATTRIB_FINAL_AUTHORITY_REGRESSION or an evidence-grounded terminal alternative with validated dossier | plan:freeze B result, align against A, publish closeout
