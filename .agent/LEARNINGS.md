@@ -1,6 +1,8 @@
 ## 2026-08-30 — AS-003B prospective-evidence boundary
 
 - Lost aggregate test observations must remain non-interpretable across successor generations; a fresh qualification may use only prospectively frozen evidence with durable per-test capture.
+- `NOT_APPLICABLE` is not equivalent to absent shared evidence: dominance may skip a channel only if both candidates mark it not applicable; a one-sided case must block elimination just like UNKNOWN.
+- `@dataclass(frozen=True)` is insufficient for a pure consequence view when it exposes nested dict/list values; recursively freeze view payloads and thaw only trace copies.
 
 ## 2026-08-30 — AS-003A retained-evidence boundary
 

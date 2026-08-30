@@ -1,0 +1,121 @@
+{
+  "schema": "AS003B_POSTFREEZE_TEST_SELECTION_V1",
+  "directive": "UMBRA-AS-003B",
+  "frozen_rule": "No test selection may be changed after the dedicated AS-003B freeze. Every pytest command writes JUnit XML and is invoked through tools/as003b_capture.py.",
+  "retained_replay_files": [
+    "tests/test_as003_distributed_competition.py",
+    "tests/test_as003b_qualification_support.py",
+    "tests/test_close02_final_authority.py",
+    "tests/test_close02r_hierarchical_intent.py",
+    "tests/test_close02t_interruptible_intent.py",
+    "tests/test_close02u_recovery_landmarks.py"
+  ],
+  "subsystem_regression_files": [
+    "tests/test_d001.py",
+    "tests/test_d002.py",
+    "tests/test_d002p.py",
+    "tests/test_d003.py",
+    "tests/test_d004.py",
+    "tests/test_d005.py",
+    "tests/test_d006.py",
+    "tests/test_d007.py",
+    "tests/test_d008.py",
+    "tests/test_d009.py",
+    "tests/test_d010.py",
+    "tests/test_d012.py",
+    "tests/test_d013an_capability_support.py",
+    "tests/test_d013ao_recoverability_view.py",
+    "tests/test_d014h2_trace.py",
+    "tests/test_d014h3b.py",
+    "tests/test_d014h3f.py",
+    "tests/test_governance_validation.py"
+  ],
+  "applicable_suite_files": [
+    "tests/test_as003_distributed_competition.py",
+    "tests/test_as003b_qualification_support.py",
+    "tests/test_close02_final_authority.py",
+    "tests/test_close02r_hierarchical_intent.py",
+    "tests/test_close02t_interruptible_intent.py",
+    "tests/test_close02u_recovery_landmarks.py",
+    "tests/test_close02v_recovery_contract.py",
+    "tests/test_close02x_attrib_analysis.py",
+    "tests/test_close02x_attrib_diagnostic.py",
+    "tests/test_close02x_prospective_recoverability.py",
+    "tests/test_d001.py",
+    "tests/test_d001c_closeout.py",
+    "tests/test_d002.py",
+    "tests/test_d002p.py",
+    "tests/test_d002v.py",
+    "tests/test_d003.py",
+    "tests/test_d004.py",
+    "tests/test_d005.py",
+    "tests/test_d006.py",
+    "tests/test_d007.py",
+    "tests/test_d008.py",
+    "tests/test_d009.py",
+    "tests/test_d009_task13_harness.py",
+    "tests/test_d010.py",
+    "tests/test_d011.py",
+    "tests/test_d012.py",
+    "tests/test_d012_process_boundary.py",
+    "tests/test_d013a_energy_focus.py",
+    "tests/test_d013aa_stochastic_viability.py",
+    "tests/test_d013ab_multineed_corridor.py",
+    "tests/test_d013ad_next_decision_drift.py",
+    "tests/test_d013ae_verified_outcome.py",
+    "tests/test_d013ah_recovery_parity.py",
+    "tests/test_d013ak_authority_reachability.py",
+    "tests/test_d013an_capability_support.py",
+    "tests/test_d013ao_recoverability_view.py",
+    "tests/test_d013axh_harness.py",
+    "tests/test_d013f_formal_contract_v2.py",
+    "tests/test_d013g_live_harness_integration.py",
+    "tests/test_d013h_v2_formal_readiness.py",
+    "tests/test_d013j_runner_entrypoint.py",
+    "tests/test_d013m_denial_conditioned_recovery.py",
+    "tests/test_d013m_denial_energy_credit.py",
+    "tests/test_d013p_directional_recovery.py",
+    "tests/test_d013p_r1_directional_fallback.py",
+    "tests/test_d013r_execution_provenance.py",
+    "tests/test_d013t_reserve_aware_recovery.py",
+    "tests/test_d013v_observation_support.py",
+    "tests/test_d013y_integrated.py",
+    "tests/test_d013z_frame_consistent_reacquisition.py",
+    "tests/test_d014e_recovery_contracts.py",
+    "tests/test_d014h2_trace.py",
+    "tests/test_d014h3b.py",
+    "tests/test_d014h3f.py",
+    "tests/test_governance_validation.py"
+  ],
+  "excluded_files": [
+    {
+      "path": "tests/test_close02vr_runner_contract.py",
+      "reason": "References the prohibited known-R1 seed in historical runner-contract assertions."
+    },
+    {
+      "path": "tests/test_close02x_runner_contract.py",
+      "reason": "References the prohibited known-R1 seed in historical runner-contract assertions."
+    },
+    {
+      "path": "tests/test_close02y_candidate_stable_contract.py",
+      "reason": "Uses the prohibited known-R1 seed as a retained stochastic fixture."
+    },
+    {
+      "path": "tests/test_close02z_runner_contract.py",
+      "reason": "References the prohibited known-R1 seed in historical runner-contract assertions."
+    },
+    {
+      "path": "tests/test_close02z_stochastic_contract.py",
+      "reason": "Uses the prohibited known-R1 seed as a retained stochastic fixture."
+    },
+    {
+      "path": "tests/test_close02z_stochastic_integration.py",
+      "reason": "Uses the prohibited known-R1 seed as a retained stochastic fixture."
+    },
+    {
+      "path": "tests/test_d013h_r1_first_failure.py",
+      "reason": "Direct historical known-R1 failure surface; not applicable to AS-003B."
+    }
+  ],
+  "baseline_comparator_rule": "Run only after a candidate nonpass. Use a detached worktree at exact production baseline 283beb3216ba4137829f0d776d795c60e1cb5ccb with the identical frozen command and environment. Classify inherited only if the exact node ID and scientific assertion both match; otherwise preserve the candidate nonpass as unexplained/new."
+}

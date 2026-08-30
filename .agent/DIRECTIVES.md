@@ -1,6 +1,7 @@
 ## UMBRA-AS-003B — START (2026-08-30)
 
 - D-20260830-as003b-start | Directive: UMBRA-AS-003B | status:active | baseline:adeb4cf746a6e6bb4baf7a171017708e707c8001 | parent:AS003A_EVIDENCE_INSUFFICIENT | scope:fresh AS-002 distributed-competition implementation qualification | preflight:local/master/github/Notion/manifests/Authority3/governance/protected source PASS | production:identical to c266318229ae3759f80ac8958ecf63e8a2ab5468 | constraints:old AS003 7/13 aggregates permanently non-interpretable; no pre-freeze organism or broad pytest; no known R1,viability population,AS004,CLOSE03,retry,reseed,weights,source-priority,planner | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003b-fresh-distributed-competition-r1/ | remote:github
+- D-20260830-as003b-prefreeze | Directive: UMBRA-AS-003B | status:pre_freeze_ready_not_frozen | correction:074376d48cde4c55db38ddf8adec9d40c92bf4f6 one_sided_NOT_APPLICABLE_blocks_dominance+immutable_consequence_mappings | pure_proofs:14+3 PASS | audits:contract/scope_scalar/completeness/migration/allowlist/CLOSE02Z/boundedness PASS | support:experiments/as003b/{diagnostics.py,POSTFREEZE_TEST_SELECTION.json,FREEZE_PROTOCOL.json},tools/as003b_capture.py | integrity:production_runtime_runs 0,retries 0,reseeds 0,known_R1 0 | next:dedicated_freeze_only
 
 ## UMBRA-AS-003A — CLOSEOUT (2026-08-30)
 

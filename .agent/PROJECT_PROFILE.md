@@ -26,6 +26,10 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
+## Current governed status — UMBRA-AS-003B
+
+AS-003B is the sole current action-selection qualification authority, beginning from `adeb4cf746a6e6bb4baf7a171017708e707c8001`. Its AS-002 contract/scope/scalar/completeness/migration/purity gates are pre-freeze PASS after bounded correction `074376d48cde4c55db38ddf8adec9d40c92bf4f6`; 17 explicitly allowlisted pure proofs pass and no organism has run. The old AS-003 `232/7` and `984/13` aggregates remain non-interpretable and forbidden as tuning or qualification input. The next authorized action is exactly one dedicated freeze, then the frozen retained replay and R0/S0 Diagnostics A/B with durable per-test evidence. AS-004 and CLOSE-03 remain blocked.
+
 Current authority: UMBRA-CLOSE-02V-ATTRIB ACTIVE from `77350e19e976904cca1ef5120fb27801543497a4`. V-R is terminal with `CLOSE02VR_KNOWN_R1_FAIL`: diagnostics A/B passed, then R1/S16 seed `57531938` failed at tick 555 after `NO_SAFE_ACTION` at 554. This directive is diagnostic-only and compares the frozen V candidate against retained U/U-ATTRIB evidence; production changes, rollback, remediation, qualification, retries, reseeds, and successor architecture work are prohibited.
 
 Previous authority: UMBRA-CLOSE-02V-R ACTIVE from `bb9372e4c73717fd9f5bead7bb5e41593d72f51c`. Phase 0 confirmed diagnostics A/B partially executed and passed before the wrapper stop; no V fresh seed executed. V-R repairs only the frozen runner/manifest contract and preserves the frozen production candidate `8350df72c5a3dc4fd9ee05276176233803a51ff5`.
