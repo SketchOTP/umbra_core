@@ -12,3 +12,7 @@
 - Completeness map: `AS003B_COMPLETENESS_MAP.json`, SHA-256 `79865cf2f8c4e213a303e6ffe4a79779c1cc1cdce50b1cdc347cfaea6d072a83`.
 - Frozen pure-test allowlist: `AS003B_PRE_FREEZE_PURE_TEST_ALLOWLIST.json`, SHA-256 `c3ddb102c98731bd2a6aa9ffdb74d5e5dc2c19b03be5919131dee1f954ece85b`.
 - No post-freeze result may be summarized without command, node list, output, JUnit/XML, and SHA-256 evidence.
+- Bounded production correction: `074376d48cde4c55db38ddf8adec9d40c92bf4f6`; external correction record SHA-256 `081d11642341d5b3fa1638cd9d89f60843c9609c0330d0c5d3e6b31e6363cb64`.
+- Revision-2 pure allowlist: SHA-256 `5b96f55ff4d14bb151fcd3f749b4d5b6a9c1044aad92534338835cc7b032efd1`; proofs: execution 001 `14/14 PASS`, execution 002 `3/3 PASS`, zero organism/runtime entries.
+- Non-production frozen-command support commit: `39aa00e0f2e4b5694141366da700fd976e10493c`; it leaves the production tree fingerprint `ed5eaf31edac7365aa048b5382b4774b2c206ec03fdfecd710d322c8677cbb51` unchanged.
+- Pre-freeze manifest: `AS003B_PREFREEZE_EVIDENCE_MANIFEST.json`; it indexes every audit/proof plus the frozen diagnostic/capture/test-selection support. Status: pre-freeze ready, not frozen.
