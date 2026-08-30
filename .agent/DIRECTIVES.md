@@ -757,3 +757,11 @@ Status: ACTIVE. Exact baseline: `1400e11370fc5dd267cb782649c242a06ec56c54`. Pare
 ## UMBRA-AS-002 terminal closeout — 2026-08-30
 
 `AS002_DISTRIBUTED_COMPETITION_CONTRACT_SUPPORTED` is terminal. `SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1` preserves each evidence proposition in its own channel and permits elimination only when every applicable proposition is supported, one candidate is no worse in every channel, and it is strictly better in at least one. `UNKNOWN` blocks elimination. The simultaneous nondominated frontier is resolved by existing CLOSE-02Z candidate-local stochasticity, not by scalar totals, votes, channel ordering, source priority, or planning. The implementation boundary is ordinary non-active/noncritical scoring/additive modifiers/sort/hysteresis; protected authority and urgent recovery remain unchanged. Pure proofs: 15/15 PASS. Production changes: 0; organism runs: 0; retries/reseeds: 0. Recommendation only: `UMBRA-AS-003_DISTRIBUTED_COMPETITION_IMPLEMENTATION_CANDIDATE`; not authorized. Evidence manifest SHA-256: `55bbd19714c0549fb516926ee8dcc60cbd488d338c8a45e1dab8e48343f4ab2c`.
+
+## UMBRA-AS-003 terminal — 2026-08-30
+
+Status: TERMINAL. Verdict: `AS003_IMPLEMENTATION_SCOPE_FAIL`. The partial
+candidate was not frozen or qualified. A broad pre-freeze pytest invocation
+executed organism tests before the required freeze and diagnostic sequence.
+No retry, reseed, Diagnostic A/B claim, automatic remediation, AS-004, or
+CLOSE-03 is authorized.

@@ -16,6 +16,8 @@ from pathlib import Path
 from typing import Any
 
 from umbra_core.arbitration import ArbitrationState, Arbitrator, Candidate
+from umbra_core.distributed_competition import supported
+from umbra_core.stochastic_competition import candidate_behavioral_identity
 from umbra_core.decision_trace import DecisionTraceSink, candidate_to_trace, canonical_fingerprint
 from umbra_core.development import (
     DevelopmentConfig,
@@ -1647,6 +1649,70 @@ class Organism:
             status = self.self_model.capability_status(candidate.capability)
             return status != "dormant" or candidate.capability in ("IDLE", "REST")
 
+        def self_model_view(candidate: Candidate) -> dict[str, Any]:
+            if self.self_model is None:
+                return {}
+            return self.self_model.candidate_consequence_view(
+                candidate.capability, candidate.params
+            )
+
+        def world_model_view(candidate: Candidate) -> dict[str, Any]:
+            if self.world_model is None:
+                return {}
+            return self.world_model.candidate_consequence_view(
+                candidate.capability, candidate.params
+            )
+
+        def individuality_channels(candidate: Candidate) -> dict[str, Any]:
+            if self.individuality is None:
+                return {}
+            return self.individuality.candidate_evidence_channels(
+                candidate,
+                context_scope=indiv_scope,
+                phase_hint=phase_hint,
+            )
+
+        def identity_of(candidate: Candidate) -> str:
+            return candidate_behavioral_identity(candidate.capability, candidate.params)
+
+        context_members: dict[str, set[str]] = {}
+        if practice_candidate is not None:
+            context_members["development.active-intent"] = {identity_of(practice_candidate)}
+        if social_candidate is not None:
+            context_members["relationship.active-partner-context"] = {identity_of(social_candidate)}
+        memory_candidates = {
+            identity_of(candidate)
+            for candidate in late_candidates
+            if candidate.params.get("source") == "memory"
+        }
+        if memory_candidates:
+            context_members["memory.active-recall"] = memory_candidates
+        if routine_proposals:
+            context_members["routine.active-context"] = {
+                identity_of(
+                    Candidate(
+                        "MANIPULATE",
+                        {
+                            **dict(proposal),
+                            "source": proposal.get("source", "PROCEDURAL_ROUTINE"),
+                        },
+                    )
+                )
+                for proposal in routine_proposals
+            }
+
+        def contextual_channels(candidate: Candidate) -> dict[str, Any]:
+            identity = identity_of(candidate)
+            return {
+                key: supported(
+                    1.0 if identity in members else 0.0,
+                    key,
+                )
+                for key, members in sorted(context_members.items())
+            }
+
+        distributed_competition_trace: dict[str, Any] = {}
+
         cand = self.arbitrator.select(
             self.phys,
             obs_dicts,
@@ -1668,6 +1734,11 @@ class Organism:
             # sets activate the hierarchical intent gate.
             intent_candidates=late_candidates or None,
             candidate_allowed=candidate_allowed,
+            self_model_view_for=self_model_view,
+            world_model_view_for=world_model_view,
+            individuality_channels_for=individuality_channels,
+            contextual_channels_for=contextual_channels,
+            distributed_trace=distributed_competition_trace,
         )
         base_candidate = cand
         if self._decision_trace.enabled:
@@ -1691,6 +1762,7 @@ class Organism:
                     "phase_hint": phase_hint,
                     "enabled": indiv_apply is not None,
                 },
+                "distributed_competition": distributed_competition_trace,
             })
             self._trace_transition(trace_transitions, "base_arbitration", None, base_candidate, reason="arbitrator.select")
             if self.phys.critical_any() or self.phys.active_recovery_needs():

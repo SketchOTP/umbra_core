@@ -806,6 +806,40 @@ class IndividualityEngine:
                 c.total += mod
         return scored
 
+    def candidate_evidence_channels(
+        self,
+        cand: Candidate,
+        *,
+        context_scope: str = "default",
+        phase_hint: float | None = None,
+    ) -> dict[str, dict[str, Any]]:
+        """Expose learned dispositions as separate read-only propositions."""
+        if not self.config.enabled or not self.config.modifiers_affect_arbitration:
+            return {}
+        out: dict[str, dict[str, Any]] = {}
+        for dimension, weights in DIM_CAP_WEIGHTS.items():
+            contextual = self.dispositions.get((dimension, context_scope))
+            default = self.dispositions.get((dimension, "default"))
+            estimate = contextual if contextual and contextual.support_count else default
+            key = f"individuality.{dimension}:{context_scope}"
+            if estimate is None or estimate.support_count <= 0:
+                out[key] = {"status": "UNKNOWN", "provenance": []}
+                continue
+            weight = float(weights.get(cand.capability, 0.0))
+            order = float(estimate.value) * weight
+            if dimension == "activity_timing_preference" and phase_hint is not None:
+                active = 1.0 if phase_hint >= 0.5 else -1.0
+                if cand.capability in ("MOVE", "CHARGE", "INSPECT"):
+                    order = float(estimate.value) * weight * active
+                elif cand.capability in ("REST", "IDLE"):
+                    order = float(estimate.value) * weight * (-active)
+            out[key] = {
+                "status": "SUPPORTED",
+                "order": order,
+                "provenance": list(estimate.supporting_evidence_refs[-2:]),
+            }
+        return out
+
     def disposition_vector(self, context_scope: str = "default") -> dict[str, float]:
         return {dim: self.get(dim, context_scope).value for dim in DISPOSITION_DIMENSIONS}
 

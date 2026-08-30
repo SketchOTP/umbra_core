@@ -878,6 +878,51 @@ class WorldModel:
         self._ring_write(self.predictions, pred)
         return pred
 
+    def candidate_consequence_view(
+        self,
+        action: str,
+        params: dict[str, Any],
+    ) -> dict[str, dict[str, Any]]:
+        """Return a pure bounded view of learned one-step world effects."""
+        toward = params.get("toward") or params.get("from")
+        entity_kind = str(toward) if toward else None
+        models = self._retrieve_models(action, entity_kind)
+        family = entity_kind or "unbound"
+        if not models:
+            return {
+                f"world.effect.success:{family}": {
+                    "status": "UNKNOWN",
+                    "provenance": ["world_model:no_verified_transition"],
+                }
+            }
+        weighted: dict[str, float] = {}
+        weight = 0.0
+        model_ids: list[str] = []
+        for model in models:
+            w = max(0.05, float(model.confidence))
+            for field_name, value in model.predicted_effect.items():
+                weighted[field_name] = weighted.get(field_name, 0.0) + float(value) * w
+            weight += w
+            model_ids.append(model.model_id)
+        if weight <= 0.0:
+            return {
+                f"world.effect.success:{family}": {
+                    "status": "UNKNOWN",
+                    "provenance": model_ids[:2],
+                }
+            }
+        out: dict[str, dict[str, Any]] = {}
+        for field_name, value in sorted(weighted.items()):
+            mean = float(value) / weight
+            if field_name == "success":
+                mean = clamp(mean)
+            out[f"world.effect.{field_name}:{family}"] = {
+                "status": "SUPPORTED",
+                "order": mean,
+                "provenance": model_ids[:2],
+            }
+        return out
+
     def _retrieve_models(
         self, action: str, entity_kind: str | None
     ) -> list[TransitionModel]:

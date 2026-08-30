@@ -28,6 +28,11 @@ from umbra_core.stochastic_competition import (
     candidate_behavioral_identity,
     candidate_stochastic_term,
 )
+from umbra_core.distributed_competition import (
+    evaluate_candidates,
+    supported,
+    trace_summary as distributed_trace_summary,
+)
 
 # ponytail: frozen modifier caps at D-010 Task 6; hardened at Stage B freeze.
 ACTIVE_POSITIVE_CAP = 0.35
@@ -826,6 +831,11 @@ class Arbitrator:
         ] | None = None,
         intent_candidates: list[Candidate] | None = None,
         candidate_allowed: Callable[[Candidate], bool] | None = None,
+        self_model_view_for: Callable[[Candidate], dict[str, Any]] | None = None,
+        world_model_view_for: Callable[[Candidate], dict[str, Any]] | None = None,
+        individuality_channels_for: Callable[[Candidate], dict[str, Any]] | None = None,
+        contextual_channels_for: Callable[[Candidate], dict[str, Any]] | None = None,
+        distributed_trace: dict[str, Any] | None = None,
     ) -> Candidate:
         # ``tick`` remains the orchestration clock for compatibility and for
         # explicitly orchestration-scoped modes.  Organism policy cadence must
@@ -1334,62 +1344,118 @@ class Arbitrator:
             else:
                 cands = base_cands
 
-        scored = [self.score_candidate(c, phys, observations, active_tick) for c in cands]
-        if policy_expectations and temporal_modifiers_enabled:
-            apply_temporal_modifiers(
-                scored,
-                policy_expectations,
-                effective_age_ticks=age_ticks,
-                fallback_biases=(
-                    active_fallback_biases(wait_journal, effective_age_ticks=age_ticks)
-                    if wait_journal is not None
-                    else ()
+        # Ordinary competition starts from one canonical, hard-admissible pool.
+        cands = self._canonical_intent_candidates(cands)
+        admissible = [
+            candidate
+            for candidate in cands
+            if candidate_allowed_here(candidate)
+            and not introduces(candidate)
+            and contract_admissible(candidate)
+        ]
+        if not admissible:
+            chosen = self._no_safe_action()
+            self._commit(chosen, active_tick)
+            return chosen
+
+        fallback_biases = (
+            active_fallback_biases(wait_journal, effective_age_ticks=age_ticks)
+            if wait_journal is not None
+            else ()
+        )
+
+        def temporal_channels(candidate: Candidate) -> dict[str, Any]:
+            if not policy_expectations or not temporal_modifiers_enabled:
+                return {}
+            eligible = sorted(
+                (
+                    view
+                    for view in policy_expectations
+                    if (view.window_start - PREPARATION_HORIZON_TICKS)
+                    <= age_ticks
+                    <= view.window_end
                 ),
-            )
-        if individuality_apply is not None:
-            individuality_apply(
-                scored,
-                context_scope=context_scope,
-                critical_physiology=False,
-                tick=active_tick,
-                phase_hint=phase_hint,
-            )
-        # Versioned candidate-local stochasticity: unrelated pool composition
-        # cannot reassign another behavioral candidate's perturbation.
-        for c in scored:
-            organism_basis = getattr(rng, "seed", None)
-            stochastic = (
-                candidate_stochastic_term(
-                    organism_basis=organism_basis,
-                    active_tick=active_tick,
-                    capability=c.capability,
-                    params=c.params,
+                key=lambda view: view.recurrence_id,
+            )[:MAX_EXPECTATIONS_PER_CANDIDATE]
+            result: dict[str, Any] = {}
+            for view in eligible:
+                result[f"temporal.{view.recurrence_id}:{view.expectation_version}"] = supported(
+                    _view_modifier_delta(view, candidate.capability),
+                    f"temporal:{view.recurrence_id}",
                 )
-                if organism_basis is not None
+            for index, bias in enumerate(fallback_biases):
+                result[f"temporal.fallback:{index}:{bias.candidate_class}"] = supported(
+                    bias.bounded_delta if candidate.capability == bias.candidate_class else 0.0,
+                    "verified_wait_fallback",
+                )
+            return result
+
+        def continuity_channels(candidate: Candidate) -> dict[str, Any]:
+            continuity = (
+                1.0
+                if self.state.last_capability is not None
+                and candidate.capability == self.state.last_capability
                 else 0.0
             )
-            c.scores["stochastic"] = stochastic
-            c.total += stochastic
-        scored.sort(
-            key=lambda c: (
-                -c.total,
-                candidate_behavioral_identity(c.capability, c.params),
-            )
-        )
-        chosen = scored[0]
+            result = {
+                "continuity.current-commitment": supported(
+                    continuity, "arbitration_state:last_capability"
+                )
+            }
+            if contextual_channels_for is not None:
+                result.update(contextual_channels_for(candidate))
+            return result
 
-        # anti-thrash: if switching every tick among top, stick
-        if (
-            self.state.last_capability
-            and chosen.capability != self.state.last_capability
-            and active_tick - self.state.last_switch_tick <= 1
-            and self.state.consecutive_same < 2
-        ):
-            # prefer continuing previous if within hysteresis band
-            prev = next((c for c in scored if c.capability == self.state.last_capability), None)
-            if prev and (chosen.total - prev.total) < self.state.hysteresis:
-                self.state.thrash_events += 1
-                chosen = prev
+        def option_channels(candidate: Candidate) -> dict[str, Any]:
+            result: dict[str, Any] = {}
+            for observation in observations:
+                if observation.get("kind") not in {"resource", "novel_crystal"}:
+                    continue
+                support = observation.get("distance_support_upper_bound")
+                if support is None or not math.isfinite(float(support)):
+                    continue
+                feasible, _, _ = self._energy_route_budget(phys, observation)
+                if not feasible:
+                    continue
+                result["option.energy:policy-visible-resource-route"] = supported(
+                    0.0
+                    if self._ordinary_action_destroys_recovery_route(
+                        phys, observation, candidate
+                    )
+                    else 1.0,
+                    str(observation.get("support_provenance") or "policy_observation"),
+                )
+                break
+            return result
+
+        organism_basis = getattr(rng, "seed", None)
+        chosen, views, competition = evaluate_candidates(
+            admissible,
+            physiology=phys,
+            organism_basis=organism_basis,
+            active_tick=active_tick,
+            effect_branches_for=lambda candidate: (
+                authority_effect_branches(candidate)
+                if authority_effect_branches is not None
+                else verified_outcome_effect_branches(candidate.capability)
+            ),
+            self_model_view_for=self_model_view_for,
+            world_model_view_for=world_model_view_for,
+            temporal_channels_for=temporal_channels,
+            individuality_channels_for=individuality_channels_for,
+            contextual_channels_for=continuity_channels,
+            option_channels_for=option_channels,
+        )
+        for candidate, view in zip(admissible, views):
+            candidate.scores = {
+                "stochastic_non_authoritative_trace": view.stochastic_term,
+                "supported_channel_count_non_authoritative_trace": float(
+                    sum(value.status == "SUPPORTED" for value in view.channels.values())
+                ),
+            }
+            candidate.total = 0.0
+        if distributed_trace is not None:
+            distributed_trace.update(distributed_trace_summary(views, competition))
 
         if intent_mode:
             # Valid intent selection is the final low-level choice. Existing
@@ -1402,7 +1468,7 @@ class Arbitrator:
             ):
                 safe_scored = [
                     candidate
-                    for candidate in scored
+                    for candidate in admissible
                     if candidate_allowed_here(candidate)
                     and not introduces(candidate)
                     and contract_admissible(candidate)
@@ -1417,27 +1483,24 @@ class Arbitrator:
             ):
                 safe_scored = [
                     candidate
-                    for candidate in scored
+                    for candidate in admissible
                     if candidate_allowed_here(candidate)
                     and not introduces(candidate)
                     and contract_admissible(candidate)
                 ]
                 chosen = safe_scored[0] if safe_scored else self._no_safe_action()
         else:
-            # No active valid intent retains the established base semantics.
-            preserved = self._preserve_recoverability(
-                phys, observations, chosen, active_tick
-            )
-            if introduces(preserved) or not contract_admissible(preserved):
+            # Hard authority may narrow the pool but cannot replace the
+            # distributed winner with an authored scalar/fallback candidate.
+            if introduces(chosen) or not contract_admissible(chosen):
                 safe_scored = [
                     candidate
-                    for candidate in scored
+                    for candidate in admissible
                     if candidate_allowed_here(candidate)
                     and not introduces(candidate)
                     and contract_admissible(candidate)
                 ]
-                preserved = safe_scored[0] if safe_scored else self._no_safe_action()
-            chosen = preserved
+                chosen = safe_scored[0] if safe_scored else self._no_safe_action()
         self._commit(chosen, active_tick)
         return chosen
 

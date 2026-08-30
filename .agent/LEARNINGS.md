@@ -414,3 +414,11 @@ Moving learned SelfModel/WorldModel prediction before selection is technically f
 ## 2026-08-30 — incomparability can remain explicit without blocking one final action
 
 Heterogeneous organism evidence need not be converted into common units to affect choice. A candidate can be eliminated only by supported dominance inside coherent proposition channels; UNKNOWN or a genuine cross-channel tradeoff keeps both alternatives on the frontier. Existing candidate-local stochasticity can then resolve that explicit incomparability without changing evidence, rewarding proposal duplication, or erasing a supported dominance relation. This preserves one final action while keeping hard authority outside ordinary competition.
+
+## 2026-08-30 — broad tests can cross a scientific execution boundary
+
+A broad pytest command is not necessarily pre-freeze pure validation. If any
+collected test creates and ticks an organism, invoking that suite is organism
+execution. Staged scientific directives therefore need an explicit pure-test
+allowlist before freeze; runtime-instantiating tests belong only in their
+preregistered post-freeze phase.

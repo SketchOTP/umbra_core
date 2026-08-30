@@ -1089,3 +1089,17 @@ Terminal verdict: `AS002_DISTRIBUTED_COMPETITION_CONTRACT_SUPPORTED`.
 The supported `SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1` contract removes heterogeneous scalar-total comparison from ordinary noncritical selection. Candidate-relative evidence remains in coherent, source-owned proposition channels. One candidate can eliminate another only through fully supported no-worse-everywhere/strictly-better-somewhere dominance; `UNKNOWN` prevents elimination and preserves first experience. Genuine conflict remains a nondominated frontier resolved by existing CLOSE-02Z candidate-local stochasticity.
 
 The contract introduces no cross-channel weights, normalization, votes, channel order, source priority, planner, global utility, or new action authority. Hard safety/admissibility, active/critical recovery, candidate generation, CLOSE-02T/U/Z, Governance, Embodiment, VerifiedOutcome, and selected-only learning remain protected. Production changes: 0; organism runs: 0; retries/reseeds: 0. Pure proofs: 15/15 PASS. Recommendation only: `UMBRA-AS-003_DISTRIBUTED_COMPETITION_IMPLEMENTATION_CANDIDATE`; not authorized.
+
+## UMBRA-AS-003 terminal closeout — 2026-08-30
+
+`AS003_IMPLEMENTATION_SCOPE_FAIL` is terminal. Partial production work added
+pure candidate consequence views, evidence-channel adapters, simultaneous
+supported dominance, frontier-only CLOSE-02Z resolution, and bounded trace
+instrumentation. Focused proof validation passed 49/49. A targeted batch
+produced 232 passes and seven migration failures. Before freeze, however, the
+full-suite classification command executed organism tests, contrary to the
+mandated pure-proof -> freeze -> retained replay -> Diagnostic A -> Diagnostic
+B sequence. A partial applicable-suite observation produced 984 passes and 13
+failures; these are retained as observations only, not qualification results.
+No freeze, Diagnostics A/B, retry, reseed, qualification verdict, or successor
+occurred.

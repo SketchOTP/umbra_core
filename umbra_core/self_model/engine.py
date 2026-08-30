@@ -765,6 +765,77 @@ class SelfModel:
         self._pending_prediction = p
         return p
 
+    def candidate_consequence_view(
+        self,
+        capability: str,
+        params: dict[str, Any],
+    ) -> dict[str, dict[str, Any]]:
+        """Return bounded learned body evidence without committing a prediction.
+
+        Authored body-schema priors are deliberately excluded.  Motion evidence
+        is supported only after attributed VerifiedOutcome observations have
+        populated the active body's capability-support envelope.
+        """
+        schema = self.active
+        base = f"body:{schema.body_schema_id}"
+        if capability not in MOTION_SUPPORT_CAPABILITIES:
+            return {
+                f"body.success.{base}": {
+                    "status": "UNKNOWN",
+                    "provenance": [f"self_model:{schema.body_schema_id}"],
+                }
+            }
+        envelope = schema.capability_support.get(capability)
+        if envelope is None or envelope.status != "supported":
+            return {
+                f"body.success.{base}": {
+                    "status": "UNKNOWN",
+                    "provenance": [f"self_model:{schema.body_schema_id}"],
+                },
+                f"body.progress.{base}": {
+                    "status": "UNKNOWN",
+                    "provenance": [f"self_model:{schema.body_schema_id}"],
+                },
+                f"body.duration.{base}": {
+                    "status": "UNKNOWN",
+                    "provenance": [f"self_model:{schema.body_schema_id}"],
+                },
+            }
+        successes = int(envelope.verified_success_count)
+        failures = sum(int(v) for v in envelope.observed_failure_modes.values())
+        total = successes + failures
+        refs = tuple(envelope.progress.provenance[-2:])
+        out: dict[str, dict[str, Any]] = {
+            f"body.success.{base}": {
+                "status": "SUPPORTED" if total else "UNKNOWN",
+                "order": successes / total if total else None,
+                "provenance": list(refs),
+            }
+        }
+        for label, interval, sign in (
+            ("progress", envelope.progress, 1.0),
+            ("duration", envelope.completion, -1.0),
+        ):
+            key = f"body.{label}.{base}"
+            if (
+                interval.semantics == SupportSemantics.VERIFIED_OBSERVED_SUPPORT.value
+                and interval.evidence_count > 0
+                and interval.minimum is not None
+                and interval.maximum is not None
+            ):
+                conservative = interval.minimum if sign > 0 else interval.maximum
+                out[key] = {
+                    "status": "SUPPORTED",
+                    "order": sign * float(conservative),
+                    "provenance": list(interval.provenance[-2:]),
+                }
+            else:
+                out[key] = {
+                    "status": "UNKNOWN",
+                    "provenance": [f"self_model:{schema.body_schema_id}"],
+                }
+        return out
+
     def observe_outcome(
         self,
         *,
