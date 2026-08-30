@@ -1,3 +1,7 @@
+## UMBRA-AS-003A closeout — 2026-08-30
+
+`AS003A_EVIDENCE_INSUFFICIENT`. The required exact master lineage and AS-002/AS-003 manifest integrity passed; Authority 3.0 and governance passed. The durable AS-003 record retains focused `49/49`, targeted `232 PASS / 7 FAIL`, and broad `984 PASS / 13 FAIL`, but it contains no test node IDs, assertions, failure output, JUnit/XML/text report, targeted command, or retained baseline differential sufficient to classify any observed failure. The directive explicitly requires stopping in this condition. No later semantic, authority, scalar-residue, migration, completeness, or causal audit was performed; no tests or organisms ran. Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003a-preserved-candidate-attribution-r1/`. No corrective/reuse/restoration conclusion and no successor are authorized.
+
 ## UMBRA-CLOSE-02V-ATTRIB start (2026-08-29)
 The accepted V-R terminal result remains `CLOSE02VR_KNOWN_R1_FAIL`: diagnostics A/B passed and known R1/S16 seed `57531938` failed at tick 555 after `NO_SAFE_ACTION` at 554. CLOSE-02V-ATTRIB is active from baseline `77350e19e976904cca1ef5120fb27801543497a4` for retained-evidence-first source-delta attribution against U. No production change, rollback, remediation, qualification, retry, reseed, or successor architecture work is authorized. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02v-attrib-r1/`.
 

@@ -1,3 +1,7 @@
+## 2026-08-30 — AS-003A retained-evidence boundary
+
+- A recorded pytest aggregate cannot support individual failure attribution. Preserve command, node ID, assertion, output, and baseline differential as first-class durable evidence; otherwise a no-rerun attribution directive must terminate `EVIDENCE_INSUFFICIENT`.
+
 ## 2026-08-29 — Candidate-stable stochastic composition
 
 - Candidate-level stochastic competition must bind noise to persisted organism seed, authoritative active tick, a versioned namespace, and source-neutral behavioral identity; shared sequential per-pool draws are a causal composition confound.
