@@ -1,3 +1,8 @@
+## 2026-08-29 — Candidate-stable stochastic composition
+
+- Candidate-level stochastic competition must bind noise to persisted organism seed, authoritative active tick, a versioned namespace, and source-neutral behavioral identity; shared sequential per-pool draws are a causal composition confound.
+- Exact seeded trajectory assertions may change under an explicitly versioned stochastic substrate even when deterministic scoring and authority are unchanged; regression classification requires matched-baseline reproduction.
+
 ## 2026-08-28 — CLOSE-02T-ATTRIB start
 
 The CLOSE-02T aggregate known-R1 artifact records the terminal envelope and

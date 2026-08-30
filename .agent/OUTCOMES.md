@@ -27,6 +27,12 @@ observational diagnostic reproduction of seed `57531938`.
   threshold/effect change, or production-default selector authority is
   authorized.
 
+## 2026-08-29 — UMBRA-CLOSE-02Z terminal qualification
+
+Verdict: `CLOSE02Z_CANDIDATE_STABLE_STOCHASTIC_COMPOSITION_QUALIFIED`.
+
+The rejected CLOSE-02X production delta was forward-restored exactly, then ordinary candidate-scoring stochasticity was versioned and bound to persisted organism seed, authoritative active tick, `ordinary_candidate_competition:v1`, and canonical source-neutral behavioral identity. The existing zero-centered Gaussian scale remains `0.08`; execution/environment and learning RNG domains are unchanged. Insertion, deletion, permutation, source neutrality, restart, migration, distribution, and retained tick-569 proofs passed. Diagnostic A completed 500 ticks and B completed 3500 ticks. No known R1 or viability population ran. All 12 applicable-suite failures reproduced on the exact restored pre-Z baseline, so new functional regressions are zero. Authority 3.0, governance, and the 14-file Atlas evidence manifest passed. This is stochastic-composition qualification only, not integrated viability.
+
 # OUTCOMES.md
 
 Append-only task-end log for UMBRA-CORE. Never rewrite, reorder, or delete history.
