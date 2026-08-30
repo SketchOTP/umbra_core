@@ -1,6 +1,7 @@
 # UMBRA-CLOSE-02AA — Prospective Support Acquisition and Positive Preparation Architecture Replan
 
-Status: ACTIVE
+Status: TERMINAL
+Verdict: `CLOSE02AA_SUPPORT_ACQUISITION_PRIMITIVE_MISSING`
 Classification: NON-PRODUCTION ARCHITECTURE RESEARCH / ZERO ORGANISM RUNS / NON-FORMAL
 Start baseline: `d618dc1c2671320d330d44d1d3dcaaa91b1771c1`
 Parent: `UMBRA-CLOSE-02Z`
@@ -18,3 +19,7 @@ Zero organism runs and zero production changes. Preserve UNKNOWN neutrality, can
 ## Evidence
 
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02aa-prospective-preparation-r1/`
+
+## Decision
+
+Case 1: support acquisition is missing; positive preparation already exists after support is known. The exact missing primitive is a bounded, revisable, source-neutral policy-visible relation from an exact missing support field to an already-generated candidate with verified support-producing semantics. No implementation contract or successor is authorized.

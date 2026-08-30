@@ -395,3 +395,7 @@ A source-neutral candidate filter can preserve its named regulatory option yet s
 ## 2026-08-29 — stochastic individuality must compose by candidate identity
 
 Sequential per-surviving-candidate RNG draws make unrelated candidate filtering behaviorally nonlocal: the filter can leave the immediate winner unchanged while reassigning later candidates' noise and changing downstream trajectories. Candidate-scoring stochasticity should be bound to persisted organism basis, authoritative tick, a versioned namespace, and canonical source-neutral behavioral identity. Candidate list index/count/order and proposal provenance are implementation accidents, not qualified individuality semantics. Environmental/execution stochasticity remains a separate domain.
+
+## 2026-08-29 — learned support is not yet an explicit support-acquisition reason
+
+UMBRA already generates and positively values fatigue-regulatory REST/toward-rest candidates during preventive attention. SelfModel can learn APPROACH support from successful VerifiedOutcome, but ordinary competition has no bounded policy-visible relation tying an exact missing support field to an already-generated candidate that can acquire it. Eligibility-only is insufficient when the candidate is already eligible; changing selection would require a separately authorized semantic rather than an inferred epistemic bonus or priority.

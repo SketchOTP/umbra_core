@@ -90,3 +90,14 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Rejected imports: JAX, Random123, Threefry, Philox, AES, a global RNG rewrite, planner, policy replacement, or external dependency.
 - UMBRA translation: candidate-scoring terms are keyed by existing persistent organism basis, authoritative active tick, a versioned candidate-scoring namespace, and canonical source-neutral behavioral identity.
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02y-stochastic-composition-r1/CLOSE02Y_PRIOR_ART_REVIEW.md`
+
+## UMBRA-CLOSE-02AA external principles — 2026-08-29
+
+- Sterling, *Allostasis: a model of predictive regulation*: https://pubmed.ncbi.nlm.nih.gov/21684297/
+- Kirsh and Maglio, *On Distinguishing Epistemic from Pragmatic Action*: https://doi.org/10.1207/s15516709cog1804_1
+- Bajcsy, *Active Perception*: https://repository.upenn.edu/bitstreams/14686d28-7a8a-4554-beee-991eec61cbdd/download
+- Cisek, *Cortical mechanisms of action selection: the affordance competition hypothesis*: https://pmc.ncbi.nlm.nih.gov/articles/PMC2440773/
+- Adopted only as bounded principles: regulation may prepare before feedback crisis; actions may acquire exact task-relevant evidence; perception/action can be coupled; currently available actions can compete without a sequential planner.
+- Rejected imports: POMDP, active inference, MPC, rollout/search, entropy or information-gain objective, epistemic planner, global utility, hidden truth, and authored rescue policy.
+- UMBRA result: prior art does not supply the missing project semantic. A policy-visible action-to-specific-support producer relation must exist in UMBRA before support-acquisition eligibility can be legitimate.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02aa-prospective-preparation-r1/CLOSE02AA_PRIOR_ART_REVIEW.md`
