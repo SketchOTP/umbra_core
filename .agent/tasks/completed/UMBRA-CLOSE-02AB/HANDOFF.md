@@ -16,4 +16,6 @@ Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbr
 
 Manifest SHA-256: `9f9e3f4679d430c6826a0294f44397a0d4c95cdbc7f5b870028e3e6adffccd42`
 
+Governance start: `84faba6f561d19d94f3aa2a86685fd85adf8c4c6`. Closeout: `d2b4d1a`, pushed through `github`.
+
 Return to Architect. No automatic successor.

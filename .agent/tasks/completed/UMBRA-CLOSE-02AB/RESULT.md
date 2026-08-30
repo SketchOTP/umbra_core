@@ -77,9 +77,10 @@ NONE.
 
 ## GitHub state
 
-- Commit: pending closeout commit
+- Governance start: `84faba6f561d19d94f3aa2a86685fd85adf8c4c6`
+- Closeout commit: `d2b4d1a`
 - Branch: master
-- Push/PR state: pending push through `github`
+- Push/PR state: pushed through `github`
 
 ## Recommendation to Architect
 
