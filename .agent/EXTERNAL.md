@@ -127,3 +127,14 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Adopted only as bounded principles: currently available actions may compete in parallel; internal and learned consequence evidence may bias competition; one-step forward evidence need not become planning; experienced action effects can influence later selection without granting execution authority.
 - Rejected imports: RL/model-based RL, POMDP, active inference, MPC, recursive rollout/tree search, global expected utility, inverse-model action generation, basal-ganglia scalar salience, neural imitation, LLM planning, and hierarchical goal planners.
 - UMBRA result: prior art supports pure bounded consequence evidence but does not validate the current heterogeneous scalar score. Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-001-learned-consequence-action-selection-r1/AS001_PRIOR_ART_ARCHITECTURE_REVIEW.md`.
+
+## UMBRA-AS-002 distributed-competition principles — 2026-08-30
+
+- Cisek, *Cortical mechanisms of action selection: the affordance competition hypothesis*: https://pmc.ncbi.nlm.nih.gov/articles/PMC2440773/
+- Prescott, Bryson, Seth et al., *Modelling natural action selection*: https://pmc.ncbi.nlm.nih.gov/articles/PMC2042525/
+- Wolpert, Miall, and Kawato, *Internal models in the cerebellum*: https://pubmed.ncbi.nlm.nih.gov/21227230/
+- Elsner and Hommel, *Effect anticipation and action control*: https://pubmed.ncbi.nlm.nih.gov/11248937/
+- Churchland and Ditterich, *New advances in understanding decisions among multiple alternatives*: https://pmc.ncbi.nlm.nih.gov/articles/PMC3422607/
+- Adopted only as bounded principles: currently available actions may coexist in competition; internal/learned consequence evidence can shape competition before action; one-step predictive evidence need not become planning; verified action effects can later matter; multi-alternative resolution can be treated as competition dynamics.
+- Rejected imports: RL/model-based RL, POMDP, active inference, MPC, tree search, global utility, normalized multi-objective sums, automatic Pareto optimization, evidence accumulation across incomparable channels, neural/basal-ganglia imitation, and LLM planning.
+- UMBRA result: prior art constrains the architecture but does not select the decision rule. The accepted project contract is UMBRA-specific supported dominance plus existing candidate-local stochastic resolution. Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-002-distributed-competition-r1/AS002_PRIOR_ART_ARCHITECTURE_REVIEW.md`.

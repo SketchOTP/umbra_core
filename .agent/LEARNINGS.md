@@ -410,3 +410,7 @@ An action-conditioned model is not a candidate-selection consumer merely because
 ## 2026-08-30 — learned prediction needs a defensible preselection consumer
 
 Moving learned SelfModel/WorldModel prediction before selection is technically feasible only as a pure, fixed-size, UNKNOWN-preserving query; the existing mutating prediction APIs cannot be called once per candidate. That alone is not enough. Feeding predictions into UMBRA's current summed score would combine learned evidence with heterogeneous authored terms whose units and calibration are not established. The scientifically minimal boundary is therefore not another score patch: replace ordinary scalar-total evaluation with bounded distributed competition while preserving proposal generation, hard constraints, candidate-stable stochasticity, one final authority, Governance, Embodiment, and verified selected-only learning.
+
+## 2026-08-30 — incomparability can remain explicit without blocking one final action
+
+Heterogeneous organism evidence need not be converted into common units to affect choice. A candidate can be eliminated only by supported dominance inside coherent proposition channels; UNKNOWN or a genuine cross-channel tradeoff keeps both alternatives on the frontier. Existing candidate-local stochasticity can then resolve that explicit incomparability without changing evidence, rewarding proposal duplication, or erasing a supported dominance relation. This preserves one final action while keeping hard authority outside ordinary competition.

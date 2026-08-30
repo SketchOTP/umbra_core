@@ -1081,3 +1081,11 @@ The current authority chain was mapped across 26 stages and 11 major causal part
 The blocker is the ordinary arbitration consumer. Eleven heterogeneous score components are summed directly, most deriving from D-001 scaffolding or later local remediation, with no evidence of common units or calibration. Adding learned predictions to that scalar would preserve the defect. The smallest supported replacement boundary is bounded evidence-conditioned distributed competition replacing scalar-total candidate evaluation while preserving candidate generation, hard safety/admissibility, CLOSE-02T one-final authority, CLOSE-02Z stochasticity, Governance, Embodiment, VerifiedOutcome, and selected-only learning.
 
 Production changes: 0. Organism runs: 0. Retries/reseeds: 0. Focused proofs: 8/8 PASS. Authority 3.0, governance, retained manifests, and AS-001 evidence manifest PASS. No successor is authorized.
+
+## 2026-08-30 — UMBRA-AS-002 distributed competition contract
+
+Terminal verdict: `AS002_DISTRIBUTED_COMPETITION_CONTRACT_SUPPORTED`.
+
+The supported `SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1` contract removes heterogeneous scalar-total comparison from ordinary noncritical selection. Candidate-relative evidence remains in coherent, source-owned proposition channels. One candidate can eliminate another only through fully supported no-worse-everywhere/strictly-better-somewhere dominance; `UNKNOWN` prevents elimination and preserves first experience. Genuine conflict remains a nondominated frontier resolved by existing CLOSE-02Z candidate-local stochasticity.
+
+The contract introduces no cross-channel weights, normalization, votes, channel order, source priority, planner, global utility, or new action authority. Hard safety/admissibility, active/critical recovery, candidate generation, CLOSE-02T/U/Z, Governance, Embodiment, VerifiedOutcome, and selected-only learning remain protected. Production changes: 0; organism runs: 0; retries/reseeds: 0. Pure proofs: 15/15 PASS. Recommendation only: `UMBRA-AS-003_DISTRIBUTED_COMPETITION_IMPLEMENTATION_CANDIDATE`; not authorized.
