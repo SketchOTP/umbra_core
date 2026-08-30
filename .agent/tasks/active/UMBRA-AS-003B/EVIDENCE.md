@@ -16,3 +16,5 @@
 - Revision-2 pure allowlist: SHA-256 `5b96f55ff4d14bb151fcd3f749b4d5b6a9c1044aad92534338835cc7b032efd1`; proofs: execution 001 `14/14 PASS`, execution 002 `3/3 PASS`, zero organism/runtime entries.
 - Non-production frozen-command support commit: `39aa00e0f2e4b5694141366da700fd976e10493c`; it leaves the production tree fingerprint `ed5eaf31edac7365aa048b5382b4774b2c206ec03fdfecd710d322c8677cbb51` unchanged.
 - Pre-freeze manifest: `AS003B_PREFREEZE_EVIDENCE_MANIFEST.json`; it indexes every audit/proof plus the frozen diagnostic/capture/test-selection support. Status: pre-freeze ready, not frozen.
+- Freeze: `5c2642ac9c1c0be6340d583caf594f5799ecda13`. Frozen retained replay: `57 PASS / 1 FAIL`; durable command/JUnit/per-test evidence begins `AS003B_RETAINED_REPLAY.*`. Terminal record: `AS003B_TERMINAL_RESULT.json`. No later post-freeze command ran.
+- Final evidence manifest: `AS003B_EVIDENCE_MANIFEST.json`, SHA-256 `a5c914980f877fca195ab70aa3816abaeba22fbf7bb6b4596987b153b3810a70`; parse/readback PASS.
