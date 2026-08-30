@@ -101,3 +101,12 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Rejected imports: POMDP, active inference, MPC, rollout/search, entropy or information-gain objective, epistemic planner, global utility, hidden truth, and authored rescue policy.
 - UMBRA result: prior art does not supply the missing project semantic. A policy-visible action-to-specific-support producer relation must exist in UMBRA before support-acquisition eligibility can be legitimate.
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02aa-prospective-preparation-r1/CLOSE02AA_PRIOR_ART_REVIEW.md`
+
+## UMBRA-CLOSE-02AB action-effect principles — 2026-08-29
+
+- Elsner and Hommel, *Effect Anticipation and Action Control*: https://pubmed.ncbi.nlm.nih.gov/11248937/
+- Sun et al., *Ideomotor Action: Evidence for Automaticity in Learning, but Not Execution*: https://pmc.ncbi.nlm.nih.gov/articles/PMC7033682/
+- Adopted only as bounded principles: verified experience can establish action-effect associations; later activation of a learned effect can influence associated action choice; learning a relation does not guarantee execution.
+- Rejected imports: symbolic goal planning, inverse models, Theory of Event Coding implementation, reinforcement learning, model-based control, new numeric epistemic utility, and automatic execution authority.
+- UMBRA result: the relation is partly representable, but current `uncertainty_reduction` is not a qualified field-specific recruitment consumer.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02ab-support-producer-r1/CLOSE02AB_ACTION_EFFECT_PRIOR_ART.md`

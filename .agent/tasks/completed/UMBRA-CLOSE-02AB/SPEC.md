@@ -1,6 +1,6 @@
 # UMBRA-CLOSE-02AB — Support-Producer Relation and Effect-Based Recruitment Architecture Replan
 
-Status: ACTIVE
+Status: TERMINAL
 Classification: NON-PRODUCTION ARCHITECTURE RESEARCH / ZERO ORGANISM RUNS / NON-FORMAL
 Start baseline: `ef4cbfb7389115e5eb2ab855d14435b87798a743`
 Parent: `UMBRA-CLOSE-02AA`
@@ -17,3 +17,7 @@ Zero organism runs and zero production changes. Preserve candidate-stable CLOSE-
 ## Evidence
 
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02ab-support-producer-r1/`
+
+## Verdict
+
+`CLOSE02AB_UNCERTAINTY_REDUCTION_ARCHITECTURE_DEFECT`

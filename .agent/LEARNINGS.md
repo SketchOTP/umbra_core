@@ -399,3 +399,7 @@ Sequential per-surviving-candidate RNG draws make unrelated candidate filtering 
 ## 2026-08-29 — learned support is not yet an explicit support-acquisition reason
 
 UMBRA already generates and positively values fatigue-regulatory REST/toward-rest candidates during preventive attention. SelfModel can learn APPROACH support from successful VerifiedOutcome, but ordinary competition has no bounded policy-visible relation tying an exact missing support field to an already-generated candidate that can acquire it. Eligibility-only is insufficient when the candidate is already eligible; changing selection would require a separately authorized semantic rather than an inferred epistemic bonus or priority.
+
+## 2026-08-29 — producer representation and behavioral recruitment are separate architecture requirements
+
+SelfModel's verified motion-support update supplies an attributable same-capability producer pathway under the active body schema, but it does not establish that an action caused coincident route-geometry refresh. More importantly, recording a producer relation is behaviorally inert unless a qualified consumer can recruit the candidate. UMBRA's generic `uncertainty_reduction` term is candidate-independent and therefore cancels in ordinary ranking; its fixed INSPECT/ORIENT additions are not tied to exact missing support or verified producer provenance. A future decision must define candidate-specific uncertainty semantics without smuggling in an arbitrary epistemic weight, priority, or planner.
