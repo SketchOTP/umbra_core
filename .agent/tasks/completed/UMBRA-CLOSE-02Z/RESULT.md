@@ -13,6 +13,7 @@
 - Fresh viability populations: 0
 - Applicable suite: 957 passed / 12 baseline-reproduced failures / 2 skipped
 - New functional regressions: 0
+- Canonical Notion closeout: REFETCH-VERIFIED
 - Evidence manifest SHA-256: `df02f07ab471bfab5cb6e13a8373b333a2c76f571511ee1bba54b785415e8687`
 - Recommendation only: `UMBRA-CLOSE-02AA_PROSPECTIVE_SUPPORT_ACQUISITION_AND_POSITIVE_PREPARATION_REPLAN`
 - Next phase authorized: false

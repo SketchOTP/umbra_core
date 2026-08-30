@@ -10,7 +10,7 @@ baseline:
   restoration: 3901c9a486216bee4c02f644e35b6f3b2d9e91aa
   implementation: aee1e42c010bd3ef174e0db6efa666ea8674f577
   freeze: f828813c4af37cc1862d94cabaa8ef2e3d197dc2
-  closeout: publication record commit containing this handoff
+  closeout: 0df181e0f6de184cdd1907169f553817c830041a
 
 contract:
   schema: CANDIDATE_STABLE_STOCHASTIC_TERM_V1
@@ -36,6 +36,7 @@ validation:
   authority3: PASS
   governance: PASS
   evidence_manifest: PASS
+  notion_refetch: PASS
 
 integrity:
   retries: 0
