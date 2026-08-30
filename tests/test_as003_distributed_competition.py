@@ -11,6 +11,7 @@ from umbra_core.distributed_competition import (
     build_consequence_view,
     evaluate_candidates,
     resolve_supported_frontier,
+    not_applicable,
     supported,
     supported_dominance,
     unknown,
@@ -43,6 +44,15 @@ def test_unknown_blocks_elimination():
     a = view("a", {"x": supported(2), "y": unknown()})
     b = view("b", {"x": supported(1), "y": supported(0)})
     assert not supported_dominance(a, b).passed
+
+
+def test_one_sided_not_applicable_blocks_elimination():
+    a = view("a", {"x": supported(2), "y": not_applicable()})
+    b = view("b", {"x": supported(1), "y": supported(0)})
+    result = supported_dominance(a, b)
+    assert not result.passed
+    assert result.reason == "unknown_or_inapplicable_blocks_elimination"
+    assert result.blocking_channels == ("y",)
 
 
 def test_all_unknown_pool_remains_selectable():
@@ -160,6 +170,23 @@ def test_pure_builder_does_not_mutate_inputs():
     )
     assert candidate == before[0]
     assert physiology == before[1]
+
+
+def test_consequence_view_mappings_are_recursively_immutable():
+    view = build_consequence_view(
+        Candidate("MOVE", {"nested": {"step": 1.0}}),
+        physiology=Physiology(),
+        effect_branches=verified_outcome_effect_branches("MOVE"),
+        organism_basis=1,
+        active_tick=2,
+    )
+    with pytest.raises(TypeError):
+        view.channels["extra"] = unknown()
+    with pytest.raises(TypeError):
+        view.params["extra"] = 1
+    with pytest.raises(TypeError):
+        view.params["nested"]["step"] = 2.0
+    assert view.as_dict()["params"] == {"nested": {"step": 1.0}}
 
 
 def test_restart_determinism():

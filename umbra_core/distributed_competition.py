@@ -9,6 +9,7 @@ qualified candidate-local stochastic term.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from types import MappingProxyType
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
 from umbra_core.physiology import BOUNDS
@@ -77,6 +78,32 @@ def not_applicable() -> EvidenceValue:
     return EvidenceValue(NOT_APPLICABLE, None, ())
 
 
+def _freeze_value(value: Any) -> Any:
+    """Freeze ephemeral consequence-view data without changing candidate state."""
+
+    if isinstance(value, Mapping):
+        return MappingProxyType({str(key): _freeze_value(item) for key, item in value.items()})
+    if isinstance(value, list):
+        return tuple(_freeze_value(item) for item in value)
+    if isinstance(value, tuple):
+        return tuple(_freeze_value(item) for item in value)
+    if isinstance(value, set):
+        return frozenset(_freeze_value(item) for item in value)
+    return value
+
+
+def _thaw_value(value: Any) -> Any:
+    """Return trace-only plain data from an immutable consequence view."""
+
+    if isinstance(value, Mapping):
+        return {str(key): _thaw_value(item) for key, item in value.items()}
+    if isinstance(value, tuple):
+        return [_thaw_value(item) for item in value]
+    if isinstance(value, frozenset):
+        return sorted(_thaw_value(item) for item in value)
+    return value
+
+
 @dataclass(frozen=True)
 class CandidateConsequenceView:
     identity: str
@@ -89,13 +116,15 @@ class CandidateConsequenceView:
     def __post_init__(self) -> None:
         if len(self.channels) > MAX_CHANNELS_PER_CANDIDATE:
             raise ValueError("candidate_channel_bound_exceeded")
+        object.__setattr__(self, "params", _freeze_value(self.params))
+        object.__setattr__(self, "channels", MappingProxyType(dict(self.channels)))
 
     def as_dict(self) -> dict[str, Any]:
         return {
             "schema": self.schema,
             "identity": self.identity,
             "capability": self.capability,
-            "params": dict(self.params),
+            "params": _thaw_value(self.params),
             "channels": {
                 key: value.as_dict() for key, value in sorted(self.channels.items())
             },
@@ -167,9 +196,10 @@ def supported_dominance(
     for key in sorted(set(a.channels) | set(b.channels)):
         av = a.channels.get(key, not_applicable())
         bv = b.channels.get(key, not_applicable())
-        # Fully-qualified propositions compare only when applicable to both
-        # candidates.  Absence is not UNKNOWN and cannot create merit.
-        if av.status == NOT_APPLICABLE or bv.status == NOT_APPLICABLE:
+        # A proposition absent from both candidates is irrelevant. If it is
+        # applicable to either, both candidates must support it; one-sided
+        # absence cannot create merit or bypass UNKNOWN preservation.
+        if av.status == NOT_APPLICABLE and bv.status == NOT_APPLICABLE:
             continue
         if av.status != SUPPORTED or bv.status != SUPPORTED:
             blocked.append(key)
