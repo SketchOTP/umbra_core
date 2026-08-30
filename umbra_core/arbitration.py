@@ -24,6 +24,10 @@ from umbra_core.wait_execution import (
     wait_deadline_age_tick,
 )
 from umbra_core.recoverability.contracts import candidate_is_admissible
+from umbra_core.stochastic_competition import (
+    candidate_behavioral_identity,
+    candidate_stochastic_term,
+)
 
 # ponytail: frozen modifier caps at D-010 Task 6; hardened at Stage B freeze.
 ACTIVE_POSITIVE_CAP = 0.35
@@ -1350,10 +1354,28 @@ class Arbitrator:
                 tick=active_tick,
                 phase_hint=phase_hint,
             )
-        # bounded stochasticity: softmax-ish via noisy argmax
+        # Versioned candidate-local stochasticity: unrelated pool composition
+        # cannot reassign another behavioral candidate's perturbation.
         for c in scored:
-            c.total += rng.gauss(0.0, 0.08)
-        scored.sort(key=lambda c: c.total, reverse=True)
+            organism_basis = getattr(rng, "seed", None)
+            stochastic = (
+                candidate_stochastic_term(
+                    organism_basis=organism_basis,
+                    active_tick=active_tick,
+                    capability=c.capability,
+                    params=c.params,
+                )
+                if organism_basis is not None
+                else 0.0
+            )
+            c.scores["stochastic"] = stochastic
+            c.total += stochastic
+        scored.sort(
+            key=lambda c: (
+                -c.total,
+                candidate_behavioral_identity(c.capability, c.params),
+            )
+        )
         chosen = scored[0]
 
         # anti-thrash: if switching every tick among top, stick
