@@ -1,6 +1,7 @@
 # UMBRA-CLOSE-02AC — Action-Conditioned Evidence Prediction / Uncertainty Attribution Convergence Gate
 
-Status: ACTIVE
+Status: TERMINAL
+Verdict: `CLOSE02AC_BROADER_ACTION_SELECTION_REPLAN_REQUIRED`
 Classification: NON-PRODUCTION ARCHITECTURE RESEARCH / ZERO ORGANISM RUNS / NON-FORMAL / COMPLETION-LINEAGE CONVERGENCE GATE
 Start baseline: `bc3a6061f790016d431153341129a43db394df42`
 Parent: `UMBRA-CLOSE-02AB`
@@ -17,3 +18,5 @@ Zero organism runs and zero production changes. Preserve CLOSE-02Z candidate-sta
 ## Evidence
 
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02ac-action-conditioned-evidence-r1/`
+
+Manifest SHA-256: `ee9562e1a0b142b766f43adb9cbc65a6901c78de8dc787c89cdb29b93e00e40c`

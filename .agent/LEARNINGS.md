@@ -403,3 +403,7 @@ UMBRA already generates and positively values fatigue-regulatory REST/toward-res
 ## 2026-08-29 — producer representation and behavioral recruitment are separate architecture requirements
 
 SelfModel's verified motion-support update supplies an attributable same-capability producer pathway under the active body schema, but it does not establish that an action caused coincident route-geometry refresh. More importantly, recording a producer relation is behaviorally inert unless a qualified consumer can recruit the candidate. UMBRA's generic `uncertainty_reduction` term is candidate-independent and therefore cancels in ordinary ranking; its fixed INSPECT/ORIENT additions are not tied to exact missing support or verified producer provenance. A future decision must define candidate-specific uncertainty semantics without smuggling in an arbitrary epistemic weight, priority, or planner.
+
+## 2026-08-29 — post-selection prediction cannot repair preselection evidence attribution
+
+An action-conditioned model is not a candidate-selection consumer merely because it predicts the selected action before execution. UMBRA's SelfModel and WorldModel are invoked after final arbitration and maintain one pending prediction for outcome comparison. They neither evaluate alternatives nor predict exact support-field transitions. Turning categorical UNKNOWN/supported states into numeric uncertainty would add semantics, not reuse them. The remaining capability therefore belongs to broader action-selection architecture, not another local uncertainty-score patch.

@@ -110,3 +110,11 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Rejected imports: symbolic goal planning, inverse models, Theory of Event Coding implementation, reinforcement learning, model-based control, new numeric epistemic utility, and automatic execution authority.
 - UMBRA result: the relation is partly representable, but current `uncertainty_reduction` is not a qualified field-specific recruitment consumer.
 - Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02ab-support-producer-r1/CLOSE02AB_ACTION_EFFECT_PRIOR_ART.md`
+
+## UMBRA-CLOSE-02AC predictive-evidence principles — 2026-08-29
+
+- Sharafeldin, Imam, and Choi, *Active sensing with predictive coding and uncertainty minimization* (2024), DOI `10.1016/j.patter.2024.100983`: action-conditioned predictive/generative models can support action-specific uncertainty reduction; this does not justify adding identical state uncertainty to every action.
+- Elsner and Hommel, *Effect Anticipation and Action Control* (2001), https://pubmed.ncbi.nlm.nih.gov/11248937/; Elsner and Hommel, *Contiguity and contingency in action-effect learning* (2004), DOI `10.1007/s00426-003-0151-8`: learned action-effect recruitment depends on attributable action-effect relations and contingency, not temporal coincidence alone.
+- Adopted only as bounded architecture principles. Rejected imports: active inference, POMDP, information-gain optimizer, planner/rollout, predictive-coding controller, global uncertainty utility, and external RNG/controller frameworks.
+- UMBRA result: current post-selection models and generic uncertainty score do not provide the required preselection exact-field attribution; broader action-selection replan is required.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-close-02ac-action-conditioned-evidence-r1/CLOSE02AC_PRIOR_ART_BOUNDARY.md`
