@@ -138,3 +138,10 @@ Re-evaluate only if the canonical Authority package publishes a newer schema or 
 - Adopted only as bounded principles: currently available actions may coexist in competition; internal/learned consequence evidence can shape competition before action; one-step predictive evidence need not become planning; verified action effects can later matter; multi-alternative resolution can be treated as competition dynamics.
 - Rejected imports: RL/model-based RL, POMDP, active inference, MPC, tree search, global utility, normalized multi-objective sums, automatic Pareto optimization, evidence accumulation across incomparable channels, neural/basal-ganglia imitation, and LLM planning.
 - UMBRA result: prior art constrains the architecture but does not select the decision rule. The accepted project contract is UMBRA-specific supported dominance plus existing candidate-local stochastic resolution. Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-002-distributed-competition-r1/AS002_PRIOR_ART_ARCHITECTURE_REVIEW.md`.
+
+## UMBRA-AS-003 external-discovery disposition — 2026-08-30
+
+No new external discovery was performed. AS-003 was an exact implementation
+of the accepted AS-002 contract, and the directive prohibited importing
+dominance remedies. The generation stopped on its internal execution-order
+boundary before any outside literature could affect implementation semantics.

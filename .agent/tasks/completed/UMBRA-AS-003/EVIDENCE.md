@@ -16,3 +16,5 @@
 - Freeze commit: NONE.
 - AS-003 Diagnostic A/B: NOT RUN.
 - Terminal verdict: `AS003_IMPLEMENTATION_SCOPE_FAIL`.
+- Atlas evidence manifest SHA-256:
+  `7a4c77c50eb2395a0cc97bdedc290221c0ab9035cdf1700d5b53ba48b4b23985`.

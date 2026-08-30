@@ -1,4 +1,4 @@
-Current authority: UMBRA-AS-003 ACTIVE from `283beb3216ba4137829f0d776d795c60e1cb5ccb`. The accepted `SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1` contract is authorized for bounded production implementation and action-selection qualification only. Integrated viability remains unqualified; known R1, fresh viability/formal populations, and CLOSE-03 remain blocked.
+Current status: UMBRA-AS-003 TERMINAL with `AS003_IMPLEMENTATION_SCOPE_FAIL`. The partial `SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1` implementation is preserved but unqualified because live organism tests executed before the preregistered freeze and diagnostic sequence. Integrated viability remains unqualified; AS-004, known R1, fresh viability/formal populations, and CLOSE-03 remain unauthorized.
 
 Prior authority: UMBRA-AS-002 TERMINAL with `AS002_DISTRIBUTED_COMPETITION_CONTRACT_SUPPORTED`. Its bounded ordinary-action replacement contract is the exact AS-003 implementation authority.
 
