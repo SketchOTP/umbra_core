@@ -2,6 +2,8 @@
 
 Fresh qualification authority begins from `adeb4cf746a6e6bb4baf7a171017708e707c8001`. The preserved AS-003 production candidate is unchanged; the 7/13 lost aggregates remain permanent but prohibited as tuning, classification, or qualification input. Phase 0 passed exact Git/GitHub/Notion/manifests/Authority/governance reconciliation and production identity. Pre-freeze work is static/pure only until the dedicated evidence policy, contract/scope/scalar/completeness/migration audits, pure-test allowlist, and any independently proven bounded corrections pass. No organism execution occurred.
 
+The AS-003B evidence policy is now frozen with SHA-256 `54765d562196b74b4d9f7fb27bbb31d81ba39a1539a9a68a1d489fc2aa4ffcd2`. It permanently excludes the lost AS-003 aggregates from implementation and qualification reasoning and requires durable per-test evidence for all post-freeze commands.
+
 ## UMBRA-AS-003A closeout — 2026-08-30
 
 `AS003A_EVIDENCE_INSUFFICIENT`. The required exact master lineage and AS-002/AS-003 manifest integrity passed; Authority 3.0 and governance passed. The durable AS-003 record retains focused `49/49`, targeted `232 PASS / 7 FAIL`, and broad `984 PASS / 13 FAIL`, but it contains no test node IDs, assertions, failure output, JUnit/XML/text report, targeted command, or retained baseline differential sufficient to classify any observed failure. The directive explicitly requires stopping in this condition. No later semantic, authority, scalar-residue, migration, completeness, or causal audit was performed; no tests or organisms ran. Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003a-preserved-candidate-attribution-r1/`. No corrective/reuse/restoration conclusion and no successor are authorized.
