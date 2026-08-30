@@ -1072,3 +1072,12 @@ Verdict: `CLOSE02AB_UNCERTAINTY_REDUCTION_ARCHITECTURE_DEFECT`. Verified motion 
 ## UMBRA-CLOSE-02AC terminal — 2026-08-29
 
 Verdict: `CLOSE02AC_BROADER_ACTION_SELECTION_REPLAN_REQUIRED`. The live call graph proves prediction is post-final-selection, so existing models cannot compare alternatives during ordinary competition. Their outputs predict body/world consequences at capability/entity level, not transitions in exact recovery-support fields, and current learning lacks no-action/alternative-action contingency. No calibrated conversion exists from categorical support status to numeric uncertainty. The current uncertainty score is therefore not salvageable for this purpose without new semantics. Local CLOSE-02 support-acquisition engineering terminates. Production changes: 0; organism runs: 0; retries/reseeds: 0; no successor authorized. Evidence manifest SHA-256: `ee9562e1a0b142b766f43adb9cbc65a6901c78de8dc787c89cdb29b93e00e40c`.
+## 2026-08-30 — UMBRA-AS-001 learned-consequence action-selection replan
+
+Terminal verdict: `AS001_CURRENT_ARBITRATION_REPLACEMENT_REQUIRED`.
+
+The current authority chain was mapped across 26 stages and 11 major causal participants. SelfModel and WorldModel already hold useful learned one-step contingencies, and their deterministic view construction can be separated from pending/history mutation without a fundamental predictive-model redesign. Unsupported consequence fields must remain UNKNOWN; only the selected candidate receives a committed prediction and later verified learning.
+
+The blocker is the ordinary arbitration consumer. Eleven heterogeneous score components are summed directly, most deriving from D-001 scaffolding or later local remediation, with no evidence of common units or calibration. Adding learned predictions to that scalar would preserve the defect. The smallest supported replacement boundary is bounded evidence-conditioned distributed competition replacing scalar-total candidate evaluation while preserving candidate generation, hard safety/admissibility, CLOSE-02T one-final authority, CLOSE-02Z stochasticity, Governance, Embodiment, VerifiedOutcome, and selected-only learning.
+
+Production changes: 0. Organism runs: 0. Retries/reseeds: 0. Focused proofs: 8/8 PASS. Authority 3.0, governance, retained manifests, and AS-001 evidence manifest PASS. No successor is authorized.
