@@ -7,4 +7,8 @@
 - AS-003 manifest: `7a4c77c50eb2395a0cc97bdedc290221c0ab9035cdf1700d5b53ba48b4b23985`.
 - AS-003A manifest: `23e0c8bcdd3ba64ff6f60da46ba9f8a4f46fb62369788b26f17da16b1bc5afe0`.
 - Immutable AS-003B evidence policy: `AS003B_EVIDENCE_POLICY.json`, SHA-256 `54765d562196b74b4d9f7fb27bbb31d81ba39a1539a9a68a1d489fc2aa4ffcd2`.
+- Pre-freeze contract audit: `AS003B_CONTRACT_CONFORMANCE_PRE_FREEZE.json`, SHA-256 `d6e374e12a0fde1849f2fbfaae85acb7e6dcb3c8b7b11d406fe947d1cb750c20`.
+- Scope/scalar audit: `AS003B_SCOPE_AND_SCALAR_AUDIT.json`, SHA-256 `6f2bb2af014545142e990a87c4ea7ca5630e5de9e7efa2f7b0e41afc46b31098`.
+- Completeness map: `AS003B_COMPLETENESS_MAP.json`, SHA-256 `79865cf2f8c4e213a303e6ffe4a79779c1cc1cdce50b1cdc347cfaea6d072a83`.
+- Frozen pure-test allowlist: `AS003B_PRE_FREEZE_PURE_TEST_ALLOWLIST.json`, SHA-256 `c3ddb102c98731bd2a6aa9ffdb74d5e5dc2c19b03be5919131dee1f954ece85b`.
 - No post-freeze result may be summarized without command, node list, output, JUnit/XML, and SHA-256 evidence.
