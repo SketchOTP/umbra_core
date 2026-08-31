@@ -30,9 +30,9 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
-## Current governed status — UMBRA-AS-003E
+## Current governed status — UMBRA-AS-003E terminal
 
-AS-003E is active from `4b3b23c86cad8d93f523c67651b702e1111b5a05` after the accepted AS-003D terminal `AS003D_SUPPORTED_DOMINANCE_STRUCTURALLY_INSUFFICIENT`. It is zero-run/non-production architecture research: source and frozen AS-003C/AS-003D evidence only, with role classification locked before projection. V1 remains retired as a forward ordinary selector. No production/test modification, organism/diagnostic rerun, retry/reseed, AS-003F, AS-004, or CLOSE-03 is authorized.
+AS-003E is terminal `AS003E_MOTIVATIONAL_CONTEXT_ACTIVATION_PRIMITIVE_REQUIRED` from the accepted AS-003D terminal. The zero-run frozen-corpus/source investigation locked role classification before projection, but role-eligible immediate consequence/body/world channels still yielded zero relations/eliminations across 76,216 pairs and all 2,647 full frontiers. V1 remains retired; role partition is necessary but not sufficient; a source-neutral categorical context-activation primitive is the next unresolved architecture boundary. No common numeric control claim, production/test modification, organism/diagnostic rerun, retry/reseed, AS-003F, AS-004, or CLOSE-03 is authorized.
 
 ## Historical governed status — UMBRA-AS-003B
 

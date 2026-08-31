@@ -10,6 +10,14 @@ Record material prior-art investigations when Authority triggers external discov
 - Disposition: REFERENCE ONLY. The sources support parallel available-action competition, multiple state/context influences, and structural loss of discrimination under many independent dimensions. They do not authorize a UMBRA equation, neural simulation, epsilon/Pareto remedy, RL, active inference, POMDP, MPC, planner, global utility, source priority, or arbitrary coefficients.
 - Recheck trigger: only after a separately authorized primitive defines its constitutional evidence semantics and testable retained-corpus gates.
 
+## UMBRA-AS-003E external discovery — 2026-08-31
+
+- Trigger: Architect-authorized zero-run replan after AS-003D retired V1; assess causal role partitioning and motivational-context activation without importing a common score.
+- Sources: Palmer and Kristan (2011), *Contextual modulation of behavioral choice*, https://pubmed.ncbi.nlm.nih.gov/21624826/; Cisek (2007), *Cortical mechanisms of action selection*, https://pubmed.ncbi.nlm.nih.gov/17428779/; Prescott, Bryson, and Seth (2007), *Modelling natural action selection*, https://pubmed.ncbi.nlm.nih.gov/17428783/; Burnett et al. (2016), *Hunger-driven motivational state competition*, https://pubmed.ncbi.nlm.nih.gov/27693254/; Toates (2026), *Incentive Motivation*, https://doi.org/10.1017/9781009744454.005.
+- Freshness: primary/reference pages checked 2026-08-31.
+- Disposition: REFERENCE ONLY. The review supports context-sensitive and parallel candidate/action processes plus state/incentive/learned-association-sensitive motivational expression. It does not adopt neural topology, dopamine, RL, expected utility, global reward, fixed motivational coefficients, source priority, active inference, POMDP, MPC, planner, tree search, or a common UMBRA motivational scale.
+- Recheck trigger: only after an Architect-authorized categorical context-activation primitive has exact owner, provenance, UNKNOWN, and simultaneous-context boundaries. A numerical control claim must independently establish one cross-system meaning/calibration.
+
 ---
 
 ## EXT-AUTHORITY-3.0-001 — Authority 3.0 governance package
