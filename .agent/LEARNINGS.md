@@ -32,6 +32,8 @@ Do not infer preventive opportunity realization or safe-window loss from that
 aggregate alone.
 # LEARNINGS.md
 
+- 2026-08-31 | area:AS-003G simultaneous context control | lesson: persistent categorical engagement prevents stateless re-election but cannot establish initial election or non-starvation for an incumbent and continuing rival. Event-keyed stochastic ordering is scale-free only as residual ordering of a genuinely unordered finite set; stochastic switching across time necessarily introduces hazard/dynamics semantics and must be calibrated rather than borrowing candidate-level CLOSE-02Z sigma. Activation age and time since service are shared clocks, not demonstrated shared motivational entitlement. | evidence: AS003G_CONTROL_SEMANTICS_LOCK.json, AS003G_STARVATION_PROOFS.json, AS003G_STOCHASTIC_AUTHORITY_ANALYSIS.json
+
 Append-only repo-specific lessons for UMBRA-CORE. Format:
 
 ```md

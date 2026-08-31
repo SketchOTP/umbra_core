@@ -30,9 +30,9 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
-## Current governed status — UMBRA-AS-003G active
+## Current governed status — UMBRA-AS-003G terminal
 
-AS-003G is active from exact master `016b71417c3420fdf119aa253e029a0a013ae9d3` after accepted AS-003F terminal `AS003F_SIMULTANEOUS_CONTEXT_RESOLUTION_PRIMITIVE_REQUIRED`. It is a zero-run, non-production convergence gate for owner-derived categorical active contexts, persistent engagement, event-gated re-election, source-neutral context stochastic identity, and the exact common behavioral-control/calibration claim needed if nonnumeric context control cannot resolve initial election and starvation. No implementation or automatic successor is authorized.
+AS-003G is terminal `AS003G_STOCHASTIC_SWITCH_CALIBRATION_PRIMITIVE_REQUIRED` from Architect baseline `016b71417c3420fdf119aa253e029a0a013ae9d3`. It supports only parameter-free event-keyed residual initial ordering among genuinely unordered contexts and categorical post-election persistence. It rejects activation age/unserved duration as scheduler semantics and finds no cross-owner non-hard deferral claim. A persistent incumbent and continuously active rival need a calibrated spontaneous transition hazard/dynamics or a common behavioral-control claim, neither established. No implementation or automatic successor is authorized.
 
 ## Historical governed status — UMBRA-AS-003E terminal
 
