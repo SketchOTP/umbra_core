@@ -437,3 +437,7 @@ preregistered post-freeze phase.
 ## 2026-08-30 — replay properties must outlive superseded implementation authority
 
 When a qualified behavioral property was previously tested through a scalar ordinary scorer, replacing the scorer does not waive the property. A valid migration identifies the preserved authority invariant, cites the prior semantic supersession, and proves that the replacement neither hard-codes the new observed winner nor permits optional machinery to replace the ordinary authority path.
+
+## 2026-08-30 — a compatible execution can still fail the distributed mechanism
+
+Passing retained replay and safety-compatible diagnostics does not establish supported-dominance behavior. The frozen A/B traces must contain at least one actual supported elimination; a full nondominated frontier at every qualifying ordinary decision demonstrates that the mechanism was not realized and cannot be remedied after freeze.
