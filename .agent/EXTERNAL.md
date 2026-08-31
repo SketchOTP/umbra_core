@@ -9,6 +9,13 @@ Record material prior-art investigations when Authority triggers external discov
 - Precommitted disposition: REFERENCE ONLY. Persistent behavioral states, state-sensitive transitions, and observation-based hazard estimation may inform semantic analysis. No fitted need scale, gradient/noise coefficient, neural diffusion implementation, Markov controller, reward/value function, policy learning, global utility, source rank, timeout, or arbitrary hazard is imported.
 - Recheck trigger: only if a future authority establishes an independently calibrated common behavioral-control or transition event semantics.
 
+## UMBRA-AS-003H external-discovery closeout — 2026-08-31
+
+- Sources checked: Richman et al. (2023), *Neural landscape diffusion resolves conflicts between needs across time*, https://pmc.ncbi.nlm.nih.gov/articles/PMC10651489/; Sanabria et al. (2019), *Behavior systems formulation of motivated behavior*, https://pmc.ncbi.nlm.nih.gov/articles/PMC6907728/; Wilson et al. (2010), *Bayesian On-line Learning of the Hazard Rate in Change-Point Problems*, https://pmc.ncbi.nlm.nih.gov/articles/PMC2966286/.
+- Disposition: REFERENCE ONLY. Persistent states, explicit transition structure, and data-based hazard inference are scientifically legitimate descriptive/modeling tools. The references require observed event processes and calibration assumptions; none makes UMBRA's own unqualified release outputs a verified behavioral target or supplies a source-neutral UMBRA release parameter.
+- Rejected imports: fitted state scales, gradient/diffusion/noise, Markov-controller authority, reward/value/policy learning, global utility, arbitrary coefficient, timeout, and scheduler semantics.
+- Result: external evidence reinforces the AS-003H bootstrap distinction and does not alter the terminal requirement for an independently meaningful common control claim.
+
 ## UMBRA-AS-003G external discovery — 2026-08-31
 
 - Trigger: Architect-authorized zero-run convergence gate after AS-003F isolated the missing non-hard simultaneous-context election/switching claim.

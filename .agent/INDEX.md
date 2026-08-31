@@ -160,7 +160,7 @@ github/master without changing remote configuration.
 
 ## Current authority
 
-- `UMBRA-AS-003H` active — Verified Episode Switching Dynamics Calibration and Bootstrap Gate; packet `.agent/tasks/active/UMBRA-AS-003H/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003h-switching-calibration-r1/`.
+- `UMBRA-AS-003H` terminal — `AS003H_COMMON_BEHAVIORAL_CONTROL_CLAIM_REQUIRED`; packet `.agent/tasks/active/UMBRA-AS-003H/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003h-switching-calibration-r1/`; no successor authorized.
 
 ## Current pointers
 - Current stage: Authority 3.0; CLOSE-02F R0 development failure

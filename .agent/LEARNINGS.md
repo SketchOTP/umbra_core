@@ -464,3 +464,9 @@ Passing retained replay and safety-compatible diagnostics does not establish sup
 - `ACTIVE/INACTIVE` can express owner-derived non-hard behavioral relevance without encoding relative importance when UNKNOWN remains evidence quality rather than a third rank; it must not suppress first experience.
 - Context persistence requires a source-neutral engaged identity plus owner revalidation. Existing action/capability continuity cannot substitute for engagement, and persistence alone leaves initial election and starvation unresolved.
 - A bounded corpus with five development-plus-memory coactivations is enough to expose missing simultaneous-context semantics but not enough to promote or globally reject stochastic context election across physiology, temporal, routine, social, and individuality owners.
+# UMBRA-AS-003H — verified episode learning does not identify voluntary release — 2026-08-31
+
+- Verified outcomes can supervise action consequences and owner lifecycle endings, but not an active context's voluntary yield to an active rival; the latter needs its own independently grounded event proposition.
+- A model fitted to controller-generated release times is self-imitation, even if the model is a statistically valid hazard estimator.
+- Event clocks provide a body-independent reconsideration boundary but do not establish a release cause. A parameter-free probability/distribution only hides the calibration choice.
+- If non-hard continuous rivals must eventually switch without arbitrary hazard or fairness scheduling, UMBRA needs one calibrated common behavioral-control claim rather than another standalone switching model.

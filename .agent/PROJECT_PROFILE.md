@@ -30,9 +30,9 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
-## Current governed status — UMBRA-AS-003H active
+## Current governed status — UMBRA-AS-003H terminal
 
-AS-003H is active from exact master `b9f903d7954c922d2f52dd0a28762f91ccb22a54` after accepted AS-003G terminal `AS003G_STOCHASTIC_SWITCH_CALIBRATION_PRIMITIVE_REQUIRED`. It is a zero-run, non-production calibration/identifiability gate for non-hard spontaneous motivational-context release. It may analyze only three alternatives: an independently calibrated source-neutral constitutional transition prior, VerifiedOutcome-grounded learned episode dynamics with a non-circular bootstrap, or a defensible combination. No implementation or automatic successor is authorized.
+AS-003H is terminal `AS003H_COMMON_BEHAVIORAL_CONTROL_CLAIM_REQUIRED` from exact master `b9f903d7954c922d2f52dd0a28762f91ccb22a54` after accepted AS-003G terminal `AS003G_STOCHASTIC_SWITCH_CALIBRATION_PRIMITIVE_REQUIRED`. Its zero-run calibration/identifiability audit found no valid VerifiedOutcome target for a continuing non-hard context's voluntary release, no independently calibrated constitutional transition dynamics, and no defensible mixed bootstrap. The next unresolved primitive is one calibrated, source-neutral current non-hard behavioral-control claim; no implementation or automatic successor is authorized.
 
 ## Historical governed status — UMBRA-AS-003G terminal
 
