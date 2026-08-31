@@ -1,0 +1,50 @@
+{
+  "contract": "SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1",
+  "directive": "UMBRA-AS-003C",
+  "freeze_commit_resolution": "The commit containing this record is the sole AS-003C freeze commit; closeout records resolve its SHA without modifying frozen production or tests.",
+  "frozen_external_artifacts": {
+    "AS003C_PREFREEZE_EVIDENCE_MANIFEST.json": "575248a17782929a85ce16e8d59c47dc3c190f30d512842fdd4c249f269018a3",
+    "AS003C_PRE_FREEZE_PURE_TEST_ALLOWLIST.json": "a1f2e46524cb6afa21fd5f5a5808601d3d850c9ae86635e78136d5eb2fe36368",
+    "AS003C_REPLAY_SEMANTIC_AUDIT.json": "358c6783c6a2cee9d28d3730596c55435dcb084e04a9a0368b33dde35bb7e354",
+    "AS003C_TEST_MIGRATION_MANIFEST.json": "efda08303fd0cd89726e402e9b14ff94afeb6a23a343c35bc6c0e9dfb3f77460"
+  },
+  "frozen_parent_commit": "129ec80751da2e0dc69cd3f92a38faf58e01721a",
+  "frozen_repository_artifacts": {
+    "experiments/as003c/FREEZE_PROTOCOL.json": "ac3d54c652bbc825dda3b651b6c779d2a4fa89c9681eb490de3ec2dac865bd86",
+    "experiments/as003c/POSTFREEZE_TEST_SELECTION.json": "556c944bf63ffc522a4093ddccaccd29d4813e45ff0b297ae86da081cde36397",
+    "experiments/as003c/PRE_FREEZE_PURE_TEST_ALLOWLIST.json": "a1f2e46524cb6afa21fd5f5a5808601d3d850c9ae86635e78136d5eb2fe36368",
+    "experiments/as003c/REPLAY_SEMANTIC_AUDIT.json": "358c6783c6a2cee9d28d3730596c55435dcb084e04a9a0368b33dde35bb7e354",
+    "experiments/as003c/TEST_MIGRATION_MANIFEST.json": "efda08303fd0cd89726e402e9b14ff94afeb6a23a343c35bc6c0e9dfb3f77460",
+    "experiments/as003c/diagnostics.py": "0c86200098aacd3cd00722e74fe12e371ba70a474ffe29967184a0494cef85b4",
+    "tests/test_as003c_qualification_support.py": "c80281c868d9da40daef87e672f9b35d1ca8b365b081048e7b5713c826b998c6",
+    "tests/test_close02r_hierarchical_intent.py": "be7f0199a95bc6113fea315cd1368e2efa2f05fe8919d47bdb59c3344e3dbc2a",
+    "tools/as003c_capture.py": "75d443c0ab8328ef88347396020816423557f9b169011967c9a8f4f46391f018"
+  },
+  "integrity_before_freeze": {
+    "diagnostic_runs": 0,
+    "known_r1_runs": 0,
+    "organism_runs": 0,
+    "reseeds": 0,
+    "retries": 0
+  },
+  "post_freeze_sequence": [
+    "retained replay exactly once",
+    "Diagnostic A R0/S0 seed 45878900 horizon 500 only after replay PASS",
+    "Diagnostic B R0/S0 seed 22023239 horizon 3500 only after A PASS",
+    "mechanism/frontier-pressure evaluation of frozen traces",
+    "stochastic/boundedness evaluation",
+    "subsystem regressions",
+    "applicable suite and conditional exact AS-002 baseline comparator"
+  ],
+  "production_reference_freeze": "5c2642ac9c1c0be6340d583caf594f5799ecda13",
+  "production_tree_fingerprint": "ed5eaf31edac7365aa048b5382b4774b2c206ec03fdfecd710d322c8677cbb51",
+  "prohibitions_after_freeze": [
+    "No production modification.",
+    "No test modification or selection change.",
+    "No threshold, contract, dominance, frontier, weight, source-priority, or planner change.",
+    "No retry, reseed, known R1/S16, fresh population, AS-004, or CLOSE-03.",
+    "Any frozen failure terminates AS-003C."
+  ],
+  "schema": "AS003C_DEDICATED_FREEZE_V1",
+  "status": "FROZEN"
+}
