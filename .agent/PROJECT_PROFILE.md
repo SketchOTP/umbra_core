@@ -30,7 +30,11 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
-## Current governed status — UMBRA-AS-003B
+## Current governed status — UMBRA-AS-003E
+
+AS-003E is active from `4b3b23c86cad8d93f523c67651b702e1111b5a05` after the accepted AS-003D terminal `AS003D_SUPPORTED_DOMINANCE_STRUCTURALLY_INSUFFICIENT`. It is zero-run/non-production architecture research: source and frozen AS-003C/AS-003D evidence only, with role classification locked before projection. V1 remains retired as a forward ordinary selector. No production/test modification, organism/diagnostic rerun, retry/reseed, AS-003F, AS-004, or CLOSE-03 is authorized.
+
+## Historical governed status — UMBRA-AS-003B
 
 AS-003B is terminal `AS003B_RETAINED_REPLAY_FAIL`. It began from `adeb4cf746a6e6bb4baf7a171017708e707c8001`, passed all pre-freeze gates after bounded correction `074376d48cde4c55db38ddf8adec9d40c92bf4f6`, and froze exactly once at `5c2642ac9c1c0be6340d583caf594f5799ecda13`. Its first retained replay had one frozen assertion failure (`INSPECT` expected; `ORIENT` observed), so no diagnostics, organisms, comparators, remediation, retry, reseed, known R1, or successor executed. The old AS-003 `232/7` and `984/13` aggregates remain non-interpretable and forbidden as tuning or qualification input. AS-004 and CLOSE-03 remain blocked pending Architect disposition.
 

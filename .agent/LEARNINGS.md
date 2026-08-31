@@ -450,3 +450,7 @@ When a qualified behavioral property was previously tested through a scalar ordi
 ## 2026-08-30 — a compatible execution can still fail the distributed mechanism
 
 Passing retained replay and safety-compatible diagnostics does not establish supported-dominance behavior. The frozen A/B traces must contain at least one actual supported elimination; a full nondominated frontier at every qualifying ordinary decision demonstrates that the mechanism was not realized and cannot be remedied after freeze.
+## 2026-08-31 — AS-003E authorized causal-role partitioning boundary
+
+- Architect accepted AS-003D’s finding that `SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1` is structurally insufficient as forward ordinary selection: channel separation and UNKNOWN/applicability protections stay historically useful, but universal no-worse dominance made CLOSE-02Z de facto selection authority.
+- AS-003E must distinguish a subsystem being causal from that subsystem contributing an independent cross-candidate objective. The source/evidence role map is frozen before any projection so channel membership cannot be selected for a preferred result.
