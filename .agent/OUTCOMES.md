@@ -1117,3 +1117,7 @@ B sequence. A partial applicable-suite observation produced 984 passes and 13
 failures; these are retained as observations only, not qualification results.
 No freeze, Diagnostics A/B, retry, reseed, qualification verdict, or successor
 occurred.
+
+## UMBRA-AS-003C governance start — 2026-08-30
+
+Architect accepted AS-003B terminal `AS003B_RETAINED_REPLAY_FAIL` and authorized a new AS-003C generation from `327f747612626e3894192879ce961489e9308d6a`. The AS-003B replay nonpass is now classified by Architect as `RETAINED_REPLAY_MIGRATION_DEFECT`: the unchanged AS-002-era test monkeypatched legacy scalar ordinary scoring and asserted its exact winner, which is explicitly superseded by AS-001/AS-002. The original qualified no-intent base-authority property remains mandatory and must be re-expressed under `SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1` without hard-coding either historical result. AS-003B remains terminal and is not retried. AS-003C production is unchanged from AS-003B freeze absent a separately demonstrated pre-freeze contract defect; no organism execution has occurred.

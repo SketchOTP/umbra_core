@@ -775,3 +775,7 @@ candidate was not frozen or qualified. A broad pre-freeze pytest invocation
 executed organism tests before the required freeze and diagnostic sequence.
 No retry, reseed, Diagnostic A/B claim, automatic remediation, AS-004, or
 CLOSE-03 is authorized.
+
+## UMBRA-AS-003C — START (2026-08-30)
+
+- D-20260830-as003c-start | Directive: UMBRA-AS-003C | status:active | baseline:327f747612626e3894192879ce961489e9308d6a | parent:AS003B_RETAINED_REPLAY_FAIL | scope:fresh retained-replay migration plus distributed-competition qualification | attribution:the unchanged frozen AS-002-era scalar-score winner assertion is RETAINED_REPLAY_MIGRATION_DEFECT; protected property is no-intent base authority preservation | constraints:production unchanged absent independently proven AS002 defect; prefreeze static/source-proven pure tests only; no organism,broad pytest,known R1,viability population,AS004,CLOSE03,retry,reseed,winner hard-coding,weights,source-priority,planner,postfreeze remediation | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/ | remote:github

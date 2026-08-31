@@ -433,3 +433,7 @@ collected test creates and ticks an organism, invoking that suite is organism
 execution. Staged scientific directives therefore need an explicit pure-test
 allowlist before freeze; runtime-instantiating tests belong only in their
 preregistered post-freeze phase.
+
+## 2026-08-30 — replay properties must outlive superseded implementation authority
+
+When a qualified behavioral property was previously tested through a scalar ordinary scorer, replacing the scorer does not waive the property. A valid migration identifies the preserved authority invariant, cites the prior semantic supersession, and proves that the replacement neither hard-codes the new observed winner nor permits optional machinery to replace the ordinary authority path.
