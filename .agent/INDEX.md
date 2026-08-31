@@ -160,7 +160,7 @@ github/master without changing remote configuration.
 
 ## Current authority
 
-- `UMBRA-AS-003I` active — Common Behavioral-Control Claim / Motivational Salience Semantics and Calibration Contract; packet `.agent/tasks/active/UMBRA-AS-003I/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003i-behavioral-control-salience-r1/`.
+- `UMBRA-AS-003I` terminal — `AS003I_CROSS_OWNER_SALIENCE_CALIBRATION_PRIMITIVE_REQUIRED`; packet `.agent/tasks/active/UMBRA-AS-003I/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003i-behavioral-control-salience-r1/`; no successor authorized.
 
 ## Current pointers
 - Current stage: Authority 3.0; CLOSE-02F R0 development failure

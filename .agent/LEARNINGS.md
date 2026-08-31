@@ -470,3 +470,9 @@ Passing retained replay and safety-compatible diagnostics does not establish sup
 - A model fitted to controller-generated release times is self-imitation, even if the model is a statistically valid hazard estimator.
 - Event clocks provide a body-independent reconsideration boundary but do not establish a release cause. A parameter-free probability/distribution only hides the calibration choice.
 - If non-hard continuous rivals must eventually switch without arbitrary hazard or fairness scheduling, UMBRA needs one calibrated common behavioral-control claim rather than another standalone switching model.
+# UMBRA-AS-003I — common salience semantics are not calibration — 2026-08-31
+
+- A cross-owner behavioral-access bid can be defined without becoming outcome utility, but its common meaning does not supply owner adapters or numeric anchors.
+- Existing quantified physiology and development state cannot be exported as common salience merely because they are numeric; that would privilege instrumented owners.
+- Verified associations can modulate an owner's expression but cannot learn relative cross-owner salience from outcomes without circular wins or forbidden counterfactual reward.
+- Any future common-control work must establish calibration semantics first; event-tie stochasticity, categorical engagement, and hard authority remain separate boundaries.

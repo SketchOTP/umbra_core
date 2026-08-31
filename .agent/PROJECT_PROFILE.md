@@ -30,9 +30,9 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
-## Current governed status — UMBRA-AS-003I active
+## Current governed status — UMBRA-AS-003I terminal
 
-AS-003I is active from exact master `55f488585c1fc694953023ba12a961970eaa20a0` after accepted AS-003H terminal `AS003H_COMMON_BEHAVIORAL_CONTROL_CLAIM_REQUIRED`. It is a zero-run, non-production common-control semantics/calibration gate. It may derive and falsify at most one cross-owner behavioral-control claim, with motivational salience as the leading hypothesis and subjective value as a negative control. No implementation or automatic successor is authorized.
+AS-003I is terminal `AS003I_CROSS_OWNER_SALIENCE_CALIBRATION_PRIMITIVE_REQUIRED` from exact master `55f488585c1fc694953023ba12a961970eaa20a0` after accepted AS-003H terminal `AS003H_COMMON_BEHAVIORAL_CONTROL_CLAIM_REQUIRED`. Its zero-run semantics audit supports a common motivational-salience proposition but finds no non-arbitrary mapping from protected owner-local state into that common control meaning. Subjective-value utility and ungrounded affective currency are rejected. No implementation or automatic successor is authorized.
 
 ## Historical governed status — UMBRA-AS-003H terminal
 

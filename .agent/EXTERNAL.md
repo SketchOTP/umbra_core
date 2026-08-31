@@ -9,6 +9,12 @@ Record material prior-art investigations when Authority triggers external discov
 - Precommitted disposition: REFERENCE ONLY. Review can define candidate semantic boundaries, not import neural topology, dopamine, learned reward/value, fitted coefficients, affective maximization, utility optimization, source priority, or a controller.
 - Recheck trigger: only if a future authority establishes one cross-owner proposition and independently meaningful calibration method.
 
+## UMBRA-AS-003I external-discovery closeout — 2026-08-31
+
+- Sources checked: Cisek/Prescott et al. natural action-selection, https://pmc.ncbi.nlm.nih.gov/articles/PMC2042525/; Berridge et al. dynamic incentive salience, https://pmc.ncbi.nlm.nih.gov/articles/PMC2792765/ and https://pmc.ncbi.nlm.nih.gov/articles/PMC2703828/; Cabanac pleasure common currency, https://pmc.ncbi.nlm.nih.gov/articles/PMC116425/; subjective-value common currency contrast, https://pmc.ncbi.nlm.nih.gov/articles/PMC4093837/.
+- Disposition: REFERENCE ONLY. Natural selection and incentive-salience sources support a distinction between current motivational pull, learned association, liking, and cached value; they do not supply UMBRA calibration adapters. Cabanac is a serious comparator but does not establish an UMBRA affective substrate. Subjective-value convergence demonstrates the global-utility family that AS-003I rejects.
+- Rejected imports: neural topology, dopamine, fitted coefficients, Pavlovian restriction, affective maximization, reward/value policy, global utility, source priority, or controller implementation.
+
 ## UMBRA-AS-003H external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized zero-run identifiability gate after AS-003G established that source-neutral initial ordering and persistence cannot switch continuously active rivals without calibrated dynamics.

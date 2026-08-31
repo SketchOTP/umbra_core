@@ -1156,3 +1156,10 @@ Verdict: `AS003C_DOMINANCE_NOT_REALIZED`. AS-003C validly froze once at `e336c25
 - **Boundary:** context activation/election persistence and lifecycle remain valid AS-003F/G findings. A probability range is not common meaning, and existing body/runtime/owner timescales cannot calibrate cross-owner release. V1 remains retired.
 - **Integrity:** production/test changes `0`; organism/diagnostic reruns `0`; retries/reseeds `0`; 20/20 evidence artifacts hash-readback verified. No implementation or successor recommendation.
 - **Evidence root:** `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003h-switching-calibration-r1/`; final manifest SHA-256 `2c158c780faeba4745ad29b02891fcd05fbfa5a67db1ce2be87088566a18d713`.
+# UMBRA-AS-003I — motivational salience semantics terminal outcome — 2026-08-31
+
+- **Verdict:** `AS003I_CROSS_OWNER_SALIENCE_CALIBRATION_PRIMITIVE_REQUIRED`.
+- **Semantic result:** a transient source-neutral claim for non-hard behavioral final-path access is coherent and remains distinct from outcome value, reward, liking, local urgency, waiting time, and proposal provenance.
+- **Calibration result:** no existing protected owner can map to that claim with a shared behavioral meaning. Normalization, owner constants, or existing local development/physiology scores would manufacture comparability; verified learning remains owner-local.
+- **Boundary:** subjective value/global utility is rejected. An affective currency is neither required nor independently grounded and would presently recreate pleasure maximization. No implementation/successor is supported.
+- **Integrity:** production/test changes `0`; organism/diagnostic reruns `0`; retries/reseeds `0`; 23/23 evidence artifacts hash-readback verified. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003i-behavioral-control-salience-r1/`; final manifest SHA-256 `36cf66889418a252669003000c4f5353779de1c459979e381e36a0acead7728a`.
