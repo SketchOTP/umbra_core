@@ -6,6 +6,11 @@
 ## 2026-08-30 — AS-003D investigation boundary
 
 - A full-frontier observation is not one causal category: retained evidence must distinguish missing support, one-sided semantic applicability, and well-supported cross-proposition conflict before changing an action-selection architecture.
+
+## 2026-08-30 — AS-003D saturation attribution
+
+- A partial order that requires joint support and no-worse status for every proposition applicable to either candidate can preserve epistemic caution yet be structurally unable to exert ordinary selection pressure when genuine organism interests conflict.
+- In AS-003C frozen evidence, candidate-local stochasticity was residual in name but de facto ordinary authority: it resolved all 2,647 qualifying decisions and no distributed relation changed the full-pool stochastic winner.
 - `@dataclass(frozen=True)` is insufficient for a pure consequence view when it exposes nested dict/list values; recursively freeze view payloads and thaw only trace copies.
 - A frozen replay command must terminate the generation on its first nonpass even if the failed assertion appears to be a retained/legacy authority expectation; no causal attribution or repair is valid unless the governing protocol separately authorized it before freeze.
 

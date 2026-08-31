@@ -2,6 +2,14 @@
 
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
+## UMBRA-AS-003D external discovery — 2026-08-30
+
+- Trigger: Architect-authorized action-selection replan after AS-003C demonstrated zero supported-dominance eliminations across 2,647 qualifying decisions.
+- Sources: Cisek (2007), *Cortical mechanisms of action selection: the affordance competition hypothesis*, https://pmc.ncbi.nlm.nih.gov/articles/PMC2440773/; Nevai, Waite, and Passino (2007), *State-dependent choice and ecological rationality*, https://pubmed.ncbi.nlm.nih.gov/17467743/; user-supplied He et al. (2014), https://onlinelibrary.wiley.com/doi/10.1155/2014/259473 (publisher page unavailable to machine fetch; reference retained only for the stated many-objective saturation phenomenon).
+- Freshness: primary pages checked 2026-08-30.
+- Disposition: REFERENCE ONLY. The sources support parallel available-action competition, multiple state/context influences, and structural loss of discrimination under many independent dimensions. They do not authorize a UMBRA equation, neural simulation, epsilon/Pareto remedy, RL, active inference, POMDP, MPC, planner, global utility, source priority, or arbitrary coefficients.
+- Recheck trigger: only after a separately authorized primitive defines its constitutional evidence semantics and testable retained-corpus gates.
+
 ---
 
 ## EXT-AUTHORITY-3.0-001 — Authority 3.0 governance package

@@ -6,3 +6,6 @@
 - Required retained observation: 2,647 qualifying ordinary multi-candidate decisions; zero supported-dominance eliminations; 2,647 full-frontier outcomes.
 - Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003d-frontier-saturation-attribution-r1/`.
 - No organism or diagnostic execution is allowed; all derivative artifacts are offline analysis of frozen evidence.
+- Complete data: 2,647 qualifying decisions and 76,216 ordered pairs; production-attempt reconstruction is exact.
+- Final verdict: `AS003D_SUPPORTED_DOMINANCE_STRUCTURALLY_INSUFFICIENT`; no successor recommendation.
+- Final manifest SHA-256: `b2a606286f6e197d100298e3e1d73031b1d302e0cccaacd0a9b3da2a9811cbfe`.
