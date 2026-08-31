@@ -160,7 +160,7 @@ github/master without changing remote configuration.
 
 ## Current authority
 
-- `UMBRA-AS-003G` active — simultaneous-context control convergence gate; packet `.agent/tasks/active/UMBRA-AS-003G/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003g-simultaneous-context-control-r1/`.
+- `UMBRA-AS-003G` terminal — `AS003G_STOCHASTIC_SWITCH_CALIBRATION_PRIMITIVE_REQUIRED`; packet `.agent/tasks/active/UMBRA-AS-003G/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003g-simultaneous-context-control-r1/`; no successor authorized.
 
 ## Current pointers
 - Current stage: Authority 3.0; CLOSE-02F R0 development failure

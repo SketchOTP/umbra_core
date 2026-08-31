@@ -7,4 +7,5 @@
 - AS-003C frozen corpus manifest SHA-256: `d8eb4cc26048f6b3b8d9ca861dbfab25f56a6e2b95548949997c638f7812268c`.
 - All durable artifacts must use file fsync, atomic rename, directory fsync, SHA-256 readback, and a final manifest.
 - A control-semantics lock must precede every projection or performance interpretation.
-
+- Control-semantics lock SHA-256: `48e81d6f60558629a710fb0639315f809af28e9e931caa77c121a7e96c581eea`.
+- Final manifest SHA-256: `ff78082a8982da6c11a2c403887c313dbd470f2cf24fbc9f8d1cbd3abaaead3e`; 19/19 required artifact hashes verify.
