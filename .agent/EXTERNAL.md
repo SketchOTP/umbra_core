@@ -2,6 +2,13 @@
 
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
+## UMBRA-AS-003H external-discovery boundary — 2026-08-31
+
+- Trigger: Architect-authorized zero-run identifiability gate after AS-003G established that source-neutral initial ordering and persistence cannot switch continuously active rivals without calibrated dynamics.
+- Sources to be reviewed: Richman et al. (2023), https://pmc.ncbi.nlm.nih.gov/articles/PMC10651489/; Sanabria et al. (2019), https://pmc.ncbi.nlm.nih.gov/articles/PMC6907728/; bounded hazard-learning primary/reference material.
+- Precommitted disposition: REFERENCE ONLY. Persistent behavioral states, state-sensitive transitions, and observation-based hazard estimation may inform semantic analysis. No fitted need scale, gradient/noise coefficient, neural diffusion implementation, Markov controller, reward/value function, policy learning, global utility, source rank, timeout, or arbitrary hazard is imported.
+- Recheck trigger: only if a future authority establishes an independently calibrated common behavioral-control or transition event semantics.
+
 ## UMBRA-AS-003G external discovery — 2026-08-31
 
 - Trigger: Architect-authorized zero-run convergence gate after AS-003F isolated the missing non-hard simultaneous-context election/switching claim.
