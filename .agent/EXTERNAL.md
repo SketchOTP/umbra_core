@@ -18,6 +18,14 @@ Record material prior-art investigations when Authority triggers external discov
 - Disposition: REFERENCE ONLY. The review supports context-sensitive and parallel candidate/action processes plus state/incentive/learned-association-sensitive motivational expression. It does not adopt neural topology, dopamine, RL, expected utility, global reward, fixed motivational coefficients, source priority, active inference, POMDP, MPC, planner, tree search, or a common UMBRA motivational scale.
 - Recheck trigger: only after an Architect-authorized categorical context-activation primitive has exact owner, provenance, UNKNOWN, and simultaneous-context boundaries. A numerical control claim must independently establish one cross-system meaning/calibration.
 
+## UMBRA-AS-003F external discovery — 2026-08-31
+
+- Trigger: Architect-authorized zero-run contract replan for categorical motivational-context activation, persistence/switching, and simultaneous contexts.
+- Sources: Palmer and Kristan (2011), https://pubmed.ncbi.nlm.nih.gov/21624826/; Burnett et al. (2016), https://pmc.ncbi.nlm.nih.gov/articles/PMC5082717/; Cisek (2007), https://pubmed.ncbi.nlm.nih.gov/17428779/; Faulkes (2005), https://pubmed.ncbi.nlm.nih.gov/15378332/.
+- Freshness: primary/reference pages checked 2026-08-31.
+- Disposition: REFERENCE ONLY. These sources support context-sensitive behavior, state/opportunity interaction, parallel currently available actions, and a distinction between persistence and switching. They do not provide a UMBRA priority equation, common scalar, neural architecture, fixed hierarchy, RL, active inference, POMDP/MPC, planner, or candidate-source authority.
+- Recheck trigger: only if a later Architect authority proposes one owner-independent simultaneous-context control semantic with explicit provenance, UNKNOWN, persistence, starvation, and restart/migration evidence.
+
 ---
 
 ## EXT-AUTHORITY-3.0-001 — Authority 3.0 governance package
