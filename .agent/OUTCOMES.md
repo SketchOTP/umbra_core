@@ -1,3 +1,7 @@
+## UMBRA-AS-003D governance start — 2026-08-30
+
+Architect accepted AS-003C terminal `AS003C_DOMINANCE_NOT_REALIZED` and secondary observed `AS003C_FRONTIER_SATURATION_FAIL`, then authorized AS-003D from exact master `c5a4049bc1915b7919043bf6381d183ae31b7598`. The directive is retained-evidence-only, zero-organism-run attribution/replan: recover all frozen A/B competition views/pairs, separate evidence absence, channel applicability, and genuine conflict, then determine whether V1’s supported-dominance predicate or a deeper endogenous tradeoff primitive is the blocker. V1 is on forward hold; no production/test change, organism/diagnostic execution, retry, reseed, UNKNOWN relaxation, Pareto remedy, arbitrary weight, source priority, planner, AS-003E, AS-004, or CLOSE-03 is authorized. Evidence capture must use the new durable root with readback hashes.
+
 ## UMBRA-AS-003B start — 2026-08-30
 
 Fresh qualification authority begins from `adeb4cf746a6e6bb4baf7a171017708e707c8001`. The preserved AS-003 production candidate is unchanged; the 7/13 lost aggregates remain permanent but prohibited as tuning, classification, or qualification input. Phase 0 passed exact Git/GitHub/Notion/manifests/Authority/governance reconciliation and production identity. Pre-freeze work is static/pure only until the dedicated evidence policy, contract/scope/scalar/completeness/migration audits, pure-test allowlist, and any independently proven bounded corrections pass. No organism execution occurred.

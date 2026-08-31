@@ -1,3 +1,7 @@
+## UMBRA-AS-003D — START (2026-08-30)
+
+- D-20260830-as003d-start | Directive: UMBRA-AS-003D | status:active | baseline:c5a4049bc1915b7919043bf6381d183ae31b7598 | parent:AS003C_DOMINANCE_NOT_REALIZED | secondary:AS003C_FRONTIER_SATURATION_FAIL | scope:retained AS003C frozen A/B trace attribution, static source/AS002 audit, bounded prior-art replan | constraints:production 0,organism 0,diagnostic rerun 0,retry 0,reseed 0; no V1 tune/relaxation,Pareto remedy,weight,source-priority,planner,AS003E,AS004,CLOSE03 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003d-frontier-saturation-attribution-r1/ | remote:github
+
 ## UMBRA-AS-003B — START (2026-08-30)
 
 - D-20260830-as003b-start | Directive: UMBRA-AS-003B | status:active | baseline:adeb4cf746a6e6bb4baf7a171017708e707c8001 | parent:AS003A_EVIDENCE_INSUFFICIENT | scope:fresh AS-002 distributed-competition implementation qualification | preflight:local/master/github/Notion/manifests/Authority3/governance/protected source PASS | production:identical to c266318229ae3759f80ac8958ecf63e8a2ab5468 | constraints:old AS003 7/13 aggregates permanently non-interpretable; no pre-freeze organism or broad pytest; no known R1,viability population,AS004,CLOSE03,retry,reseed,weights,source-priority,planner | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003b-fresh-distributed-competition-r1/ | remote:github

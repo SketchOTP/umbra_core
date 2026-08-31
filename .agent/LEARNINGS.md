@@ -2,6 +2,10 @@
 
 - Lost aggregate test observations must remain non-interpretable across successor generations; a fresh qualification may use only prospectively frozen evidence with durable per-test capture.
 - `NOT_APPLICABLE` is not equivalent to absent shared evidence: dominance may skip a channel only if both candidates mark it not applicable; a one-sided case must block elimination just like UNKNOWN.
+
+## 2026-08-30 — AS-003D investigation boundary
+
+- A full-frontier observation is not one causal category: retained evidence must distinguish missing support, one-sided semantic applicability, and well-supported cross-proposition conflict before changing an action-selection architecture.
 - `@dataclass(frozen=True)` is insufficient for a pure consequence view when it exposes nested dict/list values; recursively freeze view payloads and thaw only trace copies.
 - A frozen replay command must terminate the generation on its first nonpass even if the failed assertion appears to be a retained/legacy authority expectation; no causal attribution or repair is valid unless the governing protocol separately authorized it before freeze.
 
