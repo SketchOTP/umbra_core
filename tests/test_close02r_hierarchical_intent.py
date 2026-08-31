@@ -44,14 +44,53 @@ def test_known_tick_one_fixture_selects_existing_development_intent():
 
 
 def test_no_intent_preserves_base_affordance_arbitration():
-    arb = _safe_arbitrator(
-        lambda phys, observations, tick: [
+    """No optional intent may replace ordinary distributed competition.
+
+    AS-001/AS-002 superseded the old scalar ``score_candidate`` authority.
+    The preserved CLOSE-02R property is pool/authority preservation, not the
+    historical scalar winner selected by a monkeypatched score function.
+    """
+
+    def select_without_intent(intent_candidates):
+        arb = Arbitrator()
+        arb.generate_candidates = lambda phys, observations, tick: [
             Candidate("ORIENT", {"heading": 0.0}),
             Candidate("INSPECT", {"toward": "inspect"}),
         ]
-    )
-    chosen = arb.select(Physiology(), [], 1, ZeroNoise())
-    assert chosen.capability == "INSPECT"
+        arb._introduces_critical_boundary = lambda *args, **kwargs: False
+
+        def legacy_scalar_authority(*args, **kwargs):
+            raise AssertionError("legacy_score_candidate_must_not_run")
+
+        arb.score_candidate = legacy_scalar_authority
+        trace = {}
+        chosen = arb.select(
+            Physiology(),
+            [],
+            1,
+            ZeroNoise(),
+            intent_candidates=intent_candidates,
+            distributed_trace=trace,
+        )
+        return chosen, trace
+
+    omitted, omitted_trace = select_without_intent(None)
+    empty, empty_trace = select_without_intent([])
+    base_pool = {"ORIENT", "INSPECT"}
+
+    for chosen, trace in ((omitted, omitted_trace), (empty, empty_trace)):
+        assert chosen.capability in base_pool
+        assert {view["capability"] for view in trace["views"]} == base_pool
+        assert trace["schema"] == "SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1"
+        assert all("source" not in view["params"] for view in trace["views"])
+
+    assert (omitted.capability, omitted.params) == (empty.capability, empty.params)
+    assert omitted_trace["views"] == empty_trace["views"]
+    assert {
+        key: value for key, value in omitted_trace.items() if key != "views"
+    } == {
+        key: value for key, value in empty_trace.items() if key != "views"
+    }
 
 
 def test_urgent_recovery_ignores_optional_intents():

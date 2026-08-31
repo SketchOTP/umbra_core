@@ -1,0 +1,14 @@
+{
+  "as003b_manifest_sha256": "a5c914980f877fca195ab70aa3816abaeba22fbf7bb6b4596987b153b3810a70",
+  "authority_governance_validation": "PENDING_PREFREEZE",
+  "close02z_freeze_sha256": "306d1de0dc07c1225c043f467ef856c47e1b39b71cd0709a008d20cbe70d235b",
+  "github_master_before_governance_start": "327f747612626e3894192879ce961489e9308d6a",
+  "governance_start_commit": "368bc6cde145e8faa91592e60952d66d07be9364",
+  "local_head_before_governance_start": "327f747612626e3894192879ce961489e9308d6a",
+  "local_master_before_governance_start": "327f747612626e3894192879ce961489e9308d6a",
+  "notion_refetched": true,
+  "production_diff_as003b_freeze_to_start": "EMPTY",
+  "required_starting_master": "327f747612626e3894192879ce961489e9308d6a",
+  "schema": "AS003C_PHASE0_RECONCILIATION_V1",
+  "status": "PASS"
+}

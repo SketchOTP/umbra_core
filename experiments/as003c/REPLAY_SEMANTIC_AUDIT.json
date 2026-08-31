@@ -1,0 +1,897 @@
+{
+  "as003b_frozen_nonpass_attribution": "RETAINED_REPLAY_MIGRATION_DEFECT",
+  "as003b_terminal": "AS003B_RETAINED_REPLAY_FAIL",
+  "classifications": {
+    "EVIDENCE_INSUFFICIENT": 0,
+    "PROPERTY_VALID_TEST_MIGRATION_REQUIRED": 1,
+    "QUALIFIED_PROPERTY_CONFLICT": 0,
+    "SCALAR_IMPLEMENTATION_ASSERTION_SUPERSEDED": 0,
+    "UNCHANGED_PROPERTY_VALID": 55
+  },
+  "conclusion": "Only the frozen no-intent exact scalar-winner assertion requires migration. No retained replay test presents a qualified-property conflict or evidence-insufficient classification.",
+  "directive": "UMBRA-AS-003C",
+  "exact_supersession_evidence": [
+    ".agent/tasks/completed/UMBRA-AS-002/RESULT.md: ordinary non-active/noncritical scalar score_candidate consumption, additive modifiers, scalar sorting, and hysteresis were replaced.",
+    ".agent/tasks/completed/UMBRA-AS-002/HANDOFF.md: supported dominance frontier resolves ordinary competition without summing, normalization, voting, or channel ordering."
+  ],
+  "schema": "AS003C_REPLAY_SEMANTIC_AUDIT_V1",
+  "source_selection": [
+    "tests/test_as003_distributed_competition.py",
+    "tests/test_as003c_qualification_support.py",
+    "tests/test_close02_final_authority.py",
+    "tests/test_close02r_hierarchical_intent.py",
+    "tests/test_close02t_interruptible_intent.py",
+    "tests/test_close02u_recovery_landmarks.py"
+  ],
+  "starting_master": "327f747612626e3894192879ce961489e9308d6a",
+  "tests": [
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "supported dominance eliminates strictly worse candidate",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_supported_dominance_eliminates_strictly_worse_candidate"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "tradeoff remains nondominated",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_tradeoff_remains_nondominated"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "unknown blocks elimination",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_unknown_blocks_elimination"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "one sided not applicable blocks elimination",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_one_sided_not_applicable_blocks_elimination"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "all unknown pool remains selectable",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_all_unknown_pool_remains_selectable"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "simultaneous result is order independent",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_simultaneous_result_is_order_independent"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "candidate permutation invariance",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_candidate_permutation_invariance"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "unrelated dominated insertion does not change winner",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_unrelated_dominated_insertion_does_not_change_winner"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "unrelated deletion preserves survivor terms",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_unrelated_deletion_preserves_survivor_terms"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "source equivalent duplicates are rejected before competition",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_source_equivalent_duplicates_are_rejected_before_competition"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "provenance does not change order",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_provenance_does_not_change_order"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "stochastic resolution only uses frontier",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_stochastic_resolution_only_uses_frontier"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "supported dominance cannot be reversed by noise",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_supported_dominance_cannot_be_reversed_by_noise"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "exact noise tie uses canonical identity",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_exact_noise_tie_uses_canonical_identity"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "no scalar total is read",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_no_scalar_total_is_read"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "no channel voting or ordering",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_no_channel_voting_or_ordering"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "hard safety is outside competition",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_hard_safety_is_outside_competition"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "inadmissible candidate cannot reenter",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_inadmissible_candidate_cannot_reenter"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "active recovery bypasses distributed competition",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_active_recovery_bypasses_distributed_competition"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "pure builder does not mutate inputs",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_pure_builder_does_not_mutate_inputs"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "consequence view mappings are recursively immutable",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_consequence_view_mappings_are_recursively_immutable"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "restart determinism",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_restart_determinism"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "body migration changes only behavior or body evidence",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_body_migration_changes_only_behavior_or_body_evidence"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "fixed candidate bound",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_fixed_candidate_bound"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "fixed channel bound",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_fixed_channel_bound"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003_distributed_competition.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "unselected candidate does not gain prediction state",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_unselected_candidate_does_not_gain_prediction_state"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003c_qualification_support.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "diagnostic stages are exact and exclude known r1",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003c_qualification_support.py::test_diagnostic_stages_are_exact_and_exclude_known_r1"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003c_qualification_support.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "close02z terms are source neutral and pool independent",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003c_qualification_support.py::test_close02z_terms_are_source_neutral_and_pool_independent"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_as003c_qualification_support.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "frontier metrics preserve mechanism gate fields",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_as003c_qualification_support.py::test_frontier_metrics_preserve_mechanism_gate_fields"
+    },
+    {
+      "assertion_dependency": "legacy_hook_setup_present_but_assertion_does_not_depend_on_it",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02_final_authority.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "existing candidate enters one ordinary final choice",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02_final_authority.py::test_existing_candidate_enters_one_ordinary_final_choice"
+    },
+    {
+      "assertion_dependency": "legacy_hook_setup_present_but_assertion_does_not_depend_on_it",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02_final_authority.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "existing candidate does not enter critical recovery competition",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02_final_authority.py::test_existing_candidate_does_not_enter_critical_recovery_competition"
+    },
+    {
+      "assertion_dependency": "legacy_hook_setup_present_but_assertion_does_not_depend_on_it",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02r_hierarchical_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "known tick one fixture selects existing development intent",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_known_tick_one_fixture_selects_existing_development_intent"
+    },
+    {
+      "assertion_dependency": "ordinary_scalar_score_candidate_exact_winner",
+      "classification": "PROPERTY_VALID_TEST_MIGRATION_REQUIRED",
+      "explicitly_superseded_by_as001_as002": true,
+      "file": "tests/test_close02r_hierarchical_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "Without an admissible optional intent, intent composition preserves the canonical ordinary base candidate pool and its distributed-competition authority.",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_no_intent_preserves_base_affordance_arbitration"
+    },
+    {
+      "assertion_dependency": "legacy_hook_setup_present_but_assertion_does_not_depend_on_it",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02r_hierarchical_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "urgent recovery ignores optional intents",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_urgent_recovery_ignores_optional_intents"
+    },
+    {
+      "assertion_dependency": "legacy_hook_setup_present_but_assertion_does_not_depend_on_it",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02r_hierarchical_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "intent source collection order does not change result",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_intent_source_collection_order_does_not_change_result"
+    },
+    {
+      "assertion_dependency": "legacy_hook_setup_present_but_assertion_does_not_depend_on_it",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02r_hierarchical_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "duplicate intents deduplicate provenance only",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_duplicate_intents_deduplicate_provenance_only"
+    },
+    {
+      "assertion_dependency": "legacy_hook_setup_present_but_assertion_does_not_depend_on_it",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02r_hierarchical_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "unsafe intent falls back to safe base pool",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_unsafe_intent_falls_back_to_safe_base_pool"
+    },
+    {
+      "assertion_dependency": "legacy_hook_setup_present_but_assertion_does_not_depend_on_it",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02r_hierarchical_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "all actions unsafe retains honest no safe action",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_all_actions_unsafe_retains_honest_no_safe_action"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "no intent no preventive keeps ordinary base pool",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_no_intent_no_preventive_keeps_ordinary_base_pool"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "intent without preventive attention excludes unrelated base",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_intent_without_preventive_attention_excludes_unrelated_base"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "intent and preventive attention admit only matching base",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_intent_and_preventive_attention_admit_only_matching_base"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "preventive lane does not create no safe action when no match exists",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_preventive_lane_does_not_create_no_safe_action_when_no_match_exists"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "hard recovery still excludes optional intent",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_hard_recovery_still_excludes_optional_intent"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "no intent preventive attention keeps matching base only",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_no_intent_preventive_attention_keeps_matching_base_only"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "multiple preventive dimensions use existing effects",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_multiple_preventive_dimensions_use_existing_effects"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "preventive attention clears without persistent authority",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_preventive_attention_clears_without_persistent_authority"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02t_interruptible_intent.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "intent source order does not change selection",
+      "static_source_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_intent_source_order_does_not_change_selection"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "direct successful rest qualifies verified recovery landmark",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_direct_successful_rest_qualifies_verified_recovery_landmark"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "failed or denied rest does not qualify",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_failed_or_denied_rest_does_not_qualify"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "unverified rest observation is not indefinitely persistent",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_unverified_rest_observation_is_not_indefinitely_persistent"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "verified rest remains policy visible after disappearance",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_verified_rest_remains_policy_visible_after_disappearance"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "verified rest support updates with verified body motion",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_verified_rest_support_updates_with_verified_body_motion"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "verified rest landmark round trips without hidden truth",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_verified_rest_landmark_round_trips_without_hidden_truth"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "unrelated successful interaction does not become rest landmark",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_unrelated_successful_interaction_does_not_become_rest_landmark"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "resource landmark existing behavior remains compatible",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_resource_landmark_existing_behavior_remains_compatible"
+    },
+    {
+      "assertion_dependency": "none",
+      "classification": "UNCHANGED_PROPERTY_VALID",
+      "explicitly_superseded_by_as001_as002": false,
+      "file": "tests/test_close02u_recovery_landmarks.py",
+      "migration_possible_without_weakening": true,
+      "qualified_or_protected": true,
+      "scientific_property": "failed rest with effects does not qualify even with support",
+      "static_source_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_failed_rest_with_effects_does_not_qualify_even_with_support"
+    }
+  ],
+  "total_tests": 56
+}

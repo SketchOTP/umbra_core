@@ -1,0 +1,658 @@
+{
+  "directive": "UMBRA-AS-003C",
+  "immutable_after_freeze": true,
+  "prohibited_before_freeze": [
+    "organism creation",
+    "runtime ticking",
+    "Embodiment execution",
+    "habitat simulation",
+    "broad pytest selection",
+    "unproven collection command"
+  ],
+  "schema": "AS003C_PRE_FREEZE_PURE_TEST_ALLOWLIST_V1",
+  "tests": [
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_supported_dominance_eliminates_strictly_worse_candidate"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_tradeoff_remains_nondominated"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_unknown_blocks_elimination"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_one_sided_not_applicable_blocks_elimination"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_all_unknown_pool_remains_selectable"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_simultaneous_result_is_order_independent"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_candidate_permutation_invariance"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_unrelated_dominated_insertion_does_not_change_winner"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_unrelated_deletion_preserves_survivor_terms"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_source_equivalent_duplicates_are_rejected_before_competition"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_provenance_does_not_change_order"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_stochastic_resolution_only_uses_frontier"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_supported_dominance_cannot_be_reversed_by_noise"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_exact_noise_tie_uses_canonical_identity"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_no_scalar_total_is_read"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_no_channel_voting_or_ordering"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_hard_safety_is_outside_competition"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_inadmissible_candidate_cannot_reenter"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_active_recovery_bypasses_distributed_competition"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_pure_builder_does_not_mutate_inputs"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_consequence_view_mappings_are_recursively_immutable"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_restart_determinism"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_body_migration_changes_only_behavior_or_body_evidence"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_fixed_candidate_bound"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_fixed_channel_bound"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003_distributed_competition.py",
+      "test_node_id": "tests/test_as003_distributed_competition.py::test_unselected_candidate_does_not_gain_prediction_state"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003c_qualification_support.py",
+      "test_node_id": "tests/test_as003c_qualification_support.py::test_diagnostic_stages_are_exact_and_exclude_known_r1"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003c_qualification_support.py",
+      "test_node_id": "tests/test_as003c_qualification_support.py::test_close02z_terms_are_source_neutral_and_pool_independent"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_as003c_qualification_support.py",
+      "test_node_id": "tests/test_as003c_qualification_support.py::test_frontier_metrics_preserve_mechanism_gate_fields"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02_final_authority.py",
+      "test_node_id": "tests/test_close02_final_authority.py::test_existing_candidate_enters_one_ordinary_final_choice"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02_final_authority.py",
+      "test_node_id": "tests/test_close02_final_authority.py::test_existing_candidate_does_not_enter_critical_recovery_competition"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02r_hierarchical_intent.py",
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_known_tick_one_fixture_selects_existing_development_intent"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02r_hierarchical_intent.py",
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_no_intent_preserves_base_affordance_arbitration"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02r_hierarchical_intent.py",
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_urgent_recovery_ignores_optional_intents"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02r_hierarchical_intent.py",
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_intent_source_collection_order_does_not_change_result"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02r_hierarchical_intent.py",
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_duplicate_intents_deduplicate_provenance_only"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02r_hierarchical_intent.py",
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_unsafe_intent_falls_back_to_safe_base_pool"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02r_hierarchical_intent.py",
+      "test_node_id": "tests/test_close02r_hierarchical_intent.py::test_all_actions_unsafe_retains_honest_no_safe_action"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_no_intent_no_preventive_keeps_ordinary_base_pool"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_intent_without_preventive_attention_excludes_unrelated_base"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_intent_and_preventive_attention_admit_only_matching_base"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_preventive_lane_does_not_create_no_safe_action_when_no_match_exists"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_hard_recovery_still_excludes_optional_intent"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_no_intent_preventive_attention_keeps_matching_base_only"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_multiple_preventive_dimensions_use_existing_effects"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_preventive_attention_clears_without_persistent_authority"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [
+          "run",
+          "run"
+        ],
+        "organism_runtime_imports": [],
+        "source_proven_pure": false
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02t_interruptible_intent.py",
+      "test_node_id": "tests/test_close02t_interruptible_intent.py::test_intent_source_order_does_not_change_selection"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_direct_successful_rest_qualifies_verified_recovery_landmark"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_failed_or_denied_rest_does_not_qualify"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_unverified_rest_observation_is_not_indefinitely_persistent"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_verified_rest_remains_policy_visible_after_disappearance"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_verified_rest_support_updates_with_verified_body_motion"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_verified_rest_landmark_round_trips_without_hidden_truth"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_unrelated_successful_interaction_does_not_become_rest_landmark"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_resource_landmark_existing_behavior_remains_compatible"
+    },
+    {
+      "expected_scope": "pure contract/model fixture only",
+      "no_organism_runtime_proof": {
+        "forbidden_execution_calls": [],
+        "organism_runtime_imports": [],
+        "source_proven_pure": true
+      },
+      "reason_pure": "Static AST/source scan finds no organism runtime/habitat import and no tick_once, run_case, run_stage, or run invocation; the fixture constructs only pure arbitration/model/value objects.",
+      "source_file": "tests/test_close02u_recovery_landmarks.py",
+      "test_node_id": "tests/test_close02u_recovery_landmarks.py::test_failed_rest_with_effects_does_not_qualify_even_with_support"
+    }
+  ]
+}

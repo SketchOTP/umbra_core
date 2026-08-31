@@ -1,0 +1,94 @@
+{
+  "schema": "AS003C_FREEZE_PROTOCOL_V1",
+  "directive": "UMBRA-AS-003C",
+  "classification": "FROZEN_POSTFREEZE_EXECUTION_PLAN",
+  "pre_freeze_only": false,
+  "runtime": {
+    "command_runner": "/tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3",
+    "python": "/usr/bin/python3",
+    "pytest": "8.3.5",
+    "working_directory": "/home/sketch/Projects/umbra-close02x-work",
+    "evidence_root": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1"
+  },
+  "freeze_scope": [
+    "production source",
+    "SUPPORTED_DOMINANCE_DISTRIBUTED_COMPETITION_V1",
+    "candidate consequence-view schema",
+    "evidence-channel schema",
+    "simultaneous frontier semantics",
+    "CLOSE-02Z frontier resolution and candidate identity",
+    "test migration manifest",
+    "pre-freeze pure-test allowlist",
+    "POSTFREEZE_TEST_SELECTION.json",
+    "diagnostic stages and trace schema",
+    "tools/as003c_capture.py",
+    "failure criteria"
+  ],
+  "post_freeze_commands": [
+    {
+      "label": "AS003C_RETAINED_REPLAY",
+      "phase": "I",
+      "command": "/tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python tools/as003c_capture.py --label AS003C_RETAINED_REPLAY --evidence-dir /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1 --workdir /home/sketch/Projects/umbra-close02x-work --junit /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/AS003C_RETAINED_REPLAY.junit.xml -- /tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python -m pytest -q --junitxml /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/AS003C_RETAINED_REPLAY.junit.xml $(jq -r '.retained_replay_files[]' experiments/as003c/POSTFREEZE_TEST_SELECTION.json)",
+      "failure_verdict": "AS003C_RETAINED_REPLAY_FAIL"
+    },
+    {
+      "label": "AS003C_DIAGNOSTIC_A",
+      "phase": "J",
+      "command": "/tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python tools/as003c_capture.py --label AS003C_DIAGNOSTIC_A --evidence-dir /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1 --workdir /home/sketch/Projects/umbra-close02x-work --artifact /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/DIAGNOSTIC_A/DIAGNOSTIC_A.decision-trace.jsonl -- /usr/bin/python3 experiments/as003c/diagnostics.py --stage DIAGNOSTIC_A --work /tmp/umbra-as003c-diagnostic-a --evidence /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/DIAGNOSTIC_A",
+      "failure_verdict": "AS003C_FLAT_AUTHORITY_COMPATIBILITY_FAIL"
+    },
+    {
+      "label": "AS003C_DIAGNOSTIC_B",
+      "phase": "K",
+      "precondition": "AS003C_DIAGNOSTIC_A PASS",
+      "command": "/tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python tools/as003c_capture.py --label AS003C_DIAGNOSTIC_B --evidence-dir /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1 --workdir /home/sketch/Projects/umbra-close02x-work --artifact /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/DIAGNOSTIC_B/DIAGNOSTIC_B.decision-trace.jsonl -- /usr/bin/python3 experiments/as003c/diagnostics.py --stage DIAGNOSTIC_B --work /tmp/umbra-as003c-diagnostic-b --evidence /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/DIAGNOSTIC_B",
+      "failure_verdict": "AS003C_HIERARCHICAL_AUTHORITY_COMPATIBILITY_FAIL"
+    },
+    {
+      "label": "AS003C_SUBSYSTEM_REGRESSIONS",
+      "phase": "N",
+      "precondition": "A/B and Phase L/M mechanism gates PASS",
+      "command": "/tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python tools/as003c_capture.py --label AS003C_SUBSYSTEM_REGRESSIONS --evidence-dir /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1 --workdir /home/sketch/Projects/umbra-close02x-work --junit /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/AS003C_SUBSYSTEM_REGRESSIONS.junit.xml -- /tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python -m pytest -q --junitxml /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/AS003C_SUBSYSTEM_REGRESSIONS.junit.xml $(jq -r '.subsystem_regression_files[]' experiments/as003c/POSTFREEZE_TEST_SELECTION.json)",
+      "failure_verdict": "AS003C_PRIOR_QUALIFICATION_REGRESSION_FAIL"
+    },
+    {
+      "label": "AS003C_APPLICABLE_SUITE",
+      "phase": "O",
+      "precondition": "subsystem regressions PASS",
+      "command": "/tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python tools/as003c_capture.py --label AS003C_APPLICABLE_SUITE --evidence-dir /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1 --workdir /home/sketch/Projects/umbra-close02x-work --junit /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/AS003C_APPLICABLE_SUITE.junit.xml -- /tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python -m pytest -q --junitxml /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1/AS003C_APPLICABLE_SUITE.junit.xml $(jq -r '.applicable_suite_files[]' experiments/as003c/POSTFREEZE_TEST_SELECTION.json)",
+      "failure_verdict": "AS003C_POSTFREEZE_TEST_EVIDENCE_FAIL"
+    },
+    {
+      "label": "AS003C_AUTHORITY",
+      "phase": "N/O",
+      "command": "/tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python tools/as003c_capture.py --label AS003C_AUTHORITY --evidence-dir /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1 --workdir /home/sketch/Projects/umbra-close02x-work -- /usr/bin/python3 scripts/validate_authority_v3.py",
+      "failure_verdict": "AS003C_EVIDENCE_INTEGRITY_FAIL"
+    },
+    {
+      "label": "AS003C_GOVERNANCE",
+      "phase": "N/O",
+      "command": "/tmp/anima-ha-uv/uv run --isolated --no-project --with pytest==8.3.5 --python /usr/bin/python3 python tools/as003c_capture.py --label AS003C_GOVERNANCE --evidence-dir /srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003c-replay-migration-qualification-r1 --workdir /home/sketch/Projects/umbra-close02x-work -- /usr/bin/python3 tools/validate_governance.py",
+      "failure_verdict": "AS003C_EVIDENCE_INTEGRITY_FAIL"
+    }
+  ],
+  "diagnostic_trace_required_fields": [
+    "admissible_candidate_count",
+    "supported_count_by_channel",
+    "unknown_count_by_channel",
+    "pairwise_dominance_count",
+    "eliminated_candidate_count",
+    "frontier_size",
+    "frontier_equals_full_pool",
+    "stochastic_resolution_required",
+    "distributed_changed_winner",
+    "attempts.strict_channels"
+  ],
+  "post_freeze_stop_rules": [
+    "No production change.",
+    "No test change.",
+    "No retry or reseed.",
+    "No known-R1/S16 or fresh-population execution.",
+    "Missing command, JUnit, trace, raw output, assertion, or SHA-256 evidence is AS003C_EVIDENCE_INTEGRITY_FAIL.",
+    "Candidate nonpass needs the frozen baseline-comparator procedure; no correction follows."
+  ]
+}

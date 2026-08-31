@@ -1,0 +1,32 @@
+{
+  "changed_production_paths_since_as003b_freeze": [],
+  "directive": "UMBRA-AS-003C",
+  "ordinary_selection_authority": {
+    "candidate_total": "set to 0.0 only after selection as compatibility/debug trace data; not read by ordinary path",
+    "entry": "umbra_core/arbitration.py:1348-1459",
+    "hysteresis": "not used for ordinary distributed choice",
+    "legacy_scores": "not passed to or read by evaluate_candidates",
+    "mechanism": "evaluate_candidates(admissible, ...) then supported-dominance frontier selection",
+    "temporal_fallback_individuality": "converted to named evidence channels, not additive total modifiers in ordinary path"
+  },
+  "production_diff_from_as003b_freeze": [],
+  "residues": [
+    {
+      "authority": "not reachable from ordinary selection",
+      "classification": "LEGACY_COMPATIBILITY_OUTSIDE_ORDINARY_DISTRIBUTED_PATH",
+      "path": "umbra_core/arbitration.py:220-250"
+    },
+    {
+      "authority": "outside ordinary competition by AS-002 contract",
+      "classification": "PROTECTED_ACTIVE_CRITICAL_RECOVERY_SCALAR_PATH",
+      "path": "umbra_core/arbitration.py:925-953"
+    },
+    {
+      "authority": "writes zero total only after distributed choice",
+      "classification": "NON_AUTHORITATIVE_TRACE_COMPATIBILITY",
+      "path": "umbra_core/arbitration.py:1451-1456"
+    }
+  ],
+  "result": "PASS_NO_ORDINARY_SCALAR_AUTHORITY_RESIDUE",
+  "schema": "AS003C_SCOPE_AND_SCALAR_AUDIT_V1"
+}

@@ -1,0 +1,46 @@
+{
+  "as003b_freeze": "5c2642ac9c1c0be6340d583caf594f5799ecda13",
+  "current_head_at_audit": "368bc6cde145e8faa91592e60952d66d07be9364",
+  "directive": "UMBRA-AS-003C",
+  "new_contract_defect": null,
+  "preserved_as003b_findings": [
+    {
+      "finding": "one-sided NOT_APPLICABLE blocks dominance",
+      "source": "umbra_core/distributed_competition.py:171-181",
+      "status": "PASS"
+    },
+    {
+      "finding": "consequence views recursively immutable",
+      "source": "umbra_core/distributed_competition.py:74-121",
+      "status": "PASS"
+    },
+    {
+      "finding": "simultaneous supported dominance and UNKNOWN preservation",
+      "source": "umbra_core/distributed_competition.py:173-282",
+      "status": "PASS"
+    },
+    {
+      "finding": "ordinary scalar authority absent; candidate.total trace is non-authoritative",
+      "source": "umbra_core/arbitration.py:1432-1459",
+      "status": "PASS"
+    },
+    {
+      "finding": "legacy scalar route retained only for protected active/critical recovery",
+      "source": "umbra_core/arbitration.py:925-953",
+      "status": "PASS"
+    },
+    {
+      "finding": "frontier-only CLOSE-02Z candidate-local resolution",
+      "source": "umbra_core/distributed_competition.py:265-285",
+      "status": "PASS"
+    },
+    {
+      "finding": "selected-only learning boundary is outside pure competition",
+      "source": "umbra_core/distributed_competition.py:1-8; umbra_core/arbitration.py:1432-1459",
+      "status": "PASS"
+    }
+  ],
+  "production_correction_authorized_or_needed": false,
+  "production_diff_from_as003b_freeze": "EMPTY",
+  "schema": "AS003C_PRODUCTION_IMMUTABILITY_AUDIT_V1"
+}

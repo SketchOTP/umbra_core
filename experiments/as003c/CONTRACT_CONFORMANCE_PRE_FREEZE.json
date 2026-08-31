@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "evidence": "distributed_competition.py CandidateConsequenceView bounds and build_consequence_view",
+      "requirement": "fixed-size one-step candidate consequence views",
+      "status": "PASS"
+    },
+    {
+      "evidence": "distributed_competition.py has no runtime, learning, persistence, prediction commit, or execution imports",
+      "requirement": "pure unselected views with no hidden future truth",
+      "status": "PASS"
+    },
+    {
+      "evidence": "EvidenceValue and supported_dominance at distributed_competition.py:34-239",
+      "requirement": "coherent evidence proposition channels and UNKNOWN preservation",
+      "status": "PASS"
+    },
+    {
+      "evidence": "resolve_supported_frontier computes all pairwise attempts before frontier at lines 244-285",
+      "requirement": "simultaneous supported dominance with no sequential elimination",
+      "status": "PASS"
+    },
+    {
+      "evidence": "ordinary select calls evaluate_candidates at arbitration.py:1432; Candidate.total is reset to non-authoritative trace zero at 1451-1456",
+      "requirement": "no ordinary scalar total, scalar sort, channel voting/order, source priority, or confidence multiplication",
+      "status": "PASS"
+    },
+    {
+      "evidence": "resolve_supported_frontier lines 271-284 and candidate_behavioral_identity binding",
+      "requirement": "frontier-only CLOSE-02Z candidate-local stochastic resolution",
+      "status": "PASS"
+    },
+    {
+      "evidence": "evaluate_candidates selects one original candidate by canonical identity at lines 357-414",
+      "requirement": "source-neutral behavioral identity and exactly one existing final candidate",
+      "status": "PASS"
+    },
+    {
+      "evidence": "arbitration.py admission before ordinary pool and protected recovery branch 925-953",
+      "requirement": "hard safety and active/critical recovery outside ordinary competition",
+      "status": "PASS"
+    },
+    {
+      "evidence": "pure competition module explicitly excludes learning; runtime owns selected outcome path",
+      "requirement": "selected-only prediction commitment and learning",
+      "status": "PASS"
+    }
+  ],
+  "directive": "UMBRA-AS-003C",
+  "production_reference": "AS003B freeze 5c2642ac9c1c0be6340d583caf594f5799ecda13; current umbra_core diff empty",
+  "result": "PASS",
+  "schema": "AS003C_CONTRACT_CONFORMANCE_PRE_FREEZE_V1"
+}

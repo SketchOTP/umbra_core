@@ -1,0 +1,83 @@
+{
+  "areas": [
+    {
+      "area": "pure consequence views",
+      "evidence": "AS003B correction F002 retained; current production diff empty",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "evidence channels",
+      "evidence": "distributed_competition EvidenceValue/channel adapters",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "dominance relation",
+      "evidence": "supported_dominance static and pure proof",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "simultaneous frontier construction",
+      "evidence": "resolve_supported_frontier static and pure proof",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "CLOSE-02Z frontier resolution",
+      "evidence": "candidate-local stochastic term static and pure proof",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "UNKNOWN handling",
+      "evidence": "EvidenceValue UNKNOWN blocks dominance static and pure proof",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "first-experience handling",
+      "evidence": "UNKNOWN preserved; no unsupported elimination",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "scalar authority removal",
+      "evidence": "ordinary select evaluate_candidates only",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "temporal/individuality migration",
+      "evidence": "named temporal and individuality channels",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "habit/memory/development/social migration",
+      "evidence": "canonical source-neutral candidate and channel inputs",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "continuity/hysteresis migration",
+      "evidence": "continuity named channel; scalar hysteresis outside ordinary path",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "test migration",
+      "evidence": "one pre-authorized property-level replay migration",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "trace instrumentation",
+      "evidence": "distributed trace summary and AS003C diagnostics support",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "boundedness",
+      "evidence": "fixed candidate/channel/provenance bounds",
+      "status": "COMPLETE"
+    },
+    {
+      "area": "selected-only learning",
+      "evidence": "pure module has no learning owner; runtime remains downstream",
+      "status": "COMPLETE"
+    }
+  ],
+  "directive": "UMBRA-AS-003C",
+  "production_change_expected": false,
+  "result": "PASS",
+  "schema": "AS003C_COMPLETENESS_MAP_V1"
+}

@@ -1,0 +1,13 @@
+{
+  "classification": "PRE_FREEZE_TEST_MIGRATION_IMPLEMENTATION_DEFECT",
+  "command": "/tmp/anima-ha-uv/uv run --isolated --no-project --with 'pytest==8.3.5' --python /usr/bin/python3 python -m pytest -q tests/test_close02r_hierarchical_intent.py::test_no_intent_preserves_base_affordance_arbitration",
+  "failure": "KeyError: 'competition' in the new test assertion; actual trace schema is top-level.",
+  "kind": "isolated source-proven pure fixture development check",
+  "organism_runs": 0,
+  "production_changes": 0,
+  "remediation": "test-only property assertion corrected before formal pure allowlist execution",
+  "result": "FAILED",
+  "runtime_ticks": 0,
+  "schema": "AS003C_PREFREEZE_DEVELOPMENT_ATTEMPT_V1",
+  "sequence": 1
+}
