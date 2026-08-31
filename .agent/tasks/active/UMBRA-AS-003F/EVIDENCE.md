@@ -7,3 +7,4 @@
 - AS-003C final evidence manifest SHA-256: `d8eb4cc26048f6b3b8d9ca861dbfab25f56a6e2b95548949997c638f7812268c`.
 - All AS-003F durable artifacts use file fsync, atomic rename, directory fsync, and SHA-256 readback.
 - The activation/resolution lock must precede every offline context projection. No post-projection tuning is permitted.
+- Pre-projection lock: `AS003F_CONTEXT_RESOLUTION_LOCK.json`, SHA-256 `505a5813f7fea32c1c44fe5e38b09017cc130c1448d1709306e9533c8d1f300b`. It fixes the owner inventory, source-neutral identity, ACTIVE/INACTIVE activation semantics with separate UNKNOWN evidence, state/opportunity classifications, and L1–L5 resolution families.
