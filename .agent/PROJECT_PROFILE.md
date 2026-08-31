@@ -30,7 +30,11 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
-## Current governed status — UMBRA-AS-003E terminal
+## Current governed status — UMBRA-AS-003G active
+
+AS-003G is active from exact master `016b71417c3420fdf119aa253e029a0a013ae9d3` after accepted AS-003F terminal `AS003F_SIMULTANEOUS_CONTEXT_RESOLUTION_PRIMITIVE_REQUIRED`. It is a zero-run, non-production convergence gate for owner-derived categorical active contexts, persistent engagement, event-gated re-election, source-neutral context stochastic identity, and the exact common behavioral-control/calibration claim needed if nonnumeric context control cannot resolve initial election and starvation. No implementation or automatic successor is authorized.
+
+## Historical governed status — UMBRA-AS-003E terminal
 
 AS-003E is terminal `AS003E_MOTIVATIONAL_CONTEXT_ACTIVATION_PRIMITIVE_REQUIRED` from the accepted AS-003D terminal. The zero-run frozen-corpus/source investigation locked role classification before projection, but role-eligible immediate consequence/body/world channels still yielded zero relations/eliminations across 76,216 pairs and all 2,647 full frontiers. V1 remains retired; role partition is necessary but not sufficient; a source-neutral categorical context-activation primitive is the next unresolved architecture boundary. No common numeric control claim, production/test modification, organism/diagnostic rerun, retry/reseed, AS-003F, AS-004, or CLOSE-03 is authorized.
 

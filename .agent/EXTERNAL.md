@@ -2,6 +2,14 @@
 
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
+## UMBRA-AS-003G external discovery — 2026-08-31
+
+- Trigger: Architect-authorized zero-run convergence gate after AS-003F isolated the missing non-hard simultaneous-context election/switching claim.
+- Sources: Richman et al. (2023), *Neural landscape diffusion resolves conflicts between needs across time*, https://www.nature.com/articles/s41586-023-06715-z; retained reference-only boundaries from Palmer and Kristan (2011), Burnett et al. (2016), Cisek (2007), and Faulkes (2005).
+- Freshness: primary Richman article and retained references checked 2026-08-31.
+- Disposition: REFERENCE ONLY. Richman supports qualitative persistent goal bouts, stochastic transitions, and state-modulated switching under conflicting needs. Its normalized relative-need scale, fitted landscape-gradient/noise parameters, and neural diffusion implementation are explicitly rejected for UMBRA. No global utility, authored cross-system coefficient, source hierarchy, timeout/hazard, scheduler, RL, active inference, POMDP/MPC, planner, or neural simulation is imported.
+- Recheck trigger: only if a later authority establishes a source-neutral common behavioral-control claim with a common unit and calibration method.
+
 ## UMBRA-AS-003D external discovery — 2026-08-30
 
 - Trigger: Architect-authorized action-selection replan after AS-003C demonstrated zero supported-dominance eliminations across 2,647 qualifying decisions.

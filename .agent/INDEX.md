@@ -158,6 +158,10 @@ github/master without changing remote configuration.
 - Project profile: .agent/PROJECT_PROFILE.md
 - Current state: .agent/CURRENT.md
 
+## Current authority
+
+- `UMBRA-AS-003G` active — simultaneous-context control convergence gate; packet `.agent/tasks/active/UMBRA-AS-003G/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003g-simultaneous-context-control-r1/`.
+
 ## Current pointers
 - Current stage: Authority 3.0; CLOSE-02F R0 development failure
 - Active directive: NONE; last terminal directive: UMBRA-CLOSE-02T
