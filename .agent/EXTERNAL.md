@@ -2,6 +2,13 @@
 
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
+## UMBRA-AS-003I external-discovery boundary — 2026-08-31
+
+- Trigger: Architect-authorized zero-run calibration gate after AS-003H established that no standalone transition hazard can be learned or calibrated without a common current behavioral-control claim.
+- Sources to be reviewed: natural action-selection, incentive-salience, affective common-currency, and neuroeconomic subjective-value primary/reference material supplied in AS-003I.
+- Precommitted disposition: REFERENCE ONLY. Review can define candidate semantic boundaries, not import neural topology, dopamine, learned reward/value, fitted coefficients, affective maximization, utility optimization, source priority, or a controller.
+- Recheck trigger: only if a future authority establishes one cross-owner proposition and independently meaningful calibration method.
+
 ## UMBRA-AS-003H external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized zero-run identifiability gate after AS-003G established that source-neutral initial ordering and persistence cannot switch continuously active rivals without calibrated dynamics.
