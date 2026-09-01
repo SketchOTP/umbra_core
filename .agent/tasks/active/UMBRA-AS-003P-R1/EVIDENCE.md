@@ -17,3 +17,7 @@ Phase A/B/C:
   `6a97dbe64a5934c9ee7fa04a8e71c8719c7e662e0056d5a865d88d49fa86c988`;
 - protocol harness equivalence: `PASS`, zero scientific differences, SHA-256
   `82829ccc6696ac8348a33fec7019779ae9cf77dbf10badef66a95955d15c6835`.
+- import-only preflight attempt 1: `PASS`; exact fixture, R1 harness, and
+  `umbra_core` specs resolved from repository root; fixture preparation,
+  organism create/load, harness `main`, leg execution, and ticks all `0`;
+  SHA-256 `e94e8f17175a3b27e4570272cc2b820e717a201a08e4cd5bbbc06f9c1daaf426`.
