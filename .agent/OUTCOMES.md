@@ -1195,3 +1195,10 @@ Terminal verdict `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. AS-003M reconci
 
 - Status: ACTIVE from exact baseline `7c33dc785cb38fda4abd1e7995826498a3dd2d31`.
 - Scope: source-backed abstraction and pure bounded continuation proof only; no live behavioral integration or organism execution.
+## UMBRA-AS-003O terminal — source evidence insufficient for continuation — 2026-09-01
+
+- Verdict: `AS003O_SOURCE_EVIDENCE_INSUFFICIENT_FOR_CONTINUATION`.
+- Implemented: isolated pure source adapters and a bounded robust continuation proof at `a93770372fdf840b90689190ab49af7960f0bba9`; no existing production/test file changed.
+- Tested: `19/19` focused pure proofs passed twice; Authority 3.0 and governance passed. The durable corpus verifies source-strength conservation, root semantics, opportunity-horizon consumption, coupled services, universal branches, 32-path overflow, P2 exact containment, and zero live callsites.
+- Observed: retained AS-003K/L/M material lacks the complete actual source snapshot needed for a real proof. Missing: valid-through opportunity horizon, categorical actual service timing/route, body-matched capability support, and coupled pending commitment.
+- Integrity: organism/diagnostic/qualification executions, retries, reseeds, and successor starts: `0`. Manifest `febb7f6bdcb6eb53069fe2110625b92d01704b026ff968804dd7eedcfcbf555b`.

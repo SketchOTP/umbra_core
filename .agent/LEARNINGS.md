@@ -509,3 +509,8 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
 ## AS-003O start boundary
 
 - The accepted AS-003N substrate is not a planner. AS-003O must prove that actual owner sources can populate it soundly, including categorical uncertainty, correlated outcomes, opportunity duration, and total path-frontier limits, before any shadow integration can be considered.
+## AS-003O — source backing is a separate proof obligation
+
+- A current owner observation can lawfully populate an exact root envelope as `VERIFIED_OBSERVED_SUPPORT`; that says nothing about future persistence and must not be renamed `HARD_CONTRACT`.
+- Present opportunity, learned mean, and confidence are not a valid-through guarantee. A robust continuation claim needs an authoritative root-relative horizon, categorical route/completion/capability support, and an immutable commitment snapshot from the same material source state.
+- Robust continuation quantifies differently over choices and outcomes: current/service choices are existential, while every supported outcome branch must have a witness. Exact P2 inclusion is safe only for aligned branch identities; no count, probability, slack, or score is a substitute.

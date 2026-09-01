@@ -842,3 +842,6 @@ Verdict: `AS003F_SIMULTANEOUS_CONTEXT_RESOLUTION_PRIMITIVE_REQUIRED`. The pre-pr
 ## UMBRA-AS-003O — START (2026-09-01)
 
 - Directive: UMBRA-AS-003O | status:active | baseline:7c33dc785cb38fda4abd1e7995826498a3dd2d31 | parent:AS003N_PURE_HYPOTHETICAL_TRANSITION_SUBSTRATE_QUALIFIED | scope:isolated source-backed hypothetical adapters and pure continuation proof only | prohibition:live integration, owner mutation, organism/diagnostic/qualification execution, retry, reseed 0 | evidence:umbra-as-003o-source-backed-continuation-r1 | remote:github
+## UMBRA-AS-003O — CLOSEOUT (2026-09-01)
+
+- Directive: UMBRA-AS-003O | status:terminal | verdict:AS003O_SOURCE_EVIDENCE_INSUFFICIENT_FOR_CONTINUATION | baseline:7c33dc785cb38fda4abd1e7995826498a3dd2d31 | implementation:a93770372fdf840b90689190ab49af7960f0bba9 | result:isolated conservative adapters and robust continuation proof pass source fixtures, but retained actual sources lack required timed opportunity/route/body-capability/commitment facts | validation:focused 19/19 twice,Authority3 PASS,governance PASS | integrity:existing production/test 0,live callsites 0,organism/diagnostic/qualification 0,retry/reseed 0 | manifest:febb7f6bdcb6eb53069fe2110625b92d01704b026ff968804dd7eedcfcbf555b | successor:none | remote:github

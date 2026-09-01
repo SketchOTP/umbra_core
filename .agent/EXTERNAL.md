@@ -1,5 +1,11 @@
 # External Discovery Ledger
 
+## UMBRA-AS-003O external proof boundary — 2026-09-01
+
+- Trigger: Architect required a bounded source-abstraction and robust continuation reference review.
+- Source: [Microsoft Research, May/Must Abstraction-Based Software Model Checking](https://www.microsoft.com/en-us/research/publication/maymust-abstraction-based-software-model-checking-for-sound-verification-and-falsification/).
+- Disposition: `REFERENCE` only. Its three-valued abstraction framing supports the limited rule that categorical conclusions must not exceed the concrete source and missing information remains `UNKNOWN`. No model checker, MDP, planner, probability mechanism, or third-party dependency was imported.
+
 ## UMBRA-AS-003N external implementation boundary — 2026-09-01
 
 - Trigger: Architect-authorized implementation of AS-003M's missing pure hypothetical-transition substrate.
