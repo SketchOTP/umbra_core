@@ -1,0 +1,74 @@
+{
+  "schema": "AS003PR3_COMPARATOR_SOURCE_CONTRACT_V1",
+  "directive": "UMBRA-AS-003P-R3",
+  "basis": [
+    ".agent/tasks/active/UMBRA-AS-003P-R2/FUTURE_PARITY_COMPARATOR_CONTRACT.md",
+    "umbra_core/runtime.py:Organism.authoritative_state",
+    "owner to_state and accepted_state contracts",
+    "umbra_core/persistence.py event-ledger schema"
+  ],
+  "generic_uuid_detection_authorized": false,
+  "numeric_comparison": "EXACT_STORED_VALUE",
+  "dictionary_semantics": "KEY_ORDER_IRRELEVANT_UNLESS_OWNER_DECLARED_ORDERED",
+  "sequence_semantics": "ORDERED_UNLESS_EXPLICITLY_DECLARED_UNORDERED",
+  "state_families": [
+    {"name": "identity", "source": "ConstitutionalIdentity.as_dict", "comparison": "exact; seeded agent/lineage/birth identity and commitment are semantic"},
+    {"name": "physiology", "source": "Physiology.to_state", "comparison": "exact authoritative values"},
+    {"name": "embodiment", "source": "Embodiment.to_state", "comparison": "exact values plus declared administrative execution-link bijections"},
+    {"name": "perception", "source": "Perception.to_state", "comparison": "exact values; ordered histories preserved"},
+    {"name": "arbitration", "source": "ArbitrationState.to_state", "comparison": "exact values"},
+    {"name": "governance", "source": "GovernanceState.to_state", "comparison": "exact values plus declared proposal/request-link bijections"},
+    {"name": "self_model", "source": "SelfModel.to_state", "comparison": "exact scientific values; prediction/error/decision/evidence identifiers are administrative relationship IDs"},
+    {"name": "world_model", "source": "WorldModel.to_state", "comparison": "complete field-level comparison; entity/model/affordance/prediction/plan IDs are administrative relationship IDs; accepted_state supplements only"},
+    {"name": "development", "source": "DevelopmentEngine.to_state", "comparison": "exact values and ordered histories"},
+    {"name": "memory", "source": "MemoryEngine.to_state", "comparison": "stable episode/belief/procedural identities and relationship histories remain semantic"},
+    {"name": "social", "source": "SocialEngine.to_state", "comparison": "hypothesis/cell/routine identities remain semantic; pending execution_id is an owner-declared administrative link"},
+    {"name": "individuality", "source": "IndividualityEngine.to_state", "comparison": "exact values and evidence references"},
+    {"name": "temporal", "source": "temporal_state_to_dict", "comparison": "exact primary state; session/transaction relations bijective; source-derived hashes reported separately"},
+    {"name": "pending_action", "source": "Organism._pending_action", "comparison": "exact semantics plus declared administrative execution links"},
+    {"name": "delayed_proposal", "source": "Organism._delayed_proposal", "comparison": "exact semantics plus declared proposal link"},
+    {"name": "runtime_metrics", "source": "Organism.metrics", "comparison": "exact; cells are an owner-defined unordered collection"},
+    {"name": "rng", "source": "Organism.rng.export_state", "comparison": "exact"},
+    {"name": "authoritative_events", "source": "EventStore.iter_events", "comparison": "ordered sequence; event/causal IDs related bijectively; payload semantics exact; ledger hashes derivative"},
+    {"name": "candidate_identities", "source": "distributed competition decision trace", "comparison": "canonical candidate identities and timeline order exact"}
+  ],
+  "field_classification": {
+    "SEMANTIC_IDENTITY": ["identity.agent_id", "identity.lineage_id", "identity.birth_event_id", "identity.identity_commitment", "body_schema_id", "body_binding_id", "candidate identity"],
+    "ADMINISTRATIVE_IDENTITY": ["runtime session_id", "event_id", "WorldModel generated record IDs", "SelfModel prediction/error/decision/evidence IDs", "Governance proposal/request IDs", "execution/transaction IDs"],
+    "SEMANTIC_RELATIONSHIP_ID": ["memory stable episode/belief/procedural IDs", "social hypothesis/cell/routine IDs", "candidate identity", "body-schema identity"],
+    "DERIVATIVE_HASH": ["event_hash", "payload_hash", "previous_event_hash", "state_hash", "source_sample_hash", "prior_state_hash", "new_state_hash", "trusted_sample_hash"],
+    "AUTHORITATIVE_VALUE": ["all non-declared scalar/string/boolean/null values at exact stored precision"],
+    "ORDERED_HISTORY_POSITION": ["authoritative events", "timeline", "predictions", "errors", "contradictions", "supersessions", "plan traces", "observation log", "attempt history"],
+    "UNRESOLVED": []
+  },
+  "administrative_field_names": [
+    "session_id", "session_id_at_commit", "event_id", "transaction_id",
+    "source_transaction_id", "request_id", "proposal_id", "execution_id",
+    "outcome_id", "prediction_id", "error_id", "decision_id", "evidence_id",
+    "plan_id", "model_id", "entity_id", "affordance_id",
+    "observation_plan_id", "advance_id"
+  ],
+  "semantic_identity_field_names": [
+    "agent_id", "lineage_id", "birth_event_id", "identity_commitment",
+    "body_schema_id", "body_binding_id", "candidate_identity"
+  ],
+  "administrative_key_maps": [
+    "final_authoritative_state.world_model.entities",
+    "final_authoritative_state.world_model.models",
+    "final_authoritative_state.world_model.affordances"
+  ],
+  "derivative_field_names": [
+    "event_hash", "payload_hash", "previous_event_hash", "state_hash",
+    "source_sample_hash", "prior_state_hash", "new_state_hash",
+    "trusted_sample_hash"
+  ],
+  "unordered_sequence_paths": ["final_authoritative_state.metrics.cells"],
+  "owner_comparable_views": {
+    "world_model.accepted_state": "supplemental only; rounding/exclusions cannot decide full parity",
+    "memory.accepted_state": "supplemental only",
+    "social.accepted_state": "supports pending.execution_id administrative classification",
+    "development.accepted_state": "supplemental only",
+    "individuality.accepted_state": "supplemental only"
+  },
+  "invalidation": "any UNRESOLVED encountered comparison field fails closed before execution"
+}
