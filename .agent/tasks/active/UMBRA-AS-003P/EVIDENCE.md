@@ -42,3 +42,4 @@ Execution disposition:
 - control `0`, shadow `0`, organism ticks `0`, retries `0`, reseeds `0`;
 - parity and actual-source evidence: `NOT RUN`;
 - terminal verdict: `AS003P_EVIDENCE_INSUFFICIENT`.
+- final evidence manifest: `6a2f6afcea9394fa1b0d4b75c242b6a359d4f62d3a7bf3ffde4954a9db2ab4c2` (`27` artifacts inventoried before the manifest itself; readback verified).

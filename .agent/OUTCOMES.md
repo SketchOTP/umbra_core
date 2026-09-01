@@ -1210,3 +1210,4 @@ Terminal verdict `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. AS-003M reconci
 - Execution stop: sole paired command raised `ModuleNotFoundError: No module named 'experiments'` before `main`, fixture preparation, organism creation, or ticks.
 - Not established: observer parity, actual-source frame coverage, modal distribution, AS-003L conflict-class expression, future AS-002 relation.
 - Integrity: control `0`, shadow `0`, organism/diagnostic `0`, retry `0`, reseed `0`; no successor started.
+- Final evidence manifest SHA-256: `6a2f6afcea9394fa1b0d4b75c242b6a359d4f62d3a7bf3ffde4954a9db2ab4c2` (`27` pre-manifest artifacts, readback verified).
