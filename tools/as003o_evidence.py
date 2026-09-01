@@ -61,6 +61,7 @@ def main() -> None:
     parser.add_argument("--text", action="store_true")
     parser.add_argument("--write-locks", action="store_true")
     parser.add_argument("--capture-focused", metavar="RECORD")
+    parser.add_argument("--write-closeout", action="store_true")
     args = parser.parse_args()
     if args.write_locks:
         sources = [
@@ -91,6 +92,87 @@ def main() -> None:
         print(json.dumps({"record":args.capture_focused,"sha256":digest,"exit_code":completed.returncode,"tests":len(lines)}, sort_keys=True))
         if completed.returncode:
             raise SystemExit(completed.returncode)
+        return
+    if args.write_closeout:
+        records = {
+            "AS003O_ABSTRACTION_SOUNDNESS_PROOF.json": {
+                "schema": "AS003O_ABSTRACTION_SOUNDNESS_PROOF_V1",
+                "result": "PASS",
+                "obligations": {"root_physio_exact_observation_not_hard_contract": "PASS", "source_weakening_never_strengthens": "PASS", "provenance_loss_never_strengthens": "PASS", "broader_interval_never_narrows": "PASS", "probabilistic_to_categorical": "REJECTED", "unknown_to_supported": "REJECTED", "stale_or_body_mismatch_to_supported": "REJECTED"},
+                "evidence": ["AS003O_FOCUSED_PURE_RUN_01.json", "AS003O_FOCUSED_PURE_RUN_02.json"],
+            },
+            "AS003O_SOURCE_ADAPTER_AUDIT.json": {
+                "schema": "AS003O_SOURCE_ADAPTER_AUDIT_V1",
+                "physiology": "PASS: exact four-owner root snapshots use VERIFIED_OBSERVED_SUPPORT; BOUNDS/drift/effects stay separate HARD_CONTRACT facts",
+                "self_model_body": "PASS: capability interval semantics and body schema mismatch are preserved conservatively",
+                "world_opportunity": "PASS: current observation is not persistence; only explicit root-relative valid-through horizon can support a service",
+                "recoverability_route": "PASS: route support requires categorical availability, timing, and capability; scalar margin/best route is unused",
+                "services": {"CHARGE": "constructible only with explicit source evidence", "REST": "one coupled fatigue/integrity service", "INSPECT": "constructible only with explicit source evidence"},
+                "owner_mutation": 0,
+                "runtime_imports": 0,
+            },
+            "AS003O_CONTINUATION_PROOF.json": {
+                "schema": "AS003O_BOUNDED_ROBUST_CONTINUATION_PROOF_V1",
+                "P1": "PASS on explicit source fixtures: current action existential; every supported outcome branch requires an existential service witness",
+                "P2": "PASS as exact branch-aligned strict witness-set containment only; mismatched branch identity is UNKNOWN and crossing sets are UNSUPPORTED",
+                "unsupported": "a fully known branch with no service witnesses is UNSUPPORTED",
+                "unknown": "missing/probabilistic source or insufficient persistence horizon is UNKNOWN",
+                "receding_horizon": "no future action queue or execution authority is created",
+                "max_total_frontier": 32,
+                "overflow": "UNKNOWN:BRANCH_FRONTIER_EXCEEDED",
+            },
+            "AS003O_SELECTION_PRESSURE_AUDIT.json": {
+                "schema": "AS003O_SOURCE_BACKED_SELECTION_PRESSURE_AUDIT_V1",
+                "result": "NOT_ESTABLISHED",
+                "reason": "retained AS003K/L/M evidence contains no complete immutable actual owner snapshot with an authoritative opportunity valid-through horizon, categorical service timing/route, body-matched capability, and pending commitment together",
+                "P1": "mechanically capable in explicit source fixtures only",
+                "P2": "mechanically representable in exact branch-aligned fixture relations only",
+                "ordinary_selection_change_claim": "NOT MADE",
+                "close02z_drive_controller_claim": "NOT MADE",
+            },
+            "AS003O_AS002_COMPATIBILITY.json": {
+                "schema": "AS003O_AS002_COMPATIBILITY_V1",
+                "result": "NO_AS002_MUTATION",
+                "possible_future_interface": ["regulatory.continuation.robust", "regulatory.continuation.strict_superset"],
+                "constraints": ["relational/categorical only", "no scalarization", "no source priority", "simultaneous relation only", "cannot override hard safety or active/critical recovery"],
+                "current_disposition": "interface remains provisional because actual source-backed selection pressure is not established",
+            },
+            "AS003O_ISOLATION_AUDIT.json": {
+                "schema": "AS003O_ISOLATION_AUDIT_V1",
+                "new_isolated_files": ["umbra_core/hypothetical/adapters.py", "umbra_core/hypothetical/continuation.py", "tests/test_as003o_source_backed_continuation.py", "tools/as003o_pure_tests.py", "tools/as003o_retained_projection.py"],
+                "preexisting_production_files_changed": 0,
+                "preexisting_test_files_changed": 0,
+                "live_callsites": 0,
+                "runtime_arbitration_governance_embodiment_imports": 0,
+                "organism_runs": 0,
+                "diagnostic_runs": 0,
+                "qualification_runs": 0,
+                "retries": 0,
+                "reseeds": 0,
+            },
+            "AS003O_VERDICT.json": {
+                "schema": "AS003O_VERDICT_V1",
+                "verdict": "AS003O_SOURCE_EVIDENCE_INSUFFICIENT_FOR_CONTINUATION",
+                "implementation_commit": "a93770372fdf840b90689190ab49af7960f0bba9",
+                "why_not_implementation_failure": "adapters and pure robust proof pass focused source fixtures without source-strength promotion, live authority, or substrate change",
+                "blocking_evidence": ["authoritative opportunity identity plus root-relative valid-through persistence horizon", "categorical actual route/service completion timing", "body-schema-matched categorical capability support at the relevant source tick", "immutable pending-commitment snapshot coupled to that source tick"],
+                "P1": "qualified as a pure source-fixture relation; not demonstrated on retained actual source states",
+                "P2": "qualified only as an exact branch-aligned fixture relation; not demonstrated on retained actual source states",
+                "recommendation": "no automatic successor; return the missing source-evidence contract to Architect",
+                "integrity": {"production_owner_changes": 0, "organism_runs": 0, "diagnostic_runs": 0, "qualification_runs": 0, "retries": 0, "reseeds": 0},
+            },
+        }
+        external = "# AS-003O external reference boundary\n\nReference only: Microsoft Research describes three-valued may/must abstractions as representing properties as true, false, or unknown. AS-003O uses that limited conservative principle: categorical continuation support never exceeds its concrete source support; missing persistence remains `UNKNOWN`. No model checker, MDP, planner framework, or external dependency was imported.\n\nSource: https://www.microsoft.com/en-us/research/publication/maymust-abstraction-based-software-model-checking-for-sound-verification-and-falsification/\n"
+        digests = {name: write_bytes(name, canonical_bytes(payload)) for name, payload in records.items()}
+        digests["AS003O_EXTERNAL_REVIEW.md"] = write_bytes("AS003O_EXTERNAL_REVIEW.md", external.encode("utf-8"))
+        inventory = []
+        for path in sorted(ROOT.iterdir()):
+            if path.name == "AS003O_EVIDENCE_MANIFEST.json" or not path.is_file():
+                continue
+            inventory.append({"name": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "bytes": path.stat().st_size})
+        manifest = {"schema":"AS003O_EVIDENCE_MANIFEST_V1","baseline":BASELINE,"implementation_commit":"a93770372fdf840b90689190ab49af7960f0bba9","verdict":"AS003O_SOURCE_EVIDENCE_INSUFFICIENT_FOR_CONTINUATION","artifacts":inventory,"artifact_count":len(inventory),"durability":"atomic write, file fsync, atomic rename, directory fsync, readback sha256","integrity":{"organism_runs":0,"diagnostic_runs":0,"qualification_runs":0,"retries":0,"reseeds":0}}
+        manifest_digest = write_bytes("AS003O_EVIDENCE_MANIFEST.json", canonical_bytes(manifest))
+        print(json.dumps({"artifacts":len(inventory),"manifest_sha256":manifest_digest,"records":digests}, sort_keys=True))
         return
     if args.name is None or args.payload is None:
         parser.error("name and payload are required unless --write-locks is used")
