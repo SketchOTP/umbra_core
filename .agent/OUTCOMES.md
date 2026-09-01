@@ -1202,3 +1202,11 @@ Terminal verdict `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. AS-003M reconci
 - Tested: `19/19` focused pure proofs passed twice; Authority 3.0 and governance passed. The durable corpus verifies source-strength conservation, root semantics, opportunity-horizon consumption, coupled services, universal branches, 32-path overflow, P2 exact containment, and zero live callsites.
 - Observed: retained AS-003K/L/M material lacks the complete actual source snapshot needed for a real proof. Missing: valid-through opportunity horizon, categorical actual service timing/route, body-matched capability support, and coupled pending commitment.
 - Integrity: organism/diagnostic/qualification executions, retries, reseeds, and successor starts: `0`. Manifest `febb7f6bdcb6eb53069fe2110625b92d01704b026ff968804dd7eedcfcbf555b`.
+## UMBRA-AS-003P terminal — evidence insufficient — 2026-09-01
+
+- Verdict: `AS003P_EVIDENCE_INSUFFICIENT`.
+- Implemented and pure-tested: immutable same-tick source frame; separate root-current/future opportunity modality; constitutional capability, source performance, route, timing, pending-execution evidence; strong/weak modal continuation classes; exact 32-path/overflow contract; default-off write-only runtime hook.
+- Validation retained: focused pure `41/41` twice identically; Authority 3.0 PASS; governance PASS; world-truth firewall PASS; AS-003N/AS-003O qualified files unchanged.
+- Execution stop: sole paired command raised `ModuleNotFoundError: No module named 'experiments'` before `main`, fixture preparation, organism creation, or ticks.
+- Not established: observer parity, actual-source frame coverage, modal distribution, AS-003L conflict-class expression, future AS-002 relation.
+- Integrity: control `0`, shadow `0`, organism/diagnostic `0`, retry `0`, reseed `0`; no successor started.

@@ -849,3 +849,6 @@ Verdict: `AS003F_SIMULTANEOUS_CONTEXT_RESOLUTION_PRIMITIVE_REQUIRED`. The pre-pr
 ## UMBRA-AS-003P governance start — 2026-09-01
 
 `AS003O_SOURCE_EVIDENCE_INSUFFICIENT_FOR_CONTINUATION` is accepted. AS-003P is active from exact baseline `12b0d3eb7acc74452eddcd6df473e230ea74a590`. It may implement only a coherent immutable same-tick planning evidence frame, additive modal continuation semantics, and a default-off read-only shadow capture path. Exactly one matched control/shadow non-formal execution is authorized after pure validation; retries, reseeds, formal viability, AS-004, CLOSE-03, selection influence, probability-as-preference, invented thresholds, and Habitat truth as policy evidence remain prohibited.
+## UMBRA-AS-003P — TERMINAL (2026-09-01)
+
+- D-20260901-as003p-closeout | status:terminal | verdict:AS003P_EVIDENCE_INSUFFICIENT | baseline:12b0d3eb7acc74452eddcd6df473e230ea74a590 | implementation:0f9368d5f0add5fb987353488cc9357e82fd7285 | pure:41/41 twice identical | stop:ModuleNotFoundError experiments before main/fixture/organism | control:0 | shadow:0 | organism_ticks:0 | retries:0 | reseeds:0 | observer_parity:NOT_RUN | actual_frames:0 | successor:none | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-modal-planning-frame-r1/

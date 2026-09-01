@@ -514,3 +514,8 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
 - A current owner observation can lawfully populate an exact root envelope as `VERIFIED_OBSERVED_SUPPORT`; that says nothing about future persistence and must not be renamed `HARD_CONTRACT`.
 - Present opportunity, learned mean, and confidence are not a valid-through guarantee. A robust continuation claim needs an authoritative root-relative horizon, categorical route/completion/capability support, and an immutable commitment snapshot from the same material source state.
 - Robust continuation quantifies differently over choices and outcomes: current/service choices are existential, while every supported outcome branch must have a witness. Exact P2 inclusion is safe only for aligned branch identities; no count, probability, slack, or score is a substitute.
+## 2026-09-01 — AS-003P execution-wrapper boundary
+
+- Script importability is part of a no-retry one-shot protocol. A harness that imports a repository namespace before placing the repository root on `sys.path` can consume the generation even when it executes zero organism ticks.
+- Preserve the distinction: the frame/modal implementation is target-tested (`41/41` twice), but observer neutrality and actual-source usefulness remain unknown. Do not promote pure fixtures to operational evidence.
+- For future Architect-authorized generations, import-path execution must be proven without organism creation before the one-shot command is frozen. This is a recommendation boundary, not authority to repair or rerun AS-003P.

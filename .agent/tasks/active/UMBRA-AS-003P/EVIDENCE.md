@@ -32,3 +32,13 @@ Frozen non-formal pair: existing CLOSE-02R / AS-003C Diagnostic-A fixture,
 R0/S0, seed `45878900`, horizon `500`; one control plus one shadow,
 retries `0`, reseeds `0`. The one-shot harness publishes start, each completed
 leg, parity, and finish evidence independently with atomic rename/fsync/readback.
+
+Execution disposition:
+
+- command invoked once at `0f9368d5f0add5fb987353488cc9357e82fd7285`;
+- top-level import failed with `ModuleNotFoundError: No module named 'experiments'`;
+- failure occurred before harness `main`, durable start publication, fixture preparation, organism creation, or ticks;
+- durable stop record SHA-256 `d59f438cc409329722594ab79425c67d395ea86956bccb30890a3a285adf8390`;
+- control `0`, shadow `0`, organism ticks `0`, retries `0`, reseeds `0`;
+- parity and actual-source evidence: `NOT RUN`;
+- terminal verdict: `AS003P_EVIDENCE_INSUFFICIENT`.

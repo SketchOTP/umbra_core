@@ -267,3 +267,4 @@ boundary before any outside literature could affect implementation semantics.
 - Adopted only as reference principles: weak versus strong quantification under nondeterministic outcomes; separate required/must and allowed/may behavior; possibility is not guarantee.
 - Rejected imports: symbolic model checker, BDD planner, strong-cyclic fairness, external planning dependency, probability ranking, reward, and confidence-as-preference.
 - UMBRA translation: `MUST / MAY / UNKNOWN / UNSUPPORTED` are additive epistemic source labels above the qualified AS-003N/AS-003O contracts and grant no action authority.
+- Closeout disposition: the references remain `REFERENCE` only. AS-003P terminated on a local zero-tick harness-import failure, so no live result strengthens or weakens the external principles.
