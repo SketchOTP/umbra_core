@@ -488,3 +488,6 @@ The four true drives share critical/viable/ideal categorical concepts, but share
 ## AS-003K — regulatory class and horizon boundary
 
 Shared critical/viable categories are lawful cross-drive *state classes*, not a total behavioral preference. A per-drive time-to-loss-of-viable-state calculation can be coordinate-invariant if it refers to the same post-action regulatory event and all physical terms transform together. Neither fact gives a lawful four-owner conflict resolver: category ties preserve ordinary action-relevant differences, and aggregating per-drive horizons manufactures a bottleneck scalar or alters hard safety.
+## AS-003L start — feasibility is not preference
+
+Scheduling terminology does not automatically preserve UMBRA boundaries. Deadline, service demand, laxity, resource serialization, opportunity support, and preemption must each be independently grounded before any feasibility relation can be treated as distinct from a hidden priority or scalar optimizer.

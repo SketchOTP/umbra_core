@@ -298,3 +298,6 @@ AS-003K is the current zero-run non-production research authority from GitHub ba
 ## Current governed state — AS-003K terminal
 
 AS-003K is terminal `AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED`. The verified owner set remains energy, fatigue, integrity, stimulation. The current architecture has no lawful non-aggregative proposition that determines how supported prospective consequences across those owners resolve an ordinary conflict. AS-002 is not rejected; its separate propositions and residual CLOSE-02Z semantics are preserved. A later Architect authority must establish the missing relation before another production candidate can begin.
+## Current governed authority — UMBRA-AS-003L
+
+AS-003L is the current zero-run research authority from GitHub baseline `5952be53e875351d9aa6016150c0e316d8ba338a`. It may derive only a contract verdict about regulatory schedulability; it may not implement or alter action selection. The open question is whether deadlines and supported recovery service demand yield a lawful non-aggregative cross-drive precedence relation for the four existing regulatory owners.

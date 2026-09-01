@@ -364,3 +364,6 @@ UMBRA-AS-001 is TERMINAL with `AS001_CURRENT_ARBITRATION_REPLACEMENT_REQUIRED`. 
 ## UMBRA-AS-003K — TERMINAL (2026-08-31)
 
 `AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED` closes the four-drive resolver research from `766df32592ddfb8c57a3dbe6628c6393357652a9`. Categorical R1 preserves meaningful regulatory classes but leaves 9/15 locked matrices fully nondominated; R2 validates per-drive viable-loss horizon evidence but rejects cross-drive aggregation as scalar/safety-boundary drift. No forward action-selection implementation is authorized; return to Architect for the exact missing non-aggregative conflict relation.
+## UMBRA-AS-003L — ACTIVE (2026-08-31)
+
+`UMBRA-AS-003L` begins from `5952be53e875351d9aa6016150c0e316d8ba338a` after accepted `AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED`. It is a zero-run contract-derivation gate: determine whether existing regulatory deadlines, supported recovery service demand, and one final action path legitimately form a non-aggregative schedulability precedence relation. No scheduling implementation or successor is authorized.

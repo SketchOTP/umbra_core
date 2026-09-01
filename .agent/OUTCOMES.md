@@ -1173,3 +1173,6 @@ AS-003K is authorized from `766df32592ddfb8c57a3dbe6628c6393357652a9` after AS-0
 ## UMBRA-AS-003K closeout — 2026-08-31
 
 Terminal verdict `AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED`. The authority partition confirms that critical and directionally actionable nonviable states are outside ordinary competition. R1 categorical ordering is valid for shared boundary-class semantics but insufficient as an ordinary four-drive resolver: the preregistered pure matrix records 6/15 cases with an elimination and 9/15 complete frontiers. R2 finds that a supported per-drive post-action viable-loss horizon has one coordinate-invariant prospective meaning; separate horizons preserve true conflicts, while cross-drive min/max/sum is prohibited scalarization or protected-safety drift. AS-002 and CLOSE-02Z remain protected; no implementation or successor was authorized.
+## UMBRA-AS-003L start — 2026-08-31
+
+AS-003L is authorized from `5952be53e875351d9aa6016150c0e316d8ba338a` to test a new architectural hypothesis: feasibility precedence derived from supported regulatory deadlines and corrective service demand may differ from cross-drive value calibration. No result exists yet, and the directive does not authorize implementation.

@@ -2,6 +2,12 @@
 
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
+## UMBRA-AS-003L external-discovery boundary — 2026-08-31
+
+- Trigger: Architect-authorized zero-run test of whether regulatory schedulability, rather than drive value, can establish a non-aggregative ordinary precedence relation.
+- Required domains: real-time deadline/laxity scheduling under release, uncertainty, preemption, and overload assumptions; viability/set-valued feasibility; bounded controllable futures; and biological temporal motivational competition.
+- Precommitted disposition: REFERENCE ONLY. Sources can establish assumptions and distinguish feasibility from optimization, but cannot import EDF/LLF execution, owner priorities, horizon aggregation, utility/reward, schedule-count optimization, planner/rollout, RL, active inference, POMDP, or MPC.
+
 ## UMBRA-AS-003K external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized zero-run comparison of four-drive categorical partial ordering against a possible common prospective regulatory quantity.
