@@ -173,6 +173,10 @@ research/course_correction/d013ax2_harness/ are preserved.
 
 # Current Project State
 
+## UMBRA-AS-003N active — pure hypothetical-transition substrate
+
+AS-003M is accepted `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`; exact local/GitHub baseline is `d310c21168bf7be918014328257261db4c805a13`, and its manifest is `cd68cb78c62afc07a5ccd6707267ab47f0853dc2570f1b2f2a31873a492b5fcf`. AS-003N is authorized to add only an isolated, pure, provenance-bearing hypothetical-state substrate: immutable state, categorical supported/unsupported/unknown transition, composable conservative envelopes, material-dependency fingerprint/invalidation, and validated non-executable regulatory services. It may not create a planner, connect to runtime/arbitration/WorldModel/recoverability authority, modify existing production files, run organisms/diagnostics/qualification, retry, or reseed. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003n-hypothetical-transition-substrate-r1/`.
+
 ## UMBRA-D-014H3J terminal - retained evidence insufficient
 
 D-014H3J performed the authorized read-only inventory and source contract audit

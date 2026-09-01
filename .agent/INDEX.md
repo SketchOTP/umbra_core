@@ -162,6 +162,8 @@ github/master without changing remote configuration.
 
 ## Current authority
 
+- `UMBRA-AS-003N` active — Pure Hypothetical Transition Substrate Implementation Candidate; exact baseline `d310c21168bf7be918014328257261db4c805a13`; packet `.agent/tasks/active/UMBRA-AS-003N/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003n-hypothetical-transition-substrate-r1/`; only isolated pure substrate and focused pure tests are authorized; no planner/live integration/organism execution.
+
 - `UMBRA-AS-003I` terminal — `AS003I_CROSS_OWNER_SALIENCE_CALIBRATION_PRIMITIVE_REQUIRED`; packet `.agent/tasks/active/UMBRA-AS-003I/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003i-behavioral-control-salience-r1/`; no successor authorized.
 
 ## Current pointers

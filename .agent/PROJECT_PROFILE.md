@@ -32,6 +32,10 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
+## Current governed status — UMBRA-AS-003N active
+
+AS-003N starts from exact master `d310c21168bf7be918014328257261db4c805a13` after accepted AS-003M. It may add only a pure, isolated evidence substrate for immutable hypothetical state, conservative categorical transition evidence, composable envelopes, material invalidation, and validated non-authoritative regulatory services. It cannot instantiate a planner or connect to live authority; all existing production owners remain unchanged. Organism/diagnostic/qualification execution, retries, and reseeds remain zero.
+
 ## Current governed status — UMBRA-AS-003I terminal
 
 AS-003I is terminal `AS003I_CROSS_OWNER_SALIENCE_CALIBRATION_PRIMITIVE_REQUIRED` from exact master `55f488585c1fc694953023ba12a961970eaa20a0` after accepted AS-003H terminal `AS003H_COMMON_BEHAVIORAL_CONTROL_CLAIM_REQUIRED`. Its zero-run semantics audit supports a common motivational-salience proposition but finds no non-arbitrary mapping from protected owner-local state into that common control meaning. Subjective-value utility and ungrounded affective currency are rejected. No implementation or automatic successor is authorized.
