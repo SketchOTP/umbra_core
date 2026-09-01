@@ -12,3 +12,6 @@ The parity gate therefore failed. The fresh planning trace remains durable but
 was not interpreted. No modal distribution, conflict exposure, AS-003L
 reassessment, AS-002 relation research, retry, reseed, repair, or successor
 occurred.
+
+Repository closeout commit: `48784a70abba871cb115ea22f969d629a70c3b46`.
+Final evidence manifest SHA-256: `ac578bee3f45cad9a0ee3b584188778402a3639f6fca2054c5d53a1c2f1eb45f`.

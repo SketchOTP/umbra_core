@@ -29,3 +29,5 @@ Execution:
 - administrative/derivative differences: `4,891 / 10,643`, reported separately;
 - timeline, candidate identities, and RNG: equal;
 - planning trace retained, but modal interpretation and conflict-exposure analysis: NOT REACHED.
+- repository closeout commit: `48784a70abba871cb115ea22f969d629a70c3b46`;
+- final evidence manifest: 32 artifacts, zero readback mismatches, SHA-256 `ac578bee3f45cad9a0ee3b584188778402a3639f6fca2054c5d53a1c2f1eb45f`.
