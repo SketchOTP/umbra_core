@@ -166,6 +166,8 @@ github/master without changing remote configuration.
 
 ## Current authority
 
+- `UMBRA-AS-003P-R1` ACTIVE — protocol-only recovery from exact baseline `6bc2f6633e356602a6ffe2338eef9b98bdac6e0c`; AS-003P remains terminal; packet `.agent/tasks/active/UMBRA-AS-003P-R1/`; fresh evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r1-shadow-protocol-recovery/`; byte-preserve scientific files; import-only preflight before one frozen control/shadow pair; retries/reseeds `0`; no successor.
+
 - `UMBRA-AS-003N` terminal — `AS003N_PURE_HYPOTHETICAL_TRANSITION_SUBSTRATE_QUALIFIED`; baseline `d310c21168bf7be918014328257261db4c805a13`; implementation `b69593f8704e7145c3794837c27b6f96d07c1854`; packet `.agent/tasks/active/UMBRA-AS-003N/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003n-hypothetical-transition-substrate-r1/`; manifest `e341e0375925be8b17eaf759df07e658ef1684a4d8d92aa29f63a592ae2d80aa`; no live integration or successor is authorized.
 
 - `UMBRA-AS-003I` terminal — `AS003I_CROSS_OWNER_SALIENCE_CALIBRATION_PRIMITIVE_REQUIRED`; packet `.agent/tasks/active/UMBRA-AS-003I/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003i-behavioral-control-salience-r1/`; no successor authorized.

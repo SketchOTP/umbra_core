@@ -852,3 +852,16 @@ Verdict: `AS003F_SIMULTANEOUS_CONTEXT_RESOLUTION_PRIMITIVE_REQUIRED`. The pre-pr
 ## UMBRA-AS-003P — TERMINAL (2026-09-01)
 
 - D-20260901-as003p-closeout | status:terminal | verdict:AS003P_EVIDENCE_INSUFFICIENT | baseline:12b0d3eb7acc74452eddcd6df473e230ea74a590 | implementation:0f9368d5f0add5fb987353488cc9357e82fd7285 | pure:41/41 twice identical | stop:ModuleNotFoundError experiments before main/fixture/organism | control:0 | shadow:0 | organism_ticks:0 | retries:0 | reseeds:0 | observer_parity:NOT_RUN | actual_frames:0 | successor:none | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-modal-planning-frame-r1/
+
+## UMBRA-AS-003P-R1 — protocol recovery and single observer pair — 2026-09-01
+
+Status: ACTIVE from exact baseline `6bc2f6633e356602a6ffe2338eef9b98bdac6e0c`.
+AS-003P remains permanently terminal `AS003P_EVIDENCE_INSUFFICIENT`; its
+zero-tick import failure and evidence are immutable. Authorized work is limited
+to a fresh protocol harness/evidence root, import-only preflight with zero
+fixture or organism construction, one frozen repository-root module command,
+and exactly one matched control plus shadow execution using unchanged R0/S0
+seed `45878900`, horizon `500`. Frozen scientific files, fixture semantics,
+parity fields, and stochastic behavior may not change. After command lock no
+repair is allowed. Retries/reseeds `0`; no action-selection authority,
+AS-004, CLOSE-03, or automatic successor.

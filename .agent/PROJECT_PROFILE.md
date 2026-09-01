@@ -32,6 +32,17 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
+## Current governed status — UMBRA-AS-003P-R1 active
+
+AS-003P-R1 is a fresh protocol-recovery authority from exact baseline
+`6bc2f6633e356602a6ffe2338eef9b98bdac6e0c`. It may add only a fresh
+repository-root module harness, import-only preflight/protocol tooling, and
+governance/evidence records. The AS-003P scientific implementation and fixture
+remain byte-identical. After preflight and command lock, exactly one control
+and one shadow leg may execute at R0/S0 seed `45878900`, horizon `500`, with
+no retry or reseed. AS-003P remains terminal; integrated viability, AS-004,
+and CLOSE-03 remain blocked.
+
 ## Current governed status — UMBRA-AS-003P terminal
 
 AS-003P is terminal `AS003P_EVIDENCE_INSUFFICIENT`. The additive modal planning frame and default-off shadow implementation passed 41 focused pure proofs twice, but the only authorized pair stopped at script import before any organism existed. No observer parity or actual-source profile evidence exists, and the no-retry rule prohibits repair/rerun within this generation. Integrated viability remains unqualified; AS-004 and CLOSE-03 remain blocked; no successor is current.
