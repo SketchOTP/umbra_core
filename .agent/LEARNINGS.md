@@ -482,3 +482,6 @@ Passing retained replay and safety-compatible diagnostics does not establish sup
 - Existing quantified physiology and development state cannot be exported as common salience merely because they are numeric; that would privilege instrumented owners.
 - Verified associations can modulate an owner's expression but cannot learn relative cross-owner salience from outcomes without circular wins or forbidden counterfactual reward.
 - Any future common-control work must establish calibration semantics first; event-tie stochasticity, categorical engagement, and hard authority remain separate boundaries.
+## AS-003K start — resolver discipline
+
+The four true drives share critical/viable/ideal categorical concepts, but shared Python representation and the existing owner-local urgency arithmetic do not establish cross-drive behavioral comparability. A partial order and any prospective-horizon candidate must be evaluated against frozen semantic controls before their apparent discrimination can be treated as lawful.

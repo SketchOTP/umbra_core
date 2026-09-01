@@ -2,6 +2,12 @@
 
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
+## UMBRA-AS-003K external-discovery boundary — 2026-08-31
+
+- Trigger: Architect-authorized zero-run comparison of four-drive categorical partial ordering against a possible common prospective regulatory quantity.
+- Required domains: homeostatic/allostatic control, ethological action selection, viability/reachability or barrier/time-to-boundary control semantics, and partial-order/multicriteria saturation.
+- Precommitted disposition: REFERENCE ONLY. Sources may clarify semantic distinctions and falsify invalid comparability claims; they cannot import normalized deficits, reward, utility, owner weights/priorities, global safety score, Pareto remedies, planner, RL, active inference, POMDP, or MPC.
+
 ## UMBRA-AS-003J external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized replan of AS-003I's motivational-owner ontology and regulatory calibration problem.
