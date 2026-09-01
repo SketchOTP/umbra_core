@@ -26,11 +26,10 @@ def canonical_bytes(value: object) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8") + b"\n"
 
 
-def write_json(name: str, payload: object) -> str:
-    if Path(name).name != name or not name.endswith(".json"):
-        raise ValueError("evidence artifact name must be a local .json filename")
+def write_bytes(name: str, data: bytes) -> str:
+    if Path(name).name != name or not name.endswith((".json", ".md", ".txt")):
+        raise ValueError("evidence artifact name must be a local supported filename")
     ROOT.mkdir(parents=True, exist_ok=True)
-    data = canonical_bytes(payload)
     fd, temp_name = tempfile.mkstemp(prefix=f".{name}.", dir=ROOT)
     try:
         with os.fdopen(fd, "wb") as handle:
@@ -52,11 +51,16 @@ def write_json(name: str, payload: object) -> str:
     return hashlib.sha256(written).hexdigest()
 
 
+def write_json(name: str, payload: object) -> str:
+    return write_bytes(name, canonical_bytes(payload))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("name", nargs="?")
     parser.add_argument("payload", nargs="?")
     parser.add_argument("--write-locks", action="store_true")
+    parser.add_argument("--write-text", action="store_true")
     args = parser.parse_args()
     if args.write_locks:
         contract = {
@@ -95,7 +99,7 @@ def main() -> None:
         return
     if args.name is None or args.payload is None:
         parser.error("name and payload are required unless --write-locks is used")
-    print(write_json(args.name, json.loads(args.payload)))
+    print(write_bytes(args.name, args.payload.encode("utf-8")) if args.write_text else write_json(args.name, json.loads(args.payload)))
 
 
 if __name__ == "__main__":
