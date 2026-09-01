@@ -295,3 +295,6 @@ Current completion blocker (2026-08-30): AS-001 is terminal with `AS001_CURRENT_
 ## Current governed authority — UMBRA-AS-003K
 
 AS-003K is the current zero-run non-production research authority from GitHub baseline `766df32592ddfb8c57a3dbe6628c6393357652a9`. The immediate architectural question is bounded to ordinary behavioral resolution among current physiological drives `energy`, `fatigue`, `integrity`, and `stimulation`; all other systems retain non-peer causal roles. No implementation may proceed unless an Architect-authorized later directive follows a durable contract result.
+## Current governed state — AS-003K terminal
+
+AS-003K is terminal `AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED`. The verified owner set remains energy, fatigue, integrity, stimulation. The current architecture has no lawful non-aggregative proposition that determines how supported prospective consequences across those owners resolve an ordinary conflict. AS-002 is not rejected; its separate propositions and residual CLOSE-02Z semantics are preserved. A later Architect authority must establish the missing relation before another production candidate can begin.

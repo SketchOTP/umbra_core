@@ -8,6 +8,12 @@ Record material prior-art investigations when Authority triggers external discov
 - Required domains: homeostatic/allostatic control, ethological action selection, viability/reachability or barrier/time-to-boundary control semantics, and partial-order/multicriteria saturation.
 - Precommitted disposition: REFERENCE ONLY. Sources may clarify semantic distinctions and falsify invalid comparability claims; they cannot import normalized deficits, reward, utility, owner weights/priorities, global safety score, Pareto remedies, planner, RL, active inference, POMDP, or MPC.
 
+## UMBRA-AS-003K external-discovery closeout — 2026-08-31
+
+- Sources checked: [homeostatic reinforcement learning](https://elifesciences.org/articles/04811), [affordance competition](https://pmc.ncbi.nlm.nih.gov/articles/PMC2440773/), [control-barrier safety](https://arxiv.org/abs/1609.06408), and [many-objective partial-order saturation](https://incose.onlinelibrary.wiley.com/doi/abs/10.1002/sys.21690).
+- Disposition: REFERENCE ONLY / REJECT imported resolver. Homeostatic-RL obtains a common drive through parameterized distance, reward, and policy learning, all prohibited. Affordance competition supports parallel potential actions with multiple biases but does not provide UMBRA's calibration. Barrier methods distinguish safe-set invariance from performance and therefore reinforce the hard-authority separation, but their optimization controller is not adopted. Many-objective literature supports the observed nondominance pressure and its standard aggregation/relaxation remedies remain excluded.
+- Result: no external mechanism establishes an implementation-ready non-utility resolver smaller than the missing cross-drive primitive.
+
 ## UMBRA-AS-003J external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized replan of AS-003I's motivational-owner ontology and regulatory calibration problem.

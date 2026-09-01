@@ -1,3 +1,3 @@
 # AS-003K handoff
 
-Active research only. Do not implement any candidate resolver. The final authority must record the exact terminal verdict, whether R1 or R2 is lawful, evidence-manifest SHA-256, zero-run integrity, and any recommendation as non-automatic.
+Terminal. `AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED` is a research result, not implementation authority. Preserve the categorical R1 proof and R2 limitation; do not aggregate horizons, introduce an owner priority/weight, or move prospective viability into hard authority without a new Architect directive.

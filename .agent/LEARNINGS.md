@@ -485,3 +485,6 @@ Passing retained replay and safety-compatible diagnostics does not establish sup
 ## AS-003K start — resolver discipline
 
 The four true drives share critical/viable/ideal categorical concepts, but shared Python representation and the existing owner-local urgency arithmetic do not establish cross-drive behavioral comparability. A partial order and any prospective-horizon candidate must be evaluated against frozen semantic controls before their apparent discrimination can be treated as lawful.
+## AS-003K — regulatory class and horizon boundary
+
+Shared critical/viable categories are lawful cross-drive *state classes*, not a total behavioral preference. A per-drive time-to-loss-of-viable-state calculation can be coordinate-invariant if it refers to the same post-action regulatory event and all physical terms transform together. Neither fact gives a lawful four-owner conflict resolver: category ties preserve ordinary action-relevant differences, and aggregating per-drive horizons manufactures a bottleneck scalar or alters hard safety.

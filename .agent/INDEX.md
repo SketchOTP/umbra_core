@@ -361,3 +361,6 @@ UMBRA-AS-001 is TERMINAL with `AS001_CURRENT_ARBITRATION_REPLACEMENT_REQUIRED`. 
 ## UMBRA-AS-003K — ACTIVE (2026-08-31)
 
 `UMBRA-AS-003K` starts from `766df32592ddfb8c57a3dbe6628c6393357652a9` after accepted `AS003J_TRUE_DRIVE_CROSS_CALIBRATION_PRIMITIVE_REQUIRED`. It is a zero-run research/contract gate for `energy`, `fatigue`, `integrity`, and `stimulation`: hash-lock an authority partition and resolver families, then test categorical partial order R1 and only if necessary prospective regulatory horizon R2 through static/retained evidence and pure synthetic matrices. No production/test/runtime modification or automatic successor is authorized.
+## UMBRA-AS-003K — TERMINAL (2026-08-31)
+
+`AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED` closes the four-drive resolver research from `766df32592ddfb8c57a3dbe6628c6393357652a9`. Categorical R1 preserves meaningful regulatory classes but leaves 9/15 locked matrices fully nondominated; R2 validates per-drive viable-loss horizon evidence but rejects cross-drive aggregation as scalar/safety-boundary drift. No forward action-selection implementation is authorized; return to Architect for the exact missing non-aggregative conflict relation.

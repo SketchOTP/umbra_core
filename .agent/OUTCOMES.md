@@ -1170,3 +1170,6 @@ Verdict: `AS003C_DOMINANCE_NOT_REALIZED`. AS-003C validly froze once at `e336c25
 ## UMBRA-AS-003K start — 2026-08-31
 
 AS-003K is authorized from `766df32592ddfb8c57a3dbe6628c6393357652a9` after AS-003J reduced the peer regulatory-owner set to energy, fatigue, integrity, and stimulation. The research gate may derive a resolver contract but cannot implement it. The pre-projection lock must distinguish categorical partial ordering, a possible common prospective regulatory horizon, and prohibited scalar/weighted controls. No result exists yet.
+## UMBRA-AS-003K closeout — 2026-08-31
+
+Terminal verdict `AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED`. The authority partition confirms that critical and directionally actionable nonviable states are outside ordinary competition. R1 categorical ordering is valid for shared boundary-class semantics but insufficient as an ordinary four-drive resolver: the preregistered pure matrix records 6/15 cases with an elimination and 9/15 complete frontiers. R2 finds that a supported per-drive post-action viable-loss horizon has one coordinate-invariant prospective meaning; separate horizons preserve true conflicts, while cross-drive min/max/sum is prohibited scalarization or protected-safety drift. AS-002 and CLOSE-02Z remain protected; no implementation or successor was authorized.
