@@ -273,3 +273,24 @@ boundary before any outside literature could affect implementation semantics.
 - Andrew Pitts, *Nominal logic, a first order theory of names and binding* — `REFERENCE`. Bijective name swapping/equivariance informs the generic fresh-name comparison principle; it does not prove UMBRA owner semantics.
 - Murawski, Ramsay, and Tzevelekos, *Bisimilarity in Fresh-Register Automata* — `REFERENCE`. Relation-preserving symmetries are relevant to fresh-name systems; no automata framework is adopted.
 - Laadan et al., *Scribe: Transparent, Deterministic Record-Replay* — `REFERENCE`. Common checkpoints support causal isolation from unrelated initialization nondeterminism; no dependency is adopted.
+# UMBRA-AS-003S bounded body-replacement review — 2026-09-01
+
+- Existing UMBRA D-009 atomic migration — **EXTEND**. Its
+  `BEGIN IMMEDIATE -> durable stages -> COMMIT -> on_commit` seam already provides
+  the required local consistency boundary; AS-003S adds a dedicated replacement
+  event and prospective snapshot without importing another transaction model.
+- [Microsoft Azure Saga distributed transactions pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/saga)
+  (retrieved 2026-09-01) — **REFERENCE / REJECT FOR THIS REPAIR**. Microsoft frames
+  Saga as a sequence of local transactions and compensations for independently
+  managed service stores. UMBRA's participating durable state is in one SQLite
+  store, where a stronger ACID transaction is available; compensation would add a
+  weaker partial-state window and unnecessary machinery. Recheck only if the body
+  relation later spans independently committed stores/services.
+- [Qin et al., Learning Without Losing Identity: Capability Evolution for Embodied
+  Agents](https://arxiv.org/abs/2604.07799) (v2, 2026-05-21; retrieved 2026-09-01)
+  — **REFERENCE**. It supports the general separation of persistent cognitive agent
+  identity from evolving embodied capability modules. It does not define UMBRA's
+  owner/event/persistence semantics and was not imported as architectural proof.
+- New library/framework — **REJECT**. The stdlib/SQLite implementation is smaller,
+  deterministic, testable with existing crash injection, and avoids a new durable
+  authority or dependency.

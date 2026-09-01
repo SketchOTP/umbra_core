@@ -45,6 +45,7 @@ ATTACHMENT_EVENT_TYPES = (
     "embodiment_body_attached",
     "embodiment_body_detached",
     "embodiment_body_profile_swapped",
+    "embodiment_body_replaced",
 )
 
 ADAPTER_FAILURE_CODES = frozenset(
@@ -144,6 +145,13 @@ def attachment_state_from_event(event: dict[str, Any] | None) -> AttachmentState
             attachment_status="DETACHED",
             attachment_generation=int(payload["new_generation"]),
         )
+    if event_type == "embodiment_body_replaced":
+        return AttachmentState(
+            body_instance_id=payload["new_body_instance_id"],
+            body_profile_id=payload["new_profile_id"],
+            attachment_status="ATTACHED",
+            attachment_generation=int(payload["new_generation"]),
+        )
     raise ValueError(f"not_an_attachment_event:{event_type}")
 
 
@@ -166,6 +174,7 @@ class EmbodimentAdapter:
         profile_resolver: Callable[[str], BodyProfile] = get_profile,
         wall_time_fn: Callable[[], float] = time.time,
         monotonic_time_fn: Callable[[], float] | None = None,
+        state_observer: Callable[[AttachmentState], None] | None = None,
     ):
         self.store = store
         self.agent_id = agent_id
@@ -173,6 +182,13 @@ class EmbodimentAdapter:
         self._resolve_profile = profile_resolver
         self._wall_time_fn = wall_time_fn
         self._monotonic_time_fn = monotonic_time_fn or (lambda: 0.0)
+        self._state_observer = state_observer
+
+    def _apply_state(self, state: AttachmentState) -> None:
+        """Install committed attachment state and notify the occupancy owner."""
+        self.state = state
+        if self._state_observer is not None:
+            self._state_observer(state)
 
     @property
     def profile(self) -> BodyProfile | None:
@@ -216,12 +232,12 @@ class EmbodimentAdapter:
             wall_time=self._wall_time_fn(),
             payload=payload,
         )
-        self.state = AttachmentState(
+        self._apply_state(AttachmentState(
             body_instance_id=new_instance_id,
             body_profile_id=profile.profile_id,
             attachment_status="ATTACHED",
             attachment_generation=new_generation,
-        )
+        ))
 
     def detach(self, reason: str) -> None:
         if self.state.attachment_status != "ATTACHED":
@@ -241,12 +257,12 @@ class EmbodimentAdapter:
                 "reason": reason,
             },
         )
-        self.state = AttachmentState(
+        self._apply_state(AttachmentState(
             body_instance_id=self.state.body_instance_id,
             body_profile_id=None,
             attachment_status="DETACHED",
             attachment_generation=new_generation,
-        )
+        ))
 
     def swap_profile(
         self,
@@ -283,13 +299,14 @@ class EmbodimentAdapter:
             wall_time=self._wall_time_fn(),
             payload=payload,
         )
-        # Compatible swap retains body_instance_id; true replacement is detach+attach.
-        self.state = AttachmentState(
+        # Compatible swap retains body_instance_id. True physical replacement is
+        # the dedicated AS-003S transaction, never detach+attach.
+        self._apply_state(AttachmentState(
             body_instance_id=self.state.body_instance_id,
             body_profile_id=new_profile.profile_id,
             attachment_status="ATTACHED",
             attachment_generation=new_generation,
-        )
+        ))
 
     def validate_manipulation(
         self,

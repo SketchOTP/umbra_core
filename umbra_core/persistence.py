@@ -491,6 +491,12 @@ class Store:
         ).fetchone()
         return dict(row) if row is not None else None
 
+    def has_prepared_habitat_execution(self) -> bool:
+        row = self.conn.execute(
+            "SELECT 1 FROM habitat_execution_journal WHERE status='PREPARED' LIMIT 1"
+        ).fetchone()
+        return row is not None
+
     def update_habitat_execution_journal_terminal(
         self,
         *,
@@ -642,6 +648,20 @@ class Store:
         crash_after_stage: int | None = None,
     ) -> None:
         """Atomic D-009 profile swap + optional held-binding rebase commit."""
+        self.atomic_manipulation_outcome(
+            stages,
+            on_commit=on_commit,
+            crash_after_stage=crash_after_stage,
+        )
+
+    def atomic_body_replacement(
+        self,
+        stages: list[Any],
+        *,
+        on_commit: Any = None,
+        crash_after_stage: int | None = None,
+    ) -> None:
+        """Atomic AS-003S replacement event + prospective snapshot commit."""
         self.atomic_manipulation_outcome(
             stages,
             on_commit=on_commit,

@@ -510,6 +510,22 @@ class Embodiment:
             attachment_generation=self._attachment_generation,
         )
 
+    def bind_attachment_identity(self, state: Any) -> None:
+        """Synchronize occupancy identity from committed adapter attachment state.
+
+        The adapter ledger remains authoritative. This seam copies only the
+        physical-body relation required by Habitat occupancy; it grants no
+        execution or world-mutation authority.
+        """
+        body_instance_id = getattr(state, "body_instance_id", None)
+        generation = int(getattr(state, "attachment_generation", -1))
+        if body_instance_id is None:
+            raise HabitatAuthorityError("attachment_body_instance_missing")
+        if generation < 0:
+            raise HabitatAuthorityError("attachment_generation_invalid")
+        self._body_instance_id = str(body_instance_id)
+        self._attachment_generation = generation
+
     def _body_pose_view(self):
         from umbra_core.habitat.engine import BodyCollisionShape, BodyPoseView, Position
 
@@ -1194,6 +1210,9 @@ class Embodiment:
             "body": self.body.to_state(),
             "pending_actuation": self._pending_actuation,
             "delay_remaining": self._delay_remaining,
+            "body_instance_id": self._body_instance_id,
+            "body_pose_version": self._body_pose_version,
+            "attachment_generation": self._attachment_generation,
         }
 
     @classmethod
@@ -1239,4 +1258,7 @@ class Embodiment:
         emb._habitat_authority_binding = authority
         emb._pending_actuation = d.get("pending_actuation")
         emb._delay_remaining = int(d.get("delay_remaining", 0))
+        emb._body_instance_id = str(d.get("body_instance_id", "body:default"))
+        emb._body_pose_version = int(d.get("body_pose_version", 0))
+        emb._attachment_generation = int(d.get("attachment_generation", 0))
         return emb

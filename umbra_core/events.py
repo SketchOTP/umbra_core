@@ -90,6 +90,7 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "embodiment_body_attached",
         "embodiment_body_detached",
         "embodiment_body_profile_swapped",
+        "embodiment_body_replaced",
     }
     | {name for name, klass in SOCIAL_EVENT_AUTHORITY.items() if klass == "AUTHORITATIVE"}
     | {

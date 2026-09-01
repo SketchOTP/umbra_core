@@ -29,6 +29,7 @@ from umbra_core.development import (
 from umbra_core.embodiment import Embodiment
 from umbra_core.embodiment_adapters.adapter import (
     ATTACHMENT_EVENT_TYPES,
+    AttachmentState,
     EmbodimentAdapter,
     attachment_state_from_event,
 )
@@ -225,6 +226,10 @@ def condition_to_self_model_config(condition: str) -> SelfModelConfig:
 # procedural knowledge over a fresh guess (see the `h.score >= 0.45` PROCEDURAL_
 # KNOWLEDGE check below) — not a new threshold invented for presentation.
 HABIT_CONFIDENCE_THRESHOLD = 0.45
+
+
+class BodyReplacementError(RuntimeError):
+    """Fail-closed true-body replacement preflight or application error."""
 
 
 def _release_native_arenas() -> None:
@@ -730,6 +735,173 @@ class Organism:
             self.store.prune_snapshots(keep=SNAPSHOT_RETAIN_COUNT)
             return sid
         return None
+
+    def replace_physical_body(
+        self,
+        *,
+        new_profile_id: str | None = None,
+        origin: str = "AS003S_TRUE_BODY_REPLACEMENT",
+        reason: str = "physical_body_replacement",
+        _crash_after_stage: int | None = None,
+        _fail_after_commit_before_apply: bool = False,
+    ) -> dict[str, Any]:
+        """Atomically replace the attached physical body at a quiescent boundary."""
+        adapter = self.embodiment_adapter
+        if adapter is None or self.self_model is None:
+            raise BodyReplacementError("replacement_owners_unavailable")
+        if adapter.state.attachment_status != "ATTACHED":
+            raise BodyReplacementError("replacement_requires_attached_body")
+        if self.running:
+            raise BodyReplacementError("replacement_requires_quiescent_runtime")
+        if self._pending_action is not None:
+            raise BodyReplacementError("replacement_pending_action")
+        if self._delayed_proposal is not None:
+            raise BodyReplacementError("replacement_delayed_proposal")
+        if self._pending_world_plan is not None:
+            raise BodyReplacementError("replacement_pending_world_plan")
+        if self.embodiment._pending_actuation is not None or self.embodiment._delay_remaining:
+            raise BodyReplacementError("replacement_pending_actuation")
+        if self.store.has_prepared_habitat_execution():
+            raise BodyReplacementError("replacement_prepared_habitat_execution")
+        if (
+            self.embodiment._habitat_authority_binding is not None
+            and self.embodiment._habitat_engine is None
+        ):
+            raise BodyReplacementError("replacement_habitat_reattachment_required")
+
+        self.store.validate_chain()
+        latest = self.store.last_event_of_types(ATTACHMENT_EVENT_TYPES)
+        if latest is None:
+            raise BodyReplacementError("replacement_attachment_event_missing")
+        ledger_state = attachment_state_from_event(latest)
+        if ledger_state.to_state() != adapter.state.to_state():
+            raise BodyReplacementError("replacement_attachment_ledger_mismatch")
+
+        old = adapter.state
+        old_body_id = old.body_instance_id
+        old_profile_id = old.body_profile_id
+        if old_body_id is None or old_profile_id is None:
+            raise BodyReplacementError("replacement_attachment_incomplete")
+        occupancy = self.embodiment.body_occupancy_view()
+        if (
+            occupancy.body_instance_id != old_body_id
+            or occupancy.attachment_generation != old.attachment_generation
+        ):
+            raise BodyReplacementError("replacement_occupancy_mismatch")
+        if self.self_model.active.body_binding_id != self.self_model.body_binding_id:
+            raise BodyReplacementError("replacement_self_model_binding_mismatch")
+
+        habitat_state = None
+        if self.embodiment._habitat_engine is not None:
+            habitat_state = self.embodiment._habitat_engine.state
+        else:
+            habitat_events = _habitat_events_from_store(self.store, self.identity.agent_id)
+            if habitat_events:
+                from umbra_core.habitat.events import replay_habitat_from_events
+
+                habitat_state = replay_habitat_from_events(
+                    habitat_events, fail_closed_missing=True
+                )
+        if habitat_state is not None and _held_objects_for_body(habitat_state, old_body_id):
+            raise BodyReplacementError("replacement_old_body_holds_objects")
+
+        profile = get_profile(new_profile_id or old_profile_id)
+        new_body_id = new_id()
+        if new_body_id == old_body_id:
+            raise BodyReplacementError("replacement_body_id_not_fresh")
+        new_generation = old.attachment_generation + 1
+        prepared_self_model = SelfModel.from_state(
+            self.self_model.to_state(), config=self.self_model.config
+        )
+        old_schema = self.self_model.active
+        new_schema = prepared_self_model.replace_body(
+            reduced=False, now=self.monotonic_time
+        )
+        prepared_attachment = AttachmentState(
+            body_instance_id=new_body_id,
+            body_profile_id=profile.profile_id,
+            attachment_status="ATTACHED",
+            attachment_generation=new_generation,
+        )
+        transaction_id = new_id()
+        payload = {
+            "transaction_id": transaction_id,
+            "agent_id": self.identity.agent_id,
+            "lineage_id": self.identity.lineage_id,
+            "old_body_instance_id": old_body_id,
+            "new_body_instance_id": new_body_id,
+            "old_profile_id": old_profile_id,
+            "new_profile_id": profile.profile_id,
+            "old_generation": old.attachment_generation,
+            "new_generation": new_generation,
+            "old_body_binding_id": self.self_model.body_binding_id,
+            "new_body_binding_id": prepared_self_model.body_binding_id,
+            "old_body_schema_id": old_schema.body_schema_id,
+            "new_body_schema_id": new_schema.body_schema_id,
+            "old_body_schema_version": old_schema.version,
+            "new_body_schema_version": new_schema.version,
+            "profile_schema_version": profile.schema_version,
+            "profile_definition_hash": profile_definition_hash(profile),
+            "origin": origin,
+            "reason": reason,
+        }
+
+        prospective = self.authoritative_state()
+        prospective["self_model"] = prepared_self_model.to_state()
+        prospective["embodiment_adapter"] = prepared_attachment.to_state()
+        prospective_embodiment = dict(prospective["embodiment"])
+        prospective_embodiment["body_instance_id"] = new_body_id
+        prospective_embodiment["attachment_generation"] = new_generation
+        prospective["embodiment"] = prospective_embodiment
+        committed: dict[str, Any] = {}
+
+        def stage_event() -> None:
+            committed["event"] = self.store.append_event(
+                agent_id=self.identity.agent_id,
+                event_type="embodiment_body_replaced",
+                monotonic_time=self.monotonic_time,
+                wall_time=float(self.config.wall_time_fn()),
+                payload=payload,
+            )
+
+        def stage_snapshot() -> None:
+            event = committed.get("event")
+            if event is None:
+                raise PersistenceError("replacement_event_stage_missing")
+            committed["snapshot_id"] = self.store.save_snapshot(
+                self.identity.agent_id,
+                int(event["sequence"]),
+                self.monotonic_time,
+                prospective,
+            )
+
+        def on_commit() -> None:
+            if _fail_after_commit_before_apply:
+                raise BodyReplacementError("replacement_postcommit_live_apply_injected")
+            self.self_model = prepared_self_model
+            adapter._apply_state(prepared_attachment)
+            self.embodiment.bind_attachment_identity(prepared_attachment)
+
+        self.store.atomic_body_replacement(
+            [stage_event, stage_snapshot],
+            on_commit=on_commit,
+            crash_after_stage=_crash_after_stage,
+        )
+        return {
+            "transaction_id": transaction_id,
+            "event_id": committed["event"]["event_id"],
+            "event_sequence": committed["event"]["sequence"],
+            "snapshot_id": committed["snapshot_id"],
+            "old_body_instance_id": old_body_id,
+            "new_body_instance_id": new_body_id,
+            "old_generation": old.attachment_generation,
+            "new_generation": new_generation,
+            "old_body_binding_id": payload["old_body_binding_id"],
+            "new_body_binding_id": payload["new_body_binding_id"],
+            "old_body_schema_id": payload["old_body_schema_id"],
+            "new_body_schema_id": payload["new_body_schema_id"],
+            "profile_id": profile.profile_id,
+        }
 
     def emit_runtime_ready(self, *, wall: float | None = None) -> dict[str, Any]:
         """Mark loop ready after migration/identity/snapshot/bounded-init.
@@ -2868,6 +3040,7 @@ def create_organism(config: OrganismConfig) -> Organism:
             agent_id=identity.agent_id,
             wall_time_fn=config.wall_time_fn,
             monotonic_time_fn=lambda: org.monotonic_time,
+            state_observer=embodiment.bind_attachment_identity,
         )
     org = Organism(
         identity=identity,
@@ -3076,6 +3249,7 @@ def load_organism(config: OrganismConfig) -> Organism:
             state=attachment_state,
             wall_time_fn=config.wall_time_fn,
             monotonic_time_fn=lambda: org.monotonic_time,
+            state_observer=embodiment.bind_attachment_identity,
         )
 
     session_id = new_id()
@@ -3109,6 +3283,25 @@ def load_organism(config: OrganismConfig) -> Organism:
         tick=int(state.get("tick", 0)),
         session_id=session_id,
     )
+    if embodiment_adapter is not None and last_attachment_event is not None:
+        occupancy_fields_present = {
+            "body_instance_id",
+            "attachment_generation",
+        }.issubset(dict(state.get("embodiment") or {}))
+        occupancy = embodiment.body_occupancy_view()
+        attachment = embodiment_adapter.state
+        occupancy_matches = (
+            occupancy.body_instance_id == attachment.body_instance_id
+            and occupancy.attachment_generation == attachment.attachment_generation
+        )
+        attachment_is_newer = bool(
+            last_attachment_event is not None
+            and int(last_attachment_event["sequence"]) > int(snap["sequence"])
+        )
+        if not occupancy_fields_present or attachment_is_newer:
+            embodiment.bind_attachment_identity(attachment)
+        elif not occupancy_matches:
+            raise PersistenceError("snapshot_attachment_occupancy_mismatch")
     if temporal is not None:
         org._orchestration_sequence = int(
             temporal.state.last_committed_orchestration_sequence
@@ -3397,12 +3590,14 @@ def maybe_migrate_d009_profile(store: Store, organism: Organism) -> bool:
         stages.append(stage_held_rebases)
 
     def on_commit() -> None:
-        adapter.state = AttachmentState(
+        committed_state = AttachmentState(
             body_instance_id=body_instance_id,
             body_profile_id=d009_profile.profile_id,
             attachment_status="ATTACHED",
             attachment_generation=new_generation,
         )
+        adapter._apply_state(committed_state)
+        organism.embodiment.bind_attachment_identity(committed_state)
         engine = organism.embodiment._habitat_engine
         if habitat_state_after is not None and engine is not None:
             engine._state = habitat_state_after
