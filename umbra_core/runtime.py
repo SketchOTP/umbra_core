@@ -19,6 +19,7 @@ from umbra_core.arbitration import ArbitrationState, Arbitrator, Candidate
 from umbra_core.distributed_competition import supported
 from umbra_core.stochastic_competition import candidate_behavioral_identity
 from umbra_core.decision_trace import DecisionTraceSink, candidate_to_trace, canonical_fingerprint
+from umbra_core.hypothetical.shadow import PlanningShadowSink, capture_runtime_frame, shadow_row
 from umbra_core.development import (
     DevelopmentConfig,
     DevelopmentEngine,
@@ -178,6 +179,9 @@ class OrganismConfig:
     temporal_scenario_hook: Any = field(default=None, repr=False)
     # D-014H2: opt-in read-only trace; never consulted by organism policy.
     decision_trace_path: str | None = field(default=None, repr=False)
+    # AS-003P: opt-in write-only planning evidence trace. Never consulted by
+    # candidate generation, arbitration, Governance, Embodiment, or learning.
+    planning_shadow_path: str | None = field(default=None, repr=False)
     # D-014H3D: experiment-only final-choice seam. None preserves ordinary
     # runtime behavior and consumes no RNG or persistent organism state.
     experimental_final_selector: Any | None = field(default=None, repr=False)
@@ -288,6 +292,7 @@ class Organism:
         self.rng = rng
         self.config = config
         self._decision_trace = DecisionTraceSink(config.decision_trace_path)
+        self._planning_shadow = PlanningShadowSink(config.planning_shadow_path)
         # D-014H3D: this is an opt-in research callback only. It is never
         # persisted and is absent from ordinary configurations.
         self._experimental_final_selector = config.experimental_final_selector
@@ -1713,6 +1718,18 @@ class Organism:
 
         distributed_competition_trace: dict[str, Any] = {}
 
+        planning_frame = None
+        if self._planning_shadow.enabled:
+            try:
+                planning_frame = capture_runtime_frame(self)
+            except Exception as exc:
+                self._planning_shadow.record({
+                    "schema": "AS003P_PLANNING_SHADOW_TRACE_V1",
+                    "tick": self.tick,
+                    "capture_error": f"{type(exc).__name__}:{exc}",
+                    "behavioral_authority": False,
+                })
+
         cand = self.arbitrator.select(
             self.phys,
             obs_dicts,
@@ -1741,6 +1758,18 @@ class Organism:
             distributed_trace=distributed_competition_trace,
         )
         base_candidate = cand
+        if planning_frame is not None:
+            try:
+                self._planning_shadow.record(
+                    shadow_row(planning_frame, distributed_competition_trace.get("views") or ())
+                )
+            except Exception as exc:
+                self._planning_shadow.record({
+                    "schema": "AS003P_PLANNING_SHADOW_TRACE_V1",
+                    "tick": self.tick,
+                    "evaluation_error": f"{type(exc).__name__}:{exc}",
+                    "behavioral_authority": False,
+                })
         if self._decision_trace.enabled:
             trace_data.update({
                 "manipulation_bindings": manipulation_bindings or [],
@@ -2700,6 +2729,7 @@ class Organism:
 
     def close(self) -> None:
         self.close_decision_trace()
+        self._planning_shadow.close()
         self.store.close()
 
 

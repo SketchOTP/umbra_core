@@ -11,7 +11,10 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
+from datetime import datetime, timezone
 
 
 ROOT = Path(
@@ -52,9 +55,42 @@ def publish(name: str, data: bytes) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("name")
-    parser.add_argument("payload")
+    parser.add_argument("payload", nargs="?")
     parser.add_argument("--text", action="store_true")
+    parser.add_argument("--capture-pure", action="store_true")
     args = parser.parse_args()
+    if args.capture_pure:
+        command = (sys.executable, "tools/as003p_pure_tests.py")
+        started = datetime.now(timezone.utc).isoformat()
+        completed = subprocess.run(
+            command,
+            cwd=Path(__file__).resolve().parents[1],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        ended = datetime.now(timezone.utc).isoformat()
+        passes = [line.removeprefix("PASS ") for line in completed.stdout.splitlines() if line.startswith("PASS ")]
+        record = {
+            "schema": "AS003P_PURE_EXECUTION_RECORD_V1",
+            "command": list(command),
+            "working_directory": str(Path(__file__).resolve().parents[1]),
+            "start_utc": started,
+            "end_utc": ended,
+            "exit_code": completed.returncode,
+            "stdout": completed.stdout,
+            "stderr": completed.stderr,
+            "passing_tests": passes,
+            "passing_test_count": len(passes),
+            "organism_runs": 0,
+            "rng_consumed": 0,
+            "owner_mutations": 0,
+        }
+        digest = publish(args.name, canonical_bytes(record))
+        print(json.dumps({"sha256": digest, "exit_code": completed.returncode, "tests": len(passes)}, sort_keys=True))
+        raise SystemExit(completed.returncode)
+    if args.payload is None:
+        parser.error("payload is required unless --capture-pure is used")
     data = args.payload.encode() if args.text else canonical_bytes(json.loads(args.payload))
     print(publish(args.name, data))
 
