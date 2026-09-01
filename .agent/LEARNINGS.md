@@ -506,3 +506,6 @@ The project-goal planning clause supersedes a blanket local `NO PLANNER` guard b
 ## AS-003M — planning needs an evidence-composition substrate
 
 Boundedness does not make planning lawful by itself. A prospective witness needs an immutable hypothetical state, a pure categorical transition, evidence/provenance that only weakens with depth, support for coupled effects/timing/routes/opportunities/pending commitments, and material-change invalidation. Existing one-step predictive views and a bounded authored scalar plan queue are not substitutes; hypothetical calls must never enter prediction, learning, persistence, or VerifiedOutcome writers.
+## AS-003O start boundary
+
+- The accepted AS-003N substrate is not a planner. AS-003O must prove that actual owner sources can populate it soundly, including categorical uncertainty, correlated outcomes, opportunity duration, and total path-frontier limits, before any shadow integration can be considered.

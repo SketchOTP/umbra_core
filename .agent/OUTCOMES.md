@@ -1191,3 +1191,7 @@ AS-003M is authorized from `1d599c79e7be327a538c1ae7b763802e704c9c4c` after AS-0
 ## UMBRA-AS-003M closeout — 2026-08-31
 
 Terminal verdict `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. AS-003M reconciled the project-goal planning requirement with the historical action-selection guard: bounded evidence-based prospective reasoning is allowed, while utility/reward authority, fabricated future truth, imagined learning, unbounded search, and Governance/Embodiment bypass remain prohibited. The existing WorldModel `plan()` is a negative control for ordinary authority because it uses authored sequences, scalar confidence/affordance ranking, and an in-memory queued remainder. Current pure consequence views are one-step evidence only, so future physiology/body/opportunity/route/timing/pending-commitment state cannot be propagated without inventing support. No operational continuation-selection-pressure claim is made. AS-002 is unchanged; V1 remains retired as a forward selector. No successor is authorized.
+## UMBRA-AS-003O governance start
+
+- Status: ACTIVE from exact baseline `7c33dc785cb38fda4abd1e7995826498a3dd2d31`.
+- Scope: source-backed abstraction and pure bounded continuation proof only; no live behavioral integration or organism execution.
