@@ -373,3 +373,6 @@ UMBRA-AS-001 is TERMINAL with `AS001_CURRENT_ARBITRATION_REPLACEMENT_REQUIRED`. 
 ## UMBRA-AS-003M — ACTIVE (2026-08-31)
 
 `UMBRA-AS-003M` begins from `1d599c79e7be327a538c1ae7b763802e704c9c4c` after accepted `AS003L_PLANNING_BOUNDARY_REQUIRED`. It is a zero-run contract-derivation gate: determine whether bounded, evidence-based regulatory continuation planning can create non-utility current-action evidence while preserving uncertainty, verified-outcome learning, governance, and urgent recovery authority. No implementation or successor is authorized.
+## UMBRA-AS-003M — TERMINAL (2026-08-31)
+
+`AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED` closes the bounded-planning contract research. Bounded continuation feasibility is goal-compatible and non-utility in principle, but current one-step source models cannot lawfully propagate immutable hypothetical states, evidence status, timing, opportunity/route support, coupled effects, pending actuation, or invalidation across a continuation. No planner implementation or successor is authorized.

@@ -497,3 +497,6 @@ An explicit finite upper bound does not make future action-order construction a 
 ## AS-003M start — planning is an allowed capability, not automatic authority
 
 The project-goal planning clause supersedes a blanket local `NO PLANNER` guard but not the safeguards against utility authority, fabricated future truth, imagined learning, unbounded search, or bypassing recovery, Governance, or Embodiment. A lawful planner can only provide read-only prospective evidence for the current action and must be revalidated from real verified outcomes.
+## AS-003M — planning needs an evidence-composition substrate
+
+Boundedness does not make planning lawful by itself. A prospective witness needs an immutable hypothetical state, a pure categorical transition, evidence/provenance that only weakens with depth, support for coupled effects/timing/routes/opportunities/pending commitments, and material-change invalidation. Existing one-step predictive views and a bounded authored scalar plan queue are not substitutes; hypothetical calls must never enter prediction, learning, persistence, or VerifiedOutcome writers.

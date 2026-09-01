@@ -8,6 +8,12 @@ Record material prior-art investigations when Authority triggers external discov
 - Required domains: biological prospection/planning, planning representation, viability/set-valued continuation, receding-horizon first-action execution, and bounded open-source feasibility/reachability implementations.
 - Precommitted disposition: architecture principles and reference-only comparison. No reward/utility objective, controller cost, priority, weights, fabricated truth, LLM planning, MCTS, A*, RL, active inference, POMDP, MPC optimization, or production dependency may be imported.
 
+## UMBRA-AS-003M external-discovery closeout — 2026-08-31
+
+- Sources checked: [hippocampal replay and planning review](https://pmc.ncbi.nlm.nih.gov/articles/PMC5847173/), [Aubin's viability-theory survey](https://doi.org/10.1137/0328044), and [Viabilitree](https://github.com/ISCPIF/viabilitree).
+- Disposition: biological prospection and existential constrained futures are REFERENCE-only support for bounded hypothetical witnesses. Viabilitree is REJECTED as an implementation/dependency because its grid/kd-tree viability-kernel approximation, learning loop, and discretization parameters do not preserve UMBRA's source-specific evidence, fixed bounded state, or non-optimization contract.
+- Result: external work confirms that prospectively representing possible sequences need not be utility optimization, but it does not supply UMBRA's missing composable transition semantics. No external planner or dependency is imported.
+
 ## UMBRA-AS-003L external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized zero-run test of whether regulatory schedulability, rather than drive value, can establish a non-aggregative ordinary precedence relation.

@@ -307,3 +307,6 @@ AS-003L is terminal `AS003L_PLANNING_BOUNDARY_REQUIRED`. The repository contains
 ## Current governed authority — UMBRA-AS-003M
 
 AS-003M is the current zero-run architecture-replan authority from GitHub baseline `1d599c79e7be327a538c1ae7b763802e704c9c4c`. It may derive a bounded evidence-based continuation-planning contract only; it may not implement, activate, or promote the existing scalar WorldModel planner. The open question is whether supported multi-step continuation feasibility can lawfully contribute to ordinary four-drive conflict resolution without becoming scalar utility.
+## Current governed state — AS-003M terminal
+
+AS-003M is terminal `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. WorldModel's bounded planning infrastructure is historically qualified only as learned proposal/trace infrastructure, not as current ordinary authority: it retains authored sequence seeds, a scalar success ranking, and an in-memory future-action remainder. The project goal permits a future bounded evidence-based continuation planner, but only after an Architect-authorized substrate supplies immutable hypothetical state and categorical composable transition evidence. No implementation or successor is current.
