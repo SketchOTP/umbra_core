@@ -1230,3 +1230,33 @@ Terminal verdict `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. AS-003M reconci
 - Closeout commit `4d5f44ed8e9450516433d9820c5ad8b6517ee3c2`;
   final 23-artifact readback manifest SHA-256
   `a3e05489a73658cf02d10b3641671f515c4c2c498cd64b6ba0188bc1996159ab`.
+## UMBRA-AS-003P-R2 terminal — comparator false positive confirmed — 2026-09-01
+
+- Verdict: `AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED`.
+- Baseline: `7a9fa530dd6b2304af85725994fb8852e4104107`.
+- Frozen comparator: `FROZEN_COMPARATOR_NOT_ID_RENAMING_INVARIANT`; 4/8
+  preregistered synthetic cases were false positives, 0 false negatives.
+- Retained WorldModel: exact differing field `models` only; 11/11 model records
+  exact-equal on conditions, action, effect, latency, confidence, support,
+  contradiction, and status; accepted-state and relationship-aware comparisons
+  equal; semantic differences `0`.
+- Retained events: 500 exact-differing rows / 2,500 leaves, all limited to
+  `new_state_hash`, `prior_state_hash`, and `trusted_sample_hash`; semantic
+  event differences after source-proven derivative separation `0`.
+- Final state: exact differing top-level field `world_model` only; every listed
+  subsystem is semantically equal; full semantic difference count `0`.
+- First retained exact difference: tick 1, `DERIVATIVE_HASH_ONLY`; first
+  semantic divergence: none retained.
+- Shadow read purity: static audit PASS and pure tests 9/9 PASS; actual
+  authoritative mutation path: none.
+- Independent-run UUID nondeterminism exists in administrative identities and
+  derivative hashes, but no real semantic H3 divergence was retained.
+- R2 runs/retries/reseeds/production changes: `0/0/0/0`; R1 remains permanent
+  and raw modal evidence remains scientifically invalidated.
+- Sequence deviation: after the immutable H1-H5 lock, initial field shapes,
+  one event exemplar, and model records were inspected before the separate
+  comparator-protocol and semantic-comparison artifacts were published. The
+  required cases/fields were then locked directly from the Architect directive
+  and owner contract, and the deviation is preserved rather than hidden.
+- Recommendation only: `UMBRA-AS-003P-R3 — Prelocked Semantic Comparator Fresh
+  Shadow Pair Candidate`; no successor started.

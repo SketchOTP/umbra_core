@@ -166,11 +166,15 @@ github/master without changing remote configuration.
 
 ## Current authority
 
-- `UMBRA-AS-003P-R2` ACTIVE — zero-run observer-effect forensic attribution
+- `UMBRA-AS-003P-R2` TERMINAL —
+  `AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED`; zero-run observer-effect forensic attribution
   from exact baseline `7a9fa530dd6b2304af85725994fb8852e4104107`;
-  parent `AS003PR1_OBSERVER_EFFECT_FAIL` remains permanent; H1-H5 lock precedes
-  retained-pair inspection; no organism/control/shadow/diagnostic execution,
-  production modification, retry/reseed, R1 rewrite, or successor; packet
+  parent `AS003PR1_OBSERVER_EFFECT_FAIL` remains permanent; frozen comparator
+  produced 4/8 synthetic false positives; retained final state, WorldModel,
+  relationships, and events are semantically equal after only independently
+  justified administrative/derivative treatment; shadow read-purity PASS;
+  no organism/control/shadow/diagnostic execution, production modification,
+  retry/reseed, R1 rewrite, raw-modal salvage, or successor; packet
   `.agent/tasks/active/UMBRA-AS-003P-R2/`; evidence
   `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r2-observer-forensics-r1/`.
 

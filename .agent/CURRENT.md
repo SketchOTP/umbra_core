@@ -1225,3 +1225,24 @@ pair inspection. No organism/control/shadow/diagnostic execution, retry,
 reseed, production/runtime/shadow/WorldModel modification, or successor is
 authorized. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r2-observer-forensics-r1/`.
+## UMBRA-AS-003P-R2 terminal — comparator false positive confirmed — 2026-09-01
+
+AS-003P-R2 is terminal `AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED` from
+exact baseline `7a9fa530dd6b2304af85725994fb8852e4104107`. The frozen R1
+comparator is not administrative-ID-renaming invariant: four of eight locked
+synthetic cases are false positives because UUID dictionary keys remain raw
+and raw-key ordering controls first-occurrence value tokens. The retained pair
+differs exactly only in `world_model.models` administrative keys/token binding;
+all 11 model records match on every scientific field, owner
+`accepted_state()` matches, relationship-bearing WorldModel fields match after
+semantic-model labeling, and the complete ID-invariant final state has zero
+semantic differences. All 500 unequal authoritative-event rows differ only in
+five source-proven session-derived temporal hash paths (2,500 leaves); event
+semantics are equal. Earliest exact retained difference is derivative-hash-only
+at tick 1; no semantic divergence tick exists. Static call-graph audit and nine
+pure proofs establish no shadow owner-mutation path. Independent non-seeded
+UUID generation explains raw/derivative nondeterminism without a semantic H3
+divergence. R1 remains permanently terminal; its raw modal evidence remains
+scientifically invalidated. AS-003P-R3 is recommendation-only and was not
+started. Organism/control/shadow/diagnostic runs, retries, reseeds, and
+production changes under R2: `0`.

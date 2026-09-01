@@ -530,3 +530,16 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
   authoritative state, even if every frame is syntactically complete. Preserve
   raw capture as protocol evidence, but do not use it to answer the architecture
   question or tune a successor.
+- 2026-09-01 | area:observer-parity | lesson:sorting raw UUID dictionary keys
+  before value-only first-occurrence tokenization is not administrative-ID
+  canonicalization; raw keys remain unequal and traversal order can bind tokens
+  to different semantic records. Owner maps need owner-specific semantic
+  multisets or relation-preserving graph labels frozen before execution.
+- 2026-09-01 | area:world-model | lesson:`WorldModel.to_state()` and
+  `state_hash()` are complete persistence/integrity representations and are
+  intentionally sensitive to generated IDs; `accepted_state()` is structural
+  replay evidence but is too narrow to replace field-level observer parity.
+- 2026-09-01 | area:temporal-events | lesson:independent non-seeded session IDs
+  legitimately change trusted-sample and temporal state hashes even when all
+  primary temporal/event semantics match; derivative hashes must be reported
+  separately from their source values.

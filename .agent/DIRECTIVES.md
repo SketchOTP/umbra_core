@@ -892,3 +892,18 @@ H4 mixed cause, and H5 insufficient evidence are immutable before detailed
 pair inspection. No organism/control/shadow/diagnostic execution, production
 or scientific-file modification, retry/reseed, R1 rewrite, raw-modal salvage,
 AS-004, CLOSE-03, or automatic successor is authorized.
+
+## UMBRA-AS-003P-R2 — terminal comparator-false-positive closeout — 2026-09-01
+
+`AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED` is terminal. The frozen R1
+normalizer is proven non-invariant to administrative UUID-key renaming (four
+synthetic false positives). The retained control/shadow pair is semantically
+equal under the Architect-locked field contract: only WorldModel model-map
+administrative keys/token assignment differ; all model scientific fields,
+relationship-bearing WorldModel state, owner `accepted_state()`, events after
+source-proven temporal derivative hashes, and the complete final state match.
+No shadow read mutation path exists. R1 remains permanently terminal and its
+raw modal counts remain invalidated. Recommendation only:
+`UMBRA-AS-003P-R3 — Prelocked Semantic Comparator Fresh Shadow Pair Candidate`;
+not started. R2 production changes and organism/control/shadow/diagnostic
+executions, retries, reseeds: `0`.

@@ -31,3 +31,13 @@ AS-003P-R2 began from synchronized baseline
 were durably locked before detailed retained-pair inspection. Production,
 scientific files, retained R1 evidence, and invalidated raw modal counts remain
 immutable; no successor is authorized.
+
+## 2026-09-01 — UMBRA-AS-003P-R2 terminal comparator attribution
+
+The zero-run forensic gate established
+`AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED`. R1's frozen comparator is not
+UUID-key-renaming invariant, while retained WorldModel model content,
+relationship state, accepted state, events, and complete final authoritative
+state are semantically equal. Static and pure accessor proofs found no shadow
+mutation path. Historical R1 remains unchanged and its raw modal evidence is
+not salvaged. No successor started.

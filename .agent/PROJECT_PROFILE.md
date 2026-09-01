@@ -342,3 +342,14 @@ WorldModel/event/final-state mismatch was semantic, administrative comparator
 artifact, independent-run nondeterminism, mixed, or unresolvable from retained
 evidence. Production and scientific implementation are immutable; no new
 organism/control/shadow/diagnostic run, retry, reseed, or successor is allowed.
+## Current governed status — UMBRA-AS-003P-R2 terminal
+
+AS-003P-R2 is terminal
+`AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED`. The retained R1 pair is
+semantically equal under an independently justified ID-invariant comparison;
+the frozen comparator failed on generated UUID-keyed WorldModel maps and
+session-derived temporal hashes. No shadow owner-mutation path was found.
+AS-003P-R1 remains permanently terminal and its raw modal evidence remains
+scientifically invalidated. R2 made no production change and ran no organism,
+control, shadow, or diagnostic. A future prelocked semantic comparator pair is
+recommendation-only; no successor is authorized or started.
