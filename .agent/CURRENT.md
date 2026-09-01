@@ -1246,3 +1246,5 @@ divergence. R1 remains permanently terminal; its raw modal evidence remains
 scientifically invalidated. AS-003P-R3 is recommendation-only and was not
 started. Organism/control/shadow/diagnostic runs, retries, reseeds, and
 production changes under R2: `0`.
+Final evidence manifest: 20/20 artifacts readback-verified with zero mismatches;
+SHA-256 `c8af137694ac812921878c0898969d9d0f73669c5b3d6b3f8f0547d4a942dbc5`.

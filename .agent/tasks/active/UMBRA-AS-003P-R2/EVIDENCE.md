@@ -42,3 +42,7 @@ Forensic results:
 Terminal verdict:
 `AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED`. R2 organism/control/shadow/
 diagnostic executions, retries, reseeds, and production changes remain zero.
+
+Final evidence manifest: `AS003PR2_FINAL_EVIDENCE_MANIFEST.json`, 20/20
+artifacts readback-verified with zero mismatches, SHA-256
+`c8af137694ac812921878c0898969d9d0f73669c5b3d6b3f8f0547d4a942dbc5`.

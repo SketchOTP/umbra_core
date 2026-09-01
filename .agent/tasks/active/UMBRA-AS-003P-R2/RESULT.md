@@ -17,3 +17,7 @@ scientifically invalidated. R2 ran no organism, control, shadow, diagnostic,
 retry, or reseed and changed no production file. Recommendation only:
 `UMBRA-AS-003P-R3 — Prelocked Semantic Comparator Fresh Shadow Pair Candidate`;
 not started.
+
+Final evidence manifest: 20/20 artifacts readback-verified with zero
+mismatches; SHA-256
+`c8af137694ac812921878c0898969d9d0f73669c5b3d6b3f8f0547d4a942dbc5`.

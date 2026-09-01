@@ -1260,3 +1260,6 @@ Terminal verdict `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. AS-003M reconci
   and owner contract, and the deviation is preserved rather than hidden.
 - Recommendation only: `UMBRA-AS-003P-R3 — Prelocked Semantic Comparator Fresh
   Shadow Pair Candidate`; no successor started.
+- Final evidence manifest: 20/20 artifacts readback-verified with zero
+  mismatches; SHA-256
+  `c8af137694ac812921878c0898969d9d0f73669c5b3d6b3f8f0547d4a942dbc5`.
