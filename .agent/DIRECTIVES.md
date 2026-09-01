@@ -927,3 +927,16 @@ Adopted 2026-09-01 from exact baseline `dc70a607a41393ab596439c163e47634960db2fa
 # UMBRA-AS-003P-R4 terminal status
 
 Terminal verdict: `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. R4 established future independent-birth body-name alpha-equivalence in principle and attributed the two R3 body-ID values as consistent with fresh renaming, without changing R3. A separate source-authority failure blocks further observer execution: the documented detach-plus-attach replacement path cannot mint a distinct adapter body entity and is not linked to SelfModel/Habitat replacement identity. No successor is authorized.
+
+# UMBRA-AS-003S — Atomic Body Replacement Identity Transaction
+
+Adopted 2026-09-01 from exact baseline `9cd69768c0cacc3a8a6955e35412d931c9f33f94`
+after Architect acceptance of R4. AS-003S may implement and qualify only the bounded
+cross-owner true-body replacement seam. It must preserve constitutional identity,
+D-008 profile-swap/restart semantics, D-009 Habitat/manipulation semantics, and all
+planning/action-selection authority. Replacement must atomically persist one
+replacement event and matching prospective snapshot before applying live owner state,
+mint a distinct physical body ID and SelfModel binding/schema, reject stale old-body
+references, and fail closed when the old body holds any Habitat object. No shadow pair,
+integrated viability, AS-004, CLOSE-03, retry/reseed, possession transfer, or automatic
+successor is authorized.

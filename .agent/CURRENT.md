@@ -1,3 +1,18 @@
+# UMBRA-AS-003S active — atomic true-body replacement
+
+The Architect accepted `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED` and
+authorized AS-003S from exact baseline
+`9cd69768c0cacc3a8a6955e35412d931c9f33f94`. The active objective is one bounded
+transaction that preserves constitutional organism identity while minting a new
+physical `body_instance_id`, SelfModel body binding/schema, coherent
+EmbodimentAdapter/Embodiment occupancy, and atomic replacement event plus snapshot.
+
+D-008 compatible profile swap/restart identity and D-009 Habitat/manipulation
+qualification are protected. Replacement must fail closed for pending execution or
+old-body held objects; possessions may not be transferred. Planning observer work,
+integrated viability, AS-004, and CLOSE-03 remain blocked. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003s-atomic-body-replacement-r1/`.
+
 # UMBRA-AS-003P-R3 terminal — prospective semantic observer effect
 
 `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL` is terminal from exact baseline `237251fd9e6b859284d45fe6da42a54a5e0d05a3`. The source-semantic comparator qualified prospectively with `30/30 PASS`, false positives/negatives `0/0`, and froze at `e1e617b63940d611120068b4fb3b1fc2d7323ddf`. Protected AS-003P scientific files stayed byte-identical, production delta was `0`, harness equivalence and importability passed, and the paired execution froze at `fa68dd6e785ce2c45840306b65cbb313d2b17cb9`.

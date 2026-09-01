@@ -1,3 +1,13 @@
+UMBRA-AS-003S is ACTIVE from exact baseline
+`9cd69768c0cacc3a8a6955e35412d931c9f33f94` after accepted parent verdict
+`AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. Scope is the smallest atomic
+true-body replacement transaction spanning physical body instance, attachment
+generation, SelfModel binding/schema, Embodiment occupancy, persistence/restart,
+and Habitat fail-closed relations while preserving constitutional identity and
+D-008/D-009. Packet `.agent/tasks/active/UMBRA-AS-003S/`; evidence
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003s-atomic-body-replacement-r1/`.
+No planning/shadow/integrated-viability/AS-004/CLOSE-03 successor work is authorized.
+
 UMBRA-AS-003P-R3 is TERMINAL with `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL`. Its prospective owner/source-semantic comparator qualified `30/30` with false positives/negatives `0/0`, froze before execution, and the unchanged fixture completed control/shadow `1/1`. The frozen comparator found two authoritative `body_instance_id` differences in the tick-1 event and final Embodiment-adapter state; timeline, candidate identities, and RNG were equal. Modal interpretation and AS-003L/AS-002 reassessment stopped before use. Retries/reseeds `0/0`; production delta `0`; no rerun, repair, or successor. Manifest SHA-256 `ac578bee3f45cad9a0ee3b584188778402a3639f6fca2054c5d53a1c2f1eb45f`; packet `.agent/tasks/active/UMBRA-AS-003P-R3/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r3-semantic-shadow-pair-r1/`.
 
 

@@ -62,3 +62,12 @@ reseeds remain `0/0`, production remained unchanged, and no successor started.
 # 2026-09-01 — AS-003P-R4 body replacement identity defect
 
 Recorded terminal verdict `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. R3 remains permanently failed. R4 prospectively derived run-local body-name alpha-equivalence and found the retained R3 body IDs consistent with it, but did not salvage R3 evidence. The independent end-goal blocker is that the documented detach-plus-attach true replacement reuses the old adapter body identifier and has no cross-owner replacement transaction. No production/test change, organism execution, or successor occurred.
+
+## 2026-09-01 — UMBRA-AS-003S governance start
+
+Architect accepted the R4 body-replacement identity defect and authorized a bounded
+production repair from exact baseline `9cd69768c0cacc3a8a6955e35412d931c9f33f94`.
+AS-003S must establish one atomic true-body replacement transaction preserving the
+constitutional organism while changing physical body instance, SelfModel binding/schema,
+and coherent occupancy. D-008/D-009 remain protected; held objects block replacement;
+planning observer work and integrated viability remain out of scope.

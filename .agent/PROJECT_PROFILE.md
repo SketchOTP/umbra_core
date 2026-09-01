@@ -359,3 +359,12 @@ recommendation-only; no successor is authorized or started.
 # Current body-identity contract status — AS-003P-R4
 
 Constitutional organism identity is body-independent. Adapter `body_instance_id` is fresh across independent births and exact within a persisted organism history; owner-scoped equality relations are semantic. True physical-body replacement is not currently represented coherently across SelfModel, EmbodimentAdapter, Embodiment occupancy, and Habitat, so no fresh modal observer pair is authorized from this state.
+
+# Current repair authority — UMBRA-AS-003S
+
+AS-003S is active from `9cd69768c0cacc3a8a6955e35412d931c9f33f94` to repair
+only the true physical-body replacement consistency boundary. The durability target is
+one local SQLite transaction containing an authoritative replacement event and matching
+prospective snapshot, followed by post-commit in-memory application. Constitutional
+identity and unrelated organism owners persist; D-008/D-009 remain protected; held
+objects block replacement. Modal observer work and integrated viability remain blocked.
