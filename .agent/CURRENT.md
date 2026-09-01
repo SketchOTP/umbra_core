@@ -177,6 +177,8 @@ research/course_correction/d013ax2_harness/ are preserved.
 
 AS-003M is accepted `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`; exact local/GitHub baseline is `d310c21168bf7be918014328257261db4c805a13`, and its manifest is `cd68cb78c62afc07a5ccd6707267ab47f0853dc2570f1b2f2a31873a492b5fcf`. AS-003N is authorized to add only an isolated, pure, provenance-bearing hypothetical-state substrate: immutable state, categorical supported/unsupported/unknown transition, composable conservative envelopes, material-dependency fingerprint/invalidation, and validated non-executable regulatory services. It may not create a planner, connect to runtime/arbitration/WorldModel/recoverability authority, modify existing production files, run organisms/diagnostics/qualification, retry, or reseed. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003n-hypothetical-transition-substrate-r1/`.
 
+The pre-implementation substrate contract, conservative evidence composition, and branch ceiling are immutable: contract SHA-256 `ee3fec783c67365416ae68dce792cbebfa28ddd594127a4bf72509e91c7613bb`; composition SHA-256 `4390ef6a7c576aff5aa681686ba4cc4f35e6b791134977d302c2121cd6de093a`; and exact branch ceiling SHA-256 `31bc11e9914f1541228a25baa42d23034f573b903371b6f8aed833f5cc18b967`. The ceiling is 32 full correlated paths: at most two verified effect branches across one current action plus four validated service witnesses.
+
 ## UMBRA-D-014H3J terminal - retained evidence insufficient
 
 D-014H3J performed the authorized read-only inventory and source contract audit
