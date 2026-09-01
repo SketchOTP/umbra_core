@@ -259,3 +259,11 @@ No new external discovery was performed. AS-003 was an exact implementation
 of the accepted AS-002 contract, and the directive prohibited importing
 dominance remedies. The generation stopped on its internal execution-order
 boundary before any outside literature could affect implementation semantics.
+
+## UMBRA-AS-003P modal-evidence reference boundary — 2026-09-01
+
+- Cimatti, Pistore, Roveri, and Traverso, *Weak, strong, and strong cyclic planning via symbolic model checking*: https://www.sciencedirect.com/science/article/pii/S0004370202003740
+- Larsen and Thomsen, *A modal process logic*: https://lics.siglog.org/1988/LarsenThomsen-Amodalprocesslogic.html
+- Adopted only as reference principles: weak versus strong quantification under nondeterministic outcomes; separate required/must and allowed/may behavior; possibility is not guarantee.
+- Rejected imports: symbolic model checker, BDD planner, strong-cyclic fairness, external planning dependency, probability ranking, reward, and confidence-as-preference.
+- UMBRA translation: `MUST / MAY / UNKNOWN / UNSUPPORTED` are additive epistemic source labels above the qualified AS-003N/AS-003O contracts and grant no action authority.
