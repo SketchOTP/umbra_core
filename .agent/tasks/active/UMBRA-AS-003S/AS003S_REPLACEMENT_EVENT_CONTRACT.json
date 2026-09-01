@@ -1,0 +1,39 @@
+{
+  "directive": "UMBRA-AS-003S",
+  "schema": "as003s.replacement-event-contract.v1",
+  "event_type": "embodiment_body_replaced",
+  "authority": "AUTHORITATIVE",
+  "single_event_semantics": "One event records one committed physical-body transition; it is not decomposed into detach and attach.",
+  "required_payload": [
+    "transaction_id",
+    "agent_id",
+    "lineage_id",
+    "old_body_instance_id",
+    "new_body_instance_id",
+    "old_profile_id",
+    "new_profile_id",
+    "old_generation",
+    "new_generation",
+    "old_body_binding_id",
+    "new_body_binding_id",
+    "old_body_schema_id",
+    "new_body_schema_id",
+    "old_body_schema_version",
+    "new_body_schema_version",
+    "profile_schema_version",
+    "profile_definition_hash",
+    "origin",
+    "reason"
+  ],
+  "invariants": [
+    "new_body_instance_id != old_body_instance_id",
+    "new_generation == old_generation + 1",
+    "new_body_binding_id != old_body_binding_id",
+    "new_body_schema_id != old_body_schema_id",
+    "new_body_schema_version == old_body_schema_version + 1",
+    "agent_id and lineage_id are unchanged",
+    "event and prospective snapshot commit in one SQLite transaction"
+  ],
+  "replay_result": "The event reconstructs ATTACHED adapter state for the new body/profile/generation.",
+  "event_history": "Prior attachment and body-schema events remain immutable."
+}

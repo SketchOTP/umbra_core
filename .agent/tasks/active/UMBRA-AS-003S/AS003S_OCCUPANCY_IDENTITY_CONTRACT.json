@@ -1,0 +1,20 @@
+{
+  "directive": "UMBRA-AS-003S",
+  "schema": "as003s.occupancy-identity-contract.v1",
+  "authoritative_owner": "EmbodimentAdapter attachment ledger",
+  "consumer_projection": "Embodiment.body_occupancy_view",
+  "required_equality_when_attached": {
+    "body_instance_id": "Embodiment occupancy equals adapter attachment state",
+    "attachment_generation": "Embodiment occupancy equals adapter attachment state"
+  },
+  "profile_swap": "Retains body_instance_id and advances generation in both adapter and occupancy.",
+  "replacement": "Installs new body_instance_id and generation in both adapter and occupancy after durable commit.",
+  "persistence": "Embodiment serializes occupancy identity and generation in snapshots.",
+  "restart_reconciliation": {
+    "ledger_newer_than_snapshot": "Rebind snapshot occupancy from the later authoritative attachment ledger event.",
+    "same_or_older_ledger_with_mismatch": "Fail closed as authoritative state conflict.",
+    "legacy_snapshot_missing_occupancy": "One-way migration binds from the valid authoritative attachment ledger."
+  },
+  "habitat": "No held-object reference may survive true replacement; replacement rejects before commit if one exists.",
+  "stale_reference_rule": "Old body ID or generation cannot validate post-replacement manipulation or execution."
+}

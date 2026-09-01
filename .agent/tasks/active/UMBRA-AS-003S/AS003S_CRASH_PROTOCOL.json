@@ -1,0 +1,35 @@
+{
+  "directive": "UMBRA-AS-003S",
+  "schema": "as003s.crash-protocol.v1",
+  "retries": 0,
+  "cases": [
+    {
+      "id": "J1",
+      "injection": "after durable event stage, before snapshot/commit",
+      "expected": "transaction rollback; old body authoritative everywhere"
+    },
+    {
+      "id": "J2",
+      "injection": "after prospective snapshot stage, before commit",
+      "expected": "transaction rollback; no replacement event or snapshot survives"
+    },
+    {
+      "id": "J3",
+      "injection": "normal commit and live apply",
+      "expected": "one event, one coherent snapshot, one new body and schema"
+    },
+    {
+      "id": "J4",
+      "injection": "after durable commit but before live owner application",
+      "expected": "current process may remain old; restart restores the committed new body exactly once"
+    }
+  ],
+  "verification": [
+    "event chain validates",
+    "snapshot sequence is coherent with replacement event",
+    "constitutional identity unchanged",
+    "old held references absent",
+    "stale old generation rejected",
+    "no duplicate replacement event on restart"
+  ]
+}

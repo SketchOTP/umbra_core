@@ -1,5 +1,11 @@
 # UMBRA-AS-003S active — atomic true-body replacement
 
+Preimplementation contract lock complete: all six required identity, event,
+occupancy, preflight, transaction, and crash contracts are create-once published
+and hash-locked. The design prepares cloned/prospective owner state, commits the
+replacement event and full snapshot in one SQLite transaction, and applies live
+owners only after commit. No production implementation preceded this lock.
+
 The Architect accepted `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED` and
 authorized AS-003S from exact baseline
 `9cd69768c0cacc3a8a6955e35412d931c9f33f94`. The active objective is one bounded

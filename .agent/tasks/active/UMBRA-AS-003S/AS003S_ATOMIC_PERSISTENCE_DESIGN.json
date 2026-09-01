@@ -1,0 +1,22 @@
+{
+  "directive": "UMBRA-AS-003S",
+  "schema": "as003s.atomic-persistence-design.v1",
+  "transaction": "BEGIN IMMEDIATE ... COMMIT using the existing Store atomic stage pattern",
+  "preparation": [
+    "clone SelfModel from serialized current state",
+    "apply existing replace_body semantics only to the clone",
+    "create a fresh AttachmentState",
+    "create prospective Embodiment occupancy state",
+    "construct a full prospective Organism authoritative snapshot"
+  ],
+  "durable_stages": [
+    "append embodiment_body_replaced authoritative event",
+    "save the complete prospective snapshot at the resulting event sequence"
+  ],
+  "commit_rule": "Both stages commit together or both roll back.",
+  "live_apply": "Only after COMMIT, replace live SelfModel and adapter state and bind Embodiment occupancy from the prepared values.",
+  "commit_before_live_apply_failure": "If post-commit live apply fails, durable event plus snapshot remain coherent and restart restores the replacement exactly once.",
+  "rollback_rule": "Pre-commit failure leaves ledger, snapshots, adapter, Embodiment, SelfModel, Habitat, and constitutional identity unchanged.",
+  "replay_claim": "Ledger replays attachment identity; full cross-owner reconstruction uses the committed prospective snapshot plus ledger reconciliation. No event-only SelfModel reconstruction is claimed.",
+  "idempotency": "A successful call is one transaction. A repeated explicit replacement is a new body transition, not an automatic retry; no internal retry exists."
+}

@@ -11,3 +11,16 @@
 
 Further create-once evidence is published to the Atlas evidence root and summarized
 here at closeout.
+
+## Preimplementation locks
+
+The replacement identity, event, occupancy, preflight, atomic persistence, and
+crash-injection contracts are source-controlled beside this task packet and are
+published create-once to the evidence root before production implementation.
+
+- replacement identity: `ce849e52967ff605e8803a67507e35f65a7d4da46b1ed909c928d471d96becc8`
+- replacement event: `6345ddf17a526596b0b42babbb511c728da29225b21eb3e774eb49d9c3960250`
+- occupancy identity: `1512300f3859602b293873e5e177d032286e188ff536d0b28a8bdbd0d2429f62`
+- replacement preflight: `152cd4cf59c5f62f5f2001e7ed27393639f22a2657f9cedfd73c183c6f0c67a3`
+- atomic persistence: `f1d8ba011843f99701acadb309b3cbef0ae4d33ecc24230d6dc4e0c083e510fc`
+- crash protocol: `3ea3249b78898db20cca72b28be0d047d5aee86cbe1d3d98fdec745612f1c4a8`

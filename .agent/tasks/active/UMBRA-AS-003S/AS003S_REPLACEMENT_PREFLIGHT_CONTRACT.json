@@ -1,0 +1,23 @@
+{
+  "directive": "UMBRA-AS-003S",
+  "schema": "as003s.replacement-preflight-contract.v1",
+  "boundary": "quiescent explicit lifecycle operation outside tick execution",
+  "required": [
+    "adapter exists and is ATTACHED",
+    "SelfModel exists and primary body is bound",
+    "adapter body/profile/generation agrees with Embodiment occupancy",
+    "target BodyProfile resolves and its definition hash is available",
+    "organism is not in run_realtime",
+    "no pending action",
+    "no delayed proposal",
+    "no pending world plan",
+    "no pending Embodiment actuation or delay",
+    "no PREPARED habitat execution journal row",
+    "no Habitat HeldByLocation references the old body instance",
+    "authoritative event chain validates"
+  ],
+  "failure_semantics": "Any failed condition raises before event, snapshot, or live owner mutation.",
+  "held_object_policy": "Reject. Placement/transfer is a separate authorized operation; replacement never transfers possession.",
+  "unknown_habitat_policy": "If Habitat state cannot be reconstructed soundly, reject rather than assume no held object.",
+  "no_live_mutation_before_commit": true
+}

@@ -1,0 +1,37 @@
+{
+  "directive": "UMBRA-AS-003S",
+  "schema": "as003s.replacement-identity-contract.v1",
+  "locked_before_implementation": true,
+  "constitutional_identity": {
+    "preserved_exactly": ["agent_id", "lineage_id", "birth_event_id"],
+    "rule": "True body replacement never creates a new organism and never transfers organism identity to the body."
+  },
+  "old_body": {
+    "body_instance_id": "must exist and be ATTACHED before replacement",
+    "body_profile_id": "records the old physical profile",
+    "attachment_generation": "must match Embodiment occupancy and all current body references",
+    "self_model": "old body schema is archived and inactive after replacement"
+  },
+  "new_body": {
+    "body_instance_id": "a newly generated identifier distinct from the old body_instance_id",
+    "body_profile_id": "resolved from the existing qualified profile registry",
+    "attachment_generation": "exactly old_generation + 1",
+    "self_model_binding": "new body_binding_id",
+    "self_model_schema": "new body_schema_id and old_schema.version + 1",
+    "capability_support": "begins UNKNOWN under existing SelfModel bootstrap semantics; no old-body support is transferred"
+  },
+  "operation_distinctions": {
+    "compatible_profile_swap": "same body_instance_id, generation + 1, same SelfModel binding/schema",
+    "temporary_detach_reattach": "same body_instance_id, each transition advances generation, no new SelfModel body",
+    "true_body_replacement": "new body_instance_id, generation + 1, new SelfModel binding/schema, one atomic replacement event",
+    "restart": "preserves the currently authoritative body instance and SelfModel binding/schema"
+  },
+  "historical_evidence": "Old-body history remains durable and schema-tagged but grants no authority to the new body.",
+  "prohibitions": [
+    "no possession transfer",
+    "no old capability-support transfer",
+    "no renderer authority",
+    "no detach-plus-attach approximation",
+    "no organism identity replacement"
+  ]
+}
