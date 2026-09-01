@@ -865,3 +865,16 @@ seed `45878900`, horizon `500`. Frozen scientific files, fixture semantics,
 parity fields, and stochastic behavior may not change. After command lock no
 repair is allowed. Retries/reseeds `0`; no action-selection authority,
 AS-004, CLOSE-03, or automatic successor.
+
+## UMBRA-AS-003P-R1 — terminal observer-effect closeout — 2026-09-01
+
+`AS003PR1_OBSERVER_EFFECT_FAIL` is terminal. Original failure attribution,
+harness equivalence, import-only preflight, command lock, frozen scientific
+fingerprints, focused `41/41` revalidation, Authority 3.0, and governance all
+passed before execution. The exact locked command completed one control and one
+shadow leg at R0/S0 seed `45878900`, horizon `500`. Timeline, candidate
+identities, and RNG were equal; authoritative events, final authoritative state,
+and subsystem hashes were unequal. Raw shadow capture contains 500 complete
+frames but is invalid for scientific interpretation. AS-003L reassessment is
+blocked and AS-002 is `NOT_ENOUGH_ACTUAL_EVIDENCE`. Retries/reseeds `0/0`; no
+repair, rerun, behavioral authority, or successor is authorized.

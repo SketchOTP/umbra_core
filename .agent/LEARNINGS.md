@@ -519,3 +519,14 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
 - Script importability is part of a no-retry one-shot protocol. A harness that imports a repository namespace before placing the repository root on `sys.path` can consume the generation even when it executes zero organism ticks.
 - Preserve the distinction: the frame/modal implementation is target-tested (`41/41` twice), but observer neutrality and actual-source usefulness remain unknown. Do not promote pure fixtures to operational evidence.
 - For future Architect-authorized generations, import-path execution must be proven without organism creation before the one-shot command is frozen. This is a recommendation boundary, not authority to repair or rerun AS-003P.
+
+## 2026-09-01 — matching actions and RNG does not prove observer neutrality
+
+- A default-off/write-only diagnostic can preserve selected actions, candidate
+  identities, timeline physiology, and RNG while still changing authoritative
+  accepted model state or events. Observer qualification must therefore compare
+  complete authoritative event/state and subsystem hashes, not only behavior.
+- Shadow-derived scientific profiles are invalid when their acquisition changes
+  authoritative state, even if every frame is syntactically complete. Preserve
+  raw capture as protocol evidence, but do not use it to answer the architecture
+  question or tune a successor.

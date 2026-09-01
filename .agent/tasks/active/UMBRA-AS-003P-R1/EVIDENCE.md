@@ -21,3 +21,18 @@ Phase A/B/C:
   `umbra_core` specs resolved from repository root; fixture preparation,
   organism create/load, harness `main`, leg execution, and ticks all `0`;
   SHA-256 `e94e8f17175a3b27e4570272cc2b820e717a201a08e4cd5bbbc06f9c1daaf426`.
+
+Frozen execution:
+
+- protocol lock: `b3364bc4e8fa08ccf006a6990866882676c845b3eee3b214feebdb5a64a2a14f`;
+- pre-execution integrity: `PASS`, `41/41` focused pure, Authority 3.0 and
+  governance `PASS`, SHA-256
+  `7e6a4e250a76917f64026d91233f806ef9784f40ef6e69be2221fd4b3ea03e39`;
+- exact command executed once; control/shadow `1/1`, each 500 ticks;
+- parity PASS: timeline, candidate identities, RNG;
+- parity FAIL: authoritative events, final authoritative state, subsystem
+  hashes; unequal subsystem: WorldModel;
+- raw capture: `500/500` complete frames, `2664` strong-MAY and `22` UNKNOWN
+  profiles, zero candidate-profile distinctions; these are invalidated for
+  scientific interpretation by observer failure;
+- terminal verdict: `AS003PR1_OBSERVER_EFFECT_FAIL`; retries/reseeds `0/0`.

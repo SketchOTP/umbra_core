@@ -7,4 +7,4 @@
 5. Freeze the exact command and scientific fingerprints.
 6. Run the focused integrity gate and one paired command exactly once.
 7. Analyze parity, actual frames, modal classes, AS-003L, and AS-002.
-8. Publish one terminal verdict, manifest, GitHub/Notion closeout, and no successor.
+8. Publish terminal `AS003PR1_OBSERVER_EFFECT_FAIL`, manifest, GitHub/Notion closeout, and no successor.

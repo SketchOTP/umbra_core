@@ -1211,3 +1211,19 @@ Terminal verdict `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. AS-003M reconci
 - Not established: observer parity, actual-source frame coverage, modal distribution, AS-003L conflict-class expression, future AS-002 relation.
 - Integrity: control `0`, shadow `0`, organism/diagnostic `0`, retry `0`, reseed `0`; no successor started.
 - Final evidence manifest SHA-256: `6a2f6afcea9394fa1b0d4b75c242b6a359d4f62d3a7bf3ffde4954a9db2ab4c2` (`27` pre-manifest artifacts, readback verified).
+
+## UMBRA-AS-003P-R1 terminal — observer effect — 2026-09-01
+
+- Verdict: `AS003PR1_OBSERVER_EFFECT_FAIL`.
+- Protocol recovery: original path failure attributed; replacement harness
+  equivalence PASS; first import-only preflight PASS with organism/ticks `0`;
+  exact module command frozen at `ddcaecc45660a6743480413766abdfc24d46207f`.
+- Execution: control `1`, shadow `1`, 500 ticks each; retries/reseeds `0/0`.
+- Parity PASS: timeline, candidate identities, RNG state.
+- Parity FAIL: authoritative events, final authoritative state, subsystem
+  hashes; WorldModel subsystem hash differed.
+- Raw capture: 500 complete frames, 2664 strong-MAY and 22 UNKNOWN profiles,
+  zero candidate-profile distinctions. These observations are invalid for
+  scientific modal interpretation because observer parity failed.
+- AS-003L: blocked by observer effect. AS-002:
+  `NOT_ENOUGH_ACTUAL_EVIDENCE`. No successor started.

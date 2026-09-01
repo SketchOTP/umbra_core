@@ -13,3 +13,9 @@ The import-only preflight passed on its first executed attempt with
 `/usr/bin/python3`; repository-root module specs resolved and sentinel counts
 for organism creation/load and ticks remained zero. The one-shot module command
 may now be frozen after the final pre-execution documentation commit.
+
+The frozen command ran once and terminates R1 as
+`AS003PR1_OBSERVER_EFFECT_FAIL`. Control/shadow each completed 500 ticks. RNG,
+timeline, and candidate identities matched; authoritative events, final state,
+and subsystem hashes did not. Do not interpret the raw 500-frame shadow corpus,
+rerun the pair, or start a successor without new Architect authority.
