@@ -907,3 +907,16 @@ raw modal counts remain invalidated. Recommendation only:
 `UMBRA-AS-003P-R3 — Prelocked Semantic Comparator Fresh Shadow Pair Candidate`;
 not started. R2 production changes and organism/control/shadow/diagnostic
 executions, retries, reseeds: `0`.
+
+## UMBRA-AS-003P-R3 — prospective semantic comparator and fresh shadow pair — 2026-09-01
+
+Architect accepted `AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED` and
+authorized R3 from exact baseline
+`237251fd9e6b859284d45fe6da42a54a5e0d05a3`. R3 must source-classify and
+adversarially qualify a semantic observer comparator, then commit and push its
+lock before any organism execution. Only after all pre-execution gates pass may
+one unchanged R0/S0 seed `45878900`, horizon `500` control/shadow pair run.
+AS-003P scientific files, runtime hook, fixture, action selection, and
+historical R1/R2 evidence are immutable. R1 modal counts are invalid; retries
+and reseeds are `0/0`; no AS-004, CLOSE-03, or automatic successor is
+authorized.

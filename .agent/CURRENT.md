@@ -1,3 +1,12 @@
+# UMBRA-AS-003P-R3 active — prospective semantic observer-parity qualification
+
+Architect accepted `AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED`. R3 begins from exact clean local/GitHub baseline `237251fd9e6b859284d45fe6da42a54a5e0d05a3`. Canonical Notion independently records R3 as current authority. R1 remains permanently terminal and its raw modal counts remain scientifically invalidated.
+
+Current work is measurement qualification only: lock owner-specific identity, ordering, derivative-hash, and authoritative-value semantics; qualify a research-only comparator with zero false positives/negatives; freeze and push it before execution; then run exactly one unchanged R0/S0 seed `45878900`, horizon `500` control/shadow pair. Protected AS-003P scientific files and the runtime shadow hook must remain byte-identical. Retries/reseeds are `0/0` and no action-selection, AS-004, CLOSE-03, or automatic successor is authorized.
+
+Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r3-semantic-shadow-pair-r1/`.
+
+
 ## UMBRA-AS-003P-R1 terminal — observer effect — 2026-09-01
 
 AS-003P-R1 is terminal `AS003PR1_OBSERVER_EFFECT_FAIL`. From exact baseline `6bc2f6633e356602a6ffe2338eef9b98bdac6e0c`, the original zero-tick failure was attributed to repository-root import path absence; the replacement harness had zero scientific differences; import-only preflight passed with organism construction/ticks `0`; and the exact module command was frozen at `ddcaecc45660a6743480413766abdfc24d46207f`. The one authorized R0/S0 seed `45878900`, horizon `500` pair completed control/shadow `1/1`. Timeline, candidate identities, and RNG matched, but authoritative events, final authoritative state, and subsystem hashes differed; the WorldModel subsystem hash was unequal. Raw shadow capture contained `500/500` complete frames and `2664` strong-MAY plus `22` UNKNOWN candidate profiles, but parity failure invalidates scientific interpretation. AS-003L reassessment is blocked; AS-002 disposition is `NOT_ENOUGH_ACTUAL_EVIDENCE`. Retries/reseeds `0/0`; no remediation or successor. Closeout commit `4d5f44ed8e9450516433d9820c5ad8b6517ee3c2`; final evidence manifest SHA-256 `a3e05489a73658cf02d10b3641671f515c4c2c498cd64b6ba0188bc1996159ab` (23 artifacts, readback verified). Packet `.agent/tasks/active/UMBRA-AS-003P-R1/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r1-shadow-protocol-recovery/`.

@@ -41,3 +41,12 @@ relationship state, accepted state, events, and complete final authoritative
 state are semantically equal. Static and pure accessor proofs found no shadow
 mutation path. Historical R1 remains unchanged and its raw modal evidence is
 not salvaged. No successor started.
+
+## 2026-09-01 — UMBRA-AS-003P-R3 governance start
+
+Architect accepted the R2 comparator-false-positive attribution and authorized
+a fresh prospective measurement qualification from exact baseline
+`237251fd9e6b859284d45fe6da42a54a5e0d05a3`. A source-semantic comparator must
+be adversarially qualified, locked, committed, and pushed before the only
+authorized fresh control/shadow pair. R1 and R2 remain immutable; AS-003P
+scientific code, fixture, and behavior authority remain unchanged.
