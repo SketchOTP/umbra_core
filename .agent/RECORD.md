@@ -22,3 +22,12 @@ Canonical Notion package, byte-for-byte legacy archive hashes, Authority 3.0 and
 
 ### Consequence
 Authority 3.0 is the sole active repository governance lifecycle. The v2 Authority skill, Commandments, old validators, and prior mutable snapshots remain preserved for provenance but must not operate as parallel active rules. UMBRA-D-013AP remains scientifically authorized but was not executed during this migration.
+## 2026-09-01 — UMBRA-AS-003P-R2 governance start
+
+Architect accepted permanent R1 verdict `AS003PR1_OBSERVER_EFFECT_FAIL` while
+withholding the stronger causal claim that shadow capture mutated WorldModel.
+AS-003P-R2 began from synchronized baseline
+`7a9fa530dd6b2304af85725994fb8852e4104107` as a zero-run forensic gate. H1-H5
+were durably locked before detailed retained-pair inspection. Production,
+scientific files, retained R1 evidence, and invalidated raw modal counts remain
+immutable; no successor is authorized.

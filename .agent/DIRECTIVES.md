@@ -878,3 +878,17 @@ and subsystem hashes were unequal. Raw shadow capture contains 500 complete
 frames but is invalid for scientific interpretation. AS-003L reassessment is
 blocked and AS-002 is `NOT_ENOUGH_ACTUAL_EVIDENCE`. Retries/reseeds `0/0`; no
 repair, rerun, behavioral authority, or successor is authorized.
+## UMBRA-AS-003P-R2 — observer-effect forensic attribution — 2026-09-01
+
+Architect accepted permanent parent verdict `AS003PR1_OBSERVER_EFFECT_FAIL`
+without accepting an unproven causal claim that shadow capture mutated
+WorldModel. From exact baseline
+`7a9fa530dd6b2304af85725994fb8852e4104107`, AS-003P-R2 is authorized to
+validate the frozen comparator and attribute the retained control/shadow pair
+using source inspection, offline retained-artifact processing, pure synthetic
+canonicalization proofs, and pure object-level read-purity tests. Hypotheses
+H1 genuine mutation, H2 comparator defect, H3 independent-run nondeterminism,
+H4 mixed cause, and H5 insufficient evidence are immutable before detailed
+pair inspection. No organism/control/shadow/diagnostic execution, production
+or scientific-file modification, retry/reseed, R1 rewrite, raw-modal salvage,
+AS-004, CLOSE-03, or automatic successor is authorized.

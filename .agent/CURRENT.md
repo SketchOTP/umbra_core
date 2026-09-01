@@ -1212,3 +1212,16 @@ AS-003O starts at exact baseline `7c33dc785cb38fda4abd1e7995826498a3dd2d31` with
 ## UMBRA-AS-003P active — modal planning evidence frame
 
 Architect acceptance makes AS-003O permanently terminal and authorizes AS-003P from exact GitHub/local baseline `12b0d3eb7acc74452eddcd6df473e230ea74a590`. AS-003P may add an immutable same-tick policy-authorized source frame, additive epistemic `MUST / MAY / UNKNOWN / UNSUPPORTED` continuation semantics, and one default-off read-only shadow hook. It authorizes exactly one matched non-formal control/shadow execution only after pure gates pass. Planning remains causally disconnected from candidate generation, arbitration, stochastic identity, selected action, owners, learning, Governance, Embodiment, and persistence; Habitat truth cannot enter policy. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-modal-planning-frame-r1/`.
+## UMBRA-AS-003P-R2 active — observer-effect forensics — 2026-09-01
+
+AS-003P-R1 is accepted and remains permanently terminal
+`AS003PR1_OBSERVER_EFFECT_FAIL`; its frozen comparator result and invalidated
+raw modal evidence are immutable. AS-003P-R2 starts from exact synchronized
+baseline `7a9fa530dd6b2304af85725994fb8852e4104107` to determine whether the
+retained WorldModel/event/final-state mismatch is genuine observer mutation,
+a comparator/canonicalization false positive, independent-run nondeterminism,
+mixed cause, or attribution-insufficient. H1-H5 are locked before detailed
+pair inspection. No organism/control/shadow/diagnostic execution, retry,
+reseed, production/runtime/shadow/WorldModel modification, or successor is
+authorized. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r2-observer-forensics-r1/`.

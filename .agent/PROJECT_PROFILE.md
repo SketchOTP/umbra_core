@@ -333,3 +333,12 @@ Current status: UMBRA-AS-003O ACTIVE from `7c33dc785cb38fda4abd1e7995826498a3dd2
 Current status: UMBRA-AS-003O TERMINAL `AS003O_SOURCE_EVIDENCE_INSUFFICIENT_FOR_CONTINUATION` from `7c33dc785cb38fda4abd1e7995826498a3dd2d31`, implementation `a93770372fdf840b90689190ab49af7960f0bba9`. The AS-003N core remains accepted and unchanged; AS-003O's isolated adapters/prover are pure but source-backed planning is not established because retained actual sources do not preserve a complete timed opportunity/route/body-capability/commitment snapshot. No successor is authorized.
 
 Current authority: UMBRA-AS-003P ACTIVE from exact local/GitHub baseline `12b0d3eb7acc74452eddcd6df473e230ea74a590`. The bounded implementation may observe real policy-authorized owner state only through an immutable same-tick frame and may publish modal continuation evidence in default-off shadow mode. It cannot influence behavior or import Habitat world truth. One matched control/shadow non-formal pair is the entire live authorization.
+## Current governed status — UMBRA-AS-003P-R2 active
+
+AS-003P-R2 is a zero-run forensic attribution from exact baseline
+`7a9fa530dd6b2304af85725994fb8852e4104107`. It preserves permanent R1 verdict
+`AS003PR1_OBSERVER_EFFECT_FAIL` while determining whether the frozen
+WorldModel/event/final-state mismatch was semantic, administrative comparator
+artifact, independent-run nondeterminism, mixed, or unresolvable from retained
+evidence. Production and scientific implementation are immutable; no new
+organism/control/shadow/diagnostic run, retry, reseed, or successor is allowed.
