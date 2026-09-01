@@ -18,6 +18,8 @@ and diff checks pass; retries/reseeds are `0/0`. Recommendation only:
 `UMBRA-AS-003P-R5 — Prelocked Common-Root Modal Observer Pair Candidate`; no
 successor started. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003s-atomic-body-replacement-r1/`.
+Final evidence manifest SHA-256:
+`6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.
 
 # UMBRA-AS-003P-R3 terminal — prospective semantic observer effect
 

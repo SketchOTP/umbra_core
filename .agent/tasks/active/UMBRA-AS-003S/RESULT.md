@@ -29,3 +29,6 @@ qualification retries, and reseeds are all zero.
 
 Recommendation only: `UMBRA-AS-003P-R5 — Prelocked Common-Root Modal Observer Pair
 Candidate`. No successor started.
+
+Final evidence manifest SHA-256:
+`6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.

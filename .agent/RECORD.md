@@ -82,3 +82,5 @@ and coherent occupancy change. Crash, restart, stale-reference, held-object, pro
 swap, D-008, and D-009 protection gates passed with no candidate-only regression.
 One bounded creation and one restart load occurred with zero organism ticks; no
 observer or integrated-viability execution occurred. No successor started.
+Final evidence manifest SHA-256:
+`6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.

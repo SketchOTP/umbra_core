@@ -1281,3 +1281,5 @@ references fail; profile swap remains distinct. Crash rollback and committed-sta
 restart recovery pass. Focused `14/14`, D-008 protected, no candidate-only D-009 or
 applicable-suite regression, Authority/governance PASS. One creation, one restart,
 zero ticks; retries/reseeds `0/0`; no observer/integrated run or successor.
+Final evidence manifest SHA-256:
+`6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.

@@ -52,3 +52,10 @@ published create-once to the evidence root before production implementation.
   `b1f3d729015bd7abd076c5ea04d7323aaab40dd662fad86217d0f88126268bd7`.
 
 Qualification retries/reseeds `0/0`; observer and integrated-viability runs `0`.
+
+## Final manifest
+
+- Closeout commit: `99c95e4`.
+- 18 pre-manifest artifacts plus one create-once manifest, all readback-verified.
+- Manifest SHA-256:
+  `6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.

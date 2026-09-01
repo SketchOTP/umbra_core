@@ -18,3 +18,6 @@ Preserve R3/R4 history and do not interpret their modal traces. AS-003S does not
 authorize a new observer pair, planning integration, AS-004, or CLOSE-03. The only
 recommendation is the unstarted `UMBRA-AS-003P-R5 — Prelocked Common-Root Modal
 Observer Pair Candidate`.
+
+Closeout commit: `99c95e4`. Final evidence manifest SHA-256:
+`6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.

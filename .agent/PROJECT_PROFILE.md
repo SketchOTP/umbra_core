@@ -8,6 +8,8 @@ restart, replay, stale-reference, D-008, and D-009 protections pass with no
 candidate-only regression. This does not qualify observer parity, modal planning,
 integrated viability, AS-004, or CLOSE-03. Recommendation only is a future
 prelocked common-root observer pair; no successor is current.
+AS-003S final evidence manifest SHA-256:
+`6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.
 
 Prior action-selection research boundary: UMBRA-AS-003P-R3 is terminal `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL` from `237251fd9e6b859284d45fe6da42a54a5e0d05a3`. The prospective comparator passed its adversarial corpus and the one authorized pair completed, but source-contract-authoritative `body_instance_id` differed in the tick-1 event and final Embodiment-adapter state. Timeline/candidate/RNG parity passed; overall semantic parity failed. Fresh modal evidence remains uninterpreted. Production delta and retries/reseeds are `0` and `0/0`; no successor is current. Canonical evidence is under `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r3-semantic-shadow-pair-r1/`.
 
