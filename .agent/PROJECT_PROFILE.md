@@ -1,4 +1,15 @@
-Current action-selection research boundary: UMBRA-AS-003P-R3 is terminal `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL` from `237251fd9e6b859284d45fe6da42a54a5e0d05a3`. The prospective comparator passed its adversarial corpus and the one authorized pair completed, but source-contract-authoritative `body_instance_id` differed in the tick-1 event and final Embodiment-adapter state. Timeline/candidate/RNG parity passed; overall semantic parity failed. Fresh modal evidence remains uninterpreted. Production delta and retries/reseeds are `0` and `0/0`; no successor is current. Canonical evidence is under `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r3-semantic-shadow-pair-r1/`.
+Current governed status: UMBRA-AS-003S is terminal
+`AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED` from exact baseline
+`9cd69768c0cacc3a8a6955e35412d931c9f33f94`. The bounded production seam now
+atomically changes physical body instance, SelfModel binding/schema, adapter and
+Embodiment occupancy, and replacement event/snapshot while preserving the
+constitutional organism. Held objects and pending execution fail closed; crash,
+restart, replay, stale-reference, D-008, and D-009 protections pass with no
+candidate-only regression. This does not qualify observer parity, modal planning,
+integrated viability, AS-004, or CLOSE-03. Recommendation only is a future
+prelocked common-root observer pair; no successor is current.
+
+Prior action-selection research boundary: UMBRA-AS-003P-R3 is terminal `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL` from `237251fd9e6b859284d45fe6da42a54a5e0d05a3`. The prospective comparator passed its adversarial corpus and the one authorized pair completed, but source-contract-authoritative `body_instance_id` differed in the tick-1 event and final Embodiment-adapter state. Timeline/candidate/RNG parity passed; overall semantic parity failed. Fresh modal evidence remains uninterpreted. Production delta and retries/reseeds are `0` and `0/0`; no successor is current. Canonical evidence is under `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r3-semantic-shadow-pair-r1/`.
 
 
 Current status: UMBRA-AS-003J TERMINAL `AS003J_TRUE_DRIVE_CROSS_CALIBRATION_PRIMITIVE_REQUIRED` from `c736db0594e21abfcd5d472d5af3b0cdd7d3780c`. The evidence-backed owner reduction leaves energy, fatigue, integrity, and stimulation as the minimal true drive set. Temporal, habit, development, memory, relationships, opportunity, individuality, commitment, and learned models remain causal but do not currently own peer drive state. Current physiology provides categorical shared regulatory anchors but not a lawful continuous cross-drive control calibration; its existing urgency arithmetic is a local heuristic. Social-homeostasis and separate intrinsic SEEKING substrates are not established, and controller arbitration remains separate. No implementation successor, production/test modification, organism/diagnostic execution, normalization, owner weights, global utility, source priority, AS-003K, AS-004, or CLOSE-03 is authorized.

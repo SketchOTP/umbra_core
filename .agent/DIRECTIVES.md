@@ -940,3 +940,7 @@ mint a distinct physical body ID and SelfModel binding/schema, reject stale old-
 references, and fail closed when the old body holds any Habitat object. No shadow pair,
 integrated viability, AS-004, CLOSE-03, retry/reseed, possession transfer, or automatic
 successor is authorized.
+
+## UMBRA-AS-003S — TERMINAL (2026-09-01)
+
+- Directive: UMBRA-AS-003S | status:terminal | verdict:AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED | baseline:9cd69768c0cacc3a8a6955e35412d931c9f33f94 | implementation:39b509c82fc845bdee48803fc66d834adf39b487 | result:dedicated replacement event and prospective snapshot commit atomically while organism identity persists and physical body/SelfModel binding/schema/occupancy change coherently | validation:focused 14/14,D008 protected,D009 candidate-only regression 0,crash/restart PASS | runs:creation 1,restart 1,ticks 0,observer 0,integrated 0 | retries/reseeds:0/0 | successor:none | recommendation-only:UMBRA-AS-003P-R5 common-root observer pair | remote:github

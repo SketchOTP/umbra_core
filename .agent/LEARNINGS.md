@@ -554,3 +554,16 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
 - Current `detach()` plus `attach()` cannot create a distinct adapter body instance because detach retains the old name and attach reuses it.
 - SelfModel body replacement and adapter/habitat body attachment are separate identity surfaces without one authoritative replacement transaction. This prevents an end-to-end claim that a new physical body replaced the old one while the organism remained the same.
 - Common-root branching is the least-confounded future observer design, but it must not bypass an unresolved source identity contract.
+
+# AS-003S — atomic body replacement requires prospective owner state
+
+- A true physical-body replacement is not detach plus attach: the durable claim
+  must mint a new body entity and change every material body relationship in one
+  consistency boundary while preserving constitutional identity.
+- Preparing cloned SelfModel/adapter/occupancy state and committing the dedicated
+  replacement event with a matching full snapshot permits rollback before COMMIT
+  and exact restart recovery if live application is interrupted afterward.
+- Possession cannot be silently migrated as part of identity repair. An old-body
+  held object and every pending execution surface are replacement preflight gates.
+- Attachment generation remains a lifecycle token; physical body ID, SelfModel
+  binding/schema, and compatible profile swap are distinct identity dimensions.

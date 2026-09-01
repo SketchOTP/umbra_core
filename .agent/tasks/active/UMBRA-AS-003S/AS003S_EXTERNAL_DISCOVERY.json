@@ -1,0 +1,27 @@
+{
+  "schema": "as003s.external-discovery.v1",
+  "dispositions": [
+    {
+      "subject": "existing D-009 SQLite atomic migration seam",
+      "disposition": "EXTEND",
+      "reason": "one local BEGIN IMMEDIATE transaction can atomically commit replacement event and prospective full snapshot"
+    },
+    {
+      "subject": "Saga/compensation",
+      "source": "https://learn.microsoft.com/en-us/azure/architecture/patterns/saga",
+      "disposition": "REFERENCE_REJECT_FOR_REPAIR",
+      "reason": "all participating durable state is in one SQLite database, where ACID is stronger and smaller"
+    },
+    {
+      "subject": "persistent embodied-agent identity separate from capability modules",
+      "source": "https://arxiv.org/abs/2604.07799",
+      "disposition": "REFERENCE",
+      "reason": "supports the general distinction but does not define UMBRA semantics"
+    },
+    {
+      "subject": "new dependency",
+      "disposition": "REJECT",
+      "reason": "stdlib and existing SQLite seam are sufficient"
+    }
+  ]
+}

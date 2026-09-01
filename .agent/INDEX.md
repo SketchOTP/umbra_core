@@ -413,3 +413,16 @@ UMBRA-AS-003O is ACTIVE at exact baseline `7c33dc785cb38fda4abd1e7995826498a3dd2
 UMBRA-AS-003O is TERMINAL with `AS003O_SOURCE_EVIDENCE_INSUFFICIENT_FOR_CONTINUATION`. Baseline `7c33dc785cb38fda4abd1e7995826498a3dd2d31`; isolated implementation `a93770372fdf840b90689190ab49af7960f0bba9`. Pure source fixtures pass 19/19 twice, including conservative source semantics, robust all-branch continuation, horizon consumption, coupled services, branch bound, P2 exact containment, and live-callsite firewall. Retained actual-source evidence is incomplete: no authoritative valid-through opportunity horizon plus categorical route/timing/body capability and commitment snapshot. No owner/substrate change, runtime integration, organism/diagnostic/qualification run, retry, reseed, or successor. Manifest: `febb7f6bdcb6eb53069fe2110625b92d01704b026ff968804dd7eedcfcbf555b`; packet `.agent/tasks/active/UMBRA-AS-003O/`.
 UMBRA-AS-003P-R4 is ACTIVE from exact baseline `dc70a607a41393ab596439c163e47634960db2fa`. Parent R3 remains permanently terminal `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL`; R4 is a zero-run source/architecture investigation of `body_instance_id`, true replacement, relational name equivalence, and future observer protocol design. Production/test changes, organism/control/shadow/diagnostic runs, R3 modal interpretation, retries/reseeds, AS-003Q, AS-004, and CLOSE-03 are prohibited. Packet `.agent/tasks/active/UMBRA-AS-003P-R4/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r4-body-identity-semantics-r1/`.
 UMBRA-AS-003P-R4 is TERMINAL with `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. `body_instance_id` is supported as a run-local fresh relational name across independent births and exact within one organism history; retained R3 differences are consistent with a pre-shadow bijective rename, but R3 remains permanently failed and modal evidence invalid. The adapter cannot represent a distinct true replacement because detach preserves and reattach reuses the identifier, while SelfModel replacement is not linked to adapter/habitat identity. Pure relational proof: 12/12 (4 positive, 8 negative). No observer protocol or successor is authorized; common-root is only a contingent future preference after defect review. Production/tests/runs/retries/reseeds: `0`. Packet `.agent/tasks/active/UMBRA-AS-003P-R4/`; evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r4-body-identity-semantics-r1/`.
+
+UMBRA-AS-003S is TERMINAL with
+`AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED`. Exact baseline
+`9cd69768c0cacc3a8a6955e35412d931c9f33f94`; implementation
+`39b509c82fc845bdee48803fc66d834adf39b487`. One dedicated replacement event
+and prospective full snapshot commit atomically before live owner application.
+Constitutional identity persists while physical body, SelfModel binding/schema,
+and occupancy change coherently. Crash/restart/stale-reference/held-object/profile
+swap gates pass; D-008/D-009 have no candidate-only regression. One bounded
+creation and restart, zero ticks, retries/reseeds `0/0`. Recommendation only is
+AS-003P-R5 common-root observer work; no successor started. Packet
+`.agent/tasks/active/UMBRA-AS-003S/`; evidence
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003s-atomic-body-replacement-r1/`.

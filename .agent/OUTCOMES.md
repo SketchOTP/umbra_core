@@ -1269,3 +1269,15 @@ Terminal verdict `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL`. The prospectively locked 
 # UMBRA-AS-003P-R4 — zero-run identity-contract closeout
 
 Terminal verdict `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. Source, qualified D-008/D-009 evidence, and project-goal recovery established that adapter `body_instance_id` is fresh/unseeded across independent births yet persistent and relationship-bearing within one organism history. The 12-case owner-scoped alpha-equivalence proof passed 4 legitimate-renaming and 8 broken-relationship cases. Retained R3's two differing values form one consistent pre-shadow rename, but R3 remains failed and modal evidence remains uninterpreted. The current adapter cannot identify a true replacement: detach retains the identifier, attach reuses it, and generation is not replacement-specific; SelfModel replacement is not linked to adapter/Embodiment/Habitat identity. Production/test delta, organism/control/shadow/diagnostic runs, retries, and reseeds are all zero. No successor started.
+
+# UMBRA-AS-003S — atomic body replacement identity qualified
+
+Terminal verdict `AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED`. A dedicated
+replacement event and prospective full snapshot now commit in one SQLite
+transaction before live owner application. The bounded lifecycle preserves one
+constitutional agent while changing physical body ID, SelfModel binding/schema,
+and coherent occupancy; held objects and pending execution reject; stale old-body
+references fail; profile swap remains distinct. Crash rollback and committed-state
+restart recovery pass. Focused `14/14`, D-008 protected, no candidate-only D-009 or
+applicable-suite regression, Authority/governance PASS. One creation, one restart,
+zero ticks; retries/reseeds `0/0`; no observer/integrated run or successor.

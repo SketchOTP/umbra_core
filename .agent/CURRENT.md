@@ -1,22 +1,22 @@
-# UMBRA-AS-003S active — atomic true-body replacement
+# UMBRA-AS-003S terminal — atomic body replacement identity qualified
 
-Preimplementation contract lock complete: all six required identity, event,
-occupancy, preflight, transaction, and crash contracts are create-once published
-and hash-locked. The design prepares cloned/prospective owner state, commits the
-replacement event and full snapshot in one SQLite transaction, and applies live
-owners only after commit. No production implementation preceded this lock.
+`AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED` is terminal from exact
+baseline `9cd69768c0cacc3a8a6955e35412d931c9f33f94`. Production now has one
+dedicated `embodiment_body_replaced` transaction that prepares cloned/prospective
+owner state, atomically commits the event and matching full snapshot, then applies
+live state only after commit. Constitutional identity persists while physical body
+instance, SelfModel binding/schema, and coherent adapter/Embodiment occupancy change.
 
-The Architect accepted `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED` and
-authorized AS-003S from exact baseline
-`9cd69768c0cacc3a8a6955e35412d931c9f33f94`. The active objective is one bounded
-transaction that preserves constitutional organism identity while minting a new
-physical `body_instance_id`, SelfModel body binding/schema, coherent
-EmbodimentAdapter/Embodiment occupancy, and atomic replacement event plus snapshot.
-
-D-008 compatible profile swap/restart identity and D-009 Habitat/manipulation
-qualification are protected. Replacement must fail closed for pending execution or
-old-body held objects; possessions may not be transferred. Planning observer work,
-integrated viability, AS-004, and CLOSE-03 remain blocked. Evidence root:
+Crash injection proves rollback before commit and exact restart recovery after a
+commit-before-live-apply interruption. Old-generation references fail closed; held
+objects and pending execution block replacement; profile swap and detach/reattach
+remain distinct. Focused proofs pass `14/14`; all D-008 tests pass; the retained
+D-002/D-009 nonpasses reproduce identically at the exact baseline; the path-safe
+applicable suite has zero candidate-only failures. One bounded lifecycle creation
+and one restart load executed with zero organism ticks. Authority 3.0, governance,
+and diff checks pass; retries/reseeds are `0/0`. Recommendation only:
+`UMBRA-AS-003P-R5 — Prelocked Common-Root Modal Observer Pair Candidate`; no
+successor started. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003s-atomic-body-replacement-r1/`.
 
 # UMBRA-AS-003P-R3 terminal — prospective semantic observer effect

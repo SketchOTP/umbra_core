@@ -1,0 +1,50 @@
+{
+  "schema": "as003s.crash-consistency-proof.v1",
+  "verdict": "PASS",
+  "durability_boundary": "single SQLite BEGIN IMMEDIATE transaction",
+  "live_owner_rule": "no live owner mutation before durable COMMIT",
+  "event_snapshot_atomicity": {
+    "replacement_event": "embodiment_body_replaced",
+    "prospective_snapshot": "full organism snapshot prepared from cloned replacement state",
+    "same_transaction": true,
+    "partial_commit_possible": false
+  },
+  "injection_results": [
+    {
+      "point": "after_event_stage_before_snapshot_stage",
+      "result": "ROLLBACK",
+      "replacement_event_persisted": false,
+      "replacement_snapshot_persisted": false,
+      "live_state_changed": false
+    },
+    {
+      "point": "after_snapshot_stage_before_commit",
+      "result": "ROLLBACK",
+      "replacement_event_persisted": false,
+      "replacement_snapshot_persisted": false,
+      "live_state_changed": false
+    },
+    {
+      "point": "after_commit_before_live_apply",
+      "result": "COMMITTED_STATE_RECOVERED_ON_RESTART",
+      "replacement_event_count": 1,
+      "replacement_replayed_exactly_once": true,
+      "adapter_occupancy_selfmodel_coherent": true
+    }
+  ],
+  "restart_results": {
+    "normal_restart_exact": true,
+    "ledger_newer_than_snapshot_reconciles_occupancy": true,
+    "same_or_older_sequence_mismatch_fails_closed": true,
+    "event_chain_valid": true
+  },
+  "preflight_fail_closed": {
+    "pending_action": true,
+    "delayed_proposal": true,
+    "pending_world_plan": true,
+    "pending_actuation": true,
+    "prepared_habitat_execution": true,
+    "old_body_held_object": true
+  },
+  "focused_test_evidence_sha256": "eb2231b57c6105fc6b5e48d09e24296a4e5c277be3986d2c87b4c60262324b64"
+}

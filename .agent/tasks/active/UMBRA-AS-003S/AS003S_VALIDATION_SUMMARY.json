@@ -1,0 +1,54 @@
+{
+  "schema": "as003s.validation-summary.v1",
+  "verdict": "PASS",
+  "exact_baseline": "9cd69768c0cacc3a8a6955e35412d931c9f33f94",
+  "governance_start_commit": "c3278b495824d0f0c12847dc9f8070d190d62391",
+  "contract_lock_commit": "8107f54",
+  "implementation_commit": "39b509c82fc845bdee48803fc66d834adf39b487",
+  "focused": {
+    "passed": 14,
+    "failed": 0,
+    "sha256": "eb2231b57c6105fc6b5e48d09e24296a4e5c277be3986d2c87b4c60262324b64"
+  },
+  "d002": {
+    "passed": 53,
+    "failed": 1,
+    "classification": "INHERITED_EXACT_BASELINE_FAILURE",
+    "sha256": "95ffe88b4bc77eea766549eb2f6e84af9d83ca483e595571e6b8694612cef6a9"
+  },
+  "d008_d009": {
+    "passed": 202,
+    "failed": 1,
+    "skipped": 2,
+    "candidate_only_failures": 0,
+    "classification": "single D009 failure reproduced identically at exact baseline",
+    "sha256": "7a4b5d220b6940024f2c872cccdba71eedbb21741f8ab18ced169dde18ba66a6"
+  },
+  "path_safe_applicable_suite": {
+    "passed": 1120,
+    "failed": 14,
+    "skipped": 2,
+    "candidate_only_failures": 0,
+    "baseline": {
+      "passed": 1104,
+      "failed": 16,
+      "skipped": 2
+    },
+    "sha256": "d556c7af5854bfd096672ddf9f2cdeafa5d0d06ba2fbd2efb8125f49ca7b8cda"
+  },
+  "raw_full_suite_collection": "stops on inherited orphan import tests/test_close02x_prospective_recoverability.py; exact baseline does the same",
+  "bounded_lifecycle": {
+    "organism_creations": 1,
+    "restart_loads": 1,
+    "organism_ticks": 0,
+    "verdict": "PASS",
+    "sha256": "fca17f949461d06e2a439349fa7644262dea8f9b8eb5db3771d5ca867bc1ab55"
+  },
+  "authority_3_0": "PASS",
+  "governance": "PASS",
+  "git_diff_check": "PASS",
+  "qualification_retries": 0,
+  "reseeds": 0,
+  "observer_runs": 0,
+  "integrated_viability_runs": 0
+}

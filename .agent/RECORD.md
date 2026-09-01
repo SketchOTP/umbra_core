@@ -71,3 +71,14 @@ AS-003S must establish one atomic true-body replacement transaction preserving t
 constitutional organism while changing physical body instance, SelfModel binding/schema,
 and coherent occupancy. D-008/D-009 remain protected; held objects block replacement;
 planning observer work and integrated viability remain out of scope.
+
+## 2026-09-01 — UMBRA-AS-003S terminal atomic replacement qualification
+
+AS-003S closed with `AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED`. The
+authorized bounded production seam now commits one dedicated body-replacement event
+and matching prospective full snapshot atomically before applying live owner state.
+Constitutional identity remains exact while physical body ID, SelfModel binding/schema,
+and coherent occupancy change. Crash, restart, stale-reference, held-object, profile
+swap, D-008, and D-009 protection gates passed with no candidate-only regression.
+One bounded creation and one restart load occurred with zero organism ticks; no
+observer or integrated-viability execution occurred. No successor started.
