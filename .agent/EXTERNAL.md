@@ -2,6 +2,12 @@
 
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
+## UMBRA-AS-003M external-discovery boundary — 2026-08-31
+
+- Trigger: Architect-authorized project-goal reconciliation after AS-003L established that useful joint regulatory feasibility is multi-step planning.
+- Required domains: biological prospection/planning, planning representation, viability/set-valued continuation, receding-horizon first-action execution, and bounded open-source feasibility/reachability implementations.
+- Precommitted disposition: architecture principles and reference-only comparison. No reward/utility objective, controller cost, priority, weights, fabricated truth, LLM planning, MCTS, A*, RL, active inference, POMDP, MPC optimization, or production dependency may be imported.
+
 ## UMBRA-AS-003L external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized zero-run test of whether regulatory schedulability, rather than drive value, can establish a non-aggregative ordinary precedence relation.

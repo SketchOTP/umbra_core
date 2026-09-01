@@ -1179,3 +1179,6 @@ AS-003L is authorized from `5952be53e875351d9aa6016150c0e316d8ba338a` to test a 
 ## UMBRA-AS-003L closeout — 2026-08-31
 
 Terminal verdict `AS003L_PLANNING_BOUNDARY_REQUIRED`. Existing completion-lag/recoverability facts can conditionally describe individual regulatory obligations and permit a non-utility L1 immediate feasibility-loss relation. It is insufficient: 8 of 26 supported locked cases yielded precedence and 22 of 30 remained residual. The stronger set-inclusion relation requires constructing future corrective-action orders; the four-owner ceiling bounds but does not remove this planning character. No implementation or successor is authorized.
+## UMBRA-AS-003M start — 2026-08-31
+
+AS-003M is authorized from `1d599c79e7be327a538c1ae7b763802e704c9c4c` after AS-003L established that the useful joint regulatory continuation relation is multi-step planning. The project goal explicitly permits only bounded, evidence-based planning subordinate to urgent regulation and governance. No result exists yet; no implementation or organism execution is authorized.

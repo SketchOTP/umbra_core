@@ -370,3 +370,6 @@ UMBRA-AS-001 is TERMINAL with `AS001_CURRENT_ARBITRATION_REPLACEMENT_REQUIRED`. 
 ## UMBRA-AS-003L — TERMINAL (2026-08-31)
 
 `AS003L_PLANNING_BOUNDARY_REQUIRED` closes the schedulability replan from `5952be53e875351d9aa6016150c0e316d8ba338a`. Conditional deadline/service facts support a local L1 feasibility-loss relation, but it leaves most locked ordinary conflicts residual. Joint continuation-set inclusion needs future corrective-service order construction and is planning even under the four-drive bound. No scheduler or successor is authorized.
+## UMBRA-AS-003M — ACTIVE (2026-08-31)
+
+`UMBRA-AS-003M` begins from `1d599c79e7be327a538c1ae7b763802e704c9c4c` after accepted `AS003L_PLANNING_BOUNDARY_REQUIRED`. It is a zero-run contract-derivation gate: determine whether bounded, evidence-based regulatory continuation planning can create non-utility current-action evidence while preserving uncertainty, verified-outcome learning, governance, and urgent recovery authority. No implementation or successor is authorized.

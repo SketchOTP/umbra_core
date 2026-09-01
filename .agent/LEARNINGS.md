@@ -494,3 +494,6 @@ Scheduling terminology does not automatically preserve UMBRA boundaries. Deadlin
 ## AS-003L — bounded enumeration can still be planning
 
 An explicit finite upper bound does not make future action-order construction a read-only preselection proposition. Under UMBRA's coupled effects, pending actuation, route alternatives, and changing supported opportunities, deciding joint schedulability by service-order enumeration is a multi-step planning act even with only four drive owners.
+## AS-003M start — planning is an allowed capability, not automatic authority
+
+The project-goal planning clause supersedes a blanket local `NO PLANNER` guard but not the safeguards against utility authority, fabricated future truth, imagined learning, unbounded search, or bypassing recovery, Governance, or Embodiment. A lawful planner can only provide read-only prospective evidence for the current action and must be revalidated from real verified outcomes.

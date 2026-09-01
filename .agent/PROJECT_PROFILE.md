@@ -304,3 +304,6 @@ AS-003L is the current zero-run research authority from GitHub baseline `5952be5
 ## Current governed state — AS-003L terminal
 
 AS-003L is terminal `AS003L_PLANNING_BOUNDARY_REQUIRED`. The repository contains conditional supported timing and recoverability components but no non-planning joint schedulability relation capable of resolving ordinary four-drive conflicts. L1 is evidence-only and insufficient; L2 continuation-set construction crosses the planning boundary. AS-002, CLOSE-02Z, hard/active recovery, and all production behavior remain unchanged.
+## Current governed authority — UMBRA-AS-003M
+
+AS-003M is the current zero-run architecture-replan authority from GitHub baseline `1d599c79e7be327a538c1ae7b763802e704c9c4c`. It may derive a bounded evidence-based continuation-planning contract only; it may not implement, activate, or promote the existing scalar WorldModel planner. The open question is whether supported multi-step continuation feasibility can lawfully contribute to ordinary four-drive conflict resolution without becoming scalar utility.
