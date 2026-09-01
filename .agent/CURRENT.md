@@ -1255,3 +1255,8 @@ started. Organism/control/shadow/diagnostic runs, retries, reseeds, and
 production changes under R2: `0`.
 Final evidence manifest: 20/20 artifacts readback-verified with zero mismatches;
 SHA-256 `c8af137694ac812921878c0898969d9d0f73669c5b3d6b3f8f0547d4a942dbc5`.
+# UMBRA-AS-003P-R4 active — body attachment identity and observer equivalence
+
+The Architect accepted permanent R3 verdict `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL` and authorized zero-run R4 from exact baseline `dc70a607a41393ab596439c163e47634960db2fa`. R3 remains failed under its frozen comparator; its only two semantic differences were the attachment event's `new_body_instance_id` and final adapter `body_instance_id`. R4 may determine only the future identity/equivalence contract and observer protocol. It may not reinterpret R3 modal evidence, modify production/tests, or execute an organism, control, shadow, diagnostic, retry, or reseed.
+
+R4 is recovering D-008/D-009, embodiment, persistence, habitat, migration, and end-goal authority for agent identity, body schema/binding/instance identity, attachment generation, and profile identity. Identity-role criteria and owner-scoped relational-name proof cases must be hash-locked before classifying `body_instance_id` or revisiting the retained R3 values. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r4-body-identity-semantics-r1/`; active packet `.agent/tasks/active/UMBRA-AS-003P-R4/`.
