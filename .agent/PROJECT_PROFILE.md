@@ -32,9 +32,9 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
-## Current governed status — UMBRA-AS-003N active
+## Current governed status — UMBRA-AS-003N terminal
 
-AS-003N starts from exact master `d310c21168bf7be918014328257261db4c805a13` after accepted AS-003M. It may add only a pure, isolated evidence substrate for immutable hypothetical state, conservative categorical transition evidence, composable envelopes, material invalidation, and validated non-authoritative regulatory services. It cannot instantiate a planner or connect to live authority; all existing production owners remain unchanged. Organism/diagnostic/qualification execution, retries, and reseeds remain zero.
+AS-003N began from exact master `d310c21168bf7be918014328257261db4c805a13` after accepted AS-003M and is terminal `AS003N_PURE_HYPOTHETICAL_TRANSITION_SUBSTRATE_QUALIFIED`. Isolated production package `umbra_core/hypothetical/` implements deeply immutable hypothetical state, conservative support envelopes, pure categorical transition, branch-correlated composition with a derived 32-path ceiling, deterministic material dependency fingerprints, and validated non-authoritative regulatory services. It has no live callsites and no existing production/test file changed. It is not a planner, a runtime integration, or behavioral/viability qualification. Evidence manifest `e341e0375925be8b17eaf759df07e658ef1684a4d8d92aa29f63a592ae2d80aa`; no successor is started.
 
 ## Current governed status — UMBRA-AS-003I terminal
 

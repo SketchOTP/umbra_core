@@ -1,3 +1,9 @@
+## AS-003N — conservative hypothetical composition
+
+- A future-only evidence substrate can be implemented without new authority when it accepts only explicit immutable owner snapshots/tokens. Categorical feasibility must require supported finite timing, relevant state fields, route/opportunity persistence, and effect envelopes; probabilistic or unknown prerequisites stay `UNKNOWN`.
+- Coupled physiological effects remain sound only as complete correlated branches. With current two-effect branch maximum and AS-003M's one-action-plus-four-service-witness constitutional limit, the exact predeclared ceiling is `2^5 = 32`; overflow must return `UNKNOWN`, never prune, sample, score, or combine independent per-field extrema.
+- A deterministic dependency fingerprint is an invalidation contract, not a live cache authority: the caller supplies canonical dependency tokens, and any material token change invalidates the hypothetical state.
+
 ## 2026-08-30 — AS-003B prospective-evidence boundary
 
 - Lost aggregate test observations must remain non-interpretable across successor generations; a fresh qualification may use only prospectively frozen evidence with durable per-test capture.

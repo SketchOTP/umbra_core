@@ -1,5 +1,11 @@
 # External Discovery Ledger
 
+## UMBRA-AS-003N external implementation boundary — 2026-09-01
+
+- Trigger: Architect-authorized implementation of AS-003M's missing pure hypothetical-transition substrate.
+- Sources: supplied [three-valued model-checking reference](https://www.sciencedirect.com/science/article/pii/S0167642316000265) and [PyInterval](https://github.com/taschini/pyinterval). Publisher retrieval was access-blocked; the directive's stated three-valued/abstract-transition principles are retained as REFERENCE only. PyInterval documents generic algebraic interval arithmetic, not provenance, support semantics, branch correlation, invalidation, or non-authoritative regulatory services.
+- Disposition: three-valued abstraction and conservative enclosure `REFERENCE`; generic interval and all planner libraries `REJECT DEPENDENCY`; small UMBRA-specific stdlib-only isolated substrate `BUILD`. No external dependency was added. Recheck only if a future directive authorizes a materially broader numeric/state abstraction.
+
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
 ## UMBRA-AS-003M external-discovery boundary — 2026-08-31

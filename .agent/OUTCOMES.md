@@ -1,3 +1,9 @@
+## UMBRA-AS-003N terminal — pure hypothetical-transition substrate qualified — 2026-09-01
+
+- Verdict: `AS003N_PURE_HYPOTHETICAL_TRANSITION_SUBSTRATE_QUALIFIED`. The isolated `umbra_core/hypothetical/` package implements all five AS-003M missing primitives without a live caller: immutable `HypotheticalState`, conservative provenance-bearing evidence envelopes, pure categorical transition, deterministic dependency fingerprint/invalidation, and validated non-executable regulatory services.
+- Evidence: pre-implementation contract SHA `ee3fec783c67365416ae68dce792cbebfa28ddd594127a4bf72509e91c7613bb`; branch ceiling 32 exact correlated paths (`2^5`); focused pure proof `11/11` twice; firewall/live-callsite audit PASS; Authority 3.0 PASS; governance PASS; manifest `e341e0375925be8b17eaf759df07e658ef1684a4d8d92aa29f63a592ae2d80aa`.
+- Integrity: existing production/test files changed `0`; organism/diagnostic/qualification executions `0`; retries/reseeds `0`; planner/runtime/arbitration/recoverability integration `0`. Recommendation only: `UMBRA-AS-003O — Source-Backed Hypothetical Adapter and Continuation-Proof Candidate`; no successor started.
+
 ## UMBRA-AS-003F governance start — 2026-08-31
 
 ## UMBRA-AS-003J terminal — 2026-08-31
