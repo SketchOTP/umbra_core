@@ -8,6 +8,12 @@ Record material prior-art investigations when Authority triggers external discov
 - Required domains: real-time deadline/laxity scheduling under release, uncertainty, preemption, and overload assumptions; viability/set-valued feasibility; bounded controllable futures; and biological temporal motivational competition.
 - Precommitted disposition: REFERENCE ONLY. Sources can establish assumptions and distinguish feasibility from optimization, but cannot import EDF/LLF execution, owner priorities, horizon aggregation, utility/reward, schedule-count optimization, planner/rollout, RL, active inference, POMDP, or MPC.
 
+## UMBRA-AS-003L external-discovery closeout — 2026-08-31
+
+- Sources checked: deadline/laxity scheduling [Springer](https://doi.org/10.1007/978-1-4615-3956-8_3), [viability-theory survey](https://epubs.siam.org/doi/10.1137/0328044), [controllable-futures study](https://www.sciencedirect.com/science/article/abs/pii/S0303264726002121), and [motivational competition review](https://www.sciencedirect.com/science/article/abs/pii/S0149763421000750).
+- Disposition: REFERENCE ONLY / REJECT import. Classical scheduling precedence relies on task assumptions not met by UMBRA; viability regulation maps require selecting viable evolutions; controllable-future work explicitly compares policy scores; biology supports temporal competition but supplies no UMBRA service ontology. No EDF/LLF, viability controller, optimizer, scheduler, priority, or planning mechanism is imported.
+- Result: external theory reinforces the architecture boundary rather than providing a lawful smaller resolver.
+
 ## UMBRA-AS-003K external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized zero-run comparison of four-drive categorical partial ordering against a possible common prospective regulatory quantity.

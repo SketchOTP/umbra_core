@@ -301,3 +301,6 @@ AS-003K is terminal `AS003K_ADDITIONAL_CALIBRATION_PRIMITIVE_REQUIRED`. The veri
 ## Current governed authority — UMBRA-AS-003L
 
 AS-003L is the current zero-run research authority from GitHub baseline `5952be53e875351d9aa6016150c0e316d8ba338a`. It may derive only a contract verdict about regulatory schedulability; it may not implement or alter action selection. The open question is whether deadlines and supported recovery service demand yield a lawful non-aggregative cross-drive precedence relation for the four existing regulatory owners.
+## Current governed state — AS-003L terminal
+
+AS-003L is terminal `AS003L_PLANNING_BOUNDARY_REQUIRED`. The repository contains conditional supported timing and recoverability components but no non-planning joint schedulability relation capable of resolving ordinary four-drive conflicts. L1 is evidence-only and insufficient; L2 continuation-set construction crosses the planning boundary. AS-002, CLOSE-02Z, hard/active recovery, and all production behavior remain unchanged.

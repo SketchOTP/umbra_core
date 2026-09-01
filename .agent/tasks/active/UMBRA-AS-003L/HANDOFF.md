@@ -1,3 +1,3 @@
 # AS-003L handoff
 
-Active research only. Do not implement scheduling, EDF/LLF, a planner, a priority, a horizon aggregate, or a successor. The closeout must distinguish lawful feasibility evidence from hidden value aggregation and state whether the serial-resource mapping is actually valid.
+Terminal. Preserve the distinction: L1 local feasibility loss is non-utility evidence but insufficient; L2 joint schedulability is prohibited multi-step planning. Do not implement a scheduler, bounded schedule enumerator, EDF/LLF, a planner, a priority, a horizon aggregate, or a successor without a new Architect directive.

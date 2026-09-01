@@ -491,3 +491,6 @@ Shared critical/viable categories are lawful cross-drive *state classes*, not a 
 ## AS-003L start — feasibility is not preference
 
 Scheduling terminology does not automatically preserve UMBRA boundaries. Deadline, service demand, laxity, resource serialization, opportunity support, and preemption must each be independently grounded before any feasibility relation can be treated as distinct from a hidden priority or scalar optimizer.
+## AS-003L — bounded enumeration can still be planning
+
+An explicit finite upper bound does not make future action-order construction a read-only preselection proposition. Under UMBRA's coupled effects, pending actuation, route alternatives, and changing supported opportunities, deciding joint schedulability by service-order enumeration is a multi-step planning act even with only four drive owners.
