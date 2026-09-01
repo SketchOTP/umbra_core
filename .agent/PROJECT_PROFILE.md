@@ -356,3 +356,6 @@ AS-003P-R1 remains permanently terminal and its raw modal evidence remains
 scientifically invalidated. R2 made no production change and ran no organism,
 control, shadow, or diagnostic. A future prelocked semantic comparator pair is
 recommendation-only; no successor is authorized or started.
+# Current body-identity contract status — AS-003P-R4
+
+Constitutional organism identity is body-independent. Adapter `body_instance_id` is fresh across independent births and exact within a persisted organism history; owner-scoped equality relations are semantic. True physical-body replacement is not currently represented coherently across SelfModel, EmbodimentAdapter, Embodiment occupancy, and Habitat, so no fresh modal observer pair is authorized from this state.

@@ -10,3 +10,12 @@
 - R4 execution boundary: organism/control/shadow/diagnostic/qualification `0`; retries/reseeds `0/0`.
 
 Further evidence is recorded in the create-once Atlas evidence root and summarized here at closeout.
+
+## Closeout
+
+- Identity-role criteria SHA-256: `d36b4bb57fb57e48ccddffc9b7a9b9dca497bdfc9e1b1c49a0c8be7c33e5ff0d`.
+- Source-authority recovery SHA-256: `f71d488f3d00c5100ee7795357bdd43601b8f7cef570193dd2d37412187f5559`.
+- Equivalence-test contract SHA-256: `90ba2979c87328797d768a97efeb7f643a9f363dcce0dccab1178c084a4cc023`.
+- Pure body-name proof SHA-256: `e29be537338223989ce0f6ce8c00d5da3edd6031f5c6494b5b32950c9195f70b`; `12/12 PASS`.
+- Terminal verdict artifact SHA-256: `4e680d6851c5853f37d6ab365800fa55d9da1eec962363fa85a93d658feac523`.
+- Production/existing-test changes: `0`; organism/control/shadow/diagnostic/qualification runs: `0`; retries/reseeds: `0/0`.

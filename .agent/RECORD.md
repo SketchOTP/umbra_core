@@ -59,3 +59,6 @@ Control/shadow completed `1/1`, but two source-contract-authoritative
 Embodiment-adapter state. The terminal verdict is
 `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL`. Modal interpretation stopped, retries and
 reseeds remain `0/0`, production remained unchanged, and no successor started.
+# 2026-09-01 — AS-003P-R4 body replacement identity defect
+
+Recorded terminal verdict `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. R3 remains permanently failed. R4 prospectively derived run-local body-name alpha-equivalence and found the retained R3 body IDs consistent with it, but did not salvage R3 evidence. The independent end-goal blocker is that the documented detach-plus-attach true replacement reuses the old adapter body identifier and has no cross-owner replacement transaction. No production/test change, organism execution, or successor occurred.

@@ -547,3 +547,10 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
 
 - Administrative-ID invariance must be owner/source-declared before execution, but the same discipline can expose an identity field that remains classified authoritative. A mismatch must terminate the generation even when behavior, timeline, and RNG are equal; reclassifying the field after seeing the pair would invalidate the prospective gate.
 - A parity-gated shadow trace is not scientific modal evidence merely because complete bytes exist. When parity fails, retain the trace but do not compute or publish modal distributions, exposure claims, or action-selection recommendations.
+# AS-003P-R4 — fresh body names versus replacement identity
+
+- A generated identifier may be authoritative and behaviorally important through equality relations without requiring literal equality across independent experimental births. For adapter `body_instance_id`, independent replicas require owner-scoped bijective relation preservation; restart/replay of the same organism requires exact literal continuity.
+- Attachment generation is a lifecycle/version token, not a physical-replacement identity: it increments for attach, detach, and compatible profile swap.
+- Current `detach()` plus `attach()` cannot create a distinct adapter body instance because detach retains the old name and attach reuses it.
+- SelfModel body replacement and adapter/habitat body attachment are separate identity surfaces without one authoritative replacement transaction. This prevents an end-to-end claim that a new physical body replaced the old one while the organism remained the same.
+- Common-root branching is the least-confounded future observer design, but it must not bypass an unresolved source identity contract.

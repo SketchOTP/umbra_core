@@ -924,3 +924,6 @@ authorized.
 # UMBRA-AS-003P-R4 — Body Attachment Identity Semantics and Cross-Run Observer Equivalence Contract
 
 Adopted 2026-09-01 from exact baseline `dc70a607a41393ab596439c163e47634960db2fa` after Architect acceptance of permanent R3 verdict `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL`. R4 is zero-run architecture/experiment-contract research. It must lock identity-role criteria before classification, recover D-008/D-009/source/end-goal authority, test owner-scoped bijective body-name equivalence purely, audit true body replacement, select one future observer protocol or neither, and return one permitted terminal verdict. Production/existing-test changes, organism/control/shadow/diagnostic/qualification execution, R3 modal interpretation, retry/reseed, successor start, AS-004, and CLOSE-03 are prohibited.
+# UMBRA-AS-003P-R4 terminal status
+
+Terminal verdict: `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. R4 established future independent-birth body-name alpha-equivalence in principle and attributed the two R3 body-ID values as consistent with fresh renaming, without changing R3. A separate source-authority failure blocks further observer execution: the documented detach-plus-attach replacement path cannot mint a distinct adapter body entity and is not linked to SelfModel/Habitat replacement identity. No successor is authorized.

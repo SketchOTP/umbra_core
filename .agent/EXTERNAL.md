@@ -268,3 +268,8 @@ boundary before any outside literature could affect implementation semantics.
 - Rejected imports: symbolic model checker, BDD planner, strong-cyclic fairness, external planning dependency, probability ranking, reward, and confidence-as-preference.
 - UMBRA translation: `MUST / MAY / UNKNOWN / UNSUPPORTED` are additive epistemic source labels above the qualified AS-003N/AS-003O contracts and grant no action authority.
 - Closeout disposition: the references remain `REFERENCE` only. AS-003P terminated on a local zero-tick harness-import failure, so no live result strengthens or weakens the external principles.
+# AS-003P-R4 — fresh-name equivalence and common-checkpoint references
+
+- Andrew Pitts, *Nominal logic, a first order theory of names and binding* — `REFERENCE`. Bijective name swapping/equivariance informs the generic fresh-name comparison principle; it does not prove UMBRA owner semantics.
+- Murawski, Ramsay, and Tzevelekos, *Bisimilarity in Fresh-Register Automata* — `REFERENCE`. Relation-preserving symmetries are relevant to fresh-name systems; no automata framework is adopted.
+- Laadan et al., *Scribe: Transparent, Deterministic Record-Replay* — `REFERENCE`. Common checkpoints support causal isolation from unrelated initialization nondeterminism; no dependency is adopted.
