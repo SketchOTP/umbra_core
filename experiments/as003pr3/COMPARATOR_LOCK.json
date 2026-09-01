@@ -1,0 +1,33 @@
+{
+  "schema": "AS003PR3_COMPARATOR_LOCK_V1",
+  "directive": "UMBRA-AS-003P-R3",
+  "status": "FROZEN",
+  "implementation_commit": "4c21bf93a7b0bad46d7f07f071636dba0e56179c",
+  "comparator_source": "experiments/as003pr3/semantic_comparator.py",
+  "comparator_source_sha256": "596ab86f41523ea16dde44693b5aa7a702f0514fc38c18717aa0070c1590da66",
+  "source_contract": "experiments/as003pr3/COMPARATOR_SOURCE_CONTRACT.json",
+  "source_contract_sha256": "b488b22865f5f9789ad33a8143f46d04b6b8ebd62170c0e0fba707886e1f83d8",
+  "source_contract_evidence_sha256": "30194c9f6a8330ba7a2c654a735d04dfb5f0558baa67c2d69636d0409411b9c6",
+  "adversarial_corpus": "experiments/as003pr3/COMPARATOR_CORPUS.json",
+  "adversarial_corpus_sha256": "f0bd96e6e4c43cad876c3b7ce3699066b89cf8612a9c789913b99058c8623d2b",
+  "adversarial_corpus_evidence_sha256": "9dc085ebf1158dc5fda0232bbd11f975782710b5e5e0b18c432adac968b63989",
+  "qualification_evidence_sha256": "57a3529372622e7a1868332cb17e4a1e3486575287259c3ca3f965cfb08e1fb7",
+  "qualification": {
+    "result": "PASS",
+    "cases": 28,
+    "tests_per_run": 30,
+    "local_repeats": 2,
+    "atlas_repeats": 1,
+    "false_positives": 0,
+    "false_negatives": 0,
+    "deleted_cases": 0
+  },
+  "administrative_identity_rule": "owner/source declarations only; no UUID regex",
+  "relationship_rule": "bijection preserving all declared references",
+  "derivative_hash_rule": "reported independently; source semantics remain authoritative",
+  "ordering_rule": "dict key order ignored; histories ordered; only metrics.cells unordered",
+  "numeric_rule": "exact stored precision; no tolerance or rounding",
+  "mutable_after_lock": false,
+  "organism_constructions_before_lock": 0,
+  "organism_ticks_before_lock": 0
+}
