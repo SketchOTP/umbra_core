@@ -543,3 +543,7 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
   legitimately change trusted-sample and temporal state hashes even when all
   primary temporal/event semantics match; derivative hashes must be reported
   separately from their source values.
+## AS-003P-R3 — prospective comparator scope can reveal a new identity boundary
+
+- Administrative-ID invariance must be owner/source-declared before execution, but the same discipline can expose an identity field that remains classified authoritative. A mismatch must terminate the generation even when behavior, timeline, and RNG are equal; reclassifying the field after seeing the pair would invalidate the prospective gate.
+- A parity-gated shadow trace is not scientific modal evidence merely because complete bytes exist. When parity fails, retain the trace but do not compute or publish modal distributions, exposure claims, or action-selection recommendations.

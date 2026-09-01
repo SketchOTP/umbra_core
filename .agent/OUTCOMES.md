@@ -1263,3 +1263,6 @@ Terminal verdict `AS003M_PLANNING_SUBSTRATE_EXTENSION_REQUIRED`. AS-003M reconci
 - Final evidence manifest: 20/20 artifacts readback-verified with zero
   mismatches; SHA-256
   `c8af137694ac812921878c0898969d9d0f73669c5b3d6b3f8f0547d4a942dbc5`.
+## UMBRA-AS-003P-R3 terminal — prospective observer parity failed — 2026-09-01
+
+Terminal verdict `AS003PR3_TRUE_OBSERVER_EFFECT_FAIL`. The prospectively locked semantic comparator qualified with zero false positives/negatives and remained unchanged. The sole control/shadow pair completed `1/1` at 500 ticks each with equal timeline, candidate identities, and RNG, but two source-contract-authoritative `body_instance_id` values differed in the tick-1 authoritative event and final Embodiment-adapter state. Per the frozen stop rule, no modal distribution, conflict exposure, AS-003L reassessment, or AS-002 future relation was interpreted. Production delta `0`; retries/reseeds `0/0`; no successor.

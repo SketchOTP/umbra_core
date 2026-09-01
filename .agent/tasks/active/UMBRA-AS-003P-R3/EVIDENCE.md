@@ -18,3 +18,14 @@ Comparator qualification:
   negatives `0`, deleted cases `0`;
 - qualification evidence SHA-256:
   `57a3529372622e7a1868332cb17e4a1e3486575287259c3ca3f965cfb08e1fb7`.
+
+Execution:
+
+- comparator lock commit: `e1e617b63940d611120068b4fb3b1fc2d7323ddf`;
+- frozen execution commit: `fa68dd6e785ce2c45840306b65cbb313d2b17cb9`;
+- control/shadow executions: `1/1`, 500 ticks each; retries/reseeds `0/0`;
+- semantic observer parity: FAIL, semantic differences `2`;
+- differing paths: `authoritative_events.1.payload.new_body_instance_id` and `final_authoritative_state.embodiment_adapter.body_instance_id`;
+- administrative/derivative differences: `4,891 / 10,643`, reported separately;
+- timeline, candidate identities, and RNG: equal;
+- planning trace retained, but modal interpretation and conflict-exposure analysis: NOT REACHED.

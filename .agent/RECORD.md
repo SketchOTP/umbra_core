@@ -50,3 +50,12 @@ a fresh prospective measurement qualification from exact baseline
 be adversarially qualified, locked, committed, and pushed before the only
 authorized fresh control/shadow pair. R1 and R2 remain immutable; AS-003P
 scientific code, fixture, and behavior authority remain unchanged.
+
+## 2026-09-01 — UMBRA-AS-003P-R3 terminal prospective parity failure
+
+The prospective comparator qualified and froze before the one authorized pair.
+Control/shadow completed `1/1`, but two source-contract-authoritative
+`body_instance_id` values differed in the tick-1 event and final
+Embodiment-adapter state. The terminal verdict is
+`AS003PR3_TRUE_OBSERVER_EFFECT_FAIL`. Modal interpretation stopped, retries and
+reseeds remain `0/0`, production remained unchanged, and no successor started.

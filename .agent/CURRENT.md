@@ -1,10 +1,8 @@
-# UMBRA-AS-003P-R3 active — prospective semantic observer-parity qualification
+# UMBRA-AS-003P-R3 terminal — prospective semantic observer effect
 
-Architect accepted `AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED`. R3 begins from exact clean local/GitHub baseline `237251fd9e6b859284d45fe6da42a54a5e0d05a3`. Canonical Notion independently records R3 as current authority. R1 remains permanently terminal and its raw modal counts remain scientifically invalidated.
+`AS003PR3_TRUE_OBSERVER_EFFECT_FAIL` is terminal from exact baseline `237251fd9e6b859284d45fe6da42a54a5e0d05a3`. The source-semantic comparator qualified prospectively with `30/30 PASS`, false positives/negatives `0/0`, and froze at `e1e617b63940d611120068b4fb3b1fc2d7323ddf`. Protected AS-003P scientific files stayed byte-identical, production delta was `0`, harness equivalence and importability passed, and the paired execution froze at `fa68dd6e785ce2c45840306b65cbb313d2b17cb9`.
 
-Current work is measurement qualification only: lock owner-specific identity, ordering, derivative-hash, and authoritative-value semantics; qualify a research-only comparator with zero false positives/negatives; freeze and push it before execution; then run exactly one unchanged R0/S0 seed `45878900`, horizon `500` control/shadow pair. Protected AS-003P scientific files and the runtime shadow hook must remain byte-identical. Retries/reseeds are `0/0` and no action-selection, AS-004, CLOSE-03, or automatic successor is authorized.
-
-Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r3-semantic-shadow-pair-r1/`.
+The only authorized R0/S0 seed `45878900`, horizon `500` pair completed control/shadow `1/1`. Timeline, candidate identities, and RNG matched, but the frozen comparator found two authoritative semantic differences: `authoritative_events.1.payload.new_body_instance_id` and `final_authoritative_state.embodiment_adapter.body_instance_id`. Administrative/derivative differences were reported separately (`4,891` / `10,643`). Observer parity therefore failed. Fresh planning trace bytes are retained but modal distribution, conflict exposure, AS-003L reassessment, and AS-002 future relation were not interpreted or reached. Retries/reseeds remain `0/0`; no repair, rerun, action-selection change, or successor is authorized. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r3-semantic-shadow-pair-r1/`.
 
 
 ## UMBRA-AS-003P-R1 terminal — observer effect — 2026-09-01
