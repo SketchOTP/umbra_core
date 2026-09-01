@@ -36,3 +36,7 @@ Frozen execution:
   profiles, zero candidate-profile distinctions; these are invalidated for
   scientific interpretation by observer failure;
 - terminal verdict: `AS003PR1_OBSERVER_EFFECT_FAIL`; retries/reseeds `0/0`.
+
+Closeout commit: `4d5f44ed8e9450516433d9820c5ad8b6517ee3c2`.
+Final evidence manifest: 23 artifacts, readback verified, SHA-256
+`a3e05489a73658cf02d10b3641671f515c4c2c498cd64b6ba0188bc1996159ab`.
