@@ -1,0 +1,68 @@
+{
+  "schema": "AS003PR3_EXECUTION_PROTOCOL_LOCK_V1",
+  "directive": "UMBRA-AS-003P-R3",
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "implementation_parent_commit": "3be130c6ed174be369e664d2e79ca39694e4d1cb",
+  "frozen_execution_commit": "COMMIT_CONTAINING_THIS_LOCK",
+  "working_directory": "/home/sketch/Projects/UMBRA-CORE",
+  "python_executable": "/usr/bin/python3",
+  "python_version": "3.14.4",
+  "command_argv": [
+    "/usr/bin/python3",
+    "-m",
+    "experiments.as003pr3.shadow_diagnostic"
+  ],
+  "command_display": "/usr/bin/python3 -m experiments.as003pr3.shadow_diagnostic",
+  "environment_contract": {
+    "inherit_preflight_environment": true,
+    "environment_overrides": {},
+    "pythonpath_override": null,
+    "pythonhome_override": null,
+    "module_resolution_evidence": "AS003PR3_IMPORTABILITY_PREFLIGHT.json"
+  },
+  "fixture": {
+    "source": "experiments.close02r.qualification",
+    "lineage": "CLOSE-02R / AS-003C Diagnostic A",
+    "regime": "R0",
+    "scenario": "S0",
+    "seed": 45878900,
+    "horizon": 500,
+    "formal": false
+  },
+  "comparator": {
+    "source": "experiments/as003pr3/semantic_comparator.py",
+    "source_sha256": "596ab86f41523ea16dde44693b5aa7a702f0514fc38c18717aa0070c1590da66",
+    "lock": "experiments/as003pr3/COMPARATOR_LOCK.json",
+    "lock_sha256": "0195521409446300f4aa1d65c5d9a781873ebeee048e543aed5cff6941a9b6ae"
+  },
+  "harness": {
+    "source": "experiments/as003pr3/shadow_diagnostic.py",
+    "source_sha256": "aa7952dfb1dafedf4c52ec869c7527c4db7afb7e7be254b96ac399961b36160a",
+    "equivalence_evidence": "AS003PR3_HARNESS_EQUIVALENCE.json",
+    "scientific_execution_differences": 0
+  },
+  "evidence_root": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r3-semantic-shadow-pair-r1/",
+  "expected_artifacts": [
+    "AS003PR3_PAIRED_EXECUTION_STARTED.json",
+    "AS003PR3_CONTROL_RUN_RAW.json",
+    "AS003PR3_CONTROL_DECISION_TRACE.jsonl",
+    "AS003PR3_SHADOW_RUN_RAW.json",
+    "AS003PR3_SHADOW_DECISION_TRACE.jsonl",
+    "AS003PR3_PLANNING_SHADOW_TRACE.jsonl",
+    "AS003PR3_SEMANTIC_OBSERVER_PARITY.json",
+    "AS003PR3_PAIRED_EXECUTION_FINISHED.json"
+  ],
+  "control_executions": 1,
+  "shadow_executions": 1,
+  "retries": 0,
+  "reseeds": 0,
+  "post_lock_rules": {
+    "code_changes": 0,
+    "comparator_changes": 0,
+    "test_changes": 0,
+    "command_changes": 0,
+    "fixture_changes": 0,
+    "environment_changes": 0,
+    "repair_attempts": 0
+  }
+}
