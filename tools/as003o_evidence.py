@@ -12,7 +12,10 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import subprocess
+import sys
 import tempfile
+from datetime import datetime, timezone
 
 
 ROOT = Path(
@@ -57,6 +60,7 @@ def main() -> None:
     parser.add_argument("payload", nargs="?")
     parser.add_argument("--text", action="store_true")
     parser.add_argument("--write-locks", action="store_true")
+    parser.add_argument("--capture-focused", metavar="RECORD")
     args = parser.parse_args()
     if args.write_locks:
         sources = [
@@ -75,6 +79,18 @@ def main() -> None:
         adversarial = {"schema":"AS003O_ADVERSARIAL_CASE_LOCK_V1","baseline":BASELINE,"cases":["exact_root_physiology","source_unknown","probabilistic_capability","body_schema_mismatch","current_without_persistence","verified_landmark","stale_opportunity","unknown_route_timing","supported_route_timing","charge_branches","rest_coupled_branches","inspect_cross_effect","favorable_only_branch","all_branch_continuation","branch_specific_continuation","unknown_branch","frontier_exact_32","frontier_above_32","body_fingerprint","world_fingerprint","irrelevant_dependency","pending_execution","opportunity_expiry","candidate_insertion","candidate_deletion","candidate_permutation","provenance_renaming","strict_continuation_containment","crossing_continuations","no_services"],"execution":"focused pure proof only"}
         result = {name: write_bytes(name, canonical_bytes(value)) for name, value in (("AS003O_SOURCE_ABSTRACTION_CONTRACT.json", contract), ("AS003O_ROBUST_QUANTIFICATION_LOCK.json", robust), ("AS003O_BRANCH_FRONTIER_LOCK.json", branch), ("AS003O_ADVERSARIAL_CASE_LOCK.json", adversarial))}
         print(json.dumps(result, sort_keys=True))
+        return
+    if args.capture_focused:
+        command = (sys.executable, "tools/as003o_pure_tests.py")
+        started = datetime.now(timezone.utc).isoformat()
+        completed = subprocess.run(command, cwd=Path(__file__).resolve().parents[1], text=True, capture_output=True, check=False)
+        ended = datetime.now(timezone.utc).isoformat()
+        lines = [line for line in completed.stdout.splitlines() if line.startswith("PASS ")]
+        payload = {"schema":"AS003O_PURE_EXECUTION_RECORD_V1","command":[*command],"working_directory":str(Path(__file__).resolve().parents[1]),"scope":"focused pure source-backed adapter/continuation proof; no organism runtime","start_utc":started,"end_utc":ended,"exit_code":completed.returncode,"stdout":completed.stdout,"stderr":completed.stderr,"passing_tests":[line.removeprefix("PASS ") for line in lines],"passing_test_count":len(lines),"organism_runs":0,"diagnostic_runs":0,"qualification_runs":0,"retries":0,"reseeds":0}
+        digest = write_bytes(args.capture_focused, canonical_bytes(payload))
+        print(json.dumps({"record":args.capture_focused,"sha256":digest,"exit_code":completed.returncode,"tests":len(lines)}, sort_keys=True))
+        if completed.returncode:
+            raise SystemExit(completed.returncode)
         return
     if args.name is None or args.payload is None:
         parser.error("name and payload are required unless --write-locks is used")
