@@ -7,6 +7,12 @@
 
 - A full-frontier observation is not one causal category: retained evidence must distinguish missing support, one-sided semantic applicability, and well-supported cross-proposition conflict before changing an action-selection architecture.
 
+## 2026-08-31 — AS-003J owner ontology and calibration boundary
+
+- A system can causally alter behavior without being a peer motivational owner; motivation, opportunity, association, capability, memory context, procedural habit, continuity, and hard authority require separate lifecycle/authority evidence.
+- Shared owner labels such as viable/ideal/critical establish common qualitative regulatory anchors, not a continuous common control scale. Existing numeric urgency must be treated as local until its cross-drive semantics are independently established.
+- Reducing the owner set does not solve habit/commitment arbitration; do not disguise a controller conflict as motivation or a salience bid.
+
 ## 2026-08-30 — AS-003D saturation attribution
 
 - A partial order that requires joint support and no-worse status for every proposition applicable to either candidate can preserve epistemic caution yet be structurally unable to exert ordinary selection pressure when genuine organism interests conflict.

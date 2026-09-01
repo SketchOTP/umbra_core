@@ -1,5 +1,9 @@
 ## UMBRA-AS-003F governance start — 2026-08-31
 
+## UMBRA-AS-003J terminal — 2026-08-31
+
+`AS003J_TRUE_DRIVE_CROSS_CALIBRATION_PRIMITIVE_REQUIRED` is the terminal zero-run/static result. Pre-projection ontology criteria were immutable. Energy, fatigue, integrity, and stimulation are the only current `MOTIVATIONAL_DRIVE_OWNER`s; all other protected systems retain real causal routes as incentive/opportunity, learned association, memory/context, developmental modulator, habitual controller, commitment, expression modulator, or hard authority. The retained/source record does not establish an organism-wide social drive or an intrinsic SEEKING drive beyond existing stimulation. Shared physiology boundaries support common categorical regulatory conditions, but `urgency()` uses local direction/overshoot arithmetic and its numeric range cannot lawfully calibrate cross-drive behavioral pressure. Habit/controller conflict is explicitly not absorbed into motivation. Evidence manifest `8547862b273a08b02444c61bb40c2f2b6043ae32948335701d360107572d45dc` verifies 20/20 artifacts. No implementation/successor is recommended.
+
 Architect accepted AS-003E terminal `AS003E_MOTIVATIONAL_CONTEXT_ACTIVATION_PRIMITIVE_REQUIRED` and authorized AS-003F from exact master `7381af06a5a7b8b15e751f296cde18feec315585`. Phase-A reconciliation confirmed local `HEAD`, local `master`, and `github/master` match the baseline; AS-003E/AS-003D/AS-003C manifests, Authority 3.0, governance, CLOSE-02Z, and the protected production/test delta from AS-003C freeze reconcile. AS-003F is a zero-run/non-production investigation of categorical motivational-context activation/lifecycle and simultaneous-context resolution. No production/test modification, organism/diagnostic rerun, retry, or reseed has occurred.
 
 ## UMBRA-AS-003D governance start — 2026-08-30

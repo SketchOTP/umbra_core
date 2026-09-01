@@ -2,6 +2,13 @@
 
 Record material prior-art investigations when Authority triggers external discovery. Do not log every trivial web search.
 
+## UMBRA-AS-003J external-discovery boundary — 2026-08-31
+
+- Trigger: Architect-authorized replan of AS-003I's motivational-owner ontology and regulatory calibration problem.
+- Sources reviewed: [motivation/cognition interaction](https://pmc.ncbi.nlm.nih.gov/articles/PMC4986920/), [incentive motivation](https://www.cambridge.org/core/books/abs/motivational-systems/incentive-motivation/3A2BAF168EDF6CACEEC0A5E4C123F658), [social and physiological needs](https://www.annualreviews.org/content/journals/10.1146/annurev-neuro-112723-025633), [social-homeostasis review](https://pmc.ncbi.nlm.nih.gov/articles/PMC7593988/), [social dynamic-range plasticity](https://pmc.ncbi.nlm.nih.gov/articles/PMC12940460/), [intrinsic-motivation review](https://pmc.ncbi.nlm.nih.gov/articles/PMC5364176/), and behavioral-demand literature.
+- Disposition: REFERENCE ONLY. The literature supports distinguishing drive state from opportunity/cue, habit control, learned association, relationship context, and capability; it makes social homeostasis and distinct intrinsic exploration scientifically plausible but does not establish either substrate in UMBRA. Behavioral demand cannot calibrate UMBRA now because effort is controller output and no body-independent common price exists.
+- Rejected imports: neural topology, dopamine implementation, RL/model-free/model-based control, utility/reward maximization, behavioral-economic equation, externally fitted species weights, planner, POMDP, MPC, and active inference. Evidence: `umbra-as-003j-owner-ontology-calibration-r1/AS003J_PRIOR_ART_BOUNDARY.md`.
+
 ## UMBRA-AS-003I external-discovery boundary — 2026-08-31
 
 - Trigger: Architect-authorized zero-run calibration gate after AS-003H established that no standalone transition hazard can be learned or calibrated without a common current behavioral-control claim.
