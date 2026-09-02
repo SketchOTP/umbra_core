@@ -35,3 +35,11 @@ Terminal retained evidence:
   `5 / 25f048b5bd6a6be67ac6a1c3d4e984407ec19ec25c3f099232c5102af5467051`
 - root creation/ticks: `1/0`; CONTROL loads/ticks: `0/0`; SHADOW loads/ticks:
   `0/0`; retries/reseeds: `0/0`.
+- root Habitat canonical SHA-256:
+  `a6b918441342908673c80e1771e30dc1cb51020e716efe0d481fd40e693ed24b`
+- root RNG SHA-256:
+  `e2c69703d1fc3181bb62beaf9584410dfad02dba8141c3536198b0ce792aad68`
+- append-only closeout correction SHA-256:
+  `73f7b8358c8eb35c7be9fa438b42dd6a809f76b2f43f321f5430d513f45c4986`
+- authoritative final readback manifest SHA-256:
+  `1e1d36383a85cf95e84df4613dd324b7d8ab480d3462a8a593568e79efcd5b08`

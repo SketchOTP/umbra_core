@@ -1314,3 +1314,7 @@ database passes read-only integrity inspection and preserves snapshot sequence `
 Terminal verdict: `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. Branch loads, measured ticks,
 observer parity, and modal interpretation were not run; retries/reseeds remain `0/0`;
 production and existing test semantics are unchanged; no successor started.
+The final corrected readback manifest SHA-256 is
+`1e1d36383a85cf95e84df4613dd324b7d8ab480d3462a8a593568e79efcd5b08`;
+an append-only correction preserves and fixes two mistyped digests in the preliminary
+closeout summary.

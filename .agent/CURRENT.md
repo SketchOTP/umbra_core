@@ -27,6 +27,10 @@ No database backup, branch load, premeasurement parity, execution lock, CONTROL/
 execution, or modal interpretation occurred. Terminal verdict:
 `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. Root creation/ticks `1/0`; branch loads `0/0`;
 measured ticks `0/0`; retries/reseeds `0/0`; no successor started.
+Final corrected readback manifest SHA-256:
+`1e1d36383a85cf95e84df4613dd324b7d8ab480d3462a8a593568e79efcd5b08`.
+The preliminary closeout summary remains preserved; its two mistyped root digest
+fields are corrected append-only by `AS003PR5_CLOSEOUT_CORRECTION.json`.
 
 # UMBRA-REPO-001 terminal — employer-grade repository front door qualified
 

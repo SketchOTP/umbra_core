@@ -19,3 +19,8 @@ The frozen protocol was not repaired and the root was not repeated. CONTROL/SHAD
 loads and measured ticks are `0/0`; observer parity and modal evidence are `NOT RUN`;
 retries/reseeds are `0/0`; production and existing test semantics are unchanged; no
 successor started.
+
+Final corrected evidence readback manifest SHA-256:
+`1e1d36383a85cf95e84df4613dd324b7d8ab480d3462a8a593568e79efcd5b08`.
+The first create-once closeout summary is preserved; an append-only correction fixes
+two transcribed root digests without changing the scientific verdict or run counts.

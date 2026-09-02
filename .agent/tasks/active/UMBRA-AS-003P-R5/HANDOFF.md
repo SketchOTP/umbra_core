@@ -11,3 +11,5 @@ snapshotted at tick `0`, but the frozen protocol stopped before backup/fork beca
 it expected JSON in Store's raw TEXT `latest_snapshot` metadata value. R5 is terminal
 `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. No branch load, measured tick, parity result,
 modal interpretation, retry, reseed, or successor exists.
+Authoritative final readback manifest SHA-256:
+`1e1d36383a85cf95e84df4613dd324b7d8ab480d3462a8a593568e79efcd5b08`.
