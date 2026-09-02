@@ -1,0 +1,287 @@
+# UMBRA-CORE
+
+UMBRA-CORE is a standalone, persistent autonomous-organism core for digital
+companions. It is designed so behavior arises from internal regulation,
+perception, learned causal models, verified consequences, memory, development,
+relationships, individuality, temporal context, and environmental opportunity—not
+from a chatbot loop or a scripted persona.
+
+**Scientific status:** subsystem capabilities are qualified within explicit
+boundaries; integrated long-horizon viability is **not qualified**. The current
+research frontier is observer-safe, shadow-only evaluation of bounded modal planning.
+No planner currently has action-selection authority.
+
+[Project goal](.agent/PROJECT_GOAL.md) ·
+[Current governed state](.agent/CURRENT.md) ·
+[Evidence guide](docs/EVIDENCE_GUIDE.md) ·
+[Reference architecture](docs/architecture/UMBRA_REFERENCE_ARCHITECTURE.md)
+
+## Why this project exists
+
+A believable persistent digital companion requires more than an LLM, a persona
+prompt, a renderer, a scalar mood variable, or a scripted virtual pet. The harder
+engineering problem is maintaining one causally coherent individual through time,
+restart, learning, incomplete knowledge, relationships, competing internal needs,
+changing environments, and changing bodies.
+
+UMBRA explores that problem as an organism core: an autonomous runtime with explicit
+state ownership, bounded learning, governed action, verified outcomes, durable
+history, and evidence-limited claims.
+
+## What UMBRA is not
+
+UMBRA is not:
+
+- an LLM agent or chatbot;
+- a scripted pet or animation state machine;
+- a renderer, avatar application, or robotics stack;
+- a scalar mood, affection, loyalty, or survival optimizer;
+- a digital chemistry, protocell, or biological-cell simulator;
+- a claim of consciousness, sentience, emotion, or literal biological life.
+
+Language, rendering, sensors, and physical or virtual bodies may surround the core,
+but they must not become authoritative over organism identity, physiology, memory,
+decision-making, or verified experience.
+
+## Architecture
+
+UMBRA separates the path that can authorize action from the internal systems that
+supply state, evidence, and learned context. Those systems are causally relevant,
+but they do not independently execute actions.
+
+```mermaid
+flowchart LR
+    P["Policy-provenanced perception"] --> C["Candidate generation"]
+    C --> A["Action selection / arbitration"]
+    A --> G["Governance"]
+    G --> E["Embodiment validation"]
+    E --> X["Execution"]
+    X --> V["Verified outcome"]
+    V --> U["Bounded owner updates / learning"]
+
+    H["Physiology"] --> C
+    SM["SelfModel"] -. "body evidence" .-> A
+    WM["WorldModel"] -. "learned consequence evidence" .-> A
+    M["Memory and habits"] -. "history and continuity" .-> C
+    D["Development"] -. "practice context" .-> C
+    S["Relationships"] -. "partner-specific context" .-> C
+    I["Individuality"] -. "history-shaped variation" .-> A
+    T["Temporal continuity"] -. "time and commitments" .-> A
+    HT["Habitat"] --> P
+
+    U --> H
+    U --> SM
+    U --> WM
+    U --> M
+    U --> D
+    U --> S
+    U --> I
+    U --> T
+```
+
+The central authority sequence is implemented in the runtime, arbitration,
+governance, embodiment, persistence, and verified-outcome paths under
+[`umbra_core/`](umbra_core/). The documents in [`docs/architecture/`](docs/architecture/)
+describe the frozen foundation and should be read with the later result lineage in
+the [evidence guide](docs/EVIDENCE_GUIDE.md); they are not a substitute for current
+source and closeout records.
+
+## Architectural principles
+
+- **Persistent constitutional identity.** The organism remains the same individual
+  across restart, migration, compatible body changes, and bounded true physical-body
+  replacement.
+- **Homeostatic regulation.** Physiology owns interacting regulatory state; other
+  modules cannot write it directly.
+- **Endogenous action.** Candidates arise from organism state, learned history, and
+  current opportunity rather than direct user commands.
+- **One governed authority path.** Candidate generation, selection, governance,
+  embodiment validation, execution, verification, and learning remain distinct.
+- **Learned SelfModel and WorldModel.** Body capability and environmental consequence
+  models are revisable evidence, not self-authorizing truth.
+- **Verified-consequence learning.** Proposals, denied actions, imagined futures, and
+  renderer output do not count as lived outcomes.
+- **Bounded history.** Memory, habits, development, relationships, and individuality
+  are selective, provenance-bearing, and constrained in state and compute.
+- **Temporal and habitat continuity.** Restart reconciliation preserves durable time
+  and world relationships without fabricating unobserved experience.
+- **Body independence.** A body is part of current experience, not constitutional
+  organism identity.
+- **Expression without control.** Renderers and optional language may express
+  read-only state but may not become the organism's controller.
+- **Reproducible but not mechanically identical.** Constitutional and persisted state
+  are replayable; bounded stochasticity may contribute individuality where explicitly
+  qualified.
+
+## Current claim status
+
+Statuses below are intentionally bounded. “Qualified” means the cited experiment or
+contract passed its preregistered evidence boundary—not that the entire organism is
+solved.
+
+| Capability / property | Status | Evidence boundary |
+|---|---|---|
+| Persistent identity, autonomous runtime, and homeostasis | **QUALIFIED — bounded** | D-001 invariant companion-core qualification; not a long-horizon integrated viability claim. |
+| Sensorimotor SelfModel | **QUALIFIED — bounded** | D-002 functional qualification plus separate D-002P performance remediation. |
+| Predictive WorldModel | **QUALIFIED — bounded** | D-003 learned prediction/revision/planning-proposal evidence; not current planner authority. |
+| Intrinsic development | **QUALIFIED — bounded** | D-004 competence, practice, satiation, and boundedness gates. |
+| Selective long-term memory | **QUALIFIED — bounded** | D-005 episodic, semantic, procedural, consolidation, forgetting, and replay gates. |
+| Partner-specific relationships | **QUALIFIED — bounded** | D-006 social contingency and history-dependent behavior. |
+| Lived individuality | **QUALIFIED — bounded** | D-007 history-dependent divergence under controlled cohorts. |
+| Coherent embodiment | **QUALIFIED — bounded** | D-008 body binding, profile transition, renderer separation, restart, and performance. |
+| Persistent habitat agency | **QUALIFIED — bounded** | D-009 habitat authority, manipulation, persistence, and migration gates. |
+| Temporal continuity | **QUALIFIED — current baseline** | D-010Q5 qualified the current baseline separately; earlier D-010 failures remain permanent. |
+| Governed perception adapters | **QUALIFIED — bounded** | D-011 policy/provenance, rejection durability, replay, and boundedness. |
+| True physical-body replacement | **QUALIFIED — bounded** | AS-003S atomic replacement transaction; see below. |
+| Ordinary action selection and modal planning | **ACTIVE RESEARCH QUESTION** | Prior scalar and strict-dominance selectors were insufficient; modal planning remains shadow-only and has no behavior authority. |
+| Integrated long-horizon viability | **NOT QUALIFIED** | Formal and long-horizon generations retain terminal failures; AS-004 and CLOSE-03 remain blocked. |
+
+Detailed verdicts, manifests, and negative lineages are indexed in
+[`docs/EVIDENCE_GUIDE.md`](docs/EVIDENCE_GUIDE.md).
+
+## Recent result: atomic body replacement
+
+AS-003S qualified a bounded true physical-body replacement transaction. The
+implementation:
+
+- preserves constitutional agent and lineage identity;
+- mints a distinct physical `body_instance_id`;
+- creates a new SelfModel body binding and schema;
+- keeps EmbodimentAdapter and Embodiment occupancy coherent;
+- commits one `embodiment_body_replaced` event and its prospective full snapshot in
+  one SQLite transaction before applying live owner state;
+- rolls back fully on pre-commit injection and recovers exactly after a
+  commit-before-live-apply interruption;
+- rejects stale body references, pending execution, and replacement while the old
+  body holds an object;
+- preserves memory, relationships, individuality, restart continuity, and later
+  compatible profile-swap semantics.
+
+The bounded lifecycle qualification performed one creation and one restart load with
+zero organism ticks. Separate focused tests do exercise `tick_once()`; “zero ticks”
+does not describe the entire test campaign. Focused AS-003S proofs passed `14/14`,
+and baseline comparison found zero candidate-only failures in the applicable suite.
+
+[AS-003S result](.agent/tasks/active/UMBRA-AS-003S/RESULT.md) ·
+[validation summary](.agent/tasks/active/UMBRA-AS-003S/AS003S_VALIDATION_SUMMARY.json) ·
+[crash-consistency proof](.agent/tasks/active/UMBRA-AS-003S/AS003S_CRASH_CONSISTENCY_PROOF.json) ·
+[manifest](.agent/tasks/active/UMBRA-AS-003S/AS003S_EVIDENCE_MANIFEST.json)
+
+## Scientific method
+
+UMBRA treats experiment design and negative evidence as part of the implementation:
+
+- contracts, commands, thresholds, and stop conditions are preregistered or locked
+  before qualification when the stage requires it;
+- frozen failures terminate their generation—there is no post-hoc threshold
+  weakening or silent retry;
+- failed and inconclusive generations remain permanent evidence;
+- formal qualification, bounded mechanism evidence, diagnostics, and static proofs
+  are labeled separately;
+- a passing test only supports the property it actually exercises;
+- single seeds and demonstrations do not establish general viability;
+- evidence artifacts use manifests, SHA-256 inventories, durable publication, and
+  readback verification where required;
+- current claims are reconciled across strategic authority, committed source, and
+  retained execution evidence.
+
+The repository's internal Authority 3.0 records live under [`.agent/`](.agent/) and
+the active workflow is described by [`AGENTS.md`](AGENTS.md). These are governance
+and provenance surfaces, not the recommended first entrypoint for understanding the
+software.
+
+## Selected negative results
+
+Negative results are not removed when later work succeeds.
+
+- **Temporal continuity:** historical D-010 performance generations failed. The
+  current baseline was qualified later as a separate D-010Q5 generation rather than
+  relabeling the old evidence.
+- **Formal autonomy:** D-012B2 failed its remediated formal P0 when energy crossed the
+  critical bound at tick 181. The broader D-012 viability claim remains unqualified.
+- **Long-horizon viability:** D-014E1 completed eight fixed R0 runs but the
+  preregistered R1 seed failed at tick 372 with critical fatigue; later populations
+  were not run after the terminal stop.
+- **Action selection:** AS-003C observed 2,647 qualifying ordinary multi-candidate
+  decisions with zero supported-dominance eliminations and full-frontier saturation.
+  AS-003D retired that strict-dominance architecture as a forward selector.
+- **Observer measurement:** AS-003P/R1/R3 generations exposed import-protocol,
+  comparator, and cross-run body-identity equivalence defects. Their raw modal traces
+  were not promoted to qualified planning evidence. The body-identity defect found in
+  that lineage led to the separately qualified AS-003S repair.
+
+See [Selected negative evidence](docs/EVIDENCE_GUIDE.md#selected-negative-evidence)
+for the exact records.
+
+## Repository map
+
+| Path | Purpose |
+|---|---|
+| [`umbra_core/`](umbra_core/) | Production organism core and owner modules. |
+| [`tests/`](tests/) | Focused, regression, governance, and experiment-support tests. Some tests instantiate or tick organisms. |
+| [`experiments/`](experiments/) | Diagnostic, preregistered, qualification, and retained-evidence harnesses. Read each stage contract before execution. |
+| [`docs/architecture/`](docs/architecture/) | Frozen foundation architecture and authority references. |
+| [`docs/evidence/`](docs/evidence/) | Committed historical result artifacts and verdicts. |
+| [`research/`](research/) | Non-production research and course-correction tooling. |
+| [`tools/`](tools/) | Governance, evidence, analysis, and bounded validation tools. |
+| [`.agent/`](.agent/) | Internal source-of-truth router, current status, append-only outcomes, learnings, and task packets. |
+
+## Local inspection and validation
+
+The repository is Python and is currently exercised in place; [`pytest.ini`](pytest.ini)
+adds the repository root to Python's import path. There is **no canonical root
+`pyproject.toml`, requirements file, lockfile, or packaged installation procedure**.
+Python and tool dependencies are therefore not yet presented as a reproducible public
+bootstrap contract.
+
+With a compatible Python environment in which `pytest` is already installed, focused
+entrypoints include:
+
+```bash
+python3 -m pytest tests/test_as003s_body_replacement.py -q
+python3 scripts/validate_authority_v3.py
+python3 scripts/validate_governance.py --mode ADOPTED
+```
+
+These commands validate specific surfaces; they are not a substitute for a frozen
+experiment protocol. Do not run an experiment merely because its module exists.
+Historical harnesses carry stage-specific seeds, evidence roots, stop rules, and
+authorization boundaries.
+
+The repository does not currently claim a globally green full suite. At the AS-003S
+closeout:
+
+- focused AS-003S: `14 PASS / 0 FAIL`;
+- D-002: `53 PASS / 1 inherited exact-baseline FAIL`;
+- D-008/D-009: `202 PASS / 1 inherited D-009 FAIL / 2 SKIP`;
+- path-safe applicable suite: `1120 PASS / 14 inherited FAIL / 2 SKIP`;
+- candidate-only failures: `0`.
+
+The raw full-suite collector also encounters an inherited orphan test import. These
+results are evidence-accounting facts, not an “all tests passing” claim.
+
+No root license is currently published. Treat the repository as available for review,
+not as granting reuse rights, unless a license is added separately.
+
+## Current research frontier
+
+The body-replacement identity defect is closed within the AS-003S boundary. Bounded
+hypothetical-state and modal-planning infrastructure exists, but it remains isolated
+or shadow-only and has not earned live action-selection authority.
+
+Earlier independent-birth observer pairs were invalidated by measurement and identity
+equivalence problems. The preferred next experiment design—**not yet authorized or
+started**—is a prospectively frozen common-root control/shadow pair. Both branches
+would begin from the same persisted organism, body, habitat, learned state,
+physiology, and RNG root so the shadow observer is the intended treatment difference.
+
+Until that evidence exists, planning integration, AS-004 integrated viability, and
+CLOSE-03 final organism acceptance remain blocked.
+
+## Evidence navigation
+
+Start with the [evidence guide](docs/EVIDENCE_GUIDE.md). It separates foundation
+architecture, qualified subsystem verdicts, current status, selected negative results,
+action-selection/planning research, and local/internal evidence provenance without
+requiring access to private project conversations.
+

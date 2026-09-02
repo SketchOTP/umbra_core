@@ -1,0 +1,62 @@
+{
+  "schema": "repo001.surface-audit.v1",
+  "baseline": "0ca6efe995f60a7f44213c525af2ccfbd8a9e224",
+  "root_readme_present": false,
+  "counts": {
+    "umbra_core_files": 146,
+    "test_files": 219,
+    "experiment_files": 351,
+    "docs_files": 1117,
+    "research_files": 22,
+    "tool_files": 70,
+    "agent_state_files": 325
+  },
+  "findings": [
+    {
+      "classification": "BLOCKS_COMPREHENSION",
+      "surface": "repository root",
+      "finding": "No root README defines the project, status, authority path, or review route."
+    },
+    {
+      "classification": "BLOCKS_COMPREHENSION",
+      "surface": "evidence navigation",
+      "finding": "More than 1,100 documentation files mix foundation evidence, failed generations, current-baseline requalifications, architecture references, and closeouts without a public question-oriented index."
+    },
+    {
+      "classification": "HARMS_CREDIBILITY",
+      "surface": "current status",
+      "finding": "Qualified subsystem claims, failed integrated viability, inherited test debt, and the unstarted research frontier are not summarized in one public location."
+    },
+    {
+      "classification": "HARMS_CREDIBILITY",
+      "surface": "reproducibility",
+      "finding": "The root has pytest configuration but no pyproject.toml, setup.py, requirements file, lockfile, or single installation contract; any README claiming a clean install would be fabricated."
+    },
+    {
+      "classification": "HARMS_CREDIBILITY",
+      "surface": "architecture documentation",
+      "finding": "The clear docs/architecture set is explicitly frozen at D-000S and contains concepts whose later implementation status differs; it is useful reference architecture but cannot be presented as an unqualified current-runtime specification."
+    },
+    {
+      "classification": "MINOR_DEBT",
+      "surface": "repository metadata",
+      "finding": "No root LICENSE or contribution guide is present. License changes are outside REPO-001, so this remains visible follow-up debt."
+    },
+    {
+      "classification": "MINOR_DEBT",
+      "surface": "generated/local artifacts",
+      "finding": "Tracked source sits beside local cache directories such as .pytest_cache and __pycache__ in the working checkout; these do not belong in public navigation."
+    },
+    {
+      "classification": "INTERNAL_ONLY_BUT_ACCEPTABLE",
+      "surface": "agent tooling",
+      "finding": "AGENTS.md, CLAUDE.md, GEMINI.md, COMMANDMENTS_OF_THE_CODE.md, .agent, .agents, .cursor, .serena, and .superpowers preserve governance/tool provenance. They remain in place but should not be the reader's starting point."
+    }
+  ],
+  "public_navigation_decision": {
+    "root_readme": "REQUIRED",
+    "additional_document": "docs/EVIDENCE_GUIDE.md",
+    "justification": "A separate bounded evidence guide prevents the front door from becoming a 1,100-file historical index while preserving transparent navigation to qualified and negative evidence."
+  },
+  "retrieval_confidence": "ADEQUATE"
+}

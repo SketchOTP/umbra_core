@@ -1,0 +1,73 @@
+{
+  "schema": "repo001.external-repository-benchmark.v1",
+  "reviewed_at": "2026-09-01",
+  "scope": "public README information architecture, first-screen clarity, reproducibility, evidence/status presentation, diagrams, and navigation only",
+  "repositories": [
+    {
+      "repository": "openai/openai-agents-python",
+      "url": "https://github.com/openai/openai-agents-python",
+      "disposition": "REFERENCE",
+      "retain": [
+        "one-sentence first-screen definition",
+        "compact core-concept inventory",
+        "direct examples and documentation routes",
+        "explicit runtime/setup prerequisites"
+      ],
+      "reject": [
+        "package-product framing for a research repository",
+        "long first-page code examples before scientific status"
+      ]
+    },
+    {
+      "repository": "anthropics/claude-cookbooks",
+      "url": "https://github.com/anthropics/claude-cookbooks",
+      "disposition": "REFERENCE",
+      "retain": [
+        "prerequisites stated before use",
+        "category-based navigation into a large heterogeneous tree",
+        "short descriptions attached to each route"
+      ],
+      "reject": [
+        "tutorial/catalog structure as the primary UMBRA narrative",
+        "promotional or vendor-product language"
+      ]
+    },
+    {
+      "repository": "google-deepmind/mujoco",
+      "url": "https://github.com/google-deepmind/mujoco",
+      "disposition": "REFERENCE",
+      "retain": [
+        "immediate technical purpose and audience",
+        "separate documentation, getting-started, installation, and research citation routes",
+        "honest warning that branch-tip behavior may differ from released artifacts"
+      ],
+      "reject": [
+        "release/product installation claims not established by UMBRA",
+        "decorative media without explanatory value"
+      ]
+    },
+    {
+      "repository": "pytorch/pytorch",
+      "url": "https://github.com/pytorch/pytorch",
+      "disposition": "REFERENCE_WITH_LIMIT",
+      "retain": [
+        "plain-language capability summary",
+        "layered routes for installation, development, resources, and contribution",
+        "component table for a complex architecture"
+      ],
+      "reject": [
+        "badge and navigation density unsuitable for a smaller research repository",
+        "large-build instructions when no UMBRA packaging contract exists"
+      ]
+    }
+  ],
+  "umbra_application": [
+    "lead with purpose and explicit non-goals",
+    "show the authoritative loop visually",
+    "surface claim status and negative results before setup",
+    "route large evidence history by question rather than directory chronology",
+    "state missing packaging and inherited suite debt honestly"
+  ],
+  "copied_prose_or_assets": false,
+  "new_dependency": false
+}
