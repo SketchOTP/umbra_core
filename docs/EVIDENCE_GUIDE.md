@@ -156,4 +156,3 @@ No raw modal trace from an invalidated observer generation is qualification evid
 When documentation and code appear to disagree, use the canonical project authority
 for intent, Git history/source for implementation, and retained artifacts for observed
 behavior. Never infer success from a plan or absence from a summary.
-

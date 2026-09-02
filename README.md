@@ -284,4 +284,3 @@ Start with the [evidence guide](docs/EVIDENCE_GUIDE.md). It separates foundation
 architecture, qualified subsystem verdicts, current status, selected negative results,
 action-selection/planning research, and local/internal evidence provenance without
 requiring access to private project conversations.
-
