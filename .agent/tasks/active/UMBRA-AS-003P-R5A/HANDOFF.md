@@ -7,3 +7,5 @@ The retained root remained immutable; exactly two independent branches completed
 Fresh modal evidence was valid to interpret but supplied no candidate-profile
 distinctions, including across 57 relevant conflict exposures. It remains
 shadow-only; no AS-002 relation, behavioral authority, or successor is supported.
+Final manifest SHA-256:
+`271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805`.

@@ -27,3 +27,9 @@ AS-002 future relation: `NO_RELATION_SUPPORTED`.
 
 Production delta is zero. Modal planning remains shadow-only and has no action
 authority. No successor was started.
+
+Authority 3.0, governance, retained-root readback, `git diff --check`, and
+public-link validation pass. Closeout SHA-256 is
+`37b83cf2b139f8d1a284e733507156e508ed2d5c5a9e346e3064da5809ec1a72`;
+final evidence manifest SHA-256 is
+`271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805`.

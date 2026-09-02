@@ -152,3 +152,5 @@ AS-003L residual conflict class. Terminal verdict:
 `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`. AS-003L remains
 `BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`; AS-002 is `NO_RELATION_SUPPORTED`.
 Production delta and retries/reseeds are zero; no successor started.
+Final evidence manifest SHA-256:
+`271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805`.

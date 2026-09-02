@@ -9,6 +9,8 @@ identities, events, final state, Habitat, and RNG. Fresh shadow evidence has
 including 57 exposed AS-003L conflicts. AS-003L is
 `BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`; no AS-002 relation is supported.
 Production delta and retries/reseeds are zero; no successor started.
+Final evidence manifest SHA-256:
+`271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805`.
 
 UMBRA-AS-003P-R5A governance started from exact baseline
 `04946e3fc977593bf41d1eb40f1fc8517ef289aa` after Architect acceptance of

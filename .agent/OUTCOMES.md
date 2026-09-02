@@ -13,6 +13,9 @@ distinguished candidates, so AS-003L is
 `BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE` and AS-002 is
 `NO_RELATION_SUPPORTED`. Historical invalidated modal counts were not used.
 Production delta `0`; retries/reseeds `0/0`; no successor started.
+Final evidence manifest SHA-256
+`271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805`
+with 38 inventoried artifacts plus the manifest, readback verified.
 
 ## UMBRA-AS-003P-R5A pre-branch protocol gates pass — 2026-09-02
 

@@ -6,6 +6,8 @@ but fresh modal evidence produced zero candidate-profile distinctions across
 500 complete frames, including 57 exposed AS-003L conflicts. Modal output
 remains shadow-only; AS-003L is `BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`;
 AS-002 is `NO_RELATION_SUPPORTED`; no successor is current.
+Final evidence manifest SHA-256:
+`271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805`.
 
 Prior governed status: UMBRA-AS-003P-R5A started from exact baseline
 `04946e3fc977593bf41d1eb40f1fc8517ef289aa`. It is a retained-root protocol

@@ -41,3 +41,6 @@ Evidence results are appended as gates complete. No R5 artifact is overwritten.
 - AS-002 future boundary: `NO_RELATION_SUPPORTED`; epistemic strength was not treated as preference.
 - Historical R1/R3/R5 modal counts used: `false`.
 - Terminal verdict: `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`.
+- Authority 3.0, governance, `git diff --check`, retained-root readback, and 84-link public navigation validation: PASS.
+- Closeout SHA-256: `37b83cf2b139f8d1a284e733507156e508ed2d5c5a9e346e3064da5809ec1a72`.
+- Final manifest SHA-256: `271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805` (`38` inventoried artifacts plus manifest).
