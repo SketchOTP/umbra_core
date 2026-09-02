@@ -106,3 +106,14 @@ experiment, organism, diagnostic, qualification, retry, and reseed deltas remain
 Terminal verdict: `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED`. Recommendation only:
 `UMBRA-AS-003P-R5 — Prelocked Common-Root Modal Observer Pair Candidate`; no successor
 started.
+
+## 2026-09-01 — UMBRA-AS-003P-R5 governance start
+
+The Architect explicitly authorized this RECORD update for the fresh common-root modal
+observer stage. R5 starts from exact baseline
+`3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c` after accepted REPO-001. It may prepare
+one R0/S0 seed `45878900` root, freeze exact organism/Habitat/RNG state, clone two
+independent branches, and execute one 500-tick control/shadow pair only after comparator,
+protocol, and premeasurement parity gates pass. Production/scientific semantics remain
+immutable; historical R1/R3 results remain permanent; no retry, reseed, action authority,
+AS-004, CLOSE-03, or automatic successor is authorized.

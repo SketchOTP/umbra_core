@@ -1,3 +1,11 @@
+Current governed status: UMBRA-AS-003P-R5 is active from exact baseline
+`3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c`. It is a non-formal common-root
+observer qualification with one prepared R0/S0 organism root, exact branch cloning,
+prospective comparator/protocol locks, and at most one 500-tick CONTROL plus one
+500-tick SHADOW leg. Production and planning semantics remain unchanged; modal output
+has no behavioral authority; retries/reseeds are zero. Observer parity must pass before
+fresh R5 modal evidence can be interpreted. Integrated viability remains unqualified.
+
 Current governed status: UMBRA-AS-003S is terminal
 `AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED` from exact baseline
 `9cd69768c0cacc3a8a6955e35412d931c9f33f94`. The bounded production seam now

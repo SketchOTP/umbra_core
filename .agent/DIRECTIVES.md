@@ -964,3 +964,14 @@ successor is authorized.
 - Result: root README and one public evidence guide added; architecture/claim status/AS003S/scientific method/negative results/repository map/reproducibility/current frontier are independently navigable; 82 links checked, 0 broken; live GitHub README/Mermaid/tables PASS.
 - Surface: GitHub default branch corrected from unrelated stale main to authoritative master without deletion or rewrite.
 - Integrity: production 0, tests 0, experiments 0, evidence rewrite 0, organism/diagnostic/qualification 0, retry/reseed 0/0 | successor:none | recommendation-only:UMBRA-AS-003P-R5.
+
+## 2026-09-01 — UMBRA-AS-003P-R5 governance start
+
+The Architect accepted `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` and authorized
+R5 from exact baseline `3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c`. R5 may add only
+experiment/comparator/evidence tooling and governance records, prepare exactly one
+R0/S0 seed `45878900` root, clone exact organism/Habitat/RNG state into independent
+branches, and—only after prospective locks plus zero-difference premeasurement parity—
+execute one 500-tick CONTROL and one 500-tick SHADOW leg. No production or scientific
+semantic change, retry, reseed, modal action authority, AS-004, CLOSE-03, or automatic
+successor is authorized.

@@ -1,0 +1,62 @@
+{
+  "schema": "AS003PR5_STATE_RECONCILIATION_V1",
+  "directive": "UMBRA-AS-003P-R5",
+  "checked_at": "2026-09-01T21:52:16-04:00",
+  "result": "PASS",
+  "exact_starting_baseline": "3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c",
+  "git": {
+    "head": "3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c",
+    "local_master": "3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c",
+    "github_master": "3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c",
+    "github_default_branch": "master",
+    "working_tree_clean": true,
+    "remote": "github"
+  },
+  "notion": {
+    "page_id": "3b3833cb-27ff-8030-9f1f-e73e7af37fe6",
+    "title": "UMBRA-CORE",
+    "current_authority": "UMBRA-AS-003P-R5",
+    "exact_starting_baseline": "3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c",
+    "refetch_verified": true
+  },
+  "accepted_predecessors": {
+    "repo001": "REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED",
+    "as003s": "AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED",
+    "as003pr4": "AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED",
+    "as003pr2": "AS003PR2_COMPARATOR_FALSE_POSITIVE_CONFIRMED"
+  },
+  "manifest_sha256": {
+    "AS003S": "6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd",
+    "AS003P_R4": "4e19d221647bf810418e7a961886a31fcd4432f8a882cb09cdeb0788b3de8864",
+    "AS003P_R3": "ac578bee3f45cad9a0ee3b584188778402a3639f6fca2054c5d53a1c2f1eb45f",
+    "AS003P_R2": "c8af137694ac812921878c0898969d9d0f73669c5b3d6b3f8f0547d4a942dbc5"
+  },
+  "protected_scientific_sha256": {
+    "umbra_core/hypothetical/core.py": "d6f78d3676027633cbbf4851aa45f796d41342a753e206a01f0606adb57b6ca9",
+    "umbra_core/hypothetical/adapters.py": "a04c43e5c2bd5ba3471c90d636e74875806983c95f3aca47293e429ca902db8f",
+    "umbra_core/hypothetical/continuation.py": "5e778895776918616374e663b889f6dfbdf16e40ce15e8f42154652bd588085c",
+    "umbra_core/hypothetical/frame.py": "668319354e90dbd030f990e7ef55a7edcd0827c84f35ef537ab6ebd63d42f255",
+    "umbra_core/hypothetical/modal.py": "44286a47bb17c395b33c2cd90ecac93ac9388951948729f825bff2ae2568cd16",
+    "umbra_core/hypothetical/shadow.py": "e7153c77b914a7791c119e0edad20af6b77574adca5df052eaa340e1383dd00a",
+    "umbra_core/runtime.py": "8e8f9afe7fe9c1144db6a24f619f39864d71da8a2cb0fa2367012a7d71962200"
+  },
+  "baseline_to_start_scope": {
+    "reference_commit": "0ca6efe995f60a7f44213c525af2ccfbd8a9e224",
+    "production_changes": 0,
+    "test_changes": 0,
+    "experiment_changes": 0,
+    "scientific_evidence_changes": 0,
+    "documentation_governance_only": true
+  },
+  "execution_counts": {
+    "root_births": 0,
+    "root_measured_ticks": 0,
+    "control_loads": 0,
+    "control_measured_ticks": 0,
+    "shadow_loads": 0,
+    "shadow_measured_ticks": 0,
+    "retries": 0,
+    "reseeds": 0
+  }
+}
+

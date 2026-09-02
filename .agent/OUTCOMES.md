@@ -1294,3 +1294,10 @@ live GitHub renders the README, Mermaid architecture diagram, tables, and eviden
 link. The default branch was corrected from unrelated stale `main` to authoritative
 `master` without rewriting/deleting history. Production/test/experiment/scientific
 execution deltas are zero. R5 is recommendation-only; no successor started.
+
+## 2026-09-01 — REPO-001 accepted; R5 authorized
+
+Architect independently accepted `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` at
+GitHub commit `3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c` and made
+`UMBRA-AS-003P-R5` current authority. This adoption does not change prior scientific
+outcomes. R5 begins with organism/control/shadow ticks and retries/reseeds all zero.

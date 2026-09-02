@@ -1,3 +1,17 @@
+# UMBRA-AS-003P-R5 active — common-root modal observer pair
+
+Architect acceptance makes REPO-001 terminal and authorizes R5 from exact baseline
+`3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c`. R5 prepares one R0/S0 seed
+`45878900` root, clones exact organism/Habitat/RNG state into independent CONTROL
+and SHADOW branches, qualifies and freezes a source-semantic comparator, and permits
+exactly one 500-tick measured leg per branch after premeasurement parity passes.
+
+Production and existing scientific semantics are immutable. Modal output remains
+write-only evidence with no action authority. Historical R1/R3 traces remain invalid;
+retries/reseeds are `0/0`; AS-004 and CLOSE-03 remain blocked. Active packet:
+`.agent/tasks/active/UMBRA-AS-003P-R5/`. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5-common-root-modal-shadow-r1/`.
+
 # UMBRA-REPO-001 terminal — employer-grade repository front door qualified
 
 `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` is terminal from exact baseline

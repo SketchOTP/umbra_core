@@ -579,3 +579,13 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
   implementation. A concise evidence guide should label that boundary and route current
   claims to source and result packets instead of silently presenting frozen documents as
   live architecture truth.
+
+## 2026-09-01 — Common-root observer experiment boundary
+
+- When independently born replicas contain legitimate fresh identities, the cleaner
+  causal observer design is one prepared authoritative root cloned before treatment.
+- Preexisting organism, body, model, Habitat, event-prefix, and RNG identity must be
+  exact across common-root branches; only source-declared post-fork administrative
+  names may use relational equivalence.
+- Modal evidence is scientifically interpretable only after the prospectively frozen
+  observer comparator reports zero semantic differences.
