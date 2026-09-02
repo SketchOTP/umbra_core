@@ -1,3 +1,8 @@
+## UMBRA-AS-003P-R6B-R1 — CLOSEOUT (2026-09-02)
+
+- Directive: UMBRA-AS-003P-R6B-R1 | status:terminal | verdict:AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED | baseline:e610a36f4ca07cf451da53c9f7dac9d35a037a0e | freeze:caab6c08110f9e05f655360b5d5304c9aec7f767 | Q1:PASS exact bound ORIENT/control sequence plus verified CHARGE and movement_count 1 | Q2:PASS verified movement_slip | organisms:2 ticks:14 retries:0 reseeds:0 | production:authorized WorldModel route-evidence seam only | planning_reader:none | Authority3:PASS governance:PASS | successor:UMBRA-AS-003P-R6C recommendation only
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-r1-route-control-continuity-r1/` | result packet:`.agent/tasks/active/UMBRA-AS-003P-R6B-R1/RESULT.md`
+
 ## UMBRA-AS-003P-R6B-R1 — START (2026-09-02)
 
 - Directive: UMBRA-AS-003P-R6B-R1 | status:active | baseline:e610a36f4ca07cf451da53c9f7dac9d35a037a0e | parent:AS003PR6B_IMPLEMENTATION_FAIL | scope:same-target verified ORIENT route-control continuity with bounded production seam, focused pure proofs, and one equivalent nominal/failure assay | constraints:no planning/L2/modal reader, no candidate/arbitration/physiology/AS-002/CLOSE-02Z changes, no Habitat truth, no retries/reseeds, no successor | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-r1-route-control-continuity-r1/ | remote:github

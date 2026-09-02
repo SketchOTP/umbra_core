@@ -27,8 +27,11 @@ insufficient for source-backed route demand. R6B implemented a bounded,
 default-off verified route-experience seam, but its one nominal acquisition did
 not obtain the required continuous multi-`APPROACH` success episode; the
 separate failure leg captured verified `movement_slip`. The terminal result is
-`AS003PR6B_IMPLEMENTATION_FAIL`. See the R6B task packet and retained evidence
-root recorded in `.agent/tasks/active/UMBRA-AS-003P-R6B/`.
+`AS003PR6B_IMPLEMENTATION_FAIL`. R6B-R1 then qualified the bounded repair: exact
+same-target verified `ORIENT` is retained as ordered route-control evidence,
+translational movement remains `APPROACH`-specific, and the route seam remains
+default-off with no planning reader. See [R6B-R1](#as-003p-r6b-r1) and its
+retained evidence root.
 
 ## Architecture and authority
 
@@ -154,6 +157,24 @@ Do not use the current qualification to relabel earlier failed executions.
   bounded implementation candidate for a default-off WorldModel-owned
   `VerifiedRouteExperience` learned only from attributed VerifiedOutcome episodes;
   it has no planning or action-selection reader.
+
+### AS-003P-R6B-R1
+
+R6B-R1 is a fresh repair generation, not a rewrite or retry of R6B. It qualified
+same-target route-control continuity under the unchanged R6B fixture (`6103`,
+`S0`, eight ticks):
+
+- [`R6B-R1 authority`](../.agent/tasks/active/UMBRA-AS-003P-R6B-R1/SPEC.md)
+- [`R6B-R1 result`](../.agent/tasks/active/UMBRA-AS-003P-R6B-R1/RESULT.md)
+- [`R6B-R1 route contract`](../.agent/tasks/active/UMBRA-AS-003P-R6B-R1/AS003PR6BR1_ROUTE_CONTINUITY_CONTRACT.json)
+- [`R6B-R1 execution lock`](../.agent/tasks/active/UMBRA-AS-003P-R6B-R1/AS003PR6BR1_EXECUTION_PROTOCOL_LOCK.json)
+
+The nominal leg acquired one exact-opportunity/body-schema-bound completed
+experience with ordered verified `ORIENT`/`CHARGE`/`APPROACH` control steps and
+one translational movement. The failure leg retained verified `movement_slip`.
+The route evidence is learning-only and not consumed by planning or action
+selection. Atlas retains the complete per-command evidence under:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-r1-route-control-continuity-r1/`.
 
 No raw modal trace from an invalidated observer generation is qualification evidence.
 

@@ -7,11 +7,11 @@ relationships, individuality, temporal context, and environmental opportunity—
 from a chatbot loop or a scripted persona.
 
 **Scientific status:** subsystem capabilities are qualified within explicit
-boundaries; integrated long-horizon viability is **not qualified**. R6B's
-default-off, verified-outcome route-evidence primitive is implemented and pure-
-tested, but its single bounded nominal acquisition did not obtain the required
-continuous multi-`APPROACH` route episode. R6B is therefore terminal
-`AS003PR6B_IMPLEMENTATION_FAIL`; no planner has action-selection authority.
+boundaries; integrated long-horizon viability is **not qualified**. R6B is a
+permanent negative generation, while the fresh R6B-R1 repair qualified a bounded
+default-off verified route-control learning primitive: same-target `ORIENT` is
+retained in route experience without becoming planning or action-selection
+authority.
 
 [Project goal](.agent/PROJECT_GOAL.md) ·
 [Current governed state](.agent/CURRENT.md) ·
@@ -135,6 +135,7 @@ solved.
 | Temporal continuity | **QUALIFIED — current baseline** | D-010Q5 qualified the current baseline separately; earlier D-010 failures remain permanent. |
 | Governed perception adapters | **QUALIFIED — bounded** | D-011 policy/provenance, rejection durability, replay, and boundedness. |
 | True physical-body replacement | **QUALIFIED — bounded** | AS-003S atomic replacement transaction; see below. |
+| Verified route-control learning | **QUALIFIED — bounded** | AS-003P-R6B-R1: one frozen nominal route-control acquisition plus one movement-slip failure leg; default-off, WorldModel-owned, no policy reader. |
 | Ordinary action selection and modal planning | **ACTIVE RESEARCH QUESTION** | Prior scalar and strict-dominance selectors were insufficient; modal planning remains shadow-only and has no behavior authority. |
 | Integrated long-horizon viability | **NOT QUALIFIED** | Formal and long-horizon generations retain terminal failures; AS-004 and CLOSE-03 remain blocked. |
 
@@ -168,6 +169,25 @@ and baseline comparison found zero candidate-only failures in the applicable sui
 [validation summary](.agent/tasks/active/UMBRA-AS-003S/AS003S_VALIDATION_SUMMARY.json) ·
 [crash-consistency proof](.agent/tasks/active/UMBRA-AS-003S/AS003S_CRASH_CONSISTENCY_PROOF.json) ·
 [manifest](.agent/tasks/active/UMBRA-AS-003S/AS003S_EVIDENCE_MANIFEST.json)
+
+## Recent result: same-target route-control learning
+
+R6B-R1 repaired and freshly qualified the narrow route-experience boundary that
+R6B exposed. A verified target-bound `ORIENT` now preserves continuity for the
+same exact WorldModel opportunity and body schema, while its issue/completion
+timing and provenance are retained as an ordered non-translational control step.
+Verified translational `APPROACH` count remains separate. Unbound actions,
+route switches, ambiguity, body changes, denials, and unverified outcomes still
+fail closed; issued `IDLE` is an interruption.
+
+The frozen assay acquired a nominal sequence containing three `ORIENT` steps,
+one successful `APPROACH`, and terminal `CHARGE`, plus a separate verified
+`movement_slip` failure leg. This is bounded route-learning evidence, not a
+route planner, action-selection change, or integrated viability result. The
+historical R6B failure remains permanent and is not rewritten.
+
+[R6B-R1 task packet](.agent/tasks/active/UMBRA-AS-003P-R6B-R1/RESULT.md) ·
+[R6B-R1 evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6b-r1)
 
 ## Scientific method
 
@@ -207,6 +227,9 @@ Negative results are not removed when later work succeeds.
 - **Action selection:** AS-003C observed 2,647 qualifying ordinary multi-candidate
   decisions with zero supported-dominance eliminations and full-frontier saturation.
   AS-003D retired that strict-dominance architecture as a forward selector.
+- **Route learning:** R6B's nominal leg failed when same-target `ORIENT` was treated
+  as an unrelated interruption. R6B-R1 qualified the bounded repair while preserving
+  the original failure as permanent evidence.
 - **Observer measurement:** AS-003P/R1/R3 generations exposed import-protocol,
   comparator, and cross-run body-identity equivalence defects. Their raw modal traces
   were not promoted to qualified planning evidence. The body-identity defect found in

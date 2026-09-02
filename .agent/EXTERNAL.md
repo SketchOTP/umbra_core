@@ -1,3 +1,10 @@
+## UMBRA-AS-003P-R6B-R1 closeout reference boundary — 2026-09-02
+
+The route-control repair used no new dependency. The cited mobile-navigation
+reference remains `REFERENCE` only for the bounded observation that turning or
+alignment consumes execution time. No turning optimizer, route cost, planner,
+RL method, or action-selection authority was imported.
+
 ## UMBRA-AS-003P-R6B-R1 reference boundary — 2026-09-02
 
 The Architect's route-continuity disposition cites mobile-navigation work only as

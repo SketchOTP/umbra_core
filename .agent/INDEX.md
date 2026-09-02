@@ -1,4 +1,15 @@
-# UMBRA-AS-003P-R6B-R1 is ACTIVE from exact baseline
+# UMBRA-AS-003P-R6B-R1 is TERMINAL with
+`AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED`.
+The fresh repair qualified same-target verified `ORIENT` route-control
+continuity under the unchanged R6B assay. Q1 acquired one exact-opportunity,
+body-schema-bound route experience with one translational `APPROACH` and three
+`ORIENT` control steps; Q2 captured verified `movement_slip`. Final freeze is
+`caab6c08110f9e05f655360b5d5304c9aec7f767`; assay counts are organisms `2`,
+ticks `14`, retries/reseeds `0/0`. Route evidence remains default-off and
+learning-only. Result: `.agent/tasks/active/UMBRA-AS-003P-R6B-R1/RESULT.md`;
+no successor started. Recommendation only: `UMBRA-AS-003P-R6C`.
+
+# UMBRA-AS-003P-R6B-R1 was ACTIVE from exact baseline
 `e610a36f4ca07cf451da53c9f7dac9d35a037a0e` after accepted terminal R6B
 `AS003PR6B_IMPLEMENTATION_FAIL`. This fresh repair generation is limited to
 same-target route-control continuity: verified target-bound `ORIENT` may preserve

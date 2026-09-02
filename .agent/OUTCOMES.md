@@ -1,3 +1,28 @@
+## UMBRA-AS-003P-R6B-R1 terminal closeout — verified route-control learning qualified — 2026-09-02
+
+`AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED` is terminal. From
+`e610a36f4ca07cf451da53c9f7dac9d35a037a0e`, the bounded repair admitted exact
+same-target verified `ORIENT` as ordered non-translational route-control
+evidence, retained observed timing/provenance, and kept translational movement
+count `APPROACH`-specific. The dedicated freeze is
+`caab6c08110f9e05f655360b5d5304c9aec7f767`.
+
+The frozen seed `6103`, scenario `S0`, max `8` assay acquired Q1: opportunity
+`2b311f40-2dcf-394b-ecd0-9de8088ceb67`, body schema
+`802b456c-678c-aee1-6a92-a0e4e1f87afe`, ordered controls
+`ORIENT,CHARGE,ORIENT,CHARGE,APPROACH,ORIENT,CHARGE`, movement count `1`, and
+verified terminal `CHARGE`. Q2 acquired verified `movement_slip` with no false
+successful experience. Organism/tick counts were `2/14`; retries/reseeds `0/0`.
+
+Pure protected tests passed `41/41` repeatedly; assay equivalence, policy
+isolation, V1 migration, timing/provenance, Authority 3.0, Governance, and
+`git diff --check` passed. Production changes were limited to the authorized
+WorldModel route-evidence seam and exports; no planning/action-selection reader
+was added. Evidence root and final manifest are in the R6B-R1 task result.
+R6B's terminal failure remains permanent. Recommendation only:
+`UMBRA-AS-003P-R6C — Route/Affordance Planning Evidence Frame Extension Candidate`.
+No successor started.
+
 ## UMBRA-AS-003P-R6B-R1 governance start — same-target route-control continuity — 2026-09-02
 
 Architect accepted R6B's permanent `AS003PR6B_IMPLEMENTATION_FAIL` and authorized

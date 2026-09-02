@@ -1,3 +1,12 @@
+## 2026-09-02 — UMBRA-AS-003P-R6B-R1 terminal closeout
+
+Architect-authorized R6B-R1 qualified the bounded WorldModel route-control
+learning repair. The frozen assay acquired the required same-target
+`ORIENT`-containing nominal experience and verified `movement_slip` failure leg
+under the unchanged R6B fixture. Final freeze is
+`caab6c08110f9e05f655360b5d5304c9aec7f767`; production remains limited to the
+authorized route-evidence seam; no planning reader or successor started.
+
 ## 2026-09-02 — UMBRA-AS-003P-R6B-R1 governance start
 
 Architect accepted permanent R6B failure and authorized a fresh repair from

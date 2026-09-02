@@ -1,3 +1,20 @@
+# UMBRA-AS-003P-R6B-R1 — TERMINAL qualified route-control learning
+
+Terminal verdict: `AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED`.
+The fresh repair qualified exact same-target verified `ORIENT` continuity as
+ordered non-translational route-control evidence while preserving separate
+translational `APPROACH` count. The frozen assay ran one nominal and one failure
+leg: Q1 acquired a completed route experience and Q2 captured verified
+`movement_slip`. Final freeze commit is
+`caab6c08110f9e05f655360b5d5304c9aec7f767`; evidence root and manifest are
+recorded in the task result. Production changes were confined to the
+WorldModel route-evidence seam and exports; route learning remains default-off
+with no planning/action-selection reader. Organism counts for the bounded
+assay are `2` creations and `14` ticks; retries/reseeds `0/0`.
+
+No successor was started. The recommendation-only next boundary is
+`UMBRA-AS-003P-R6C`; planning integration, AS-004, and CLOSE-03 remain blocked.
+
 # UMBRA-AS-003P-R6B-R1 — ACTIVE fresh route-control continuity repair
 
 R6B remains permanently terminal with `AS003PR6B_IMPLEMENTATION_FAIL`. R6B-R1

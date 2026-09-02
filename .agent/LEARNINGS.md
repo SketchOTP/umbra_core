@@ -1,3 +1,13 @@
+## 2026-09-02 — R6B-R1 qualified route-control continuity
+
+The frozen repair demonstrated that a route experience must preserve the
+ordered verified control sequence, not only translational movement count. Exact
+same-target `ORIENT` can be part of one opportunity/body-bound episode, while
+unbound or switched actions still fail closed. A three-step route-control record
+can preserve timing/provenance without creating a route cost or action-selection
+reader. The nominal and movement-slip legs qualified this narrow learning seam;
+planning consumption remains a separate future authority.
+
 ## 2026-09-02 — R6B-R1 route-control continuity boundary
 
 R6B's nominal acquisition showed that an ordinary same-target `ORIENT` can be
