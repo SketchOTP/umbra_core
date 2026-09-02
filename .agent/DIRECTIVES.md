@@ -1,3 +1,11 @@
+## UMBRA-AS-003P-R6B-R1 — START (2026-09-02)
+
+- Directive: UMBRA-AS-003P-R6B-R1 | status:active | baseline:e610a36f4ca07cf451da53c9f7dac9d35a037a0e | parent:AS003PR6B_IMPLEMENTATION_FAIL | scope:same-target verified ORIENT route-control continuity with bounded production seam, focused pure proofs, and one equivalent nominal/failure assay | constraints:no planning/L2/modal reader, no candidate/arbitration/physiology/AS-002/CLOSE-02Z changes, no Habitat truth, no retries/reseeds, no successor | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-r1-route-control-continuity-r1/ | remote:github
+
+## R6B stale-record correction — append-only
+
+- R6B authoritative final commit = `e610a36f4ca07cf451da53c9f7dac9d35a037a0e`. The historical R6B terminal line remains unchanged; this entry corrects only its stale `final_commit:pending_closeout` transcription.
+
 ## UMBRA-AS-003P-R6B — TERMINAL (2026-09-02)
 
 - Directive: UMBRA-AS-003P-R6B | status:terminal | verdict:AS003PR6B_IMPLEMENTATION_FAIL | final_commit:pending_closeout | Q1:required multi-APPROACH success not acquired | Q2:verified movement_slip acquired | organisms:2 ticks:14 retries:0 reseeds:0 | successor:none

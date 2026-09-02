@@ -1,3 +1,14 @@
+# UMBRA-AS-003P-R6B-R1 is ACTIVE from exact baseline
+`e610a36f4ca07cf451da53c9f7dac9d35a037a0e` after accepted terminal R6B
+`AS003PR6B_IMPLEMENTATION_FAIL`. This fresh repair generation is limited to
+same-target route-control continuity: verified target-bound `ORIENT` may preserve
+an exact opportunity/body-bound route episode and records observed timing and
+provenance without increasing translational movement count. It must not add
+planning/action-selection authority. The frozen R6B assay conditions remain
+unchanged; no organism execution is permitted before the dedicated freeze.
+Packet: `.agent/tasks/active/UMBRA-AS-003P-R6B-R1/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-r1-route-control-continuity-r1/`.
+
 # UMBRA-AS-003P-R6B is TERMINAL with `AS003PR6B_IMPLEMENTATION_FAIL`.
 The pure route-evidence suite passed twice and the bounded failure leg captured
 verified `movement_slip`, but the required successful multi-`APPROACH` route was

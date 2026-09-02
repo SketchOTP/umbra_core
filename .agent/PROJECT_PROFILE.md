@@ -1,3 +1,13 @@
+Current governed status: UMBRA-AS-003P-R6B-R1 is active from exact baseline
+`e610a36f4ca07cf451da53c9f7dac9d35a037a0e` after permanent R6B terminal
+`AS003PR6B_IMPLEMENTATION_FAIL`. Scope is a fresh, bounded repair of verified
+route-control continuity: exact same-target `ORIENT` is retained as an ordered
+non-translational control step with observed timing/provenance while translational
+`APPROACH` count remains separate. Route learning stays default-off and write-only
+with no planning/action-selection reader. The frozen R6B seed `6103`, S0 fixture,
+max-tick `8`, nominal/failure legs, and no-retry/no-reseed boundary remain fixed.
+No planning integration, AS-004, or CLOSE-03 is authorized.
+
 Current governed status: UMBRA-AS-003P-R6B is terminal
 `AS003PR6B_IMPLEMENTATION_FAIL` from R6B final closeout. The default-off
 WorldModel-owned verified route evidence primitive passed its pure suite twice,

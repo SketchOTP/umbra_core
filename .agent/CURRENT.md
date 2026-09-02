@@ -1,3 +1,22 @@
+# UMBRA-AS-003P-R6B-R1 — ACTIVE fresh route-control continuity repair
+
+R6B remains permanently terminal with `AS003PR6B_IMPLEMENTATION_FAIL`. R6B-R1
+starts from exact synchronized baseline `e610a36f4ca07cf451da53c9f7dac9d35a037a0e`
+and may repair only the WorldModel-owned verified route-evidence lifecycle so an
+exact same-target verified `ORIENT` preserves a route episode as route-control
+evidence. Translational `APPROACH` count remains separate; unrelated actions,
+route switches, ambiguity, body changes, denials, and unverified outcomes still
+fail closed. Route learning remains default-off and has no planning or
+action-selection reader.
+
+At governance start: production delta `0`, existing-test semantic delta `0`,
+organism/control/shadow/diagnostic runs `0/0/0/0`, retries/reseeds `0/0`.
+Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-r1-route-control-continuity-r1/`.
+The only authorized operational assay is a fresh equivalent of R6B's seed `6103`,
+scenario `S0`, max `8` ticks, one nominal leg and one failure leg, after the
+route-continuity contract and pure gates are frozen.
+
 # UMBRA-AS-003P-R6B — terminal operational acquisition failure
 
 R6B is terminal with `AS003PR6B_IMPLEMENTATION_FAIL`. The pure

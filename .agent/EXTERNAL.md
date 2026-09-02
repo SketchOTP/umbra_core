@@ -1,3 +1,12 @@
+## UMBRA-AS-003P-R6B-R1 reference boundary — 2026-09-02
+
+The Architect's route-continuity disposition cites mobile-navigation work only as
+reference for the general fact that turning/alignment consumes execution time.
+This stage does not import a navigation optimizer, cost model, RL method, planner,
+or dependency. The implementation decision is grounded in UMBRA's existing
+target-bound `ORIENT` candidate and verified-outcome lifecycle. Recheck only if a
+future contract proposes interpreting route-control timing as selection authority.
+
 # UMBRA-AS-003P-R6B closeout — no new external discovery — 2026-09-02
 
 R6B remained within the previously recorded reference-only boundary. No new

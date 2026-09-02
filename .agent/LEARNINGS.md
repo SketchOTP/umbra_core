@@ -1,3 +1,13 @@
+## 2026-09-02 — R6B-R1 route-control continuity boundary
+
+R6B's nominal acquisition showed that an ordinary same-target `ORIENT` can be
+part of the route-control sequence. Treating every non-APPROACH action as an
+unrelated interruption is too coarse, while ignoring `ORIENT` would lose observed
+execution time. The bounded repair must use exact opportunity identity and body
+schema, retain ordered verified route-control steps and completion lags, and keep
+`verified_movement_execution_count` limited to translational `APPROACH`. This is
+a source-backed lifecycle correction, not a new selector, route cost, or planner.
+
 ## UMBRA-AS-003P-R6B operational acquisition boundary — 2026-09-02
 
 - A verified route learner can correctly bind and close a zero-movement terminal sample, but Q1 requires a continuous `APPROACH ... APPROACH -> terminal` episode. An ordinary emitted unrelated action must invalidate the active episode; this prevents false success but means the assay must acquire the complete route episode prospectively.

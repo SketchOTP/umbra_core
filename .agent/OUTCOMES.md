@@ -1,3 +1,17 @@
+## UMBRA-AS-003P-R6B-R1 governance start — same-target route-control continuity — 2026-09-02
+
+Architect accepted R6B's permanent `AS003PR6B_IMPLEMENTATION_FAIL` and authorized
+R6B-R1 from exact synchronized baseline
+`e610a36f4ca07cf451da53c9f7dac9d35a037a0e`. The narrow repair addresses the
+verified R6B acquisition boundary: ordinary candidate generation emits target-
+bound `ORIENT`, but R6B issue binding admitted only `APPROACH` and terminal
+capabilities. R6B-R1 must preserve exact opportunity/body-schema binding, record
+verified route-control timing/provenance, and keep translational movement count
+APPROACH-specific. It is a fresh generation, not a retry; no organism has run at
+start and no planning/action-selection reader is authorized. The stale R6B
+`final_commit:pending_closeout` record is corrected append-only by an explicit
+entry naming authoritative final commit `e610a36f4ca07cf451da53c9f7dac9d35a037a0e`.
+
 ## UMBRA-AS-003P-R6B terminal — verified route-demand acquisition failed — 2026-09-02
 
 R6B's pure route-evidence implementation passed its focused suite twice. The

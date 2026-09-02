@@ -1,3 +1,13 @@
+## 2026-09-02 — UMBRA-AS-003P-R6B-R1 governance start
+
+Architect accepted permanent R6B failure and authorized a fresh repair from
+`e610a36f4ca07cf451da53c9f7dac9d35a037a0e`. The repair is limited to exact
+same-target route-control continuity for verified `ORIENT`; no planning authority,
+candidate change, or route-cost semantics are authorized. R6B's stale
+`final_commit:pending_closeout` transcription is corrected append-only by naming
+`e610a36f4ca07cf451da53c9f7dac9d35a037a0e`. Start counts are zero for this
+generation, and the new evidence root is the R6B-R1 route-control-continuity root.
+
 This file is specifically for the operator's use. It keeps record of what the AI Architect has instructed the AI coder to do. The AI coder is not allowed to add, edit, or alter this document.
 
 ---
