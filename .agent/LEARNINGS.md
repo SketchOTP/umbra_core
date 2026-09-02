@@ -598,3 +598,17 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
   names may use relational equivalence.
 - Modal evidence is scientifically interpretable only after the prospectively frozen
   observer comparator reports zero semantic differences.
+
+## 2026-09-02 — Retained modal labels cannot recover dropped timing evidence
+
+- Equal top-level continuation labels can hide materially different candidate
+  successor states; retain branch-level effects and witnesses when future relational
+  attribution is anticipated.
+- Opportunity persistence alone is not schedulability evidence. A lawful deadline
+  comparison also needs source-backed route movement demand, completion demand, and
+  their binding to the specific opportunity.
+- A point-zero timing field must not be treated as zero execution demand when the
+  source route envelope was never captured; the conservative result is UNKNOWN.
+- Repository-root module invocation matters for pure research tooling: an initial
+  path-context import failed before evidence publication, then the corrected module
+  invocation proceeded without runtime import or scientific retry.

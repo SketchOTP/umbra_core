@@ -164,3 +164,22 @@ hypotheses before detailed R5A conflict inspection, recover AS-003L's exact sour
 contract, and test only a bounded non-utility full-obligation schedulability loss
 relation. R5A data may support development but cannot qualify action authority.
 Production/existing-test semantics and all live execution remain prohibited.
+
+## 2026-09-02 — UMBRA-AS-003P-R6 terminal result
+
+### Decision
+
+Close R6 as `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`.
+
+### Basis
+
+The H1-H5 lock preceded detailed trace inspection. AS-003L's exact owner-deadline
+and route-plus-completion demand contract was recovered. The immutable L2 relation
+passed 23 pure cases twice, but R5A contains zero route records with supported
+movement demand. All 5,367 retained candidate branches are schedule-UNKNOWN; no
+candidate precedence or AS-002 relation is supportable without fabricated time.
+
+### Scope
+
+Production/existing-test semantic deltas, organism/control/shadow/diagnostic runs,
+retries, and reseeds are zero. No successor is authorized or started.

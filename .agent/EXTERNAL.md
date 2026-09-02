@@ -313,3 +313,17 @@ boundary before any outside literature could affect implementation semantics.
 - New library/framework — **REJECT**. The stdlib/SQLite implementation is smaller,
   deterministic, testable with existing crash injection, and avoids a new durable
   authority or dependency.
+
+## UMBRA-AS-003P-R6 — bounded planning/schedulability reference boundary
+
+- Cimatti et al., *Weak, strong, and strong cyclic planning via symbolic model
+  checking* — **REFERENCE** for existential action choice versus universal supported
+  outcome-branch obligations; no symbolic planner imported.
+- Larsen and Thomsen, *A modal process logic* — **REFERENCE** for may/must relational
+  structure; modality is evidence strength, not preference.
+- Aubin, *A Survey of Viability Theory* — **REFERENCE** for constraint-preserving
+  feasible continuations; no objective function or optimizer imported.
+- Real-time scheduling literature — **REFERENCE** only for bounded demand-before-
+  deadline feasibility. EDF, least-laxity priority, schedule scoring, and slack
+  maximization are rejected as UMBRA action authority.
+- External dependencies added: `0`.

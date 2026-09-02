@@ -132,6 +132,10 @@ Do not use the current qualification to relabel earlier failed executions.
   branch with zero semantic observer differences. Its 500 complete frames yielded no
   candidate-profile distinction, including across 57 AS-003L conflict exposures, so
   the result is observer-safe but non-discriminating and grants no action authority.
+- [`AS-003P-R6 result`](../.agent/tasks/active/UMBRA-AS-003P-R6/RESULT.md) — zero-run
+  attribution confirmed profile compression but found the retained frames lack
+  source-backed route/service demand. All L2 branches remained schedule-unknown, so
+  no AS-002 planning relation or live authority is supported.
 
 No raw modal trace from an invalidated observer generation is qualification evidence.
 

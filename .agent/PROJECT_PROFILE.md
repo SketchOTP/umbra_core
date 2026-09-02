@@ -1,9 +1,12 @@
-Current governed status: UMBRA-AS-003P-R6 is active from exact baseline
-`738485040029cbeb221f6eb14f76682d8e98200d`. It is zero-organism retrospective
-architecture research over immutable observer-safe R5A traces. R6 may recover and
-pure-test a bounded full-obligation L2 schedulability relation, but it cannot modify
-production/existing scientific tests, run UMBRA, grant planning authority, or use
-R5A retrospective data as behavioral qualification.
+Current governed status: UMBRA-AS-003P-R6 is terminal
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2` from exact baseline
+`738485040029cbeb221f6eb14f76682d8e98200d`. A locked non-scalar L2 relation passed
+23 pure tests twice, but retained R5A frames lack source-backed route/service demand.
+All 5,323 admitted modal witnesses are timing-UNKNOWN and all 5,367 analyzed candidate
+branches are `SCHEDULE_UNKNOWN`; no complete schedule, candidate distinction, or
+AS-002 relation is supported. Profile compression was demonstrated independently.
+No production/existing-test change or live execution occurred, and no successor is
+authorized.
 
 Current governed status: UMBRA-AS-003P-R5A is terminal
 `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING` from exact baseline

@@ -1350,3 +1350,14 @@ The final corrected readback manifest SHA-256 is
 `1e1d36383a85cf95e84df4613dd324b7d8ab480d3462a8a593568e79efcd5b08`;
 an append-only correction preserves and fixes two mistyped digests in the preliminary
 closeout summary.
+
+## 2026-09-02 — UMBRA-AS-003P-R6 retained L2 attribution
+
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2` is terminal. A preregistered,
+non-scalar full-obligation schedulability relation passed 23 pure tests twice.
+Retained R5A evidence shows 6,030 candidate pairs with equal modal class but different
+immediate successor physiology, confirming compression. It does not retain supported
+route movement/service demand: 5,323 modal witnesses become timing-UNKNOWN and all
+5,367 analyzed branches are `SCHEDULE_UNKNOWN`. No complete schedule, one-way L2
+distinction, or AS-002 relation is supported. Production/test changes, organism and
+diagnostic runs, retries, and reseeds are zero; no successor started.

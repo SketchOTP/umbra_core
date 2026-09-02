@@ -1,19 +1,20 @@
-# UMBRA-AS-003P-R6 active — retained modal-compression and L2 schedulability attribution
+# UMBRA-AS-003P-R6 terminal — retained evidence insufficient for L2
 
-The Architect accepted terminal R5A verdict
-`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING` and authorized R6
-from exact baseline `738485040029cbeb221f6eb14f76682d8e98200d`. R6 uses only
-the immutable observer-safe R5A SHADOW/decision evidence to distinguish top-level
-classification compression, temporal-envelope loss, one-witness structural
-insufficiency, genuine prospective equivalence, and missing source evidence.
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2` is terminal from exact baseline
+`738485040029cbeb221f6eb14f76682d8e98200d`. The locked pure L2 relation passed
+`23/23` tests twice, but the immutable R5A frames omit source-backed route movement
+demand and the semantic link from capability progress/completion support to each
+opportunity. All `5,323` previously admitted modal witnesses therefore become
+timing-UNKNOWN under source-preserving analysis, and all `5,367` retained candidate
+branches classify `SCHEDULE_UNKNOWN`; no schedule or one-way candidate distinction
+is supportable.
 
-Before detailed conflict inspection it must hash-lock H1-H5. Any L2 relation must
-recover AS-003L's exact owner deadlines and route-plus-completion demand, preserve
-opportunity horizons, evaluate all active obligations without score/weight/ranking,
-and pass pure synthetic tests twice before retrospective application. R5A remains
-development evidence only. No production or existing-test semantic change,
-organism/control/shadow/diagnostic execution, retry/reseed, action authority,
-AS-004, CLOSE-03, or automatic successor is authorized. Packet:
+Profile compression is real—`6,030` candidate pairs had identical top-level classes
+despite different immediate successor physiology—but it cannot be resolved into L2
+without inventing time. AS-002 disposition is `NO_RELATION_SUPPORTED`; the modal
+path remains shadow-only and non-authoritative. Production/existing-test deltas,
+organism/control/shadow/diagnostic executions, retries, and reseeds are all zero.
+No successor is authorized or started. Packet:
 `.agent/tasks/active/UMBRA-AS-003P-R6/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6-l2-schedulability-attribution-r1/`.
 

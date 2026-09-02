@@ -286,6 +286,14 @@ AS-003L residual conflict class. The terminal result is therefore
 `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`, not a planning
 qualification.
 
+AS-003P-R6 then examined those immutable traces without another organism run. It
+confirmed that the top-level modal labels compress materially different immediate
+consequences, but also found that the trace never retained source-backed route/service
+demand. Under the preregistered AS-003L schedulability contract, all 5,323 admitted
+modal witnesses therefore remain timing-unknown and no L2 candidate relation can be
+supported. The terminal result is
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`; it grants no planning authority.
+
 The next architecture or research step requires separate authority. Planning
 integration, AS-004 integrated viability, and CLOSE-03 final organism acceptance
 remain blocked.

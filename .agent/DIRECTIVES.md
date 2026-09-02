@@ -1009,3 +1009,12 @@ successor is authorized.
   change, existing-test semantic change, organism/control/shadow/diagnostic run,
   retry/reseed, action authority, AS-004, CLOSE-03, or automatic successor.
 - **Evidence:** `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6-l2-schedulability-attribution-r1/`.
+
+## 2026-09-02 — UMBRA-AS-003P-R6 terminal attribution
+
+- **Verdict:** `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`.
+- **Finding:** the locked L2 relation passed 23 pure tests twice, but R5A retained no
+  source-backed route movement demand. All 5,367 candidate branches remain
+  `SCHEDULE_UNKNOWN`; no candidate relation or AS-002 extension is supported.
+- **Boundary:** zero production/test-semantic change, zero live execution, no action
+  authority, and no automatic successor.

@@ -1,13 +1,14 @@
-UMBRA-AS-003P-R6 is ACTIVE from exact baseline
-`738485040029cbeb221f6eb14f76682d8e98200d` after accepted terminal R5A verdict
-`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`. It is zero-organism
-retained-trace architecture research: lock H1-H5 before detailed R5A inspection,
-recover the exact AS-003L obligation/deadline contract, audit profile compression
-and opportunity-horizon loss, then test one bounded non-scalar full-obligation L2
-schedulability relation. R5A remains development evidence; production, existing
-scientific-test semantics, organism/control/shadow/diagnostic execution,
-retry/reseed, action authority, AS-004, CLOSE-03, and automatic successor are
-prohibited. Packet `.agent/tasks/active/UMBRA-AS-003P-R6/`; evidence
+UMBRA-AS-003P-R6 is TERMINAL with
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2` from exact baseline
+`738485040029cbeb221f6eb14f76682d8e98200d`. The non-scalar full-obligation L2
+relation passed 23 pure tests twice, but R5A retained no source-backed route demand.
+Consequently `5,323` modal witnesses are timing-UNKNOWN and all `5,367` candidate
+branches are `SCHEDULE_UNKNOWN`; no complete schedule or L2 distinction is lawful.
+Top-level profile compression is observed (`6,030` candidate pairs differ in
+immediate successor physiology despite equal classes), but no AS-002 relation is
+supported. Production/test deltas and all organism/control/shadow/diagnostic runs,
+retries, and reseeds are zero; no successor started. Packet
+`.agent/tasks/active/UMBRA-AS-003P-R6/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6-l2-schedulability-attribution-r1/`.
 
 UMBRA-AS-003P-R5A is TERMINAL with
