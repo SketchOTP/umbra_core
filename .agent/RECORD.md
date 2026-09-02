@@ -2,6 +2,18 @@ This file is specifically for the operator's use. It keeps record of what the AI
 
 ---
 
+## 2026-09-02 — UMBRA-AS-003P-R6A governance start
+
+Architect accepted R6 terminal `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`
+and authorized R6A from corrected synchronized baseline
+`dbb95c3176573919d003d90b25f745853bfe803c`. R6A is zero-organism,
+source-contract research only: audit existing route, timing, and INSPECT
+evidence, run isolated pure derivation tests, and choose the smallest missing
+source primitive. Production, existing-test semantics, organism/control/
+shadow/diagnostic runs, retries, and reseeds remain zero; no successor is
+authorized. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6a-route-service-source-contract-r1/`.
+
 2026-07-20 | UMBRA-CORE bootstrap | Converted AI-coder rule/governance files from foreign repos (digital_cell / hermes residue) to UMBRA-CORE. PROJECT_GOAL retained as sole product source of truth. Agent memory logs reset for greenfield. Mimir binding set UNBOUND pending successful register on this checkout.
 
 ---

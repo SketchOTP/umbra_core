@@ -327,3 +327,4 @@ boundary before any outside literature could affect implementation semantics.
   deadline feasibility. EDF, least-laxity priority, schedule scoring, and slack
   maximization are rejected as UMBRA action authority.
 - External dependencies added: `0`.
+# UMBRA-AS-003P-R6A external review — pending bounded reference review

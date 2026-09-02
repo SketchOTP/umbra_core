@@ -1363,3 +1363,13 @@ distinction, or AS-002 relation is supported. Production/test changes, organism 
 diagnostic runs, retries, and reseeds are zero; no successor started.
 Final evidence manifest SHA-256:
 `37bfe447aa552bef7fba7b608b684ff6c5b2e6acbb784d78009605cc49bd306a`.
+## UMBRA-AS-003P-R6A governance start — 2026-09-02
+
+R6A starts from corrected authoritative R6 commit
+`dbb95c3176573919d003d90b25f745853bfe803c` after terminal
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`. The old R6 evidence remains
+immutable: its pure relation passed `23/23` twice, but all retained modal
+witnesses lacked source-backed route demand. R6A is limited to source-contract
+derivation and pure offline tests. Production/existing-test semantic changes,
+organism/control/shadow/diagnostic runs, retries, and reseeds are `0`; no
+successor is authorized or started.

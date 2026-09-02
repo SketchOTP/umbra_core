@@ -1018,3 +1018,6 @@ successor is authorized.
   `SCHEDULE_UNKNOWN`; no candidate relation or AS-002 extension is supported.
 - **Boundary:** zero production/test-semantic change, zero live execution, no action
   authority, and no automatic successor.
+## UMBRA-AS-003P-R6A — START (2026-09-02)
+
+- Directive: UMBRA-AS-003P-R6A | status:active | baseline:dbb95c3176573919d003d90b25f745853bfe803c | parent:AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2 | scope:zero-organism route/service source-contract research and isolated pure derivation tests | constraints:production 0,existing-test semantic delta 0,organism/control/shadow/diagnostic 0,retry 0,reseed 0,no Habitat truth,planner,AS-002 change,or successor | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6a-route-service-source-contract-r1/ | remote:github

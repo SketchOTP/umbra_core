@@ -492,3 +492,12 @@ creation and restart, zero ticks, retries/reseeds `0/0`. Recommendation only is
 AS-003P-R5 common-root observer work; no successor started. Packet
 `.agent/tasks/active/UMBRA-AS-003S/`; evidence
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003s-atomic-body-replacement-r1/`.
+UMBRA-AS-003P-R6A is ACTIVE from exact baseline
+`dbb95c3176573919d003d90b25f745853bfe803c`, after terminal
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`. This is zero-organism
+source-contract research only. It audits route-demand, movement-support,
+completion timing, and INSPECT opportunity joins using existing policy-safe
+sources; no production/test semantic change, organism/control/shadow/
+diagnostic run, retry, or reseed is allowed. Packet
+`.agent/tasks/active/UMBRA-AS-003P-R6A/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6a-route-service-source-contract-r1/`.

@@ -1402,3 +1402,17 @@ R4 is recovering D-008/D-009, embodiment, persistence, habitat, migration, and e
 AS-003P-R4 is terminal with `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. Zero-run authority recovery classifies adapter `body_instance_id` as a run-local fresh relational name across independent births with exact literal continuity inside one organism history. It is unseeded `uuid4`, consumes no organism RNG, is created before shadow capture, and is used through equality/relationship edges rather than magnitude, ordering, or scoring. The retained R3 event/final-state pair is `CONSISTENT_WITH_RUN_LOCAL_FRESH_RENAMING`; R3 nevertheless remains permanently failed and its modal trace remains uninterpreted.
 
 The separate terminal defect is current true-body replacement. `detach()` preserves `body_instance_id`, subsequent `attach()` reuses it, and attachment generation also changes for compatible profile swaps; the adapter lifecycle therefore cannot distinguish an old physical body from a new one. `SelfModel.replace_body()` creates a new body binding/schema but has no authoritative transaction linking that replacement to adapter attachment identity, Embodiment occupancy identity, or Habitat held-object relationships. A pure owner-scoped alpha-equivalence proof passed 12/12 cases (4 positive, 8 negative), but both future observer protocols are blocked pending Architect review; common-root fork is only the statically preferred design if the defect is resolved. Production/existing-test changes and organism/control/shadow/diagnostic/qualification runs are `0`; retries/reseeds `0/0`; no successor started. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r4-body-identity-semantics-r1/`.
+# UMBRA-AS-003P-R6A — route/service source-contract research
+
+R6A is active from exact synchronized baseline
+`dbb95c3176573919d003d90b25f745853bfe803c`, after permanent R6 verdict
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`. The task is zero-organism,
+zero-production source research: determine whether existing policy-visible
+WorldModel distance/affordance evidence, SelfModel verified movement support,
+and runtime timing can lawfully join into AS-003L route/service demand. The
+historical R6 aggregate remains immutable and is not tuning input. Packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6A/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6a-route-service-source-contract-r1/`.
+No production or existing scientific-test semantic change, organism/control/
+shadow/diagnostic run, retry, or reseed is authorized. No successor has
+started.

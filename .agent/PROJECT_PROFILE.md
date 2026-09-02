@@ -431,3 +431,8 @@ one local SQLite transaction containing an authoritative replacement event and m
 prospective snapshot, followed by post-commit in-memory application. Constitutional
 identity and unrelated organism owners persist; D-008/D-009 remain protected; held
 objects block replacement. Modal observer work and integrated viability remain blocked.
+Current active authority: UMBRA-AS-003P-R6A, zero-organism source-contract
+research from `dbb95c3176573919d003d90b25f745853bfe803c` after terminal R6
+`AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`. No production, existing-test
+semantic, or live execution changes are authorized. Integrated long-horizon
+viability remains unqualified.

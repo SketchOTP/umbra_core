@@ -612,3 +612,11 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
 - Repository-root module invocation matters for pure research tooling: an initial
   path-context import failed before evidence publication, then the corrected module
   invocation proceeded without runtime import or scientific retry.
+## UMBRA-AS-003P-R6A start boundary — 2026-09-02
+
+- R6's `distance_support_upper_bound` and SelfModel movement intervals are
+  plausible ingredients, but neither is automatically a future traversable
+  route guarantee. Preserve source modality, body-schema binding, geometry
+  assumptions, and provenance; missing route demand remains `UNKNOWN`.
+- R6A must distinguish a source join from a new learned route-demand primitive
+  and must not use the historical R6 aggregates as tuning evidence.
