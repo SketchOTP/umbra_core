@@ -636,3 +636,15 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
   opportunity-specific route-demand/timing envelope with provenance, failure
   modes, and body-schema binding; do not repair the gap with a scalar, weight,
   planner, or hidden world truth.
+# 2026-09-02 — R6B verified route-learning boundary
+
+- R6A established that radial opportunity distance plus historical APPROACH support
+  cannot lawfully provide a robust opportunity-specific route-demand bound.
+- The smallest authorized next primitive is a WorldModel-owned,
+  opportunity- and body-schema-bound `VerifiedRouteExperience`, learned only from
+  verified route episodes and retaining raw movement/completion/terminal/failure
+  observations without scalarization.
+- Ambiguous binding, denied/unverified actions, route switches, body changes,
+  interruptions, and incomplete episodes must not create completed evidence.
+- R6B is default-off and write-only with respect to existing action selection and
+  planning surfaces; historical R5A/R6/R6A evidence is not tuning input.

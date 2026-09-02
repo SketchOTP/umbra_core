@@ -1,5 +1,12 @@
 # External Discovery Ledger
 
+## UMBRA-AS-003P-R6B bounded external review — 2026-09-02
+
+- [Learning robotic navigation from experience](https://pmc.ncbi.nlm.nih.gov/articles/PMC9745865/) — `REFERENCE / ADAPT PRINCIPLE`: route knowledge should be grounded in experienced motion and outcomes; `REJECT`: importing a navigation policy or learned cost optimizer.
+- [Traversability estimation for autonomous navigation](https://www.frontiersin.org/journals/robotics-and-ai/articles/10.3389/frobt.2022.910113/full) — `REFERENCE / ADAPT PRINCIPLE`: locomotion outcomes can provide evidence about traversability; `REJECT`: neural costmaps, global route planning, and hidden environment truth.
+- [Learning action-based affordances](https://pmc.ncbi.nlm.nih.gov/articles/PMC2871689/) — `REFERENCE / ADAPT PRINCIPLE`: action opportunities are grounded in interaction with an entity; `REJECT`: invented planning-only affordances and RL dependencies.
+- External dependencies added: `0`. These references do not authorize a planner, utility, probability, weight, or action-selection reader.
+
 ## UMBRA-REPO-001 public-repository benchmark — 2026-09-01
 
 - [OpenAI Agents SDK for Python](https://github.com/openai/openai-agents-python) —

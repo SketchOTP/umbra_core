@@ -419,6 +419,17 @@ AS-003P-R1 remains permanently terminal and its raw modal evidence remains
 scientifically invalidated. R2 made no production change and ran no organism,
 control, shadow, or diagnostic. A future prelocked semantic comparator pair is
 recommendation-only; no successor is authorized or started.
+# Current active authority — UMBRA-AS-003P-R6B
+
+R6B is active from exact baseline
+`3604fa6a4a4e01c764913af55474e7ad9495325f` after terminal R6A
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED`. It authorizes a bounded,
+default-off WorldModel verified route-experience fact and narrow runtime wiring
+only. The fact is opportunity-specific, body-schema-bound, provenance-bearing,
+verified-outcome-derived, and non-authoritative for planning/action selection.
+Integrated long-horizon viability remains unqualified; AS-004 and CLOSE-03 remain
+blocked.
+
 # Current body-identity contract status — AS-003P-R4
 
 Constitutional organism identity is body-independent. Adapter `body_instance_id` is fresh across independent births and exact within a persisted organism history; owner-scoped equality relations are semantic. True physical-body replacement is not currently represented coherently across SelfModel, EmbodimentAdapter, Embodiment occupancy, and Habitat, so no fresh modal observer pair is authorized from this state.

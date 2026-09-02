@@ -1389,3 +1389,18 @@ zero. Final manifest:
 `3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`. The
 smallest next boundary is a new verified, opportunity/body-schema-bound route-
 demand evidence fact. No successor started.
+# UMBRA-AS-003P-R6B governance start — verified route-demand learning — 2026-09-02
+
+R6B starts from exact synchronized baseline
+`3604fa6a4a4e01c764913af55474e7ad9495325f` after accepted terminal R6A
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED`. The bounded objective is to
+learn `VerifiedRouteExperience` in WorldModel only from attributed verified
+APPROACH/terminal episodes, preserving opportunity identity, body schema, raw
+temporal observations, failures, and provenance. The default is off and there are
+no readers in planning, modal/L2, candidate generation, arbitration, or action
+selection. No organism/control/shadow/diagnostic run, retry, or reseed has occurred
+at start.
+
+The public README and Evidence Guide now record R6A as the current source-evidence
+frontier. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-verified-route-learning-r1/`.

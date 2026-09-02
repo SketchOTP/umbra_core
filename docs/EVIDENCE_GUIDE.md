@@ -136,6 +136,14 @@ Do not use the current qualification to relabel earlier failed executions.
   attribution confirmed profile compression but found the retained frames lack
   source-backed route/service demand. All L2 branches remained schedule-unknown, so
   no AS-002 planning relation or live authority is supported.
+- [`AS-003P-R6A result`](../.agent/tasks/active/UMBRA-AS-003P-R6A/RESULT.md) — zero-run
+  source-contract analysis established that radial distance plus historical movement
+  support cannot lawfully supply robust opportunity-specific route demand; a new
+  verified route-demand evidence primitive is required.
+- [`AS-003P-R6B authority`](../.agent/tasks/active/UMBRA-AS-003P-R6B/SPEC.md) — current
+  bounded implementation candidate for a default-off WorldModel-owned
+  `VerifiedRouteExperience` learned only from attributed VerifiedOutcome episodes;
+  it has no planning or action-selection reader.
 
 No raw modal trace from an invalidated observer generation is qualification evidence.
 

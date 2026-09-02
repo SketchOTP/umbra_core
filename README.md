@@ -8,9 +8,9 @@ from a chatbot loop or a scripted persona.
 
 **Scientific status:** subsystem capabilities are qualified within explicit
 boundaries; integrated long-horizon viability is **not qualified**. The current
-research frontier is action-selection evidence: a prospectively locked common-root
-pair has now established that bounded modal planning can run observer-safely, but its
-profiles did not discriminate among candidates in the tested conflict exposures.
+research frontier is source-grounded route evidence: R6A established that existing
+geometric and observed-motion facts cannot lawfully provide opportunity-specific
+route demand, so R6B is evaluating a default-off, verified-outcome learning seam.
 No planner currently has action-selection authority.
 
 [Project goal](.agent/PROJECT_GOAL.md) ·
@@ -294,9 +294,15 @@ modal witnesses therefore remain timing-unknown and no L2 candidate relation can
 supported. The terminal result is
 `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`; it grants no planning authority.
 
-The next architecture or research step requires separate authority. Planning
-integration, AS-004 integrated viability, and CLOSE-03 final organism acceptance
-remain blocked.
+R6A subsequently established that the missing route demand is not a lawful geometric
+source join: radial opportunity distance and historical APPROACH support do not by
+themselves form a guaranteed traversable route envelope. Its terminal result is
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED`. R6B is the bounded next step:
+learn opportunity- and body-schema-bound route experience only from verified
+execution outcomes, with no reader in action selection or planning.
+
+Planning integration, AS-004 integrated viability, and CLOSE-03 final organism
+acceptance remain blocked.
 
 ## Evidence navigation
 

@@ -1,3 +1,14 @@
+# UMBRA-AS-003P-R6B is ACTIVE from exact baseline
+`3604fa6a4a4e01c764913af55474e7ad9495325f` after terminal R6A
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED`. R6B is a bounded
+default-off verified route-experience primitive owned by WorldModel, with narrow
+runtime wiring for admitted APPROACH/terminal episodes and verified-outcome-only
+learning. It has no planner, modal/L2, candidate, arbitration, or action-selection
+reader. Pure contracts precede one bounded success assay and one bounded failure
+assay; no long-horizon or qualification population run is authorized. Evidence:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-verified-route-learning-r1/`.
+Packet: `.agent/tasks/active/UMBRA-AS-003P-R6B/`.
+
 UMBRA-AS-003P-R6 is TERMINAL with
 `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2` from exact baseline
 `738485040029cbeb221f6eb14f76682d8e98200d`. The non-scalar full-obligation L2

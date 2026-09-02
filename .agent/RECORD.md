@@ -2,6 +2,19 @@ This file is specifically for the operator's use. It keeps record of what the AI
 
 ---
 
+## 2026-09-02 — UMBRA-AS-003P-R6B governance start
+
+Architect accepted R6A terminal
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED` and authorized R6B from
+exact synchronized baseline `3604fa6a4a4e01c764913af55474e7ad9495325f`. R6B is
+bounded implementation of a default-off WorldModel-owned verified route-
+experience primitive, with narrow runtime wiring and no planning/action-selection
+reader. Production, existing-test semantic, organism/control/shadow/diagnostic,
+retry, and reseed counts are zero at start. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-verified-route-learning-r1/`.
+
+---
+
 ## 2026-09-02 — UMBRA-AS-003P-R6A governance start
 
 Architect accepted R6 terminal `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`

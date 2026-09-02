@@ -1,3 +1,20 @@
+# UMBRA-AS-003P-R6B — verified route-demand learning primitive
+
+R6B is active from exact synchronized baseline
+`3604fa6a4a4e01c764913af55474e7ad9495325f`, after terminal R6A
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED`. The authorized scope is a
+bounded, default-off WorldModel-owned `VerifiedRouteExperience` learned only from
+opportunity- and body-schema-bound verified route episodes. It preserves raw
+movement count, completion lag, terminal timing, failure, provenance, and
+uncertainty without creating utility, probability, ranking, planner, or action
+selection authority. No modal/L2 reader or live planning integration is allowed.
+
+At governance start: production delta `0`, existing-test semantic delta `0`,
+organism/control/shadow/diagnostic runs `0/0/0/0`, retries/reseeds `0/0`.
+Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-verified-route-learning-r1/`.
+Packet: `.agent/tasks/active/UMBRA-AS-003P-R6B/`.
+
 # UMBRA-AS-003P-R6 terminal — retained evidence insufficient for L2
 
 `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2` is terminal from exact baseline
