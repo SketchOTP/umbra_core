@@ -31,7 +31,32 @@ separate failure leg captured verified `movement_slip`. The terminal result is
 same-target verified `ORIENT` is retained as ordered route-control evidence,
 translational movement remains `APPROACH`-specific, and the route seam remains
 default-off with no planning reader. See [R6B-R1](#as-003p-r6b-r1) and its
-retained evidence root.
+ retained evidence root.
+
+### AS-003P-R6C
+
+R6C is a fresh zero-organism, additive frame-extension generation from the
+qualified R6B-R1 route-control seam. It qualifies an immutable
+`AS003P_PLANNING_EVIDENCE_FRAME_V2` projection for exact V2 route experiences and
+learned ACTIVE affordances. Historical route witnesses are
+`VERIFIED_OBSERVED_SUPPORT` with `MAY` modality; failure-only, unmatched, stale,
+authored-only, and unsupported evidence remains `UNKNOWN`. V1 records remain
+readable without invented route-control steps. The new fields carry source
+fingerprints and have no reader in modal evaluation, candidate generation,
+arbitration, Governance, Embodiment, or action-selection authority.
+
+The retained R6B-R1 projection contains one successful seven-step route-control
+witness for one exact opportunity/body-schema pair, with one translational
+`APPROACH`, three `ORIENT` steps, two premature terminal attempts, observed
+duration seven logical ticks, and one separately retained failure record. This
+is bounded planning evidence, not a route planner or planning qualification.
+The R6C pure suite passed `62/62` twice; organism, control, shadow, diagnostic,
+and qualification runs were all zero.
+
+Evidence root (local/internal provenance):
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
+The complete artifact inventory and readback hashes are recorded in the R6C
+result packet and final manifest.
 
 ## Architecture and authority
 
@@ -157,6 +182,19 @@ Do not use the current qualification to relabel earlier failed executions.
   bounded implementation candidate for a default-off WorldModel-owned
   `VerifiedRouteExperience` learned only from attributed VerifiedOutcome episodes;
   it has no planning or action-selection reader.
+
+### AS-003P-R6C
+
+- [`R6C result`](../.agent/tasks/active/UMBRA-AS-003P-R6C/RESULT.md) — terminal
+  bounded frame-extension result and exact integrity accounting.
+- [`R6C frame schema`](../.agent/tasks/active/UMBRA-AS-003P-R6C/AS003PR6C_PLANNING_FRAME_SCHEMA_V2.json)
+  — additive V2 field contract.
+- [`R6C route projection contract`](../.agent/tasks/active/UMBRA-AS-003P-R6C/AS003PR6C_ROUTE_WITNESS_PROJECTION_CONTRACT.md)
+  — exact joins, MAY-only route semantics, and V1 boundary.
+- [`R6C affordance projection contract`](../.agent/tasks/active/UMBRA-AS-003P-R6C/AS003PR6C_AFFORDANCE_PROJECTION_CONTRACT.md)
+  — learned ACTIVE affordance boundary.
+- [`R6C freeze lock`](../.agent/tasks/active/UMBRA-AS-003P-R6C/AS003PR6C_FREEZE_LOCK.json)
+  — production/test/fingerprint freeze.
 
 ### AS-003P-R6B-R1
 

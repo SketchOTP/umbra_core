@@ -11,7 +11,9 @@ boundaries; integrated long-horizon viability is **not qualified**. R6B is a
 permanent negative generation, while the fresh R6B-R1 repair qualified a bounded
 default-off verified route-control learning primitive: same-target `ORIENT` is
 retained in route experience without becoming planning or action-selection
-authority.
+authority. R6C then qualified an additive, shadow-only planning-frame projection
+for that route evidence and learned active affordances; it grants no planning or
+action-selection authority.
 
 [Project goal](.agent/PROJECT_GOAL.md) ·
 [Current governed state](.agent/CURRENT.md) ·
@@ -136,6 +138,7 @@ solved.
 | Governed perception adapters | **QUALIFIED — bounded** | D-011 policy/provenance, rejection durability, replay, and boundedness. |
 | True physical-body replacement | **QUALIFIED — bounded** | AS-003S atomic replacement transaction; see below. |
 | Verified route-control learning | **QUALIFIED — bounded** | AS-003P-R6B-R1: one frozen nominal route-control acquisition plus one movement-slip failure leg; default-off, WorldModel-owned, no policy reader. |
+| Route/affordance planning-frame projection | **QUALIFIED — bounded, shadow-only** | AS-003P-R6C: immutable V2 projection of exact V2 route experience and learned ACTIVE `inspect` affordances; historical route evidence is MAY-only and has no modal/action-selection reader. |
 | Ordinary action selection and modal planning | **ACTIVE RESEARCH QUESTION** | Prior scalar and strict-dominance selectors were insufficient; modal planning remains shadow-only and has no behavior authority. |
 | Integrated long-horizon viability | **NOT QUALIFIED** | Formal and long-horizon generations retain terminal failures; AS-004 and CLOSE-03 remain blocked. |
 
@@ -188,6 +191,29 @@ historical R6B failure remains permanent and is not rewritten.
 
 [R6B-R1 task packet](.agent/tasks/active/UMBRA-AS-003P-R6B-R1/RESULT.md) ·
 [R6B-R1 evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6b-r1)
+
+## Recent result: route and affordance planning-frame projection
+
+AS-003P-R6C qualified an additive `AS003P_PLANNING_EVIDENCE_FRAME_V2` projection
+without changing route learning, modal semantics, candidate generation, or
+action-selection authority. A successful V2 route experience is joined only by
+exact opportunity identity, body schema, and terminal capability; its ordered
+verified control steps, observed duration, movement count, timing, and provenance
+are exposed as `VERIFIED_OBSERVED_SUPPORT` with modality `MAY`. Failure history is
+retained separately and cannot imply a future impossibility. V1 records remain
+readable but are never upgraded with invented control steps.
+
+The same frame can expose a policy-visible opportunity's learned `ACTIVE` inspect
+affordance as `MAY`. Fixed authored priors, missing instances, weakened or
+superseded beliefs, and unsupported joins remain `UNKNOWN`. The new fields are
+deeply immutable, source-fingerprinted, bounded, deterministic, and ignored by
+the existing modal evaluator; static analysis found zero readers in candidate
+generation, arbitration, Governance, Embodiment, or planning/action-selection
+authority. This is a planning-evidence substrate result, not a planner or
+behavioral qualification.
+
+[R6C result](.agent/tasks/active/UMBRA-AS-003P-R6C/RESULT.md) ·
+[R6C evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6c)
 
 ## Scientific method
 
@@ -322,10 +348,15 @@ source join: radial opportunity distance and historical APPROACH support do not 
 themselves form a guaranteed traversable route envelope. Its terminal result is
 `AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED`. R6B is the bounded next step:
 learn opportunity- and body-schema-bound route experience only from verified
-execution outcomes, with no reader in action selection or planning.
+execution outcomes, with no reader in action selection or planning. R6B is
+permanently failed; R6B-R1 subsequently qualified same-target route-control
+continuity. R6C now projects that qualified V2 evidence and learned ACTIVE
+affordances into an immutable shadow frame, but the fields remain MAY/UNKNOWN
+evidence and are not consumed by action selection.
 
-Planning integration, AS-004 integrated viability, and CLOSE-03 final organism
-acceptance remain blocked.
+The next planning experiment is recommendation-only. Planning integration,
+AS-004 integrated viability, and CLOSE-03 final organism acceptance remain
+blocked.
 
 ## Evidence navigation
 

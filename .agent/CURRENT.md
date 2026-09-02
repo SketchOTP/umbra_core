@@ -1525,3 +1525,18 @@ retries/reseeds are `0/0/0/0` and `0/0`. Evidence root:
 Manifest SHA-256:
 `3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`.
 No successor is authorized or started.
+# UMBRA-AS-003P-R6C — TERMINAL route/affordance planning-evidence frame qualified
+
+R6C is terminal with `AS003PR6C_ROUTE_AFFORDANCE_PLANNING_FRAME_QUALIFIED` from
+exact baseline `979915fa0c731800212fa0d5d5b3f1d709aae636`. The additive V2 frame
+projection exposes exact V2 route experiences and learned ACTIVE affordances as
+immutable, source-fingerprinted, MAY/UNKNOWN shadow evidence. It preserves V1,
+has zero modal/action-selection readers, and does not alter route learning,
+candidate generation, arbitration, or planning authority. Pure projection and
+protected regression tests passed `62/62` twice; static scope and boundedness
+audits passed. Organism/load/tick/control/shadow/diagnostic/qualification runs
+were `0/0/0/0/0/0/0`, retries/reseeds `0/0`, production semantic delta after
+freeze `0`, Authority 3.0/Governance/diff checks PASS. Freeze:
+`71074dc8bfe6fce3e66398f92f642537686582c3`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
+Recommendation only: `UMBRA-AS-003P-R7`; no successor started.

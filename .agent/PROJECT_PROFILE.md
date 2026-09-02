@@ -486,3 +486,15 @@ route success is MAY-only; failure-only/V1-incomplete evidence stays UNKNOWN.
 Existing modal behavior and all action authority remain unchanged. No organism,
 control/shadow pair, diagnostic, AS-003L integration, AS-004, or CLOSE-03 is
 authorized; no successor has started.
+Current governed status: UMBRA-AS-003P-R6C is terminal with
+`AS003PR6C_ROUTE_AFFORDANCE_PLANNING_FRAME_QUALIFIED` from exact baseline
+`979915fa0c731800212fa0d5d5b3f1d709aae636`. It qualifies an additive immutable
+V2 planning-evidence projection for exact V2 route experiences and learned ACTIVE
+affordances. Route evidence is `VERIFIED_OBSERVED_SUPPORT`/`MAY` only; unsupported
+and failure-only evidence remains `UNKNOWN`; V1 records are preserved without
+invented control steps. New fields are source-fingerprinted, bounded,
+deterministic, shadow-only, and have zero action-selection readers. Pure tests
+passed `62/62` twice; freeze `71074dc8bfe6fce3e66398f92f642537686582c3`; organism,
+control, shadow, diagnostic, and qualification runs were zero; retries/reseeds
+`0/0`; Authority 3.0/Governance PASS. Recommendation only:
+`UMBRA-AS-003P-R7`; no successor started.

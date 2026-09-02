@@ -372,3 +372,9 @@ navigation is `REFERENCE` only for using executed trajectories as model input,
 not for importing a learned policy or route optimizer. No external dependency
 is adopted. The existing R6B-R1 route-control evidence and UMBRA's immutable
 frame are the implementation authority.
+## UMBRA-AS-003P-R6C closeout reference boundary — 2026-09-02
+
+R6C introduced no external dependency. External abstraction/evidence literature
+remains `REFERENCE` only; the implementation is grounded in UMBRA's existing
+verified route-control and learned-affordance owners. No planner, route optimizer,
+utility, weighting, or action-selection semantics were imported.

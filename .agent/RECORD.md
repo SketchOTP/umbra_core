@@ -260,3 +260,14 @@ historical; no existing modal/action-selection behavior may consume the fields.
 This stage has zero organism/control/shadow/diagnostic execution and no
 successor authorization. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
+## 2026-09-02 — UMBRA-AS-003P-R6C terminal closeout
+
+R6C qualified the additive immutable route/affordance planning-evidence frame
+projection from baseline `979915fa0c731800212fa0d5d5b3f1d709aae636`. The V2
+projection preserves exact V2 route-control evidence as MAY-only observed
+support and exposes learned ACTIVE inspect affordances only with matching
+policy-visible instances; V1 records remain readable without invented steps.
+Static analysis found zero new readers in modal/action-selection paths. Pure
+tests passed `62/62` twice, no organism or diagnostic execution occurred, and
+the dedicated freeze is `71074dc8bfe6fce3e66398f92f642537686582c3`. Evidence
+root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`. No successor started.

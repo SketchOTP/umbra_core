@@ -1048,3 +1048,7 @@ successor is authorized.
 ## UMBRA-AS-003P-R6C — START (2026-09-02)
 
 - Directive: UMBRA-AS-003P-R6C | status:active | baseline:979915fa0c731800212fa0d5d5b3f1d709aae636 | parent:AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED | scope:immutable V2 planning-frame projection of exact route experience and learned ACTIVE affordance evidence | constraints:MAY-only historical route semantics, V1 preserved, no modal/L2/action-selection reader, no route-learning change, no Habitat truth, no organism/control/shadow/diagnostic execution, retries:0 reseeds:0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/ | remote:github
+## UMBRA-AS-003P-R6C — CLOSEOUT (2026-09-02)
+
+- Directive: UMBRA-AS-003P-R6C | status:terminal | baseline:979915fa0c731800212fa0d5d5b3f1d709aae636 | verdict:AS003PR6C_ROUTE_AFFORDANCE_PLANNING_FRAME_QUALIFIED | freeze:71074dc8bfe6fce3e66398f92f642537686582c3 | pure:62/62 twice | production:bounded additive frame/shadow projection only | readers:new fields 0 | organism/load/tick/control/shadow/diagnostic/qualification:0/0/0/0/0/0/0 | retries:0 reseeds:0 | Authority3:PASS governance:PASS diff:PASS | successor:UMBRA-AS-003P-R7 recommendation only
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/` | result packet:`.agent/tasks/active/UMBRA-AS-003P-R6C/RESULT.md` | final commit and manifest are recorded in the append-only final closeout correction.

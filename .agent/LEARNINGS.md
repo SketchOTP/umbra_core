@@ -684,3 +684,5 @@ inventing missing control steps. A lawful INSPECT planning witness requires a
 policy-visible entity instance and a matching learned ACTIVE affordance; fixed
 authored priors and Habitat truth are not planning evidence. The new frame
 fields must be additive and ignored by existing modal consumers.
+- 2026-09-02 | area:AS-003P-R6C frame projection | lesson:historical V2 route experience is MAY-only and learned ACTIVE affordance requires a matching policy-visible instance | evidence:AS003PR6C_ROUTE_WITNESS_PROJECTION_CONTRACT.md, AS003PR6C_AFFORDANCE_PROJECTION_CONTRACT.md
+- 2026-09-02 | area:AS-003P-R6C authority | lesson:additive planning evidence remains inert until an explicitly authorized consumer exists; zero readers preserve action-selection boundaries | evidence:AS003PR6C_STATIC_SCOPE_AUDIT.json

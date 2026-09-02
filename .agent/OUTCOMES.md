@@ -1468,3 +1468,20 @@ Legacy V1 fields/modal consumption remain unchanged. No production route
 learning, planner, L2, action-selection reader, organism run, or diagnostic is
 authorized. Start reconciliation artifact SHA-256:
 `b7fc80fb155899b6809e3f8624bc59417818a9c99c9b77421a0cb5e84883c7f6`.
+## UMBRA-AS-003P-R6C terminal closeout — route/affordance planning frame qualified — 2026-09-02
+
+R6C qualified an additive immutable `AS003P_PLANNING_EVIDENCE_FRAME_V2`
+projection from exact baseline `979915fa0c731800212fa0d5d5b3f1d709aae636`.
+Exact V2 route experiences project as `VERIFIED_OBSERVED_SUPPORT` with `MAY`
+modality and preserve opportunity/body-schema joins, ordered route-control
+steps, observed duration, counts, lags, and provenance. Learned ACTIVE inspect
+affordances project only with a matching policy-visible instance; unsupported,
+authored-only, weakened, superseded, or missing evidence remains `UNKNOWN`.
+V1 is preserved without invented steps. The new fields have zero modal or
+action-selection readers; no route-learning, planner, candidate, arbitration,
+or owner semantics changed. Pure projection/regression tests passed `62/62`
+twice and static/boundedness/policy gates passed. Organism/load/tick/control/
+shadow/diagnostic/qualification runs are `0/0/0/0/0/0/0`; retries/reseeds are
+`0/0`. Freeze is `71074dc8bfe6fce3e66398f92f642537686582c3`; evidence root is
+the R6C route-affordance frame root. No successor started; R7 is
+recommendation-only.

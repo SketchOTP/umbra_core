@@ -566,3 +566,16 @@ diagnostic runs, retries, and reseeds are zero. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6a-route-service-source-contract-r1/`; manifest:
 `3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`. No
 successor started.
+# UMBRA-AS-003P-R6C is TERMINAL with
+`AS003PR6C_ROUTE_AFFORDANCE_PLANNING_FRAME_QUALIFIED` from exact baseline
+`979915fa0c731800212fa0d5d5b3f1d709aae636`. The additive V2 planning frame
+projection preserves V1 and exposes exact V2 route experience plus learned
+ACTIVE affordance evidence as source-fingerprinted MAY/UNKNOWN shadow data.
+New fields have zero readers in modal/action-selection authority. Pure tests
+passed `62/62` twice; production semantic delta after freeze is `0`; organism,
+load, tick, control, shadow, diagnostic, and qualification runs are all zero;
+retries/reseeds are `0/0`. Freeze:
+`71074dc8bfe6fce3e66398f92f642537686582c3`. Packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6C/`; evidence:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
+No successor started; R7 is recommendation-only.
