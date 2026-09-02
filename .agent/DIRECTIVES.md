@@ -994,3 +994,18 @@ successor is authorized.
 - Parent R5 historical comparator qualification: 24 cases repeated twice; false positives/negatives `0/0`; pre-root import/synthetic-backup preflight reported zero organism calls.
 - Parent R5 historical stop: the one root prepared and snapshotted at tick `0`, then `_snapshot_metadata()` attempted JSON parsing on Store's raw TEXT `latest_snapshot` ID and stopped before root publication, backup, fork, branch load, parity, execution lock, or measured ticks.
 - Parent R5 historical counts: root creation/ticks `1/0`; CONTROL loads/ticks `0/0`; SHADOW loads/ticks `0/0`; retries/reseeds `0/0`; modal evidence `NOT RUN`; production delta `0`; successor `none`.
+
+## 2026-09-02 — UMBRA-AS-003P-R6 governance start
+
+- **Status:** ACTIVE.
+- **Exact baseline:** `738485040029cbeb221f6eb14f76682d8e98200d`.
+- **Accepted predecessor:** `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`.
+- **Objective:** attribute R5A's zero top-level modal distinctions by separating
+  classification compression, temporal-envelope loss, one-witness insufficiency,
+  genuine prospective equivalence, and source-evidence insufficiency; then test the
+  exact AS-003L full-obligation L2 relation as retrospective development evidence.
+- **Integrity:** H1-H5 lock precedes detailed conflict inspection; no utility,
+  weights, score, schedule-count preference, MUST-over-MAY preference, production
+  change, existing-test semantic change, organism/control/shadow/diagnostic run,
+  retry/reseed, action authority, AS-004, CLOSE-03, or automatic successor.
+- **Evidence:** `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6-l2-schedulability-attribution-r1/`.

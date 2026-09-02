@@ -154,3 +154,13 @@ AS-003L residual conflict class. Terminal verdict:
 Production delta and retries/reseeds are zero; no successor started.
 Final evidence manifest SHA-256:
 `271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805`.
+
+## 2026-09-02 — UMBRA-AS-003P-R6 governance start
+
+The Architect accepted R5A's observer-safe but non-discriminating modal result and
+authorized a zero-run retrospective investigation from exact baseline
+`738485040029cbeb221f6eb14f76682d8e98200d`. R6 must lock its five attribution
+hypotheses before detailed R5A conflict inspection, recover AS-003L's exact source
+contract, and test only a bounded non-utility full-obligation schedulability loss
+relation. R5A data may support development but cannot qualify action authority.
+Production/existing-test semantics and all live execution remain prohibited.

@@ -1,3 +1,22 @@
+# UMBRA-AS-003P-R6 active — retained modal-compression and L2 schedulability attribution
+
+The Architect accepted terminal R5A verdict
+`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING` and authorized R6
+from exact baseline `738485040029cbeb221f6eb14f76682d8e98200d`. R6 uses only
+the immutable observer-safe R5A SHADOW/decision evidence to distinguish top-level
+classification compression, temporal-envelope loss, one-witness structural
+insufficiency, genuine prospective equivalence, and missing source evidence.
+
+Before detailed conflict inspection it must hash-lock H1-H5. Any L2 relation must
+recover AS-003L's exact owner deadlines and route-plus-completion demand, preserve
+opportunity horizons, evaluate all active obligations without score/weight/ranking,
+and pass pure synthetic tests twice before retrospective application. R5A remains
+development evidence only. No production or existing-test semantic change,
+organism/control/shadow/diagnostic execution, retry/reseed, action authority,
+AS-004, CLOSE-03, or automatic successor is authorized. Packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6-l2-schedulability-attribution-r1/`.
+
 # UMBRA-AS-003P-R5A terminal — observer-safe modal evidence non-discriminating
 
 `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING` is terminal from

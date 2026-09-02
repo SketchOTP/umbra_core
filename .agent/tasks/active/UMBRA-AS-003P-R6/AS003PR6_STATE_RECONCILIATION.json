@@ -1,0 +1,20 @@
+{
+  "canonical_notion_authority_heading": "Architect disposition — R5A accepted; L2 schedulability attribution authorized — September 2, 2026",
+  "canonical_notion_page_id": "3b3833cb-27ff-8030-9f1f-e73e7af37fe6",
+  "directive": "UMBRA-AS-003P-R6",
+  "github_master": "738485040029cbeb221f6eb14f76682d8e98200d",
+  "head": "738485040029cbeb221f6eb14f76682d8e98200d",
+  "local_master": "738485040029cbeb221f6eb14f76682d8e98200d",
+  "notion_current_authority": "UMBRA-AS-003P-R6",
+  "notion_refetch_result": "PASS",
+  "r5a_control_ticks": 500,
+  "r5a_final_manifest_sha256": "271a717821c07defbc0b5b89191065f0e5923e60bbd71dac0855fd45ecebb805",
+  "r5a_observer_semantic_differences": 0,
+  "r5a_shadow_decision_trace_sha256": "4c48d1db24e4600a3f5e1c855efec9b1eec1937f8ca1409c52070fc6cbbdd380",
+  "r5a_shadow_planning_trace_sha256": "58ea3a6e8fbb81443f4e569a811b0ded2e3b273fd4221ed497923965a56903e8",
+  "r5a_shadow_ticks": 500,
+  "r5a_terminal_verdict": "AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING",
+  "repository_root": "/home/sketch/Projects/umbra-close02x-work",
+  "result": "PASS",
+  "schema": "AS003PR6_STATE_RECONCILIATION_V1"
+}
