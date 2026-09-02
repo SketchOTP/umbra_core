@@ -1,3 +1,10 @@
+# UMBRA-AS-003P-R6B closeout — no new external discovery — 2026-09-02
+
+R6B remained within the previously recorded reference-only boundary. No new
+dependency or architecture reference was introduced. The operational result
+was determined from the frozen repository assay and existing verified
+embodiment failure semantics.
+
 # External Discovery Ledger
 
 ## UMBRA-AS-003P-R6B bounded external review — 2026-09-02

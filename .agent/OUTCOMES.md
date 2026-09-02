@@ -1,3 +1,17 @@
+## UMBRA-AS-003P-R6B terminal — verified route-demand acquisition failed — 2026-09-02
+
+R6B's pure route-evidence implementation passed its focused suite twice. The
+single frozen bounded operational command then ran exactly one nominal leg and
+one existing-body-fault leg. The failure leg captured a verified
+`movement_slip`, exact opportunity identity, body-schema identity, and
+provenance. The nominal leg did not satisfy Q1: its action sequence included
+one successful `APPROACH`, then an emitted `ORIENT` discarded the active route
+episode, followed by a verified `CHARGE` with zero movement executions. This
+is a terminal operational acquisition failure, not evidence that the R6B data
+model is unsound. No retry, reseed, planning integration, or remediation is
+authorized. Verdict: `AS003PR6B_IMPLEMENTATION_FAIL`. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-verified-route-learning-r1/`.
+
 ## UMBRA-AS-003P-R5A terminal — observer-safe modal evidence non-discriminating — 2026-09-02
 
 Terminal verdict `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`.

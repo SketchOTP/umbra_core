@@ -1,4 +1,11 @@
-# UMBRA-AS-003P-R6B is ACTIVE from exact baseline
+# UMBRA-AS-003P-R6B is TERMINAL with `AS003PR6B_IMPLEMENTATION_FAIL`.
+The pure route-evidence suite passed twice and the bounded failure leg captured
+verified `movement_slip`, but the required successful multi-`APPROACH` route was
+not acquired before the no-retry boundary. The nominal leg reached verified
+`CHARGE` only through a zero-movement terminal sample after an intervening
+`ORIENT` invalidated the active episode. No successor is authorized.
+
+# UMBRA-AS-003P-R6B began ACTIVE from exact baseline
 `3604fa6a4a4e01c764913af55474e7ad9495325f` after terminal R6A
 `AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED`. R6B is a bounded
 default-off verified route-experience primitive owned by WorldModel, with narrow

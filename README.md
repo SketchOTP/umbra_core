@@ -7,11 +7,11 @@ relationships, individuality, temporal context, and environmental opportunity—
 from a chatbot loop or a scripted persona.
 
 **Scientific status:** subsystem capabilities are qualified within explicit
-boundaries; integrated long-horizon viability is **not qualified**. The current
-research frontier is source-grounded route evidence: R6A established that existing
-geometric and observed-motion facts cannot lawfully provide opportunity-specific
-route demand, so R6B is evaluating a default-off, verified-outcome learning seam.
-No planner currently has action-selection authority.
+boundaries; integrated long-horizon viability is **not qualified**. R6B's
+default-off, verified-outcome route-evidence primitive is implemented and pure-
+tested, but its single bounded nominal acquisition did not obtain the required
+continuous multi-`APPROACH` route episode. R6B is therefore terminal
+`AS003PR6B_IMPLEMENTATION_FAIL`; no planner has action-selection authority.
 
 [Project goal](.agent/PROJECT_GOAL.md) ·
 [Current governed state](.agent/CURRENT.md) ·

@@ -1,3 +1,7 @@
+## UMBRA-AS-003P-R6B — TERMINAL (2026-09-02)
+
+- Directive: UMBRA-AS-003P-R6B | status:terminal | verdict:AS003PR6B_IMPLEMENTATION_FAIL | final_commit:pending_closeout | Q1:required multi-APPROACH success not acquired | Q2:verified movement_slip acquired | organisms:2 ticks:14 retries:0 reseeds:0 | successor:none
+
 ## UMBRA-AS-003P-R6B — START (2026-09-02)
 
 - Directive: UMBRA-AS-003P-R6B | status:active | baseline:3604fa6a4a4e01c764913af55474e7ad9495325f | parent:AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED | scope:bounded WorldModel-owned verified opportunity/body-schema-bound route-demand learning with narrow runtime wiring and two bounded assays | constraints:no planner/L2/modal reader, no action-selection authority, no Habitat truth, no AS-002/CLOSE-02Z/physiology/candidate/arbitration changes, no long-horizon qualification, production initially 0, existing-test semantic delta 0, organism/control/shadow/diagnostic 0/0/0/0, retries 0, reseeds 0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-verified-route-learning-r1/ | remote:github

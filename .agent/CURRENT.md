@@ -1,3 +1,20 @@
+# UMBRA-AS-003P-R6B — terminal operational acquisition failure
+
+R6B is terminal with `AS003PR6B_IMPLEMENTATION_FAIL`. The pure
+WorldModel-owned route-evidence primitive passed its focused suite twice, and
+the bounded failure leg retained a verified `movement_slip`. The required Q1
+success leg did not acquire `APPROACH ... APPROACH -> CHARGE`: an intervening
+ordinary emitted `ORIENT` correctly invalidated the active route episode, and a
+later `CHARGE` produced only a valid zero-movement terminal sample. No retry or
+protocol repair is authorized. Final assay commit is recorded in the task
+packet and evidence root; production route semantics remain unqualified.
+
+Operational counts: two bounded assay organisms, 14 ticks total, one success
+leg and one failure leg, retries/reseeds `0/0`; no planning reader, modal/L2
+consumer, long-horizon run, AS-004, or CLOSE-03. The inherited protected-suite
+nonpass is `tests/test_as003n_hypothetical.py::test_firewall_and_live_callsite_static_proof`;
+the exact R6B baseline already contained the referenced hypothetical imports.
+
 # UMBRA-AS-003P-R6B — verified route-demand learning primitive
 
 R6B is active from exact synchronized baseline

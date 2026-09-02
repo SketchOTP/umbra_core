@@ -1,3 +1,13 @@
+Current governed status: UMBRA-AS-003P-R6B is terminal
+`AS003PR6B_IMPLEMENTATION_FAIL` from R6B final closeout. The default-off
+WorldModel-owned verified route evidence primitive passed its pure suite twice,
+and exact binding/verified-outcome provenance were exercised. The one frozen
+nominal operational leg did not produce the required continuous multi-APPROACH
+success episode; the separate failure leg captured verified `movement_slip`.
+No retry/reseed or successor is authorized. Planning/action-selection remains
+unconnected; integrated viability, AS-004, and CLOSE-03 remain unqualified and
+blocked.
+
 Current governed status: UMBRA-AS-003P-R6 is terminal
 `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2` from exact baseline
 `738485040029cbeb221f6eb14f76682d8e98200d`. A locked non-scalar L2 relation passed

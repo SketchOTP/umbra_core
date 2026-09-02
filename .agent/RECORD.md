@@ -2,6 +2,16 @@ This file is specifically for the operator's use. It keeps record of what the AI
 
 ---
 
+## 2026-09-02 — UMBRA-AS-003P-R6B terminal closeout
+
+The bounded R6B command ran exactly one nominal and one failure leg from the
+frozen assay commit. Q2 captured verified `movement_slip`, but Q1 did not
+acquire the required continuous multi-APPROACH route before terminal CHARGE;
+the route store correctly invalidated the interrupted episode. Terminal verdict
+is `AS003PR6B_IMPLEMENTATION_FAIL`; no retry, reseed, or successor is allowed.
+
+---
+
 ## 2026-09-02 — UMBRA-AS-003P-R6B governance start
 
 Architect accepted R6A terminal

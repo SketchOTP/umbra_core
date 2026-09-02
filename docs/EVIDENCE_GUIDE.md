@@ -20,6 +20,16 @@ The canonical Notion page governs strategic authority, but the repository is int
 to remain understandable without Notion access. Git commits and retained artifacts are
 the implementation and execution record.
 
+## Current frontier
+
+R6A established that existing geometric and observed-motion facts were
+insufficient for source-backed route demand. R6B implemented a bounded,
+default-off verified route-experience seam, but its one nominal acquisition did
+not obtain the required continuous multi-`APPROACH` success episode; the
+separate failure leg captured verified `movement_slip`. The terminal result is
+`AS003PR6B_IMPLEMENTATION_FAIL`. See the R6B task packet and retained evidence
+root recorded in `.agent/tasks/active/UMBRA-AS-003P-R6B/`.
+
 ## Architecture and authority
 
 The files below are the frozen D-000S foundation. They explain the intended ownership

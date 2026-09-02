@@ -1,3 +1,9 @@
+## UMBRA-AS-003P-R6B operational acquisition boundary — 2026-09-02
+
+- A verified route learner can correctly bind and close a zero-movement terminal sample, but Q1 requires a continuous `APPROACH ... APPROACH -> terminal` episode. An ordinary emitted unrelated action must invalidate the active episode; this prevents false success but means the assay must acquire the complete route episode prospectively.
+- The one-shot nominal assay did not meet Q1 and cannot be retried. Treat the result as a terminal acquisition/implementation failure, not as a production semantic rejection or as permission to make route evidence a behavioral reader.
+- The focused protected suite had one inherited AS-003N firewall nonpass already present at the exact R6B baseline; R6B added no hypothetical import.
+
 ## UMBRA-AS-003P-R5A retained-root protocol facts — 2026-09-02
 
 - `meta.latest_snapshot` is raw TEXT and must not be JSON-decoded; `meta.ledger_tip` remains JSON.
