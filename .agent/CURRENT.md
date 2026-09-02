@@ -1,3 +1,24 @@
+# UMBRA-AS-003P-R6C — ACTIVE route/affordance planning-evidence frame extension
+
+R6C is active from exact synchronized baseline
+`979915fa0c731800212fa0d5d5b3f1d709aae636` after accepted
+`AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED`. This is a bounded,
+zero-organism source integration: project exact opportunity/body-schema-bound
+V2 route experiences and learned ACTIVE affordances into a new immutable
+planning-frame schema as shadow-only evidence. Successful historical route
+experience is `VERIFIED_OBSERVED_SUPPORT` / `MAY` only; failures remain
+separate history and failure-only evidence is `UNKNOWN`. V1 records remain
+readable without invented V2 route-control steps.
+
+Existing V1 route/service fields and modal consumers remain unchanged. INSPECT
+requires a policy-visible instance plus a matching learned ACTIVE affordance;
+fixed authored priors, Habitat truth, confidence thresholds, planning/action
+selection readers, AS-003L integration, and route-learning changes are
+prohibited. Organism/load/tick/control/shadow/diagnostic counts for R6C are
+`0/0/0/0/0/0`; retries/reseeds `0/0`. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
+No successor has started.
+
 # UMBRA-AS-003P-R6B-R1 — TERMINAL qualified route-control learning
 
 Terminal verdict: `AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED`.

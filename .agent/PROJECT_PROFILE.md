@@ -478,3 +478,11 @@ confirmed current distance and observed motion support cannot establish robust
 opportunity-specific route demand. Pure tests passed 10/10 twice; production,
 test semantics, live executions, retries, and reseeds remained zero. No
 successor is authorized; integrated long-horizon viability remains unqualified.
+Current governed status: UMBRA-AS-003P-R6C is active from exact baseline
+`979915fa0c731800212fa0d5d5b3f1d709aae636` after accepted R6B-R1. R6C is a
+zero-organism bounded projection of verified V2 route experience and learned
+ACTIVE affordance evidence into immutable planning-frame V2 fields. Historical
+route success is MAY-only; failure-only/V1-incomplete evidence stays UNKNOWN.
+Existing modal behavior and all action authority remain unchanged. No organism,
+control/shadow pair, diagnostic, AS-003L integration, AS-004, or CLOSE-03 is
+authorized; no successor has started.

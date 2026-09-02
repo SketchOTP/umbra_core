@@ -1457,3 +1457,14 @@ at start.
 The public README and Evidence Guide now record R6A as the current source-evidence
 frontier. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-verified-route-learning-r1/`.
+## UMBRA-AS-003P-R6C governance start — route/affordance planning frame — 2026-09-02
+
+R6C began from exact synchronized baseline
+`979915fa0c731800212fa0d5d5b3f1d709aae636` after accepted R6B-R1. The scope is
+an immutable, shadow-only planning-frame extension that projects exact
+opportunity/body-schema-bound V2 route experience as MAY-only historical
+evidence and captures learned ACTIVE affordances for lawful INSPECT joins.
+Legacy V1 fields/modal consumption remain unchanged. No production route
+learning, planner, L2, action-selection reader, organism run, or diagnostic is
+authorized. Start reconciliation artifact SHA-256:
+`b7fc80fb155899b6809e3f8624bc59417818a9c99c9b77421a0cb5e84883c7f6`.

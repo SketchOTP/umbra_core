@@ -250,3 +250,13 @@ Pure tests passed 10/10 twice. Production, existing-test semantics, live
 executions, retries, and reseeds remained zero. Final evidence manifest SHA-256
 `3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`. No
 successor started.
+## 2026-09-02 — UMBRA-AS-003P-R6C governance start
+
+Architect accepted R6B-R1 and authorized R6C from
+`979915fa0c731800212fa0d5d5b3f1d709aae636`. Scope is limited to a new
+immutable planning-frame V2 projection for exact V2 route witnesses and
+learned ACTIVE affordances. Historical route success is MAY-only; V1 remains
+historical; no existing modal/action-selection behavior may consume the fields.
+This stage has zero organism/control/shadow/diagnostic execution and no
+successor authorization. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.

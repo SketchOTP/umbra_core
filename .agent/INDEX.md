@@ -1,3 +1,16 @@
+# UMBRA-AS-003P-R6C is ACTIVE from exact synchronized baseline
+`979915fa0c731800212fa0d5d5b3f1d709aae636` after accepted R6B-R1 terminal
+`AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED`. R6C is a bounded,
+zero-organism extension of the immutable planning frame with exact
+opportunity/body-schema-bound V2 route-experience witnesses and learned ACTIVE
+affordance evidence. Historical route success is MAY-only; failure-only and
+unmatched evidence remain UNKNOWN; V1 records are not upgraded to V2. Existing
+modal behavior is unchanged and the new fields have no action-selection reader.
+No production route-learning, AS-003L, AS-002, candidate, arbitration, or
+Governance semantics may change. Packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6C/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
+
 # UMBRA-AS-003P-R6B-R1 is TERMINAL with
 `AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED`.
 The fresh repair qualified same-target verified `ORIENT` route-control

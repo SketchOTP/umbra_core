@@ -1,0 +1,44 @@
+{
+  "directive": "UMBRA-AS-003P-R6C",
+  "schema": "AS003PR6C_SOURCE_SEMANTICS_CONTRACT_V1",
+  "route_success": {
+    "source": "VERIFIED_ROUTE_EXPERIENCE_V2",
+    "semantics": "VERIFIED_OBSERVED_SUPPORT",
+    "future_modality": "MAY",
+    "must_or_hard_duration": false
+  },
+  "route_failure": {
+    "preserved": true,
+    "future_impossibility": false,
+    "failure_only_modality": "UNKNOWN"
+  },
+  "mixed_success_failure": {
+    "success_witnesses": "MAY",
+    "failures": "separate_history",
+    "counts_as_probability": false
+  },
+  "v1": {
+    "readable": true,
+    "complete_v2_route_control_witness": false,
+    "invented_steps": false
+  },
+  "inspect": {
+    "required": ["policy_visible_instance", "matching_learned_active_affordance"],
+    "future_modality": "MAY",
+    "fixed_authored_only": "UNKNOWN",
+    "confidence_threshold": false,
+    "habitat_truth": false
+  },
+  "duration": {
+    "source": "first_route_control_issue_tick_to_successful_terminal_completion_tick",
+    "convention": "inclusive_logical_ticks",
+    "modality": "VERIFIED_OBSERVED_SUPPORT/MAY",
+    "physical_bound": false,
+    "interpolation": false
+  },
+  "authority": {
+    "world_model": "learning_owner",
+    "hypothetical_frame": "read_only_projection_boundary",
+    "planning_or_action_selection_reader": false
+  }
+}

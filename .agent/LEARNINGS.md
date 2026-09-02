@@ -674,3 +674,13 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
   interruptions, and incomplete episodes must not create completed evidence.
 - R6B is default-off and write-only with respect to existing action selection and
   planning surfaces; historical R5A/R6/R6A evidence is not tuning input.
+## 2026-09-02 — R6C source semantics lock
+
+The qualified V2 route-control record is a historical possibility witness, not
+a future route guarantee: projection must remain `MAY` with
+`VERIFIED_OBSERVED_SUPPORT`. Failure history is retained separately and
+failure-only evidence remains `UNKNOWN`; V1 records cannot be upgraded by
+inventing missing control steps. A lawful INSPECT planning witness requires a
+policy-visible entity instance and a matching learned ACTIVE affordance; fixed
+authored priors and Habitat truth are not planning evidence. The new frame
+fields must be additive and ignored by existing modal consumers.

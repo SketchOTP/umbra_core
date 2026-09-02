@@ -364,3 +364,11 @@ boundary before any outside literature could affect implementation semantics.
 - [Learning Affordances from Interactive Exploration using an Object-level Map](https://arxiv.org/abs/2501.06047) — `REFERENCE`: affordances are object-linked action opportunities and instance identity matters; `REJECT`: neural affordance/RL implementation.
 - [May/Must Abstraction-Based Software Model Checking For Sound Verification and Falsification](https://www.microsoft.com/en-us/research/publication/maymust-abstraction-based-software-model-checking-for-sound-verification-and-falsification/) — `REFERENCE`: categorical conclusions must remain sound with respect to their source and unknown information must remain unknown; `REJECT`: model-checker dependency.
 - [Guaranteed Reachability for Systems with Unknown Dynamics](https://arxiv.org/abs/1910.00803) — `REFERENCE`: guaranteed reachability requires explicit bounded dynamics assumptions; `REJECT`: reachability implementation/dependency.
+## UMBRA-AS-003P-R6C bounded prior-art boundary — 2026-09-02
+
+May/must abstraction is `REFERENCE` only: historical route realization remains
+possibility evidence and must not be promoted to a guarantee. Experiential
+navigation is `REFERENCE` only for using executed trajectories as model input,
+not for importing a learned policy or route optimizer. No external dependency
+is adopted. The existing R6B-R1 route-control evidence and UMBRA's immutable
+frame are the implementation authority.
