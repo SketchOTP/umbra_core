@@ -13,10 +13,12 @@ from typing import Any, Mapping
 from umbra_core.util import BoundedRing
 
 
-ROUTE_EVIDENCE_SCHEMA = "VERIFIED_ROUTE_EXPERIENCE_V1"
+ROUTE_EVIDENCE_SCHEMA_V1 = "VERIFIED_ROUTE_EXPERIENCE_V1"
+ROUTE_EVIDENCE_SCHEMA = "VERIFIED_ROUTE_EXPERIENCE_V2"
 ROUTE_EVIDENCE_SEMANTICS = "VERIFIED_OBSERVED_SUPPORT"
 DEFAULT_ROUTE_EVIDENCE_CAPACITY = 128
 ROUTE_CAPABILITY = "APPROACH"
+ROUTE_CONTROL_CAPABILITIES = frozenset(("APPROACH", "ORIENT"))
 TERMINAL_CAPABILITIES = frozenset(("CHARGE", "REST", "INSPECT"))
 TERMINAL_BY_KIND = {
     "resource": "CHARGE",
@@ -45,6 +47,52 @@ class OpportunityResolution:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+@dataclass(frozen=True)
+class VerifiedRouteControlStep:
+    """One executed, verified action in an opportunity-bound route episode."""
+
+    capability: str
+    issue_tick: int
+    completion_tick: int
+    completion_lag: int
+    translational_movement: bool
+    success: bool
+    verified_outcome_ref: str | None
+
+    def __post_init__(self) -> None:
+        if self.capability not in ROUTE_CONTROL_CAPABILITIES | TERMINAL_CAPABILITIES:
+            raise ValueError("route_control_step_capability")
+        if self.issue_tick < 0 or self.completion_tick < self.issue_tick:
+            raise ValueError("route_control_step_tick_range")
+        if self.completion_lag != self.completion_tick - self.issue_tick:
+            raise ValueError("route_control_step_lag")
+        if self.completion_lag < 0:
+            raise ValueError("route_control_step_negative_lag")
+        if self.capability == ROUTE_CAPABILITY and not self.translational_movement:
+            raise ValueError("route_control_step_approach_translation")
+        if self.capability != ROUTE_CAPABILITY and self.translational_movement:
+            raise ValueError("route_control_step_nonapproach_translation")
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, value: Mapping[str, Any]) -> VerifiedRouteControlStep:
+        return cls(
+            capability=str(value["capability"]),
+            issue_tick=int(value["issue_tick"]),
+            completion_tick=int(value["completion_tick"]),
+            completion_lag=int(value["completion_lag"]),
+            translational_movement=bool(value.get("translational_movement", False)),
+            success=bool(value.get("success", False)),
+            verified_outcome_ref=(
+                str(value["verified_outcome_ref"])
+                if value.get("verified_outcome_ref")
+                else None
+            ),
+        )
 
 
 def resolve_opportunity(
@@ -98,6 +146,8 @@ class VerifiedRouteExperience:
     route_failure_code: str | None
     execution_outcome_refs: tuple[str, ...]
     evidence_semantics: str = ROUTE_EVIDENCE_SEMANTICS
+    route_control_steps: tuple[VerifiedRouteControlStep, ...] = ()
+    schema: str = ROUTE_EVIDENCE_SCHEMA
 
     def __post_init__(self) -> None:
         if not self.evidence_id or not self.opportunity_entity_id or not self.body_schema_id:
@@ -121,15 +171,31 @@ class VerifiedRouteExperience:
             raise ValueError("route_experience_distance_support")
         if self.evidence_semantics != ROUTE_EVIDENCE_SEMANTICS:
             raise ValueError("route_experience_semantics")
+        if self.schema not in {ROUTE_EVIDENCE_SCHEMA_V1, ROUTE_EVIDENCE_SCHEMA}:
+            raise ValueError("route_experience_schema")
+        if self.schema == ROUTE_EVIDENCE_SCHEMA_V1 and self.route_control_steps:
+            raise ValueError("v1_route_control_steps_not_representable")
 
     def to_dict(self) -> dict[str, Any]:
         result = asdict(self)
         result["movement_completion_lags"] = list(self.movement_completion_lags)
         result["execution_outcome_refs"] = list(self.execution_outcome_refs)
+        result["route_control_steps"] = [step.to_dict() for step in self.route_control_steps]
         return result
 
     @classmethod
     def from_dict(cls, value: Mapping[str, Any]) -> VerifiedRouteExperience:
+        raw_steps = value.get("route_control_steps")
+        steps = tuple(
+            VerifiedRouteControlStep.from_dict(item)
+            for item in (raw_steps or [])
+        )
+        schema = str(
+            value.get(
+                "schema",
+                ROUTE_EVIDENCE_SCHEMA if raw_steps is not None else ROUTE_EVIDENCE_SCHEMA_V1,
+            )
+        )
         return cls(
             evidence_id=str(value["evidence_id"]),
             opportunity_entity_id=str(value["opportunity_entity_id"]),
@@ -173,6 +239,8 @@ class VerifiedRouteExperience:
             evidence_semantics=str(
                 value.get("evidence_semantics", ROUTE_EVIDENCE_SEMANTICS)
             ),
+            route_control_steps=steps,
+            schema=schema,
         )
 
 
@@ -193,6 +261,7 @@ class _RouteEpisode:
     route_failure_code: str | None = None
     final_tick: int | None = None
     execution_outcome_refs: list[str] = field(default_factory=list)
+    route_control_steps: list[VerifiedRouteControlStep] = field(default_factory=list)
 
     @property
     def movement_count(self) -> int:
@@ -224,6 +293,7 @@ class _RouteEpisode:
             terminal_result=self.terminal_result,
             route_failure_code=self.route_failure_code,
             execution_outcome_refs=tuple(self.execution_outcome_refs),
+            route_control_steps=tuple(self.route_control_steps),
         )
 
 
@@ -253,7 +323,7 @@ class RouteEvidenceStore:
         target_kind: str | None,
         body_schema_id: str | None,
     ) -> dict[str, Any] | None:
-        if capability not in (ROUTE_CAPABILITY, *TERMINAL_CAPABILITIES):
+        if capability not in ("ORIENT", ROUTE_CAPABILITY, *TERMINAL_CAPABILITIES):
             return None
         resolution = resolve_opportunity(
             entities, target_kind=target_kind, body_schema_id=body_schema_id
@@ -304,6 +374,32 @@ class RouteEvidenceStore:
         self._episode = None
         return {"adapted": True, "experience": experience.to_dict()}
 
+    def _record_control_step(
+        self,
+        *,
+        capability: str,
+        success: bool,
+        tick: int,
+        issue_tick: int | None,
+        outcome_ref: str | None,
+    ) -> int:
+        if self._episode is None:
+            raise ValueError("route_episode_required")
+        issued = int(issue_tick if issue_tick is not None else tick)
+        lag = max(0, int(tick) - issued)
+        self._episode.route_control_steps.append(
+            VerifiedRouteControlStep(
+                capability=str(capability),
+                issue_tick=issued,
+                completion_tick=int(tick),
+                completion_lag=lag,
+                translational_movement=capability == ROUTE_CAPABILITY,
+                success=bool(success),
+                verified_outcome_ref=str(outcome_ref) if outcome_ref else None,
+            )
+        )
+        return lag
+
     def record_verified_outcome(
         self,
         *,
@@ -318,7 +414,7 @@ class RouteEvidenceStore:
         outcome_ref: str | None,
     ) -> dict[str, Any]:
         if not binding or binding.get("status") != "EXACT":
-            if self._episode is not None and capability != "IDLE":
+            if self._episode is not None:
                 return self._discard("missing_exact_binding")
             return {"adapted": False, "reason": "missing_exact_binding"}
         if not verified or not body_schema_id:
@@ -349,15 +445,38 @@ class RouteEvidenceStore:
         if capability == ROUTE_CAPABILITY:
             if self._episode is None:
                 self._start(binding, tick=tick, terminal=terminal)
+            lag = self._record_control_step(
+                capability=capability,
+                success=success,
+                tick=tick,
+                issue_tick=issue_tick,
+                outcome_ref=outcome_ref,
+            )
             if not success:
                 failure = reason if reason in ROUTE_FAILURE_CODES else reason
                 self._episode.route_failure_code = failure
                 return self._append_closed(success=False, tick=tick, outcome_ref=outcome_ref)
-            lag = max(0, int(tick) - int(issue_tick if issue_tick is not None else tick))
             self._episode.movement_completion_lags.append(lag)
             if outcome_ref:
                 self._episode.execution_outcome_refs.append(str(outcome_ref))
             return {"adapted": False, "episode_active": True, "movement_lag": lag}
+
+        if capability == "ORIENT":
+            if self._episode is None:
+                self._start(binding, tick=tick, terminal=terminal)
+            lag = self._record_control_step(
+                capability=capability,
+                success=success,
+                tick=tick,
+                issue_tick=issue_tick,
+                outcome_ref=outcome_ref,
+            )
+            if not success:
+                self._episode.route_failure_code = reason
+                return self._append_closed(success=False, tick=tick, outcome_ref=outcome_ref)
+            if outcome_ref:
+                self._episode.execution_outcome_refs.append(str(outcome_ref))
+            return {"adapted": False, "episode_active": True, "route_control_lag": lag}
 
         if capability not in TERMINAL_CAPABILITIES:
             return self._discard("unrelated_action")
@@ -367,14 +486,21 @@ class RouteEvidenceStore:
             if not success:
                 return {"adapted": False, "reason": "terminal_failure_without_route"}
             self._start(binding, tick=tick, terminal=terminal)
+        lag = self._record_control_step(
+            capability=capability,
+            success=success,
+            tick=tick,
+            issue_tick=issue_tick,
+            outcome_ref=outcome_ref,
+        )
         if not success:
             if reason in {"not_at_rest", "not_at_resource", "not_at_inspect"}:
+                if outcome_ref:
+                    self._episode.execution_outcome_refs.append(str(outcome_ref))
                 return {"adapted": False, "episode_active": True, "reason": "premature_terminal"}
             self._episode.route_failure_code = reason
             return self._append_closed(success=False, tick=tick, outcome_ref=outcome_ref)
-        self._episode.terminal_completion_lag = max(
-            0, int(tick) - int(issue_tick if issue_tick is not None else tick)
-        )
+        self._episode.terminal_completion_lag = lag
         return self._append_closed(success=True, tick=tick, outcome_ref=outcome_ref)
 
     def route_demand_support(

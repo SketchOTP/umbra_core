@@ -24,7 +24,10 @@ from umbra_core.world_model.engine import (
 from umbra_core.world_model.route_evidence import (
     DEFAULT_ROUTE_EVIDENCE_CAPACITY,
     OpportunityResolution,
+    ROUTE_EVIDENCE_SCHEMA,
+    ROUTE_EVIDENCE_SCHEMA_V1,
     RouteEvidenceStore,
+    VerifiedRouteControlStep,
     VerifiedRouteExperience,
     resolve_opportunity,
 )
@@ -49,7 +52,10 @@ __all__ = [
     "condition_to_world_model_config",
     "DEFAULT_ROUTE_EVIDENCE_CAPACITY",
     "OpportunityResolution",
+    "ROUTE_EVIDENCE_SCHEMA",
+    "ROUTE_EVIDENCE_SCHEMA_V1",
     "RouteEvidenceStore",
+    "VerifiedRouteControlStep",
     "VerifiedRouteExperience",
     "resolve_opportunity",
 ]
