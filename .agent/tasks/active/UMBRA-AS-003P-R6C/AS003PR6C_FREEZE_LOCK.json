@@ -1,0 +1,29 @@
+{
+  "directive": "UMBRA-AS-003P-R6C",
+  "lock": "AS003PR6C_PRE_FREEZE_IMPLEMENTATION_LOCK_V1",
+  "baseline": "979915fa0c731800212fa0d5d5b3f1d709aae636",
+  "implementation_commit": "c19ae6b3777927515d5cc9f223e4e6f426b8f07a",
+  "production_files": {
+    "umbra_core/hypothetical/frame.py": "8340a8f2a4e775b148b4e19b775befa6240fb75562dd422f38440e2e23440476",
+    "umbra_core/hypothetical/shadow.py": "8c52b9cb8b54e3b09a10d8a79062477af33444a6a57e6c6982ee901d79fe4767"
+  },
+  "test_file": {
+    "tests/test_as003pr6c_frame_projection.py": "a07e4b1f49357fc4ce82c896b2be0677548056bdd51fe63df53a5e6aba76e009"
+  },
+  "evidence_tooling": {
+    "tools/as003pr6c_evidence.py": "d088ff23e906efa6cc60f0d6bdd1774adc19ab814d45916363c06c5bfeb1155e",
+    "tools/as003pr6c_static_audit.py": "db1afffb9334a7a4c14a40d99ff33c3c3860f689abbd78f95a9c749750fc53e5"
+  },
+  "frozen_semantics": [
+    "route success is VERIFIED_OBSERVED_SUPPORT and MAY only",
+    "route failures are separate history and failure-only UNKNOWN",
+    "V1 route records never gain invented V2 steps",
+    "INSPECT MAY requires learned ACTIVE affordance plus exact policy-visible instance",
+    "new fields are ignored by existing modal consumers",
+    "no organism execution, action-selection reader, or planner integration"
+  ],
+  "organism_runs": 0,
+  "diagnostic_runs": 0,
+  "retries": 0,
+  "reseeds": 0
+}
