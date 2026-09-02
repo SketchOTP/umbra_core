@@ -1,3 +1,8 @@
+## UMBRA-AS-003P-R5A retained-root protocol facts — 2026-09-02
+
+- `meta.latest_snapshot` is raw TEXT and must not be JSON-decoded; `meta.ledger_tip` remains JSON.
+- The authoritative R5 root RNG digest hashes compact canonical JSON without a trailing newline. R5A's first verifier used the evidence-file newline convention and produced a verifier-only mismatch; the retained state and all archival file bytes were unchanged, and the correction is preserved append-only.
+
 ## AS-003N — conservative hypothetical composition
 
 - A future-only evidence substrate can be implemented without new authority when it accepts only explicit immutable owner snapshots/tokens. Categorical feasibility must require supported finite timing, relevant state fields, route/opportunity persistence, and effect envelopes; probabilistic or unknown prerequisites stay `UNKNOWN`.

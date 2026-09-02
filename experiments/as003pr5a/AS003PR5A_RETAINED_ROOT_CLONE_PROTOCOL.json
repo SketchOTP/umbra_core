@@ -1,0 +1,27 @@
+{
+  "branch_database_count": 2,
+  "branch_habitat_count": 2,
+  "branch_names": [
+    "CONTROL",
+    "SHADOW"
+  ],
+  "database_copy_method": "sqlite_connection_backup_from_read_only_immutable_source",
+  "directive": "UMBRA-AS-003P-R5A",
+  "habitat_copy_method": "byte_exact_independent_file_copy_after_canonical_digest_verification",
+  "pre_branch_load_requirements": [
+    "retained_root_attestation_pass",
+    "metadata_protocol_preflight_pass",
+    "r5_comparator_byte_identity_pass",
+    "r5_comparator_locked_corpus_pass",
+    "source_hashes_unchanged",
+    "two_destination_inodes_distinct_from_source_and_each_other",
+    "semantic_table_inventories_equal",
+    "habitat_bytes_and_canonical_state_equal",
+    "no_shared_writable_wal_or_shm"
+  ],
+  "retained_database": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5-common-root-modal-shadow-r1/r5-work/shared-root.sqlite",
+  "retained_habitat": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5-common-root-modal-shadow-r1/r5-work/shared-habitat.pickle",
+  "retained_source_mode": "READ_ONLY_IMMUTABLE_ZERO_BYTE_WAL_REQUIRED",
+  "root_creation_count": 0,
+  "schema": "AS003PR5A_RETAINED_ROOT_CLONE_PROTOCOL_V1"
+}

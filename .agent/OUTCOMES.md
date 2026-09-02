@@ -1,3 +1,16 @@
+## UMBRA-AS-003P-R5A pre-branch protocol gates pass — 2026-09-02
+
+From exact baseline `04946e3fc977593bf41d1eb40f1fc8517ef289aa`, R5A reconciled
+GitHub/default `master`, canonical Notion authority, R5's permanent terminal
+record, corrected manifest, and retained root. Eight synthetic raw-TEXT snapshot
+metadata cases pass with organism creations/loads/ticks `0/0/0`. Read-only root
+attestation verifies SQLite `ok`, the five-event chain, snapshot sequence/hash,
+RNG and Habitat digests, and unchanged bytes for database, WAL, SHM, and pickle.
+The first R5A attestation's newline-based RNG digest is preserved and corrected
+append-only. All six inherited comparator/contract artifacts are byte-identical
+to lock commit `14d9ce3`; the 24-case corpus passes twice with false positives and
+negatives `0/0`. No root was created, no branch loaded, and production is unchanged.
+
 ## UMBRA-AS-003N terminal — pure hypothetical-transition substrate qualified — 2026-09-01
 
 - Verdict: `AS003N_PURE_HYPOTHETICAL_TRANSITION_SUBSTRATE_QUALIFIED`. The isolated `umbra_core/hypothetical/` package implements all five AS-003M missing primitives without a live caller: immutable `HypotheticalState`, conservative provenance-bearing evidence envelopes, pure categorical transition, deterministic dependency fingerprint/invalidation, and validated non-executable regulatory services.

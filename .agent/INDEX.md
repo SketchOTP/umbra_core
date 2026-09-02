@@ -7,6 +7,9 @@ comparator/source contract byte-identically, and may execute exactly one 500/500
 common-root CONTROL/SHADOW pair only after independent clone and zero-difference
 premeasurement gates pass. Packet `.agent/tasks/active/UMBRA-AS-003P-R5A/`;
 evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5a-retained-root-modal-shadow-r1/`.
+Pre-branch gates pass: retained SQLite/Habitat/root facts and byte immutability,
+8/8 synthetic metadata cases at zero organism calls, and byte-identical inherited
+comparator with 24 cases repeated twice at false positives/negatives `0/0`.
 
 UMBRA-AS-003P-R5 is TERMINAL from exact baseline
 `3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c` after accepted
