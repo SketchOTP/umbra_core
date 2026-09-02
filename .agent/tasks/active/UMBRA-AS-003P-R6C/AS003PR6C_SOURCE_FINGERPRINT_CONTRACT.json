@@ -1,0 +1,13 @@
+{
+  "schema": "AS003PR6C_SOURCE_FINGERPRINT_CONTRACT_V1",
+  "material_dependencies": [
+    "WorldModel.route_evidence.to_state()",
+    "WorldModel.affordances.to_dict()",
+    "WorldModel.config.fixed_authored",
+    "WorldModel.config.affordance_learning"
+  ],
+  "invalidation": "any material dependency change changes source_versions and frame material_fingerprint",
+  "determinism": "canonical_fingerprint over sorted source records",
+  "mutable_cache_authority": false,
+  "unrelated_state": "does not enter the new source fingerprints"
+}

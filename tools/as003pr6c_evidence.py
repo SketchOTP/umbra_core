@@ -39,3 +39,31 @@ def publish(name: str, payload: Any) -> str:
     if destination.read_text(encoding="utf-8") != encoded:
         raise OSError(f"readback_mismatch:{destination}")
     return digest
+
+
+def publish_text(name: str, text: str) -> str:
+    """Atomically create one UTF-8 text artifact and verify its readback digest."""
+    destination = ROOT / name
+    if destination.exists():
+        raise FileExistsError(destination)
+    ROOT.mkdir(parents=True, exist_ok=True)
+    encoded = text if text.endswith("\n") else text + "\n"
+    fd, temporary = tempfile.mkstemp(prefix=f".{name}.", dir=ROOT)
+    temporary_path = Path(temporary)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(encoded)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_path, destination)
+        directory_fd = os.open(ROOT, os.O_RDONLY)
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+    digest = hashlib.sha256(destination.read_bytes()).hexdigest()
+    if destination.read_text(encoding="utf-8") != encoded:
+        raise OSError(f"readback_mismatch:{destination}")
+    return digest

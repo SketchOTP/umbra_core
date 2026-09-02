@@ -1,0 +1,21 @@
+{
+  "schema": "AS003P_PLANNING_EVIDENCE_FRAME_V2",
+  "preserves": ["AS003P_PLANNING_EVIDENCE_FRAME_V1", "route_support", "service_timing"],
+  "additive_fields": {
+    "route_experience_support": {
+      "key": "opportunity_entity_id",
+      "modality": "MAY when complete successful V2 witness exists, otherwise UNKNOWN",
+      "witnesses": "bounded discrete historical V2 samples",
+      "failures": "separate verified failure history",
+      "future_duration_guarantee": false
+    },
+    "affordance_support": {
+      "key": "affordance_id",
+      "inspect_may_requires": ["policy-visible instance", "matching entity kind", "action=inspect", "status=ACTIVE", "learned source"],
+      "fixed_authored_only": "UNKNOWN"
+    }
+  },
+  "authority": "shadow-only immutable evidence",
+  "modal_consumers_changed": false,
+  "action_selection_reader": false
+}

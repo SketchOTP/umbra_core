@@ -93,6 +93,14 @@ def capture_runtime_frame(organism: Any) -> PlanningEvidenceFrame:
         "body_schema": f"{body_schema_id}:{body_schema_version}",
         "self_model": canonical_fingerprint(organism.self_model.to_state()) if organism.self_model is not None else None,
         "world_model_policy_state": canonical_fingerprint(entities),
+        "world_model_route_evidence": canonical_fingerprint(world.route_evidence.to_state()) if world is not None else None,
+        "world_model_affordances": canonical_fingerprint(
+            {key: value.to_dict() for key, value in sorted(world.affordances.items())}
+        ) if world is not None else None,
+        "world_model_affordance_source_mode": canonical_fingerprint({
+            "fixed_authored": bool(world.config.fixed_authored),
+            "affordance_learning": bool(world.config.affordance_learning),
+        }) if world is not None else None,
         "pending_execution": canonical_fingerprint(pending),
     }
     return build_planning_evidence_frame(
@@ -108,6 +116,18 @@ def capture_runtime_frame(organism: Any) -> PlanningEvidenceFrame:
         world_object_persistence=bool(world is not None and world.config.object_persistence),
         pending_execution=pending,
         source_versions=source_versions,
+        route_evidence_state=world.route_evidence.to_state() if world is not None else None,
+        world_affordances=(
+            {key: value.to_dict() for key, value in sorted(world.affordances.items())}
+            if world is not None else None
+        ),
+        world_model_config=(
+            {
+                "fixed_authored": bool(world.config.fixed_authored),
+                "affordance_learning": bool(world.config.affordance_learning),
+            }
+            if world is not None else None
+        ),
     )
 
 
