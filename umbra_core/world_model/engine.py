@@ -14,6 +14,11 @@ from typing import Any
 
 from umbra_core.identity import deterministic_id
 from umbra_core.util import BoundedRing, clamp, new_id, sha256_hex, canon_json
+from umbra_core.world_model.route_evidence import (
+    DEFAULT_ROUTE_EVIDENCE_CAPACITY,
+    RouteEvidenceStore,
+    resolve_opportunity,
+)
 
 
 MAX_ENTITIES = 32
@@ -348,6 +353,8 @@ class WorldModelConfig:
     object_persistence: bool = True  # C5 off
     planning_enabled: bool = True  # C6 off
     randomize_retrieval: bool = False  # C7
+    # AS-003P-R6B: verified route evidence is opt-in and write-only.
+    route_demand_learning_enabled: bool = False
     # Bounds
     max_entities: int = MAX_ENTITIES
     max_models: int = MAX_TRANSITION_MODELS
@@ -355,6 +362,7 @@ class WorldModelConfig:
     max_plan_depth: int = MAX_PLAN_DEPTH
     max_candidate_plans: int = MAX_CANDIDATE_PLANS
     max_plan_retries: int = MAX_PLAN_RETRIES
+    max_route_experiences: int = DEFAULT_ROUTE_EVIDENCE_CAPACITY
 
 
 def condition_to_world_model_config(condition: str) -> WorldModelConfig:
@@ -413,6 +421,9 @@ class WorldModel:
         default_factory=lambda: BoundedRing(MAX_OBSERVATION_HISTORY)
     )
     config: WorldModelConfig = field(default_factory=WorldModelConfig)
+    route_evidence: RouteEvidenceStore = field(
+        default_factory=RouteEvidenceStore
+    )
     seed: int | None = None
     _pending_prediction: WorldPrediction | None = field(default=None, repr=False)
     _plan_retries: dict[str, int] = field(default_factory=dict)
@@ -445,6 +456,9 @@ class WorldModel:
             plan_traces=BoundedRing(MAX_PLAN_TRACES),
             observation_log=BoundedRing(MAX_OBSERVATION_HISTORY),
             _prediction_errors=BoundedRing(MAX_PREDICTION_HISTORY),
+            route_evidence=RouteEvidenceStore(
+                capacity=cfg.max_route_experiences
+            ),
         )
         if cfg.fixed_authored:
             wm._seed_authored_priors(seed)
@@ -826,6 +840,46 @@ class WorldModel:
         weakest = min(self.entities.values(), key=lambda e: e.confidence)
         del self.entities[weakest.entity_id]
 
+    # --- AS-003P-R6B verified route evidence -------------------------------
+
+    def route_issue_binding(
+        self,
+        *,
+        capability: str,
+        params: dict[str, Any] | None,
+        body_schema_id: str | None,
+    ) -> dict[str, Any] | None:
+        """Return one immutable issue-time binding, never a policy choice."""
+        if not self.config.route_demand_learning_enabled:
+            return None
+        target_kind = (params or {}).get("toward") or (params or {}).get("from")
+        return self.route_evidence.bind_for_issue(
+            entities=self.entities,
+            capability=str(capability),
+            target_kind=str(target_kind) if target_kind else None,
+            body_schema_id=body_schema_id,
+        )
+
+    def route_demand_support(
+        self,
+        *,
+        opportunity_entity_id: str,
+        body_schema_id: str,
+        terminal_capability: str,
+    ) -> dict[str, Any]:
+        """Read-only diagnostic support; no caller in ordinary selection."""
+        if not self.config.route_demand_learning_enabled:
+            return {
+                "status": "UNKNOWN",
+                "support_semantics": "VERIFIED_OBSERVED_SUPPORT",
+                "sample_count": 0,
+            }
+        return self.route_evidence.route_demand_support(
+            opportunity_entity_id=opportunity_entity_id,
+            body_schema_id=body_schema_id,
+            terminal_capability=terminal_capability,
+        )
+
     # --- Prediction -----------------------------------------------------------
 
     def predict(
@@ -964,6 +1018,10 @@ class WorldModel:
         action_issued: bool,
         now: float,
         verified_motion_delta: dict[str, Any] | None = None,
+        issue_tick: int | None = None,
+        body_schema_id: str | None = None,
+        route_binding: dict[str, Any] | None = None,
+        provenance_ref: str | None = None,
     ) -> dict[str, Any]:
         """Compare prediction to verified outcome; revise models. Never treat prediction as fact."""
         result: dict[str, Any] = {
@@ -971,6 +1029,7 @@ class WorldModel:
             "adapted": False,
             "reidentified": [],
             "external_not_self": False,
+            "route_learning": None,
         }
         # Observations already ingested at tick start; only detect external shift here.
         if not action_issued and verified_outcome is None:
@@ -1040,6 +1099,18 @@ class WorldModel:
             for o in observations
         )
         verified_execution = bool(verified.get("verified", True))
+        if self.config.route_demand_learning_enabled and action_issued:
+            result["route_learning"] = self.route_evidence.record_verified_outcome(
+                binding=route_binding,
+                capability=str(action),
+                success=success,
+                reason=str(verified.get("reason", "unknown")),
+                verified=verified_execution,
+                tick=int(tick),
+                issue_tick=issue_tick,
+                body_schema_id=body_schema_id,
+                outcome_ref=provenance_ref or str(verified.get("outcome_id", "")) or None,
+            )
         if success and verified_execution and direct_supported_target:
             strengthened = 0
             for ent in self.entities.values():
@@ -1555,6 +1626,7 @@ class WorldModel:
             and len(self.affordances) <= self.config.max_affordances
             and len(self.predictions) <= MAX_PREDICTION_HISTORY
             and len(self.plan_traces) <= MAX_PLAN_TRACES
+            and self.route_evidence.counts_bounded()
         )
 
     def state_hash(self) -> str:
@@ -1576,6 +1648,7 @@ class WorldModel:
             "processed_environmental_executions": dict(
                 self._processed_environmental_executions
             ),
+            "route_evidence": self.route_evidence.to_state(),
             "metrics": dict(self.metrics),
             "seed": self.seed,
             "state_hash": None,  # filled by caller via state_hash()
@@ -1636,6 +1709,7 @@ class WorldModel:
             "affordances": affordances,
             "supersession_count": len(st["supersessions"]),
             "contradiction_count": len(st["contradictions"]),
+            "route_evidence": self.route_evidence.accepted_state(),
         }
 
     @classmethod
@@ -1647,6 +1721,10 @@ class WorldModel:
             agent_id=str(d["agent_id"]),
             config=cfg,
             seed=d.get("seed"),
+            route_evidence=RouteEvidenceStore.from_state(
+                d.get("route_evidence"),
+                default_capacity=cfg.max_route_experiences,
+            ),
         )
         wm.entities = {
             k: WorldEntity.from_dict(v) for k, v in d.get("entities", {}).items()

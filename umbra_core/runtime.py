@@ -1473,6 +1473,7 @@ class Organism:
                 action_issued=True,
                 support_issue_tick=self._delayed_proposal.get("issue_tick"),
                 support_body_schema_id=self._delayed_proposal.get("body_schema_id"),
+                route_binding=self._delayed_proposal.get("route_binding"),
             )
             committed_outcome = outcome
             self._delayed_proposal = None
@@ -2257,15 +2258,24 @@ class Organism:
         if decision.admitted:
             action_issued = True
             self._body_before_action = self.embodiment.body.to_state()
+            action_body_schema_id = (
+                self.self_model.active.body_schema_id if self.self_model else None
+            )
+            route_binding = None
+            if self.world_model is not None:
+                route_binding = self.world_model.route_issue_binding(
+                    capability=cand.capability,
+                    params=dict(cand.params),
+                    body_schema_id=action_body_schema_id,
+                )
             self._pending_action = {
                 "capability": cand.capability,
                 "params": cand.params,
                 "proposal_id": proposal.proposal_id,
                 "tick": self.tick,
                 "support_issue_tick": organism_age,
-                "body_schema_id": (
-                    self.self_model.active.body_schema_id if self.self_model else None
-                ),
+                "body_schema_id": action_body_schema_id,
+                "route_binding": route_binding,
             }
             outcome = None
             if (
@@ -2302,6 +2312,7 @@ class Organism:
                     "body_schema_id": (
                         self.self_model.active.body_schema_id if self.self_model else None
                     ),
+                    "route_binding": route_binding,
                 }
                 self._pending_action = None
                 # Attribution still runs for "intent issued, no body change yet"
@@ -2436,6 +2447,7 @@ class Organism:
         action_issued: bool,
         support_issue_tick: int | None = None,
         support_body_schema_id: str | None = None,
+        route_binding: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         self.governance.apply_physiology(self.phys, outcome)
         pending_action = dict(self._pending_action or {})
@@ -2446,6 +2458,8 @@ class Organism:
             )
         if support_body_schema_id is None:
             support_body_schema_id = pending_action.get("body_schema_id")
+        if route_binding is None:
+            route_binding = pending_action.get("route_binding")
         raw = dict(outcome.raw or {})
         applied_params_raw = raw.get("applied_parameters", raw.get("params"))
         applied_params = (
@@ -2601,6 +2615,18 @@ class Organism:
                 action_issued=action_issued,
                 now=self.monotonic_time,
                 verified_motion_delta=verified_motion_delta,
+                issue_tick=(
+                    int(support_issue_tick) if support_issue_tick is not None else None
+                ),
+                body_schema_id=(
+                    str(support_body_schema_id)
+                    if support_body_schema_id is not None
+                    else None
+                ),
+                route_binding=route_binding,
+                provenance_ref=(
+                    f"outcome_verified:sequence:{verified_event['sequence']}"
+                ),
             )
             if outcome.capability == "MANIPULATE" and outcome.raw:
                 raw = dict(outcome.raw)
