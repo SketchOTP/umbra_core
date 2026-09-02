@@ -1,0 +1,15 @@
+{
+  "schema": "AS003PR5_HABITAT_ROOT_CONTRACT_V1",
+  "directive": "UMBRA-AS-003P-R5",
+  "authoritative_owner": "umbra_core.habitat.HabitatState",
+  "capture_boundary": "the exact HabitatEngine.state returned by the single completed fixture.prepare call",
+  "canonical_representation": "umbra_core.habitat.state.canonical_serialize on the prepared immutable HabitatState",
+  "canonical_digest": "SHA-256 over UTF-8 canonical serialization bytes",
+  "clone_representation": "lossless pickle of the same immutable HabitatState, accompanied by and verified against the canonical digest",
+  "branch_isolation": "each child deserializes its own HabitatState object and constructs its own HabitatEngine",
+  "required_equality": "CONTROL_HABITAT_ROOT == SHADOW_HABITAT_ROOT == SHARED_ROOT_HABITAT by canonical bytes and SHA-256",
+  "final_comparison": "exact owner state; dictionary ordering is nonsemantic only where canonical_serialize declares it so",
+  "independent_regeneration_prohibited": true,
+  "information_loss_permitted": false,
+  "locked_before_root_construction": true
+}

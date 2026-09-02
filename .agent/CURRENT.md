@@ -12,6 +12,14 @@ retries/reseeds are `0/0`; AS-004 and CLOSE-03 remain blocked. Active packet:
 `.agent/tasks/active/UMBRA-AS-003P-R5/`. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5-common-root-modal-shadow-r1/`.
 
+Prospective pre-root gates now pass. The common-root and Habitat contracts are
+hash-locked; all root-present identities must compare literally, while only
+source-declared post-fork administrative names may use a global relationship-
+preserving bijection. The 24-case comparator corpus passed twice with false
+positives/negatives `0/0`. Import, SQLite backup, branch/barrier, analysis, and
+durable-publication preflight passed with organism creations/loads/ticks `0/0/0`.
+No root has yet been constructed and no measured execution has begun.
+
 # UMBRA-REPO-001 terminal — employer-grade repository front door qualified
 
 `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` is terminal from exact baseline

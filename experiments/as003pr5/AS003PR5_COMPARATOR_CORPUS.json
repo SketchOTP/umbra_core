@@ -1,0 +1,32 @@
+{
+  "schema": "AS003PR5_COMPARATOR_ADVERSARIAL_CORPUS_V1",
+  "directive": "UMBRA-AS-003P-R5",
+  "locked_before_root_construction": true,
+  "cases": [
+    {"id": "C01", "name": "identical common-root records", "expected_equal": true},
+    {"id": "C02", "name": "pre-fork body ID changed", "expected_equal": false},
+    {"id": "C03", "name": "pre-fork schema ID changed", "expected_equal": false},
+    {"id": "C04", "name": "pre-fork Habitat ID changed", "expected_equal": false},
+    {"id": "C05", "name": "pre-fork event causal relation changed", "expected_equal": false},
+    {"id": "C06", "name": "post-fork session ID consistently renamed", "expected_equal": true},
+    {"id": "C07", "name": "post-fork event IDs bijectively renamed", "expected_equal": true},
+    {"id": "C08", "name": "post-fork administrative relationship broken", "expected_equal": false},
+    {"id": "C09", "name": "RNG changed", "expected_equal": false},
+    {"id": "C10", "name": "physiology changed", "expected_equal": false},
+    {"id": "C11", "name": "selected action changed", "expected_equal": false},
+    {"id": "C12", "name": "WorldModel semantic value changed", "expected_equal": false},
+    {"id": "C13", "name": "Habitat state changed", "expected_equal": false},
+    {"id": "C14", "name": "ordered event sequence changed", "expected_equal": false},
+    {"id": "C15", "name": "derivative-only hash difference", "expected_equal": true},
+    {"id": "C16", "name": "derivative hash plus source difference", "expected_equal": false},
+    {"id": "C17", "name": "final body generation changed", "expected_equal": false},
+    {"id": "C18", "name": "pending state changed", "expected_equal": false},
+    {"id": "C19", "name": "post-fork administrative IDs collapsed", "expected_equal": false},
+    {"id": "C20", "name": "pre-fork learned model ID renamed", "expected_equal": false},
+    {"id": "C21", "name": "unordered metric cells permuted", "expected_equal": true},
+    {"id": "C22", "name": "body occupancy reference changed", "expected_equal": false},
+    {"id": "C23", "name": "candidate pool order only changed", "expected_equal": true},
+    {"id": "C24", "name": "candidate identity changed", "expected_equal": false}
+  ],
+  "pass_requirement": {"false_positives": 0, "false_negatives": 0, "repeat_runs": 2}
+}

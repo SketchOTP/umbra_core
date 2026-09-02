@@ -1,0 +1,37 @@
+{
+  "schema": "AS003PR5_COMMON_ROOT_CONTRACT_V1",
+  "directive": "UMBRA-AS-003P-R5",
+  "fixture": {
+    "module": "experiments.close02r.qualification",
+    "regime": "R0",
+    "scenario": "S0",
+    "seed": 45878900,
+    "measured_horizon_per_branch": 500
+  },
+  "root_boundary": [
+    "call fixture.prepare(45878900, root_db, R0) exactly once",
+    "complete existing zero-tick R0/S0 preparation and initial habitat perception",
+    "write one forced durable organism snapshot",
+    "capture exact authoritative state, RNG state, and prepared Habitat state",
+    "quiesce and close the root before database cloning"
+  ],
+  "root_measured_ticks": 0,
+  "warmup_ticks": 0,
+  "organism_births": 1,
+  "required_exact_root_families": [
+    "constitutional identity and lineage commitment",
+    "body instance, attachment generation, profile, occupancy, binding, schema, and schema version",
+    "physiology",
+    "SelfModel and WorldModel",
+    "memory, social, development, individuality, and temporal state",
+    "pending action, execution, and delayed proposal state",
+    "organism RNG state",
+    "durable event-ledger tip and latest snapshot",
+    "Habitat identity, version, canonical state, and digest"
+  ],
+  "branch_rule": "CONTROL and SHADOW are restored from independent SQLite backups and independent Habitat copies of this one root",
+  "pre_fork_identity_rule": "every source-declared identifier present in the root is EXACT_VALUE in both branches",
+  "post_fork_identity_rule": "only owner-declared fresh administrative identities may use bijective relational equivalence",
+  "quiescence": "no measured action-selection decision or tick occurs before the fork",
+  "locked_before_root_construction": true
+}

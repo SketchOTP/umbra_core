@@ -1,0 +1,49 @@
+{
+  "schema": "AS003PR5_PARITY_SOURCE_CONTRACT_V1",
+  "directive": "UMBRA-AS-003P-R5",
+  "generic_uuid_detection_authorized": false,
+  "numeric_comparison": "EXACT_STORED_VALUE",
+  "pre_fork_identifiers": "EXACT_VALUE regardless of the identity's ordinary administrative role",
+  "post_fork_identifiers": "BIJECTIVE_RELATIONAL_EQUIVALENCE only for the source-declared administrative fields and maps below",
+  "dictionary_semantics": "KEY_ORDER_IRRELEVANT_UNLESS_OWNER_DECLARED_ORDERED",
+  "sequence_semantics": "ORDERED_UNLESS_EXPLICITLY_DECLARED_UNORDERED",
+  "body_identity": "body_instance_id, attachment_generation, profile, occupancy, body_binding_id, body_schema_id, and schema version are exact",
+  "habitat_identity": "Habitat identity, version, state, body references, held-object relationships, and final canonical state are exact",
+  "semantic_identity_field_names": [
+    "agent_id", "lineage_id", "birth_event_id", "identity_commitment",
+    "body_instance_id", "body_schema_id", "body_binding_id", "candidate_identity",
+    "habitat_id", "profile_id"
+  ],
+  "administrative_field_names": [
+    "session_id", "session_id_at_commit", "event_id", "transaction_id",
+    "source_transaction_id", "request_id", "proposal_id", "execution_id",
+    "outcome_id", "prediction_id", "error_id", "decision_id", "evidence_id",
+    "plan_id", "model_id", "entity_id", "affordance_id",
+    "observation_plan_id", "advance_id"
+  ],
+  "administrative_key_maps": [
+    "final_authoritative_state.world_model.entities",
+    "final_authoritative_state.world_model.models",
+    "final_authoritative_state.world_model.affordances",
+    "pre_authoritative_state.world_model.entities",
+    "pre_authoritative_state.world_model.models",
+    "pre_authoritative_state.world_model.affordances"
+  ],
+  "derivative_field_names": [
+    "event_hash", "payload_hash", "previous_event_hash", "state_hash",
+    "source_sample_hash", "prior_state_hash", "new_state_hash",
+    "trusted_sample_hash"
+  ],
+  "unordered_sequence_paths": [
+    "final_authoritative_state.metrics.cells",
+    "pre_authoritative_state.metrics.cells"
+  ],
+  "comparison_sections": [
+    "authoritative state", "authoritative events", "selected-action timeline",
+    "candidate semantic identities", "organism RNG", "Habitat state"
+  ],
+  "derivative_rule": "reported separately; ignored only after source-semantic equality is independently established",
+  "unresolved_identity_fields": [],
+  "unresolved_rule": "any unresolved identity field blocks execution before the pair",
+  "locked_before_pair_outputs": true
+}
