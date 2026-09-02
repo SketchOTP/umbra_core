@@ -1,0 +1,65 @@
+{
+  "schema": "AS003PR6BR1_ROUTE_CONTINUITY_CONTRACT_V1",
+  "directive": "UMBRA-AS-003P-R6B-R1",
+  "status": "LOCKED",
+  "baseline": "e610a36f4ca07cf451da53c9f7dac9d35a037a0e",
+  "parent_verdict": "AS003PR6B_IMPLEMENTATION_FAIL",
+  "route_identity": ["opportunity_entity_id", "body_schema_id"],
+  "route_translation": {
+    "capability": "APPROACH",
+    "requires": ["exact opportunity binding", "same active opportunity", "same body schema", "executed verified outcome"],
+    "effect": "preserve_or_start_route_episode",
+    "records": "verified route-control step",
+    "translational_movement_count": "increment on successful verified APPROACH only",
+    "completion_lag": "movement-specific observed issue-to-completion lag"
+  },
+  "route_orientation": {
+    "capability": "ORIENT",
+    "requires": ["target semantic in params", "exact WorldModel opportunity resolution", "same active opportunity when episode exists", "same body schema", "executed verified outcome"],
+    "effect": "preserve_or_start_route_episode",
+    "records": "verified non-translational route-control step",
+    "translational_movement_count": "unchanged",
+    "completion_lag": "observed issue-to-completion lag",
+    "failure": "verified route failure with exact reason when outcome is unsuccessful"
+  },
+  "terminal_services": ["CHARGE", "REST", "INSPECT"],
+  "interruption": {
+    "examples": ["unbound ORIENT", "ORIENT toward another opportunity", "MOVE without exact route target", "RETREAT", "unrelated terminal", "issued IDLE", "unrelated executed behavior"],
+    "effect": "discard incomplete route episode"
+  },
+  "idle": {
+    "disposition": "ISSUED_IDLE_IS_ROUTE_INTERRUPTION",
+    "exception": "delayed actuation waiting is part of the already-issued action and is not a new route step"
+  },
+  "evidence": {
+    "new_schema": "VERIFIED_ROUTE_EXPERIENCE_V2",
+    "route_control_step": ["capability", "issue_tick", "completion_tick", "completion_lag", "translational_movement", "success", "verified_outcome_ref"],
+    "movement_count_field": "verified_movement_execution_count",
+    "movement_count_semantics": "successful verified translational APPROACH completions",
+    "learning_authority": "executed VerifiedOutcome only",
+    "prohibited": ["score", "utility", "probability", "weight", "priority", "planner", "action-selection reader", "Habitat truth"]
+  },
+  "compatibility": {
+    "v1_readable": true,
+    "v1_reinterpretation": false,
+    "v1_missing_control_steps": "unknown",
+    "v2_persistence": true,
+    "capacity": "unchanged"
+  },
+  "assay": {
+    "seed": 6103,
+    "scenario": "S0",
+    "max_ticks": 8,
+    "legs": ["success", "failure"],
+    "retries": 0,
+    "reseeds": 0,
+    "selector": "same emitted-candidate selector as R6B"
+  },
+  "authority": {
+    "production_reader": false,
+    "planning_reader": false,
+    "action_selection_reader": false,
+    "organism_runs_before_freeze": 0,
+    "organism_ticks_before_freeze": 0
+  }
+}
