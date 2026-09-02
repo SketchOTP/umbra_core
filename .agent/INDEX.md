@@ -1,11 +1,14 @@
-UMBRA-AS-003P-R5 is ACTIVE from exact baseline
+UMBRA-AS-003P-R5 is TERMINAL from exact baseline
 `3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c` after accepted
 `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED`. Scope is one prospectively locked
 common-root R0/S0 seed `45878900` observer pair: one prepared root, exact durable
 organism/Habitat/RNG cloning, source-semantic comparator qualification, zero-difference
-premeasurement parity, then one 500-tick CONTROL and one 500-tick SHADOW leg. No
-production/scientific-semantic change, retry/reseed, action authority, AS-004, CLOSE-03,
-or automatic successor. Packet `.agent/tasks/active/UMBRA-AS-003P-R5/`; evidence
+premeasurement parity, then one 500-tick CONTROL and one 500-tick SHADOW leg. Its
+comparator passed prospectively, but the single zero-tick root stopped before cloning
+because the frozen metadata reader parsed a raw snapshot ID as JSON. Verdict:
+`AS003PR5_PROTOCOL_PREFLIGHT_FAIL`; branch loads/ticks `0/0`; no production change,
+retry/reseed, action authority, AS-004, CLOSE-03, or successor. Packet
+`.agent/tasks/active/UMBRA-AS-003P-R5/`; evidence
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5-common-root-modal-shadow-r1/`.
 
 UMBRA-REPO-001 is TERMINAL with

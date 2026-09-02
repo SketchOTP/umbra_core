@@ -1,4 +1,4 @@
-# UMBRA-AS-003P-R5 active — common-root modal observer pair
+# UMBRA-AS-003P-R5 terminal — protocol preflight failure before fork
 
 Architect acceptance makes REPO-001 terminal and authorizes R5 from exact baseline
 `3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c`. R5 prepares one R0/S0 seed
@@ -18,7 +18,15 @@ source-declared post-fork administrative names may use a global relationship-
 preserving bijection. The 24-case comparator corpus passed twice with false
 positives/negatives `0/0`. Import, SQLite backup, branch/barrier, analysis, and
 durable-publication preflight passed with organism creations/loads/ticks `0/0/0`.
-No root has yet been constructed and no measured execution has begun.
+The one authorized root was then prepared and force-snapshotted at tick `0`, but the
+frozen harness stopped while reading root metadata: `Store.save_snapshot()` stores
+`meta.latest_snapshot` as raw TEXT, while `_snapshot_metadata()` attempted
+`json.loads()` on that ID. The root database is integral and retains snapshot sequence
+`5` with state hash `25f048b5bd6a6be67ac6a1c3d4e984407ec19ec25c3f099232c5102af5467051`.
+No database backup, branch load, premeasurement parity, execution lock, CONTROL/SHADOW
+execution, or modal interpretation occurred. Terminal verdict:
+`AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. Root creation/ticks `1/0`; branch loads `0/0`;
+measured ticks `0/0`; retries/reseeds `0/0`; no successor started.
 
 # UMBRA-REPO-001 terminal — employer-grade repository front door qualified
 

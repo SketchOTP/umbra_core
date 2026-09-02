@@ -25,3 +25,13 @@ The exact interpreter established for the protocol is
 `/home/sketch/cs14n-runtime/bin/python` (Python 3.12.3). Development attempts
 with the absent `python` shim and system Python lacking pytest were environment
 checks only; neither imported the fixture nor constructed an organism.
+
+Terminal retained evidence:
+
+- shared root recovery SHA-256: `5761e4c928065dbc1da25ebe46ea1569c016bd668d8f541b60253078ca798bd7`
+- root protocol failure SHA-256: `8c1ce6b4c4d678f8855603efa846836c4c5426987666c47987d84ba6412af9b8`
+- scientific result SHA-256: `cf0a092c788fc1f90e11ad7be6cbeb43206aafd071731486515f1c1cedfd843a`
+- root database integrity: `ok`; root snapshot sequence/state hash:
+  `5 / 25f048b5bd6a6be67ac6a1c3d4e984407ec19ec25c3f099232c5102af5467051`
+- root creation/ticks: `1/0`; CONTROL loads/ticks: `0/0`; SHADOW loads/ticks:
+  `0/0`; retries/reseeds: `0/0`.

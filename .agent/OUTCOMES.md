@@ -1301,3 +1301,16 @@ Architect independently accepted `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` a
 GitHub commit `3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c` and made
 `UMBRA-AS-003P-R5` current authority. This adoption does not change prior scientific
 outcomes. R5 begins with organism/control/shadow ticks and retries/reseeds all zero.
+
+## 2026-09-01 — UMBRA-AS-003P-R5 terminal protocol preflight failure
+
+R5 prospectively froze a source-semantic common-root comparator at `14d9ce3`; 24
+adversarial cases repeated twice produced false positives/negatives `0/0`, and the
+zero-organism import/synthetic SQLite preflight passed. The one authorized root was
+then prepared, force-snapshotted, and closed at tick `0`. Before backup or branch load,
+the frozen harness raised `JSONDecodeError` because Store persists
+`meta.latest_snapshot` as a raw snapshot ID while the harness expected JSON. The root
+database passes read-only integrity inspection and preserves snapshot sequence `5`.
+Terminal verdict: `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. Branch loads, measured ticks,
+observer parity, and modal interpretation were not run; retries/reseeds remain `0/0`;
+production and existing test semantics are unchanged; no successor started.

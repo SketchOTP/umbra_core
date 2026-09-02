@@ -117,3 +117,13 @@ independent branches, and execute one 500-tick control/shadow pair only after co
 protocol, and premeasurement parity gates pass. Production/scientific semantics remain
 immutable; historical R1/R3 results remain permanent; no retry, reseed, action authority,
 AS-004, CLOSE-03, or automatic successor is authorized.
+
+## 2026-09-01 — UMBRA-AS-003P-R5 terminal protocol stop
+
+The Architect-authorized common-root generation froze its comparator/protocol, then
+used its one permitted root creation. The root reached a durable tick-0 snapshot, but
+the frozen harness stopped before fork when it attempted to JSON-decode Store's raw
+TEXT `latest_snapshot` ID. Under the no-repeat/no-repair rule, R5 terminates as
+`AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. No branch loaded or ticked, no observer/modal
+evidence was interpreted, retries/reseeds remain `0/0`, production is unchanged, and
+no successor started.

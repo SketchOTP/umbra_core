@@ -123,6 +123,10 @@ Do not use the current qualification to relabel earlier failed executions.
 - [`AS-003P-R4 result`](../.agent/tasks/active/UMBRA-AS-003P-R4/RESULT.md) — zero-run
   identity analysis found the body replacement architecture defect later repaired by
   AS-003S.
+- [`AS-003P-R5 result`](../.agent/tasks/active/UMBRA-AS-003P-R5/RESULT.md) — the
+  common-root comparator qualified prospectively, but the frozen root protocol stopped
+  after its one zero-tick root creation on a raw snapshot-ID/JSON parser mismatch;
+  branch loads, control/shadow ticks, parity, and modal interpretation were not run.
 
 No raw modal trace from an invalidated observer generation is qualification evidence.
 

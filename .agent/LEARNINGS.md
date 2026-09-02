@@ -52,6 +52,8 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - YYYY-MM-DD | area:<module> | lesson:<specific repo fact under 25 words> | evidence:<path>
 ```
 
+- 2026-09-01 | area:AS-003P-R5 protocol | lesson:synthetic SQLite preflight must verify real Store metadata encodings; latest_snapshot is raw TEXT, not JSON | evidence:AS003PR5_ROOT_PROTOCOL_FAILURE.json
+
 - 2026-07-20 | area:governance | lesson:PROJECT_GOAL is sole product source of truth; copied digital_cell/hermes agent files were reset for UMBRA-CORE | evidence:.agent/PROJECT_GOAL.md
 - 2026-07-20 | area:mimir | lesson:mimir_project_register fails for this Linux checkout via Windows host path mapping; leave binding UNBOUND until fixed | evidence:.agent/PROJECT_PROFILE.md
 - 2026-07-20 | area:program | lesson:UMBRA-D-000 blocks D-001; informed prior-art reuse required before organism kernel | evidence:docs/directives/UMBRA-D-000-prior-art-reproduction.md

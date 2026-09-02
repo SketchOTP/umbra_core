@@ -8,7 +8,9 @@ from a chatbot loop or a scripted persona.
 
 **Scientific status:** subsystem capabilities are qualified within explicit
 boundaries; integrated long-horizon viability is **not qualified**. The current
-research frontier is observer-safe, shadow-only evaluation of bounded modal planning.
+research frontier is observer-safe, shadow-only evaluation of bounded modal planning;
+the latest common-root attempt stopped before branch execution on a frozen protocol
+metadata mismatch.
 No planner currently has action-selection authority.
 
 [Project goal](.agent/PROJECT_GOAL.md) ·
@@ -208,7 +210,9 @@ Negative results are not removed when later work succeeds.
 - **Observer measurement:** AS-003P/R1/R3 generations exposed import-protocol,
   comparator, and cross-run body-identity equivalence defects. Their raw modal traces
   were not promoted to qualified planning evidence. The body-identity defect found in
-  that lineage led to the separately qualified AS-003S repair.
+  that lineage led to the separately qualified AS-003S repair. AS-003P-R5 then created
+  its one permitted zero-tick common root but stopped before forking because its frozen
+  harness parsed a raw SQLite snapshot ID as JSON; no control/shadow branch ran.
 
 See [Selected negative evidence](docs/EVIDENCE_GUIDE.md#selected-negative-evidence)
 for the exact records.
@@ -270,10 +274,12 @@ hypothetical-state and modal-planning infrastructure exists, but it remains isol
 or shadow-only and has not earned live action-selection authority.
 
 Earlier independent-birth observer pairs were invalidated by measurement and identity
-equivalence problems. The preferred next experiment design—**not yet authorized or
-started**—is a prospectively frozen common-root control/shadow pair. Both branches
-would begin from the same persisted organism, body, habitat, learned state,
-physiology, and RNG root so the shadow observer is the intended treatment difference.
+equivalence problems. AS-003P-R5 prospectively locked a common-root comparator and
+protocol, then created its single permitted R0/S0 root with zero measured ticks. The
+protocol stopped before database cloning or branch loading because the frozen harness
+incorrectly treated the Store's raw `latest_snapshot` ID as JSON. The generation is
+terminal; it acquired no observer or modal evidence, and no recovery generation is
+currently authorized.
 
 Until that evidence exists, planning integration, AS-004 integrated viability, and
 CLOSE-03 final organism acceptance remain blocked.

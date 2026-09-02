@@ -6,4 +6,8 @@ R5 is active from exact baseline
 Habitat, parity-source, comparator, analysis, and one-shot protocol code is now
 ready for the comparator-lock commit. Comparator qualification is `0/0` false
 positives/negatives across 24 cases repeated twice; preflight has zero organism
-creation/load/tick calls. No shared root or measured execution exists yet.
+creation/load/tick calls. The one shared root was then created and durably
+snapshotted at tick `0`, but the frozen protocol stopped before backup/fork because
+it expected JSON in Store's raw TEXT `latest_snapshot` metadata value. R5 is terminal
+`AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. No branch load, measured tick, parity result,
+modal interpretation, retry, reseed, or successor exists.
