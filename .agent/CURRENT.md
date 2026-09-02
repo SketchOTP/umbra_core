@@ -1,4 +1,23 @@
-# UMBRA-AS-003P-R5A active — retained-root common-root observer recovery
+# UMBRA-AS-003P-R5A terminal — observer-safe modal evidence non-discriminating
+
+`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING` is terminal from
+exact baseline `04946e3fc977593bf41d1eb40f1fc8517ef289aa`. R5A adopted the
+immutable retained R5 tick-0 root, created no new root, cloned exactly two
+independent branches, and executed exactly one 500-tick CONTROL and one
+500-tick SHADOW leg after frozen execution lock
+`50c1a2f2e23862c418b5377c1c08441c9f82d4d9`.
+
+Observer parity passed with semantic differences `0`: action timeline,
+candidate identities, authoritative events, final authoritative state, Habitat,
+and RNG are equal. The SHADOW leg produced `500/500` complete frames and
+`2,686` candidate profiles (`2,664 STRONG_MAY`, `22 UNKNOWN`), with branch-
+frontier peak `4` and overflow `0`. Candidate-pair profile distinctions were
+`0`, including `57` decisions exposing the AS-003L residual conflict class.
+AS-003L is `BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`; AS-002 is
+`NO_RELATION_SUPPORTED`. Modal evidence remains shadow-only. Retries/reseeds
+are `0/0`; production delta is `0`; no successor is authorized or started.
+
+# UMBRA-AS-003P-R5A governance start — retained-root common-root observer recovery
 
 The Architect accepted permanent R5 verdict `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`
 and authorized R5A from exact baseline

@@ -982,11 +982,14 @@ successor is authorized.
 
 ## UMBRA-AS-003P-R5A — retained common-root fork recovery
 
-- Directive: UMBRA-AS-003P-R5A | status:active | baseline:`04946e3fc977593bf41d1eb40f1fc8517ef289aa` | parent:`AS003PR5_PROTOCOL_PREFLIGHT_FAIL`.
+- Directive: UMBRA-AS-003P-R5A | status:terminal | baseline:`04946e3fc977593bf41d1eb40f1fc8517ef289aa` | parent:`AS003PR5_PROTOCOL_PREFLIGHT_FAIL` | verdict:`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`.
 - Authority: adopt the retained R5 tick-0 root read-only; R5A root creation count `0`; prove raw-TEXT snapshot metadata semantics synthetically; preserve R5 comparator/source contract byte-identically; create exactly two independent branch stores/Habitats; require zero-difference pretreatment parity before one frozen 500/500 pair.
 - Prohibited: R5 rewrite/rerun, new root, production or existing-test semantic change, comparator change, retry/reseed, modal action authority, AS-004, CLOSE-03, automatic successor.
 - Pre-branch gate: retained-root attestation PASS after append-only verifier correction; metadata synthetic preflight 8/8 PASS at zero organism calls; inherited comparator BYTE_IDENTICAL and 24-case corpus twice with false positives/negatives 0/0. Branch cloning/loading remains pending.
 - Premeasurement gate: two independent store/Habitat clones PASS; branch loads `1/1`; measured ticks `0/0`; semantic differences `0`; execution protocol frozen for one 500/500 pair with retries/reseeds `0/0`.
+- Execution/observer result: CONTROL/SHADOW `1/1`, measured ticks `500/500`, semantic differences `0`, timeline/candidate/events/final-state/Habitat/RNG parity PASS, retries/reseeds `0/0`.
+- Modal result: fresh frames `500/500`, candidates `2,686`, profiles `2,664 STRONG_MAY / 22 UNKNOWN`, candidate-pair distinctions `0`, branch peak/overflow `4/0`; 57 AS-003L conflict exposures yielded no distinction.
+- Disposition: AS-003L `BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`; AS-002 `NO_RELATION_SUPPORTED`; production delta `0`; action authority unchanged; successor `none`.
 - Comparator qualification: 24 cases repeated twice; false positives/negatives `0/0`; pre-root import/synthetic-backup preflight reported zero organism calls.
 - Stop: the one root prepared and snapshotted at tick `0`, then `_snapshot_metadata()` attempted JSON parsing on Store's raw TEXT `latest_snapshot` ID and stopped before root publication, backup, fork, branch load, parity, execution lock, or measured ticks.
 - Counts: root creation/ticks `1/0`; CONTROL loads/ticks `0/0`; SHADOW loads/ticks `0/0`; retries/reseeds `0/0`; modal evidence `NOT RUN`; production delta `0`; successor `none`.

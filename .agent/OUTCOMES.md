@@ -1,3 +1,19 @@
+## UMBRA-AS-003P-R5A terminal — observer-safe modal evidence non-discriminating — 2026-09-02
+
+Terminal verdict `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`.
+The retained R5 root remained immutable and R5A created no root. Exactly two
+independent branches loaded once and completed one CONTROL and one SHADOW leg
+at 500 measured ticks each. Semantic observer parity passed with differences
+`0`; timeline, candidate identities, authoritative events, final state, Habitat,
+and RNG matched. The fresh SHADOW trace yielded 500 complete frames, 2,686
+candidate profiles, 2,664 `STRONG_MAY`, 22 `UNKNOWN`, branch-frontier peak 4,
+and overflow 0. Candidate-pair profile distinctions were 0. Fifty-seven
+decisions directly exposed the AS-003L residual conflict class, yet none
+distinguished candidates, so AS-003L is
+`BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE` and AS-002 is
+`NO_RELATION_SUPPORTED`. Historical invalidated modal counts were not used.
+Production delta `0`; retries/reseeds `0/0`; no successor started.
+
 ## UMBRA-AS-003P-R5A pre-branch protocol gates pass — 2026-09-02
 
 From exact baseline `04946e3fc977593bf41d1eb40f1fc8517ef289aa`, R5A reconciled

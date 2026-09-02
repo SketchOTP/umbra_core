@@ -139,3 +139,16 @@ the R5 comparator remains byte-identical; two independent branches must compare
 semantically equal before tick 1; and only then may one locked 500/500 pair run.
 No production change, retry/reseed, action authority, AS-004, CLOSE-03, or
 automatic successor is authorized.
+
+## 2026-09-02 — UMBRA-AS-003P-R5A terminal observer result
+
+The prospectively frozen retained-root pair completed one CONTROL and one SHADOW
+branch at 500 measured ticks each. The inherited R5 source-semantic comparator
+found zero semantic differences across timeline, candidate identities,
+authoritative events, final state, Habitat, and RNG. Fresh observer-safe shadow
+evidence produced 500 complete frames and 2,686 candidate profiles, but no
+candidate-pair profile distinction, including across 57 decisions exposing the
+AS-003L residual conflict class. Terminal verdict:
+`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`. AS-003L remains
+`BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`; AS-002 is `NO_RELATION_SUPPORTED`.
+Production delta and retries/reseeds are zero; no successor started.

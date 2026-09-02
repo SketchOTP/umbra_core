@@ -1,4 +1,16 @@
-UMBRA-AS-003P-R5A is ACTIVE from exact baseline
+UMBRA-AS-003P-R5A is TERMINAL with
+`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING` from exact baseline
+`04946e3fc977593bf41d1eb40f1fc8517ef289aa`. The retained R5 root stayed
+byte-identical; exactly two branches loaded once and completed one 500-tick
+CONTROL plus one 500-tick SHADOW leg. The inherited prospective comparator
+reports semantic parity with zero differences across timeline, candidate
+identities, events, final state, Habitat, and RNG. Fresh shadow evidence has
+500 complete frames and 2,686 profiles, but zero profile distinctions,
+including 57 exposed AS-003L conflicts. AS-003L is
+`BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`; no AS-002 relation is supported.
+Production delta and retries/reseeds are zero; no successor started.
+
+UMBRA-AS-003P-R5A governance started from exact baseline
 `04946e3fc977593bf41d1eb40f1fc8517ef289aa` after Architect acceptance of
 permanent R5 verdict `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. R5A adopts the retained
 R5 tick-0 root read-only with zero new root creation, proves corrected raw-TEXT

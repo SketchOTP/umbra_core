@@ -57,6 +57,8 @@ Append-only repo-specific lessons for UMBRA-CORE. Format:
 - YYYY-MM-DD | area:<module> | lesson:<specific repo fact under 25 words> | evidence:<path>
 ```
 
+- 2026-09-02 | area:AS-003P-R5A modal evidence | lesson:observer-safe modal profiles were identical across 57 exposed conflicts, so evidence strength alone supplied no action relation | evidence:AS003PR5A_AS003L_BLOCKER_RESULT.json
+
 - 2026-09-01 | area:AS-003P-R5 protocol | lesson:synthetic SQLite preflight must verify real Store metadata encodings; latest_snapshot is raw TEXT, not JSON | evidence:AS003PR5_ROOT_PROTOCOL_FAILURE.json
 
 - 2026-07-20 | area:governance | lesson:PROJECT_GOAL is sole product source of truth; copied digital_cell/hermes agent files were reset for UMBRA-CORE | evidence:.agent/PROJECT_GOAL.md

@@ -28,3 +28,16 @@ Evidence results are appended as gates complete. No R5 artifact is overwritten.
 - Branch loads: CONTROL `1`, SHADOW `1`; measured ticks `0/0` at barrier.
 - Premeasurement parity: PASS; semantic differences `0`, administrative differences `2`, derivative differences `1`; SHA-256 `c2a0d117f35be987e7a14d829a6476b8b5fdf2c01abb6375b7e4518b58d09bb2`.
 - Frozen interpreter/command: `/home/sketch/cs14n-runtime/bin/python -m experiments.as003pr5a.common_root_pair orchestrate`, repository-root working directory, retained seed `45878900`, horizon `500`, retries/reseeds `0/0`.
+
+## Frozen paired execution and interpretation
+
+- Execution: exactly one CONTROL and one SHADOW leg; measured ticks `500/500`; retries/reseeds `0/0`; exit status `0`.
+- Semantic parity: PASS; semantic differences `0`; first divergence `NONE`; timeline, candidate identities, authoritative events, final authoritative state, Habitat, and RNG equal. Administrative differences `4,888` and derivative differences `10,628` remain explicitly non-semantic under the prospectively frozen comparator.
+- Actual frames: attempted/complete/rejected `500/500/0`; capture/evaluation errors `0`; candidate profiles `2,686`.
+- Modal distribution: `STRONG_MUST 0`, `STRONG_MAY 2,664`, `WEAK_MAY 0`, `NO_CONTINUATION 0`, `UNKNOWN 22`; branch-frontier peak `4`, overflow `0`.
+- Distinctions: frames with candidate-profile distinctions `0`; candidate pairs with distinctions `0`.
+- Exposure: 59 ordinary multi-drive conflict decisions; 57 satisfy the complete AS-003L residual-conflict exposure definition; exposed decisions with profile distinctions `0`.
+- AS-003L: `BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`.
+- AS-002 future boundary: `NO_RELATION_SUPPORTED`; epistemic strength was not treated as preference.
+- Historical R1/R3/R5 modal counts used: `false`.
+- Terminal verdict: `AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`.

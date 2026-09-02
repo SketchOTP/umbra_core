@@ -127,6 +127,11 @@ Do not use the current qualification to relabel earlier failed executions.
   common-root comparator qualified prospectively, but the frozen root protocol stopped
   after its one zero-tick root creation on a raw snapshot-ID/JSON parser mismatch;
   branch loads, control/shadow ticks, parity, and modal interpretation were not run.
+- [`AS-003P-R5A result`](../.agent/tasks/active/UMBRA-AS-003P-R5A/RESULT.md) — a
+  fresh retained-root protocol completed one 500-tick CONTROL and one 500-tick SHADOW
+  branch with zero semantic observer differences. Its 500 complete frames yielded no
+  candidate-profile distinction, including across 57 AS-003L conflict exposures, so
+  the result is observer-safe but non-discriminating and grants no action authority.
 
 No raw modal trace from an invalidated observer generation is qualification evidence.
 

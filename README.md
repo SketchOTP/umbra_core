@@ -8,9 +8,9 @@ from a chatbot loop or a scripted persona.
 
 **Scientific status:** subsystem capabilities are qualified within explicit
 boundaries; integrated long-horizon viability is **not qualified**. The current
-research frontier is observer-safe, shadow-only evaluation of bounded modal planning;
-the latest common-root attempt stopped before branch execution on a frozen protocol
-metadata mismatch.
+research frontier is action-selection evidence: a prospectively locked common-root
+pair has now established that bounded modal planning can run observer-safely, but its
+profiles did not discriminate among candidates in the tested conflict exposures.
 No planner currently has action-selection authority.
 
 [Project goal](.agent/PROJECT_GOAL.md) ·
@@ -213,6 +213,9 @@ Negative results are not removed when later work succeeds.
   that lineage led to the separately qualified AS-003S repair. AS-003P-R5 then created
   its one permitted zero-tick common root but stopped before forking because its frozen
   harness parsed a raw SQLite snapshot ID as JSON; no control/shadow branch ran.
+  AS-003P-R5A separately reused that retained root under a new lock and established
+  observer parity, but its fresh modal profiles supplied no candidate distinction,
+  including across 57 relevant conflict exposures.
 
 See [Selected negative evidence](docs/EVIDENCE_GUIDE.md#selected-negative-evidence)
 for the exact records.
@@ -270,19 +273,22 @@ not as granting reuse rights, unless a license is added separately.
 ## Current research frontier
 
 The body-replacement identity defect is closed within the AS-003S boundary. Bounded
-hypothetical-state and modal-planning infrastructure exists, but it remains isolated
-or shadow-only and has not earned live action-selection authority.
+hypothetical-state and modal-planning infrastructure exists, remains shadow-only, and
+has not earned live action-selection authority.
 
-Earlier independent-birth observer pairs were invalidated by measurement and identity
-equivalence problems. AS-003P-R5 prospectively locked a common-root comparator and
-protocol, then created its single permitted R0/S0 root with zero measured ticks. The
-protocol stopped before database cloning or branch loading because the frozen harness
-incorrectly treated the Store's raw `latest_snapshot` ID as JSON. The generation is
-terminal; it acquired no observer or modal evidence, and no recovery generation is
-currently authorized.
+AS-003P-R5A completed a prospectively locked common-root comparison from R5's retained
+tick-0 state. One 500-tick CONTROL and one 500-tick SHADOW branch were semantically
+equal across action timeline, candidate identities, authoritative events, final state,
+Habitat, and RNG. This establishes observer-safe evidence acquisition for that pair.
+The fresh shadow trace produced 500 complete frames and 2,686 candidate profiles, but
+zero candidate-profile distinctions—including across 57 decisions exposing the
+AS-003L residual conflict class. The terminal result is therefore
+`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING`, not a planning
+qualification.
 
-Until that evidence exists, planning integration, AS-004 integrated viability, and
-CLOSE-03 final organism acceptance remain blocked.
+The next architecture or research step requires separate authority. Planning
+integration, AS-004 integrated viability, and CLOSE-03 final organism acceptance
+remain blocked.
 
 ## Evidence navigation
 

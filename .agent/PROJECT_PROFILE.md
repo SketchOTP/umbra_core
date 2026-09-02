@@ -1,4 +1,13 @@
-Current governed status: UMBRA-AS-003P-R5A is active from exact baseline
+Current governed status: UMBRA-AS-003P-R5A is terminal
+`AS003PR5A_OBSERVER_SAFE_MODAL_EVIDENCE_NONDISCRIMINATING` from exact baseline
+`04946e3fc977593bf41d1eb40f1fc8517ef289aa`. Its retained-root pair completed
+CONTROL/SHADOW `1/1` at 500 measured ticks with exact semantic observer parity,
+but fresh modal evidence produced zero candidate-profile distinctions across
+500 complete frames, including 57 exposed AS-003L conflicts. Modal output
+remains shadow-only; AS-003L is `BLOCKER_NOT_EXPRESSED_DESPITE_EXPOSURE`;
+AS-002 is `NO_RELATION_SUPPORTED`; no successor is current.
+
+Prior governed status: UMBRA-AS-003P-R5A started from exact baseline
 `04946e3fc977593bf41d1eb40f1fc8517ef289aa`. It is a retained-root protocol
 recovery with zero new root creation, zero production/test-semantic change, one
 prospectively locked 500/500 common-root observer pair at most, and no action
