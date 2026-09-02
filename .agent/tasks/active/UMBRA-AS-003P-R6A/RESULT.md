@@ -47,4 +47,4 @@ and reseeds were all `0/0/0/0/0/0`. Authority 3.0, governance, `git diff
 --check`, and evidence readback passed. Final evidence manifest SHA-256:
 `3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`.
 
-Final GitHub commit and records: pending closeout commit.
+Final GitHub commit and records are included in the pushed R6A closeout commit.
