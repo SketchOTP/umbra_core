@@ -1,0 +1,40 @@
+{
+  "directive": "UMBRA-REPO-001",
+  "baseline": "0ca6efe995f60a7f44213c525af2ccfbd8a9e224",
+  "documentation_commit": "d6d6bdedaa5c45cde82506835d75076a50cd981b",
+  "public_repository": "https://github.com/SketchOTP/umbra_core",
+  "default_branch_before": "main",
+  "default_branch_after": "master",
+  "default_branch_change": "SAFE_METADATA_CORRECTION_NO_HISTORY_REWRITE",
+  "static_links": {
+    "readme": 25,
+    "evidence_guide": 57,
+    "total": 82,
+    "broken": 0
+  },
+  "github_render": {
+    "title": "UMBRA-CORE",
+    "mermaid_iframe_count": 1,
+    "table_count": 2,
+    "evidence_guide_link_present": true,
+    "private_path_leak": false
+  },
+  "public_documents": [
+    "README.md",
+    "docs/EVIDENCE_GUIDE.md"
+  ],
+  "scope": {
+    "production_delta": 0,
+    "existing_test_delta": 0,
+    "experiment_delta": 0,
+    "scientific_evidence_delta": 0,
+    "organism_creations": 0,
+    "organism_ticks": 0,
+    "diagnostic_executions": 0,
+    "qualification_executions": 0,
+    "retries": 0,
+    "reseeds": 0
+  },
+  "unsupported_claim_count": 0,
+  "successor_started": false
+}

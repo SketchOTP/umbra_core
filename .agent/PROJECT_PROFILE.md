@@ -48,6 +48,17 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
+## Current governed status — UMBRA-REPO-001 terminal
+
+UMBRA-REPO-001 is terminal `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` from
+baseline `0ca6efe995f60a7f44213c525af2ccfbd8a9e224`. The public repository now opens
+on authoritative `master` with a root README and focused evidence guide that expose
+the project goal, architecture, bounded qualifications, permanent negative results,
+scientific method, AS-003S engineering result, local validation boundary, and next
+unqualified research question. No production, test, experiment, or scientific evidence
+changed and no scientific execution occurred. Integrated long-horizon viability remains
+unqualified; a common-root observer pair is recommendation-only and has not started.
+
 ## Current governed status — UMBRA-AS-003P-R1 terminal
 
 AS-003P-R1 is terminal `AS003PR1_OBSERVER_EFFECT_FAIL`. Protocol recovery,

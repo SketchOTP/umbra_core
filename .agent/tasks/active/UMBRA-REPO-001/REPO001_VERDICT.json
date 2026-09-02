@@ -1,0 +1,14 @@
+{
+  "directive": "UMBRA-REPO-001",
+  "verdict": "REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED",
+  "evidence_level": "E3_TARGET_TESTED",
+  "readme_created": true,
+  "additional_public_document": "docs/EVIDENCE_GUIDE.md",
+  "broken_link_count": 0,
+  "unsupported_claim_count": 0,
+  "production_delta": 0,
+  "test_delta": 0,
+  "experiment_delta": 0,
+  "recommendation_only": "UMBRA-AS-003P-R5 — Prelocked Common-Root Modal Observer Pair Candidate",
+  "successor_started": false
+}

@@ -1,10 +1,13 @@
-UMBRA-REPO-001 is ACTIVE from exact synchronized baseline
-`0ca6efe995f60a7f44213c525af2ccfbd8a9e224` after accepted predecessor verdict
-`AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED`. It may add a professional
-root `README.md`, at most one public evidence-navigation document, and required
-governance records only. Production/test/experiment/evidence semantics and all
-scientific execution are out of scope. Packet `.agent/tasks/active/UMBRA-REPO-001/`.
-R5 is recommendation-only and has not started.
+UMBRA-REPO-001 is TERMINAL with
+`REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` from exact baseline
+`0ca6efe995f60a7f44213c525af2ccfbd8a9e224`. Root `README.md` and
+`docs/EVIDENCE_GUIDE.md` now expose the project, architecture, bounded claim state,
+AS-003S result, negative evidence, scientific method, repository map, reproducibility
+boundary, and research frontier. Static links are `82/82` valid and live GitHub
+README/Mermaid/table rendering passed. GitHub default now points to authoritative
+`master`; stale `main` remains preserved. Production/test/experiment/scientific
+execution deltas are zero. Packet `.agent/tasks/active/UMBRA-REPO-001/`. R5 is
+recommendation-only and has not started.
 
 UMBRA-AS-003S is ACTIVE from exact baseline
 `9cd69768c0cacc3a8a6955e35412d931c9f33f94` after accepted parent verdict

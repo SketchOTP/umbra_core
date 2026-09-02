@@ -94,3 +94,15 @@ front-door stage from exact baseline
 at most one narrowly justified public evidence guide while preserving all production,
 tests, experiments, evidence artifacts, and scientific history. No scientific
 execution or successor begins in this stage.
+## 2026-09-01 — UMBRA-REPO-001 terminal public-front-door qualification
+
+The Architect explicitly authorized this RECORD update as part of UMBRA-REPO-001.
+From exact baseline `0ca6efe995f60a7f44213c525af2ccfbd8a9e224`, the project added
+a root `README.md`, one focused `docs/EVIDENCE_GUIDE.md`, and documentation-governance
+records only. The public default branch was safely corrected from unrelated stale `main`
+to authoritative `master`; no branch was deleted or rewritten. Static link validation
+passed `82/82`, live GitHub README/Mermaid/table rendering passed, and production, test,
+experiment, organism, diagnostic, qualification, retry, and reseed deltas remained zero.
+Terminal verdict: `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED`. Recommendation only:
+`UMBRA-AS-003P-R5 — Prelocked Common-Root Modal Observer Pair Candidate`; no successor
+started.

@@ -1,5 +1,24 @@
 # External Discovery Ledger
 
+## UMBRA-REPO-001 public-repository benchmark — 2026-09-01
+
+- [OpenAI Agents SDK for Python](https://github.com/openai/openai-agents-python) —
+  `REFERENCE`: rapid first-screen definition, concise install/use path, and direct docs
+  routing. `REJECT`: copying product branding, badges, or prose.
+- [Anthropic Claude Cookbooks](https://github.com/anthropics/claude-cookbooks) —
+  `REFERENCE`: audience-oriented repository map and example navigation. `REJECT`:
+  cookbook framing for a governed autonomous-systems core.
+- [Google DeepMind MuJoCo](https://github.com/google-deepmind/mujoco) — `REFERENCE`:
+  compact technical identity, documentation route, and explicit project boundaries.
+  `REJECT`: release/package conventions not established in UMBRA.
+- [PyTorch](https://github.com/pytorch/pytorch) — `REFERENCE`: mature setup and
+  contribution navigation as a contrast case. `REJECT`: badges, infrastructure claims,
+  and installation promises not supported by this repository.
+- Result: UMBRA adopted only the generic information-architecture lessons—plain first
+  screen, bounded status, architecture, reproducibility honesty, and direct evidence
+  navigation. No prose, visual asset, dependency, or scientific claim was imported.
+
+
 ## UMBRA-AS-003O external proof boundary — 2026-09-01
 
 - Trigger: Architect required a bounded source-abstraction and robust continuation reference review.

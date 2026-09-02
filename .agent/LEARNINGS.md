@@ -567,3 +567,15 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
   held object and every pending execution surface are replacement preflight gates.
 - Attachment generation remains a lifecycle token; physical body ID, SelfModel
   binding/schema, and compatible profile swap are distinct identity dimensions.
+## 2026-09-01 — Public repository evidence surface
+
+- A technically strong evidence repository can remain externally opaque when its default
+  branch or root landing page does not expose the authoritative lineage. Validate the live
+  GitHub default branch and rendered README, not only committed Markdown.
+- A public claim table should distinguish bounded qualification, bounded evidence,
+  permanent failure, and unqualified research questions; globally green badges or summary
+  prose can erase meaningful inherited test debt and scientific boundaries.
+- Frozen architecture dossiers can remain useful historical evidence while lagging current
+  implementation. A concise evidence guide should label that boundary and route current
+  claims to source and result packets instead of silently presenting frozen documents as
+  live architecture truth.

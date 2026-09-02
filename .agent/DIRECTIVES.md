@@ -958,3 +958,9 @@ successor is authorized.
 - **Integrity:** qualified, bounded, failed, and unqualified claims remain explicit;
   inherited failures and negative experiments may not be hidden.
 - **Successor boundary:** R5 may be recommended only; it is not authorized or started.
+## UMBRA-REPO-001 — CLOSEOUT (2026-09-01)
+
+- Directive: UMBRA-REPO-001 | status:terminal | baseline:0ca6efe995f60a7f44213c525af2ccfbd8a9e224 | parent:AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED | verdict:REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED.
+- Result: root README and one public evidence guide added; architecture/claim status/AS003S/scientific method/negative results/repository map/reproducibility/current frontier are independently navigable; 82 links checked, 0 broken; live GitHub README/Mermaid/tables PASS.
+- Surface: GitHub default branch corrected from unrelated stale main to authoritative master without deletion or rewrite.
+- Integrity: production 0, tests 0, experiments 0, evidence rewrite 0, organism/diagnostic/qualification 0, retry/reseed 0/0 | successor:none | recommendation-only:UMBRA-AS-003P-R5.

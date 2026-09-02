@@ -1283,3 +1283,14 @@ applicable-suite regression, Authority/governance PASS. One creation, one restar
 zero ticks; retries/reseeds `0/0`; no observer/integrated run or successor.
 Final evidence manifest SHA-256:
 `6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.
+## UMBRA-REPO-001 terminal — employer-grade front door qualified — 2026-09-01
+
+`REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` is terminal. The authoritative public
+branch now includes `README.md` and `docs/EVIDENCE_GUIDE.md`, exposing UMBRA's
+technical purpose, non-goals, architecture, bounded claim table, AS-003S body-replacement
+result, scientific method, selected negative results, repository map, evidence routes,
+honest validation boundary, and current planning frontier. All 82 relative links resolve;
+live GitHub renders the README, Mermaid architecture diagram, tables, and evidence-guide
+link. The default branch was corrected from unrelated stale `main` to authoritative
+`master` without rewriting/deleting history. Production/test/experiment/scientific
+execution deltas are zero. R5 is recommendation-only; no successor started.

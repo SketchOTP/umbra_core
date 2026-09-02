@@ -1,20 +1,19 @@
-# UMBRA-REPO-001 active — employer-grade repository front door
+# UMBRA-REPO-001 terminal — employer-grade repository front door qualified
 
-`UMBRA-REPO-001` is active from exact synchronized baseline
-`0ca6efe995f60a7f44213c525af2ccfbd8a9e224` after Architect acceptance of
-`AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED`. Scope is documentation and
-professional evidence navigation only: create a rigorous root `README.md` and at
-most one narrowly justified public navigation document, with required governance
-records. Production, tests, experiments, scientific thresholds, evidence artifacts,
-organism execution, diagnostics, qualifications, retries, and reseeds remain
-unchanged/zero.
+`REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED` is terminal from exact baseline
+`0ca6efe995f60a7f44213c525af2ccfbd8a9e224`. Authoritative `master` now provides a
+public root `README.md` plus `docs/EVIDENCE_GUIDE.md`, with a rendered authority-path
+diagram, bounded claim-status table, AS-003S result, permanent negative results,
+scientific method, repository map, honest reproducibility limits, and current research
+frontier. Static validation checked 82 relative links with 0 broken; live GitHub
+rendering confirmed the README, Mermaid, tables, and evidence-guide link.
 
-The README must independently explain UMBRA's goal, non-goals, authority path,
-architectural principles, bounded claim status, scientific method, selected negative
-results, repository/evidence navigation, honest local-use entrypoints, and current
-research frontier. Integrated long-horizon viability remains unqualified. The only
-permitted successor recommendation is the unstarted `UMBRA-AS-003P-R5 — Prelocked
-Common-Root Modal Observer Pair Candidate`.
+GitHub's public default branch was corrected from an unrelated stale `main` to
+authoritative `master` without deleting or rewriting history. Production, test,
+experiment, scientific-evidence, organism, diagnostic, qualification, retry, and reseed
+deltas are all zero. Integrated long-horizon viability remains unqualified.
+Recommendation only: `UMBRA-AS-003P-R5 — Prelocked Common-Root Modal Observer Pair
+Candidate`; no successor started.
 
 # UMBRA-AS-003S terminal — atomic body replacement identity qualified
 
