@@ -21,3 +21,10 @@ Evidence results are appended as gates complete. No R5 artifact is overwritten.
 - Comparator inheritance: six frozen files BYTE_IDENTICAL to `14d9ce3252701d95e840bad6e28b0efd17e6cdd4`; 24-case corpus twice, false positives/negatives `0/0`; evidence SHA-256 `60c9d2d2a913b439303c1ec2721ec60d5867f23c542d809c58e60eff7ff0ac01`.
 - Clone protocol SHA-256: `4466ac3c490d2e0fdb2d30bd1a39d23e918fbf76725bcd395d5c0659bdcb67b4`.
 - Fresh harness import/static preflight: PASS; no `fixture.prepare()` call, fresh work root absent, required evidence present, organism creations/loads/ticks `0/0/0`; evidence SHA-256 `36fc07e35bd1ba2d7a5115b563f464fd9db7ad31fa44f2b71567d87c08e26063`.
+
+## Pretreatment fork gate
+
+- Exactly two SQLite backups and two Habitat copies derive from the retained root; semantic inventories equal, database/Habitat inodes independent, shared writable WAL/SHM absent, retained source hashes unchanged. Clone proof SHA-256 `65e438f92619d71efcec4423bfccbff20fab5ca060cc486e600d45970840a5e6`.
+- Branch loads: CONTROL `1`, SHADOW `1`; measured ticks `0/0` at barrier.
+- Premeasurement parity: PASS; semantic differences `0`, administrative differences `2`, derivative differences `1`; SHA-256 `c2a0d117f35be987e7a14d829a6476b8b5fdf2c01abb6375b7e4518b58d09bb2`.
+- Frozen interpreter/command: `/home/sketch/cs14n-runtime/bin/python -m experiments.as003pr5a.common_root_pair orchestrate`, repository-root working directory, retained seed `45878900`, horizon `500`, retries/reseeds `0/0`.

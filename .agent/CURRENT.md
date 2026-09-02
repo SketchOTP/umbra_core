@@ -12,6 +12,11 @@ production change, action authority, AS-004, CLOSE-03, or automatic successor.
 Packet: `.agent/tasks/active/UMBRA-AS-003P-R5A/`. Fresh evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5a-retained-root-modal-shadow-r1/`.
 
+Premeasurement gates are now complete: exactly two independent branch stores and
+Habitat copies match the retained root; CONTROL/SHADOW loaded once each and wait
+at tick `0`; semantic differences are `0` (administrative `2`, derivative `1`).
+The exact 500/500 command is frozen; no scientific file may change before release.
+
 # UMBRA-AS-003P-R5 terminal — protocol preflight failure before fork
 
 Architect acceptance makes REPO-001 terminal and authorizes R5 from exact baseline
