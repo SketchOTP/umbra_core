@@ -1361,3 +1361,5 @@ route movement/service demand: 5,323 modal witnesses become timing-UNKNOWN and a
 5,367 analyzed branches are `SCHEDULE_UNKNOWN`. No complete schedule, one-way L2
 distinction, or AS-002 relation is supported. Production/test changes, organism and
 diagnostic runs, retries, and reseeds are zero; no successor started.
+Final evidence manifest SHA-256:
+`37bfe447aa552bef7fba7b608b684ff6c5b2e6acbb784d78009605cc49bd306a`.

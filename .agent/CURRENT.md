@@ -17,6 +17,8 @@ organism/control/shadow/diagnostic executions, retries, and reseeds are all zero
 No successor is authorized or started. Packet:
 `.agent/tasks/active/UMBRA-AS-003P-R6/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6-l2-schedulability-attribution-r1/`.
+Final manifest SHA-256:
+`37bfe447aa552bef7fba7b608b684ff6c5b2e6acbb784d78009605cc49bd306a`.
 
 # UMBRA-AS-003P-R5A terminal — observer-safe modal evidence non-discriminating
 

@@ -183,3 +183,5 @@ candidate precedence or AS-002 relation is supportable without fabricated time.
 
 Production/existing-test semantic deltas, organism/control/shadow/diagnostic runs,
 retries, and reseeds are zero. No successor is authorized or started.
+Final evidence manifest SHA-256:
+`37bfe447aa552bef7fba7b608b684ff6c5b2e6acbb784d78009605cc49bd306a`.

@@ -30,4 +30,8 @@ Published artifact hashes:
 - causal attribution: `467b6f4684b6294b2319d775ceedabe290f93e1a0ad5de9568bfb4ebe5b8d63b`
 - terminal verdict: `5b7e8d14acaa23ccec7485d40ca20c4c4ca06793b4c1559fe06b8fd37bc797fa`
 
-The final manifest hash is recorded in the closeout commit after durable publication.
+- final evidence manifest (13 inventoried artifacts):
+  `37bfe447aa552bef7fba7b608b684ff6c5b2e6acbb784d78009605cc49bd306a`
+
+Manifest readback and every inventoried artifact hash: PASS. R5A planning and
+decision trace hashes remained unchanged after analysis.
