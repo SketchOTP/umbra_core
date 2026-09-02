@@ -1,3 +1,13 @@
+UMBRA-AS-003P-R5A is ACTIVE from exact baseline
+`04946e3fc977593bf41d1eb40f1fc8517ef289aa` after Architect acceptance of
+permanent R5 verdict `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. R5A adopts the retained
+R5 tick-0 root read-only with zero new root creation, proves corrected raw-TEXT
+snapshot metadata semantics before branch load, preserves the frozen R5
+comparator/source contract byte-identically, and may execute exactly one 500/500
+common-root CONTROL/SHADOW pair only after independent clone and zero-difference
+premeasurement gates pass. Packet `.agent/tasks/active/UMBRA-AS-003P-R5A/`;
+evidence `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5a-retained-root-modal-shadow-r1/`.
+
 UMBRA-AS-003P-R5 is TERMINAL from exact baseline
 `3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c` after accepted
 `REPO001_EMPLOYER_GRADE_FRONT_DOOR_QUALIFIED`. Scope is one prospectively locked

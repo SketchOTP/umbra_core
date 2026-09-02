@@ -1,4 +1,11 @@
-Current governed status: UMBRA-AS-003P-R5 is terminal
+Current governed status: UMBRA-AS-003P-R5A is active from exact baseline
+`04946e3fc977593bf41d1eb40f1fc8517ef289aa`. It is a retained-root protocol
+recovery with zero new root creation, zero production/test-semantic change, one
+prospectively locked 500/500 common-root observer pair at most, and no action
+authority. Parent R5 remains permanently terminal as
+`AS003PR5_PROTOCOL_PREFLIGHT_FAIL`.
+
+Prior governed status: UMBRA-AS-003P-R5 is terminal
 `AS003PR5_PROTOCOL_PREFLIGHT_FAIL` from exact baseline
 `3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c`. It is a non-formal common-root
 observer qualification with one prepared R0/S0 organism root, exact branch cloning,

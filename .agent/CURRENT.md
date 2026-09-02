@@ -1,3 +1,17 @@
+# UMBRA-AS-003P-R5A active — retained-root common-root observer recovery
+
+The Architect accepted permanent R5 verdict `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`
+and authorized R5A from exact baseline
+`04946e3fc977593bf41d1eb40f1fc8517ef289aa`. R5A must adopt the retained R5
+tick-0 SQLite/Habitat root read-only, prove the corrected raw-TEXT snapshot
+metadata reader synthetically, reuse the frozen R5 comparator byte-identically,
+and clone exactly two independent branches. Only after zero-difference
+premeasurement parity and a committed execution lock may one 500-tick CONTROL
+and one 500-tick SHADOW run. R5A creates no root, permits no retry/reseed,
+production change, action authority, AS-004, CLOSE-03, or automatic successor.
+Packet: `.agent/tasks/active/UMBRA-AS-003P-R5A/`. Fresh evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r5a-retained-root-modal-shadow-r1/`.
+
 # UMBRA-AS-003P-R5 terminal — protocol preflight failure before fork
 
 Architect acceptance makes REPO-001 terminal and authorizes R5 from exact baseline

@@ -979,6 +979,12 @@ successor is authorized.
 ## 2026-09-01 — UMBRA-AS-003P-R5 terminal protocol stop
 
 - Directive: UMBRA-AS-003P-R5 | status:terminal | baseline:`3b0694ed5a6cddbf7c22c4f419a01e21e20c0e6c` | governance:`93134a1e9ee97883feb1b02fe3118fc1c6ad43a2` | comparator-lock:`14d9ce3252701d95e840bad6e28b0efd17e6cdd4` | verdict:`AS003PR5_PROTOCOL_PREFLIGHT_FAIL`.
+
+## UMBRA-AS-003P-R5A — retained common-root fork recovery
+
+- Directive: UMBRA-AS-003P-R5A | status:active | baseline:`04946e3fc977593bf41d1eb40f1fc8517ef289aa` | parent:`AS003PR5_PROTOCOL_PREFLIGHT_FAIL`.
+- Authority: adopt the retained R5 tick-0 root read-only; R5A root creation count `0`; prove raw-TEXT snapshot metadata semantics synthetically; preserve R5 comparator/source contract byte-identically; create exactly two independent branch stores/Habitats; require zero-difference pretreatment parity before one frozen 500/500 pair.
+- Prohibited: R5 rewrite/rerun, new root, production or existing-test semantic change, comparator change, retry/reseed, modal action authority, AS-004, CLOSE-03, automatic successor.
 - Comparator qualification: 24 cases repeated twice; false positives/negatives `0/0`; pre-root import/synthetic-backup preflight reported zero organism calls.
 - Stop: the one root prepared and snapshotted at tick `0`, then `_snapshot_metadata()` attempted JSON parsing on Store's raw TEXT `latest_snapshot` ID and stopped before root publication, backup, fork, branch load, parity, execution lock, or measured ticks.
 - Counts: root creation/ticks `1/0`; CONTROL loads/ticks `0/0`; SHADOW loads/ticks `0/0`; retries/reseeds `0/0`; modal evidence `NOT RUN`; production delta `0`; successor `none`.

@@ -127,3 +127,15 @@ TEXT `latest_snapshot` ID. Under the no-repeat/no-repair rule, R5 terminates as
 `AS003PR5_PROTOCOL_PREFLIGHT_FAIL`. No branch loaded or ticked, no observer/modal
 evidence was interpreted, retries/reseeds remain `0/0`, production is unchanged, and
 no successor started.
+
+## 2026-09-02 — UMBRA-AS-003P-R5A governance start
+
+The Architect accepted R5's terminal protocol failure without weakening it and
+authorized a fresh retained-root recovery from exact baseline
+`04946e3fc977593bf41d1eb40f1fc8517ef289aa`. R5A must never prepare a new root:
+the archived R5 tick-0 SQLite/Habitat bundle is immutable input. Raw-TEXT latest
+snapshot semantics must pass synthetic protocol tests before retained-root use;
+the R5 comparator remains byte-identical; two independent branches must compare
+semantically equal before tick 1; and only then may one locked 500/500 pair run.
+No production change, retry/reseed, action authority, AS-004, CLOSE-03, or
+automatic successor is authorized.

@@ -1,0 +1,22 @@
+{
+  "canonical_notion_authority_heading": "Architect disposition — R5 accepted terminal; retained-root recovery authorized — September 2, 2026",
+  "canonical_notion_page_id": "3b3833cb-27ff-8030-9f1f-e73e7af37fe6",
+  "directive": "UMBRA-AS-003P-R5A",
+  "github_default_branch": "master",
+  "github_master": "04946e3fc977593bf41d1eb40f1fc8517ef289aa",
+  "head": "04946e3fc977593bf41d1eb40f1fc8517ef289aa",
+  "local_master": "04946e3fc977593bf41d1eb40f1fc8517ef289aa",
+  "notion_current_authority": "UMBRA-AS-003P-R5A",
+  "notion_refetch_result": "PASS",
+  "r5_comparator_lock_commit": "14d9ce3252701d95e840bad6e28b0efd17e6cdd4",
+  "r5_control_branch_loads": 0,
+  "r5_corrected_readback_manifest_sha256": "1e1d36383a85cf95e84df4613dd324b7d8ab480d3462a8a593568e79efcd5b08",
+  "r5_root_creation_count": 1,
+  "r5_root_measured_ticks": 0,
+  "r5_shadow_branch_loads": 0,
+  "r5_terminal_verdict": "AS003PR5_PROTOCOL_PREFLIGHT_FAIL",
+  "r5a_new_root_creation_limit": 0,
+  "repository_root": "/home/sketch/Projects/umbra-close02x-work",
+  "result": "PASS",
+  "schema": "AS003PR5A_STATE_RECONCILIATION_V1"
+}
