@@ -44,6 +44,9 @@ source fingerprints, and policy isolation passed.
 Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
 
+The final GitHub closeout commit and evidence-manifest digest are published in
+the append-only `AS003PR6C_FINAL_COMMIT_CORRECTION.json` artifact.
+
 ## Integrity and boundary
 
 - baseline: `979915fa0c731800212fa0d5d5b3f1d709aae636`
