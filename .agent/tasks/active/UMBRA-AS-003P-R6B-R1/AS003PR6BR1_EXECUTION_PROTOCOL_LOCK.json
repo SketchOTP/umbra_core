@@ -1,0 +1,43 @@
+{
+  "schema": "AS003PR6BR1_EXECUTION_PROTOCOL_LOCK_V1",
+  "status": "FROZEN",
+  "directive": "UMBRA-AS-003P-R6B-R1",
+  "parent_verdict": "AS003PR6B_IMPLEMENTATION_FAIL",
+  "implementation_commit": "79bec961e950be86af01b83c84d1ab25ee8d6e6d",
+  "working_directory": "/home/sketch/Projects/umbra-close02x-work",
+  "interpreter": "/home/sketch/cs14n-runtime/bin/python",
+  "command": [
+    "/home/sketch/cs14n-runtime/bin/python",
+    "-m",
+    "experiments.as003pr6br1.route_learning_assay"
+  ],
+  "evidence_root": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-r1-route-control-continuity-r1/",
+  "fixture": {
+    "seed": 6103,
+    "scenario": "S0",
+    "max_ticks": 8,
+    "legs": ["nominal", "failure"],
+    "failure_fault": "movement_reliability=0.0",
+    "selector": "same emitted-candidate selector as R6B"
+  },
+  "retry_count": 0,
+  "reseed_count": 0,
+  "post_freeze_changes": "PROHIBITED",
+  "scientific_files": {
+    "umbra_core/world_model/route_evidence.py": "987729a674af5aae244108cb0e029fb0c7c6b25a8badf7ecbf1962642f211974",
+    "umbra_core/world_model/__init__.py": "e052634b0c5ccac89c907a9b28ffdb9097d464f4ef28f217d2cefef71c2571a9",
+    "experiments/as003pr6br1/route_learning_assay.py": "e1376bdcef600e83dd934469ca2b9ceb186781b87d6fa2db78721d627f59b860",
+    "tests/test_as003pr6br1_route_continuity.py": "257e48293ee0efbbc96750758b1f5ab903311a0b94e5bdc9417d7bd8b732dfde",
+    ".agent/tasks/active/UMBRA-AS-003P-R6B-R1/AS003PR6BR1_ROUTE_CONTINUITY_CONTRACT.json": "c3b6dbb77d00114a4f5aaf81e30b1e5cac49f2a9e09e22f77a9ff2250ebe690b"
+  },
+  "pre_freeze_gates": {
+    "route_continuity_contract": "PASS",
+    "pure_runs": "41/41 PASS twice",
+    "assay_equivalence": "PASS",
+    "policy_isolation": "PASS",
+    "default_off": "PASS",
+    "planning_reader": "NONE",
+    "habitat_truth_reader": "NONE",
+    "git_diff_check": "PASS"
+  }
+}
