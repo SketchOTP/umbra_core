@@ -84,3 +84,13 @@ One bounded creation and one restart load occurred with zero organism ticks; no
 observer or integrated-viability execution occurred. No successor started.
 Final evidence manifest SHA-256:
 `6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd`.
+
+## 2026-09-01 — UMBRA-REPO-001 governance start
+
+The Architect accepted `AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED` and
+explicitly authorized this RECORD update as part of a documentation-only repository
+front-door stage from exact baseline
+`0ca6efe995f60a7f44213c525af2ccfbd8a9e224`. REPO-001 may create a root README and
+at most one narrowly justified public evidence guide while preserving all production,
+tests, experiments, evidence artifacts, and scientific history. No scientific
+execution or successor begins in this stage.

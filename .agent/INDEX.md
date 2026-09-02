@@ -1,3 +1,11 @@
+UMBRA-REPO-001 is ACTIVE from exact synchronized baseline
+`0ca6efe995f60a7f44213c525af2ccfbd8a9e224` after accepted predecessor verdict
+`AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED`. It may add a professional
+root `README.md`, at most one public evidence-navigation document, and required
+governance records only. Production/test/experiment/evidence semantics and all
+scientific execution are out of scope. Packet `.agent/tasks/active/UMBRA-REPO-001/`.
+R5 is recommendation-only and has not started.
+
 UMBRA-AS-003S is ACTIVE from exact baseline
 `9cd69768c0cacc3a8a6955e35412d931c9f33f94` after accepted parent verdict
 `AS003PR4_BODY_REPLACEMENT_IDENTITY_DEFECT_CONFIRMED`. Scope is the smallest atomic

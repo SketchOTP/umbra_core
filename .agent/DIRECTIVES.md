@@ -944,3 +944,17 @@ successor is authorized.
 ## UMBRA-AS-003S — TERMINAL (2026-09-01)
 
 - Directive: UMBRA-AS-003S | status:terminal | verdict:AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED | baseline:9cd69768c0cacc3a8a6955e35412d931c9f33f94 | implementation:39b509c82fc845bdee48803fc66d834adf39b487 | result:dedicated replacement event and prospective snapshot commit atomically while organism identity persists and physical body/SelfModel binding/schema/occupancy change coherently | validation:focused 14/14,D008 protected,D009 candidate-only regression 0,crash/restart PASS | runs:creation 1,restart 1,ticks 0,observer 0,integrated 0 | retries/reseeds:0/0 | manifest:6aaea514b0c829ca95b78ce76f440833f24ac30e61a6f4eab7ff7affa5d203bd | successor:none | recommendation-only:UMBRA-AS-003P-R5 common-root observer pair | remote:github
+## 2026-09-01 — UMBRA-REPO-001 employer-grade GitHub front door
+
+- **Status:** ACTIVE.
+- **Exact baseline:** `0ca6efe995f60a7f44213c525af2ccfbd8a9e224`.
+- **Accepted predecessor:** `UMBRA-AS-003S` / `AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED`.
+- **Objective:** create a technically rigorous root `README.md` and only the minimum
+  additional public evidence navigation needed for independent senior-engineering,
+  research, and hiring review.
+- **Scope:** documentation/governance only; no production, test, experiment,
+  evidence-artifact, scientific-threshold, dependency, workflow, license, or branch
+  protection changes; no organism, diagnostic, or qualification execution.
+- **Integrity:** qualified, bounded, failed, and unqualified claims remain explicit;
+  inherited failures and negative experiments may not be hidden.
+- **Successor boundary:** R5 may be recommended only; it is not authorized or started.

@@ -1,3 +1,21 @@
+# UMBRA-REPO-001 active — employer-grade repository front door
+
+`UMBRA-REPO-001` is active from exact synchronized baseline
+`0ca6efe995f60a7f44213c525af2ccfbd8a9e224` after Architect acceptance of
+`AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED`. Scope is documentation and
+professional evidence navigation only: create a rigorous root `README.md` and at
+most one narrowly justified public navigation document, with required governance
+records. Production, tests, experiments, scientific thresholds, evidence artifacts,
+organism execution, diagnostics, qualifications, retries, and reseeds remain
+unchanged/zero.
+
+The README must independently explain UMBRA's goal, non-goals, authority path,
+architectural principles, bounded claim status, scientific method, selected negative
+results, repository/evidence navigation, honest local-use entrypoints, and current
+research frontier. Integrated long-horizon viability remains unqualified. The only
+permitted successor recommendation is the unstarted `UMBRA-AS-003P-R5 — Prelocked
+Common-Root Modal Observer Pair Candidate`.
+
 # UMBRA-AS-003S terminal — atomic body replacement identity qualified
 
 `AS003S_ATOMIC_BODY_REPLACEMENT_IDENTITY_QUALIFIED` is terminal from exact
