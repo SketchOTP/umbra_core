@@ -1,0 +1,51 @@
+{
+  "schema": "AS003PR6B_ROUTE_LEARNING_CONTRACT_V1",
+  "directive": "UMBRA-AS-003P-R6B",
+  "baseline": "3604fa6a4a4e01c764913af55474e7ad9495325f",
+  "owner": "WorldModel",
+  "fact": "VerifiedRouteExperience",
+  "evidence_semantics": "VERIFIED_OBSERVED_SUPPORT",
+  "enabled_by_default": false,
+  "capacity": {
+    "value": 128,
+    "justification": "bounded ring sized below existing WorldModel histories; sufficient for per-opportunity/body observations without an unbounded learning log"
+  },
+  "resolution": {
+    "statuses": ["EXACT", "AMBIGUOUS", "UNAVAILABLE"],
+    "requires": ["one valid policy-safe entity", "matching target kind", "known body schema"],
+    "prohibited": ["nearest", "confidence ranking", "lexical priority", "authored priority", "Habitat access"]
+  },
+  "completed_record_fields": [
+    "evidence_id", "opportunity_entity_id", "opportunity_entity_kind", "body_schema_id",
+    "route_capability", "terminal_capability", "start_tick", "final_tick",
+    "start_distance_support_upper_bound", "start_fact_kind", "start_support_provenance",
+    "verified_movement_execution_count", "movement_completion_lags",
+    "terminal_completion_lag", "terminal_result", "route_failure_code",
+    "execution_outcome_refs", "evidence_semantics"
+  ],
+  "lifecycle": {
+    "start": "enabled route learning + admitted/issued APPROACH or exact zero-movement terminal success + exact binding",
+    "movement_success": "append one observed completion lag; retain episode",
+    "terminal_success": "append terminal completion lag and close",
+    "failure": "route_blocked, movement_slip, adapter rejection, or other verified terminal failure closes as failed",
+    "discard": ["ambiguous", "unavailable", "denied", "unverified", "route switch", "body change", "replacement", "unrelated interruption", "process end"],
+    "premature_terminal": "not_at_* neither closes successfully nor invents movement demand"
+  },
+  "persistence": {
+    "completed": "snapshot/restart/migration persistent",
+    "incomplete": "ephemeral and reset on restart",
+    "cross_body": "no transfer"
+  },
+  "isolation": {
+    "readers": [],
+    "writers": ["WorldModel.observe_outcome via verified runtime outcome"],
+    "forbidden_consumers": ["candidate generation", "arbitration", "distributed competition", "stochastic competition", "Governance", "Embodiment", "modal/L2", "legacy planner", "recovery authority", "action selection"]
+  },
+  "integrity": {
+    "organism_runs_before_pure_gate": 0,
+    "diagnostic_runs": 0,
+    "retries": 0,
+    "reseeds": 0,
+    "production_semantic_changes_before_lock": 0
+  }
+}
