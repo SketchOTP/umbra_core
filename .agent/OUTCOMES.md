@@ -1373,3 +1373,19 @@ witnesses lacked source-backed route demand. R6A is limited to source-contract
 derivation and pure offline tests. Production/existing-test semantic changes,
 organism/control/shadow/diagnostic runs, retries, and reseeds are `0`; no
 successor is authorized or started.
+## UMBRA-AS-003P-R6A terminal — 2026-09-02
+
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED` is terminal. Source-only
+analysis found that WorldModel's bounded body-relative distance support is not
+a traversable route-length upper bound and SelfModel's verified APPROACH
+progress is observed support, not a future guaranteed lower bound. The R6
+distance/progress quotient is therefore not robust L2 evidence. Terminal
+CHARGE/REST/INSPECT behavior is capability-specific same-tick execution, not
+an unqualified timing contract. INSPECT can be joined lawfully only from a
+specific policy-visible instance and matching ACTIVE affordance; R5A frames do
+not retain that affordance evidence. Pure tests passed `10/10` twice. Production
+and existing-test semantic deltas, live executions, retries, and reseeds are
+zero. Final manifest:
+`3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`. The
+smallest next boundary is a new verified, opportunity/body-schema-bound route-
+demand evidence fact. No successor started.

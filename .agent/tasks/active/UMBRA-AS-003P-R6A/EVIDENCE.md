@@ -11,5 +11,10 @@ pure isolated research fixtures are permitted.
 Starting R6 manifest:
 `37bfe447aa552bef7fba7b608b684ff6c5b2e6acbb784d78009605cc49bd306a`.
 
+Final R6A manifest:
+`3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`.
+The manifest inventories 15 R6A artifacts with readback verification PASS.
+Retained R5A planning and decision trace hashes remain unchanged.
+
 Execution accounting: production `0`; existing-test semantic changes `0`;
 organism/control/shadow/diagnostic runs `0/0/0/0`; retries/reseeds `0/0`.

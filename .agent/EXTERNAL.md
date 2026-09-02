@@ -328,3 +328,9 @@ boundary before any outside literature could affect implementation semantics.
   maximization are rejected as UMBRA action authority.
 - External dependencies added: `0`.
 # UMBRA-AS-003P-R6A external review — pending bounded reference review
+# UMBRA-AS-003P-R6A external review — 2026-09-02
+
+- [Interval travel times for robust synchronization in city logistics vehicle routing](https://www.sciencedirect.com/science/article/pii/S1366554520307092) — `REFERENCE`: interval travel demand should retain uncertainty through route reasoning; `REJECT`: min-max regret, robust optimization, or a routing dependency.
+- [Learning Affordances from Interactive Exploration using an Object-level Map](https://arxiv.org/abs/2501.06047) — `REFERENCE`: affordances are object-linked action opportunities and instance identity matters; `REJECT`: neural affordance/RL implementation.
+- [May/Must Abstraction-Based Software Model Checking For Sound Verification and Falsification](https://www.microsoft.com/en-us/research/publication/maymust-abstraction-based-software-model-checking-for-sound-verification-and-falsification/) — `REFERENCE`: categorical conclusions must remain sound with respect to their source and unknown information must remain unknown; `REJECT`: model-checker dependency.
+- [Guaranteed Reachability for Systems with Unknown Dynamics](https://arxiv.org/abs/1910.00803) — `REFERENCE`: guaranteed reachability requires explicit bounded dynamics assumptions; `REJECT`: reachability implementation/dependency.

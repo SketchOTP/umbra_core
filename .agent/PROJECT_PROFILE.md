@@ -436,3 +436,10 @@ research from `dbb95c3176573919d003d90b25f745853bfe803c` after terminal R6
 `AS003PR6_SOURCE_EVIDENCE_INSUFFICIENT_FOR_L2`. No production, existing-test
 semantic, or live execution changes are authorized. Integrated long-horizon
 viability remains unqualified.
+Current governed status: UMBRA-AS-003P-R6A is terminal
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED` from exact baseline
+`dbb95c3176573919d003d90b25f745853bfe803c`. Zero-organism source research
+confirmed current distance and observed motion support cannot establish robust
+opportunity-specific route demand. Pure tests passed 10/10 twice; production,
+test semantics, live executions, retries, and reseeds remained zero. No
+successor is authorized; integrated long-horizon viability remains unqualified.

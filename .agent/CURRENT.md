@@ -1416,3 +1416,21 @@ historical R6 aggregate remains immutable and is not tuning input. Packet:
 No production or existing scientific-test semantic change, organism/control/
 shadow/diagnostic run, retry, or reseed is authorized. No successor has
 started.
+# UMBRA-AS-003P-R6A terminal — route-demand learning primitive required
+
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED` is terminal from exact
+baseline `dbb95c3176573919d003d90b25f745853bfe803c`. Existing WorldModel
+body-relative distance support and SelfModel verified APPROACH intervals cannot
+lawfully produce a robust opportunity-specific future route-demand bound:
+radial support is not traversable route length and observed progress is not a
+future guarantee. A specific instance plus ACTIVE inspect affordance can form
+an INSPECT join in principle, but R5A frames do not capture affordance beliefs.
+The smallest next boundary is a new verified, opportunity/body-schema-bound
+route-demand evidence fact with provenance, uncertainty, and blockage/timing
+semantics. Isolated pure tests passed `10/10` twice. Production and existing
+test semantic delta are `0`; organism/control/shadow/diagnostic runs and
+retries/reseeds are `0/0/0/0` and `0/0`. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6a-route-service-source-contract-r1/`.
+Manifest SHA-256:
+`3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`.
+No successor is authorized or started.

@@ -501,3 +501,15 @@ sources; no production/test semantic change, organism/control/shadow/
 diagnostic run, retry, or reseed is allowed. Packet
 `.agent/tasks/active/UMBRA-AS-003P-R6A/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6a-route-service-source-contract-r1/`.
+UMBRA-AS-003P-R6A is TERMINAL with
+`AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED` from exact baseline
+`dbb95c3176573919d003d90b25f745853bfe803c`. Source-only analysis established
+that current radial opportunity support plus observed APPROACH progress cannot
+provide a robust opportunity-specific future route bound; terminal timing is
+capability-specific, and INSPECT requires an instance-plus-active-affordance
+join absent from retained R5A frames. Pure source-contract tests passed 10/10
+twice. Production/test semantic deltas and all organism/control/shadow/
+diagnostic runs, retries, and reseeds are zero. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6a-route-service-source-contract-r1/`; manifest:
+`3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`. No
+successor started.

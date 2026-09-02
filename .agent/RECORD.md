@@ -197,3 +197,14 @@ Production/existing-test semantic deltas, organism/control/shadow/diagnostic run
 retries, and reseeds are zero. No successor is authorized or started.
 Final evidence manifest SHA-256:
 `37bfe447aa552bef7fba7b608b684ff6c5b2e6acbb784d78009605cc49bd306a`.
+## 2026-09-02 — UMBRA-AS-003P-R6A closeout
+
+R6A terminated as `AS003PR6A_ROUTE_DEMAND_LEARNING_PRIMITIVE_REQUIRED` from
+`dbb95c3176573919d003d90b25f745853bfe803c`. Source-only evidence showed that
+WorldModel radial support plus observed SelfModel APPROACH support cannot
+establish robust opportunity-specific future route demand. Terminal timing is
+capability-specific; INSPECT requires an instance plus ACTIVE affordance.
+Pure tests passed 10/10 twice. Production, existing-test semantics, live
+executions, retries, and reseeds remained zero. Final evidence manifest SHA-256
+`3685ff9e7ae4bb95200adbb0fb1ddc18bfb1df10c48e2cc252aa15373e2507ba`. No
+successor started.

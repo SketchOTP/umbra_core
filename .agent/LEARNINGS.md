@@ -620,3 +620,19 @@ Boundedness does not make planning lawful by itself. A prospective witness needs
   assumptions, and provenance; missing route demand remains `UNKNOWN`.
 - R6A must distinguish a source join from a new learned route-demand primitive
   and must not use the historical R6 aggregates as tuning evidence.
+## AS-003P-R6A source-contract boundary — 2026-09-02
+
+- Body-relative radial support is not a route-length guarantee. A quotient of
+  distance support by observed APPROACH progress can be a research MAY
+  projection under explicit geometry assumptions, but cannot support robust L2
+  scheduling from current source semantics.
+- Verified SelfModel progress/completion intervals remain observed support. A
+  body-schema match prevents stale transfer but does not establish future
+  dynamics, route absence, or opportunity-specific binding.
+- WorldModel affordance evidence is a lawful ingredient for INSPECT only when
+  joined to a specific policy-visible entity instance and an ACTIVE belief.
+  Kind-level affordance and Habitat execution truth must remain separate.
+- The smallest missing upstream fact is a verified, bounded,
+  opportunity-specific route-demand/timing envelope with provenance, failure
+  modes, and body-schema binding; do not repair the gap with a scalar, weight,
+  planner, or hidden world truth.
