@@ -1,3 +1,15 @@
+# UMBRA-AS-003P-R6E-R1 — ACTIVE common-root provenance requalification
+
+R6E-R1 starts from exact synchronized baseline
+`e18d7c83a59988be4ed2cd5f9957820a7ab02968` after Architect disposition
+`REPLAN`. R6E's pure relation remains preserved as historical research, but
+its R6D matrix application is not accepted for R7: the purported common-root
+option was derived from candidate-specific/synthetic `route_case` data. This
+zero-run audit locks `O0 = f(common-root evidence only)` and tests whether any
+positive relation survives without candidate-derived root content. R7 remains
+blocked; no production, historical-evidence, live-run, retry, reseed, or
+successor activity is authorized.
+
 # UMBRA-AS-003P-R6C — ACTIVE route/affordance planning-evidence frame extension
 
 R6C is active from exact synchronized baseline

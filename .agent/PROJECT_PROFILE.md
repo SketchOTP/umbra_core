@@ -1,3 +1,10 @@
+Current governed status: UMBRA-AS-003P-R6E-R1 is active from exact baseline
+`e18d7c83a59988be4ed2cd5f9957820a7ab02968` after Architect replan. R6E's pure
+known-option preservation relation remains a supported research primitive, but
+its R6D projection is not accepted for R7 because common-root provenance was
+not established. This stage is zero-run provenance analysis only; R7,
+production/R6D/R6E changes, live execution, retries, and reseeds are prohibited.
+
 Current governed status: UMBRA-AS-003P-R6B-R1 is terminal with
 `AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED`, from exact baseline
 `e610a36f4ca07cf451da53c9f7dac9d35a037a0e` after permanent R6B terminal

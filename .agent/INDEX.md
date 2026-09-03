@@ -1,3 +1,11 @@
+# UMBRA-AS-003P-R6E-R1 is ACTIVE from exact synchronized baseline
+`e18d7c83a59988be4ed2cd5f9957820a7ab02968` after Architect disposition
+`REPLAN` of R6E's matrix qualification claim. The R6E relation primitive is
+preserved, but R7 is blocked because its R6D projection may have constructed
+the purported common-root option from candidate-specific `route_case` data.
+R6E-R1 is a zero-run provenance audit only. No production/R6D/R6E source or
+evidence change, live run, retry, reseed, or successor is authorized.
+
 # UMBRA-AS-003P-R6C is ACTIVE from exact synchronized baseline
 `979915fa0c731800212fa0d5d5b3f1d709aae636` after accepted R6B-R1 terminal
 `AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED`. R6C is a bounded,

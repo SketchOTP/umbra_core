@@ -1,3 +1,10 @@
+## UMBRA-AS-003P-R6E-R1 — no new external discovery
+
+This zero-run provenance audit uses no new substantive external prior art. Its
+boundary is established by frozen UMBRA source and evidence: common-root facts
+must predate candidate differentiation, and synthetic matrix controls do not
+become organism evidence through projection.
+
 ## UMBRA-AS-003P-R6B-R1 closeout reference boundary — 2026-09-02
 
 The route-control repair used no new dependency. The cited mobile-navigation

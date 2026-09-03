@@ -1,3 +1,11 @@
+## 2026-09-03 — R6E-R1 provenance boundary
+
+R6E requires a common root option set, but the frozen R6D matrix exposes
+`route_case` as a synthetic row control that separately drives B-specific route
+evidence. A projection that uses it to construct `O0` is not established
+pre-candidate organism evidence. A source-priority check comparing one already
+built option set with itself does not prove root provenance.
+
 ## 2026-09-02 — R6B-R1 qualified route-control continuity
 
 The frozen repair demonstrated that a route experience must preserve the

@@ -1,3 +1,11 @@
+## 2026-09-03 — UMBRA-AS-003P-R6E-R1 governance start
+
+Architect accepted the R6E relation as a research primitive but rejected the
+R6D-matrix qualification claim for R7 because the purported common-root option
+may have been derived from candidate-specific `route_case` data. R6E-R1 is a
+zero-run provenance requalification from
+`e18d7c83a59988be4ed2cd5f9957820a7ab02968`; R7 remains blocked.
+
 ## 2026-09-02 — UMBRA-AS-003P-R6B-R1 terminal closeout
 
 Architect-authorized R6B-R1 qualified the bounded WorldModel route-control

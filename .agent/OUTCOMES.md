@@ -1,3 +1,12 @@
+## UMBRA-AS-003P-R6E-R1 — governance start
+
+Architect disposition `REPLAN` preserves the R6E relation implementation but
+rejects its R6D-matrix qualification claim pending a common-root provenance
+audit. The exact baseline is `e18d7c83a59988be4ed2cd5f9957820a7ab02968`.
+R6E-R1 is zero-run and analysis-only; all historical R6D/R6E evidence,
+production, tests, organisms, control, shadow, R7, retries, and reseeds remain
+untouched.
+
 ## UMBRA-AS-003P-R6B-R1 terminal closeout — verified route-control learning qualified — 2026-09-02
 
 `AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED` is terminal. From
