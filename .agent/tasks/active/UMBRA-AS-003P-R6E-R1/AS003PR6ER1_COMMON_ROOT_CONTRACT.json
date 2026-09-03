@@ -1,0 +1,16 @@
+{
+  "schema": "AS003PR6ER1_COMMON_ROOT_CONTRACT_V1",
+  "status": "LOCKED",
+  "rule": "O0 = f(common-root source evidence only)",
+  "forbidden": [
+    "candidate A evidence",
+    "candidate B evidence",
+    "candidate comparison result",
+    "field whose semantics exist only after branch differentiation"
+  ],
+  "candidate_consequence_rule": "Candidate consequences may change an option status only; they may not create, remove, or alter root option identity or pre-existing support realization.",
+  "unknown_rule": "Missing root provenance rejects qualification; it does not become UNKNOWN-as-loss.",
+  "historical_evidence_rule": "R6D and R6E artifacts and verdicts remain immutable.",
+  "organism_execution": 0,
+  "production_change": 0
+}
