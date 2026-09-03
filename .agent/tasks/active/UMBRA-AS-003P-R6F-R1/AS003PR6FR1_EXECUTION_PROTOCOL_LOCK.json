@@ -1,0 +1,53 @@
+{
+  "schema": "AS003PR6FR1_EXECUTION_PROTOCOL_LOCK_V1",
+  "status": "FROZEN_BEFORE_ORGANISM_EXECUTION",
+  "baseline": "e5af166e86e85a5937d25b579f9256768bbd3d30",
+  "repair_commit": "c41efc23f3ee84403c3b0b074877e1beb6df44cc",
+  "parent_r6f_protocol_lock_sha256": "3dccc202a3967ca5f56fcab2971d2e53806ad723a330e390f47c7f6dfc85678e",
+  "working_directory": "/home/sketch/Projects/umbra-close02x-work",
+  "interpreter": "/home/sketch/cs14n-runtime/bin/python",
+  "python_version": "3.12.3",
+  "command": ["/home/sketch/cs14n-runtime/bin/python", "-m", "experiments.as003pr6fr1.common_root_assay"],
+  "environment": {
+    "PYTHONPATH": "unset",
+    "wall_time": "0.0",
+    "temporary_runtime_directory": "/dev/shm",
+    "evidence_root": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-r1-common-root-option"
+  },
+  "scenario": "S0",
+  "seed": 18482,
+  "seed_derivation_reused_from_r6f": "UMBRA-AS-003P-R6F|670808a93de5d7a2eca4b9b237cf58b084fded30|S0",
+  "max_ticks": 500,
+  "candidate_pair": [
+    {"capability": "IDLE", "params": {}},
+    {"capability": "MOVE", "params": {"heading_delta": 0.0, "step": 1.0}}
+  ],
+  "root_predicate": "successful verified V2 route experience exists before next decision root; exact opportunity/body-schema applicability holds; root O0 is formed before pair analysis",
+  "configuration": {
+    "condition": "C0",
+    "route_demand_learning_enabled": true,
+    "planning_enabled": false,
+    "experimental_final_selector": null,
+    "body_start": {"x": 2.0, "y": 3.0, "heading": 0.0}
+  },
+  "scientific_source_hashes": {
+    "umbra_core/arbitration.py": "9c569b7df3b195474390ab0dd4c1cfab989c0d34e76cbc2a42811587161bc990",
+    "umbra_core/world_model/engine.py": "ff4e9f1d8758be457319369e987ce5176f4f06cc1e74e9647f4aa538cf2caba",
+    "umbra_core/world_model/route_evidence.py": "987729a674af5aae244108cb0e029fb0c7c6b25a8badf7ecbf1962642f211974",
+    "umbra_core/runtime.py": "665a99991a721b07cbd3c22ca59efb8499af759917f8080639d43a0a9d3c6952",
+    "experiments/as003pr6e/options.py": "060c3206a1af4838103bde30b2bf1bd5806f9f2f909976b3e2f227cfd3409436",
+    "experiments/as003pr6/l2_schedulability.py": "7e564969513be73794e0a9f46f4b8d4c154f5c857eb16f4d3cdacde6d0bcc9b8"
+  },
+  "preflight": {
+    "harness_equivalence_sha256": "ebf2e16c559fe05c03879371dc0129564733a7a95bef6c1507bb973f672f4902",
+    "executable_preflight_sha256": "56adeeb6388610afb6ba888cd367ca812f0c467bbd9944e9bb646720e3d8d3fc",
+    "pure_tests": "6/6 PASS twice",
+    "complete_import": "PASS twice identical",
+    "organism_creations": 0,
+    "ticks": 0
+  },
+  "prior_organism_executions": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "after_lock": "no code, imports, commands, environment, scenario, seed, candidate, root predicate, fixture, retry, or reseed changes"
+}
