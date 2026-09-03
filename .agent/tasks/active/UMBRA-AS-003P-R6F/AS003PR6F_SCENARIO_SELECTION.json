@@ -1,0 +1,28 @@
+{
+  "schema": "AS003PR6F_SCENARIO_SELECTION_V1",
+  "baseline": "670808a93de5d7a2eca4b9b237cf58b084fded30",
+  "selection_rule": "lexicographically first existing D-009 scenario with a baseline policy-visible resource, no environmental plant, and no authored behavior preference",
+  "selected_scenario": "S0",
+  "scenario_source": "experiments/d009/scenario-suite.json",
+  "scenario_plant_source": "experiments/d009/scenario_plants.py",
+  "scenario_properties": {
+    "name": "baseline_autonomous_habitat",
+    "objects": ["resource:0", "rest:0", "portable:0"],
+    "manipulations": [],
+    "behavioral_preference_injection": false
+  },
+  "candidate_pair": [
+    {"capability": "IDLE", "params": {}},
+    {"capability": "MOVE", "params": {"heading_delta": 0.0, "step": 1.0}}
+  ],
+  "candidate_pair_rule": "both are emitted by Arbitrator.generate_candidates for the ordinary policy-visible pool; no candidate is invented or executed as a comparison intervention",
+  "seed_derivation": {
+    "input": "UMBRA-AS-003P-R6F|670808a93de5d7a2eca4b9b237cf58b084fded30|S0",
+    "sha256": "1a7c07dcc254ea830ebf5b3abfbf198d0149bb02027d7197ab86f095dd744d12",
+    "integer_rule": "int(full_sha256_hex, 16) modulo 100000",
+    "seed": 18482
+  },
+  "organism_runs": 0,
+  "retries": 0,
+  "reseeds": 0
+}
