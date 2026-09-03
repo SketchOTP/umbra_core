@@ -1663,3 +1663,13 @@ not run. Organism/diagnostic legs were `3/3`, control/shadow `0/0`, retries and
 reseeds `0/0`; no post-lock code changed. Integrated viability remains
 unqualified; no successor, R7, or CLOSE-03 started. Evidence manifest:
 `ca0cd93b4effba187480ad36467ad62af4cb0c4e49a687a722e5808d3bd52ad6`.
+
+- UMBRA-AS-005 protocol closeout — 2026-09-03
+
+The AS-005 frozen sequence is terminal `AS005_PROTOCOL_FAIL`. Diagnostic A completed
+`500/500`; Diagnostic B began but was interrupted by a user-directed turn override,
+leaving retained partial traces through active tick `2320` and no sequence result.
+Known R1, fresh populations, lifecycle, boundedness, and ablation did not run.
+Retries/reseeds remained `0/0`; partial traces are retained but not interpreted as
+qualification evidence. Integrated viability remains unqualified and no successor
+started.

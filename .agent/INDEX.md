@@ -697,3 +697,12 @@ qualified. Focused protected lineage plus AS-004 tests passed `333/333` twice;
 the dedicated scientific lock was later executed and closed at terminal
 `AS004_KNOWN_R1_FAIL`. Integrated viability and CLOSE-03 remain unqualified; no
 successor is authorized.
+
+## UMBRA-AS-005 is TERMINAL — `AS005_PROTOCOL_FAIL`
+
+AS-005 reached its frozen implementation commit
+`45a07d07422e10c8988b6ffc285f87b6b81008a9`. Diagnostic A completed `500/500`;
+Diagnostic B was interrupted at retained active tick `2320`, before completion or
+known R1. No retry, reseed, post-lock repair, or scientific interpretation is
+authorized. Partial evidence is retained at
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-005-preventive-modal-continuation-integrated-viability-r1/`.

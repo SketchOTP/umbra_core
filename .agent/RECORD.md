@@ -394,3 +394,13 @@ explicit flag, with legacy duplicate ordinary preservation authority bypassed on
 when enabled. Focused protected lineage plus AS-004 tests passed `333/333` twice;
 full applicable regression retained `13` inherited failures. Scientific execution
 has not begun and no successor is authorized.
+
+## 2026-09-03 — UMBRA-AS-005 protocol closeout
+
+AS-005 began from the authorized `b45a3c1480d57638768f5a876c8807c6f756143c`
+baseline and froze at `45a07d07422e10c8988b6ffc285f87b6b81008a9`. The single
+scientific sequence completed Diagnostic A (`500/500`) and was interrupted during
+Diagnostic B; retained decision evidence reaches active tick `2320`. Known R1 and
+all downstream phases were not run. Terminal verdict: `AS005_PROTOCOL_FAIL`.
+Retries/reseeds: `0/0`; partial traces remain uninterpreted; integrated viability,
+AS-004 successor work, and CLOSE-03 remain unqualified/blocked.

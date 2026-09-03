@@ -1118,3 +1118,12 @@ organism outcomes are permanent. Protected AS-003 lineage plus AS-004 focused te
 pass `333/333` twice. Full applicable regression is `1289 passed / 2 skipped / 13
 inherited failures`; no candidate-only AS-004 regression is established. No R7,
 CLOSE-03, retry, reseed, or automatic successor is authorized.
+
+## 2026-09-03 — UMBRA-AS-005 protocol closeout
+
+AS-005 is terminal `AS005_PROTOCOL_FAIL`. The frozen implementation commit is
+`45a07d07422e10c8988b6ffc285f87b6b81008a9`; Diagnostic A completed `500/500`, and
+Diagnostic B was interrupted during the single no-retry sequence with retained
+decision evidence through active tick `2320`. Known R1 and downstream phases were
+not run. Partial traces remain historical operational evidence only; no viability or
+mechanism claim is made. Retries/reseeds `0/0`; successor `none`; remote `github`.

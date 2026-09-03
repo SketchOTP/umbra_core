@@ -798,3 +798,11 @@ terminal scientific failure, not a license to retry, reseed, tune, or claim that
 integrated viability is qualified. Dense per-tick traces were removed by the
 locked runner after summary hashing, so that evidence limitation is permanent for
 this generation.
+
+- 2026-09-03 — AS-005 protocol interruption
+
+AS-005 had a valid pre-freeze implementation and focused proof boundary, but its
+single frozen scientific sequence was interrupted during Diagnostic B. The correct
+disposition is protocol-terminal, not scientific success or failure: preserve the
+partial traces, do not interpret them, and do not retry/reseed inside the same
+generation. Any future attempt needs new authority, a new baseline, and a new lock.

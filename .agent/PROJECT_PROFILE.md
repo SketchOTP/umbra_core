@@ -611,3 +611,12 @@ direct execution authority. Focused protected-lineage and AS-004 tests pass
 `333/333` twice. Scientific execution subsequently reached terminal
 `AS004_KNOWN_R1_FAIL`; integrated viability remains unqualified and CLOSE-03
 remains blocked.
+
+## AS-005 protocol-terminal record — 2026-09-03
+
+AS-005's frozen implementation exists at `45a07d07422e10c8988b6ffc285f87b6b81008a9`.
+The one scientific sequence completed Diagnostic A and was interrupted during
+Diagnostic B before Known R1. It is terminal `AS005_PROTOCOL_FAIL`; no viability,
+planning-authority, population, lifecycle, boundedness, or ablation claim is
+established. Partial traces are retained outside the repository and no successor is
+authorized.

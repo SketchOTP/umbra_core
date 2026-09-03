@@ -37,6 +37,17 @@ retries/reseeds `0/0`; no post-lock code changed. Integrated viability remains
 unqualified and no successor started. Manifest:
 `ca0cd93b4effba187480ad36467ad62af4cb0c4e49a687a722e5808d3bd52ad6`.
 
+# UMBRA-AS-005 — protocol-terminal generation
+
+AS-005 was frozen at `45a07d07422e10c8988b6ffc285f87b6b81008a9` after pre-freeze
+implementation and focused validation. Its single scientific sequence completed
+Diagnostic A (`500/500`) and was interrupted during Diagnostic B, whose retained
+decision trace reaches active tick `2320` without a completion record. Known R1 and
+all downstream population, lifecycle, boundedness, and ablation phases were not run.
+Because the directive forbids retry, reseed, or post-lock repair, the generation is
+terminal `AS005_PROTOCOL_FAIL`; partial traces are retained but not scientifically
+interpreted. Integrated viability remains unqualified and no successor started.
+
 Evidence manifest SHA-256:
 `ca0cd93b4effba187480ad36467ad62af4cb0c4e49a687a722e5808d3bd52ad6`.
 
