@@ -15,6 +15,7 @@ from typing import Iterable, Mapping, Sequence
 
 from .adapters import SourceBackedRegulatoryService
 from .core import BRANCH_CEILING, EvidenceEnvelope, HypotheticalState, TransitionContract, TransitionResult, TransitionStatus, transition
+from umbra_core.util import canon_json, sha256_hex
 
 
 # AS-003L fixed the maximum ordinary corrective-service policy depth at one
@@ -59,7 +60,13 @@ class ContinuationWitness:
 def _branch_key(index: int, branch: HypotheticalState) -> str:
     # The branch key is only an O0 relation key.  It is derived from the
     # immutable source-backed state and never exposed as action identity.
-    return f"branch:{index}:{branch.semantic_identity}"
+    # ``root_continuation_set`` also evaluates one isolated PhysiologyBranch
+    # while constructing O0.  Keep the key deterministic for either immutable
+    # representation without changing its semantic contents.
+    identity = getattr(branch, "semantic_identity", None)
+    if identity is None:
+        identity = sha256_hex(canon_json(branch.to_canonical()))
+    return f"branch:{index}:{identity}"
 
 
 def _obligations_complete(state: HypotheticalState, obligations: Sequence[str]) -> TransitionStatus:

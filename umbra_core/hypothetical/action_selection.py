@@ -13,7 +13,7 @@ from dataclasses import dataclass
 import json
 from typing import Any, Iterable, Mapping, Sequence
 
-from umbra_core.physiology import BOUNDS
+from umbra_core.physiology import BOUNDS, DEFAULT_DRIFT
 from umbra_core.physiology import verified_outcome_effect_branches
 from umbra_core.self_model.engine import SupportSemantics
 from umbra_core.util import canon_json, sha256_hex
@@ -44,6 +44,7 @@ class ContinuationElimination:
     classifications: tuple[CandidateContinuation, ...]
     unknown_rate: float
     modal_options: tuple[tuple[str, str, tuple[str, ...], str], ...] = ()
+    modal_option_details: tuple[dict[str, Any], ...] = ()
 
     def to_canonical(self) -> dict[str, Any]:
         return {
@@ -61,17 +62,42 @@ class ContinuationElimination:
                 {"identity": identity, "modality": modality, "owners": list(owners), "provenance": provenance}
                 for identity, modality, owners, provenance in self.modal_options
             ],
+            "modal_option_details": [dict(item) for item in self.modal_option_details],
         }
 
 
 @dataclass(frozen=True)
 class KnownContinuationOption:
-    """Immutable source-backed option evidence, never an action ranking."""
+    """One exact source-backed MAY continuation, never an action ranking."""
 
     identity: str
+    opportunity_identity: str
+    opportunity_kind: str
+    body_schema_identity: str
+    route_evidence_identity: str
+    ordered_route_control_pattern: tuple[tuple[str, bool], ...]
+    terminal_capability: str
+    observed_demand_ticks: int
+    source_horizon: EvidenceEnvelope
     modality: PlanningModality
     owners: tuple[str, ...]
     provenance: tuple[str, ...]
+
+    def to_canonical(self) -> dict[str, Any]:
+        return {
+            "identity": self.identity,
+            "opportunity_identity": self.opportunity_identity,
+            "opportunity_kind": self.opportunity_kind,
+            "body_schema_identity": self.body_schema_identity,
+            "route_evidence_identity": self.route_evidence_identity,
+            "ordered_route_control_pattern": [list(item) for item in self.ordered_route_control_pattern],
+            "terminal_capability": self.terminal_capability,
+            "observed_demand_ticks": self.observed_demand_ticks,
+            "source_horizon": self.source_horizon.to_canonical(),
+            "modality": self.modality.value,
+            "owners": list(self.owners),
+            "provenance": list(self.provenance),
+        }
 
 
 def candidate_identity(candidate: Any) -> str:
@@ -99,6 +125,18 @@ def _frame_root_and_services(frame: PlanningEvidenceFrame) -> tuple[Hypothetical
     body = frame.body.to_plain()
     body_identity = str(body.get("body_schema_identity") or "")
     body_version = str(body.get("body_schema_version", ""))
+    route_support = frame.route_experience_support.to_plain()
+    if not body_identity:
+        # V2 frames retain the exact body schema on each route witness even
+        # when a legacy body-profile projection omits it at the frame level.
+        schemas = {
+            str(witness.get("body_schema_id", ""))
+            for raw in route_support.values()
+            for witness in tuple(dict(raw).get("value", {}).get("witnesses", ()) or ())
+            if witness.get("body_schema_id")
+        }
+        if len(schemas) == 1:
+            body_identity = next(iter(schemas))
     if not body_identity:
         return root_state_from_sources(
             root_tick=frame.organism_tick,
@@ -135,7 +173,6 @@ def _frame_root_and_services(frame: PlanningEvidenceFrame) -> tuple[Hypothetical
     )
 
     services: list[Any] = []
-    route_support = frame.route_experience_support.to_plain()
     capability_map = frame.constitutional_capabilities.to_plain()
     for identity, raw in sorted(route_support.items()):
         if identity not in opportunities:
@@ -171,7 +208,17 @@ def _frame_root_and_services(frame: PlanningEvidenceFrame) -> tuple[Hypothetical
                 capability_support=cap,
                 body_version_token=DependencyToken("body_schema", body_identity, body_version),
             ))
-    return root, tuple(services), tuple(sorted({owner for owner, bounds in BOUNDS.items() if _owner_active(frame, owner, bounds)}))
+    # Preventive obligations are derived from exact option demand, not from
+    # the hypothetical recursion-depth ceiling.  MAY remains MAY; this only
+    # identifies owners whose viable-boundary time is already within demand.
+    options = _frame_modal_options(frame)
+    obligations = {
+        owner
+        for option in options
+        for owner in option.owners
+        if _owner_active(frame, owner, BOUNDS[owner], option.observed_demand_ticks)
+    }
+    return root, tuple(services), tuple(sorted(obligations))
 
 
 def _frame_modal_options(frame: PlanningEvidenceFrame) -> tuple[KnownContinuationOption, ...]:
@@ -205,17 +252,61 @@ def _frame_modal_options(frame: PlanningEvidenceFrame) -> tuple[KnownContinuatio
             modality = PlanningModality.MAY
             if capability_modality is PlanningModality.MUST and opportunity_modality is PlanningModality.MUST and route_modality is PlanningModality.MUST:
                 modality = PlanningModality.MUST
-            provenance = tuple(sorted({str(ref) for ref in (*tuple(raw.get("provenance") or ()), *tuple(dict(opportunity.get("future") or {}).get("provenance") or ())) if ref}))
-            options.append(KnownContinuationOption(
-                identity=f"known-option:{capability}:{identity}",
-                modality=modality,
-                owners=owners[capability],
-                provenance=provenance,
-            ))
+            future = dict(opportunity.get("future") or {})
+            horizon = future.get("valid_through_ticks")
+            if horizon is None or int(horizon) < 0:
+                source_horizon = EvidenceEnvelope.unknown(f"opportunity:{identity}:source-horizon")
+            elif opportunity_modality is PlanningModality.MUST:
+                source_horizon = _hard(float(horizon), f"opportunity:{identity}:source-horizon")
+            elif opportunity_modality is PlanningModality.MAY:
+                source_horizon = _observed(float(horizon), f"opportunity:{identity}:source-horizon")
+            else:
+                source_horizon = EvidenceEnvelope.unknown(f"opportunity:{identity}:source-horizon")
+            for witness in witnesses:
+                demand = witness.get("observed_episode_ticks")
+                if demand is None or int(demand) <= 0:
+                    continue
+                pattern = tuple(
+                    (str(step.get("capability", "")), bool(step.get("translational_movement", False)))
+                    for step in tuple(witness.get("ordered_control_steps") or ())
+                )
+                route_identity = str(witness.get("route_evidence_id", ""))
+                semantic_key = {
+                    "opportunity_identity": str(identity),
+                    "opportunity_kind": str(opportunity.get("kind", "")),
+                    "body_schema_identity": str(witness.get("body_schema_id") or frame.body.to_plain().get("body_schema_identity", "")),
+                    "pattern": [list(item) for item in pattern],
+                    "terminal_capability": capability,
+                    "observed_demand_ticks": int(demand),
+                }
+                option_identity = f"known-option:{capability}:{sha256_hex(canon_json(semantic_key))}"
+                provenance = tuple(sorted({
+                    str(ref)
+                    for ref in (
+                        *tuple(raw.get("provenance") or ()),
+                        *tuple(future.get("provenance") or ()),
+                        *tuple(witness.get("provenance") or ()),
+                    )
+                    if ref
+                }))
+                options.append(KnownContinuationOption(
+                    identity=option_identity,
+                    opportunity_identity=str(identity),
+                    opportunity_kind=str(opportunity.get("kind", "")),
+                    body_schema_identity=str(witness.get("body_schema_id") or frame.body.to_plain().get("body_schema_identity", "")),
+                    route_evidence_identity=route_identity,
+                    ordered_route_control_pattern=pattern,
+                    terminal_capability=capability,
+                    observed_demand_ticks=int(demand),
+                    source_horizon=source_horizon,
+                    modality=modality,
+                    owners=owners[capability],
+                    provenance=provenance,
+                ))
     return tuple(sorted(options, key=lambda option: option.identity))
 
 
-def _owner_active(frame: PlanningEvidenceFrame, owner: str, bounds: Any) -> bool:
+def _owner_active(frame: PlanningEvidenceFrame, owner: str, bounds: Any, required_demand: int | None = None) -> bool:
     raw = frame.physiology_root.to_plain().get(owner)
     try:
         value = float(raw)
@@ -223,10 +314,9 @@ def _owner_active(frame: PlanningEvidenceFrame, owner: str, bounds: Any) -> bool
         return True
     if not bounds.in_viable(value):
         return True
-    # Preventive obligation: use only the constitutional band and the
-    # already-qualified autonomous drift contract.  This is a finite-horizon
-    # boundary forecast, not urgency, normalization, or cross-owner scoring.
-    from umbra_core.physiology import DEFAULT_DRIFT
+    # Preventive obligation: use only the constitutional band, autonomous
+    # drift, and exact known option demand.  This is binary feasibility, never
+    # urgency, normalization, cross-owner arithmetic, or ranking.
     drift = float(DEFAULT_DRIFT.get(owner, 0.0))
     if drift < 0.0:
         remaining = value - bounds.viable_low
@@ -236,23 +326,114 @@ def _owner_active(frame: PlanningEvidenceFrame, owner: str, bounds: Any) -> bool
         return False
     if remaining <= 0.0:
         return True
-    return remaining / abs(drift) <= float(MAX_CONTINUATION_DEPTH)
+    if required_demand is None:
+        return False
+    return remaining / abs(drift) <= float(required_demand)
 
 
 def _candidate_contract(candidate: Any) -> TransitionContract:
     capability = str(candidate.capability)
     # The runtime's ordinary cadence is one logical current-action interval.
     # This is the execution cadence contract, not a cost or preference.
-    effects = tuple(
-        {name: _hard(float(value), f"verified-outcome:{capability}:{index}:{name}") for name, value in branch.items()}
-        for index, branch in enumerate(verified_outcome_effect_branches(capability))
-    )
+    effects = []
+    for index, branch in enumerate(verified_outcome_effect_branches(capability)):
+        branch_effects = {
+            name: _hard(float(value), f"verified-outcome:{capability}:{index}:{name}")
+            for name, value in branch.items()
+        }
+        for name, drift in DEFAULT_DRIFT.items():
+            branch_effects[name] = branch_effects.get(name, _hard(0.0, f"verified-outcome:{capability}:{index}:{name}")).add(
+                _hard(float(drift), f"autonomous-drift:{name}")
+            )
+        effects.append(branch_effects)
     return TransitionContract(
         semantic_identity=f"as004:candidate:{capability}:{sha256_hex(canon_json(dict(candidate.params)))}",
         duration=_hard(1.0, f"runtime-action-cadence:{capability}"),
-        effect_branches=effects,
+        effect_branches=tuple(effects),
         provenance=(f"candidate:{capability}",),
     )
+
+
+def _weak_option_branch_status(state: HypotheticalState, option: KnownContinuationOption) -> tuple[str, tuple[str, ...]]:
+    """Classify one exact known option after one immediate candidate branch."""
+    if option.body_schema_identity != state.body_schema_identity:
+        return "UNKNOWN", ("OPTION_BODY_SCHEMA_MISMATCH",)
+    opportunity = state.opportunities.get(option.opportunity_identity)
+    if opportunity is None or opportunity.availability is not TransitionStatus.SUPPORTED:
+        return "UNKNOWN", ("OPTION_OPPORTUNITY_UNKNOWN",)
+    if not option.source_horizon.categorical_supported() or not state.elapsed_time.categorical_supported():
+        return "UNKNOWN", ("OPTION_SOURCE_HORIZON_UNKNOWN",)
+    elapsed = float(state.elapsed_time.maximum or 0.0)
+    horizon = float(option.source_horizon.minimum or 0.0)
+    demand = int(option.observed_demand_ticks)
+    # The observed route demand includes its terminal action and is consumed
+    # after the current action.  A known finite root horizon that no longer
+    # accommodates that witness is a categorical loss of this exact option;
+    # an absent/uncertain horizon was handled above as UNKNOWN.
+    if elapsed + demand > horizon + 1e-12:
+        return "DESTROYED", ("OPTION_SOURCE_HORIZON_EXHAUSTED",)
+    branch = state.physiology_branches[0]
+    reasons: list[str] = []
+    for owner in option.owners:
+        envelope = branch.values.get(owner)
+        if envelope is None or not envelope.categorical_supported():
+            return "UNKNOWN", (f"OPTION_{owner.upper()}_STATE_UNKNOWN",)
+        bounds = BOUNDS[owner]
+        minimum = float(envelope.minimum or 0.0)
+        maximum = float(envelope.maximum or 0.0)
+        if maximum < bounds.viable_low or minimum > bounds.viable_high:
+            reasons.append(f"OPTION_{owner.upper()}_OUTSIDE_VIABLE_BAND")
+            continue
+        if minimum < bounds.viable_low or maximum > bounds.viable_high:
+            return "UNKNOWN", (f"OPTION_{owner.upper()}_VIABLE_BOUNDARY_UNKNOWN",)
+        drift = float(DEFAULT_DRIFT.get(owner, 0.0))
+        if drift < 0.0:
+            distance = minimum - bounds.viable_low
+        elif drift > 0.0:
+            distance = bounds.viable_high - maximum
+        else:
+            distance = float("inf")
+        if distance <= 0.0 or (drift and distance + 1e-9 < abs(drift) * demand):
+            reasons.append(f"OPTION_{owner.upper()}_SLACK_EXHAUSTED")
+    if reasons:
+        return "DESTROYED", tuple(sorted(set(reasons)))
+    return "PRESERVED", ()
+
+
+def _weak_option_status(root: HypotheticalState, candidate: Any, option: KnownContinuationOption) -> tuple[str, tuple[str, ...]]:
+    """Apply universal supported immediate branches to one MAY option."""
+    current = transition(root, _candidate_contract(candidate))
+    if current.status is not TransitionStatus.SUPPORTED:
+        return "UNKNOWN", (f"CURRENT_CANDIDATE_{current.reason}",)
+    statuses: list[str] = []
+    reasons: set[str] = set()
+    for branch in current.successors:
+        status, branch_reasons = _weak_option_branch_status(branch, option)
+        statuses.append(status)
+        reasons.update(branch_reasons)
+    if statuses and all(status == "PRESERVED" for status in statuses):
+        return "PRESERVED", tuple(sorted(reasons))
+    if statuses and all(status == "DESTROYED" for status in statuses):
+        return "DESTROYED", tuple(sorted(reasons))
+    return "UNKNOWN", tuple(sorted(reasons or {"OPTION_BRANCH_OUTCOME_MIXED"}))
+
+
+def _modal_option_detail(frame: PlanningEvidenceFrame, option: KnownContinuationOption) -> dict[str, Any]:
+    values = frame.physiology_root.to_plain()
+    slack: dict[str, float | None] = {}
+    for owner in option.owners:
+        try:
+            value = float(values[owner])
+        except (KeyError, TypeError, ValueError):
+            slack[owner] = None
+            continue
+        bounds = BOUNDS[owner]
+        if not bounds.in_viable(value):
+            slack[owner] = 0.0
+            continue
+        drift = float(DEFAULT_DRIFT.get(owner, 0.0))
+        slack[owner] = None if drift == 0.0 else (value - bounds.viable_low if drift < 0 else bounds.viable_high - value) / abs(drift) - option.observed_demand_ticks
+    return {**option.to_canonical(), "recovery_slack": slack}
 
 
 def _replay_witness(root: HypotheticalState, candidate: Any, witness: str, services: Mapping[str, Any], obligations: Sequence[str]) -> str:
@@ -300,42 +481,32 @@ def _replay_witness(root: HypotheticalState, candidate: Any, witness: str, servi
 
 
 def eliminate_by_continuation(frame: PlanningEvidenceFrame, candidates: Sequence[Any]) -> ContinuationElimination:
-    """Apply strict O0 preservation inclusion and return only surviving candidates."""
+    """Apply strict and weak option preservation without ranking candidates."""
     root, services, obligations = _frame_root_and_services(frame)
     modal_options = _frame_modal_options(frame)
     o0 = root_continuation_set(root, services, obligations=obligations, max_depth=MAX_CONTINUATION_DEPTH) if obligations else ContinuationSet(())
     witness_map = dict(o0.witnesses_by_branch)
-    if not witness_map or not candidates:
+    if not candidates:
         identities = tuple(str(getattr(c, "capability", "")) for c in candidates)
-        # A MAY option is still a real common-root option.  It cannot grant a
-        # strong continuation guarantee, but the ordinary bridge must retain
-        # its candidate-neutral presence and emit a conservative classification
-        # rather than collapsing the option set to empty.  Candidate effects
-        # are categorical only; absent a source-backed invalidation, status is
-        # PRESERVED (possible option remains possible), never a ranking signal.
-        classifications: list[CandidateContinuation] = []
-        for candidate in candidates:
-            current = transition(root, _candidate_contract(candidate))
-            status = "PRESERVED" if current.status is TransitionStatus.SUPPORTED else "UNKNOWN"
-            classifications.append(CandidateContinuation(
-                candidate_identity(candidate),
-                tuple((option.identity, status) for option in modal_options),
-                ("MAY_OPTION_NO_GUARANTEE",) if modal_options else (),
-            ))
         return ContinuationElimination(
-            identities, (), len(modal_options) or len(witness_map), root.material_fingerprint, tuple(classifications),
-            0.0 if not modal_options else (sum(1 for row in classifications for _, value in row.status_by_witness if value == "UNKNOWN") / max(1, sum(len(row.status_by_witness) for row in classifications))),
+            identities, (), len(modal_options) or len(witness_map), root.material_fingerprint, (), 0.0,
             tuple((option.identity, option.modality.value, option.owners, ";".join(option.provenance)) for option in modal_options),
+            tuple(_modal_option_detail(frame, option) for option in modal_options),
         )
     service_map = {service.service.semantic_identity: service for service in services}
     classifications: list[CandidateContinuation] = []
-    for index, candidate in enumerate(candidates):
+    for candidate in candidates:
         candidate_id = candidate_identity(candidate)
         statuses: list[tuple[str, str]] = []
+        reasons: set[str] = set()
         for branch_key, witnesses in sorted(witness_map.items()):
             for witness in sorted(witnesses):
                 statuses.append((f"{branch_key}:{witness}", _replay_witness(root, candidate, witness, service_map, obligations)))
-        classifications.append(CandidateContinuation(candidate_id, tuple(statuses)))
+        for option in modal_options:
+            status, option_reasons = _weak_option_status(root, candidate, option)
+            statuses.append((option.identity, status))
+            reasons.update(option_reasons)
+        classifications.append(CandidateContinuation(candidate_id, tuple(statuses), tuple(sorted(reasons))))
     eliminated: list[tuple[str, str, str]] = []
     eliminated_ids: set[str] = set()
     for left in classifications:
@@ -362,4 +533,5 @@ def eliminate_by_continuation(frame: PlanningEvidenceFrame, candidates: Sequence
         survivors, tuple(sorted(set(eliminated)),), len(modal_options) or len(witness_map), root.material_fingerprint,
         tuple(classifications), unknown / total if total else 0.0,
         tuple((option.identity, option.modality.value, option.owners, ";".join(option.provenance)) for option in modal_options),
+        tuple(_modal_option_detail(frame, option) for option in modal_options),
     )
