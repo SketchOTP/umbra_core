@@ -1,0 +1,24 @@
+{
+  "schema": "AS003PR6E_OPTION_IDENTITY_CONTRACT_V1",
+  "identity_includes": [
+    "root frame identity",
+    "active obligation signature",
+    "body schema identity",
+    "ordered terminal service semantics",
+    "exact opportunity identities",
+    "owner coverage",
+    "required effect semantics",
+    "relevant opportunity horizons",
+    "semantic source dependencies"
+  ],
+  "identity_excludes": [
+    "evidence UUID",
+    "event UUID",
+    "provenance ordering",
+    "repeated identical samples",
+    "confidence magnitude",
+    "support-variant administrative identity"
+  ],
+  "duplicate_policy": "semantic duplicates collapse to one option; support variants remain evidence under that option",
+  "status": "LOCKED"
+}

@@ -79,6 +79,26 @@ Evidence root (local/internal provenance):
 The complete artifact inventory and readback hashes are recorded in the R6D result
 packet and final manifest.
 
+### AS-003P-R6E
+
+R6E is a zero-organism relation study over the immutable R6D 1,152-configuration
+matrix. It evaluates a fixed common root set of known recovery options using
+`PRESERVED / DESTROYED / UNKNOWN`; unknown is never treated as loss, and the
+relation does not claim unrecoverability, safety, optimality, or action authority.
+
+The analysis found 192 positive relations, including 64 route-causal ordinary
+hard-admissible cases. It also found 128 non-route option-loss relations, 256
+hard-authority preemptions, and 640 root-option-empty cases. Thirty-two of the
+96 R6D `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions overlap a
+route-causal known-option loss. This supports only a bounded research relation;
+the recommended R7 common-root qualification has not started.
+
+Terminal result:
+`AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED`.
+See the [R6E result packet](../.agent/tasks/active/UMBRA-AS-003P-R6E/RESULT.md)
+and local/internal R6E evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
+
 ## Architecture and authority
 
 The files below are the frozen D-000S foundation. They explain the intended ownership

@@ -688,3 +688,12 @@ fields must be additive and ignored by existing modal consumers.
 - 2026-09-02 | area:AS-003P-R6C authority | lesson:additive planning evidence remains inert until an explicitly authorized consumer exists; zero readers preserve action-selection boundaries | evidence:AS003PR6C_STATIC_SCOPE_AUDIT.json
 - 2026-09-03 | area:AS-003P-R6D open-world route evidence | lesson:finite MAY route witnesses prove realized possibilities but leave unobserved future route demand UNKNOWN without closure authority | evidence:AS003PR6D_OPEN_WORLD_ROUTE_CONTRACT.json
 - 2026-09-03 | area:AS-003P-R6D L2 reachability | lesson:open-world MAY route evidence can distinguish possible completion from unknown completion but cannot establish route-informed no-schedule loss without an authoritative closure source; closed-world route precedence is diagnostic only | evidence:AS003PR6D_ROUTE_CAUSALITY_AUDIT.json,AS003PR6D_R7_REACHABILITY_DISPOSITION.json
+
+## 2026-09-03 — R6E relation research start
+
+R6D showed that MAY route evidence can distinguish possible completion from
+unknown completion but cannot prove route-informed no-schedule loss. R6E tests a
+separate preservation claim over a fixed common root option set: a candidate may
+destroy a known option without claiming that all future routes are impossible.
+Option identity, not evidence volume or confidence, governs the relation. This
+stage is zero-run and non-authoritative.

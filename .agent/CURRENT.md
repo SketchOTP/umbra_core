@@ -1561,3 +1561,14 @@ open-world precedence cases, with `96` non-authoritative
 `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions. R7 remains blocked and
 no successor started. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
+
+## UMBRA-AS-003P-R6E — START known recovery-option preservation relation
+
+R6E begins from exact synchronized baseline
+`c781bfb2539e6933638e15306a66a781fcf82557` after accepted R6D terminal
+`AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`. This is zero-run
+relation research over a fixed common root option set using immutable
+`PRESERVED / DESTROYED / UNKNOWN` status. Unknown is never treated as loss;
+score, probability, confidence, provenance volume, and source priority are not
+authority. R7 remains held. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.

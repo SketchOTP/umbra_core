@@ -597,3 +597,14 @@ cases under lawful MAY/UNKNOWN semantics. It retained `96`
 precedence was diagnostic only. R7 is held and no successor started. Packet:
 `.agent/tasks/active/UMBRA-AS-003P-R6D/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
+
+## UMBRA-AS-003P-R6E — ACTIVE from exact synchronized baseline
+
+R6E follows accepted R6D terminal at
+`c781bfb2539e6933638e15306a66a781fcf82557`. This zero-run research stage
+audits whether a fixed common root set of known recovery options can establish
+candidate A preserves / candidate B destroys without claiming future route
+exhaustion. It has no production, R6/L2, planning, action-selection, or live
+execution scope. R7 is held. Packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6E/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.

@@ -1,0 +1,14 @@
+{
+  "schema": "AS003PR6E_SOURCE_PRIORITY_AUDIT_PROTOCOL_V1",
+  "checks": [
+    "same root option set for every candidate",
+    "duplicate evidence cannot increase option count",
+    "confidence cannot change precedence",
+    "provenance volume cannot change precedence",
+    "recency cannot change precedence",
+    "duration matters only when feasibility changes",
+    "option status changes only through candidate consequence"
+  ],
+  "required_result": "NO_GENERIC_SOURCE_PRIORITY",
+  "status": "LOCKED"
+}

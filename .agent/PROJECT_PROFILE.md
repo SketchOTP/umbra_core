@@ -514,3 +514,10 @@ yielded `96` non-authoritative schedule distinctions but `0` route-causal L2
 precedence cases across `1152` symbolic configurations. Production and existing
 test semantic deltas are zero; all organism/live execution counts and
 retries/reseeds are zero. R7 remains blocked; no successor started.
+
+Current governed status: UMBRA-AS-003P-R6E is active from exact baseline
+`c781bfb2539e6933638e15306a66a781fcf82557` after accepted R6D. R6E is a
+zero-run, non-authoritative audit of known recovery-option preservation using a
+common root option set and three-valued `PRESERVED / DESTROYED / UNKNOWN`
+semantics. R7 remains held pending the result; no production or action-selection
+change is authorized.

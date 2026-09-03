@@ -1499,6 +1499,17 @@ successor is authorized. Evidence root:
 
 ## UMBRA-AS-003P-R6D terminal closeout — route evidence distinction without precedence — 2026-09-03
 
+## UMBRA-AS-003P-R6E — START (2026-09-03)
+
+R6E is authorized from exact baseline
+`c781bfb2539e6933638e15306a66a781fcf82557` after accepted R6D. The bounded
+zero-run question is whether a fixed common root set of known recovery options
+can support a new preservation relation: A preserves a known option while B
+destroys it. Historical MAY route evidence remains existential; residual
+unknown is never treated as loss. No live execution or production/action-
+selection change is authorized. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
+
 R6D preserved the R6 `l2_precedes()` contract and audited finite R6C MAY route
 witnesses under sound open-world semantics. The `1152`-row symbolic matrix found
 zero route-causal open-world precedence cases. It found `96`

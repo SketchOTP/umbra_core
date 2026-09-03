@@ -1,0 +1,55 @@
+{
+  "schema": "AS003PR6E_RELATION_CONTRACT_V1",
+  "status": "LOCKED",
+  "proposition": "Candidate A preserves a known source-backed recovery option that candidate B provably destroys, while A destroys no corresponding known option that B preserves.",
+  "forbidden_claims": [
+    "B is unrecoverable",
+    "B is unsafe",
+    "A is optimal",
+    "A has greater utility",
+    "A has higher motivation",
+    "B has no future schedule"
+  ],
+  "statuses": [
+    "PRESERVED",
+    "DESTROYED",
+    "UNKNOWN"
+  ],
+  "strict_relation": {
+    "required_pair": "A=PRESERVED and B=DESTROYED",
+    "allowed_non_strict_pairs": [
+      "PRESERVED/PRESERVED",
+      "DESTROYED/DESTROYED",
+      "UNKNOWN/UNKNOWN"
+    ],
+    "blocked_pairs": [
+      "PRESERVED/UNKNOWN",
+      "UNKNOWN/PRESERVED",
+      "DESTROYED/UNKNOWN",
+      "UNKNOWN/DESTROYED",
+      "DESTROYED/PRESERVED"
+    ],
+    "requires_common_root_option_set": true,
+    "requires_same_root_frame": true,
+    "requires_same_obligation_signature": true,
+    "requires_ordinary_hard_admissibility": true
+  },
+  "unknown_rules": [
+    "unknown future routes remain unknown",
+    "unknown applicability cannot establish destruction",
+    "unknown dependency invalidation cannot establish destruction"
+  ],
+  "prohibited_authority": [
+    "option counting",
+    "weights",
+    "confidence ranking",
+    "provenance volume ranking",
+    "recency preference",
+    "duration preference when feasibility is unchanged",
+    "source priority",
+    "probability",
+    "utility"
+  ],
+  "production_change": 0,
+  "organism_execution": 0
+}

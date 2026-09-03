@@ -1058,4 +1058,8 @@ successor is authorized.
 
 ## UMBRA-AS-003P-R6D — CLOSEOUT (2026-09-03)
 
+## UMBRA-AS-003P-R6E — START (2026-09-03)
+
+- Directive: UMBRA-AS-003P-R6E | status:active | baseline:c781bfb2539e6933638e15306a66a781fcf82557 | parent:AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE | scope:zero-run known recovery-option preservation relation research over immutable R6D symbolic evidence | constraints:production 0,existing-test semantic delta 0,organism/load/tick/control/shadow/diagnostic 0,retry 0,reseed 0,no R6/R6C/R6B-R1/AS-003L/AS-002 change,no R7 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/ | remote:github
+
 - Directive: UMBRA-AS-003P-R6D | status:terminal | baseline:ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37 | verdict:AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE | matrix:1152 | open-world route-causal precedence:0 | closed-world diagnostic route-causal precedence:96 | COMPLETE_MAY-vs-SCHEDULE_UNKNOWN:96 | non-route precedence:288 | hard-authority preempted:576 | production:0 | existing-test semantic delta:0 | organism/load/tick/control/shadow/diagnostic/qualification:0/0/0/0/0/0/0 | retries:0 reseeds:0 | pure final:9/9 twice | Authority3:PASS governance:PASS diff:PASS links:104/0 | R7:blocked; no successor | scientific closeout commit:8ec4e99aad05d84841dc91583541ef537caec0c0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/ | remote:github

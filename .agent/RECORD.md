@@ -282,6 +282,14 @@ tests, live execution, retries, and reseeds are prohibited.
 
 ## 2026-09-03 — UMBRA-AS-003P-R6D terminal closeout
 
+## 2026-09-03 — UMBRA-AS-003P-R6E start
+
+R6E starts at `c781bfb2539e6933638e15306a66a781fcf82557` after accepted R6D.
+It tests whether a common root set of source-backed recovery options can yield
+an open-world preservation relation without converting MAY route evidence into
+exhaustive schedule knowledge. The relation is zero-run, uses only immutable
+three-valued statuses, and has no production/action-selection reader.
+
 R6D completed the zero-run MAY-route L2 reachability audit from
 `ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37`. Finite R6C route witnesses remain
 existential MAY evidence with residual UNKNOWN. Across `1152` deterministic

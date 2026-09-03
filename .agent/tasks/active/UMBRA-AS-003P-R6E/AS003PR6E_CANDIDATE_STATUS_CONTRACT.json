@@ -1,0 +1,13 @@
+{
+  "schema": "AS003PR6E_CANDIDATE_STATUS_CONTRACT_V1",
+  "gates": [
+    "common root frame",
+    "same residual obligation signature",
+    "both ordinary hard-admissible"
+  ],
+  "statuses": ["PRESERVED", "DESTROYED", "UNKNOWN"],
+  "strict_pair": "PRESERVED/DESTROYED",
+  "blocked_asymmetric_unknown": true,
+  "candidate_cannot_add_root_options": true,
+  "status": "LOCKED"
+}

@@ -390,3 +390,9 @@ The R6D result uses existing may/must, open-world, and feasibility references as
 `REFERENCE` only. They support the distinction between possible and necessary
 route behavior; no closure assumption, optimizer, scheduler, probability model,
 planner, or external dependency was imported.
+
+## UMBRA-AS-003P-R6E research boundary — 2026-09-03
+
+R6E introduces no external dependency. The relation is a project-local
+zero-run research primitive over known option preservation and does not import
+optimization, weighting, probability, source priority, or planner semantics.

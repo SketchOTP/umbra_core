@@ -140,6 +140,7 @@ solved.
 | Verified route-control learning | **QUALIFIED — bounded** | AS-003P-R6B-R1: one frozen nominal route-control acquisition plus one movement-slip failure leg; default-off, WorldModel-owned, no policy reader. |
 | Route/affordance planning-frame projection | **QUALIFIED — bounded, shadow-only** | AS-003P-R6C: immutable V2 projection of exact V2 route experience and learned ACTIVE `inspect` affordances; historical route evidence is MAY-only and has no modal/action-selection reader. |
 | MAY-route L2 relation reachability | **BOUNDARY FINDING — no precedence** | AS-003P-R6D: open-world route evidence produced `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions, but zero route-causal L2 precedence cases; R7 remains blocked. |
+| Known recovery-option preservation relation | **BOUNDED RESEARCH RESULT — supported** | AS-003P-R6E: over a fixed common root option set, 192 preservation relations were found in the frozen symbolic matrix, including 64 route-causal ordinary hard-admissible cases; this is not action-selection authority. |
 | Ordinary action selection and modal planning | **ACTIVE RESEARCH QUESTION** | Prior scalar and strict-dominance selectors were insufficient; modal planning remains shadow-only and has no behavior authority. |
 | Integrated long-horizon viability | **NOT QUALIFIED** | Formal and long-horizon generations retain terminal failures; AS-004 and CLOSE-03 remain blocked. |
 
@@ -237,6 +238,29 @@ Terminal result: `AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`.
 R7's currently specified common-root precedence target is not justified, and no
 successor has started. See the [R6D result](.agent/tasks/active/UMBRA-AS-003P-R6D/RESULT.md)
 and [R6D evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6d).
+
+## R6E: known recovery-option preservation
+
+R6E is a zero-organism relation study prompted by R6D's open-world boundary. It
+keeps a fixed common root set of known source-backed recovery options and gives
+each candidate one of three statuses: `PRESERVED`, `DESTROYED`, or `UNKNOWN`.
+Unknown is never treated as loss. The relation therefore says only that a
+candidate B destroys a known option that candidate A preserves; it does not say
+that B is unrecoverable, unsafe, suboptimal, or without an unobserved future
+route.
+
+Applied without changing the R6D matrix, the 1,152-row symbolic analysis found
+192 positive relations, of which 64 were route-causal and ordinary
+hard-admissible. A further 128 were non-route option-loss cases; 256 comparisons
+were preempted by hard authority and 640 had no eligible root option. Thirty-two
+of the 96 prior `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions overlap a
+route-causal known-option loss. This supports a bounded research relation only;
+planning and action-selection authority remain unqualified.
+
+Terminal result: `AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED`.
+The prospective R7 common-root qualification is recommendation-only and has not
+started. See the [R6E result](.agent/tasks/active/UMBRA-AS-003P-R6E/RESULT.md)
+and [R6E evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6e).
 
 ## Scientific method
 
@@ -387,6 +411,13 @@ precedence relation. It found that open-world residual UNKNOWN blocks a route-de
 no-schedule proof, while route evidence still creates non-authoritative
 `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions. The terminal result is
 `AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`; R7 is not authorized.
+
+R6E then tested a weaker known-option preservation relation over the same frozen
+symbolic evidence. It found ordinary route-causal cases where one candidate
+preserves a known option and another destroys it, without converting the result
+into a claim about all future routes. The terminal result is
+`AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED`; the next R7
+shadow qualification is recommendation-only and remains unstarted.
 
 The next planning experiment is recommendation-only. Planning integration,
 AS-004 integrated viability, and CLOSE-03 final organism acceptance remain

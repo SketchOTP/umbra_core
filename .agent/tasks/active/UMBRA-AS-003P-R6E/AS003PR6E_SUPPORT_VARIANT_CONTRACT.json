@@ -1,0 +1,10 @@
+{
+  "schema": "AS003PR6E_SUPPORT_VARIANT_CONTRACT_V1",
+  "meaning": "one retained source-backed support realization for a semantic recovery option",
+  "evaluation": "FEASIBLE, INFEASIBLE, or UNKNOWN across every supported immediate candidate branch",
+  "preserved": "at least one support variant is FEASIBLE on every supported branch",
+  "destroyed": "every support variant has at least one definitively INFEASIBLE supported branch",
+  "unknown": "neither preservation nor destruction is established",
+  "unknown_never_means_loss": true,
+  "status": "LOCKED"
+}
