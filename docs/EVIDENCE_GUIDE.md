@@ -86,18 +86,35 @@ matrix. It evaluates a fixed common root set of known recovery options using
 `PRESERVED / DESTROYED / UNKNOWN`; unknown is never treated as loss, and the
 relation does not claim unrecoverability, safety, optimality, or action authority.
 
-The analysis found 192 positive relations, including 64 route-causal ordinary
-hard-admissible cases. It also found 128 non-route option-loss relations, 256
-hard-authority preemptions, and 640 root-option-empty cases. Thirty-two of the
-96 R6D `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions overlap a
-route-causal known-option loss. This supports only a bounded research relation;
-the recommended R7 common-root qualification has not started.
+The historical analysis reported 192 positive relations, including 64
+route-causal ordinary hard-admissible cases. R6E-R1 subsequently audited the
+projection and found that all 512 nonempty root options were constructed from
+synthetic `route_case` data that also controlled B-specific route evidence; 640
+rows had no constructible root option. The pure relation remains a bounded
+research primitive, but the matrix qualification claim is not accepted for R7.
 
 Terminal result:
 `AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED`.
 See the [R6E result packet](../.agent/tasks/active/UMBRA-AS-003P-R6E/RESULT.md)
 and local/internal R6E evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
+
+### AS-003P-R6E-R1
+
+R6E-R1 is a zero-organism provenance requalification of the immutable R6D to
+R6E projection. Its common-root contract requires `O0` to be constructed only
+from evidence demonstrably available before candidate differentiation. No such
+R6D source chain exists: the retained seven-tick witness is not serialized as
+common-root evidence, `route_case` is synthetic/candidate-derived in the old
+projection, and `nonroute_known_impossibility` has no dependency-specific edge.
+The provenance-safe reapplication therefore found 0 lawful root rows and 0
+relations. R7 remains blocked.
+
+Terminal result:
+`AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED`.
+See the [R6E-R1 task packet](../.agent/tasks/active/UMBRA-AS-003P-R6E-R1/RESULT.md)
+and local/internal R6E-R1 evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-r1-common-root-provenance-r1/`.
 
 ## Architecture and authority
 
