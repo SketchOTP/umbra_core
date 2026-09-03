@@ -27,6 +27,7 @@ remain recorded as bounded pre-execution findings only.
 - Retries/reseeds: `0/0`.
 - Production delta: `0`.
 - Existing scientific-test semantic delta: `0`.
+- Final evidence manifest SHA-256: `1c047916a9d5696b72d9ee217733bc90acd1a0ef26b6ca54dc4b82b39a04c42c`.
 
 The exact failure is in `AS003PR6F_PROTOCOL_FAILURE.json`.
 

@@ -1,0 +1,24 @@
+{
+  "schema": "AS003PR6F_EVIDENCE_MANIFEST_V1",
+  "verdict": "AS003PR6F_PROTOCOL_FAIL",
+  "baseline": "670808a93de5d7a2eca4b9b237cf58b084fded30",
+  "final_repository_commit": "46fee66bb7794984c2fb952e11427108644a8bf0",
+  "organism_runs": 0,
+  "organism_ticks": 0,
+  "control_runs": 0,
+  "shadow_runs": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "production_change": 0,
+  "files": [
+    {"name": "AS003PR6F_STATE_RECONCILIATION.json", "sha256": "f8833077b84f4fb520bbe7fd71b973dd80d1f13b92b696c2b329074249d7874b"},
+    {"name": "AS003PR6F_NATURAL_LOSS_FEASIBILITY_AUDIT.json", "sha256": "53e2a2a9b879beb1115cba070e283abcaecee3e4633552f8060d60eae1cb3a68"},
+    {"name": "AS003PR6F_ROUTE_APPLICABILITY_AUDIT.json", "sha256": "f9b8c9c7698baba673e1dea25587ea1c9c603f8f739dab87724c4521a610ef59"},
+    {"name": "AS003PR6F_STATIC_FEASIBILITY_RESULT.json", "sha256": "103489133fe6938ddf81cd34878e597f71db7ec0ead85d5ff143721650fc8adc"},
+    {"name": "AS003PR6F_COMMON_ROOT_PROVENANCE_CONTRACT.json", "sha256": "5d5e17e50d66bc477ee5b534177a03ec4e8f1db5a72695b94e4a5402a50f55ad"},
+    {"name": "AS003PR6F_EXECUTION_PROTOCOL_LOCK.json", "sha256": "3dccc202a3967ca5f56fcab2971d2e53806ad723a330e390f47c7f6dfc85678e"},
+    {"name": "AS003PR6F_PROTOCOL_FAILURE.json", "sha256": "e6ce6f16cdb92a1fb48ff7764627c248d2cdac707bc6073dbf6d406d662291d2"}
+  ],
+  "manifest_excludes_self": true,
+  "readback": "all listed files SHA-256 verified before closeout"
+}
