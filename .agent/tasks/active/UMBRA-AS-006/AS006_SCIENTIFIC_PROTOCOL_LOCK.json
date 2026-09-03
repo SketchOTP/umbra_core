@@ -1,0 +1,24 @@
+{
+  "schema": "AS006_SCIENTIFIC_PROTOCOL_LOCK_V1",
+  "directive": "UMBRA-AS-006",
+  "status": "FROZEN_BEFORE_SCIENTIFIC_SEQUENCE",
+  "implementation_commit": "9e6f92a99a397abec9e1ac245dcc5767ed6dd19f",
+  "evidence_lock_sha256": "df51723303152e55b658a1f227725941276eecceb2e70a27efe20265b3576f9a",
+  "working_directory": "/home/sketch/Projects/umbra-close02x-work",
+  "python": "/home/sketch/cs14n-runtime/bin/python",
+  "scientific_command": "/home/sketch/cs14n-runtime/bin/python -m experiments.as006.qualification --phase scientific --work <fresh-local-workdir>",
+  "focused_command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q tests/test_as005_modal_preventive.py tests/test_as004_continuation.py tests/test_as006_weak_continuation.py",
+  "applicable_command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q --ignore=tests/test_close02x_prospective_recoverability.py",
+  "fixture_sequence": [
+    {"stage": "DIAGNOSTIC_A", "regime": "R0", "scenario": "S0", "seed": 45878900, "horizon": 500},
+    {"stage": "DIAGNOSTIC_B", "regime": "R0", "scenario": "S0", "seed": 22023239, "horizon": 3500},
+    {"stage": "KNOWN_R1", "regime": "R1", "scenario": "S16", "seed": 57531938, "horizon": 7200}
+  ],
+  "focused_runs": ["17/17 PASS", "17/17 PASS"],
+  "applicable_regression": {"passed": 1298, "skipped": 2, "inherited_failures": 13, "candidate_only_failures": 0},
+  "source_activation": {"ticks": 500, "route_frames": 500, "nonempty_option_rows": 262},
+  "observer_preflight": {"control": 1, "shadow": 1, "ticks": "500/500", "semantic_differences": 0, "rng_parity": "PASS"},
+  "retries": 0,
+  "reseeds": 0,
+  "scientific_sequence_started": false
+}

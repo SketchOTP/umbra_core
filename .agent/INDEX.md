@@ -708,4 +708,11 @@ authorized. Partial evidence is retained at
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-005-preventive-modal-continuation-integrated-viability-r1/`.
 ## Current routing authority — UMBRA-AS-006
 
+AS-006 pre-scientific implementation is at
+`9e6f92a99a397abec9e1ac245dcc5767ed6dd19f`. The pure boundary is `17/17`
+twice, applicable regression has `0` candidate-only failures, source activation
+completed `500/500`, and the common-root observer preflight passed with `0`
+semantic differences. Scientific A/B/R1 remains unstarted until the dedicated
+freeze commit.
+
 AS-006 begins from exact synchronized baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d` after permanent acceptance of `AS005_PROTOCOL_FAIL`. It is a fresh implementation-to-qualification generation for executable weak-continuation loss and source-derived preventive recovery slack. AS-005 partial traces remain uninterpreted history. No R7, CLOSE-03, scalar utility, weighting, hidden truth, retry, reseed, or automatic successor is authorized. Packet: `.agent/tasks/active/UMBRA-AS-006/`; evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.

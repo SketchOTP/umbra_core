@@ -429,6 +429,18 @@ not as granting reuse rights, unless a license is added separately.
 
 ## Current research frontier
 
+### AS-006 — executable weak-continuation loss (pre-scientific)
+
+AS-006 is a fresh implementation generation following the permanent protocol
+terminal `AS005_PROTOCOL_FAIL`. It adds exact lived-option identity,
+candidate-caused `PRESERVED / DESTROYED / UNKNOWN` status per supported branch,
+and preventive activation from source-derived option demand. Focused proofs pass
+`17/17` twice; a fresh source-activation run completed `500/500`; and a fresh
+common-root observer gate passed with one control and one shadow branch at
+`500/500`, zero semantic differences, and exact RNG parity. The scientific
+Diagnostic A/B/R1 sequence has not yet run, so this is not a qualification or
+integrated-viability claim. Planning remains non-authoritative.
+
 The body-replacement identity defect is closed within the AS-003S boundary. Bounded
 hypothetical-state and modal-planning infrastructure exists, remains shadow-only, and
 has not earned live action-selection authority.

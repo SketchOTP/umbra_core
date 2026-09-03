@@ -432,3 +432,9 @@ probability, source priority, or planner semantics.
 - Aubin, *Viability Theory* — `REFERENCE` for preserving a set of feasible continuations under constraints; no viability-kernel computation or objective function imported. [Springer record](https://link.springer.com/book/10.1007/978-3-642-16684-6)
 - Cisek, *Cortical mechanisms of action selection: the affordance competition hypothesis* — `REFERENCE` for parallel available-action competition; no neural controller or source priority imported. [PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC2440773/)
 - He, *Many-Objective Optimization Using Adaptive Differential Evolution with a New Ranking Method* — `REFERENCE` only for the previously observed dominance-saturation failure mode; epsilon dominance, hypervolume, weighting, and evolutionary remedies are rejected. [Wiley](https://onlinelibrary.wiley.com/doi/10.1155/2014/259473)
+
+## UMBRA-AS-006 weak-continuation boundary — 2026-09-03
+
+- Cimatti, Pistore, Roveri, and Traverso, *Weak, strong, and strong cyclic planning via symbolic model checking* — `REFERENCE` for the distinction between existential action choice and universal supported-outcome obligations; no symbolic model checker or planning dependency imported. [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0004370202003740)
+- Lehoczky, Sha, and Ding, *The Rate Monotonic Scheduling Algorithm: Exact Characterization and Average Case Behavior* / bounded real-time scheduling boundary — `REFERENCE` only for deadline feasibility vocabulary; EDF, least-laxity priority, slack maximization, and scheduling authority are rejected. [UNC scheduling text](https://www.cs.unc.edu/~anderson/papers/srtbook.pdf)
+- External dependencies added: `0`. The AS-006 bridge uses project-local immutable option evidence, bounded branch evaluation, and existing verified-outcome sources.

@@ -1675,4 +1675,13 @@ qualification evidence. Integrated viability remains unqualified and no successo
 started.
 ## AS-006 governance start
 
+### Pre-scientific boundary — 2026-09-03
+
+The fresh candidate at `9e6f92a99a397abec9e1ac245dcc5767ed6dd19f` passed focused
+proofs `17/17` twice and introduced no candidate-only applicable-suite failure.
+Source activation completed `500/500`, producing `500` route frames and `262`
+nonempty option rows. A fresh common-root observer gate completed `500/500`
+with exact semantic and RNG parity. These are pre-freeze results; no scientific
+A/B/R1 claim follows.
+
 AS-005 is preserved as terminal `AS005_PROTOCOL_FAIL` from closeout `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. AS-006 starts as a new generation from that exact head. Its planned outcome is a bounded test of whether an exact lived MAY recovery possibility can be categorically destroyed by an immediate candidate and thereby become ordinary action-selection evidence, with preventive activation derived from source-backed recovery slack rather than fixed planner depth. No scientific execution has begun.

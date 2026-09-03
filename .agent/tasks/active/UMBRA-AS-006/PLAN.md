@@ -7,3 +7,8 @@
 5. Run focused proofs twice, static authority/regression gates, and source activation before freeze.
 6. Freeze one exact scientific protocol and execute only the authorized ordered gates.
 7. Close out with durable evidence, manifest readback, GitHub push/refetch, and Notion refetch. No successor starts automatically.
+
+Pre-freeze status: implementation, focused proofs, applicable regression, source
+activation, and common-root observer parity are complete. The exact scientific
+command is frozen in `AS006_SCIENTIFIC_PROTOCOL_LOCK.json`; only the authorized
+single A/B/R1 sequence remains.

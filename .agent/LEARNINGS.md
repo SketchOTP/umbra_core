@@ -808,4 +808,14 @@ partial traces, do not interpret them, and do not retry/reseed inside the same
 generation. Any future attempt needs new authority, a new baseline, and a new lock.
 ## AS-006 starting boundary
 
+### Pre-freeze learning — 2026-09-03
+
+Weak continuation must be evaluated per exact lived option and per supported
+candidate branch: absence of a strict witness is not loss, while an immediate
+candidate can yield `DESTROYED` only when the known option's exact source
+horizon is exhausted. Preventive activation must use exact option demand, not
+the recursion ceiling. Source activation populated option rows, and a fresh
+common-root observer gate passed before the scientific lock; neither grants
+planning authority.
+
 AS-005 established source activation but its MAY bridge classified hard-supported candidates as preserved and its preventive trigger used `MAX_CONTINUATION_DEPTH`. AS-006 must address both gaps without upgrading MAY evidence, inventing route guarantees, or introducing scalar authority. Partial AS-005 execution evidence is historical and uninterpreted.

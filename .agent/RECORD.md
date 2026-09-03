@@ -406,4 +406,13 @@ Retries/reseeds: `0/0`; partial traces remain uninterpreted; integrated viabilit
 AS-004 successor work, and CLOSE-03 remain unqualified/blocked.
 ## 2026-09-03 — AS-006 governance start
 
+### Pre-freeze record
+
+Implementation commit `9e6f92a99a397abec9e1ac245dcc5767ed6dd19f`; contract lock
+`4d42ac8a72670c8c1f21e7dbae3b7d0fee2c22d20bb0448598fa0fb4389a6348`. Focused
+tests passed `17/17` twice. Applicable regression: `1298 PASS / 2 SKIP / 13
+inherited FAIL`, candidate-only `0`. Fresh source activation: `500/500`; fresh
+common-root observer preflight: control/shadow `1/1`, `500/500`, semantic
+differences `0`, RNG parity `PASS`. Scientific sequence remains unstarted.
+
 Architect accepted `AS005_PROTOCOL_FAIL` as permanent and authorized fresh AS-006 from exact synchronized baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. Scope: executable weak-continuation loss, source-derived preventive recovery slack, and the gated integrated qualification sequence. AS-005 partial evidence remains uninterpreted. Start counts: production/test/experiment semantic changes `0/0/0`; organism/load/tick/control/shadow/diagnostic/qualification executions `0/0/0/0/0/0/0`; retries/reseeds `0/0`. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.

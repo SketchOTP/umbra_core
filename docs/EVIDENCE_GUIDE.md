@@ -66,6 +66,17 @@ and the local/internal evidence root recorded in that packet.
 
 ## Current frontier
 
+### AS-006 pre-scientific implementation
+
+AS-006 follows permanent `AS005_PROTOCOL_FAIL` and is a fresh bounded generation
+for executable weak-continuation loss and source-derived preventive recovery
+slack. Its focused proof boundary is `17/17` twice; applicable regression retains
+`13` inherited failures and has `0` candidate-only failures. Fresh source
+activation completed `500/500`, and a fresh common-root observer gate completed
+one control and one shadow branch at `500/500` with exact semantic and RNG
+parity. Scientific A/B/R1 has not started; no planning authority or integrated
+viability claim follows. See [`AS-006 packet`](../.agent/tasks/active/UMBRA-AS-006/RESULT.md).
+
 R6A established that existing geometric and observed-motion facts were
 insufficient for source-backed route demand. R6B implemented a bounded,
 default-off verified route-experience seam, but its one nominal acquisition did

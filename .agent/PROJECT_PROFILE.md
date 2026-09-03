@@ -622,4 +622,14 @@ established. Partial traces are retained outside the repository and no successor
 authorized.
 ## UMBRA-AS-006 — active generation
 
+### Pre-freeze status
+
+The current candidate implements executable weak-continuation loss and
+demand-based preventive recovery activation behind the explicit bounded
+continuation seam. It remains subordinate to hard, Governance, Embodiment,
+distributed-competition, stochastic, VerifiedOutcome, and selected-only
+learning contracts. Focused proof is `17/17` twice; the full applicable suite
+retains `13` inherited failures and `0` candidate-only failures. Scientific
+A/B/R1 is not yet run.
+
 Baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`; parent `AS005_PROTOCOL_FAIL`. AS-006 is authorized to implement and qualify executable weak-continuation loss plus source-derived recovery slack. The work remains bounded and non-scalar; route learning is verified-outcome-only, planning remains subordinate, and AS-005 partial traces are not evidence for AS-006 qualification.
