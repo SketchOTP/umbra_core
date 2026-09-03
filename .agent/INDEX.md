@@ -621,6 +621,18 @@ execution scope. R7 is held. Packet:
 `.agent/tasks/active/UMBRA-AS-003P-R6E/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
 
+## UMBRA-AS-003P-R6F — ACTIVE
+
+R6F begins from exact baseline `670808a93de5d7a2eca4b9b237cf58b084fded30`
+after accepted R6E-R1 contamination. It is a fresh prospective acquisition
+generation: verified lived route experience must become a durable common-root
+option before candidate differentiation. Static natural-loss and exact-route
+applicability gates precede the only permitted bounded organism assay. No
+synthetic deadlines, learning injection, policy/planning authority, R7, retry,
+or reseed. Packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6F/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
+
 ## UMBRA-AS-003P-R6E is TERMINAL
 
 `AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED` was

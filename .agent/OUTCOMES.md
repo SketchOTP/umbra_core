@@ -1554,3 +1554,14 @@ changing R6D, production, or action-selection authority. Across the immutable
 ordinary hard-admissible cases; `128` were non-route, `256` were hard-preempted,
 and `640` had no eligible root option. The seven-tick witness probe preserved
 MAY/UNKNOWN semantics. R7 is recommendation-only and no successor started.
+
+## 2026-09-03 — UMBRA-AS-003P-R6F governance start
+
+Architect accepted R6E-R1's candidate-derived-root contamination finding and
+authorized R6F from exact baseline
+`670808a93de5d7a2eca4b9b237cf58b084fded30`. R6F is a fresh prospective
+generation, not a repair or replay: acquire a recovery option by ordinary
+verified route experience, persist it, and test natural candidate destruction
+only if static source and route-applicability gates pass first. No historical
+R6D/R6E evidence changes, synthetic horizon/deadline, learning injection,
+planning/action authority, R7, live pair, retry, or reseed is authorized.

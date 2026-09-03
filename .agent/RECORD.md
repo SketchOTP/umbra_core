@@ -330,3 +330,14 @@ route-causal ordinary hard-admissible cases, with `128` non-route relations,
 `256` hard preemptions, and `640` root-option-empty cases. The terminal result
 is `AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED`. R7 is
 recommendation-only and no successor started.
+
+## 2026-09-03 — UMBRA-AS-003P-R6F start
+
+R6F starts at `670808a93de5d7a2eca4b9b237cf58b084fded30` after the Architect
+accepted `AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED`. The
+purpose is prospective common-root recovery-option acquisition: an ordinary
+verified route experience must be learned and durably present before candidate
+differentiation, then any preservation/loss relation must use only source-backed
+natural consequences. Static natural-destruction and exact route-applicability
+gates precede at most one bounded organism. No production/action-selection
+change, synthetic deadline/horizon, learning injection, R7, retry, or reseed.

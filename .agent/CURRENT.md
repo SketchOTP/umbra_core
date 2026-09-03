@@ -1,5 +1,19 @@
 # UMBRA-AS-003P-R6E-R1 — TERMINAL common-root provenance requalification
 
+# UMBRA-AS-003P-R6F — ACTIVE prospective common-root recovery-option acquisition
+
+R6E-R1 is accepted terminal with `AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED`;
+its pure relation remains research-only and its R7 qualification claim remains
+rejected. R6F starts from exact synchronized baseline
+`670808a93de5d7a2eca4b9b237cf58b084fded30` as a fresh bounded generation. It
+must first prove a natural source-backed option-loss path and exact route
+applicability before any organism is created. If those static gates pass, one
+ordinary governed organism may acquire a verified route option and later reach
+one frozen root; no synthetic deadlines/horizons, learned-state injection,
+candidate/action authority, R7, AS-004, CLOSE-03, retry, or reseed is allowed.
+Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
+
 R6E-R1 starts from exact synchronized baseline
 `e18d7c83a59988be4ed2cd5f9957820a7ab02968` after Architect disposition
 `REPLAN`. R6E's pure relation remains preserved as historical research, but

@@ -1076,3 +1076,7 @@ successor is authorized.
 ## UMBRA-AS-003P-R6E — CLOSEOUT (2026-09-03)
 
 - Directive: UMBRA-AS-003P-R6E | status:terminal | baseline:c781bfb2539e6933638e15306a66a781fcf82557 | verdict:AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED | matrix:1152 | ordinary hard-admissible:256 | relation-positive:192 | route-causal:64 | non-route:128 | hard-preempted:256 | root-option-empty:640 | asymmetric-UNKNOWN:0 | pure:26/26 twice | production:0 | existing-test semantic delta:0 | organism/load/tick/control/shadow/diagnostic/qualification:0/0/0/0/0/0/0 | retries:0 reseeds:0 | Authority3:PASS governance:PASS diff:PASS | R7:recommendation only; no successor | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/ | remote:github
+
+## UMBRA-AS-003P-R6F — START (2026-09-03)
+
+- Directive: UMBRA-AS-003P-R6F | status:active | baseline:670808a93de5d7a2eca4b9b237cf58b084fded30 | parent:AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED | scope:prospective verified route-option acquisition and natural-loss reachability | constraints:static Phase B/C gates before organism; at most one bounded organism; no synthetic deadlines/horizons, learned-state injection, action authority, R7, AS-004, CLOSE-03, retry, or reseed | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/ | remote:github

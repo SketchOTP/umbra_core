@@ -719,3 +719,12 @@ future schedule loss. Candidate-caused destruction of a known option is a
 different proposition from unrecoverability. Three-valued preservation status
 keeps residual unknown intact and does not require score, confidence, provenance
 volume, or source-priority semantics.
+
+## 2026-09-03 — R6F common-root acquisition boundary
+
+R6E-R1 established that candidate-derived root options cannot qualify a
+preservation relation. A future relation must acquire the option through a
+verified route experience, persist it, and expose its provenance before the
+candidate pair is differentiated. Existing policy-visible recoverability
+signals may be audited for natural loss, but they cannot be promoted into a
+new hard guarantee or used with synthetic deadlines.

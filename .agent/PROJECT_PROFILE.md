@@ -537,3 +537,14 @@ baseline `c781bfb2539e6933638e15306a66a781fcf82557`. The zero-run frozen-matrix
 audit found `64` route-causal ordinary hard-admissible relations. This remains
 non-authoritative research evidence; R7 is recommendation-only and no successor
 started.
+
+Current governed status: UMBRA-AS-003P-R6F is active from exact baseline
+`670808a93de5d7a2eca4b9b237cf58b084fded30` after accepted R6E-R1
+`AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED`. R6F first audits
+whether existing source semantics can naturally destroy a previously verified
+recovery option and whether exact route applicability is available at a later
+common root. Only if both static gates pass may one ordinary bounded organism
+assay run. No synthetic deadlines/horizons, learned-state injection,
+planning/action authority, R7, AS-004, CLOSE-03, retry, or reseed is authorized.
+Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
