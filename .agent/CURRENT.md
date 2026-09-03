@@ -1551,3 +1551,13 @@ closure source exists. No production/R6 implementation/R6C/R6B/AS-003L/AS-002 ch
 organism/load/tick/control/shadow/diagnostic run, retry, or reseed is authorized.
 Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
+
+## UMBRA-AS-003P-R6D — TERMINAL route evidence distinction without precedence
+
+R6D is terminal with `AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`
+from exact baseline `ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37`. The zero-run
+matrix covered `1152` symbolic configurations and found `0` route-causal
+open-world precedence cases, with `96` non-authoritative
+`COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions. R7 remains blocked and
+no successor started. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.

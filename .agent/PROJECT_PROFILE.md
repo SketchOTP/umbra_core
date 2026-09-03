@@ -506,3 +506,11 @@ leave residual route UNKNOWN unless explicitly closed. No production,
 R6/R6C/R6B/R6L/AS-002 change or organism/control/shadow/diagnostic execution is
 authorized; retries/reseeds are `0/0`. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
+
+Current governed status: UMBRA-AS-003P-R6D is terminal with
+`AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE` from exact baseline
+`ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37`. Open-world MAY route evidence
+yielded `96` non-authoritative schedule distinctions but `0` route-causal L2
+precedence cases across `1152` symbolic configurations. Production and existing
+test semantic deltas are zero; all organism/live execution counts and
+retries/reseeds are zero. R7 remains blocked; no successor started.

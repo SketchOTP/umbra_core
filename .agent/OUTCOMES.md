@@ -1496,3 +1496,16 @@ route UNKNOWN. No production, test-semantic, R6/R6C/R6B/R6L/AS-002 change or
 organism/control/shadow/diagnostic execution is authorized. No retry/reseed or
 successor is authorized. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
+
+## UMBRA-AS-003P-R6D terminal closeout — route evidence distinction without precedence — 2026-09-03
+
+R6D preserved the R6 `l2_precedes()` contract and audited finite R6C MAY route
+witnesses under sound open-world semantics. The `1152`-row symbolic matrix found
+zero route-causal open-world precedence cases. It found `96`
+`COMPLETE_MAY_SCHEDULE` versus `SCHEDULE_UNKNOWN` distinctions, while `96`
+closed-world route-causal positives remained diagnostic only; `288` precedence
+cases were non-route-causal and `576` were preempted by hard authority. The
+terminal result is `AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`.
+No production or existing-test semantic change occurred; no organism, control,
+shadow, diagnostic, retry, or reseed occurred. R7 remains blocked and no successor
+started. Scientific closeout commit: `8ec4e99aad05d84841dc91583541ef537caec0c0`.

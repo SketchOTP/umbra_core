@@ -279,3 +279,18 @@ reachability audit. R6D starts from exact synchronized baseline
 R6C's MAY-only route semantics. It will distinguish finite existential route
 witnesses from exhaustive closure and must retain residual UNKNOWN. Production,
 tests, live execution, retries, and reseeds are prohibited.
+
+## 2026-09-03 — UMBRA-AS-003P-R6D terminal closeout
+
+R6D completed the zero-run MAY-route L2 reachability audit from
+`ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37`. Finite R6C route witnesses remain
+existential MAY evidence with residual UNKNOWN. Across `1152` deterministic
+symbolic configurations, open-world route-causal precedence was `0`; `96`
+non-authoritative `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions were
+retained. Closed-world route-causal precedence (`96`) is diagnostic only. The
+terminal result is `AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`.
+Production and existing-test semantic changes are `0`; organism/load/tick and
+control/shadow/diagnostic/qualification runs are all zero; retries/reseeds are
+`0/0`; Authority 3.0, Governance, diff, and links passed. R7 remains blocked and
+no successor started. Scientific closeout commit:
+`8ec4e99aad05d84841dc91583541ef537caec0c0`.

@@ -587,3 +587,13 @@ the locked R6 `l2_precedes()` relation reachable. R7 is held until this is
 resolved. No production, R6/R6C/R6B/R6L/AS-002 changes or live execution are
 authorized. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
+
+UMBRA-AS-003P-R6D is TERMINAL with
+`AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE` from exact baseline
+`ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37`. The zero-run open-world audit
+covered `1152` symbolic configurations and found `0` route-causal precedence
+cases under lawful MAY/UNKNOWN semantics. It retained `96`
+`COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions; closed-world route
+precedence was diagnostic only. R7 is held and no successor started. Packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6D/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
