@@ -7,6 +7,16 @@ dependency must resolve in the exact intended interpreter before the execution
 lock. R6F-R1 therefore requires two identical complete import preflights before
 any organism construction.
 
+## 2026-09-03 — R6F-R1 live root did not realize natural loss
+
+Static existence of an ordinary policy-visible recoverability loss path does
+not establish that a later live root will instantiate the same physiological
+margin. In the single frozen R6F-R1 assay, a V2 route was learned before the
+root and both `IDLE` and `MOVE` were emitted/hard-admissible, but the actual
+root had a feasible six-approach margin and `MOVE` did not destroy it. The
+known option was therefore preserved by both candidates and no strict relation
+was established.
+
 ## 2026-09-03 — R6F frozen protocol failure
 
 Static feasibility is not an importability proof. `py_compile` and pure tests

@@ -13,6 +13,21 @@ authorized.
 
 ## UMBRA-AS-003P-R6F — terminal protocol failure — 2026-09-03
 
+## UMBRA-AS-003P-R6F-R1 — terminal closeout — 2026-09-03
+
+Terminal verdict: `AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`.
+From exact baseline `e5af166e86e85a5937d25b579f9256768bbd3d30`, the fresh assay
+harness corrected only the two authorized import sources and passed complete
+executable preflight twice identically. The one frozen command executed one
+organism for three ticks and acquired a verified V2 route at tick 3 before root
+tick 4, with exact opportunity/body-schema applicability. `IDLE {}` and
+`MOVE {heading_delta:0.0,step:1.0}` were both emitted and hard-admissible, but
+the live root margin was preserved by both; `MOVE` did not categorically
+destroy the option. The R6E strict relation therefore remained false. Static
+natural-loss feasibility remained a separate PASS prerequisite, not live
+candidate-causality evidence. Production and existing-test semantic deltas were
+zero; retries/reseeds were `0/0`; R7 remains blocked and no successor started.
+
 R6F passed its static Phase B/C gates and froze a repository-root module
 invocation, but the single command stopped before `main()` because
 `common_root_assay.py` imported `canonical_fingerprint` from `umbra_core.util`

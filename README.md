@@ -6,10 +6,13 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
-The latest R6F prospective common-root generation is **terminally protocol-failed**:
-its static gates passed, but the one frozen acquisition command stopped during
-module import before `main()`, organism creation, or any tick. The harness was
-not repaired or rerun; R7 remains blocked.
+The latest R6F-R1 prospective common-root generation is **terminally
+non-discriminating**: its corrected harness passed complete import preflight
+twice, and one exact S0/seed-18482 run acquired a verified route before the
+root. The frozen ordinary `IDLE`/`MOVE` pair was emitted and hard-admissible,
+but both preserved the known option at the actual root, so no strict R6E
+relation was established. R7 remains blocked. The parent R6F generation is
+permanently protocol-failed and was not repaired in place.
 
 **Scientific status:** subsystem capabilities are qualified within explicit
 boundaries; integrated long-horizon viability is **not qualified**. R6B is a
@@ -146,7 +149,7 @@ solved.
 | Route/affordance planning-frame projection | **QUALIFIED — bounded, shadow-only** | AS-003P-R6C: immutable V2 projection of exact V2 route experience and learned ACTIVE `inspect` affordances; historical route evidence is MAY-only and has no modal/action-selection reader. |
 | MAY-route L2 relation reachability | **BOUNDARY FINDING — no precedence** | AS-003P-R6D: open-world route evidence produced `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions, but zero route-causal L2 precedence cases; R7 remains blocked. |
 | Known recovery-option preservation relation | **BOUNDED RESEARCH PRIMITIVE — matrix claim rejected for R7** | AS-003P-R6E's pure relation remains supported, but R6E-R1 found its R6D projection did not establish a lawful pre-candidate common-root option set; R7 remains blocked. |
-| Prospective common-root recovery-option acquisition | **FAILED — protocol only** | AS-003P-R6F passed static feasibility/applicability checks, then stopped before `main()` on a frozen research-harness import error; no organism or route evidence was acquired. |
+| Prospective common-root recovery-option acquisition | **R6F FAILED — protocol only; R6F-R1 NON-DISCRIMINATING** | R6F stopped before `main()` on an import error. Fresh R6F-R1 passed twice-identical executable preflight and acquired one pre-root V2 route, but both frozen ordinary candidates preserved the option; no strict R6E relation or R7 authority was established. |
 | Ordinary action selection and modal planning | **ACTIVE RESEARCH QUESTION** | Prior scalar and strict-dominance selectors were insufficient; modal planning remains shadow-only and has no behavior authority. |
 | Integrated long-horizon viability | **NOT QUALIFIED** | Formal and long-horizon generations retain terminal failures; AS-004 and CLOSE-03 remain blocked. |
 
@@ -294,6 +297,21 @@ tick or relation evaluation occurred. Under the frozen protocol, this is a
 permanent `AS003PR6F_PROTOCOL_FAIL`; it is not a production or scientific
 rejection. See the [R6F result packet](.agent/tasks/active/UMBRA-AS-003P-R6F/RESULT.md)
 and [R6F evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6f).
+
+## R6F-R1: prospective common-root acquisition after protocol repair
+
+R6F-R1 corrected only the two identified research-harness imports and froze the
+same R6F scientific protocol: S0, seed `18482`, 500-tick cap, the ordinary
+`IDLE`/`MOVE` pair, and the pre-root known-option predicate. Complete executable
+preflight passed twice identically. The one permitted organism run acquired a
+verified V2 route at tick 3 before root tick 4 with exact opportunity/body-schema
+applicability. Both candidates were emitted and hard-admissible, but the actual
+root margin was preserved by both; `MOVE` did not categorically destroy the
+known option. The terminal result is
+`AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`, not a
+production or planning qualification. R7 remains blocked. See the [R6F-R1
+result packet](.agent/tasks/active/UMBRA-AS-003P-R6F-R1/RESULT.md) and [R6F-R1
+evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6f-r1).
 
 ## Scientific method
 

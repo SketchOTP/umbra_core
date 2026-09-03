@@ -1,12 +1,13 @@
-# UMBRA-AS-003P-R6F-R1 — ACTIVE protocol repair and prospective assay
+# UMBRA-AS-003P-R6F-R1 — TERMINAL non-discriminating prospective assay
 
-R6F-R1 is a fresh harness-only recovery generation from exact baseline
-`e5af166e86e85a5937d25b579f9256768bbd3d30`. It may repair only the R6F
-research-harness imports for `canonical_fingerprint` and
-`verified_outcome_effect_branches`, prove the complete import graph twice
-before lock, and execute at most one inherited `S0`/seed `18482`/500-tick
-assay. R6F remains permanently failed; no production, historical experiment,
-planning, arbitration, R7, retry, or reseed change is authorized. Packet:
+R6F-R1 repaired only the two identified R6F research-harness imports. Its
+complete executable preflight passed twice, then one exact inherited S0/seed
+`18482` assay acquired a V2 route before root tick 4. `IDLE` and `MOVE` were
+both emitted and hard-admissible, but both preserved the known root option, so
+no strict R6E relation was established. Terminal verdict:
+`AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`. R6F remains
+permanently failed; no production, planning, arbitration, R7, retry, or reseed
+change is authorized. Packet:
 `.agent/tasks/active/UMBRA-AS-003P-R6F-R1/`.
 
 # UMBRA-AS-003P-R6F is TERMINAL from exact synchronized baseline

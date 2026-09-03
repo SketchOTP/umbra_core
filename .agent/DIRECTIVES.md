@@ -2,6 +2,10 @@
 
 - Directive: UMBRA-AS-003P-R6F-R1 | status:active | baseline:e5af166e86e85a5937d25b579f9256768bbd3d30 | parent:AS003PR6F_PROTOCOL_FAIL | scope:harness-only import repair, complete executable preflight, and one prospective reuse of the unused R6F assay | constraints:seed 18482,scenario S0,max ticks 500,IDLE/MOVE pair,root predicate and configuration inherited exactly; production 0; no historical rewrite; no retry/reseed; no planning reader; no R7 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-r1-common-root-option/ | remote:github
 
+## UMBRA-AS-003P-R6F-R1 — CLOSEOUT (2026-09-03)
+
+- Directive: UMBRA-AS-003P-R6F-R1 | status:terminal | baseline:e5af166e86e85a5937d25b579f9256768bbd3d30 | verdict:AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING | harness:two authorized import-source corrections only | preflight:PASS twice identical | assay:one organism,3 ticks,route acquired before root tick 4 | root:exact V2 opportunity/body-schema applicability | candidates:IDLE and MOVE emitted and hard-admissible | statuses:IDLE PRESERVED,MOVE PRESERVED | R6E:strict relation false | production:0 | existing-test semantic delta:0 | retries:0 | reseeds:0 | R7:blocked | successor:none | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-r1-common-root-option/ | remote:github
+
 ## UMBRA-AS-003P-R6E-R1 — START (2026-09-03)
 
 - Directive: UMBRA-AS-003P-R6E-R1 | status:active | baseline:e18d7c83a59988be4ed2cd5f9957820a7ab02968 | parent:AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED | scope:zero-run common-root provenance requalification of immutable R6D-to-R6E projection | constraints:production 0,R6D/R6E source/evidence immutable,organism/load/tick/control/shadow/R7 0,retries 0,reseeds 0,no UNKNOWN collapse,no invented dependency edge | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-r1-common-root-provenance-r1/ | remote:github

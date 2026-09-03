@@ -7,6 +7,14 @@ complete executable import path twice, and then running at most one exact
 R6F-protocol assay with seed `18482`. R7 remains blocked and no successor is
 started automatically.
 
+## 2026-09-03 — R6F-R1 terminal non-discrimination
+
+The single frozen R6F-R1 assay acquired a pre-root verified V2 route option,
+but its exact ordinary `IDLE`/`MOVE` pair did not distinguish preservation from
+destruction at the actual root. The generation is terminal as
+`AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`; R6F remains
+permanently protocol-failed, R7 remains blocked, and no successor was started.
+
 ## 2026-09-03 — UMBRA-AS-003P-R6F terminal closeout
 
 R6F is terminal as `AS003PR6F_PROTOCOL_FAIL`. Its static Phase B/C gates passed,

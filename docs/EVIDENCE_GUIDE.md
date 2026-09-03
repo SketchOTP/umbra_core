@@ -129,6 +129,21 @@ authority was acquired. See the [R6F task packet](../.agent/tasks/active/UMBRA-A
 and local/internal R6F evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
 
+### AS-003P-R6F-R1
+
+R6F-R1 is a fresh harness-only recovery generation from the accepted permanent
+R6F protocol failure. Its complete executable import preflight passed twice
+identically, and one exact inherited S0/seed-18482 assay acquired a verified V2
+route at tick 3 before root tick 4. The exact ordinary `IDLE`/`MOVE` pair was
+emitted and hard-admissible, but both preserved the known root option at the
+actual physiological margin; no strict R6E relation was established. The
+terminal verdict is
+`AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`. This is not a
+planning or action-selection qualification; R7 remains blocked. See the [R6F-R1
+task packet](../.agent/tasks/active/UMBRA-AS-003P-R6F-R1/RESULT.md) and local
+evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-r1-common-root-option/`.
+
 ## Architecture and authority
 
 The files below are the frozen D-000S foundation. They explain the intended ownership

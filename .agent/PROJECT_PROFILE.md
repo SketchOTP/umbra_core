@@ -129,15 +129,16 @@ Current authority: UMBRA-CLOSE-02V-ATTRIB is terminal with `CLOSE02VATTRIB_TRACE
 
 # Project Profile
 
-## Current governed status — UMBRA-AS-003P-R6F-R1 ACTIVE
+## Current governed status — UMBRA-AS-003P-R6F-R1 terminal
 
-R6F-R1 is a fresh harness-only recovery generation from exact baseline
-`e5af166e86e85a5937d25b579f9256768bbd3d30` after accepted terminal
-`AS003PR6F_PROTOCOL_FAIL`. It preserves the unused R6F seed `18482`, S0,
-500-tick cap, ordinary `IDLE`/`MOVE` pair, and common-root predicate. The only
-authorized pre-lock change is correcting two research-harness imports; a full
-executable import preflight must pass twice before one prospective organism run.
-Production, planning authority, R7, retries, and reseeds remain prohibited.
+R6F-R1 is terminal `AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`
+from exact baseline `e5af166e86e85a5937d25b579f9256768bbd3d30`. The two
+authorized harness imports were corrected, complete executable preflight passed
+twice, and the single exact S0/seed-18482 assay acquired one pre-root V2 route
+option. Both frozen ordinary candidates were emitted and hard-admissible, but
+both preserved the option at the actual root; no strict R6E relation was
+established. Production delta, retries, and reseeds are `0`; R7 remains
+blocked.
 
 ## Current governed status — UMBRA-REPO-001 terminal
 
