@@ -1103,3 +1103,14 @@ weights, source priority, hidden Habitat truth, executable plan queue,
 hypothetical learning, retry, reseed, automatic successor, or CLOSE-03 is
 authorized. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.
+## UMBRA-AS-004 — pre-scientific implementation state — 2026-09-03
+
+The authorized AS-004 milestone is active from exact baseline
+`6da7326af2ff502bbf6bb712a08ae263b1505d54`. The implementation extends the qualified
+hypothetical substrate with bounded source-backed AND/OR continuation reasoning and
+integrates one ordinary authority path behind `bounded_continuation_enabled`.
+Before scientific lock, engineering iteration is permitted; after lock, scientific
+organism outcomes are permanent. Protected AS-003 lineage plus AS-004 focused tests
+pass `333/333` twice. Full applicable regression is `1289 passed / 2 skipped / 13
+inherited failures`; no candidate-only AS-004 regression is established. No R7,
+CLOSE-03, retry, reseed, or automatic successor is authorized.

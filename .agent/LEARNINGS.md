@@ -764,3 +764,16 @@ multi-obligation continuation preservation across source-backed outcome
 branches. Candidate-specific evidence must not construct the common root; a
 failure to prove a continuation remains UNKNOWN unless source completeness is
 explicit. R7 remains historical and is superseded only as the next gate.
+## 2026-09-03 — AS-004 bounded continuation integration
+
+The qualified hypothetical substrate can express multi-obligation continuation as
+a finite AND/OR relation without a scalar utility: current action and later service
+choices are existential, supported effect branches are universal, and unknown or
+overflowing evidence remains UNKNOWN. Candidate-specific continuation assessment
+can be applied after a common root is built while preserving the existing distributed
+competition and candidate-local stochastic residual resolver.
+
+The AS-004 flag must remain explicit because the legacy one-step option channel and
+WorldModel planner lane are still retained for baseline comparison. Full-suite
+failures remain inherited until an independent baseline comparison says otherwise;
+focused AS-004 evidence alone does not qualify integrated viability.

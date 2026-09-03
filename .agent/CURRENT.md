@@ -1640,3 +1640,18 @@ Evidence root:
 AS-004 begins from exact synchronized baseline `6da7326af2ff502bbf6bb712a08ae263b1505d54`. R6F-R1 is accepted as permanent terminal `AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`; R7 is superseded as the next execution gate, not erased or reinterpreted. AS-003L remains the governing multi-step planning boundary. The qualified AS-003N/O hypothetical/source substrate, R6 route/affordance evidence, D-010Q5 temporal continuity, D-011 perception adapters, and AS-003S atomic true-body replacement are preserved. Integrated long-horizon viability and ordinary action-selection qualification remain unresolved.
 
 AS-004 is one bounded implementation-to-qualification milestone: freeze a source-backed multi-step continuation contract, integrate one ordinary action-selection authority path, preserve hard/Governance/Embodiment/VerifiedOutcome/selected-only learning/stochasticity contracts, and carry the frozen candidate through the authorized historical, fresh-population, lifecycle, boundedness, and ablation gates. At start, production/test/experiment deltas and organism/load/tick/control/shadow/diagnostic/qualification runs are zero; retries/reseeds are `0/0`. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.
+# UMBRA-AS-004 — PRE-SCIENTIFIC IMPLEMENTATION / INTEGRATION GATES
+
+AS-004 is active from exact baseline `6da7326af2ff502bbf6bb712a08ae263b1505d54`.
+The bounded multi-step continuation implementation exists behind the explicit
+`OrganismConfig.bounded_continuation_enabled` seam. It constructs a common-root
+continuation set before candidate assessment, handles later service choice per
+supported branch, preserves UNKNOWN, and keeps critical recovery, Governance,
+Embodiment, VerifiedOutcome, and selected-only learning on their existing paths.
+
+Pre-scientific validation passes: protected AS-003 lineage plus AS-004 focused
+tests `333/333` twice; compile, Authority 3.0, Governance, static authority, and
+`git diff --check` pass. The full applicable repository run is `1289 passed,
+2 skipped, 13 inherited failures`, matching known baseline debt. No post-lock
+scientific execution has begun. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.

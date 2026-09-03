@@ -20,6 +20,14 @@ The canonical Notion page governs strategic authority, but the repository is int
 to remain understandable without Notion access. Git commits and retained artifacts are
 the implementation and execution record.
 
+## AS-004 current status
+
+AS-004 is the active bounded continuation/action-selection milestone from
+`6da7326af2ff502bbf6bb712a08ae263b1505d54`. Its pre-scientific implementation and
+focused proofs are complete, but no scientific execution result is claimed yet.
+The continuation bridge is bounded, source-backed, UNKNOWN-preserving, and has no
+direct execution or learning authority. Integrated viability remains unqualified.
+
 ## Current frontier
 
 R6A established that existing geometric and observed-motion facts were

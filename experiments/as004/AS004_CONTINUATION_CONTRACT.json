@@ -1,0 +1,72 @@
+{
+  "schema": "UMBRA-AS-004-CONTINUATION-CONTRACT-V1",
+  "directive": "UMBRA-AS-004",
+  "status": "PRE_SCIENTIFIC_FREEZE",
+  "source_baseline": "6da7326af2ff502bbf6bb712a08ae263b1505d54",
+  "root": {
+    "construction": "before_candidate_evaluation",
+    "sources": [
+      "Physiology authoritative current state",
+      "policy-visible WorldModel opportunities and route experience",
+      "body-schema-bound SelfModel capability evidence",
+      "pending execution/commitment state",
+      "qualified frame dependency fingerprints"
+    ],
+    "forbidden": [
+      "candidate-specific metadata",
+      "future observations",
+      "hidden Habitat truth",
+      "unverified proposed outcomes",
+      "renderer or language state"
+    ]
+  },
+  "continuation": {
+    "current_action_choice": "EXISTENTIAL",
+    "supported_effect_branches": "UNIVERSAL",
+    "later_service_choice": "EXISTENTIAL_PER_BRANCH",
+    "unknown": "PROPAGATES_AND_BLOCKS_GUARANTEED_SUPPORT",
+    "unsupported": "ONLY_WHEN_SOURCE_SPACE_IS_COMPLETE_FOR_THE_PROPOSITION",
+    "max_depth": 4,
+    "max_branch_frontier": 32,
+    "max_service_orders": 24,
+    "recompute_each_decision": true,
+    "persisted_action_queue": false
+  },
+  "candidate_relation": {
+    "statuses": ["PRESERVED", "DESTROYED", "UNKNOWN"],
+    "elimination": "strict_known_continuation_preservation",
+    "requires_same_root": true,
+    "requires_exact_obligation_signature": true,
+    "unknown_is_merit": false,
+    "duration_is_merit": false,
+    "count_is_merit": false,
+    "source_volume_is_merit": false
+  },
+  "ordinary_authority": [
+    "canonical_candidate_pool",
+    "hard_admissibility",
+    "bounded_continuation_preservation",
+    "distributed_evidence_competition",
+    "candidate_local_stochastic_resolution",
+    "Governance",
+    "Embodiment",
+    "VerifiedOutcome",
+    "selected_only_learning"
+  ],
+  "as004_enabled_retirements": {
+    "legacy_option_energy_channel": "bypassed_as_duplicate_preservation_authority",
+    "legacy_world_model_plan_proposal": "bypassed_as_duplicate_ordinary_planner_authority",
+    "legacy_world_model_capability_bias": "bypassed_as_duplicate_ordinary_planner_authority",
+    "critical_recovery": "preserved_separate_authority"
+  },
+  "non_authority": [
+    "score",
+    "utility",
+    "reward",
+    "weights",
+    "source_priority",
+    "planner_execution",
+    "hypothetical_learning",
+    "persisted_plan_remainder"
+  ]
+}

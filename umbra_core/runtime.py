@@ -20,6 +20,7 @@ from umbra_core.distributed_competition import supported
 from umbra_core.stochastic_competition import candidate_behavioral_identity
 from umbra_core.decision_trace import DecisionTraceSink, candidate_to_trace, canonical_fingerprint
 from umbra_core.hypothetical.shadow import PlanningShadowSink, capture_runtime_frame, shadow_row
+from umbra_core.hypothetical.action_selection import candidate_identity, eliminate_by_continuation
 from umbra_core.development import (
     DevelopmentConfig,
     DevelopmentEngine,
@@ -186,6 +187,10 @@ class OrganismConfig:
     # D-014H3D: experiment-only final-choice seam. None preserves ordinary
     # runtime behavior and consumes no RNG or persistent organism state.
     experimental_final_selector: Any | None = field(default=None, repr=False)
+    # AS-004: explicit ordinary authority opt-in for bounded continuation.
+    # Legacy configurations remain unchanged until the AS-004 candidate is
+    # frozen for scientific execution.
+    bounded_continuation_enabled: bool = False
 
 
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, angle_diff, current_rss_mib, new_id
@@ -1749,7 +1754,10 @@ class Organism:
             if social_candidate is not None:
                 late_candidates.append(social_candidate)
 
-        if self.world_model is not None and self.config.world_model_enabled:
+        # AS-004 supplies the single ordinary continuation authority.  The
+        # legacy WorldModel planning proposal/bias lane remains available for
+        # pre-AS-004 configurations, but cannot run beside the new relation.
+        if self.world_model is not None and self.config.world_model_enabled and not self.config.bounded_continuation_enabled:
             urg = self.phys.vector_urgency() if not self.config.hide_physiology else {}
             critical_rec = bool(
                 self.phys.critical_any()
@@ -1892,7 +1900,7 @@ class Organism:
         distributed_competition_trace: dict[str, Any] = {}
 
         planning_frame = None
-        if self._planning_shadow.enabled:
+        if self._planning_shadow.enabled or self.config.bounded_continuation_enabled:
             try:
                 planning_frame = capture_runtime_frame(self)
             except Exception as exc:
@@ -1902,6 +1910,14 @@ class Organism:
                     "capture_error": f"{type(exc).__name__}:{exc}",
                     "behavioral_authority": False,
                 })
+
+        continuation_filter = None
+        if planning_frame is not None and self.config.bounded_continuation_enabled:
+            def continuation_filter(candidates):
+                result = eliminate_by_continuation(planning_frame, candidates)
+                survivor_ids = set(result.survivors)
+                kept = tuple(candidate for candidate in candidates if candidate_identity(candidate) in survivor_ids)
+                return kept, result.to_canonical()
 
         cand = self.arbitrator.select(
             self.phys,
@@ -1929,6 +1945,7 @@ class Organism:
             individuality_channels_for=individuality_channels,
             contextual_channels_for=contextual_channels,
             distributed_trace=distributed_competition_trace,
+            continuation_filter_for=continuation_filter,
         )
         base_candidate = cand
         if planning_frame is not None:

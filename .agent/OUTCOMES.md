@@ -1618,3 +1618,19 @@ gate, not erased. This milestone will test whether bounded source-backed
 multi-step continuation can provide lawful ordinary action-selection evidence
 and integrated viability without scalarization or planner execution authority.
 No production/test/experiment delta, live run, retry, or reseed has occurred.
+## UMBRA-AS-004 — pre-scientific implementation gates — 2026-09-03
+
+AS-004 implementation is present in the isolated hypothetical continuation bridge,
+arbitration seam, and runtime flag path. The relation is bounded to depth `4`,
+branch frontier `32`, and at most `24` service orders; supported outcome branches
+are universal, later service choice is existential per branch, and UNKNOWN blocks a
+guaranteed continuation. When enabled, the legacy ordinary WorldModel planner/bias
+lane and one-step option-preservation channel are bypassed as duplicate authority;
+critical recovery remains separate.
+
+Protected AS-003 lineage and AS-004 focused tests passed `333/333` twice. Compile,
+Authority 3.0, Governance, static authority, and `git diff --check` passed. The full
+applicable repository run produced `1289 passed, 2 skipped, 13 inherited failures`,
+matching known D-001/D-002/D-009/D-010/D-012/D-013 debt; no AS-004 candidate-only
+regression was identified. This is pre-freeze engineering evidence, not organism or
+integrated-viability qualification.

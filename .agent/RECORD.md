@@ -377,3 +377,11 @@ Baseline `6da7326af2ff502bbf6bb712a08ae263b1505d54`; R6F-R1 terminal
 superseded as next gate. AS-004 scope is bounded continuation action selection
 and integrated viability with zero scientific runs at start. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.
+## 2026-09-03 — AS-004 pre-scientific implementation
+
+AS-004 is active from exact baseline `6da7326af2ff502bbf6bb712a08ae263b1505d54`.
+The bounded continuation bridge and ordinary integration are implemented behind an
+explicit flag, with legacy duplicate ordinary preservation authority bypassed only
+when enabled. Focused protected lineage plus AS-004 tests passed `333/333` twice;
+full applicable regression retained `13` inherited failures. Scientific execution
+has not begun and no successor is authorized.

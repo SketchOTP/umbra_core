@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import math
-from typing import Any, Callable
+from typing import Any, Callable, Mapping, Sequence
 
 from umbra_core.embodiment import CAPABILITIES
 from umbra_core.physiology import (
@@ -836,6 +836,7 @@ class Arbitrator:
         individuality_channels_for: Callable[[Candidate], dict[str, Any]] | None = None,
         contextual_channels_for: Callable[[Candidate], dict[str, Any]] | None = None,
         distributed_trace: dict[str, Any] | None = None,
+        continuation_filter_for: Callable[[Sequence[Candidate]], tuple[Sequence[Candidate], Mapping[str, Any]]] | None = None,
     ) -> Candidate:
         # ``tick`` remains the orchestration clock for compatibility and for
         # explicitly orchestration-scoped modes.  Organism policy cadence must
@@ -1289,8 +1290,8 @@ class Arbitrator:
         preventive_dimensions = self._preventive_attention_dimensions(phys)
         intent_mode = False
         preventive_only_mode = False
+        admissible_intents: list[Candidate] = []
         if intent_candidates:
-            admissible_intents = []
             for candidate in self._canonical_intent_candidates(intent_candidates):
                 if (
                     candidate_allowed_here(candidate)
@@ -1344,6 +1345,17 @@ class Arbitrator:
             else:
                 cands = base_cands
 
+        # AS-004 makes optional intents contextual contributors, not an
+        # authored replacement pool.  The ordinary continuation relation must
+        # inspect the same canonical base pool and the optional proposals
+        # before residual distributed competition.  The legacy hierarchical
+        # intent lane remains available when AS-004 is disabled for historical
+        # compatibility and is not used by the frozen AS-004 candidate.
+        if continuation_filter_for is not None:
+            cands = self._canonical_intent_candidates([*base_cands, *admissible_intents])
+            intent_mode = False
+            preventive_only_mode = False
+
         # Ordinary competition starts from one canonical, hard-admissible pool.
         cands = self._canonical_intent_candidates(cands)
         admissible = [
@@ -1357,6 +1369,13 @@ class Arbitrator:
             chosen = self._no_safe_action()
             self._commit(chosen, active_tick)
             return chosen
+
+        if continuation_filter_for is not None:
+            continuation_survivors, continuation_trace = continuation_filter_for(tuple(admissible))
+            if continuation_survivors:
+                admissible = list(continuation_survivors)
+            if distributed_trace is not None:
+                distributed_trace["continuation"] = dict(continuation_trace)
 
         fallback_biases = (
             active_fallback_biases(wait_journal, effective_age_ticks=age_ticks)
@@ -1444,7 +1463,7 @@ class Arbitrator:
             temporal_channels_for=temporal_channels,
             individuality_channels_for=individuality_channels_for,
             contextual_channels_for=continuity_channels,
-            option_channels_for=option_channels,
+            option_channels_for=(None if continuation_filter_for is not None else option_channels),
         )
         for candidate, view in zip(admissible, views):
             candidate.scores = {

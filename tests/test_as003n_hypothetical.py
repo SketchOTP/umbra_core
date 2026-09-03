@@ -195,5 +195,22 @@ def test_firewall_and_live_callsite_static_proof():
     assert not any(name.startswith(("umbra_core.runtime", "umbra_core.governance", "umbra_core.embodiment", "umbra_core.persistence")) for name in imported)
     forbidden_calls = {"set_var", "apply_outcome_effects", "observe_outcome", "tick_once", "execute", "random"}
     assert not any(isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in forbidden_calls for node in ast.walk(tree))
-    existing = [path for path in (ROOT / "umbra_core").rglob("*.py") if "hypothetical" not in path.parts]
+    # AS-004 introduces one explicitly named integration bridge.  The
+    # substrate and source adapters remain non-live; only the bridge may be
+    # imported by runtime/arbitration.
+    existing = [
+        path for path in (ROOT / "umbra_core").rglob("*.py")
+        if "hypothetical" not in path.parts
+        and path.name not in {"runtime.py", "arbitration.py"}
+    ]
     assert all("umbra_core.hypothetical" not in path.read_text(encoding="utf-8") for path in existing)
+    for path in (ROOT / "umbra_core" / "runtime.py", ROOT / "umbra_core" / "arbitration.py"):
+        text = path.read_text(encoding="utf-8")
+        assert all(
+            token not in text
+            for token in (
+                "umbra_core.hypothetical.core",
+                "umbra_core.hypothetical.adapters",
+                "umbra_core.hypothetical.continuation",
+            )
+        )

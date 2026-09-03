@@ -418,3 +418,10 @@ optimization, weighting, probability, source priority, or planner semantics.
 No external dependency was imported. R6E is a project-local relation study over
 known option preservation; it does not import optimization, weighting,
 probability, source priority, or planner semantics.
+## UMBRA-AS-004 bounded continuation prior-art boundary — 2026-09-03
+
+- Cimatti, Pistore, Roveri, and Traverso, *Weak, strong, and strong cyclic planning via symbolic model checking* — `REFERENCE` for existential action choices versus universal nondeterministic outcome obligations; no symbolic-model-checker dependency or plan optimizer imported. [Unitn record](https://iris.unitn.it/handle/11572/74586)
+- Zeng, Liang, and Liu, *A Native Qualitative Numeric Planning Solver Based on AND/OR Graph Search* — `REFERENCE` for bounded qualitative AND/OR structure; no numeric planning solver or external dependency imported. [IJCAI record](https://www.ijcai.org/proceedings/2022/651)
+- Aubin, *Viability Theory* — `REFERENCE` for preserving a set of feasible continuations under constraints; no viability-kernel computation or objective function imported. [Springer record](https://link.springer.com/book/10.1007/978-3-642-16684-6)
+- Cisek, *Cortical mechanisms of action selection: the affordance competition hypothesis* — `REFERENCE` for parallel available-action competition; no neural controller or source priority imported. [PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC2440773/)
+- He, *Many-Objective Optimization Using Adaptive Differential Evolution with a New Ranking Method* — `REFERENCE` only for the previously observed dominance-saturation failure mode; epsilon dominance, hypervolume, weighting, and evolutionary remedies are rejected. [Wiley](https://onlinelibrary.wiley.com/doi/10.1155/2014/259473)

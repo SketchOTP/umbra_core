@@ -667,3 +667,12 @@ cases. R7 is recommendation-only; packet:
 # CURRENT AUTHORITY — UMBRA-AS-004
 
 AS-004 is active from `6da7326af2ff502bbf6bb712a08ae263b1505d54`. It supersedes R7 as the next execution gate while preserving R7 and all earlier negative evidence. The active objective is bounded source-backed multi-step continuation reasoning integrated into ordinary action selection, followed by the single frozen viability lineage authorized by the directive. No scientific execution has occurred at governance start. Packet: `.agent/tasks/active/UMBRA-AS-004/`; evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.
+# UMBRA-AS-004 — ACTIVE PRE-SCIENTIFIC IMPLEMENTATION
+
+AS-004 is the current milestone from exact baseline
+`6da7326af2ff502bbf6bb712a08ae263b1505d54`. The source-backed bounded continuation
+relation and ordinary integration are implemented but not yet scientifically
+qualified. Focused protected lineage plus AS-004 tests pass `333/333` twice;
+scientific execution remains behind a dedicated lock. R7 is superseded as the next
+execution gate and remains preserved historical evidence. Integrated viability and
+CLOSE-03 remain unqualified; no successor is authorized.

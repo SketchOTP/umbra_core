@@ -22,6 +22,13 @@ Implement and qualify one bounded, source-backed multi-step continuation relatio
 5. Freeze scientific execution and run the authorized diagnostics and viability gates exactly as specified.
 6. Publish durable evidence, update repository/Notion, push `github`, and stop without an automatic successor.
 
+## Pre-scientific checkpoint
+
+- Implementation iteration completed in the AS-004 scope.
+- Protected AS-003 lineage plus AS-004 focused tests: `333/333` twice.
+- Full applicable repository regression: `1289 passed / 2 skipped / 13 inherited failures`.
+- Scientific execution lock and all post-lock organism gates remain pending.
+
 ## Integrity boundary
 
 Historical negative evidence is immutable. No scalar utility, arbitrary weights, source priority, planner execution queue, hidden Habitat truth, hypothetical learning, post-freeze tuning, retry, reseed, R7, AS-004 successor, or CLOSE-03 start is authorized.

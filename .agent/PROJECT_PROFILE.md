@@ -578,3 +578,13 @@ viability gates. R6F-R1 remains a permanent terminal nondiscriminating result;
 R7 is superseded as the next execution gate but preserved historically. No
 planning authority, integrated viability, AS-004 successor, or CLOSE-03 result
 is established at start.
+## Current AS-004 pre-scientific implementation state — 2026-09-03
+
+AS-004 is active from `6da7326af2ff502bbf6bb712a08ae263b1505d54`. The current candidate
+adds bounded source-backed continuation reasoning over the qualified hypothetical
+substrate and connects it to the ordinary action-selection boundary only when
+`OrganismConfig.bounded_continuation_enabled` is true. It does not add a queue,
+utility, weights, source priority, hidden Habitat truth, hypothetical learning, or
+direct execution authority. Focused protected-lineage and AS-004 tests pass
+`333/333` twice. Scientific execution is not yet frozen; integrated viability remains
+unqualified and CLOSE-03 remains blocked.

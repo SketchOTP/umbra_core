@@ -1,0 +1,49 @@
+{
+  "schema": "AS004_CURRENT_ACTION_AUTHORITY_MAP_V1",
+  "ordinary_path": [
+    "candidate generation and proposal collection",
+    "canonical deduplication",
+    "hard/current-state admissibility",
+    "common-root continuation construction",
+    "known-continuation preservation elimination",
+    "distributed competition",
+    "candidate-local stochastic resolution",
+    "Governance",
+    "Embodiment",
+    "VerifiedOutcome",
+    "selected-only owner learning"
+  ],
+  "candidate_sources": [
+    "base physiological candidates",
+    "manipulation",
+    "memory/procedural recall",
+    "social proposals",
+    "development practice",
+    "temporal WAIT",
+    "optional intents"
+  ],
+  "critical_path": [
+    "active/critical physiology",
+    "critical recovery candidate selection",
+    "hard admissibility and immediate safety",
+    "Governance",
+    "Embodiment",
+    "VerifiedOutcome"
+  ],
+  "as004_enabled_retirements": {
+    "legacy_world_model_plan": "bypassed",
+    "legacy_world_model_capability_bias": "bypassed",
+    "legacy_option_energy_route_channel": "bypassed",
+    "critical_recovery": "preserved"
+  },
+  "forbidden_authority": [
+    "hypothetical execution",
+    "hypothetical learning",
+    "persisted plan queue",
+    "global utility",
+    "arbitrary weights",
+    "source priority",
+    "renderer or language selection"
+  ],
+  "status": "PRE_SCIENTIFIC_FREEZE"
+}

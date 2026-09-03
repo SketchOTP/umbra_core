@@ -23,6 +23,11 @@ authority. R6C then qualified an additive, shadow-only planning-frame projection
 for that route evidence and learned active affordances; it grants no planning or
 action-selection authority.
 
+AS-004 is now the active implementation milestone. A bounded source-backed
+multi-step continuation relation has been implemented behind an explicit opt-in
+configuration seam, but it is **not yet scientifically qualified** and has no
+independent claim of integrated viability or planning authority.
+
 [Project goal](.agent/PROJECT_GOAL.md) ·
 [Current governed state](.agent/CURRENT.md) ·
 [Evidence guide](docs/EVIDENCE_GUIDE.md) ·
