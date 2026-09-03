@@ -22,11 +22,47 @@ the implementation and execution record.
 
 ## AS-004 current status
 
-AS-004 is the active bounded continuation/action-selection milestone from
-`6da7326af2ff502bbf6bb712a08ae263b1505d54`. Its pre-scientific implementation and
-focused proofs are complete, but no scientific execution result is claimed yet.
-The continuation bridge is bounded, source-backed, UNKNOWN-preserving, and has no
-direct execution or learning authority. Integrated viability remains unqualified.
+AS-004 is terminal with `AS004_KNOWN_R1_FAIL`, from exact baseline
+`6da7326af2ff502bbf6bb712a08ae263b1505d54`. Its bounded source-backed
+continuation implementation and pre-scientific gates completed successfully, but
+the frozen known R1/S16 viability run (`57531938`, target `7200`) reached
+`NO_SAFE_ACTION` at tick `1928` and a critical terminal failure at tick `1929`.
+The required stop rule prevented all downstream population, lifecycle,
+accelerated, real-time, and ablation runs. Integrated viability remains
+unqualified and no planning authority was granted.
+
+### AS-004 bounded continuation and viability
+
+The implementation is preserved as a terminal scientific generation, not as a
+qualification success. Protected lineage plus AS-004 focused tests passed
+`333/333` twice; the applicable repository regression was `1289 PASS / 2 SKIP /
+13 inherited FAIL`, with no candidate-only AS-004 regression identified. The
+scientific sequence then ran exactly one each of Diagnostic A, Diagnostic B, and
+the required known R1 leg:
+
+| Stage | Seed / horizon | Result |
+|---|---|---|
+| Diagnostic A | `45878900` / `500` | `500/500` completed; 278 continuation decisions, 0 eliminations |
+| Diagnostic B | `22023239` / `3500` | `3500/3500` completed; 1751 continuation decisions, 0 eliminations |
+| Known R1 | `57531938` / `7200` | terminal at tick `1929`; first `NO_SAFE_ACTION` at `1928` |
+
+At the R1 terminal observation, fatigue was `0.9535`; the issued `REST` action
+produced a verified failed outcome with reason `not_at_rest`. The continuation
+bridge's common-root option set was empty at all measured continuation decisions
+in all three legs, and no candidate elimination occurred. These are operational
+observations, not a claim that the continuation architecture is generally
+disproved; the viability generation is terminal because its frozen R1 blocker
+failed.
+
+The fresh formal population, lifecycle, accelerated 100k, real-time soak, and
+causal-ablation stages were not run. Control/shadow runs, retries, and reseeds
+were `0/0/0`. The runner retained durable summaries and trace SHA-256 values but
+removed dense per-tick decision traces after summarization; that evidence
+limitation is preserved rather than repaired post-lock.
+
+See the [AS-004 terminal result](../.agent/tasks/active/UMBRA-AS-004/RESULT.md),
+[validation summary](../.agent/tasks/active/UMBRA-AS-004/AS004_VALIDATION_SUMMARY.json),
+and the local/internal evidence root recorded in that packet.
 
 ## Current frontier
 

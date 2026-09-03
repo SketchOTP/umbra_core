@@ -3,6 +3,12 @@
 Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
+
+## AS-004 bounded continuation and integrated viability — TERMINAL `AS004_KNOWN_R1_FAIL`
+- Implementation: `umbra_core/hypothetical/action_selection.py`, `umbra_core/hypothetical/continuation.py`, the explicit arbitration/runtime integration seam, and `experiments/as004/` contracts/harnesses.
+- Pure/pre-scientific validation: protected lineage plus AS-004 focused tests `333/333` twice; applicable regression `1289 PASS / 2 SKIP / 13 inherited FAIL`, candidate-only failures `0`.
+- Scientific result: Diagnostic A `500/500`, Diagnostic B `3500/3500`; known R1/S16 seed `57531938` terminal at tick `1929` after first `NO_SAFE_ACTION` at `1928`. Fresh population, lifecycle, accelerated 100k, real-time soak, and ablation were not run.
+- Evidence: local/internal root `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`; manifest SHA-256 `ca0cd93b4effba187480ad36467ad62af4cb0c4e49a687a722e5808d3bd52ad6`.
 - `.agent/PROJECT_GOAL.md` — sole product SoT (companion organism core; Digital Cell/protocell work external)
 - `.agent/PROJECT_PROFILE.md` — identity, current D-010Q5 qualification, RPI5 evidence authority, and active D-014E2 status
 - `AGENTS.md` — agent governance (`CLAUDE.md` / `GEMINI.md` → symlink)
@@ -200,7 +206,7 @@ Concise navigation map for agents. Add entries as application code lands.
 - `docs/evidence/d012/` — preserved A1/A2, original P0/B1, and D-012B2 S1 evidence; remediated formal P0 still `UMBRA_D012B_P0_INTEGRITY_FAIL` at tick 181 / energy 0.0485
 - `docs/evidence/d012/p0-root-cause-verdict.md`, `p0-energy-timeline.jsonl`, `p0b1-evidence-hashes.json` — D-012B1 integration-defect verdict, remediation proof, and preserved failed-run forensic evidence
 - `docs/evidence/d012/p0b2-verdict.md`, `p0b2-recovery-trace.jsonl`, `p0b2-evidence-hashes.json` — single S1 rerun verdict, per-tick recovery proof, and sealed closeout
-## AS-004 continuation integration — pre-scientific
+## AS-004 continuation integration — historical pre-scientific implementation
 - `umbra_core/hypothetical/action_selection.py` — common-root source-backed continuation bridge; no execution or learning authority
 - `umbra_core/hypothetical/continuation.py` — bounded AND/OR policy-tree enumeration and robust branch semantics
 - `experiments/as004/` — contract, authority map, seed manifest, and gated qualification runner

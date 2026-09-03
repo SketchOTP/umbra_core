@@ -777,3 +777,16 @@ The AS-004 flag must remain explicit because the legacy one-step option channel 
 WorldModel planner lane are still retained for baseline comparison. Full-suite
 failures remain inherited until an independent baseline comparison says otherwise;
 focused AS-004 evidence alone does not qualify integrated viability.
+- 2026-09-03 — AS-004 known viability blocker
+
+AS-004's bounded continuation integration passed pure and protected regression
+gates, but the first required frozen R1/S16 viability run failed at tick `1929`
+after `NO_SAFE_ACTION` began at tick `1928`; a verified `REST` attempt returned
+`not_at_rest` at critical fatigue. Diagnostics A and B completed without critical
+failure. All measured continuation decisions had empty common-root option sets and
+zero eliminations, so no ordinary continuation-selection effect was observed in
+these fixtures. The frozen stop rule prevented all downstream gates. The result is
+terminal scientific failure, not a license to retry, reseed, tune, or claim that
+integrated viability is qualified. Dense per-tick traces were removed by the
+locked runner after summary hashing, so that evidence limitation is permanent for
+this generation.

@@ -1634,3 +1634,21 @@ applicable repository run produced `1289 passed, 2 skipped, 13 inherited failure
 matching known D-001/D-002/D-009/D-010/D-012/D-013 debt; no AS-004 candidate-only
 regression was identified. This is pre-freeze engineering evidence, not organism or
 integrated-viability qualification.
+- UMBRA-AS-004 terminal closeout — 2026-09-03
+
+AS-004 closed at `AS004_KNOWN_R1_FAIL` from exact baseline
+`6da7326af2ff502bbf6bb712a08ae263b1505d54`. The bounded source-backed
+continuation implementation passed the protected focused gates `333/333` twice;
+the applicable regression remained `1289 PASS / 2 SKIP / 13 inherited FAIL` with
+zero candidate-only failures. One frozen scientific sequence completed Diagnostic
+A (`500/500`, seed `45878900`) and Diagnostic B (`3500/3500`, seed `22023239`).
+The required known R1/S16 run (`57531938`, target `7200`) reached
+`NO_SAFE_ACTION` at tick `1928` and a critical terminal failure at tick `1929`
+after a verified failed `REST` outcome (`not_at_rest`) at fatigue `0.9535`.
+The continuation bridge recorded empty O0 at all measured decisions
+(`278/1751/946`) and zero eliminations. Per the frozen stop rule, fresh
+population, lifecycle, accelerated 100k, real-time soak, and ablation stages did
+not run. Organism/diagnostic legs were `3/3`, control/shadow `0/0`, retries and
+reseeds `0/0`; no post-lock code changed. Integrated viability remains
+unqualified; no successor, R7, or CLOSE-03 started. Evidence manifest:
+`ca0cd93b4effba187480ad36467ad62af4cb0c4e49a687a722e5808d3bd52ad6`.

@@ -1,3 +1,14 @@
+# CURRENT AUTHORITY — UMBRA-AS-004 TERMINAL
+
+AS-004 closed at terminal scientific verdict `AS004_KNOWN_R1_FAIL`. The frozen
+bounded-continuation candidate passed its pre-scientific gates and Diagnostics A
+and B, but the required known R1/S16 seed `57531938` failed at tick `1929` after
+`NO_SAFE_ACTION` began at tick `1928`. Downstream population, lifecycle,
+accelerated, real-time, and ablation stages were not run. Integrated viability,
+planning authority, R7, and CLOSE-03 remain blocked; no successor started.
+Packet: `.agent/tasks/active/UMBRA-AS-004/RESULT.md`; evidence manifest:
+`ca0cd93b4effba187480ad36467ad62af4cb0c4e49a687a722e5808d3bd52ad6`.
+
 # UMBRA-AS-003P-R6F-R1 — TERMINAL non-discriminating prospective assay
 
 R6F-R1 repaired only the two identified R6F research-harness imports. Its
@@ -664,15 +675,15 @@ established by zero-run pure relation analysis from baseline
 cases. R7 is recommendation-only; packet:
 `.agent/tasks/active/UMBRA-AS-003P-R6E/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
-# CURRENT AUTHORITY — UMBRA-AS-004
+# UMBRA-AS-004 — historical start record (terminal authority above)
 
 AS-004 is active from `6da7326af2ff502bbf6bb712a08ae263b1505d54`. It supersedes R7 as the next execution gate while preserving R7 and all earlier negative evidence. The active objective is bounded source-backed multi-step continuation reasoning integrated into ordinary action selection, followed by the single frozen viability lineage authorized by the directive. No scientific execution has occurred at governance start. Packet: `.agent/tasks/active/UMBRA-AS-004/`; evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.
-# UMBRA-AS-004 — ACTIVE PRE-SCIENTIFIC IMPLEMENTATION
+# UMBRA-AS-004 — historical pre-scientific implementation record
 
-AS-004 is the current milestone from exact baseline
+AS-004 began from exact baseline
 `6da7326af2ff502bbf6bb712a08ae263b1505d54`. The source-backed bounded continuation
 relation and ordinary integration are implemented but not yet scientifically
-qualified. Focused protected lineage plus AS-004 tests pass `333/333` twice;
-scientific execution remains behind a dedicated lock. R7 is superseded as the next
-execution gate and remains preserved historical evidence. Integrated viability and
-CLOSE-03 remain unqualified; no successor is authorized.
+qualified. Focused protected lineage plus AS-004 tests passed `333/333` twice;
+the dedicated scientific lock was later executed and closed at terminal
+`AS004_KNOWN_R1_FAIL`. Integrated viability and CLOSE-03 remain unqualified; no
+successor is authorized.

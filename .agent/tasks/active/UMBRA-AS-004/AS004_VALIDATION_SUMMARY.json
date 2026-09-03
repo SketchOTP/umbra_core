@@ -1,0 +1,28 @@
+{
+  "directive": "UMBRA-AS-004",
+  "verdict": "AS004_KNOWN_R1_FAIL",
+  "baseline": "6da7326af2ff502bbf6bb712a08ae263b1505d54",
+  "implementation_commit": "c979356",
+  "scientific_lock_commit": "ee9b06f",
+  "focused_tests": {"first": "333/333", "second": "333/333"},
+  "applicable_regression": {
+    "passed": 1289,
+    "skipped": 2,
+    "inherited_failures": 13,
+    "candidate_only_failures": 0
+  },
+  "diagnostics": {
+    "A": {"seed": 45878900, "target_ticks": 500, "ticks": 500, "terminal": "completed", "continuation_decisions": 278, "o0_empty": 278, "eliminations": 0},
+    "B": {"seed": 22023239, "target_ticks": 3500, "ticks": 3500, "terminal": "completed", "continuation_decisions": 1751, "o0_empty": 1751, "eliminations": 0},
+    "KNOWN_R1": {"seed": 57531938, "target_ticks": 7200, "ticks": 1929, "terminal": "scientific_failure", "first_no_safe_action": 1928, "continuation_decisions": 946, "o0_empty": 946, "eliminations": 0}
+  },
+  "organism_runs": 3,
+  "control_runs": 0,
+  "shadow_runs": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "downstream_not_run": ["fresh_formal_population", "lifecycle", "accelerated_100k", "real_time_soak", "causal_ablation"],
+  "production_delta_after_lock": 0,
+  "test_semantic_delta_after_lock": 0,
+  "evidence_manifest_sha256": "ca0cd93b4effba187480ad36467ad62af4cb0c4e49a687a722e5808d3bd52ad6"
+}

@@ -1073,6 +1073,8 @@ successor is authorized.
 
 - Directive: UMBRA-AS-003P-R6D | status:active | baseline:ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37 | parent:AS003PR6C_ROUTE_AFFORDANCE_PLANNING_FRAME_QUALIFIED | scope:zero-run MAY-route L2 reachability and open-world soundness audit | constraints:production 0,existing-test semantic delta 0,organism/load/tick/control/shadow/diagnostic 0,retry 0,reseed 0,no R6/R6C/R6B/R6L/AS-002 change,no R7 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/ | remote:github
 
+- UMBRA-AS-004 | status:terminal | baseline:6da7326af2ff502bbf6bb712a08ae263b1505d54 | verdict:AS004_KNOWN_R1_FAIL | implementation:c979356 | scientific_lock:ee9b06f | focused:333/333 twice | applicable:1289 PASS / 2 SKIP / 13 inherited FAIL | candidate-only:0 | diagnostics:A 500/500, B 3500/3500, R1 terminal tick 1929 after NO_SAFE_ACTION tick 1928 | continuation decisions:278/1751/946 | O0 empty:278/1751/946 | eliminations:0 | organisms:3 diagnostic legs | control/shadow:0/0 | retries:0 reseeds:0 | downstream:not-run fresh-population/lifecycle/accelerated-100k/real-time-soak/ablation | production-after-lock:0 | Authority3:PASS governance:PASS diff:PASS | integrated viability:NOT QUALIFIED | successor:none | manifest:ca0cd93b4effba187480ad36467ad62af4cb0c4e49a687a722e5808d3bd52ad6 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/ | remote:github
+
 ## UMBRA-AS-003P-R6D — CLOSEOUT (2026-09-03)
 
 ## UMBRA-AS-003P-R6E — START (2026-09-03)

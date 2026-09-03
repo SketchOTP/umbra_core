@@ -6,13 +6,12 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
-The latest R6F-R1 prospective common-root generation is **terminally
-non-discriminating**: its corrected harness passed complete import preflight
-twice, and one exact S0/seed-18482 run acquired a verified route before the
-root. The frozen ordinary `IDLE`/`MOVE` pair was emitted and hard-admissible,
-but both preserved the known option at the actual root, so no strict R6E
-relation was established. R7 remains blocked. The parent R6F generation is
-permanently protocol-failed and was not repaired in place.
+The latest integrated generation, AS-004, is **terminally failed at its known
+historical viability blocker**. Diagnostic A (`500/500`) and Diagnostic B
+(`3500/3500`) completed, but the required R1/S16 seed `57531938` reached
+`NO_SAFE_ACTION` at tick `1928` and a critical terminal failure at tick `1929`.
+Per the frozen stop rule, no fresh population or downstream viability gates ran.
+Integrated long-horizon viability remains unqualified.
 
 **Scientific status:** subsystem capabilities are qualified within explicit
 boundaries; integrated long-horizon viability is **not qualified**. R6B is a
@@ -23,10 +22,11 @@ authority. R6C then qualified an additive, shadow-only planning-frame projection
 for that route evidence and learned active affordances; it grants no planning or
 action-selection authority.
 
-AS-004 is now the active implementation milestone. A bounded source-backed
-multi-step continuation relation has been implemented behind an explicit opt-in
-configuration seam, but it is **not yet scientifically qualified** and has no
-independent claim of integrated viability or planning authority.
+AS-004's bounded source-backed multi-step continuation relation was implemented
+behind an explicit opt-in configuration seam and then tested at the authorized
+scientific boundary. The implementation is preserved as terminal evidence; the
+R1 viability failure means it is **not qualified** as integrated viability or
+planning authority.
 
 [Project goal](.agent/PROJECT_GOAL.md) ·
 [Current governed state](.agent/CURRENT.md) ·
@@ -475,9 +475,30 @@ set. The R6E-R1 terminal result is
 `AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED`; R7 remains blocked
 and unstarted.
 
-The next planning experiment is recommendation-only. Planning integration,
-AS-004 integrated viability, and CLOSE-03 final organism acceptance remain
-blocked.
+### AS-004 bounded continuation and viability
+
+AS-004 implemented a bounded, source-backed AND/OR continuation bridge and one
+explicit ordinary action-selection seam. Its pre-scientific gates passed with
+`333/333` focused proofs twice, and the applicable regression found `0`
+candidate-only failures. The frozen diagnostics then completed A (`500/500`)
+and B (`3500/3500`), but the required known R1/S16 run (`57531938`, target
+`7200`) failed at tick `1929`: `NO_SAFE_ACTION` began at tick `1928`, followed
+by critical fatigue and a verified failed `REST` outcome (`not_at_rest`).
+
+This is a terminal scientific negative result, not a protocol failure. The
+frozen sequence stopped exactly there; fresh population, lifecycle, accelerated
+100k, real-time soak, and ablation gates were not run. The continuation bridge
+recorded an empty common-root option set at every measured continuation decision
+in A, B, and R1, with zero eliminations. No planning authority or integrated
+viability claim follows.
+
+[AS-004 terminal result](.agent/tasks/active/UMBRA-AS-004/RESULT.md) ·
+[validation summary](.agent/tasks/active/UMBRA-AS-004/AS004_VALIDATION_SUMMARY.json) ·
+[evidence guide](docs/EVIDENCE_GUIDE.md#as-004-bounded-continuation-and-viability)
+
+AS-004 is terminal at `AS004_KNOWN_R1_FAIL`. Planning authority, integrated
+viability, R7, and CLOSE-03 final organism acceptance remain blocked. No
+successor has been started.
 
 ## Evidence navigation
 
