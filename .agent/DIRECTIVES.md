@@ -3,6 +3,10 @@
 - Directive: UMBRA-AS-003P-R6E-R1 | status:active | baseline:e18d7c83a59988be4ed2cd5f9957820a7ab02968 | parent:AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED | scope:zero-run common-root provenance requalification of immutable R6D-to-R6E projection | constraints:production 0,R6D/R6E source/evidence immutable,organism/load/tick/control/shadow/R7 0,retries 0,reseeds 0,no UNKNOWN collapse,no invented dependency edge | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-r1-common-root-provenance-r1/ | remote:github
 - Architect disposition: R6E pure relation supported as research primitive, R6E matrix qualification not accepted; R7 blocked pending provenance result.
 
+## UMBRA-AS-003P-R6E-R1 — CLOSEOUT (2026-09-03)
+
+- Directive: UMBRA-AS-003P-R6E-R1 | status:terminal | baseline:e18d7c83a59988be4ed2cd5f9957820a7ab02968 | verdict:AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED | R6D rows:1152 | candidate-derived O0:512 | root-option-not-constructible:640 | lawful common-root rows:0 | positive:0 | route-causal:0 | historical R6E route-causal:64 preserved only | pure:4/4 twice identical | production:0 | existing-test semantic delta:0 | organism/load/tick/control/shadow/R7/diagnostic:0/0/0/0/0/0/0 | retries:0 reseeds:0 | Authority3:PASS governance:PASS diff:PASS | R7:blocked successor:none | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-r1-common-root-provenance-r1/ | closeout_seal_parent:acf12347680a0078c93af2fc14e7d8533fb2002a
+
 ## UMBRA-AS-003P-R6B-R1 — CLOSEOUT (2026-09-02)
 
 - Directive: UMBRA-AS-003P-R6B-R1 | status:terminal | verdict:AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED | baseline:e610a36f4ca07cf451da53c9f7dac9d35a037a0e | freeze:caab6c08110f9e05f655360b5d5304c9aec7f767 | Q1:PASS exact bound ORIENT/control sequence plus verified CHARGE and movement_count 1 | Q2:PASS verified movement_slip | organisms:2 ticks:14 retries:0 reseeds:0 | production:authorized WorldModel route-evidence seam only | planning_reader:none | Authority3:PASS governance:PASS | successor:UMBRA-AS-003P-R6C recommendation only

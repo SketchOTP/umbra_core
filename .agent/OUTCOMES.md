@@ -7,6 +7,21 @@ R6E-R1 is zero-run and analysis-only; all historical R6D/R6E evidence,
 production, tests, organisms, control, shadow, R7, retries, and reseeds remain
 untouched.
 
+## UMBRA-AS-003P-R6E-R1 — terminal closeout
+
+`AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED` is terminal. The
+immutable R6D matrix has `1,152` rows; the old R6E projection constructed `512`
+nonempty O0 values from synthetic `route_case` and had `640` rows with no
+constructible root option. No R6D row contains a demonstrably pre-candidate
+common-root option set, so the provenance-safe reapplication yields `0` lawful
+root rows and `0` positive or route-causal relations. The retained seven-tick
+witness is `COMMON_ROOT_NOT_ESTABLISHED`; generic non-route impossibility has no
+dependency edge. Pure tests passed `4/4` twice identically. Production,
+existing-test semantics, historical artifacts, organisms, live runs, retries,
+and reseeds remained unchanged at zero. R7 remains blocked.
+
+Evidence manifest: `1b8ca2e37328bf16c65d314f4c0913bdf94abb1a6108145497f367c8f1b931e8`.
+
 ## UMBRA-AS-003P-R6B-R1 terminal closeout — verified route-control learning qualified — 2026-09-02
 
 `AS003PR6BR1_VERIFIED_ROUTE_CONTROL_LEARNING_QUALIFIED` is terminal. From

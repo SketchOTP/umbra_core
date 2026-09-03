@@ -6,6 +6,11 @@ evidence. A projection that uses it to construct `O0` is not established
 pre-candidate organism evidence. A source-priority check comparing one already
 built option set with itself does not prove root provenance.
 
+R6E-R1 confirmed the contamination: changing `route_case` changed the old O0
+demand or existence, and no R6D row retained a source-backed pre-candidate
+option set. A valid preservation relation must reject such rows rather than
+reinterpret candidate-specific route evidence as common-root support.
+
 ## 2026-09-02 — R6B-R1 qualified route-control continuity
 
 The frozen repair demonstrated that a route experience must preserve the

@@ -52,3 +52,8 @@ recorded before candidate differentiation.
 
 Evidence root (local/internal provenance):
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-r1-common-root-provenance-r1/`.
+
+Implementation/evidence seal commit: `acf12347680a0078c93af2fc14e7d8533fb2002a`.
+The subsequent governance closeout commit records the terminal repository
+state; the final manifest was created against the implementation/evidence seal
+commit and is readback-verified.

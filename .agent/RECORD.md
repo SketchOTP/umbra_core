@@ -6,6 +6,16 @@ may have been derived from candidate-specific `route_case` data. R6E-R1 is a
 zero-run provenance requalification from
 `e18d7c83a59988be4ed2cd5f9957820a7ab02968`; R7 remains blocked.
 
+## 2026-09-03 — UMBRA-AS-003P-R6E-R1 terminal closeout
+
+R6E-R1 confirmed candidate-derived root contamination. The frozen R6D matrix
+contains no demonstrably pre-candidate common-root option set: `512` old
+nonempty O0 constructions depend on synthetic `route_case`, while `640` rows
+have no constructible root option. Provenance-safe relation results are zero.
+The R6E pure relation remains historical research only; R7 is blocked. The
+final evidence manifest is
+`1b8ca2e37328bf16c65d314f4c0913bdf94abb1a6108145497f367c8f1b931e8`.
+
 ## 2026-09-02 — UMBRA-AS-003P-R6B-R1 terminal closeout
 
 Architect-authorized R6B-R1 qualified the bounded WorldModel route-control
