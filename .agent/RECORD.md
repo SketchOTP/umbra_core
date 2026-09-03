@@ -404,3 +404,6 @@ Diagnostic B; retained decision evidence reaches active tick `2320`. Known R1 an
 all downstream phases were not run. Terminal verdict: `AS005_PROTOCOL_FAIL`.
 Retries/reseeds: `0/0`; partial traces remain uninterpreted; integrated viability,
 AS-004 successor work, and CLOSE-03 remain unqualified/blocked.
+## 2026-09-03 — AS-006 governance start
+
+Architect accepted `AS005_PROTOCOL_FAIL` as permanent and authorized fresh AS-006 from exact synchronized baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. Scope: executable weak-continuation loss, source-derived preventive recovery slack, and the gated integrated qualification sequence. AS-005 partial evidence remains uninterpreted. Start counts: production/test/experiment semantic changes `0/0/0`; organism/load/tick/control/shadow/diagnostic/qualification executions `0/0/0/0/0/0/0`; retries/reseeds `0/0`. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.

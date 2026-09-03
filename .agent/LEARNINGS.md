@@ -806,3 +806,6 @@ single frozen scientific sequence was interrupted during Diagnostic B. The corre
 disposition is protocol-terminal, not scientific success or failure: preserve the
 partial traces, do not interpret them, and do not retry/reseed inside the same
 generation. Any future attempt needs new authority, a new baseline, and a new lock.
+## AS-006 starting boundary
+
+AS-005 established source activation but its MAY bridge classified hard-supported candidates as preserved and its preventive trigger used `MAX_CONTINUATION_DEPTH`. AS-006 must address both gaps without upgrading MAY evidence, inventing route guarantees, or introducing scalar authority. Partial AS-005 execution evidence is historical and uninterpreted.

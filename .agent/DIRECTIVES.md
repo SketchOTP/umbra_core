@@ -1127,3 +1127,6 @@ Diagnostic B was interrupted during the single no-retry sequence with retained
 decision evidence through active tick `2320`. Known R1 and downstream phases were
 not run. Partial traces remain historical operational evidence only; no viability or
 mechanism claim is made. Retries/reseeds `0/0`; successor `none`; remote `github`.
+## UMBRA-AS-006 — governance start
+
+Architect authority: `UMBRA-AS-006 — Executable Weak-Continuation Loss, Recovery Slack, and Integrated Viability Qualification`. Baseline: `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. Parent `AS005_PROTOCOL_FAIL` remains permanent; its partial traces are not reused. Scope is a fresh bounded implementation and qualification generation. Preserve MAY/UNKNOWN semantics, common-root neutrality, verified-only route learning, no scalar/weights/priority/hidden truth, no retry/reseed, no R7 revival, and no automatic CLOSE-03. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.

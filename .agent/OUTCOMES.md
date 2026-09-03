@@ -1673,3 +1673,6 @@ Known R1, fresh populations, lifecycle, boundedness, and ablation did not run.
 Retries/reseeds remained `0/0`; partial traces are retained but not interpreted as
 qualification evidence. Integrated viability remains unqualified and no successor
 started.
+## AS-006 governance start
+
+AS-005 is preserved as terminal `AS005_PROTOCOL_FAIL` from closeout `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. AS-006 starts as a new generation from that exact head. Its planned outcome is a bounded test of whether an exact lived MAY recovery possibility can be categorically destroyed by an immediate candidate and thereby become ordinary action-selection evidence, with preventive activation derived from source-backed recovery slack rather than fixed planner depth. No scientific execution has begun.

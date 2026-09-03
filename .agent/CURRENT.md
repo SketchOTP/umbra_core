@@ -1708,3 +1708,6 @@ tests `333/333` twice; compile, Authority 3.0, Governance, static authority, and
 2 skipped, 13 inherited failures`, matching known baseline debt. The subsequent
 post-lock scientific sequence is closed by the terminal result above. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.
+## UMBRA-AS-006 — governance start
+
+AS-006 is authorized from exact baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d` after permanent terminal `AS005_PROTOCOL_FAIL`. The objective is to implement executable candidate-caused loss of exact lived MAY recovery options and source-derived recovery slack without scalarization, then proceed through the gated integrated qualification only if each frozen gate passes. AS-005 partial Diagnostic B traces remain retained but uninterpreted. No R7, CLOSE-03, retry, reseed, or automatic successor is authorized. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.

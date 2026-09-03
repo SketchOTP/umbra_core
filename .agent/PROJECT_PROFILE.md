@@ -620,3 +620,6 @@ Diagnostic B before Known R1. It is terminal `AS005_PROTOCOL_FAIL`; no viability
 planning-authority, population, lifecycle, boundedness, or ablation claim is
 established. Partial traces are retained outside the repository and no successor is
 authorized.
+## UMBRA-AS-006 — active generation
+
+Baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`; parent `AS005_PROTOCOL_FAIL`. AS-006 is authorized to implement and qualify executable weak-continuation loss plus source-derived recovery slack. The work remains bounded and non-scalar; route learning is verified-outcome-only, planning remains subordinate, and AS-005 partial traces are not evidence for AS-006 qualification.
