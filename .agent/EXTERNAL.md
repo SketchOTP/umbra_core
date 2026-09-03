@@ -30,6 +30,15 @@ embodiment failure semantics.
 
 # External Discovery Ledger
 
+## UMBRA-AS-003P-R6F static feasibility boundary — 2026-09-03
+
+R6F Phase B/C uses existing UMBRA source semantics only: policy-visible
+recoverability feasibility, verified route-experience identity, body-schema
+binding, and exact WorldModel opportunity resolution. No new external
+discovery or dependency is introduced. External route/planning prior art is
+not used to create deadlines, horizons, geometry, route truth, or action
+authority.
+
 ## UMBRA-AS-003P-R6B bounded external review — 2026-09-02
 
 - [Learning robotic navigation from experience](https://pmc.ncbi.nlm.nih.gov/articles/PMC9745865/) — `REFERENCE / ADAPT PRINCIPLE`: route knowledge should be grounded in experienced motion and outcomes; `REJECT`: importing a navigation policy or learned cost optimizer.

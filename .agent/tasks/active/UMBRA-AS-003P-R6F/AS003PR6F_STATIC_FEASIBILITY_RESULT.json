@@ -1,0 +1,53 @@
+{
+  "schema": "AS003PR6F_STATIC_FEASIBILITY_RESULT_V1",
+  "baseline": "670808a93de5d7a2eca4b9b237cf58b084fded30",
+  "phase_b": {
+    "status": "PASS_STATIC_FEASIBILITY",
+    "mechanism": "policy-visible recoverability route margin",
+    "ordinary_pair": {
+      "preserving": "IDLE",
+      "destroying": "MOVE",
+      "both_hard_admissible": true,
+      "current_route_feasible": true,
+      "preserving_destroys_option": false,
+      "destroying_destroys_option": true,
+      "destruction_status": "CATEGORICAL_SUPPORTED_MARGIN_EXHAUSTED"
+    },
+    "source_fields": [
+      "Physiology.energy",
+      "BOUNDS.energy.critical_low",
+      "DEFAULT_DRIFT.energy",
+      "OUTCOME_EFFECTS.MOVE.energy",
+      "WorldEntity.distance_support_upper_bound",
+      "WorldEntity.support_body_schema_id"
+    ],
+    "hidden_habitat_truth_used": false,
+    "qualification_boundary": "static source-seam feasibility only; not organism evidence and not a future route guarantee"
+  },
+  "phase_c": {
+    "status": "PASS_STATIC_APPLICABILITY",
+    "exact_opportunity_identity": true,
+    "body_schema_binding": true,
+    "eligible_fact_kinds": ["CURRENT_OBSERVATION", "REMEMBERED_ESTIMATE"],
+    "failure_closed": [
+      "missing exact entity",
+      "ambiguous same-kind entities",
+      "body-schema mismatch",
+      "missing policy-visible support",
+      "non-eligible fact kind"
+    ],
+    "hidden_habitat_truth_used": false,
+    "qualification_boundary": "pure applicability semantics only; a later live root must acquire and preserve its own source chain"
+  },
+  "pure_tests": {
+    "run_1": "4 passed",
+    "run_2": "4 passed",
+    "stdout_variance": "pytest elapsed-time summary varied; pass counts and test identities matched",
+    "organism_runs": 0
+  },
+  "artifact_sha256": {
+    "AS003PR6F_NATURAL_LOSS_FEASIBILITY_AUDIT.json": "53e2a2a9b879beb1115cba070e283abcaecee3e4633552f8060d60eae1cb3a68",
+    "AS003PR6F_ROUTE_APPLICABILITY_AUDIT.json": "f9b8c9c7698baba673e1dea25587ea1c9c603f8f739dab87724c4521a610ef59"
+  },
+  "static_gate_conclusion": "Phase B and Phase C are sufficiently feasible to proceed to a prospective root/protocol lock; no live execution is authorized by this record alone."
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "AS003PR6F_COMMON_ROOT_PROVENANCE_CONTRACT_V1",
+  "status": "LOCKED_FOR_STATIC_GATE",
+  "baseline": "670808a93de5d7a2eca4b9b237cf58b084fded30",
+  "root_option_rule": "O0 = f(common-root source evidence only)",
+  "common_root_source_chain": [
+    "executed VerifiedOutcome",
+    "WorldModel-owned durable route-experience record",
+    "learning commit completed before root tick",
+    "later root snapshot containing that record",
+    "exact policy-visible opportunity and body-schema applicability at root",
+    "O0 constructed before candidate A/B differentiation"
+  ],
+  "candidate_consequence_rule": "Candidate consequences may change only option status; they may not create, replace, or alter root option identity or pre-root support.",
+  "forbidden_root_inputs": [
+    "candidate A evidence",
+    "candidate B evidence",
+    "candidate comparison result",
+    "synthetic deadline or horizon",
+    "hidden Habitat coordinates or truth",
+    "historical R6D/R6E synthetic matrix controls"
+  ],
+  "root_predicate": {
+    "required": [
+      "completed successful VERIFIED_ROUTE_EXPERIENCE_V2 exists",
+      "learning tick is strictly earlier than root tick",
+      "exact opportunity identity resolves at root",
+      "body schema matches route evidence",
+      "route source dependencies remain valid",
+      "root obligation signature is fixed before candidate differentiation"
+    ],
+    "failure_is_unknown": true
+  },
+  "candidate_pair_rule": {
+    "source": "ordinary candidates emitted at the frozen root",
+    "both_hard_admissible": true,
+    "same_root_frame": true,
+    "same_obligation_signature": true,
+    "no_execution_of_either_candidate": true,
+    "deterministic_selection": "canonical emitted-candidate order, with no authored preference"
+  },
+  "status_semantics": {
+    "preserved": "all common-root support variants remain feasible under the candidate projection",
+    "destroyed": "all common-root support variants are categorically infeasible under the candidate projection",
+    "unknown": "any required source or branch remains unresolved"
+  },
+  "scientific_boundaries": {
+    "production_change": 0,
+    "organism_runs_before_lock": 0,
+    "action_selection_authority": false,
+    "planning_reader": false,
+    "r7_authorized": false,
+    "retries": 0,
+    "reseeds": 0
+  }
+}
