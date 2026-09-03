@@ -1,3 +1,12 @@
+## 2026-09-03 — R6F-R1 protocol recovery boundary
+
+An accepted pre-`main()` R6F harness failure authorizes a new generation only
+when the repair is isolated and the inherited unused protocol is preserved.
+Static compilation and pure tests are insufficient: every direct project-local
+dependency must resolve in the exact intended interpreter before the execution
+lock. R6F-R1 therefore requires two identical complete import preflights before
+any organism construction.
+
 ## 2026-09-03 — R6F frozen protocol failure
 
 Static feasibility is not an importability proof. `py_compile` and pure tests

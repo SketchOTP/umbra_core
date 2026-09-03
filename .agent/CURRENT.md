@@ -1,3 +1,15 @@
+# UMBRA-AS-003P-R6F-R1 — ACTIVE protocol repair and prospective assay
+
+R6F-R1 is a fresh harness-only recovery generation from exact baseline
+`e5af166e86e85a5937d25b579f9256768bbd3d30` after accepted terminal
+`AS003PR6F_PROTOCOL_FAIL`. It preserves R6F's unused seed `18482`, scenario
+`S0`, 500-tick cap, frozen ordinary `IDLE`/`MOVE` pair, root predicate, and
+configuration. Only the two identified research-harness import sources may
+change before a complete import preflight passes twice. Production, historical
+R6F files/evidence, planning authority, R7, retries, and reseeds remain
+prohibited. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-r1-common-root-option/`.
+
 # UMBRA-AS-003P-R6F — TERMINAL protocol failure
 
 R6F passed its static natural-loss and route-applicability gates, then the one

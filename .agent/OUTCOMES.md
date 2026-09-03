@@ -1,3 +1,16 @@
+## 2026-09-03 — UMBRA-AS-003P-R6F-R1 governance start
+
+Architect accepted the permanent R6F terminal protocol failure and authorized
+R6F-R1 as a fresh harness-only repair generation. The exact baseline is
+`e5af166e86e85a5937d25b579f9256768bbd3d30`. R6F remains immutable and its
+scientific question is reused without changing scenario `S0`, seed `18482`,
+500-tick cap, candidate pair, root predicate, or configuration. The identified
+repair is limited to importing `canonical_fingerprint` from
+`umbra_core.decision_trace` and `verified_outcome_effect_branches` from
+`umbra_core.physiology`; full executable preflight must pass twice before one
+frozen organism assay. No production, planning, R7, retry, or reseed is
+authorized.
+
 ## UMBRA-AS-003P-R6F — terminal protocol failure — 2026-09-03
 
 R6F passed its static Phase B/C gates and froze a repository-root module

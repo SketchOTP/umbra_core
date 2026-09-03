@@ -1,3 +1,12 @@
+## 2026-09-03 — R6F-R1 authorized
+
+The Architect accepted `AS003PR6F_PROTOCOL_FAIL` as a permanent zero-organism
+protocol result and authorized `UMBRA-AS-003P-R6F-R1`. The new generation is
+limited to correcting the two identified assay import sources, proving the
+complete executable import path twice, and then running at most one exact
+R6F-protocol assay with seed `18482`. R7 remains blocked and no successor is
+started automatically.
+
 ## 2026-09-03 — UMBRA-AS-003P-R6F terminal closeout
 
 R6F is terminal as `AS003PR6F_PROTOCOL_FAIL`. Its static Phase B/C gates passed,
