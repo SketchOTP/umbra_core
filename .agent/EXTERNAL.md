@@ -1,3 +1,10 @@
+## UMBRA-AS-005 — bounded prior-art boundary
+
+AS-005 carries forward the existing references for may/must continuation,
+verified-outcome learning, interval/uncertain route evidence, and viability
+feasibility. No new optimizer, planner dependency, reward model, or external
+action-selection authority is imported at start.
+
 ## UMBRA-AS-003P-R6E-R1 — no new external discovery
 
 This zero-run provenance audit uses no new substantive external prior art. Its

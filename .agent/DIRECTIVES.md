@@ -115,6 +115,8 @@ Append-only task-start log for UMBRA-CORE. Never rewrite, reorder, or delete his
 
 - D-20260827-close02-decide | status:started | scope:.agent/*,isolated diagnostic checkouts,Atlas evidence | ask:Attribute the CLOSE-02F R0 failure by one exact traced control/candidate comparison | accept:one observational A/B execution aligned with an evidence-grounded verdict and no production changes | plan:freeze source/config, run A and B once, align and closeout
 
+- D-20260903-as005-start | Directive: UMBRA-AS-005 | status:active | baseline:b45a3c1480d57638768f5a876c8807c6f756143c | parent:AS004_KNOWN_R1_FAIL | scope:fresh preventive modal-continuation and integrated-viability generation | constraints:preserve AS-004 permanent failure; no scalar/weights/source priority/hidden truth/planner/RL/retry/reseed/R7/CLOSE03; route learning explicit; modal source-faithful; dense trace retained | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-005-preventive-modal-continuation-integrated-viability-r1/ | remote:github
+
 Format:
 ```md
 - D-YYYYMMDD-HHMM-slug | status:started | scope:<files/modules> | ask:<one sentence> | accept:<observable done condition> | plan:<max 3 tiny steps>

@@ -1,4 +1,14 @@
-# Current governed status — UMBRA-AS-004 TERMINAL
+# Current governed status — UMBRA-AS-005 ACTIVE
+
+AS-005 is a fresh generation from exact baseline
+`b45a3c1480d57638768f5a876c8807c6f756143c` after permanent AS-004 verdict
+`AS004_KNOWN_R1_FAIL`. It is authorized to address source activation, modal
+continuation, and preventive obligation timing before integrated viability
+qualification. No scalar utility, source priority, hidden truth, retry/reseed,
+R7, or CLOSE-03 is allowed. At start, production/test deltas and all run counts
+are zero. Integrated viability remains unqualified.
+
+# Previous governed status — UMBRA-AS-004 TERMINAL
 
 AS-004 is terminal with `AS004_KNOWN_R1_FAIL`, from exact baseline
 `6da7326af2ff502bbf6bb712a08ae263b1505d54`. The bounded source-backed

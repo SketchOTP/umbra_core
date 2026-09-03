@@ -1,3 +1,13 @@
+# UMBRA-AS-005 — ACTIVE fresh preventive modal-continuation generation
+
+Exact baseline `b45a3c1480d57638768f5a876c8807c6f756143c`; parent terminal
+`AS004_KNOWN_R1_FAIL`. AS-005 is a fresh generation with zero initial runs and
+no automatic successor. It audits and, if justified, implements bounded
+source-backed route activation, modal continuation, and preventive obligations
+before the frozen viability sequence. Packet:
+`.agent/tasks/active/UMBRA-AS-005/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-005-preventive-modal-continuation-integrated-viability-r1/`.
+
 # CURRENT AUTHORITY — UMBRA-AS-004 TERMINAL
 
 AS-004 closed at terminal scientific verdict `AS004_KNOWN_R1_FAIL`. The frozen

@@ -1,3 +1,17 @@
+# UMBRA-AS-005 — ACTIVE fresh preventive/modal continuation generation
+
+AS-004 remains permanently terminal as `AS004_KNOWN_R1_FAIL`; it is not being
+retried. AS-005 starts from exact synchronized baseline
+`b45a3c1480d57638768f5a876c8807c6f756143c` under a fresh evidence root. The
+generation must first audit AS-004's empty common-root option set, explicitly
+activate existing verified route learning, preserve source-faithful
+`MUST/MAY/UNKNOWN` continuation semantics, and establish preventive obligations
+before viable-band exit without scalarization or hidden truth. No successor,
+R7, or CLOSE-03 is authorized. At start: production/test deltas `0/0`,
+organism/control/shadow/diagnostic runs `0/0/0/0`, retries/reseeds `0/0`.
+Packet: `.agent/tasks/active/UMBRA-AS-005/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-005-preventive-modal-continuation-integrated-viability-r1/`.
+
 # UMBRA-AS-004 — TERMINAL known historical viability blocker
 
 AS-004 is terminal with `AS004_KNOWN_R1_FAIL`, from exact baseline

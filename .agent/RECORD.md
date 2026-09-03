@@ -1,3 +1,12 @@
+## 2026-09-03 — AS-005 authorized
+
+The Architect accepted `AS004_KNOWN_R1_FAIL` and authorized fresh
+`UMBRA-AS-005` from `b45a3c1480d57638768f5a876c8807c6f756143c`. The scope is a
+new source-activation/modal-continuation/preventive-obligation generation
+followed by the prescribed viability sequence only after all pre-freeze gates.
+AS-004 remains permanent and is not retried. No successor, R7, or CLOSE-03 is
+started automatically.
+
 ## 2026-09-03 — R6F-R1 authorized
 
 The Architect accepted `AS003PR6F_PROTOCOL_FAIL` as a permanent zero-organism

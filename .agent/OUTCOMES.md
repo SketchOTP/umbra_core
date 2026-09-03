@@ -1,3 +1,14 @@
+## 2026-09-03 — UMBRA-AS-005 governance start
+
+Architect accepted AS-004 terminal `AS004_KNOWN_R1_FAIL` and authorized a
+fresh AS-005 generation from exact baseline `b45a3c1480d57638768f5a876c8807c6f756143c`.
+The generation will audit AS-004's empty O0/source-activation boundary,
+explicitly enable verified route learning, preserve source-faithful modal
+semantics, and test preventive obligations before viable-band exit. AS-004 is
+not retried; no R7/CLOSE-03 or automatic successor is authorized. Start counts:
+production/test deltas `0/0`, organism/control/shadow/diagnostic `0/0/0/0`,
+retries/reseeds `0/0`.
+
 ## 2026-09-03 — UMBRA-AS-003P-R6F-R1 governance start
 
 Architect accepted the permanent R6F terminal protocol failure and authorized

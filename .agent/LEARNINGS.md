@@ -1,3 +1,11 @@
+## 2026-09-03 — AS-005 start boundary
+
+AS-004's empty common-root continuation set is preserved as terminal evidence,
+not a tuning target. Any AS-005 improvement must come from source activation,
+preventive obligation semantics, and modal evidence contracts established before
+the frozen run; it may not use scalarization, source priority, hidden truth,
+retry, or reseed.
+
 ## 2026-09-03 — R6F-R1 protocol recovery boundary
 
 An accepted pre-`main()` R6F harness failure authorizes a new generation only
