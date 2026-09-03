@@ -1,0 +1,56 @@
+{
+  "schema": "AS004_SCIENTIFIC_EXECUTION_LOCK_V1",
+  "directive": "UMBRA-AS-004",
+  "status": "LOCKED_BEFORE_SCIENTIFIC_EXECUTION",
+  "production_commit": "c979356",
+  "baseline": "6da7326af2ff502bbf6bb712a08ae263b1505d54",
+  "interpreter": "/home/sketch/cs14n-runtime/bin/python",
+  "working_directory": "/home/sketch/Projects/umbra-close02x-work",
+  "evidence_root": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/",
+  "protected_observer_gate": {
+    "source": "AS003PR5A retained common-root result",
+    "semantic_parity": "PASS",
+    "shadow_action_authority": false,
+    "organism_execution_repeated_in_AS004": false
+  },
+  "scientific_commands": {
+    "historical_diagnostics": "/home/sketch/cs14n-runtime/bin/python -m experiments.as004.qualification --phase diagnostics --work <fresh-local-work> --output <fresh-evidence>/AS004_HISTORICAL_BLOCKER_RESULTS.json",
+    "diagnostic_sequence": [
+      {"stage": "DIAGNOSTIC_A", "regime": "R0", "seed": 45878900, "horizon": 500},
+      {"stage": "DIAGNOSTIC_B", "regime": "R0", "seed": 22023239, "horizon": 3500},
+      {"stage": "KNOWN_R1", "regime": "R1", "seed": 57531938, "horizon": 7200}
+    ],
+    "fresh_population": "not reached unless all historical diagnostics pass",
+    "lifecycle_performance_ablation": "not reached unless preceding gates pass"
+  },
+  "fresh_population_seed_manifest": "experiments/as004/AS004_FRESH_SEED_MANIFEST.json",
+  "source_sha256": {
+    "umbra_core/hypothetical/core.py": "d6f78d3676027633cbbf4851aa45f796d41342a753e206a01f0606adb57b6ca9",
+    "umbra_core/hypothetical/adapters.py": "a04c43e5c2bd5ba3471c90d636e74875806983c95f3aca47293e429ca902db8f",
+    "umbra_core/hypothetical/continuation.py": "701526cac06cba84c81b4708b9473c89e95f28435686c97f9f79347da1d1f881",
+    "umbra_core/hypothetical/action_selection.py": "4bf12bedb7b1c3dd007e870e7327bbd78d31ff605f21fdecfdc395dcbd2d1fd6",
+    "umbra_core/hypothetical/frame.py": "8340a8f2a4e775b148b4e19b775befa6240fb75562dd422f38440e2e23440476",
+    "umbra_core/hypothetical/modal.py": "44286a47bb17c395b33c2cd90ecac93ac9388951948729f825bff2ae2568cd16",
+    "umbra_core/hypothetical/shadow.py": "8c52b9cb8b54e3b09a10d8a79062477af33444a6a57e6c6982ee901d79fe4767",
+    "umbra_core/arbitration.py": "303cd35e8e9e69bfbc3f3b33ac27057839df5da35fe2381a97bb712de81d4fc7",
+    "umbra_core/runtime.py": "891e3a84cd92fd9fec131bde23d404df18c0c4da5db57b9893b317d919b7c6a9",
+    "umbra_core/physiology.py": "c0448d32f9b64b4b0b616cfa866dd0f4f6eba03db07bc3b0a5a504cab787f5ba",
+    "umbra_core/world_model/engine.py": "ff4e9f1d8758be4573193696e987ce5176f4f06cc1e74e9647f4aa538cf2caba",
+    "umbra_core/world_model/route_evidence.py": "987729a674af5aae244108cb0e029fb0c7c6b25a8badf7ecbf1962642f211974",
+    "umbra_core/self_model/engine.py": "5d6e3efb686bd3840fdeb23bf179e3b1dd53f630bfffb14c86411cab80a6f197",
+    "experiments/as004/AS004_CONTINUATION_CONTRACT.json": "83e324c307b2a9233f41ac9e731a4c9a1f9c063f33a67533c1369f330353be5f",
+    "experiments/as004/AS004_CONTINUATION_CONTRACT_LOCK.json": "ceb0c382384dd46f316857888a08c87cd9aef004f3d67a89b19450156b67d0e4",
+    "experiments/as004/AS004_FRESH_SEED_MANIFEST.json": "cc8a60f4592553c82b16583cf4321078e5fd71686ee7cd9a88d90f910b529249"
+  },
+  "no_retry": true,
+  "no_reseed": true,
+  "post_lock_changes": "none",
+  "scientific_execution_counts_at_lock": {
+    "organism": 0,
+    "ticks": 0,
+    "control": 0,
+    "shadow": 0,
+    "diagnostic": 0,
+    "qualification": 0
+  }
+}
