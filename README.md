@@ -6,6 +6,11 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
+The latest R6F prospective common-root generation is **terminally protocol-failed**:
+its static gates passed, but the one frozen acquisition command stopped during
+module import before `main()`, organism creation, or any tick. The harness was
+not repaired or rerun; R7 remains blocked.
+
 **Scientific status:** subsystem capabilities are qualified within explicit
 boundaries; integrated long-horizon viability is **not qualified**. R6B is a
 permanent negative generation, while the fresh R6B-R1 repair qualified a bounded
@@ -141,6 +146,7 @@ solved.
 | Route/affordance planning-frame projection | **QUALIFIED — bounded, shadow-only** | AS-003P-R6C: immutable V2 projection of exact V2 route experience and learned ACTIVE `inspect` affordances; historical route evidence is MAY-only and has no modal/action-selection reader. |
 | MAY-route L2 relation reachability | **BOUNDARY FINDING — no precedence** | AS-003P-R6D: open-world route evidence produced `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions, but zero route-causal L2 precedence cases; R7 remains blocked. |
 | Known recovery-option preservation relation | **BOUNDED RESEARCH PRIMITIVE — matrix claim rejected for R7** | AS-003P-R6E's pure relation remains supported, but R6E-R1 found its R6D projection did not establish a lawful pre-candidate common-root option set; R7 remains blocked. |
+| Prospective common-root recovery-option acquisition | **FAILED — protocol only** | AS-003P-R6F passed static feasibility/applicability checks, then stopped before `main()` on a frozen research-harness import error; no organism or route evidence was acquired. |
 | Ordinary action selection and modal planning | **ACTIVE RESEARCH QUESTION** | Prior scalar and strict-dominance selectors were insufficient; modal planning remains shadow-only and has no behavior authority. |
 | Integrated long-horizon viability | **NOT QUALIFIED** | Formal and long-horizon generations retain terminal failures; AS-004 and CLOSE-03 remain blocked. |
 
@@ -275,6 +281,19 @@ Terminal result: `AS003PR6ER1_CANDIDATE_DERIVED_ROOT_CONTAMINATION_CONFIRMED`.
 The provenance-safe reapplication found 0 lawful common-root rows and 0
 positive relations; R7 remains blocked. See the [R6E-R1 task packet](.agent/tasks/active/UMBRA-AS-003P-R6E-R1/RESULT.md)
 and [R6E-R1 evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6e-r1).
+
+## R6F: prospective common-root acquisition
+
+R6F was authorized to acquire one real verified route experience and then
+evaluate a predeclared ordinary `IDLE`/`MOVE` pair from a later common root.
+Its static Phase B/C gates passed using existing policy-visible recoverability,
+exact opportunity identity, and body-schema evidence. The single frozen module
+invocation then failed before `main()` because the research harness imported
+`canonical_fingerprint` from the wrong module. No organism was created and no
+tick or relation evaluation occurred. Under the frozen protocol, this is a
+permanent `AS003PR6F_PROTOCOL_FAIL`; it is not a production or scientific
+rejection. See the [R6F result packet](.agent/tasks/active/UMBRA-AS-003P-R6F/RESULT.md)
+and [R6F evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6f).
 
 ## Scientific method
 

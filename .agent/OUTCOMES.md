@@ -1,3 +1,20 @@
+## UMBRA-AS-003P-R6F — terminal protocol failure — 2026-09-03
+
+R6F passed its static Phase B/C gates and froze a repository-root module
+invocation, but the single command stopped before `main()` because
+`common_root_assay.py` imported `canonical_fingerprint` from `umbra_core.util`
+instead of its actual `umbra_core.decision_trace` location. No organism was
+created or loaded, no tick/control/shadow/diagnostic execution occurred, and no
+route option or relation was acquired. The frozen directive prohibits repair,
+retry, or reseed, so the terminal verdict is `AS003PR6F_PROTOCOL_FAIL`.
+
+Protocol lock SHA-256:
+`3dccc202a3967ca5f56fcab2971d2e53806ad723a330e390f47c7f6dfc85678e`.
+Failure artifact SHA-256:
+`e6ce6f16cdb92a1fb48ff7764627c248d2cdac707bc6073dbf6d406d662291d2`.
+Production delta `0`; retries/reseeds `0/0`; R7 remains blocked; no successor
+started.
+
 ## UMBRA-AS-003P-R6E-R1 — governance start
 
 Architect disposition `REPLAN` preserves the R6E relation implementation but

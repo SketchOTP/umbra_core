@@ -1,0 +1,30 @@
+{
+  "schema": "AS003PR6F_PROTOCOL_FAILURE_V1",
+  "verdict": "AS003PR6F_PROTOCOL_FAIL",
+  "baseline": "670808a93de5d7a2eca4b9b237cf58b084fded30",
+  "protocol_lock_sha256": "3dccc202a3967ca5f56fcab2971d2e53806ad723a330e390f47c7f6dfc85678e",
+  "protocol_commit": "74fbf3ce331244e16aaa540621691e20d4ae1ae7",
+  "command": "/home/sketch/cs14n-runtime/bin/python -m experiments.as003pr6f.common_root_assay",
+  "working_directory": "/home/sketch/Projects/umbra-close02x-work",
+  "exit_status": 1,
+  "failure_phase": "module_import_before_main",
+  "exception": "ImportError: cannot import name 'canonical_fingerprint' from 'umbra_core.util'",
+  "traceback": [
+    "File \"<frozen runpy>\", line 198, in _run_module_as_main",
+    "File \"<frozen runpy>\", line 88, in _run_code",
+    "File \"/home/sketch/Projects/umbra-close02x-work/experiments/as003pr6f/common_root_assay.py\", line 26, in <module>",
+    "from umbra_core.util import canonical_fingerprint, verified_outcome_effect_branches",
+    "ImportError: cannot import name 'canonical_fingerprint' from 'umbra_core.util'"
+  ],
+  "attribution": "frozen R6F research-harness import defect; canonical_fingerprint is defined in umbra_core.decision_trace",
+  "main_entered": false,
+  "organism_created": 0,
+  "organism_ticks": 0,
+  "control_runs": 0,
+  "shadow_runs": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "production_change": 0,
+  "scientific_result": "NOT_REACHED",
+  "post_lock_action": "no repair, retry, reseed, or rerun permitted"
+}

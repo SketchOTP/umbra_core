@@ -1,3 +1,15 @@
+# UMBRA-AS-003P-R6F — TERMINAL protocol failure
+
+R6F passed its static natural-loss and route-applicability gates, then the one
+frozen command stopped during module import before `main()`. The harness
+imported `canonical_fingerprint` from `umbra_core.util`, where it is not
+defined; no organism was created and no tick occurred. R6F is permanently
+terminal as `AS003PR6F_PROTOCOL_FAIL` under its no-repair/no-retry lock. R7
+remains blocked and no successor started.
+
+Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
+
 # UMBRA-AS-003P-R6E-R1 — TERMINAL common-root provenance requalification
 
 # UMBRA-AS-003P-R6F — ACTIVE prospective common-root recovery-option acquisition

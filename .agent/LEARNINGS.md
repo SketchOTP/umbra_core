@@ -1,3 +1,12 @@
+## 2026-09-03 — R6F frozen protocol failure
+
+Static feasibility is not an importability proof. `py_compile` and pure tests
+passed, but the frozen module invocation still stopped before `main()` because
+the research harness imported a helper from the wrong owner module. After the
+execution lock, this is terminal evidence under the no-repair/no-retry rule;
+future protocol recovery must import-preflight every runtime dependency before
+locking and must not treat a static gate as a substitute for that check.
+
 ## 2026-09-03 — R6E-R1 provenance boundary
 
 R6E requires a common root option set, but the frozen R6D matrix exposes

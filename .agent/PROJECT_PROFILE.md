@@ -1,3 +1,12 @@
+Current governed status: UMBRA-AS-003P-R6F is terminal from exact baseline
+`670808a93de5d7a2eca4b9b237cf58b084fded30` with
+`AS003PR6F_PROTOCOL_FAIL`. Static feasibility/applicability passed, but the
+single frozen research module stopped on an import error before `main()`;
+organism/load/tick/control/shadow/diagnostic counts are all zero, and no repair,
+retry, reseed, route acquisition, relation evaluation, or successor occurred.
+R7 remains blocked. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
+
 Current governed status: UMBRA-AS-003P-R6E-R1 is terminal from exact baseline
 `e18d7c83a59988be4ed2cd5f9957820a7ab02968` after Architect replan. R6E's pure
 known-option preservation relation remains a supported research primitive, but

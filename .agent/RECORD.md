@@ -1,3 +1,15 @@
+## 2026-09-03 — UMBRA-AS-003P-R6F terminal closeout
+
+R6F is terminal as `AS003PR6F_PROTOCOL_FAIL`. Its static Phase B/C gates passed,
+but the one frozen command failed at module import before `main()` because the
+new research harness imported `canonical_fingerprint` from `umbra_core.util`.
+No organism, load, tick, control, shadow, or diagnostic execution occurred.
+The execution lock forbade repair, retry, and reseed; R7 remains blocked and no
+successor started. Protocol lock SHA-256:
+`3dccc202a3967ca5f56fcab2971d2e53806ad723a330e390f47c7f6dfc85678e`.
+Failure artifact SHA-256:
+`e6ce6f16cdb92a1fb48ff7764627c248d2cdac707bc6073dbf6d406d662291d2`.
+
 ## 2026-09-03 — UMBRA-AS-003P-R6E-R1 governance start
 
 Architect accepted the R6E relation as a research primitive but rejected the

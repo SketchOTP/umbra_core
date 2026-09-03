@@ -116,6 +116,19 @@ See the [R6E-R1 task packet](../.agent/tasks/active/UMBRA-AS-003P-R6E-R1/RESULT.
 and local/internal R6E-R1 evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-r1-common-root-provenance-r1/`.
 
+### AS-003P-R6F
+
+R6F passed its zero-run static Phase B/C gates: existing policy-visible
+recoverability exposed an ordinary hard-admissible feasible-to-infeasible
+transition, and exact route applicability failed closed on missing, ambiguous,
+or stale evidence. The single frozen acquisition command then failed during
+research-harness import before `main()`, organism construction, or any tick.
+The frozen no-repair/no-retry boundary therefore yields terminal
+`AS003PR6F_PROTOCOL_FAIL`. No route option, common-root relation, or R7
+authority was acquired. See the [R6F task packet](../.agent/tasks/active/UMBRA-AS-003P-R6F/RESULT.md)
+and local/internal R6F evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
+
 ## Architecture and authority
 
 The files below are the frozen D-000S foundation. They explain the intended ownership

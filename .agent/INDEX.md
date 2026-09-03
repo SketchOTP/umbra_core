@@ -1,3 +1,13 @@
+# UMBRA-AS-003P-R6F is TERMINAL from exact synchronized baseline
+
+R6F static feasibility passed, but its single frozen acquisition command failed
+before `main()` on a research-harness import error. Organism/load/tick/control/
+shadow/diagnostic counts were `0/0/0/0/0/0`; retries and reseeds were `0/0`.
+Terminal verdict: `AS003PR6F_PROTOCOL_FAIL`. No repair, rerun, successor, or
+R7 authorization followed. Result packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6F/RESULT.md`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
+
 # UMBRA-AS-003P-R6E-R1 is TERMINAL from exact synchronized baseline
 `e18d7c83a59988be4ed2cd5f9957820a7ab02968` after Architect disposition
 `REPLAN` of R6E's matrix qualification claim. The R6E relation primitive is
