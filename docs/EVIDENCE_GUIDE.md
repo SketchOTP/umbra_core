@@ -58,6 +58,27 @@ Evidence root (local/internal provenance):
 The complete artifact inventory and readback hashes are recorded in the R6C
 result packet and final manifest.
 
+### AS-003P-R6D
+
+R6D is a zero-organism reachability audit from the accepted R6C frame projection.
+It preserves the R6 `l2_precedes()` implementation and treats finite historical
+route experiences as existential `MAY` witnesses. Unless an authoritative closure
+source exists, unobserved future route demand remains `UNKNOWN`.
+
+The deterministic symbolic matrix covered 1,152 configurations. It found zero
+open-world route-causal precedence cases, while retaining 96 non-authoritative
+`COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions. The matrix also identified
+288 non-route-causal precedence cases and 576 cases preempted by hard authority;
+the 96 route-causal positives occurred only in a closed-world diagnostic projection.
+This is a relation-reachability boundary, not a planner qualification, and R7 is
+not authorized.
+
+Terminal result: `AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`.
+Evidence root (local/internal provenance):
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
+The complete artifact inventory and readback hashes are recorded in the R6D result
+packet and final manifest.
+
 ## Architecture and authority
 
 The files below are the frozen D-000S foundation. They explain the intended ownership
@@ -215,6 +236,13 @@ selection. Atlas retains the complete per-command evidence under:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6b-r1-route-control-continuity-r1/`.
 
 No raw modal trace from an invalidated observer generation is qualification evidence.
+
+### AS-003P-R6D
+
+- [`R6D result`](../.agent/tasks/active/UMBRA-AS-003P-R6D/RESULT.md) — terminal
+  open-world reachability finding.
+- [`R6D scope and open-world contract`](../.agent/tasks/active/UMBRA-AS-003P-R6D/SPEC.md)
+  — zero-run scope and residual-UNKNOWN boundary.
 
 ## Tests, experiments, and evidence boundaries
 

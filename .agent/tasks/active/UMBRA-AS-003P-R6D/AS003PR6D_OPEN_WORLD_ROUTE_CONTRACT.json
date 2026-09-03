@@ -1,0 +1,38 @@
+{
+  "schema": "AS003PR6D_OPEN_WORLD_ROUTE_CONTRACT_V1",
+  "status": "LOCKED",
+  "known_successful_witness": {
+    "classification": "KNOWN_MAY_ROUTE_WITNESS",
+    "meaning": "one recorded successful route trajectory occurred",
+    "does_not_prove": [
+      "shortest route",
+      "longest route",
+      "typical route",
+      "future recurrence",
+      "no faster route",
+      "no slower route"
+    ]
+  },
+  "failure_witness": {
+    "classification": "KNOWN_ROUTE_FAILURE_HISTORY",
+    "meaning": "one verified route failure occurred",
+    "universal_future_failure": false
+  },
+  "residual_route_unknown": {
+    "default": true,
+    "cleared_only_by": "explicit authoritative route-space closure/exhaustiveness source"
+  },
+  "non_exhaustive_signals": [
+    "route evidence capacity",
+    "sample repetition",
+    "observed minimum",
+    "observed maximum",
+    "failure count",
+    "success count",
+    "WorldModel confidence"
+  ],
+  "closed_world_evaluator": "diagnostic attribution only",
+  "open_world_evaluator": "lawful candidate semantics",
+  "organism_execution": 0,
+  "production_change": 0
+}

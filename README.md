@@ -139,6 +139,7 @@ solved.
 | True physical-body replacement | **QUALIFIED — bounded** | AS-003S atomic replacement transaction; see below. |
 | Verified route-control learning | **QUALIFIED — bounded** | AS-003P-R6B-R1: one frozen nominal route-control acquisition plus one movement-slip failure leg; default-off, WorldModel-owned, no policy reader. |
 | Route/affordance planning-frame projection | **QUALIFIED — bounded, shadow-only** | AS-003P-R6C: immutable V2 projection of exact V2 route experience and learned ACTIVE `inspect` affordances; historical route evidence is MAY-only and has no modal/action-selection reader. |
+| MAY-route L2 relation reachability | **BOUNDARY FINDING — no precedence** | AS-003P-R6D: open-world route evidence produced `COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions, but zero route-causal L2 precedence cases; R7 remains blocked. |
 | Ordinary action selection and modal planning | **ACTIVE RESEARCH QUESTION** | Prior scalar and strict-dominance selectors were insufficient; modal planning remains shadow-only and has no behavior authority. |
 | Integrated long-horizon viability | **NOT QUALIFIED** | Formal and long-horizon generations retain terminal failures; AS-004 and CLOSE-03 remain blocked. |
 
@@ -215,6 +216,28 @@ behavioral qualification.
 [R6C result](.agent/tasks/active/UMBRA-AS-003P-R6C/RESULT.md) ·
 [R6C evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6c)
 
+## R6D: MAY-route reachability boundary
+
+R6D is a zero-run architecture audit, not a qualification or implementation
+repair. It preserved the R6 `l2_precedes()` relation and compared a diagnostic
+closed-world interpretation with the lawful open-world interpretation of R6C's
+MAY-only route witnesses. The deterministic matrix covered 1,152 symbolic
+configurations.
+
+Under open-world semantics, a finite successful route witness can establish
+`COMPLETE_MAY_SCHEDULE`, but a witness that misses a deadline leaves an unobserved
+faster route as residual `SCHEDULE_UNKNOWN`. It therefore cannot establish the
+`NO_COMPLETE_SCHEDULE` obligation needed for route-informed precedence. The matrix
+found zero open-world route-causal precedence cases, 96 `COMPLETE_MAY` versus
+`SCHEDULE_UNKNOWN` evidence distinctions, 288 non-route-causal precedence cases,
+and 576 cases preempted by hard authority. The 96 route-causal positives exist
+only in an explicitly non-authoritative closed-world diagnostic.
+
+Terminal result: `AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`.
+R7's currently specified common-root precedence target is not justified, and no
+successor has started. See the [R6D result](.agent/tasks/active/UMBRA-AS-003P-R6D/RESULT.md)
+and [R6D evidence guide entry](docs/EVIDENCE_GUIDE.md#as-003p-r6d).
+
 ## Scientific method
 
 UMBRA treats experiment design and negative evidence as part of the implementation:
@@ -265,6 +288,11 @@ Negative results are not removed when later work succeeds.
   AS-003P-R5A separately reused that retained root under a new lock and established
   observer parity, but its fresh modal profiles supplied no candidate distinction,
   including across 57 relevant conflict exposures.
+- **Open-world planning reachability:** AS-003P-R6D preserved the L2 relation and
+  showed that MAY-only route experience can distinguish a possible schedule from an
+  unknown schedule, but cannot prove route-informed loss under open-world
+  semantics. The route-causal positives in its closed-world projection are
+  diagnostic only; R7 remains on hold.
 
 See [Selected negative evidence](docs/EVIDENCE_GUIDE.md#selected-negative-evidence)
 for the exact records.
@@ -353,6 +381,12 @@ permanently failed; R6B-R1 subsequently qualified same-target route-control
 continuity. R6C now projects that qualified V2 evidence and learned ACTIVE
 affordances into an immutable shadow frame, but the fields remain MAY/UNKNOWN
 evidence and are not consumed by action selection.
+
+R6D then audited whether those MAY-only route witnesses can reach the locked L2
+precedence relation. It found that open-world residual UNKNOWN blocks a route-derived
+no-schedule proof, while route evidence still creates non-authoritative
+`COMPLETE_MAY` versus `SCHEDULE_UNKNOWN` distinctions. The terminal result is
+`AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`; R7 is not authorized.
 
 The next planning experiment is recommendation-only. Planning integration,
 AS-004 integrated viability, and CLOSE-03 final organism acceptance remain

@@ -1540,3 +1540,14 @@ freeze `0`, Authority 3.0/Governance/diff checks PASS. Freeze:
 `71074dc8bfe6fce3e66398f92f642537686582c3`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
 Recommendation only: `UMBRA-AS-003P-R7`; no successor started.
+# UMBRA-AS-003P-R6D — ACTIVE MAY-route L2 reachability audit
+
+R6D begins from exact synchronized baseline `ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37`
+after accepted R6C terminal `AS003PR6C_ROUTE_AFFORDANCE_PLANNING_FRAME_QUALIFIED`.
+R7 is on hold pending a zero-run proof that the locked R6 `l2_precedes()` relation is
+structurally reachable under R6C's MAY-only, open-world route semantics. Finite route
+witnesses are existential evidence and leave residual route UNKNOWN unless an explicit
+closure source exists. No production/R6 implementation/R6C/R6B/AS-003L/AS-002 change,
+organism/load/tick/control/shadow/diagnostic run, retry, or reseed is authorized.
+Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.

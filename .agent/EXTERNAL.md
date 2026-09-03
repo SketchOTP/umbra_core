@@ -378,3 +378,9 @@ R6C introduced no external dependency. External abstraction/evidence literature
 remains `REFERENCE` only; the implementation is grounded in UMBRA's existing
 verified route-control and learned-affordance owners. No planner, route optimizer,
 utility, weighting, or action-selection semantics were imported.
+## UMBRA-AS-003P-R6D reference boundary — 2026-09-03
+
+R6D reuses the existing may/must and open-world evidence references only as
+`REFERENCE`. No new dependency, optimizer, scheduler, probability model, or
+planner is introduced. The governing result must come from the preserved UMBRA
+R6 L2 implementation and pure symbolic cases.

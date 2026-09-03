@@ -271,3 +271,11 @@ Static analysis found zero new readers in modal/action-selection paths. Pure
 tests passed `62/62` twice, no organism or diagnostic execution occurred, and
 the dedicated freeze is `71074dc8bfe6fce3e66398f92f642537686582c3`. Evidence
 root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`. No successor started.
+## 2026-09-03 — UMBRA-AS-003P-R6D governance start
+
+Architect accepted R6C and placed R7 on hold pending a zero-run MAY-route L2
+reachability audit. R6D starts from exact synchronized baseline
+`ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37` and preserves R6's relation and
+R6C's MAY-only route semantics. It will distinguish finite existential route
+witnesses from exhaustive closure and must retain residual UNKNOWN. Production,
+tests, live execution, retries, and reseeds are prohibited.

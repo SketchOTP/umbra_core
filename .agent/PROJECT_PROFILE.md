@@ -498,3 +498,11 @@ passed `62/62` twice; freeze `71074dc8bfe6fce3e66398f92f642537686582c3`; organis
 control, shadow, diagnostic, and qualification runs were zero; retries/reseeds
 `0/0`; Authority 3.0/Governance PASS. Recommendation only:
 `UMBRA-AS-003P-R7`; no successor started.
+Current governed status: UMBRA-AS-003P-R6D is active from exact baseline
+`ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37` after accepted R6C. R7 is held
+pending a zero-run reachability proof for route-informed L2 precedence under
+MAY-only, open-world semantics. Finite route witnesses are non-exhaustive and
+leave residual route UNKNOWN unless explicitly closed. No production,
+R6/R6C/R6B/R6L/AS-002 change or organism/control/shadow/diagnostic execution is
+authorized; retries/reseeds are `0/0`. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.

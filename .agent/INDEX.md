@@ -579,3 +579,11 @@ retries/reseeds are `0/0`. Freeze:
 `.agent/tasks/active/UMBRA-AS-003P-R6C/`; evidence:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6c-route-affordance-frame-r1/`.
 No successor started; R7 is recommendation-only.
+# UMBRA-AS-003P-R6D is ACTIVE from exact synchronized baseline
+`ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37` after accepted R6C terminal
+`AS003PR6C_ROUTE_AFFORDANCE_PLANNING_FRAME_QUALIFIED`. R6D is zero-organism
+architecture research auditing whether open-world MAY route evidence can make
+the locked R6 `l2_precedes()` relation reachable. R7 is held until this is
+resolved. No production, R6/R6C/R6B/R6L/AS-002 changes or live execution are
+authorized. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.

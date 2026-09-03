@@ -1485,3 +1485,14 @@ shadow/diagnostic/qualification runs are `0/0/0/0/0/0/0`; retries/reseeds are
 `0/0`. Freeze is `71074dc8bfe6fce3e66398f92f642537686582c3`; evidence root is
 the R6C route-affordance frame root. No successor started; R7 is
 recommendation-only.
+## UMBRA-AS-003P-R6D governance start — MAY-route L2 reachability — 2026-09-03
+
+R6D begins from exact baseline `ae4a6ca8d3c24c482a4a7ec2db9ec75cf2669a37`
+after accepted R6C. R7 is held because finite historical route witnesses are
+MAY-only and do not establish exhaustive future route demand. This zero-run
+audit preserves the R6 `l2_precedes()` contract while comparing diagnostic
+closed-world attribution with sound open-world semantics that retain residual
+route UNKNOWN. No production, test-semantic, R6/R6C/R6B/R6L/AS-002 change or
+organism/control/shadow/diagnostic execution is authorized. No retry/reseed or
+successor is authorized. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6d-may-route-l2-reachability-r1/`.
