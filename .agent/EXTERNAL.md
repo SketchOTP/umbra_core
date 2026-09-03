@@ -396,3 +396,9 @@ planner, or external dependency was imported.
 R6E introduces no external dependency. The relation is a project-local
 zero-run research primitive over known option preservation and does not import
 optimization, weighting, probability, source priority, or planner semantics.
+
+## UMBRA-AS-003P-R6E closeout reference boundary — 2026-09-03
+
+No external dependency was imported. R6E is a project-local relation study over
+known option preservation; it does not import optimization, weighting,
+probability, source priority, or planner semantics.

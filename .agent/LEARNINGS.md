@@ -697,3 +697,12 @@ separate preservation claim over a fixed common root option set: a candidate may
 destroy a known option without claiming that all future routes are impossible.
 Option identity, not evidence volume or confidence, governs the relation. This
 stage is zero-run and non-authoritative.
+
+## 2026-09-03 — R6E terminal learning
+
+A fixed common root set of known recovery options can support a bounded
+candidate relation even when open-world route evidence cannot prove universal
+future schedule loss. Candidate-caused destruction of a known option is a
+different proposition from unrecoverability. Three-valued preservation status
+keeps residual unknown intact and does not require score, confidence, provenance
+volume, or source-priority semantics.

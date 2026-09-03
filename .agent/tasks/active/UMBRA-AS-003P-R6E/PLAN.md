@@ -9,4 +9,5 @@
 4. Publish evidence, close governance/public records, push, and refetch Notion.
 
 No production, R6 implementation, live execution, R7, retry, or reseed activity
-is authorized.
+was authorized. R6E completed with `AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED`;
+the prospective R7 qualification remains recommendation-only.

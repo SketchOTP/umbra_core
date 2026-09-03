@@ -521,3 +521,10 @@ zero-run, non-authoritative audit of known recovery-option preservation using a
 common root option set and three-valued `PRESERVED / DESTROYED / UNKNOWN`
 semantics. R7 remains held pending the result; no production or action-selection
 change is authorized.
+
+Current governed status: UMBRA-AS-003P-R6E is terminal with
+`AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED` from exact
+baseline `c781bfb2539e6933638e15306a66a781fcf82557`. The zero-run frozen-matrix
+audit found `64` route-causal ordinary hard-admissible relations. This remains
+non-authoritative research evidence; R7 is recommendation-only and no successor
+started.

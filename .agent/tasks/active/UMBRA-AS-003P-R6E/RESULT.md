@@ -63,3 +63,6 @@ Qualification` is recommendation-only. It was not started automatically.
 
 Evidence root (local/internal provenance):
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
+
+The exact GitHub closeout commit and evidence-manifest digest are recorded in
+the durable final validation artifact and the synchronized project ledger.

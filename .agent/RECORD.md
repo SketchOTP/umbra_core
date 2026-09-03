@@ -302,3 +302,13 @@ control/shadow/diagnostic/qualification runs are all zero; retries/reseeds are
 `0/0`; Authority 3.0, Governance, diff, and links passed. R7 remains blocked and
 no successor started. Scientific closeout commit:
 `8ec4e99aad05d84841dc91583541ef537caec0c0`.
+
+## 2026-09-03 — UMBRA-AS-003P-R6E terminal closeout
+
+R6E completed the zero-run known recovery-option preservation audit from
+`c781bfb2539e6933638e15306a66a781fcf82557`. The frozen R6D matrix contained
+`1152` configurations; R6E found `192` positive relations, including `64`
+route-causal ordinary hard-admissible cases, with `128` non-route relations,
+`256` hard preemptions, and `640` root-option-empty cases. The terminal result
+is `AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED`. R7 is
+recommendation-only and no successor started.

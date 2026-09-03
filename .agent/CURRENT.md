@@ -1572,3 +1572,13 @@ relation research over a fixed common root option set using immutable
 score, probability, confidence, provenance volume, and source priority are not
 authority. R7 remains held. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
+
+## UMBRA-AS-003P-R6E — TERMINAL known recovery-option preservation relation
+
+R6E is terminal with `AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED`.
+The zero-run application of the immutable R6D `1152`-row matrix found `192`
+positive relations, including `64` route-causal ordinary hard-admissible cases;
+`128` were non-route relations, `256` were hard-preempted, and `640` had no
+eligible root option. R7 is recommendation-only and no successor started.
+Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.

@@ -608,3 +608,13 @@ exhaustion. It has no production, R6/L2, planning, action-selection, or live
 execution scope. R7 is held. Packet:
 `.agent/tasks/active/UMBRA-AS-003P-R6E/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
+
+## UMBRA-AS-003P-R6E is TERMINAL
+
+`AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED` was
+established by zero-run pure relation analysis from baseline
+`c781bfb2539e6933638e15306a66a781fcf82557`. The immutable R6D matrix yielded
+`192` positive relations, including `64` route-causal ordinary hard-admissible
+cases. R7 is recommendation-only; packet:
+`.agent/tasks/active/UMBRA-AS-003P-R6E/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.

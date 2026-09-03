@@ -1520,3 +1520,13 @@ terminal result is `AS003PR6D_ROUTE_EVIDENCE_DISTINCTION_WITHOUT_PRECEDENCE`.
 No production or existing-test semantic change occurred; no organism, control,
 shadow, diagnostic, retry, or reseed occurred. R7 remains blocked and no successor
 started. Scientific closeout commit: `8ec4e99aad05d84841dc91583541ef537caec0c0`.
+
+## UMBRA-AS-003P-R6E terminal closeout — known recovery-option preservation relation — 2026-09-03
+
+R6E established the bounded relation
+`AS003PR6E_KNOWN_RECOVERY_OPTION_PRESERVATION_RELATION_SUPPORTED` without
+changing R6D, production, or action-selection authority. Across the immutable
+`1152`-row matrix, `192` relations were positive, including `64` route-causal
+ordinary hard-admissible cases; `128` were non-route, `256` were hard-preempted,
+and `640` had no eligible root option. The seven-tick witness probe preserved
+MAY/UNKNOWN semantics. R7 is recommendation-only and no successor started.
