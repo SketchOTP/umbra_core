@@ -1,0 +1,56 @@
+{
+  "schema": "AS006_WEAK_CONTINUATION_CONTRACT_V1",
+  "directive": "UMBRA-AS-006",
+  "status": "LOCKED_BEFORE_PRODUCTION_IMPLEMENTATION",
+  "root": {
+    "construction": "candidate-independent",
+    "source": "same-tick PlanningEvidenceFrame and source-backed verified route experience",
+    "candidate_consequence_rule": "candidate branches may change option status only; they may not create, delete, rename, or reorder root options"
+  },
+  "known_weak_continuation_option": {
+    "semantic": "one concrete recovery continuation established as possible by lived/source-backed evidence",
+    "identity_fields": [
+      "exact opportunity identity",
+      "opportunity kind",
+      "exact body-schema identity",
+      "covered homeostatic owners",
+      "route experience identity semantics",
+      "ordered verified route-control pattern",
+      "terminal capability",
+      "observed logical route/service demand",
+      "relevant source-support horizon"
+    ],
+    "excluded_from_identity_and_authority": [
+      "evidence UUID preference",
+      "confidence or sample count",
+      "stochastic state",
+      "candidate identity",
+      "provenance ordering"
+    ],
+    "modality": "MAY remains MAY and is never promoted to MUST"
+  },
+  "status_semantics": {
+    "PRESERVED": "Every supported immediate candidate-effect branch retains at least one exact source-permitted matching continuation.",
+    "DESTROYED": "Every supported immediate branch categorically invalidates the exact known option through an authoritative source condition; this does not claim that all recovery is impossible.",
+    "UNKNOWN": "Any mixed branch outcome, uncertain applicability, missing evidence, or unknown candidate effect prevents a categorical conclusion.",
+    "elimination": "UNKNOWN cannot eliminate; A may eliminate B only for the same root option set when A is PRESERVED, B is DESTROYED, no converse loss exists, and no asymmetric UNKNOWN exists."
+  },
+  "source_horizon": {
+    "semantics": "frame-relative support horizon for the exact opportunity",
+    "consumption": "remaining_horizon = source_horizon - current_action_duration",
+    "unknown_rule": "unknown or non-categorical horizon yields UNKNOWN",
+    "no_reset": true
+  },
+  "recovery_slack": {
+    "definition": "owner-local time-to-constitutional-viable-boundary minus exact known option demand",
+    "use": "binary option-feasibility only",
+    "recompute": "after every supported immediate candidate branch",
+    "prohibited": ["ranking", "utility", "priority", "least-laxity scheduling", "route-duration preference", "cross-owner aggregation"]
+  },
+  "epistemic_rules": {
+    "observed_duration": "known witnessed demand, not a universal future guarantee",
+    "distance_progress_quotient": "forbidden",
+    "hidden_habitat_truth": "forbidden",
+    "verified_outcome_only": true
+  }
+}
