@@ -1,0 +1,9 @@
+{
+  "schema": "AS003PR6FR1_EXECUTABLE_PREFLIGHT_V1",
+  "status": "PASS_TWICE_IDENTICAL",
+  "interpreter": "/home/sketch/cs14n-runtime/bin/python",
+  "module": "experiments.as003pr6fr1.common_root_assay",
+  "run_output_sha256": "3cae5c805f5f3bab7a3822e9663f7314bfbb0d84c2089d2c5d10e0a52f414065",
+  "organism_created": 0,
+  "ticks": 0
+}

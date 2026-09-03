@@ -1,0 +1,7 @@
+{
+  "schema": "AS003PR6FR1_HARNESS_EQUIVALENCE_AUDIT_V1",
+  "old_source_sha256": "ab382b7ccd4f305b7235853b6b1fdcc59c4576ee5209738b6067bf4f04b811c4",
+  "new_source_sha256": "89da745302f7149c92987e4c346be82bc8e84bb928ed601c977a20479a0303ed",
+  "normalized_ast_equal": true,
+  "status": "SCIENTIFIC_PROTOCOL_SEMANTICS_IDENTICAL"
+}
