@@ -1610,3 +1610,11 @@ verified route experience, persist it, and test natural candidate destruction
 only if static source and route-applicability gates pass first. No historical
 R6D/R6E evidence changes, synthetic horizon/deadline, learning injection,
 planning/action authority, R7, live pair, retry, or reseed is authorized.
+## 2026-09-03 — UMBRA-AS-004 start
+
+AS-004 starts from `6da7326af2ff502bbf6bb712a08ae263b1505d54` after accepted
+R6F-R1 terminal nondiscrimination. R7 is superseded as the next execution
+gate, not erased. This milestone will test whether bounded source-backed
+multi-step continuation can provide lawful ordinary action-selection evidence
+and integrated viability without scalarization or planner execution authority.
+No production/test/experiment delta, live run, retry, or reseed has occurred.

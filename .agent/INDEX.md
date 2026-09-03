@@ -664,3 +664,6 @@ established by zero-run pure relation analysis from baseline
 cases. R7 is recommendation-only; packet:
 `.agent/tasks/active/UMBRA-AS-003P-R6E/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
+# CURRENT AUTHORITY — UMBRA-AS-004
+
+AS-004 is active from `6da7326af2ff502bbf6bb712a08ae263b1505d54`. It supersedes R7 as the next execution gate while preserving R7 and all earlier negative evidence. The active objective is bounded source-backed multi-step continuation reasoning integrated into ordinary action selection, followed by the single frozen viability lineage authorized by the directive. No scientific execution has occurred at governance start. Packet: `.agent/tasks/active/UMBRA-AS-004/`; evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.

@@ -568,3 +568,13 @@ assay run. No synthetic deadlines/horizons, learned-state injection,
 planning/action authority, R7, AS-004, CLOSE-03, retry, or reseed is authorized.
 Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/`.
+# Current authority: UMBRA-AS-004 ACTIVE
+
+The current milestone starts from exact baseline
+`6da7326af2ff502bbf6bb712a08ae263b1505d54`. It extends the qualified
+hypothetical/source substrate into bounded multi-step continuation reasoning
+and tests one ordinary action-selection authority path through integrated
+viability gates. R6F-R1 remains a permanent terminal nondiscriminating result;
+R7 is superseded as the next execution gate but preserved historically. No
+planning authority, integrated viability, AS-004 successor, or CLOSE-03 result
+is established at start.

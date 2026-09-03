@@ -1,0 +1,21 @@
+{
+  "directive": "UMBRA-AS-004",
+  "baseline": "6da7326af2ff502bbf6bb712a08ae263b1505d54",
+  "head": "6da7326af2ff502bbf6bb712a08ae263b1505d54",
+  "local_master": "6da7326af2ff502bbf6bb712a08ae263b1505d54",
+  "github_master": "6da7326af2ff502bbf6bb712a08ae263b1505d54",
+  "worktree": "clean",
+  "parent": "AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING",
+  "r7_status": "SUPERSEDED_AS_NEXT_GATE_PRESERVED_HISTORICAL_EVIDENCE",
+  "production_delta_at_start": 0,
+  "existing_test_semantic_delta_at_start": 0,
+  "organism_runs_at_start": 0,
+  "control_runs_at_start": 0,
+  "shadow_runs_at_start": 0,
+  "diagnostic_runs_at_start": 0,
+  "qualification_runs_at_start": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "notion_authority": "AS-004",
+  "status": "PASS"
+}

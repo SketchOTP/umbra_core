@@ -756,3 +756,11 @@ verified route experience, persist it, and expose its provenance before the
 candidate pair is differentiated. Existing policy-visible recoverability
 signals may be audited for natural loss, but they cannot be promoted into a
 new hard guarantee or used with synthetic deadlines.
+## 2026-09-03 — AS-004 continuation boundary
+
+R6F-R1 supplied lived route provenance but did not discriminate IDLE versus
+MOVE. AS-004 therefore tests the larger AS-003L requirement: bounded
+multi-obligation continuation preservation across source-backed outcome
+branches. Candidate-specific evidence must not construct the common root; a
+failure to prove a continuation remains UNKNOWN unless source completeness is
+explicit. R7 remains historical and is superseded only as the next gate.

@@ -1635,3 +1635,8 @@ positive relations, including `64` route-causal ordinary hard-admissible cases;
 eligible root option. R7 is recommendation-only and no successor started.
 Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6e-known-option-preservation-r1/`.
+# UMBRA-AS-004 — ACTIVE bounded continuation action selection and integrated viability
+
+AS-004 begins from exact synchronized baseline `6da7326af2ff502bbf6bb712a08ae263b1505d54`. R6F-R1 is accepted as permanent terminal `AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`; R7 is superseded as the next execution gate, not erased or reinterpreted. AS-003L remains the governing multi-step planning boundary. The qualified AS-003N/O hypothetical/source substrate, R6 route/affordance evidence, D-010Q5 temporal continuity, D-011 perception adapters, and AS-003S atomic true-body replacement are preserved. Integrated long-horizon viability and ordinary action-selection qualification remain unresolved.
+
+AS-004 is one bounded implementation-to-qualification milestone: freeze a source-backed multi-step continuation contract, integrate one ordinary action-selection authority path, preserve hard/Governance/Embodiment/VerifiedOutcome/selected-only learning/stochasticity contracts, and carry the frozen candidate through the authorized historical, fresh-population, lifecycle, boundedness, and ablation gates. At start, production/test/experiment deltas and organism/load/tick/control/shadow/diagnostic/qualification runs are zero; retries/reseeds are `0/0`. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.

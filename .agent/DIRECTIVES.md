@@ -1091,3 +1091,15 @@ successor is authorized.
 
 ## UMBRA-AS-003P-R6F — CLOSEOUT (2026-09-03)
 - Directive: UMBRA-AS-003P-R6F | status:terminal | baseline:670808a93de5d7a2eca4b9b237cf58b084fded30 | verdict:AS003PR6F_PROTOCOL_FAIL | static Phase B/C:PASS/PASS | frozen command:module-import failure before main | organism/load/tick/control/shadow/diagnostic:0/0/0/0/0/0 | retries:0 | reseeds:0 | production:0 | route/common-root relation:not reached | Authority3:PASS | governance:PASS | diff:PASS | R7:blocked | successor:none | protocol lock:3dccc202a3967ca5f56fcab2971d2e53806ad723a330e390f47c7f6dfc85678e | failure:e6ce6f16cdb92a1fb48ff7764627c248d2cdac707bc6073dbf6d406d662291d2 | manifest:1c047916a9d5696b72d9ee217733bc90acd1a0ef26b6ca54dc4b82b39a04c42c | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1/ | closeout_commit:recorded_in_terminal_task_result | remote:github
+## 2026-09-03 — UMBRA-AS-004 governance start
+
+Architect authorized AS-004 from exact synchronized baseline
+`6da7326af2ff502bbf6bb712a08ae263b1505d54`. R6F-R1 remains terminal
+`AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`; R7 is
+superseded as the next required gate but remains permanent historical evidence.
+AS-004 carries the AS-003L multi-step planning boundary into one bounded
+implementation/integration/viability milestone. No scalar utility, arbitrary
+weights, source priority, hidden Habitat truth, executable plan queue,
+hypothetical learning, retry, reseed, automatic successor, or CLOSE-03 is
+authorized. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.

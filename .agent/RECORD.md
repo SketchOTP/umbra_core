@@ -370,3 +370,10 @@ differentiation, then any preservation/loss relation must use only source-backed
 natural consequences. Static natural-destruction and exact route-applicability
 gates precede at most one bounded organism. No production/action-selection
 change, synthetic deadline/horizon, learning injection, R7, retry, or reseed.
+## 2026-09-03 — UMBRA-AS-004 start
+
+Baseline `6da7326af2ff502bbf6bb712a08ae263b1505d54`; R6F-R1 terminal
+`AS003PR6FR1_PROSPECTIVE_COMMON_ROOT_RELATION_NONDISCRIMINATING`; R7
+superseded as next gate. AS-004 scope is bounded continuation action selection
+and integrated viability with zero scientific runs at start. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-004-bounded-continuation-integrated-viability-r1/`.
