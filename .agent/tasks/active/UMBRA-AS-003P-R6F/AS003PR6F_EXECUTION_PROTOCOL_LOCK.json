@@ -1,0 +1,57 @@
+{
+  "schema": "AS003PR6F_EXECUTION_PROTOCOL_LOCK_V1",
+  "status": "FROZEN_BEFORE_ORGANISM_EXECUTION",
+  "baseline": "670808a93de5d7a2eca4b9b237cf58b084fded30",
+  "protocol_commit": "fab593df2fd81f0358423d5b19120cd2fbbb61aa",
+  "working_directory": "/home/sketch/Projects/umbra-close02x-work",
+  "interpreter": "/home/sketch/cs14n-runtime/bin/python",
+  "python_version": "3.12.3",
+  "command": [
+    "/home/sketch/cs14n-runtime/bin/python",
+    "-m",
+    "experiments.as003pr6f.common_root_assay"
+  ],
+  "environment": {
+    "PYTHONPATH": "unset",
+    "wall_time": "0.0",
+    "temporary_runtime_directory": "/dev/shm",
+    "evidence_root": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-prospective-common-root-option-r1"
+  },
+  "scenario": "S0",
+  "seed": 18482,
+  "seed_derivation": {
+    "input": "UMBRA-AS-003P-R6F|670808a93de5d7a2eca4b9b237cf58b084fded30|S0",
+    "sha256": "1a7c07dcc254ea830ebf5b3abfbf198d0149bb02027d7197ab86f095dd744d12",
+    "conversion": "int(full_sha256_hex, 16) modulo 100000"
+  },
+  "max_ticks": 500,
+  "candidate_pair": [
+    {"capability": "IDLE", "params": {}},
+    {"capability": "MOVE", "params": {"heading_delta": 0.0, "step": 1.0}}
+  ],
+  "candidate_pair_selection": "predeclared ordinary emitted candidates; no candidate intervention is executed",
+  "root_predicate": "successful verified V2 route experience exists before next decision root; exact opportunity/body-schema applicability holds; root O0 is formed before pair analysis",
+  "prohibited": [
+    "experimental final selector",
+    "synthetic deadline or horizon",
+    "learned-state injection",
+    "planning reader",
+    "candidate-pair execution as intervention",
+    "retry",
+    "reseed"
+  ],
+  "retry_count": 0,
+  "reseed_count": 0,
+  "production_change": 0,
+  "organism_runs_authorized": 1,
+  "organism_runs_before_lock": 0,
+  "scientific_files": {
+    "umbra_core/arbitration.py": "9c569b7df3b195474390ab0dd4c1cfab989c0d34e76cbc2a42811587161bc990",
+    "umbra_core/world_model/engine.py": "ff4e9f1d8758be457319369e987ce5176f4f06cc1e74e9647f4aa538cf2caba",
+    "umbra_core/world_model/route_evidence.py": "987729a674af5aae244108cb0e029fb0c7c6b25a8badf7ecbf1962642f211974",
+    "umbra_core/runtime.py": "665a99991a721b07cbd3c22ca59efb8499af759917f8080639d43a0a9d3c6952",
+    "experiments/as003pr6e/options.py": "060c3206a1af4838103bde30b2bf1bd5806f9f2f909976b3e2f227cfd3409436",
+    "experiments/as003pr6/l2_schedulability.py": "7e564969513be73794e0a9f46f4b8d4c154f5c857eb16f4d3cdacde6d0bcc9b8"
+  },
+  "after_lock": "no code, command, environment, fixture, retry, or reseed changes"
+}
