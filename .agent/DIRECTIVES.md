@@ -1147,6 +1147,6 @@ Terminal verdict: `AS006_KNOWN_R1_FAIL`; freeze
 and verified `REST/not_at_rest`. Focused proofs were `17/17` twice; applicable
 regression retained `13` inherited failures and `0` candidate-only failures.
 No downstream gates ran; retries/reseeds `0/0`; no successor. Manifest:
-`f4ed10d5252f3084a4551f54ba924146c63a151aaa2fc58b31688c347f67114b`.
+`4bc22be285a8367d59cc005ebcf7c0b55212dd230e1b7e6e6f2deb9c55effed0`.
 
 Architect authority: `UMBRA-AS-006 — Executable Weak-Continuation Loss, Recovery Slack, and Integrated Viability Qualification`. Baseline: `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. Parent `AS005_PROTOCOL_FAIL` remains permanent; its partial traces are not reused. Scope is a fresh bounded implementation and qualification generation. Preserve MAY/UNKNOWN semantics, common-root neutrality, verified-only route learning, no scalar/weights/priority/hidden truth, no retry/reseed, no R7 revival, and no automatic CLOSE-03. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.
