@@ -883,3 +883,14 @@ which correctly enforces sole-writer authority. A faithful repair must create
 the partner as a HabitatEngine `SOCIAL_ENTITY` and commit visibility changes
 through HabitatEngine. Source authority matters: perception reads the current
 HabitatEngine social-entity projection, not the legacy Embodiment partner list.
+
+## 2026-09-04 — AS-009 downstream protocol boundary
+
+The fresh HabitatEngine-authority R2/R3 populations completed `16/16` formal
+organisms and `115200` ticks. A separate downstream lifecycle harness failed
+after `400` ticks because a reload was followed by physical-body replacement
+without reattaching HabitatEngine. The production seam correctly failed closed;
+the error is harness protocol evidence, not a production diagnosis. The
+post-lock boundary forbids repair, retry, or reseed, so boundedness, soak, and
+ablation were not run. Keep the composite inherited/fresh population claim
+separate from the terminal AS-009 verdict.

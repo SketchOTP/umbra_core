@@ -424,3 +424,13 @@ No raw modal trace from an invalidated observer generation is qualification evid
 When documentation and code appear to disagree, use the canonical project authority
 for intent, Git history/source for implementation, and retained artifacts for observed
 behavior. Never infer success from a plan or absence from a summary.
+
+## AS-009
+
+AS-009 is permanently terminal at `AS009_PROTOCOL_FAIL`. The repaired
+HabitatEngine-authority R2/R3 formal populations completed `8/8` each at
+`7200` ticks. The inherited AS-008 R0/R1 rows remain valid bounded evidence,
+but the first downstream lifecycle attempt failed after `400` ticks because
+its harness did not reattach HabitatEngine after reload before invoking body
+replacement. No downstream boundedness, soak, or ablation result exists, and
+no repair, retry, or reseed is authorized. See the [AS-009 task result](../.agent/tasks/active/UMBRA-AS-009/RESULT.md) and the retained Atlas evidence root recorded there.

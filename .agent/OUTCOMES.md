@@ -1761,3 +1761,23 @@ fidelity, freezing fresh disjoint R2/R3 seeds, and completing downstream
 qualification only if both populations pass. Start counts are zero for
 production/test/experiment semantic changes and organism execution. No
 successor, planning authority, or CLOSE-03 is authorized automatically.
+
+## 2026-09-04 — UMBRA-AS-009 terminal protocol closeout
+
+AS-009 is terminal as `AS009_PROTOCOL_FAIL`. Fresh HabitatEngine-authority R2
+and R3 formal populations completed `8/8` each at `7200` ticks (`16` organisms,
+`115200` formal ticks), with the repaired R2 social lifecycle and R3 same-self
+profile transition observed. The inherited AS-008 R0/R1 rows remain valid
+bounded evidence; this does not recast AS-008 as a `32/32` pass.
+
+The first downstream lifecycle attempt failed after `400` ticks because its
+harness reloaded the organism but did not reattach HabitatEngine before calling
+body replacement. The production seam correctly raised
+`BodyReplacementError: replacement_habitat_reattachment_required`. Under the
+post-lock no-repair/no-retry boundary, no later boundedness, soak, or ablation
+gate ran. Production and existing-test semantic deltas were `0/0`; retries and
+reseeds were `0/0`; planning authority, integrated viability, and CLOSE-03
+remain unqualified and blocked. Protocol artifact SHA-256:
+`ad09d43c3c57cd02945fb75703812848964a220a10230034db2481e6073a3d42`.
+Manifest SHA-256:
+`1684c78e34e3393c8dea7bfe883b508dd1907f413d7eaf74e229ec1da70f1b52`.

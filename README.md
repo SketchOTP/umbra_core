@@ -6,22 +6,21 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
-## Current status: AS-008 protocol terminal
+## Current status: AS-009 protocol terminal
 
-The latest governed generation, AS-008, is permanently terminal at
-`AS008_PROTOCOL_FAIL`. Its pre-formal gates passed, then one frozen fresh
-population command completed R0 and R1 (`16` organisms, `115200` completed
-ticks). The first R2 case created one additional organism and advanced `2399`
-ticks before the inherited D-014 harness attempted direct partner occlusion
-while HabitatEngine was attached; the sole-writer guard correctly rejected that
-mutation. This is a protocol failure, not an integrated-viability result.
+The latest governed generation, AS-009, is permanently terminal at
+`AS009_PROTOCOL_FAIL`. Its HabitatEngine-authority repair completed fresh R2 and
+R3 populations (`8/8` each, `16` organisms, `115200` formal ticks). A downstream
+lifecycle harness then failed after `400` ticks because it did not reattach
+HabitatEngine after reload before invoking body replacement. This is protocol
+evidence, not an integrated-viability result; no retry or repair is permitted.
 
-No repair, retry, reseed, R3 case, lifecycle, long-horizon, soak, or causal
-ablation gate ran. The completed-run record is `16/32`; total created organisms
-and executed ticks, including the partial R2 case, are `17/117599`. Integrated
-long-horizon viability remains **NOT QUALIFIED**, planning authority remains
-unqualified, and CLOSE-03 remains blocked. See the [AS-008 evidence guide
-entry](docs/EVIDENCE_GUIDE.md#as-008) and [task packet](.agent/tasks/active/UMBRA-AS-008/RESULT.md).
+No downstream boundedness, real-time soak, or causal-ablation gate ran. The
+completed AS-009 formal record is `16/16`; inherited AS-008 R0/R1 evidence
+remains valid bounded evidence, but AS-008 itself is not recast as a `32/32`
+pass. Integrated long-horizon viability remains **NOT QUALIFIED**, planning
+authority remains unqualified, and CLOSE-03 remains blocked. See the [AS-009
+evidence guide entry](docs/EVIDENCE_GUIDE.md#as-009) and [task packet](.agent/tasks/active/UMBRA-AS-009/RESULT.md).
 
 The latest integrated generation, AS-004, is **terminally failed at its known
 historical viability blocker**. Diagnostic A (`500/500`) and Diagnostic B

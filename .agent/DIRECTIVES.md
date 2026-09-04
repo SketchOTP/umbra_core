@@ -1198,3 +1198,15 @@ ablation, or successor occurred. Evidence root:
   required. Production, existing tests, prior evidence, retries, reseeds,
   planning authority, and CLOSE-03 remain prohibited.
 - Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-009-r2-r3-habitat-authority-integrated-qualification-r1/`.
+
+## UMBRA-AS-009 — terminal closeout
+
+Terminal verdict: `AS009_PROTOCOL_FAIL`. Fresh HabitatEngine-authority R2/R3
+formal evidence completed `8/8` each (`115200` ticks); inherited AS-008 R0/R1
+evidence remains valid bounded evidence. The first downstream lifecycle attempt
+executed `400` ticks, then its harness failed to reattach HabitatEngine after
+reload before invoking body replacement. No post-lock repair, retry, reseed,
+boundedness, real-time soak, or causal ablation occurred. Production delta and
+existing-test semantic delta were `0/0`; retries/reseeds `0/0`.
+Evidence manifest SHA-256:
+`1684c78e34e3393c8dea7bfe883b508dd1907f413d7eaf74e229ec1da70f1b52`.

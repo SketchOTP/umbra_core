@@ -1,6 +1,6 @@
-# CURRENT AUTHORITY — UMBRA-AS-009 ACTIVE
+# CURRENT AUTHORITY — UMBRA-AS-009 TERMINAL
 
-AS-009 is authorized from exact synchronized baseline
+AS-009 began from exact synchronized baseline
 `f5e73ec4a3f5b677590d079d2bf2e506a699134e` after permanent acceptance of
 `AS008_PROTOCOL_FAIL`. AS-008 remains terminal; its completed fresh R0/R1
 results are inherited, while partial R2 seed `16827204` is protocol-only and
@@ -9,11 +9,26 @@ completion generation: migrate the stale D-014 R2 partner perturbation to the
 current HabitatEngine sole-writer path, preflight R2/R3, then run only fresh
 historically disjoint R2/R3 populations. Production semantics, existing test
 semantics, prior evidence, AS-002/planning authority, and CLOSE-03 remain
-unchanged and blocked. Counts at start: production/test/experiment semantic
-deltas `0/0/0`, organism/load/tick/control/shadow/diagnostic/qualification
-runs `0/0/0/0/0/0/0`, retries/reseeds `0/0`. Evidence root:
+unchanged and blocked. Fresh R2/R3 formal evidence completed `8/8` and `8/8`
+at `7200` ticks with no production change. A downstream lifecycle harness then
+failed after `400` ticks because it did not reattach HabitatEngine after reload
+before invoking the body-replacement seam. This is terminal protocol evidence;
+no repair or retry is permitted. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-009-r2-r3-habitat-authority-integrated-qualification-r1/`.
 Task packet: `.agent/tasks/active/UMBRA-AS-009/`.
+
+# UMBRA-AS-009 TERMINAL
+
+AS-009 is permanently terminal as `AS009_PROTOCOL_FAIL`. Fresh R2 and R3
+formal populations completed `8/8` each (`16` organisms, `115200` formal
+ticks). The first downstream lifecycle attempt created one organism, loaded it
+twice, and executed `400` ticks, then raised
+`BodyReplacementError: replacement_habitat_reattachment_required`. No later
+boundedness, real-time soak, or ablation gate ran. Production delta, existing
+test semantic delta, retries, and reseeds are `0/0/0/0`; planning authority,
+integrated viability, and CLOSE-03 remain unqualified and blocked. AS-008 partial
+seed `16827204` remains permanently excluded. Manifest:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-009-r2-r3-habitat-authority-integrated-qualification-r1/AS009_EVIDENCE_MANIFEST.json`.
 
 # UMBRA-AS-008 TERMINAL
 

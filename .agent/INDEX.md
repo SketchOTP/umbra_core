@@ -793,3 +793,14 @@ AS-006 begins from exact synchronized baseline `2bc042a7e1861b6c0beacca95a310d1d
 - Organism/control/shadow/diagnostic/qualification runs at start: `0/0/0/0/0`.
 - Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-009-r2-r3-habitat-authority-integrated-qualification-r1/`.
 - Packet: `.agent/tasks/active/UMBRA-AS-009/`.
+# UMBRA-AS-009 — TERMINAL protocol failure (2026-09-04)
+
+AS-009 began from `f5e73ec4a3f5b677590d079d2bf2e506a699134e` after permanent
+`AS008_PROTOCOL_FAIL`. Its HabitatEngine-authority repair completed fresh R2 and
+R3 formal populations `8/8` each at `7200` ticks (`16/115200`). A downstream
+lifecycle harness then failed after `400` ticks because it did not reattach
+HabitatEngine after reload before body replacement. No repair, retry, reseed,
+boundedness, soak, ablation, or successor occurred. Integrated viability and
+CLOSE-03 remain unqualified. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-009-r2-r3-habitat-authority-integrated-qualification-r1/`.
+Task packet: `.agent/tasks/active/UMBRA-AS-009/`.

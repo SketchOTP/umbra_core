@@ -448,6 +448,19 @@ executability contract may be introduced, with no magic threshold, scalar
 authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
 counts are `0/0`; no successor started.
 
+## UMBRA-AS-009 closeout — 2026-09-04
+
+AS-009 is terminal `AS009_PROTOCOL_FAIL` from exact baseline
+`f5e73ec4a3f5b677590d079d2bf2e506a699134e`. Fresh R2/R3 formal populations
+completed `8/8` each at `7200` ticks. The HabitatEngine social-authority
+migration was exercised successfully. The first downstream lifecycle attempt
+was protocol-only and stopped after `400` ticks when its harness failed to
+reattach HabitatEngine after reload before body replacement. No repair, retry,
+reseed, boundedness, soak, ablation, or successor occurred. Production delta
+and existing-test semantic delta were `0/0`; integrated viability and CLOSE-03
+remain unqualified and blocked. Evidence manifest:
+`1684c78e34e3393c8dea7bfe883b508dd1907f413d7eaf74e229ec1da70f1b52`.
+
 ## AS-008 terminal protocol closeout — 2026-09-04
 
 AS-008 started from exact synchronized baseline

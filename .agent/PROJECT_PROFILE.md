@@ -1,15 +1,17 @@
 # Historical profile — UMBRA-AS-005
 
-## Current authority: UMBRA-AS-009
+## Current authority: UMBRA-AS-009 terminal
 
-AS-009 is active from `f5e73ec4a3f5b677590d079d2bf2e506a699134e` after
+AS-009 began from `f5e73ec4a3f5b677590d079d2bf2e506a699134e` after
 `AS008_PROTOCOL_FAIL`. It is a protocol-recovery and qualification-completion
 generation with zero production change. The completed AS-008 R0/R1 rows are
 valid inherited evidence; partial R2 seed `16827204` is permanently excluded.
 R2 must use HabitatEngine `SOCIAL_ENTITY` creation and visibility commits, then
 fresh disjoint R2/R3 populations may run exactly once. Planning authority,
-integrated viability, and CLOSE-03 remain blocked until all authorized gates
-pass.
+integrated viability, and CLOSE-03 remain blocked. Fresh R2/R3 completed `8/8`
+each, but the first downstream lifecycle attempt failed terminally as
+`AS009_PROTOCOL_FAIL` after `400` ticks because its harness did not reattach
+HabitatEngine before body replacement. No repair, retry, or later gate ran.
 
 AS-008 is terminal `AS008_PROTOCOL_FAIL` from exact baseline
 `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`; its terminal profile is recorded
