@@ -10,3 +10,8 @@
 Pre-formal status: exact AS-007 inheritance PASS; 32-seed manifest/disjointness
 PASS; downstream runner preflight PASS with zero organisms/ticks; protected
 tests `50/50` twice. The formal command is now frozen in the evidence root.
+
+Terminal status: the frozen matrix completed all 8 R0 and 8 R1 organisms, then
+stopped at the first R2 organism on the inherited HabitatEngine sole-writer
+guard. That R2 organism advanced 2399 ticks before the pre-tick-2400 exception.
+Verdict: `AS008_PROTOCOL_FAIL`; no repair, retry, reseed, or later gate.

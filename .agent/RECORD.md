@@ -2,7 +2,11 @@
 
 ## 2026-09-04 — AS-008 start
 
-AS-007 terminal `AS007_PROTOCOL_FAIL` is accepted as permanent. AS-008 starts at `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` with exact AS-007 implementation inheritance, a fresh evidence root, zero production-semantic change, and a pre-execution seed/harness integrity gate. No AS-008 organism execution has occurred.
+AS-007 terminal `AS007_PROTOCOL_FAIL` is accepted as permanent. AS-008
+started at `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` with exact AS-007
+implementation inheritance, a fresh evidence root, zero production-semantic
+change, and a pre-execution seed/harness integrity gate. Its terminal formal
+population result is recorded below.
 
 The Architect accepted `AS004_KNOWN_R1_FAIL` and authorized fresh
 `UMBRA-AS-005` from `b45a3c1480d57638768f5a876c8807c6f756143c`. The scope is a
@@ -443,6 +447,23 @@ before any production repair. If coherent, only one shared terminal
 executability contract may be introduced, with no magic threshold, scalar
 authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
 counts are `0/0`; no successor started.
+
+## AS-008 terminal protocol closeout — 2026-09-04
+
+AS-008 started from exact synchronized baseline
+`3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` after accepted terminal
+`AS007_PROTOCOL_FAIL`. The inherited implementation matched the AS-007 frozen
+candidate; 32 formal seeds were proven disjoint from the retained historical
+registry; downstream preflight passed with zero organism creation; and the
+protected suite passed `50/50` twice. The single frozen formal command then
+completed R0/R1 `8/8` each at `7200` ticks and stopped at first R2 seed
+`16827204`. Its inherited D-014 partner-occlusion call was rejected by
+HabitatEngine's sole-writer guard after `2399` partial ticks. Terminal verdict:
+`AS008_PROTOCOL_FAIL`. Completed formal rows/ticks were `16/115200`; total
+created organisms/executed ticks were `17/117599`. R2/R3 and all downstream
+gates were not run. No retry, reseed, repair, production/test semantic change,
+or successor occurred. Original failure evidence is immutable; the partial-tick
+correction is append-only in the AS-008 evidence root.
 
 ## AS-007 terminal protocol closeout — 2026-09-04
 

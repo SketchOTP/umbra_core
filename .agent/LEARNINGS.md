@@ -862,3 +862,16 @@ R1 seed `57531938` even in a smoke preflight violates the explicit protocol
 boundary; the correct disposition is terminal `AS007_PROTOCOL_FAIL`, with no
 matrix or later execution. Future population preflights must validate the
 complete selected-seed set before creating any organism.
+
+## 2026-09-04 — AS-008 downstream harness boundary
+
+AS-008 proved that seed disjointness and import/preflight integrity must be
+checked against the complete formal manifest before any population case is
+created. The fresh R0/R1 cases completed, but the inherited D-014 R2 scenario
+called a direct Embodiment occlusion mutator after HabitatEngine attachment;
+the sole-writer guard stopped the frozen command. This is terminal protocol
+evidence, not a reason to repair or rerun the generation. Keep completed formal
+rows separate from partial organism execution: AS-008 has `16` completed rows
+and `115200` completed ticks, but `17` organisms were created and `117599` ticks
+executed including the partial first R2 case. No later gate or integrated
+viability claim follows.

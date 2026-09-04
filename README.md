@@ -6,6 +6,23 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
+## Current status: AS-008 protocol terminal
+
+The latest governed generation, AS-008, is permanently terminal at
+`AS008_PROTOCOL_FAIL`. Its pre-formal gates passed, then one frozen fresh
+population command completed R0 and R1 (`16` organisms, `115200` completed
+ticks). The first R2 case created one additional organism and advanced `2399`
+ticks before the inherited D-014 harness attempted direct partner occlusion
+while HabitatEngine was attached; the sole-writer guard correctly rejected that
+mutation. This is a protocol failure, not an integrated-viability result.
+
+No repair, retry, reseed, R3 case, lifecycle, long-horizon, soak, or causal
+ablation gate ran. The completed-run record is `16/32`; total created organisms
+and executed ticks, including the partial R2 case, are `17/117599`. Integrated
+long-horizon viability remains **NOT QUALIFIED**, planning authority remains
+unqualified, and CLOSE-03 remains blocked. See the [AS-008 evidence guide
+entry](docs/EVIDENCE_GUIDE.md#as-008) and [task packet](.agent/tasks/active/UMBRA-AS-008/RESULT.md).
+
 The latest integrated generation, AS-004, is **terminally failed at its known
 historical viability blocker**. Diagnostic A (`500/500`) and Diagnostic B
 (`3500/3500`) completed, but the required R1/S16 seed `57531938` reached

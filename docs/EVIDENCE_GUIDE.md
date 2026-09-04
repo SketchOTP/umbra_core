@@ -20,6 +20,30 @@ The canonical Notion page governs strategic authority, but the repository is int
 to remain understandable without Notion access. Git commits and retained artifacts are
 the implementation and execution record.
 
+## AS-008
+
+AS-008 is permanently terminal at `AS008_PROTOCOL_FAIL`, from exact baseline
+`3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`. The generation inherited only the
+valid AS-007 A/B/R1 diagnostics; those were not rerun. Its fresh seed registry
+contained 32 unique seeds with no overlap against the retained historical
+registry. Downstream preflight passed without organism creation, and protected
+tests passed `50/50` twice.
+
+The one frozen formal command completed R0 and R1, eight organisms each at
+`7200` ticks. At the first R2 case (`16827204`), the inherited D-014 scenario
+called `set_occlusion("partner", True)` while HabitatEngine was attached. The
+sole-writer guard raised `HabitatWriteRejected` before tick 2400. The partial
+organism had executed `2399` ticks, so the exact accounting is `16` completed
+formal rows / `115200` completed ticks, `17` organisms created / `117599` ticks
+executed total. R2's row was not completed; R3 and all downstream lifecycle,
+boundedness, soak, and ablation gates were not run.
+
+This is retained protocol evidence, not integrated-viability evidence. No
+post-lock repair, retry, reseed, or interpretation of a fresh population was
+authorized. The original failure record remains unchanged; the partial-tick
+clarification is append-only. See the [AS-008 result](../.agent/tasks/active/UMBRA-AS-008/RESULT.md)
+and the local/internal evidence root named in that packet.
+
 ## AS-004 current status
 
 AS-004 is terminal with `AS004_KNOWN_R1_FAIL`, from exact baseline

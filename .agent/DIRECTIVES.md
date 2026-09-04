@@ -1172,3 +1172,18 @@ organisms, `80` ticks; no formal matrix or later gate). Terminal verdict:
 `AS007_PROTOCOL_FAILURE.json`, SHA-256
 `56c0d8b97ad98ecf202e8967c1f539ea595cc130c8350a71857ac0e7aa0f4fd2`.
 This is not integrated-viability evidence and no successor is authorized.
+
+## 2026-09-04 — UMBRA-AS-008 terminal protocol closeout
+
+AS-008 began from exact baseline `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`
+after permanent `AS007_PROTOCOL_FAIL`. Implementation inheritance, seed
+disjointness, downstream preflight, and protected tests passed before the one
+frozen fresh-population command. R0 and R1 completed `8/8` each at `7200`
+ticks. The first R2 seed `16827204` created an organism and executed `2399`
+ticks, then the inherited D-014 scenario's direct
+`set_occlusion("partner", True)` call was rejected by the attached
+HabitatEngine sole-writer guard. Terminal verdict: `AS008_PROTOCOL_FAIL`.
+Completed rows/ticks were `16/115200`; total created organisms/executed ticks
+were `17/117599`. No repair, retry, reseed, R3, lifecycle, boundedness, soak,
+ablation, or successor occurred. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-008-fresh-integrated-viability-r1/`.

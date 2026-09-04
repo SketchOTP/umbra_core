@@ -1,8 +1,26 @@
+# CURRENT AUTHORITY — UMBRA-AS-008 TERMINAL
+
+AS-008 is terminal at `AS008_PROTOCOL_FAIL` from exact baseline
+`3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`. Implementation inheritance,
+historically disjoint formal seeds, downstream preflight, and protected tests
+passed before the one frozen formal population command. R0 and R1 completed
+`8/8` each at `7200` ticks (`16` completed rows, `115200` completed ticks).
+The first R2 case (`16827204`) created one organism and advanced `2399` ticks,
+then the inherited D-014 `set_occlusion("partner", True)` intervention was
+rejected by the attached HabitatEngine sole-writer guard before tick 2400.
+No repair, retry, reseed, R3 case, lifecycle, long-horizon, soak, or ablation
+gate occurred. The original failure artifact is immutable; its tick-count
+clarification is append-only in the correction artifact. Integrated viability,
+planning authority, and CLOSE-03 remain unqualified; no successor started.
+Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-008-fresh-integrated-viability-r1/`.
+Task packet: `.agent/tasks/active/UMBRA-AS-008/`.
+
 # UMBRA-AS-007 — TERMINAL protocol failure after A/B/R1 pass
 
-## CURRENT AUTHORITY — UMBRA-AS-008
+## AS-008 historical start record
 
-AS-007 remains permanently terminal at `AS007_PROTOCOL_FAIL`; its valid frozen A/B/R1 diagnostics are inherited without rerun. AS-008 starts from exact baseline `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` and permits zero production-semantic change. It must first validate exact AS-007 inheritance, historical seed disjointness, and downstream runner integrity before the fresh R0/R1/R2/R3 population. Integrated viability and CLOSE-03 remain unqualified and blocked.
+AS-007 remains permanently terminal at `AS007_PROTOCOL_FAIL`; its valid frozen A/B/R1 diagnostics were inherited without rerun. AS-008 started from exact baseline `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` with zero production-semantic change. Its seed and downstream-runner gates passed, but the frozen population stopped at the first R2 protocol failure documented at the top of this file. Integrated viability and CLOSE-03 remain unqualified and blocked.
 
 AS-007 is authorized from exact synchronized baseline
 `22c96dd711126d0e87f637032a7871308fede803` after permanent acceptance of

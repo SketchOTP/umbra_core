@@ -1,8 +1,23 @@
+# UMBRA-AS-008 — TERMINAL protocol failure (2026-09-04)
+
+AS-008 began from exact baseline `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`
+after permanent `AS007_PROTOCOL_FAIL`. Seed disjointness and downstream
+preflight passed before the frozen population command. R0 and R1 completed
+`8/8` each at `7200` ticks; the first R2 case (`16827204`) then failed at the
+inherited D-014 partner-occlusion mutation because HabitatEngine was the sole
+writer. The partial R2 organism had advanced `2399` ticks before the exception.
+Completed formal rows/ticks were `16/115200`; total created organisms/ticks
+were `17/117599`. No repair, retry, reseed, R3, lifecycle, boundedness, soak,
+or ablation gate ran. Integrated viability and planning authority remain
+unqualified. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-008-fresh-integrated-viability-r1/`.
+Task packet: `.agent/tasks/active/UMBRA-AS-008/`; no successor started.
+
 # CURRENT AUTHORITY — UMBRA-AS-007 ACTIVE
 
-## UMBRA-AS-008 — current qualification generation
+## UMBRA-AS-008 — historical start record
 
-AS-008 starts from `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` after permanent AS-007 protocol failure. It inherits only the valid A/B/R1 diagnostics and must first prove seed disjointness and downstream-runner integrity before one fresh R0/R1/R2/R3 population. No AS-008 formal organism execution has begun.
+AS-008 started from `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` after permanent AS-007 protocol failure. It inherited only the valid A/B/R1 diagnostics. Seed disjointness and downstream-runner integrity passed; the subsequent frozen population is terminally recorded above.
 
 AS-007 is the current Architect-authorized generation from exact baseline
 `22c96dd711126d0e87f637032a7871308fede803`. It first audits the retained

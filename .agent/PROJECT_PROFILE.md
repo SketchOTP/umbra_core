@@ -1,8 +1,12 @@
-# Current governed status — UMBRA-AS-005 ACTIVE
+# Historical profile — UMBRA-AS-005
 
 ## Current authority: UMBRA-AS-008
 
-AS-008 is the active fresh integrated qualification generation from `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`. It makes zero production-semantic changes and tests only historically disjoint formal seeds after validating the runner. AS-007 remains terminal `AS007_PROTOCOL_FAIL`; integrated viability is still not qualified and CLOSE-03 is blocked.
+AS-008 is terminal `AS008_PROTOCOL_FAIL` from exact baseline
+`3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`; its terminal profile is recorded
+below. It made zero production-semantic changes. AS-007 remains terminal
+`AS007_PROTOCOL_FAIL`; integrated viability is still not qualified and CLOSE-03
+is blocked.
 
 AS-005 is a fresh generation from exact baseline
 `b45a3c1480d57638768f5a876c8807c6f756143c` after permanent AS-004 verdict
@@ -654,3 +658,16 @@ preflight selected prohibited known R1 seed `57531938`; only its four smoke
 organisms and 80 ticks ran. No fresh population or later viability gate ran.
 Integrated viability and planning authority remain unqualified; no successor
 started.
+
+## AS-008 terminal profile — 2026-09-04
+
+AS-008 is terminal `AS008_PROTOCOL_FAIL` from baseline
+`3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`. Its fresh seed registry and
+downstream preflight passed before the frozen population. R0/R1 completed
+`16/16` formal rows and `115200` completed ticks. The first R2 seed
+`16827204` advanced `2399` ticks before an inherited D-014 direct partner
+occlusion call was rejected by HabitatEngine's sole-writer guard. Total
+organism creations/ticks were `17/117599`; R2's row, R3, and all downstream
+viability gates were not completed. No post-lock repair, retry, reseed, or
+successor occurred. Integrated viability and planning authority remain
+unqualified; CLOSE-03 remains blocked.

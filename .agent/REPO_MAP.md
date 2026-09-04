@@ -4,6 +4,12 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 
+## UMBRA-AS-008 — TERMINAL `AS008_PROTOCOL_FAIL`
+- Exact baseline: `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`; final closeout is recorded in the AS-008 task packet and evidence manifest.
+- Pre-formal gates: implementation inheritance, 32-seed historical disjointness, downstream preflight, and protected tests `50/50` twice all passed.
+- Formal result: R0 `8/8` and R1 `8/8` completed at `7200` ticks; first R2 seed `16827204` stopped after `2399` partial ticks at the inherited HabitatEngine sole-writer rejection of direct partner occlusion. Completed rows/ticks `16/115200`; created organisms/executed ticks `17/117599`.
+- No R3, lifecycle, accelerated, real-time soak, causal ablation, retry, reseed, or successor. Integrated viability remains unqualified. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-008-fresh-integrated-viability-r1/`.
+
 ## AS-004 bounded continuation and integrated viability — TERMINAL `AS004_KNOWN_R1_FAIL`
 - Implementation: `umbra_core/hypothetical/action_selection.py`, `umbra_core/hypothetical/continuation.py`, the explicit arbitration/runtime integration seam, and `experiments/as004/` contracts/harnesses.
 - Pure/pre-scientific validation: protected lineage plus AS-004 focused tests `333/333` twice; applicable regression `1289 PASS / 2 SKIP / 13 inherited FAIL`, candidate-only failures `0`.

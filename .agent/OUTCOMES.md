@@ -1733,3 +1733,19 @@ ablation execution started. The preflight is retained only as protocol
 evidence; its artifact SHA-256 is
 `d84293927afc75bab4116a86c1f4daee54f125850e2868b1c555aaf18118370f`.
 Integrated viability remains unqualified and no successor started.
+
+## AS-008 terminal protocol closeout — 2026-09-04
+
+AS-008 began at exact baseline `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`.
+The implementation inheritance audit, 32-seed disjointness proof, downstream
+preflight, and protected `50/50` twice test boundary passed. The one frozen
+formal command completed fresh R0 and R1 at `8/8` each and `7200` ticks each.
+At the first R2 case, seed `16827204`, the inherited D-014 harness attempted
+direct partner occlusion while HabitatEngine was attached; the sole-writer
+guard raised `HabitatWriteRejected`. The organism had executed `2399` ticks
+before that pre-tick-2400 exception. Terminal verdict: `AS008_PROTOCOL_FAIL`.
+Completed formal rows/ticks were `16/115200`; total created organisms and
+executed ticks were `17/117599`. R2/R3 completion and every later viability,
+lifecycle, boundedness, soak, and ablation gate were absent. No repair, retry,
+reseed, or successor started. The original failure artifact is immutable and
+the tick clarification is append-only in the evidence root.
