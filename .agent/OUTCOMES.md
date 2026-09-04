@@ -1692,7 +1692,7 @@ AS-006 is terminal `AS006_KNOWN_R1_FAIL`. Diagnostic A (`500/500`) and B
 `0.9535`. No downstream gates ran. Focused `17/17` twice, applicable
 `1298 PASS / 2 SKIP / 13 inherited FAIL`, candidate-only `0`, observer parity
 `PASS`, organisms/ticks `3/5929`, retries/reseeds `0/0`. Manifest:
-`4bc22be285a8367d59cc005ebcf7c0b55212dd230e1b7e6e6f2deb9c55effed0`.
+`39ffe7ca3865e414994818bdf7afc39cf9227ca493654b2dc35a09999315428b`.
 Integrated viability and planning authority remain unqualified; no successor.
 
 AS-005 is preserved as terminal `AS005_PROTOCOL_FAIL` from closeout `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. AS-006 starts as a new generation from that exact head. Its planned outcome is a bounded test of whether an exact lived MAY recovery possibility can be categorically destroyed by an immediate candidate and thereby become ordinary action-selection evidence, with preventive activation derived from source-backed recovery slack rather than fixed planner depth. No scientific execution has begun.

@@ -727,7 +727,7 @@ AS-006 is terminal at `AS006_KNOWN_R1_FAIL` from freeze commit
 `53117fa3cd63ce629f5fee0934e11c027ae8ae9c`. Diagnostic A and B completed;
 Known R1 stopped at tick `1929` after `NO_SAFE_ACTION` at `1928` and verified
 `REST/not_at_rest`. Evidence manifest:
-`4bc22be285a8367d59cc005ebcf7c0b55212dd230e1b7e6e6f2deb9c55effed0`.
+`39ffe7ca3865e414994818bdf7afc39cf9227ca493654b2dc35a09999315428b`.
 Integrated viability and planning authority remain unqualified; no successor
 started.
 

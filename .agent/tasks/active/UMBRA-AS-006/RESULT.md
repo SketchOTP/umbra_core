@@ -20,7 +20,7 @@ regression was `1298 PASS / 2 SKIP / 13 inherited FAIL`, candidate-only `0`.
 Fresh source activation completed `500/500`; the common-root observer gate
 passed `500/500` with zero semantic differences and exact RNG parity.
 Organisms/ticks were `3/5929`, retries/reseeds `0/0`; manifest:
-`4bc22be285a8367d59cc005ebcf7c0b55212dd230e1b7e6e6f2deb9c55effed0`.
+`39ffe7ca3865e414994818bdf7afc39cf9227ca493654b2dc35a09999315428b`.
 Integrated viability and planning authority remain unqualified; no successor.
 
 Implementation commit: `9e6f92a99a397abec9e1ac245dcc5767ed6dd19f`.
