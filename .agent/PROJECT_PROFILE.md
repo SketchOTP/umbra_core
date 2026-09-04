@@ -641,3 +641,12 @@ REST failure boundary at tick `1929`. Integrated long-horizon viability remains
 unqualified; the bridge is terminal evidence, not qualified planning authority.
 
 Baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`; parent `AS005_PROTOCOL_FAIL`. AS-006 is authorized to implement and qualify executable weak-continuation loss plus source-derived recovery slack. The work remains bounded and non-scalar; route learning is verified-outcome-only, planning remains subordinate, and AS-005 partial traces are not evidence for AS-006 qualification.
+
+## AS-007 terminal protocol status — 2026-09-04
+
+AS-007 passed coherence, focused, development, observer-only, and frozen A/B/R1
+gates. It is terminal `AS007_PROTOCOL_FAIL` because the existing downstream
+preflight selected prohibited known R1 seed `57531938`; only its four smoke
+organisms and 80 ticks ran. No fresh population or later viability gate ran.
+Integrated viability and planning authority remain unqualified; no successor
+started.

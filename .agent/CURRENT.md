@@ -1,4 +1,4 @@
-# UMBRA-AS-007 — ACTIVE preimplementation coherence audit
+# UMBRA-AS-007 — TERMINAL protocol failure after A/B/R1 pass
 
 AS-007 is authorized from exact synchronized baseline
 `22c96dd711126d0e87f637032a7871308fede803` after permanent acceptance of
@@ -17,6 +17,20 @@ real recovery-situation change and includes successful post-reversal
 fatigue-reducing actions; the terminal failure is attributed to terminal
 readiness admission, not benchmark incoherence. Implementation is limited to
 the locked categorical current-readiness contract for REST/CHARGE/INSPECT.
+
+AS-007 coherence gate: PASS. The locked categorical current-readiness contract
+for REST/CHARGE/INSPECT was implemented without planning readers. Focused
+proofs passed `47/47` twice; the development and observer-only gates passed.
+The frozen A/B/R1 sequence completed `500/500`, `3500/3500`, and `7200/7200`
+with no critical failure. AS-007 is nevertheless terminal as
+`AS007_PROTOCOL_FAIL`: the downstream formal preflight selected prohibited
+known R1 seed `57531938`. Only four smoke organisms/80 ticks ran in that
+preflight; the fresh 32-organism matrix and all later gates were stopped. No
+retry or reseed occurred. Evidence:
+`AS007_PROTOCOL_FAILURE.json` SHA-256
+`56c0d8b97ad98ecf202e8967c1f539ea595cc130c8350a71857ac0e7aa0f4fd2`.
+Integrated viability, planning authority, AS-004, and CLOSE-03 remain
+unqualified and blocked; no successor started.
 
 # UMBRA-AS-006 — TERMINAL known historical viability failure
 

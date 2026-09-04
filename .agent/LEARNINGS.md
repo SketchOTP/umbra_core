@@ -848,3 +848,13 @@ a readiness-adjudication defect. The repair boundary is a categorical
 current-readiness gate for REST, CHARGE, and INSPECT; remembered or stale
 evidence is not current executability, and motion remains verified after
 execution.
+
+## 2026-09-04 — AS-007 protocol failure
+
+The frozen A/B/R1 sequence passed at `500/500`, `3500/3500`, and `7200/7200`,
+so the terminal-readiness contract reached its required known-R1 gate. The
+downstream population must use a genuinely fresh seed set. Reusing the known
+R1 seed `57531938` even in a smoke preflight violates the explicit protocol
+boundary; the correct disposition is terminal `AS007_PROTOCOL_FAIL`, with no
+matrix or later execution. Future population preflights must validate the
+complete selected-seed set before creating any organism.

@@ -1150,3 +1150,21 @@ No downstream gates ran; retries/reseeds `0/0`; no successor. Manifest:
 `39ffe7ca3865e414994818bdf7afc39cf9227ca493654b2dc35a09999315428b`.
 
 Architect authority: `UMBRA-AS-006 — Executable Weak-Continuation Loss, Recovery Slack, and Integrated Viability Qualification`. Baseline: `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. Parent `AS005_PROTOCOL_FAIL` remains permanent; its partial traces are not reused. Scope is a fresh bounded implementation and qualification generation. Preserve MAY/UNKNOWN semantics, common-root neutrality, verified-only route learning, no scalar/weights/priority/hidden truth, no retry/reseed, no R7 revival, and no automatic CLOSE-03. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.
+
+## 2026-09-04 — UMBRA-AS-007 terminal protocol closeout
+
+The frozen AS-007 A/B/R1 sequence completed exactly once at pre-freeze commit
+`f0ac33212b3cb0081e16341bba31db69043a9292`: A `500/500` (seed `45878900`),
+B `3500/3500` (seed `22023239`), and Known R1 `7200/7200` (seed `57531938`).
+The sequence result is `AS007_DIAGNOSTICS_AB_R1_PASS`, SHA-256
+`8f807c227d182bc782eb9f7403b85b9c46c07913c46506cbc090ac53d353c83b`; retries
+and reseeds were `0/0`.
+
+The next authorized fresh-population preflight used existing
+`experiments.d014.run_formal`, but its R1 smoke case reused prohibited known R1
+seed `57531938`. It was stopped immediately after the preflight (`4` smoke
+organisms, `80` ticks; no formal matrix or later gate). Terminal verdict:
+`AS007_PROTOCOL_FAIL`. The downstream protocol artifact is
+`AS007_PROTOCOL_FAILURE.json`, SHA-256
+`56c0d8b97ad98ecf202e8967c1f539ea595cc130c8350a71857ac0e7aa0f4fd2`.
+This is not integrated-viability evidence and no successor is authorized.

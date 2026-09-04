@@ -14,7 +14,8 @@
 6. Close out durable evidence, project records, GitHub, and Notion honestly;
    do not start a successor automatically.
 
-Current phase: freeze preparation complete; scientific execution lock pending.
+Current phase: terminal protocol closeout after frozen A/B/R1 pass and stopped
+downstream preflight.
 
 Coherence gate: PASS. The AS-006 R1/S16 failure is a reachable readiness
 contract defect, not an incoherent benchmark. Contract lock:
@@ -25,3 +26,10 @@ Implementation commit: `90ba03d` plus pre-freeze import correction
 gate completed `240/240` ticks with no critical failure, and the observer-only
 gate completed control/shadow `1/1` at `500/500` with zero semantic
 differences and zero RNG divergence.
+
+Frozen A/B/R1 completed at `500/500`, `3500/3500`, and `7200/7200` with
+terminal stage `DIAGNOSTICS_AB_R1_PASS`; result SHA-256 is
+`8f807c227d182bc782eb9f7403b85b9c46c07913c46506cbc090ac53d353c83b`.
+The downstream D-014 preflight was then stopped because its R1 smoke case
+selected the explicitly prohibited known R1 seed `57531938`. No fresh matrix,
+lifecycle, accelerated, soak, or ablation run started.

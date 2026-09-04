@@ -440,6 +440,21 @@ executability contract may be introduced, with no magic threshold, scalar
 authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
 counts are `0/0`; no successor started.
 
+## AS-007 terminal protocol closeout — 2026-09-04
+
+Frozen A/B/R1 passed exactly once at commit
+`f0ac33212b3cb0081e16341bba31db69043a9292`: A `500/500`, B `3500/3500`, and
+Known R1 `7200/7200`; total `3/11200` organism runs/ticks, retries/reseeds
+`0/0`, result SHA-256
+`8f807c227d182bc782eb9f7403b85b9c46c07913c46506cbc090ac53d353c83b`.
+The existing D-014 preflight was then stopped because its R1 smoke selected
+the prohibited known R1 seed `57531938`. Four smoke organisms and 80 ticks ran;
+the fresh matrix and all later gates did not run. Terminal verdict:
+`AS007_PROTOCOL_FAIL`; protocol artifact SHA-256
+`56c0d8b97ad98ecf202e8967c1f539ea595cc130c8350a71857ac0e7aa0f4fd2`.
+No production or existing-test semantic delta, no retry/reseed, and no
+successor.
+
 ## AS-007 coherence gate — 2026-09-03
 
 Coherence audit passed before production validation. Retained R1/S16 evidence

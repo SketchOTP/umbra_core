@@ -1711,3 +1711,21 @@ Integrated viability, planning authority, and CLOSE-03 remain unqualified;
 no successor started.
 
 AS-005 is preserved as terminal `AS005_PROTOCOL_FAIL` from closeout `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. AS-006 starts as a new generation from that exact head. Its planned outcome is a bounded test of whether an exact lived MAY recovery possibility can be categorically destroyed by an immediate candidate and thereby become ordinary action-selection evidence, with preventive activation derived from source-backed recovery slack rather than fixed planner depth. No scientific execution has begun.
+
+## AS-007 terminal protocol closeout — 2026-09-04
+
+AS-007's coherence and implementation gates passed. Focused protected tests
+were `47/47` twice; the development gate was `240/240`; the observer-only
+gate was one control and one shadow at `500/500` with zero semantic or RNG
+divergence. The frozen scientific sequence then completed A/B/R1 exactly once:
+`500/500`, `3500/3500`, and `7200/7200`, total `3` organisms and `11200`
+ticks, with no critical failure and retries/reseeds `0/0`.
+
+AS-007 is terminal `AS007_PROTOCOL_FAIL`. The existing formal downstream
+preflight passed its smoke mechanics but selected known R1 seed `57531938`,
+which the directive prohibited. It created `4` smoke organisms and advanced
+`80` ticks; no fresh 32-organism population, lifecycle, accelerated, soak, or
+ablation execution started. The preflight is retained only as protocol
+evidence; its artifact SHA-256 is
+`d84293927afc75bab4116a86c1f4daee54f125850e2868b1c555aaf18118370f`.
+Integrated viability remains unqualified and no successor started.

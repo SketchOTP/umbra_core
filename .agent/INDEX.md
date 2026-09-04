@@ -748,4 +748,19 @@ Known R1 stopped at tick `1929` after `NO_SAFE_ACTION` at `1928` and verified
 Integrated viability and planning authority remain unqualified; no successor
 started.
 
+## UMBRA-AS-007 — TERMINAL protocol failure
+
+AS-007's frozen terminal-executability candidate passed focused proofs, the
+development and observer-only gates, and the exact A/B/R1 sequence
+(`500/500`, `3500/3500`, `7200/7200`; `3` organisms, `11200` ticks; retries /
+reseeds `0/0`). The generation is terminal `AS007_PROTOCOL_FAIL` because the
+existing downstream formal preflight reused prohibited known R1 seed
+`57531938` for its smoke case. Four smoke organisms/80 ticks ran; no fresh
+matrix or later gate ran. Integrated viability remains unqualified and no
+successor started. Task packet:
+`.agent/tasks/active/UMBRA-AS-007/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-007-recovery-executability-integrated-viability-r1/`;
+manifest SHA-256:
+`17b8083099cde5564fb24aa32be4d681820d47d8f7a8203b9b58aec1bd394b41`.
+
 AS-006 begins from exact synchronized baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d` after permanent acceptance of `AS005_PROTOCOL_FAIL`. It is a fresh implementation-to-qualification generation for executable weak-continuation loss and source-derived preventive recovery slack. AS-005 partial traces remain uninterpreted history. No R7, CLOSE-03, scalar utility, weighting, hidden truth, retry, reseed, or automatic successor is authorized. Packet: `.agent/tasks/active/UMBRA-AS-006/`; evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.
