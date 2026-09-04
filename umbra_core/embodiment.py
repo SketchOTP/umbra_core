@@ -1030,6 +1030,23 @@ class Embodiment:
                     object_kind=feature.kind,
                 )
             return detail
+        if capability == "INSPECT":
+            toward = params.get("toward", "inspect")
+            kind = toward if toward in ("inspect", "noise_blink") else "inspect"
+            feature, distance = habitat.nearest(kind, body.x, body.y)
+            ok = bool(
+                feature is not None
+                and distance <= feature.radius + 0.8
+                and feature.inspectable
+            )
+            detail.update(
+                ok_raw=ok,
+                reason="ok" if ok else "out_of_range",
+                object_kind=kind if feature is not None else None,
+            )
+            if ok:
+                detail["inspectable"] = True
+            return detail
         return None
 
     def execute_primitive(

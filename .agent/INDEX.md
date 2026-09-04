@@ -10,6 +10,11 @@ organism, tick, retry, or reseed has occurred. Packet:
 `.agent/tasks/active/UMBRA-AS-007/`; evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-007-recovery-executability-integrated-viability-r1/`.
 
+The R1/S16 coherence gate passed before implementation. The only authorized
+candidate is a categorical current terminal-readiness gate backed by adapter
+admission plus Embodiment preflight; no planning or route-evidence reader is
+introduced.
+
 # CURRENT AUTHORITY — UMBRA-AS-006 TERMINAL
 
 AS-006 is terminal with `AS006_KNOWN_R1_FAIL`. Diagnostics A and B completed;

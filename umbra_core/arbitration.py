@@ -23,7 +23,11 @@ from umbra_core.wait_execution import (
     WaitJournal,
     wait_deadline_age_tick,
 )
-from umbra_core.recoverability.contracts import candidate_is_admissible
+from umbra_core.recoverability.contracts import (
+    EXECUTABLE,
+    TERMINAL_CAPABILITIES,
+    candidate_is_admissible,
+)
 from umbra_core.stochastic_competition import (
     candidate_behavioral_identity,
     candidate_stochastic_term,
@@ -837,6 +841,7 @@ class Arbitrator:
         contextual_channels_for: Callable[[Candidate], dict[str, Any]] | None = None,
         distributed_trace: dict[str, Any] | None = None,
         continuation_filter_for: Callable[[Sequence[Candidate]], tuple[Sequence[Candidate], Mapping[str, Any]]] | None = None,
+        candidate_executability: Callable[[Candidate], str] | None = None,
     ) -> Candidate:
         # ``tick`` remains the orchestration clock for compatibility and for
         # explicitly orchestration-scoped modes.  Organism policy cadence must
@@ -876,18 +881,26 @@ class Arbitrator:
         def candidate_allowed_here(candidate: Candidate) -> bool:
             return candidate_allowed is None or candidate_allowed(candidate)
 
+        def execution_ready(candidate: Candidate) -> bool:
+            """Apply the trusted categorical gate to terminal actions."""
+            if candidate_executability is None:
+                return True
+            if candidate.capability not in TERMINAL_CAPABILITIES:
+                return True
+            return candidate_executability(candidate) == EXECUTABLE
+
         mode = self.state.mode
         if mode == "random":
             cap = rng.choice(list(CAPABILITIES))
             cand = Candidate(cap, {"step": 1.0, "heading_delta": rng.uniform(-1.0, 1.0)})
-            if introduces(cand):
+            if introduces(cand) or not execution_ready(cand):
                 cand = self._no_safe_action()
             self._commit(cand, active_tick)
             return cand
         if mode == "scripted":
             cap = SCRIPT_CYCLE[orchestration_tick % len(SCRIPT_CYCLE)]
             cand = Candidate(cap, {"step": 1.0, "heading_delta": 0.3})
-            if introduces(cand):
+            if introduces(cand) or not execution_ready(cand):
                 cand = self._no_safe_action()
             self._commit(cand, active_tick)
             return cand
@@ -966,17 +979,23 @@ class Arbitrator:
                 def immediately_safe(candidate: Candidate) -> bool:
                     return not introduces(candidate, ignore=focus_exemption(candidate))
 
+                def admissible_recovery_candidate(candidate: Candidate) -> bool:
+                    return (
+                        candidate_allowed_here(candidate)
+                        and immediately_safe(candidate)
+                        and contract_admissible(candidate)
+                        and execution_ready(candidate)
+                    )
+
                 # Optional higher-level intents never gate urgent recovery.
                 # Recovery remains on its established authority path.
-                if not immediately_safe(chosen):
+                if not immediately_safe(chosen) or not execution_ready(chosen):
                     alternatives = [
                         candidate
                         for candidate in self.generate_candidates(
                             phys, observations, orchestration_tick
                         )
-                        if candidate_allowed_here(candidate)
-                        and immediately_safe(candidate)
-                        and contract_admissible(candidate)
+                        if admissible_recovery_candidate(candidate)
                     ]
                     chosen = (
                         pick_recovery(alternatives)
@@ -988,7 +1007,7 @@ class Arbitrator:
                     phys, observations, chosen, active_tick
                 )
                 if preserved is not chosen and immediately_safe(preserved):
-                    if contract_admissible(preserved):
+                    if contract_admissible(preserved) and execution_ready(preserved):
                         chosen = preserved
                     else:
                         alternatives = [
@@ -996,9 +1015,7 @@ class Arbitrator:
                             for candidate in self.generate_candidates(
                                 phys, observations, orchestration_tick
                             )
-                            if candidate_allowed_here(candidate)
-                            and immediately_safe(candidate)
-                            and contract_admissible(candidate)
+                            if admissible_recovery_candidate(candidate)
                         ]
                         chosen = (
                             pick_recovery(alternatives)
@@ -1006,15 +1023,13 @@ class Arbitrator:
                             else self._no_safe_action()
                         )
 
-                if not immediately_safe(chosen):
+                if not immediately_safe(chosen) or not execution_ready(chosen):
                     alternatives = [
                         candidate
                         for candidate in self.generate_candidates(
                             phys, observations, orchestration_tick
                         )
-                        if candidate_allowed_here(candidate)
-                        and immediately_safe(candidate)
-                        and contract_admissible(candidate)
+                        if admissible_recovery_candidate(candidate)
                     ]
                     chosen = (
                         pick_recovery(alternatives)
@@ -1364,6 +1379,7 @@ class Arbitrator:
             if candidate_allowed_here(candidate)
             and not introduces(candidate)
             and contract_admissible(candidate)
+            and execution_ready(candidate)
         ]
         if not admissible:
             chosen = self._no_safe_action()

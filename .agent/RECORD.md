@@ -439,6 +439,16 @@ before any production repair. If coherent, only one shared terminal
 executability contract may be introduced, with no magic threshold, scalar
 authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
 counts are `0/0`; no successor started.
+
+## AS-007 coherence gate — 2026-09-03
+
+Coherence audit passed before production validation. Retained R1/S16 evidence
+shows successful post-reversal recovery actions and a terminal REST/not_at_rest
+failure, establishing a reachable readiness-adjudication defect. The locked
+contract gates only REST/CHARGE/INSPECT through adapter admission plus
+Embodiment preflight; only categorical status crosses into arbitration. No
+planning/route-evidence reader, organism run, or tick has been introduced for
+AS-007.
 ## UMBRA-AS-007 governance start — 2026-09-03
 
 Architect accepted AS-006 terminal `AS006_KNOWN_R1_FAIL` and authorized a fresh

@@ -1,0 +1,41 @@
+{
+  "schema": "AS007_TERMINAL_EXECUTABILITY_CONTRACT_V1",
+  "directive": "UMBRA-AS-007",
+  "status": "LOCKED_FOR_IMPLEMENTATION_VALIDATION",
+  "purpose": "Gate terminal recovery candidates on the same source-backed readiness predicate used by execution.",
+  "terminal_capabilities": ["CHARGE", "INSPECT", "REST"],
+  "categorical_results": ["EXECUTABLE", "NOT_EXECUTABLE", "UNKNOWN"],
+  "authority_chain": [
+    "current_candidate_parameters",
+    "adapter_preflight_execution",
+    "embodiment_preflight_primitive",
+    "categorical_result_only_to_arbitration"
+  ],
+  "rules": {
+    "current_readiness_only": "A terminal action is executable only when current adapter admission and current Embodiment preflight both establish the terminal predicate.",
+    "remembered_or_stale_evidence": "Remembered, stale, or merely learned opportunity evidence cannot establish current terminal executability; the current execution preflight is authoritative.",
+    "unknown": "Missing adapter or embodiment preflight support returns UNKNOWN and fails closed for terminal selection.",
+    "motion": "APPROACH, MOVE, ORIENT, RETREAT, and IDLE are not terminal-preflight gated; their outcomes remain execution-verified.",
+    "critical_recovery": "Initial critical recovery and subsequent recovery alternatives use the same terminal readiness gate before selection.",
+    "ordinary_selection": "Ordinary terminal candidates are removed from the admissible pool unless the categorical result is EXECUTABLE.",
+    "execution_identity": "No readiness status is persisted as an experience unless an executed action produces a VerifiedOutcome.",
+    "source_of_truth": "Terminal preflight is recomputed from current owner state at the decision tick; no cached readiness authority is used."
+  },
+  "protected_boundaries": {
+    "policy_exposure": "Categorical status only; no Habitat coordinates, feature values, IDs, scores, or hidden world truth cross into arbitration.",
+    "scalarization": false,
+    "weights": false,
+    "source_priority": false,
+    "planner_expansion": false,
+    "as006_contract_change": false,
+    "route_learning_authority": false,
+    "planning_authority": false
+  },
+  "required_preservation": [
+    "AS006 continuation semantics",
+    "hard and critical recovery authority",
+    "verified-outcome learning only",
+    "default-off planning shadow",
+    "no live planning reader"
+  ]
+}

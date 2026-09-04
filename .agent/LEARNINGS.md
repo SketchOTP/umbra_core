@@ -838,3 +838,13 @@ repair is not authorized until that coherence question is answered. The
 current critical recovery path selects terminal REST from a noisy distance
 criterion while trusted Embodiment preflight uses the authoritative terminal
 predicate; this is a hypothesis for audit, not yet an accepted causal finding.
+
+### AS-007 coherence and contract lock — 2026-09-03
+
+The R1/S16 benchmark is coherent: the reversal changes the visible recovery
+situation and the retained trace contains successful post-reversal
+fatigue-reducing outcomes. The terminal REST/not_at_rest sequence is therefore
+a readiness-adjudication defect. The repair boundary is a categorical
+current-readiness gate for REST, CHARGE, and INSPECT; remembered or stale
+evidence is not current executability, and motion remains verified after
+execution.

@@ -12,6 +12,12 @@ retries/reseeds are `0/0`. Packet: `.agent/tasks/active/UMBRA-AS-007/`;
 evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-007-recovery-executability-integrated-viability-r1/`.
 
+AS-007 coherence gate: PASS. Retained R1/S16 evidence shows the reversal is a
+real recovery-situation change and includes successful post-reversal
+fatigue-reducing actions; the terminal failure is attributed to terminal
+readiness admission, not benchmark incoherence. Implementation is limited to
+the locked categorical current-readiness contract for REST/CHARGE/INSPECT.
+
 # UMBRA-AS-006 — TERMINAL known historical viability failure
 
 AS-006 is permanently terminal as `AS006_KNOWN_R1_FAIL`. Diagnostics A and B

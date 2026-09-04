@@ -66,6 +66,12 @@ from umbra_core.perception import PerceptionMembrane
 from umbra_core.perception_adapters import AdapterManifest, ObservationEnvelope, PerceptionAdapterError
 from umbra_core.persistence import PersistenceError, Store
 from umbra_core.physiology import Physiology
+from umbra_core.recoverability.contracts import (
+    EXECUTABLE,
+    NOT_EXECUTABLE,
+    TERMINAL_CAPABILITIES,
+    UNKNOWN_EXECUTABILITY,
+)
 from umbra_core.self_model import SelfModel, SelfModelConfig
 from umbra_core.social import (
     SocialConfig,
@@ -963,6 +969,34 @@ class Organism:
         elif "heading" not in out and "toward" in out:
             out["heading"] = body.heading
         return out
+
+    def _candidate_executability(self, candidate: Candidate) -> str:
+        """Return source-backed current readiness for terminal actions.
+
+        Adapter admission and Embodiment preflight are the same trusted
+        authorities used by execution. Only a categorical result crosses into
+        arbitration; no Habitat values, distances, IDs, or scores are exposed
+        to policy. Motion remains outside this contract and is verified after
+        it executes.
+        """
+        if candidate.capability not in TERMINAL_CAPABILITIES:
+            return EXECUTABLE
+        params = self._resolve_params(dict(candidate.params))
+        if self.embodiment_adapter is not None:
+            request = AdapterRequest(
+                request_id="recovery-executability-preflight",
+                capability=candidate.capability,
+                params=params,
+                attachment_generation=self.embodiment_adapter.state.attachment_generation,
+                tick=self.tick,
+            )
+            rejection, params, _ = self.embodiment_adapter.preflight_execution(request)
+            if rejection is not None:
+                return NOT_EXECUTABLE
+        raw = self.embodiment.preflight_primitive(candidate.capability, params)
+        if raw is None:
+            return UNKNOWN_EXECUTABILITY
+        return EXECUTABLE if bool(raw.get("ok_raw")) else NOT_EXECUTABLE
 
     def _ensure_intervention(self) -> None:
         if self._intervention_applied:
@@ -1946,6 +1980,7 @@ class Organism:
             contextual_channels_for=contextual_channels,
             distributed_trace=distributed_competition_trace,
             continuation_filter_for=continuation_filter,
+            candidate_executability=self._candidate_executability,
         )
         base_candidate = cand
         if planning_frame is not None:
