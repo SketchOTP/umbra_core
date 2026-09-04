@@ -439,3 +439,13 @@ before any production repair. If coherent, only one shared terminal
 executability contract may be introduced, with no magic threshold, scalar
 authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
 counts are `0/0`; no successor started.
+## UMBRA-AS-007 governance start — 2026-09-03
+
+Architect accepted AS-006 terminal `AS006_KNOWN_R1_FAIL` and authorized a fresh
+AS-007 generation from `22c96dd711126d0e87f637032a7871308fede803`. The first
+decision point is zero-run attribution/coherence: determine whether the
+frozen S16 reversal and R1 qualification contract are internally achievable
+before any production repair. If coherent, only one shared terminal
+executability contract may be introduced, with no magic threshold, scalar
+authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
+counts are `0/0`; no successor started.
