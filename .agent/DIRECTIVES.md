@@ -1187,3 +1187,14 @@ Completed rows/ticks were `16/115200`; total created organisms/executed ticks
 were `17/117599`. No repair, retry, reseed, R3, lifecycle, boundedness, soak,
 ablation, or successor occurred. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-008-fresh-integrated-viability-r1/`.
+## UMBRA-AS-009 — governance start
+
+- Status: active; exact baseline `f5e73ec4a3f5b677590d079d2bf2e506a699134e`.
+- Parent: permanent `AS008_PROTOCOL_FAIL`; completed AS-008 R0/R1 evidence is
+  inherited and partial R2 seed `16827204` is excluded permanently.
+- Scope: fresh AS-009 experiment namespace and evidence/governance only;
+  migrate D-014 R2 social perturbation to HabitatEngine authority, preflight
+  R2/R3, then run fresh disjoint R2/R3 populations and later gates only if
+  required. Production, existing tests, prior evidence, retries, reseeds,
+  planning authority, and CLOSE-03 remain prohibited.
+- Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-009-r2-r3-habitat-authority-integrated-qualification-r1/`.

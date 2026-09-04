@@ -875,3 +875,11 @@ rows separate from partial organism execution: AS-008 has `16` completed rows
 and `115200` completed ticks, but `17` organisms were created and `117599` ticks
 executed including the partial first R2 case. No later gate or integrated
 viability claim follows.
+## 2026-09-04 — AS-009 Habitat authority migration boundary
+
+AS-008's first R2 failure is permanently protocol-only: the inherited D-014
+harness called legacy `Embodiment.set_occlusion` after attaching HabitatEngine,
+which correctly enforces sole-writer authority. A faithful repair must create
+the partner as a HabitatEngine `SOCIAL_ENTITY` and commit visibility changes
+through HabitatEngine. Source authority matters: perception reads the current
+HabitatEngine social-entity projection, not the legacy Embodiment partner list.

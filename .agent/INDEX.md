@@ -783,3 +783,13 @@ manifest SHA-256:
 `17b8083099cde5564fb24aa32be4d681820d47d8f7a8203b9b58aec1bd394b41`.
 
 AS-006 begins from exact synchronized baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d` after permanent acceptance of `AS005_PROTOCOL_FAIL`. It is a fresh implementation-to-qualification generation for executable weak-continuation loss and source-derived preventive recovery slack. AS-005 partial traces remain uninterpreted history. No R7, CLOSE-03, scalar utility, weighting, hidden truth, retry, reseed, or automatic successor is authorized. Packet: `.agent/tasks/active/UMBRA-AS-006/`; evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.
+# UMBRA-AS-009 — ACTIVE
+
+- Exact baseline: `f5e73ec4a3f5b677590d079d2bf2e506a699134e`.
+- Parent: `AS008_PROTOCOL_FAIL` (permanent).
+- Scope: current-stack R2 HabitatEngine authority migration, R2/R3 fresh
+  qualification completion, and only downstream gates reached after both pass.
+- Production/test semantic changes: `0/0`.
+- Organism/control/shadow/diagnostic/qualification runs at start: `0/0/0/0/0`.
+- Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-009-r2-r3-habitat-authority-integrated-qualification-r1/`.
+- Packet: `.agent/tasks/active/UMBRA-AS-009/`.

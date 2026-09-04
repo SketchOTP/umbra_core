@@ -1,4 +1,21 @@
-# CURRENT AUTHORITY — UMBRA-AS-008 TERMINAL
+# CURRENT AUTHORITY — UMBRA-AS-009 ACTIVE
+
+AS-009 is authorized from exact synchronized baseline
+`f5e73ec4a3f5b677590d079d2bf2e506a699134e` after permanent acceptance of
+`AS008_PROTOCOL_FAIL`. AS-008 remains terminal; its completed fresh R0/R1
+results are inherited, while partial R2 seed `16827204` is protocol-only and
+must never be retried. AS-009 is a bounded protocol-recovery and qualification
+completion generation: migrate the stale D-014 R2 partner perturbation to the
+current HabitatEngine sole-writer path, preflight R2/R3, then run only fresh
+historically disjoint R2/R3 populations. Production semantics, existing test
+semantics, prior evidence, AS-002/planning authority, and CLOSE-03 remain
+unchanged and blocked. Counts at start: production/test/experiment semantic
+deltas `0/0/0`, organism/load/tick/control/shadow/diagnostic/qualification
+runs `0/0/0/0/0/0/0`, retries/reseeds `0/0`. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-009-r2-r3-habitat-authority-integrated-qualification-r1/`.
+Task packet: `.agent/tasks/active/UMBRA-AS-009/`.
+
+# UMBRA-AS-008 TERMINAL
 
 AS-008 is terminal at `AS008_PROTOCOL_FAIL` from exact baseline
 `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`. Implementation inheritance,

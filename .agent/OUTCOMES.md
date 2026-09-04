@@ -1749,3 +1749,15 @@ executed ticks were `17/117599`. R2/R3 completion and every later viability,
 lifecycle, boundedness, soak, and ablation gate were absent. No repair, retry,
 reseed, or successor started. The original failure artifact is immutable and
 the tick clarification is append-only in the evidence root.
+## 2026-09-04 — UMBRA-AS-009 governance start
+
+AS-009 begins from exact synchronized baseline
+`f5e73ec4a3f5b677590d079d2bf2e506a699134e` after permanent acceptance of
+`AS008_PROTOCOL_FAIL`. The completed AS-008 R0/R1 population is inherited;
+partial R2 seed `16827204` remains protocol-only and is never retried. This
+generation is limited to migrating the stale D-014 R2 social perturbation onto
+HabitatEngine's current sole-writer authority, proving R2/R3 intervention
+fidelity, freezing fresh disjoint R2/R3 seeds, and completing downstream
+qualification only if both populations pass. Start counts are zero for
+production/test/experiment semantic changes and organism execution. No
+successor, planning authority, or CLOSE-03 is authorized automatically.
