@@ -20,3 +20,12 @@ current-readiness gate for `REST`, `CHARGE`, and `INSPECT`. Adapter admission
 and the existing Embodiment preflight are the authority chain; only
 `EXECUTABLE`, `NOT_EXECUTABLE`, or `UNKNOWN` crosses into arbitration. Motion
 remains execution-verified, and planning/route evidence remains unread.
+
+Pre-freeze validation is positive. Focused protected tests passed `47/47`
+twice. The non-scientific R1/S16 development gate completed `240/240` ticks;
+it recorded `255` categorical terminal-readiness evaluations, `41` post-
+reversal non-executable terminal evaluations, zero critical failure, and zero
+unavailable terminal selections. A separate common-root observer-only gate
+completed one control and one shadow branch at `500/500` ticks with zero
+semantic differences and zero RNG divergence. These gates grant no planning
+or integrated-viability authority.

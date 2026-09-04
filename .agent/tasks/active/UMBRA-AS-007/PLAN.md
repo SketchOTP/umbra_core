@@ -14,8 +14,14 @@
 6. Close out durable evidence, project records, GitHub, and Notion honestly;
    do not start a successor automatically.
 
-Current phase: minimal terminal-executability implementation and development-gate validation.
+Current phase: freeze preparation complete; scientific execution lock pending.
 
 Coherence gate: PASS. The AS-006 R1/S16 failure is a reachable readiness
 contract defect, not an incoherent benchmark. Contract lock:
 `experiments/as007/AS007_EXECUTABILITY_CONTRACT.json`.
+
+Implementation commit: `90ba03d` plus pre-freeze import correction
+`16b0e85`. Focused validation is `47/47 PASS` twice. The bounded development
+gate completed `240/240` ticks with no critical failure, and the observer-only
+gate completed control/shadow `1/1` at `500/500` with zero semantic
+differences and zero RNG divergence.
