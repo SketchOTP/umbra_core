@@ -1,5 +1,9 @@
 ## 2026-09-03 — AS-005 authorized
 
+## 2026-09-04 — AS-008 start
+
+AS-007 terminal `AS007_PROTOCOL_FAIL` is accepted as permanent. AS-008 starts at `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` with exact AS-007 implementation inheritance, a fresh evidence root, zero production-semantic change, and a pre-execution seed/harness integrity gate. No AS-008 organism execution has occurred.
+
 The Architect accepted `AS004_KNOWN_R1_FAIL` and authorized fresh
 `UMBRA-AS-005` from `b45a3c1480d57638768f5a876c8807c6f756143c`. The scope is a
 new source-activation/modal-continuation/preventive-obligation generation

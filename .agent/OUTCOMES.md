@@ -1,5 +1,9 @@
 ## 2026-09-03 — UMBRA-AS-005 governance start
 
+## 2026-09-04 — UMBRA-AS-008 governance start
+
+AS-008 is authorized from exact head `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`. The AS-007 frozen implementation is inherited exactly; only governance/task records changed after its scientific freeze. The fresh qualification population and all later gates remain unstarted pending seed and harness validation.
+
 Architect accepted AS-004 terminal `AS004_KNOWN_R1_FAIL` and authorized a
 fresh AS-005 generation from exact baseline `b45a3c1480d57638768f5a876c8807c6f756143c`.
 The generation will audit AS-004's empty O0/source-activation boundary,

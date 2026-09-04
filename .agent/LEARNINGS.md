@@ -1,5 +1,9 @@
 ## 2026-09-03 — AS-005 start boundary
 
+## AS-008 — validate the complete fresh seed set before creation
+
+AS-007 demonstrated that a downstream preflight can be mechanically successful and still violate the scientific boundary by selecting a prohibited historical seed. AS-008 must validate all formal seeds and namespace disjointness before creating any formal organism; smoke seeds must be separately derived and never accepted as qualification evidence.
+
 AS-004's empty common-root continuation set is preserved as terminal evidence,
 not a tuning target. Any AS-005 improvement must come from source activation,
 preventive obligation semantics, and modal evidence contracts established before

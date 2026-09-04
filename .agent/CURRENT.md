@@ -1,5 +1,9 @@
 # UMBRA-AS-007 — TERMINAL protocol failure after A/B/R1 pass
 
+## CURRENT AUTHORITY — UMBRA-AS-008
+
+AS-007 remains permanently terminal at `AS007_PROTOCOL_FAIL`; its valid frozen A/B/R1 diagnostics are inherited without rerun. AS-008 starts from exact baseline `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` and permits zero production-semantic change. It must first validate exact AS-007 inheritance, historical seed disjointness, and downstream runner integrity before the fresh R0/R1/R2/R3 population. Integrated viability and CLOSE-03 remain unqualified and blocked.
+
 AS-007 is authorized from exact synchronized baseline
 `22c96dd711126d0e87f637032a7871308fede803` after permanent acceptance of
 `AS006_KNOWN_R1_FAIL`. The first gate is retrospective attribution of the

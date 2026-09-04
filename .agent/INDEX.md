@@ -1,5 +1,9 @@
 # CURRENT AUTHORITY — UMBRA-AS-007 ACTIVE
 
+## UMBRA-AS-008 — current qualification generation
+
+AS-008 starts from `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc` after permanent AS-007 protocol failure. It inherits only the valid A/B/R1 diagnostics and must first prove seed disjointness and downstream-runner integrity before one fresh R0/R1/R2/R3 population. No AS-008 formal organism execution has begun.
+
 AS-007 is the current Architect-authorized generation from exact baseline
 `22c96dd711126d0e87f637032a7871308fede803`. It first audits the retained
 AS-006 R1/S16 failure and benchmark coherence, then—only if coherent—may

@@ -1,0 +1,8 @@
+# AS-008 plan
+
+1. Reconcile exact AS-007 implementation inheritance.
+2. Build and lock a complete historically disjoint seed registry and AS-008 formal manifest.
+3. Qualify the downstream runner before formal execution.
+4. Freeze the unchanged scientific candidate and execute the fresh R0/R1/R2/R3 population once.
+5. Continue only through the authorized lifecycle, boundedness, soak, and ablation gates after population success.
+6. Stop permanently at the first authorized failure and publish append-only evidence, GitHub, and Notion closeout.

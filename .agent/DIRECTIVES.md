@@ -1,5 +1,9 @@
 ## UMBRA-AS-003P-R6F-R1 — START (2026-09-03)
 
+## UMBRA-AS-008 — GOVERNANCE START (2026-09-04)
+
+Architect authority is AS-008: fresh integrated population, lifecycle, boundedness, and causal closure from `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`. AS-007 remains terminal `AS007_PROTOCOL_FAIL`; its contaminated downstream preflight is excluded, while completed A/B/R1 diagnostics are inherited without rerun. Scope is zero production-semantic change. Formal execution is blocked until exact implementation inheritance, historical seed disjointness, and downstream harness preflight pass. No retry, reseed, or automatic CLOSE-03.
+
 - Directive: UMBRA-AS-003P-R6F-R1 | status:active | baseline:e5af166e86e85a5937d25b579f9256768bbd3d30 | parent:AS003PR6F_PROTOCOL_FAIL | scope:harness-only import repair, complete executable preflight, and one prospective reuse of the unused R6F assay | constraints:seed 18482,scenario S0,max ticks 500,IDLE/MOVE pair,root predicate and configuration inherited exactly; production 0; no historical rewrite; no retry/reseed; no planning reader; no R7 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-003p-r6f-r1-common-root-option/ | remote:github
 
 ## UMBRA-AS-003P-R6F-R1 — CLOSEOUT (2026-09-03)

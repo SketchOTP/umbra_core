@@ -1,5 +1,9 @@
 # Current governed status — UMBRA-AS-005 ACTIVE
 
+## Current authority: UMBRA-AS-008
+
+AS-008 is the active fresh integrated qualification generation from `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`. It makes zero production-semantic changes and tests only historically disjoint formal seeds after validating the runner. AS-007 remains terminal `AS007_PROTOCOL_FAIL`; integrated viability is still not qualified and CLOSE-03 is blocked.
+
 AS-005 is a fresh generation from exact baseline
 `b45a3c1480d57638768f5a876c8807c6f756143c` after permanent AS-004 verdict
 `AS004_KNOWN_R1_FAIL`. It is authorized to address source activation, modal
