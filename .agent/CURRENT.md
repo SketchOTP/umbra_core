@@ -1,4 +1,12 @@
-# UMBRA-AS-005 — ACTIVE fresh preventive/modal continuation generation
+# UMBRA-AS-006 — TERMINAL known historical viability failure
+
+AS-006 is permanently terminal as `AS006_KNOWN_R1_FAIL`. Diagnostics A and B
+completed, then the known R1/S16 seed `57531938` reached `NO_SAFE_ACTION` at
+tick `1928` and critical failure at tick `1929`. Integrated viability remains
+unqualified; no successor, R7, or CLOSE-03 started. Final GitHub closeout:
+`18acb033fac893a02fd0917f7a42ab9b5612f3a2`.
+
+# UMBRA-AS-005 — TERMINAL protocol-interrupted generation
 
 AS-004 remains permanently terminal as `AS004_KNOWN_R1_FAIL`; it is not being
 retried. AS-005 starts from exact synchronized baseline

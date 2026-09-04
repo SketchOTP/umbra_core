@@ -1,6 +1,6 @@
 # AS-006 result
 
-Status: ACTIVE — governance start only.
+Status: TERMINAL — `AS006_KNOWN_R1_FAIL`.
 
 Exact baseline: `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`.
 
