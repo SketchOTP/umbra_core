@@ -64,6 +64,7 @@ from umbra_core.identity import ConstitutionalIdentity, create_birth, verify_ide
 from umbra_core.memory import MemoryConfig, MemoryEngine, condition_to_memory_config
 from umbra_core.perception import PerceptionMembrane
 from umbra_core.perception_adapters import AdapterManifest, ObservationEnvelope, PerceptionAdapterError
+from umbra_core.embodiment_adapters import AdapterRequest
 from umbra_core.persistence import PersistenceError, Store
 from umbra_core.physiology import Physiology
 from umbra_core.recoverability.contracts import (
