@@ -428,3 +428,14 @@ common-root observer preflight: control/shadow `1/1`, `500/500`, semantic
 differences `0`, RNG parity `PASS`. Scientific sequence remains unstarted.
 
 Architect accepted `AS005_PROTOCOL_FAIL` as permanent and authorized fresh AS-006 from exact synchronized baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. Scope: executable weak-continuation loss, source-derived preventive recovery slack, and the gated integrated qualification sequence. AS-005 partial evidence remains uninterpreted. Start counts: production/test/experiment semantic changes `0/0/0`; organism/load/tick/control/shadow/diagnostic/qualification executions `0/0/0/0/0/0/0`; retries/reseeds `0/0`. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.
+
+## UMBRA-AS-007 governance start — 2026-09-03
+
+Architect accepted AS-006 terminal `AS006_KNOWN_R1_FAIL` and authorized a fresh
+AS-007 generation from `22c96dd711126d0e87f637032a7871308fede803`. The first
+decision point is zero-run attribution/coherence: determine whether the
+frozen S16 reversal and R1 qualification contract are internally achievable
+before any production repair. If coherent, only one shared terminal
+executability contract may be introduced, with no magic threshold, scalar
+authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
+counts are `0/0`; no successor started.

@@ -1,3 +1,17 @@
+# UMBRA-AS-007 — ACTIVE preimplementation coherence audit
+
+AS-007 is authorized from exact synchronized baseline
+`22c96dd711126d0e87f637032a7871308fede803` after permanent acceptance of
+`AS006_KNOWN_R1_FAIL`. The first gate is retrospective attribution of the
+retained AS-006 R1/S16 terminal trace and a source-grounded audit of whether
+the frozen S16 recovery challenge is coherent. Only if that contract is
+coherent may the bounded terminal-executability repair and one frozen A/B/R1
+sequence proceed. Integrated viability, planning authority, AS-004, and
+CLOSE-03 remain unqualified and blocked. No organism has been run for AS-007;
+retries/reseeds are `0/0`. Packet: `.agent/tasks/active/UMBRA-AS-007/`;
+evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-007-recovery-executability-integrated-viability-r1/`.
+
 # UMBRA-AS-006 — TERMINAL known historical viability failure
 
 AS-006 is permanently terminal as `AS006_KNOWN_R1_FAIL`. Diagnostics A and B

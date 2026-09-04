@@ -1695,4 +1695,19 @@ AS-006 is terminal `AS006_KNOWN_R1_FAIL`. Diagnostic A (`500/500`) and B
 `39ffe7ca3865e414994818bdf7afc39cf9227ca493654b2dc35a09999315428b`.
 Integrated viability and planning authority remain unqualified; no successor.
 
+## UMBRA-AS-007 governance start — 2026-09-03
+
+Architect accepted `AS006_KNOWN_R1_FAIL` as permanent scientific evidence and
+authorized AS-007 from exact synchronized baseline
+`22c96dd711126d0e87f637032a7871308fede803`. AS-007 begins with retained
+AS-006 R1/S16 causal attribution and a zero-run coherence audit of the frozen
+recovery challenge. If coherent, it may establish one source-backed
+terminal-executability contract and then run exactly one frozen A/B/R1
+sequence; any post-execution failure is terminal. No AS-007 organism,
+diagnostic, control/shadow execution, retry, or reseed has occurred. The
+permanent AS-006 manifest SHA-256 is
+`39ffe7ca3865e414994818bdf7afc39cf9227ca493654b2dc35a09999315428b`.
+Integrated viability, planning authority, and CLOSE-03 remain unqualified;
+no successor started.
+
 AS-005 is preserved as terminal `AS005_PROTOCOL_FAIL` from closeout `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. AS-006 starts as a new generation from that exact head. Its planned outcome is a bounded test of whether an exact lived MAY recovery possibility can be categorically destroyed by an immediate candidate and thereby become ordinary action-selection evidence, with preventive activation derived from source-backed recovery slack rather than fixed planner depth. No scientific execution has begun.

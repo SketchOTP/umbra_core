@@ -827,3 +827,14 @@ sequence still failed at the known R1 viability boundary, so these mechanism
 observations do not qualify planning authority or integrated viability.
 
 AS-005 established source activation but its MAY bridge classified hard-supported candidates as preserved and its preventive trigger used `MAX_CONTINUATION_DEPTH`. AS-006 must address both gaps without upgrading MAY evidence, inventing route guarantees, or introducing scalar authority. Partial AS-005 execution evidence is historical and uninterpreted.
+
+### AS-007 start — retained recovery-contract question
+
+The retained AS-006 R1/S16 trace reaches `NO_SAFE_ACTION` at tick 1928 and a
+verified `REST:not_at_rest` failure at tick 1929. AS-007 must first determine
+whether S16's reversal of `rest:0` leaves a source-valid bounded recovery
+trajectory under the frozen physiology and action contracts. A production
+repair is not authorized until that coherence question is answered. The
+current critical recovery path selects terminal REST from a noisy distance
+criterion while trusted Embodiment preflight uses the authoritative terminal
+predicate; this is a hypothesis for audit, not yet an accepted causal finding.

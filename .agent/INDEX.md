@@ -1,3 +1,15 @@
+# CURRENT AUTHORITY — UMBRA-AS-007 ACTIVE
+
+AS-007 is the current Architect-authorized generation from exact baseline
+`22c96dd711126d0e87f637032a7871308fede803`. It first audits the retained
+AS-006 R1/S16 failure and benchmark coherence, then—only if coherent—may
+implement one source-backed terminal executability contract and execute the
+frozen A/B/R1 sequence exactly once. AS-006 remains permanently terminal as
+`AS006_KNOWN_R1_FAIL`; no historical evidence is rewritten. No AS-007
+organism, tick, retry, or reseed has occurred. Packet:
+`.agent/tasks/active/UMBRA-AS-007/`; evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-007-recovery-executability-integrated-viability-r1/`.
+
 # CURRENT AUTHORITY — UMBRA-AS-006 TERMINAL
 
 AS-006 is terminal with `AS006_KNOWN_R1_FAIL`. Diagnostics A and B completed;
