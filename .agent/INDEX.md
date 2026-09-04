@@ -4,7 +4,7 @@ AS-006 is terminal with `AS006_KNOWN_R1_FAIL`. Diagnostics A and B completed;
 the known R1/S16 seed `57531938` failed at tick `1929` after `NO_SAFE_ACTION`
 at tick `1928`. Integrated viability, planning authority, R7, and CLOSE-03
 remain blocked; no successor started. Final GitHub closeout:
-`18acb033fac893a02fd0917f7a42ab9b5612f3a2`.
+`699d5b11068b9b506615e977df1315e73fef1677`.
 
 # UMBRA-AS-005 — TERMINAL protocol-interrupted generation
 
