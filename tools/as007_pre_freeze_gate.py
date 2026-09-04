@@ -67,7 +67,7 @@ def durable_json(path: Path, value: Any) -> str:
 
 def lock_contract() -> dict[str, Any]:
     result = {
-        "schema": "AS007_EXECUTABILITY_CONTRACT_LOCK_V2",
+        "schema": "AS007_EXECUTABILITY_CONTRACT_LOCK_V3",
         "directive": "UMBRA-AS-007",
         "commit": git("rev-parse", "HEAD"),
         "contract_sha256": sha256(CONTRACT),
@@ -87,10 +87,10 @@ def lock_contract() -> dict[str, Any]:
         },
         "scientific_runs_before_lock": 0,
         "organism_ticks_before_lock": 0,
-        "supersedes_artifact": "AS007_EXECUTABILITY_CONTRACT_LOCK.json",
-        "supersession_reason": "post-lock-development check exposed and corrected a missing AdapterRequest import before scientific freeze",
+        "supersedes_artifact": "AS007_EXECUTABILITY_CONTRACT_LOCK_R2.json",
+        "supersession_reason": "final lock records the clean post-correction commit after pre-freeze development and observer validation",
     }
-    result["artifact_sha256"] = durable_json(EVIDENCE_ROOT / "AS007_EXECUTABILITY_CONTRACT_LOCK_R2.json", result)
+    result["artifact_sha256"] = durable_json(EVIDENCE_ROOT / "AS007_EXECUTABILITY_CONTRACT_LOCK_R3.json", result)
     return result
 
 
