@@ -1,3 +1,13 @@
+# Current profile — UMBRA-AS-010
+
+AS-010 is the current full-configuration qualification generation from
+`b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`. It must reproduce AS-007's
+`bounded_continuation_enabled=True` and route-demand-learning-enabled runtime
+configuration across fresh R0–R3 population, lifecycle, boundedness, soak,
+and ablation harnesses. AS-008/AS-009 population evidence remains reduced
+configuration evidence, not a combined 32/32 claim. No production changes,
+historical rewriting, retries, reseeds, or automatic CLOSE-03 are authorized.
+
 # Historical profile — UMBRA-AS-005
 
 ## Current authority: UMBRA-AS-009 terminal

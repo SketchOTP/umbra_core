@@ -121,6 +121,10 @@ Append-only task-start log for UMBRA-CORE. Never rewrite, reorder, or delete his
 
 - D-20260903-as005-start | Directive: UMBRA-AS-005 | status:active | baseline:b45a3c1480d57638768f5a876c8807c6f756143c | parent:AS004_KNOWN_R1_FAIL | scope:fresh preventive modal-continuation and integrated-viability generation | constraints:preserve AS-004 permanent failure; no scalar/weights/source priority/hidden truth/planner/RL/retry/reseed/R7/CLOSE03; route learning explicit; modal source-faithful; dense trace retained | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-005-preventive-modal-continuation-integrated-viability-r1/ | remote:github
 
+## UMBRA-AS-010 — GOVERNANCE START (2026-09-04)
+
+- Directive: UMBRA-AS-010 | status:active | baseline:b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b | parent:AS009_PROTOCOL_FAIL | scope:one canonical AS-007-equivalent full configuration, fresh disjoint R0-R3 population, lifecycle, boundedness, real-time soak, causal ablation | constraints:production 0, no historical rewrite, no retry/reseed after lock, no planning/action authority change, no automatic CLOSE-03 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-010-full-configuration-integrated-qualification-r1/ | remote:github
+
 Format:
 ```md
 - D-YYYYMMDD-HHMM-slug | status:started | scope:<files/modules> | ask:<one sentence> | accept:<observable done condition> | plan:<max 3 tiny steps>

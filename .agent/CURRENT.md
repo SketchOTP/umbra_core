@@ -1,4 +1,18 @@
-# CURRENT AUTHORITY — UMBRA-AS-009 TERMINAL
+# CURRENT AUTHORITY — UMBRA-AS-010 ACTIVE
+
+AS-010 is authorized from exact synchronized baseline
+`b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b` after permanent acceptance of
+`AS009_PROTOCOL_FAIL`. AS-007 A/B/known-R1 remain valid full-configuration
+evidence. AS-008 R0/R1 and AS-009 R2/R3 remain valid reduced-configuration
+evidence only and must not be combined into a full-stack 32/32 claim. AS-010
+must use one canonical configuration with bounded continuation and route-demand
+learning enabled, fresh disjoint R0–R3 seeds, and a repaired current-authority
+R2 harness. Production semantic change, historical rewriting, retries,
+reseeds, and automatic CLOSE-03 are prohibited. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-010-full-configuration-integrated-qualification-r1/`.
+Task packet: `.agent/tasks/active/UMBRA-AS-010/`.
+
+# UMBRA-AS-009 TERMINAL
 
 AS-009 began from exact synchronized baseline
 `f5e73ec4a3f5b677590d079d2bf2e506a699134e` after permanent acceptance of

@@ -1,3 +1,12 @@
+## AS-010 START
+
+AS-009 is permanently terminal as `AS009_PROTOCOL_FAIL`; its downstream
+lifecycle failure is protocol-only and its reduced-configuration R2/R3 rows
+are not full-stack qualification. AS-010 starts from
+`b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b` to reproduce the AS-007 full
+configuration and qualify fresh R0–R3 plus downstream gates. No AS-010 runs
+have occurred at start.
+
 ## 2026-09-03 — UMBRA-AS-005 governance start
 
 ## 2026-09-04 — UMBRA-AS-008 governance start

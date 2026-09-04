@@ -1,3 +1,10 @@
+## AS-010 GOVERNANCE START
+
+Accepted predecessor: `AS009_PROTOCOL_FAIL` (permanent). Exact baseline:
+`b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`. Scope is zero production-semantic
+change and full-configuration integrated qualification. AS-008/AS-009
+reduced-configuration rows are preserved but not combined into 32/32.
+
 ## 2026-09-03 — AS-005 authorized
 
 ## 2026-09-04 — AS-008 start

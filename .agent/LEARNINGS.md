@@ -1,3 +1,10 @@
+## AS-010 START LEARNING
+
+Zero code drift does not imply runtime-config equivalence. The AS-007
+full-stack flags must be explicit in one AS-010 factory and audited
+programmatically before fresh execution. HabitatEngine must be restored and
+reattached after every organism reload before any habitat-dependent operation.
+
 ## 2026-09-03 — AS-005 start boundary
 
 ## AS-008 — validate the complete fresh seed set before creation
