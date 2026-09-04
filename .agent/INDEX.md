@@ -715,4 +715,12 @@ completed `500/500`, and the common-root observer preflight passed with `0`
 semantic differences. Scientific A/B/R1 remains unstarted until the dedicated
 freeze commit.
 
+AS-006 is terminal at `AS006_KNOWN_R1_FAIL` from freeze commit
+`53117fa3cd63ce629f5fee0934e11c027ae8ae9c`. Diagnostic A and B completed;
+Known R1 stopped at tick `1929` after `NO_SAFE_ACTION` at `1928` and verified
+`REST/not_at_rest`. Evidence manifest:
+`f4ed10d5252f3084a4551f54ba924146c63a151aaa2fc58b31688c347f67114b`.
+Integrated viability and planning authority remain unqualified; no successor
+started.
+
 AS-006 begins from exact synchronized baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d` after permanent acceptance of `AS005_PROTOCOL_FAIL`. It is a fresh implementation-to-qualification generation for executable weak-continuation loss and source-derived preventive recovery slack. AS-005 partial traces remain uninterpreted history. No R7, CLOSE-03, scalar utility, weighting, hidden truth, retry, reseed, or automatic successor is authorized. Packet: `.agent/tasks/active/UMBRA-AS-006/`; evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.

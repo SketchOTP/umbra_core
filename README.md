@@ -431,6 +431,12 @@ not as granting reuse rights, unless a license is added separately.
 
 ### AS-006 — executable weak-continuation loss (pre-scientific)
 
+AS-006 is now terminal at `AS006_KNOWN_R1_FAIL`. Diagnostic A and B completed
+their frozen horizons, while the known R1/S16 leg stopped at tick `1929` after
+`NO_SAFE_ACTION` at `1928` and verified `REST/not_at_rest`. The bridge remains
+terminal evidence rather than qualified planning authority, and integrated
+long-horizon viability is still unqualified. See the [AS-006 result](.agent/tasks/active/UMBRA-AS-006/RESULT.md).
+
 AS-006 is a fresh implementation generation following the permanent protocol
 terminal `AS005_PROTOCOL_FAIL`. It adds exact lived-option identity,
 candidate-caused `PRESERVED / DESTROYED / UNKNOWN` status per supported branch,

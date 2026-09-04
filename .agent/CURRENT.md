@@ -1712,6 +1712,14 @@ post-lock scientific sequence is closed by the terminal result above. Evidence r
 
 ### Pre-scientific freeze
 
+### Terminal closeout
+
+AS-006 is terminal at `AS006_KNOWN_R1_FAIL`. The frozen A/B/R1 sequence ran
+`500/500`, `3500/3500`, then stopped at known R1 tick `1929` after
+`NO_SAFE_ACTION` at `1928` and verified REST failure `not_at_rest`. No
+downstream viability gates ran. Integrated viability and planning authority
+remain unqualified; no successor started.
+
 Implementation is frozen pending the dedicated freeze commit at
 `9e6f92a99a397abec9e1ac245dcc5767ed6dd19f`. Focused proofs are `17/17` twice;
 applicable regression is `1298 PASS / 2 SKIP / 13 inherited FAIL`, candidate-only

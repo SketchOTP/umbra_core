@@ -632,4 +632,12 @@ learning contracts. Focused proof is `17/17` twice; the full applicable suite
 retains `13` inherited failures and `0` candidate-only failures. Scientific
 A/B/R1 is not yet run.
 
+## AS-006 terminal profile
+
+AS-006 is terminal `AS006_KNOWN_R1_FAIL`. Its bounded weak-continuation bridge
+and demand-based preventive slack passed focused proofs and introduced no
+candidate-only regression, but Known R1 reached the `NO_SAFE_ACTION`/critical
+REST failure boundary at tick `1929`. Integrated long-horizon viability remains
+unqualified; the bridge is terminal evidence, not qualified planning authority.
+
 Baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`; parent `AS005_PROTOCOL_FAIL`. AS-006 is authorized to implement and qualify executable weak-continuation loss plus source-derived recovery slack. The work remains bounded and non-scalar; route learning is verified-outcome-only, planning remains subordinate, and AS-005 partial traces are not evidence for AS-006 qualification.

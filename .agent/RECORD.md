@@ -406,6 +406,18 @@ Retries/reseeds: `0/0`; partial traces remain uninterpreted; integrated viabilit
 AS-004 successor work, and CLOSE-03 remain unqualified/blocked.
 ## 2026-09-03 — AS-006 governance start
 
+## 2026-09-03 — AS-006 terminal record
+
+Final verdict: `AS006_KNOWN_R1_FAIL`; freeze commit
+`53117fa3cd63ce629f5fee0934e11c027ae8ae9c`. Diagnostic A/B completed at
+`500/500` and `3500/3500`; Known R1/S16 stopped at tick `1929` after
+`NO_SAFE_ACTION` tick `1928` and verified `REST/not_at_rest`. Focused proof
+`17/17` twice; applicable `1298 PASS / 2 SKIP / 13 inherited FAIL`, candidate-only
+`0`; observer parity `PASS`. Organisms/ticks `3/5929`, retries/reseeds `0/0`,
+downstream not run. Manifest
+`f4ed10d5252f3084a4551f54ba924146c63a151aaa2fc58b31688c347f67114b`; no
+successor started.
+
 ### Pre-freeze record
 
 Implementation commit `9e6f92a99a397abec9e1ac245dcc5767ed6dd19f`; contract lock

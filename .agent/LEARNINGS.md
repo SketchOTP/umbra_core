@@ -818,4 +818,12 @@ the recursion ceiling. Source activation populated option rows, and a fresh
 common-root observer gate passed before the scientific lock; neither grants
 planning authority.
 
+## 2026-09-03 — AS-006 terminal learning
+
+Executable weak-continuation loss became observable in fresh source activation:
+known lived options could be `DESTROYED` on some candidate branches while
+preserving `UNKNOWN` where evidence was insufficient. The integrated frozen
+sequence still failed at the known R1 viability boundary, so these mechanism
+observations do not qualify planning authority or integrated viability.
+
 AS-005 established source activation but its MAY bridge classified hard-supported candidates as preserved and its preventive trigger used `MAX_CONTINUATION_DEPTH`. AS-006 must address both gaps without upgrading MAY evidence, inventing route guarantees, or introducing scalar authority. Partial AS-005 execution evidence is historical and uninterpreted.

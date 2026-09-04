@@ -68,6 +68,12 @@ and the local/internal evidence root recorded in that packet.
 
 ### AS-006 pre-scientific implementation
 
+AS-006 is terminal at `AS006_KNOWN_R1_FAIL`: Diagnostic A (`500/500`) and B
+(`3500/3500`) completed, then Known R1/S16 stopped at tick `1929` after
+`NO_SAFE_ACTION` at `1928` and verified `REST/not_at_rest`. No downstream
+viability gates ran; the bridge remains terminal evidence, not qualified
+planning authority. See the [AS-006 result](../.agent/tasks/active/UMBRA-AS-006/RESULT.md).
+
 AS-006 follows permanent `AS005_PROTOCOL_FAIL` and is a fresh bounded generation
 for executable weak-continuation loss and source-derived preventive recovery
 slack. Its focused proof boundary is `17/17` twice; applicable regression retains

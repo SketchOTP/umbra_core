@@ -8,6 +8,21 @@ AS-005 remains permanently terminal as `AS005_PROTOCOL_FAIL`. Its partial scient
 
 ## AS-006 pre-scientific freeze
 
+## AS-006 terminal closeout
+
+Terminal verdict: `AS006_KNOWN_R1_FAIL`. Freeze commit:
+`53117fa3cd63ce629f5fee0934e11c027ae8ae9c`. Diagnostic A (`500/500`, seed
+`45878900`) and B (`3500/3500`, seed `22023239`) completed. Known R1/S16
+(`57531938`, target `7200`) stopped at tick `1929` after `NO_SAFE_ACTION` at
+`1928`; verified REST failed with `not_at_rest` at fatigue `0.9535`. No
+downstream viability gates ran. Focused proofs were `17/17` twice; applicable
+regression was `1298 PASS / 2 SKIP / 13 inherited FAIL`, candidate-only `0`.
+Fresh source activation completed `500/500`; the common-root observer gate
+passed `500/500` with zero semantic differences and exact RNG parity.
+Organisms/ticks were `3/5929`, retries/reseeds `0/0`; manifest:
+`f4ed10d5252f3084a4551f54ba924146c63a151aaa2fc58b31688c347f67114b`.
+Integrated viability and planning authority remain unqualified; no successor.
+
 Implementation commit: `9e6f92a99a397abec9e1ac245dcc5767ed6dd19f`.
 The executable weak-continuation bridge adds exact lived-option identity,
 candidate-caused `PRESERVED / DESTROYED / UNKNOWN` branch status, and

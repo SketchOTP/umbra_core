@@ -1139,4 +1139,14 @@ completed `500/500`; the fresh common-root observer gate completed one control
 and one shadow branch at `500/500` with exact parity. Scientific A/B/R1 remains
 unstarted; the dedicated freeze commit follows.
 
+## UMBRA-AS-006 — terminal closeout
+
+Terminal verdict: `AS006_KNOWN_R1_FAIL`; freeze
+`53117fa3cd63ce629f5fee0934e11c027ae8ae9c`. A/B completed at `500/500` and
+`3500/3500`; Known R1 stopped at tick `1929` after `NO_SAFE_ACTION` at `1928`
+and verified `REST/not_at_rest`. Focused proofs were `17/17` twice; applicable
+regression retained `13` inherited failures and `0` candidate-only failures.
+No downstream gates ran; retries/reseeds `0/0`; no successor. Manifest:
+`f4ed10d5252f3084a4551f54ba924146c63a151aaa2fc58b31688c347f67114b`.
+
 Architect authority: `UMBRA-AS-006 — Executable Weak-Continuation Loss, Recovery Slack, and Integrated Viability Qualification`. Baseline: `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. Parent `AS005_PROTOCOL_FAIL` remains permanent; its partial traces are not reused. Scope is a fresh bounded implementation and qualification generation. Preserve MAY/UNKNOWN semantics, common-root neutrality, verified-only route learning, no scalar/weights/priority/hidden truth, no retry/reseed, no R7 revival, and no automatic CLOSE-03. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.

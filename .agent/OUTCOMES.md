@@ -1684,4 +1684,15 @@ nonempty option rows. A fresh common-root observer gate completed `500/500`
 with exact semantic and RNG parity. These are pre-freeze results; no scientific
 A/B/R1 claim follows.
 
+## AS-006 terminal closeout — 2026-09-03
+
+AS-006 is terminal `AS006_KNOWN_R1_FAIL`. Diagnostic A (`500/500`) and B
+(`3500/3500`) completed, then Known R1/S16 stopped at tick `1929` after
+`NO_SAFE_ACTION` at `1928`; verified REST failed with `not_at_rest` at fatigue
+`0.9535`. No downstream gates ran. Focused `17/17` twice, applicable
+`1298 PASS / 2 SKIP / 13 inherited FAIL`, candidate-only `0`, observer parity
+`PASS`, organisms/ticks `3/5929`, retries/reseeds `0/0`. Manifest:
+`f4ed10d5252f3084a4551f54ba924146c63a151aaa2fc58b31688c347f67114b`.
+Integrated viability and planning authority remain unqualified; no successor.
+
 AS-005 is preserved as terminal `AS005_PROTOCOL_FAIL` from closeout `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d`. AS-006 starts as a new generation from that exact head. Its planned outcome is a bounded test of whether an exact lived MAY recovery possibility can be categorically destroyed by an immediate candidate and thereby become ordinary action-selection evidence, with preventive activation derived from source-backed recovery slack rather than fixed planner depth. No scientific execution has begun.
