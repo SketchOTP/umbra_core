@@ -1,3 +1,20 @@
+## AS-010 TERMINAL CLOSEOUT — 2026-09-05
+
+`AS010_PROTOCOL_FAIL` is permanent. AS-010 reproduced the AS-007 full
+configuration and completed a fresh `32/32` population: R0, R1, R2, and R3
+each passed `8/8` at `7200` ticks. The full-configuration lifecycle passed its
+`500`-tick identity, Habitat, body-replacement, restart, and profile-swap
+checks.
+
+The post-lock boundedness run reached logical tick `100000` and observed
+`521416` events, but failed during required post-run authoritative snapshot
+collection at `experiments/as010/downstream.py:104` with
+`HabitatAuthorityError: habitat_engine_reattachment_required`. The result is a
+protocol failure; boundedness was not qualified and was not scientifically
+failed. Real-time soak and causal ablation were not run. Production and
+existing-test semantic deltas are `0/0`; retries/reseeds are `0/0`; integrated
+viability and CLOSE-03 remain blocked; no successor started.
+
 ## AS-010 START
 
 AS-009 is permanently terminal as `AS009_PROTOCOL_FAIL`; its downstream

@@ -4,6 +4,12 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 
+## UMBRA-AS-010 — TERMINAL `AS010_PROTOCOL_FAIL`
+- Exact baseline: `b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`; terminal closeout is in `.agent/tasks/active/UMBRA-AS-010/RESULT.md` and the local/internal evidence root.
+- Full configuration population: R0/R1/R2/R3 each `8/8` at `7200` ticks (`32/32` total); lifecycle passed at `500` ticks.
+- Post-lock boundedness reached logical tick `100000` but failed at final snapshot collection with `HabitatAuthorityError: habitat_engine_reattachment_required`; no boundedness qualification, soak, or ablation result exists.
+- Production delta `0`; retries/reseeds `0/0`; integrated viability and CLOSE-03 remain blocked; no successor.
+
 ## UMBRA-AS-008 — TERMINAL `AS008_PROTOCOL_FAIL`
 - Exact baseline: `3e0fd74a37376dbb659ffb41d3d7d922f0a338bc`; final closeout is recorded in the AS-008 task packet and evidence manifest.
 - Pre-formal gates: implementation inheritance, 32-seed historical disjointness, downstream preflight, and protected tests `50/50` twice all passed.

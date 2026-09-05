@@ -1,4 +1,19 @@
-# CURRENT AUTHORITY — UMBRA-AS-010 ACTIVE
+# CURRENT AUTHORITY — UMBRA-AS-010 TERMINAL
+
+AS-010 is permanently terminal as `AS010_PROTOCOL_FAIL`. The fresh full
+configuration population completed `32/32` (`8/8` each R0–R3 at `7200`
+ticks), and the full-configuration lifecycle passed its bounded `500`-tick
+checks. The post-lock boundedness harness reached logical tick `100000` but
+failed while collecting the required final authoritative snapshot with
+`HabitatAuthorityError: habitat_engine_reattachment_required` at
+`experiments/as010/downstream.py:104`. This is protocol evidence, not a
+boundedness pass or failure. Real-time soak and causal ablation were not run.
+Production delta is `0`; retries/reseeds are `0/0`; no successor or CLOSE-03
+started. Integrated viability remains **NOT QUALIFIED** and CLOSE-03 remains
+blocked. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-010-full-configuration-integrated-qualification-r1/`.
+
+# AS-010 AUTHORIZATION AND START RECORD
 
 AS-010 is authorized from exact synchronized baseline
 `b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b` after permanent acceptance of

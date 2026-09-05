@@ -1,3 +1,15 @@
+## AS-010 TERMINAL CLOSEOUT
+
+`AS010_PROTOCOL_FAIL` is the permanent terminal result from baseline
+`b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`. The fresh full-configuration
+population passed `32/32` (`8/8` per R0–R3 at `7200` ticks); the full
+configuration lifecycle passed at `500` ticks. The post-lock boundedness loop
+reached `100000` ticks but failed during required final snapshot collection at
+`experiments/as010/downstream.py:104` with
+`HabitatAuthorityError: habitat_engine_reattachment_required`. Soak and
+ablation were not run. Production delta `0`; retries/reseeds `0/0`; no
+successor; integrated viability and CLOSE-03 blocked.
+
 ## AS-010 GOVERNANCE START
 
 Accepted predecessor: `AS009_PROTOCOL_FAIL` (permanent). Exact baseline:

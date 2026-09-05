@@ -1,3 +1,12 @@
+## AS-010 TERMINAL LEARNING
+
+Full configuration must be treated as an evidence contract, not inferred from
+production inheritance. AS-010 showed that the full `32/32` population and a
+full-configuration lifecycle can pass while a downstream boundedness harness
+still violates a HabitatEngine reattachment invariant during final snapshot
+collection. A post-lock harness failure is terminal protocol evidence; the
+completed tick loop must not be promoted to a boundedness qualification.
+
 ## AS-010 START LEARNING
 
 Zero code drift does not imply runtime-config equivalence. The AS-007

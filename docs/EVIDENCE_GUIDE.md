@@ -20,6 +20,25 @@ The canonical Notion page governs strategic authority, but the repository is int
 to remain understandable without Notion access. Git commits and retained artifacts are
 the implementation and execution record.
 
+## AS-010
+
+AS-010 is permanently terminal at `AS010_PROTOCOL_FAIL`. It reproduced the
+AS-007 full configuration and completed a fresh `32/32` formal population:
+R0–R3 each passed `8/8` at `7200` ticks. Its full-configuration lifecycle
+passed at `500` ticks, including Habitat restoration, restart continuity, and
+true physical-body replacement.
+
+The post-lock boundedness harness reached logical tick `100000` and observed
+`521416` events, but failed during required final authoritative snapshot
+collection with `HabitatAuthorityError: habitat_engine_reattachment_required`
+at `experiments/as010/downstream.py:104`. This is protocol evidence, not a
+boundedness result. Real-time soak and causal ablation were not run. Production
+delta `0`; retries/reseeds `0/0`; no successor started; integrated viability and
+CLOSE-03 remain blocked. The retained evidence is local/internal at
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-010-full-configuration-integrated-qualification-r1/`.
+
+See the [AS-010 task result](../.agent/tasks/active/UMBRA-AS-010/RESULT.md).
+
 ## AS-008
 
 AS-008 is permanently terminal at `AS008_PROTOCOL_FAIL`, from exact baseline

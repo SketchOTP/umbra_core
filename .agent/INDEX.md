@@ -1,4 +1,12 @@
-# UMBRA-AS-010 ACTIVE
+# UMBRA-AS-010 TERMINAL — `AS010_PROTOCOL_FAIL`
+
+- Exact baseline: `b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`; final closeout is recorded in the AS-010 task packet and evidence manifest.
+- Full configuration population: `32/32` completed, `8/8` in each R0–R3 regime at `7200` ticks. Lifecycle: PASS at `500` ticks.
+- Terminal boundary: the post-lock boundedness harness reached `100000` ticks but failed during required final snapshot collection with `HabitatAuthorityError: habitat_engine_reattachment_required` at `experiments/as010/downstream.py:104`.
+- Real-time soak and causal ablation were not run. Production delta `0`; retries/reseeds `0/0`; integrated viability and CLOSE-03 remain blocked; no successor started.
+- Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-010-full-configuration-integrated-qualification-r1/`.
+
+# AS-010 AUTHORIZATION AND START RECORD
 
 - Directive: UMBRA-AS-010 | status:active | baseline:b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b | scope:full AS-007 configuration, fresh R0-R3 population, lifecycle, boundedness, soak, ablation | constraints:production 0, historical evidence immutable, no retry/reseed after lock, no automatic CLOSE-03 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-010-full-configuration-integrated-qualification-r1/ | remote:github
 

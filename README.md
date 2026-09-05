@@ -6,7 +6,26 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
-## Current status: AS-009 protocol terminal
+## Current status: AS-010 protocol terminal
+
+The latest governed generation, AS-010, is permanently terminal at
+`AS010_PROTOCOL_FAIL`. It reproduced the AS-007 full configuration and
+completed a fresh `32/32` population: R0, R1, R2, and R3 each passed `8/8` at
+`7200` ticks. A full-configuration lifecycle also passed its bounded `500`
+ticks, including restart/Habitat restoration and true physical-body
+replacement.
+
+The post-lock boundedness harness reached logical tick `100000` but failed
+while collecting the required final authoritative snapshot with
+`HabitatAuthorityError: habitat_engine_reattachment_required` at
+`experiments/as010/downstream.py:104`. This is a protocol result, not a
+boundedness qualification or scientific boundedness failure. Real-time soak
+and causal ablation were not run. Production delta was `0`; retries/reseeds
+were `0/0`; integrated viability remains **NOT QUALIFIED**, planning authority
+remains unqualified, and CLOSE-03 remains blocked. See the [AS-010 evidence
+guide entry](docs/EVIDENCE_GUIDE.md#as-010) and [task packet](.agent/tasks/active/UMBRA-AS-010/RESULT.md).
+
+## Historical AS-009 protocol terminal
 
 The latest governed generation, AS-009, is permanently terminal at
 `AS009_PROTOCOL_FAIL`. Its HabitatEngine-authority repair completed fresh R2 and
@@ -22,7 +41,7 @@ pass. Integrated long-horizon viability remains **NOT QUALIFIED**, planning
 authority remains unqualified, and CLOSE-03 remains blocked. See the [AS-009
 evidence guide entry](docs/EVIDENCE_GUIDE.md#as-009) and [task packet](.agent/tasks/active/UMBRA-AS-009/RESULT.md).
 
-The latest integrated generation, AS-004, is **terminally failed at its known
+An earlier integrated-generation attempt, AS-004, is **terminally failed at its known
 historical viability blocker**. Diagnostic A (`500/500`) and Diagnostic B
 (`3500/3500`) completed, but the required R1/S16 seed `57531938` reached
 `NO_SAFE_ACTION` at tick `1928` and a critical terminal failure at tick `1929`.

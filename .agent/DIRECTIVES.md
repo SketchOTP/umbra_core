@@ -1,3 +1,12 @@
+## UMBRA-AS-010 — TERMINAL (2026-09-05)
+
+- Exact baseline: `b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`.
+- Full AS-007 configuration reproduced; fresh formal population passed `32/32` (`8/8` R0, R1, R2, R3; `7200` ticks each). Full-configuration lifecycle passed (`500` ticks).
+- After the scientific lock, boundedness reached logical tick `100000` but the downstream harness failed at post-run authoritative snapshot collection: `HabitatAuthorityError: habitat_engine_reattachment_required` from `experiments/as010/downstream.py:104`.
+- Terminal verdict: `AS010_PROTOCOL_FAIL`. This does not qualify boundedness and is not a scientific boundedness failure. Real-time soak and causal ablation were not run.
+- Production delta `0`; existing-test semantic delta `0`; retries `0`; reseeds `0`; Authority 3.0 PASS; Governance PASS; successor none; CLOSE-03 blocked.
+- Evidence manifest and final commit are recorded in the AS-010 closeout result.
+
 ## UMBRA-AS-003P-R6F-R1 — START (2026-09-03)
 
 ## UMBRA-AS-008 — GOVERNANCE START (2026-09-04)

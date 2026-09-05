@@ -1,4 +1,15 @@
-# Current profile — UMBRA-AS-010
+# Current profile — UMBRA-AS-010 TERMINAL
+
+AS-010 is permanently terminal as `AS010_PROTOCOL_FAIL`. It reproduced the
+AS-007 full configuration and completed fresh R0–R3 populations at `32/32`
+(`8/8` each, `7200` ticks) plus a passing full-configuration lifecycle. The
+post-lock boundedness helper reached `100000` ticks but failed during final
+authoritative snapshot collection because HabitatEngine had not been
+reattached for that snapshot path. This is protocol evidence, not a
+boundedness result. Soak and causal ablation did not run; production delta and
+retries/reseeds were `0/0`; integrated viability and CLOSE-03 remain blocked.
+
+# AS-010 AUTHORIZATION PROFILE
 
 AS-010 is the current full-configuration qualification generation from
 `b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`. It must reproduce AS-007's
