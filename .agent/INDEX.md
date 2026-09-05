@@ -8,7 +8,7 @@
 
 # AS-010 AUTHORIZATION AND START RECORD
 
-- Directive: UMBRA-AS-010 | status:active | baseline:b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b | scope:full AS-007 configuration, fresh R0-R3 population, lifecycle, boundedness, soak, ablation | constraints:production 0, historical evidence immutable, no retry/reseed after lock, no automatic CLOSE-03 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-010-full-configuration-integrated-qualification-r1/ | remote:github
+- Directive: UMBRA-AS-010 | status:terminal | baseline:b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b | verdict:AS010_PROTOCOL_FAIL | scope:full AS-007 configuration, fresh R0-R3 population, lifecycle, boundedness, soak, ablation | constraints:production 0, historical evidence immutable, no retry/reseed after lock, no automatic CLOSE-03 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-010-full-configuration-integrated-qualification-r1/ | remote:github
 
 # UMBRA-AS-008 — TERMINAL protocol failure (2026-09-04)
 

@@ -27,7 +27,7 @@ guide entry](docs/EVIDENCE_GUIDE.md#as-010) and [task packet](.agent/tasks/activ
 
 ## Historical AS-009 protocol terminal
 
-The latest governed generation, AS-009, is permanently terminal at
+AS-009 is also permanently terminal at
 `AS009_PROTOCOL_FAIL`. Its HabitatEngine-authority repair completed fresh R2 and
 R3 populations (`8/8` each, `16` organisms, `115200` formal ticks). A downstream
 lifecycle harness then failed after `400` ticks because it did not reattach
