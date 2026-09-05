@@ -1,7 +1,7 @@
-# AS-011 ACTIVE — downstream qualification recovery
+# AS-011 TERMINAL — `AS011_PROTOCOL_FAIL`
 
 - `experiments/as011/` owns the centralized full configuration, Habitat reattachment helper, final snapshot/restart path, boundedness, soak, and isolated ablation harness.
-- AS-011 evidence is local/internal at `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-011-boundedness-evidence-recovery-r1/`; formal runs are not yet started.
+- AS-011 evidence is local/internal at `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-011-boundedness-evidence-recovery-r1/`; frozen boundedness failed before organism creation, so soak and ablation did not run.
 
 # REPO_MAP.md
 

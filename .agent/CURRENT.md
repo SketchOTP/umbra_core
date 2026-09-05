@@ -1,13 +1,14 @@
-# CURRENT AUTHORITY — UMBRA-AS-011 ACTIVE
+# CURRENT AUTHORITY — UMBRA-AS-011 TERMINAL
 
 AS-011 is authorized from exact baseline `bcd5ff361a22288480dd16cf20e3aad432bda26e`.
 AS-010 remains permanently terminal as `AS010_PROTOCOL_FAIL`; its fresh full-config
 population `32/32` and lifecycle PASS are inherited, while its post-100k boundedness
 evidence is protocol-only and retained evidence is insufficient for qualification.
-AS-011 scope is zero production-semantic change: recover boundedness evidence, run the
-current full-config downstream checks, then soak and causal ablation if preceding gates
-pass. The first AS-011 preflight passed terminal snapshot/restart authority restoration;
-no formal AS-011 execution has started. Evidence root:
+AS-011 is permanently terminal as `AS011_PROTOCOL_FAIL`: its frozen fresh boundedness
+invocation exited with `NameError: name 'bounded' is not defined` at
+`experiments/as011/downstream.py:98`, before organism creation or any tick. The first
+AS-011 preflight and protected tests passed, but boundedness, soak, and causal ablation
+remain unqualified and are not retried. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-011-boundedness-evidence-recovery-r1/`.
 
 # CURRENT AUTHORITY — UMBRA-AS-010 TERMINAL

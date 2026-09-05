@@ -1,4 +1,4 @@
-# Current profile — UMBRA-AS-011 ACTIVE
+# Current profile — UMBRA-AS-011 TERMINAL
 
 AS-011 is the current downstream qualification authority from
 `bcd5ff361a22288480dd16cf20e3aad432bda26e`. It preserves AS-010 permanently as
@@ -6,7 +6,10 @@ AS-011 is the current downstream qualification authority from
 `500`-tick lifecycle, and does not rerun either. The retained AS-010 100k execution is
 real but insufficient for boundedness qualification because final metrics/reduction and
 reattached restart proof were not retained. AS-011 has zero production-semantic scope;
-formal boundedness/soak/ablation execution is not yet started.
+The frozen fresh boundedness invocation then failed immediately after lock with
+`NameError: name 'bounded' is not defined` at `experiments/as011/downstream.py:98`,
+before organism creation/ticks. This is permanent protocol evidence; boundedness,
+soak, ablation, integrated viability, and CLOSE-03 remain unqualified.
 
 # Current profile — UMBRA-AS-010 TERMINAL
 

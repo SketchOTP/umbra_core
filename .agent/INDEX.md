@@ -1,8 +1,8 @@
-# UMBRA-AS-011 ACTIVE — downstream qualification recovery
+# UMBRA-AS-011 TERMINAL — `AS011_PROTOCOL_FAIL`
 
 - Exact baseline: `bcd5ff361a22288480dd16cf20e3aad432bda26e`; AS-010 remains permanent `AS010_PROTOCOL_FAIL`.
 - Inherited valid gates: AS-010 full-config population `32/32` and lifecycle PASS at `500` ticks. Retained AS-010 100k execution reached `100000` ticks/`521416` events but is not boundedness-qualified because required resource reduction and reattached restart proof were not retained.
-- AS-011 is zero production-semantic change. The non-formal terminal snapshot/restart preflight passed with HabitatEngine restored before authoritative reads; no formal AS-011 run has started.
+- AS-011 remains zero production-semantic change. Preflight and protected tests passed, but the frozen fresh boundedness invocation failed before organism creation with a post-lock harness `NameError`; soak and ablation were not run. No retry or successor started.
 - Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-011-boundedness-evidence-recovery-r1/`.
 
 # UMBRA-AS-010 TERMINAL — `AS010_PROTOCOL_FAIL`

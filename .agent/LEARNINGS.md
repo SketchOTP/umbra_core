@@ -1,3 +1,10 @@
+## AS-011 TERMINAL LEARNING
+
+Post-lock protocol validation must include importing and invoking every frozen
+mode with its exact CLI path; a preflight that does not call the mode entrypoint
+cannot catch a harness `NameError` before organism construction. Once a frozen
+command fails, preserve the failure and stop rather than repairing in place.
+
 ## AS-011 START LEARNING
 
 Final authoritative evidence paths must be preflighted separately from the tick loop.

@@ -1,3 +1,13 @@
+## AS-011 TERMINAL CLOSEOUT — 2026-09-05
+
+`AS011_PROTOCOL_FAIL` is permanent. Phase 0, full-configuration equivalence,
+terminal snapshot/restart preflight, governance, and protected tests passed. The
+post-lock fresh boundedness command exited before organism creation with
+`NameError: name 'bounded' is not defined` at `experiments/as011/downstream.py:98`.
+No retry/reseed was performed; boundedness, real-time soak, and ablation remain
+unqualified. Production delta `0`; AS-010 `32/32` population and lifecycle PASS
+remain inherited; integrated viability and CLOSE-03 remain blocked.
+
 ## AS-011 GOVERNANCE START — 2026-09-05
 
 AS-011 starts from accepted permanent `AS010_PROTOCOL_FAIL` at

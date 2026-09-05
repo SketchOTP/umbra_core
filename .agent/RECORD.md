@@ -1,3 +1,11 @@
+## AS-011 TERMINAL CLOSEOUT — 2026-09-05
+
+`AS011_PROTOCOL_FAIL` is permanent. The frozen fresh boundedness invocation exited
+before organism creation with `NameError: name 'bounded' is not defined` at
+`experiments/as011/downstream.py:98`. No retry/reseed followed. Production delta is
+`0`; the AS-010 population/lifecycle remain inherited valid evidence; downstream
+boundedness, soak, ablation, integrated viability, and CLOSE-03 remain unqualified.
+
 ## AS-011 GOVERNANCE START — 2026-09-05
 
 Accepted predecessor: permanent `AS010_PROTOCOL_FAIL`. Exact baseline:
