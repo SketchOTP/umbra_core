@@ -1,3 +1,12 @@
+## AS-011 START LEARNING
+
+Final authoritative evidence paths must be preflighted separately from the tick loop.
+When a persisted organism contains a HabitatEngine authority binding, `load_organism()`
+alone is not a valid restart state: the matching HabitatEngine must be reconstructed,
+attached, and binding-verified before authoritative reads, snapshots, body replacement,
+or further ticks. Retained event history cannot substitute for missing frozen resource
+series or a completed restart reduction.
+
 ## AS-010 TERMINAL LEARNING
 
 Full configuration must be treated as an evidence contract, not inferred from

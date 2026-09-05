@@ -1,3 +1,13 @@
+## AS-011 GOVERNANCE START — 2026-09-05
+
+AS-011 starts from accepted permanent `AS010_PROTOCOL_FAIL` at
+`bcd5ff361a22288480dd16cf20e3aad432bda26e`. It inherits AS-010's valid full-config
+`32/32` population and `500`-tick lifecycle PASS, preserves the real `100000`-tick
+historical execution as protocol-only, and records retained-evidence insufficiency.
+The new scope is downstream-only with production delta `0`; no formal AS-011 organism
+has run. Evidence root and zero-run governance artifacts are under the AS-011 evidence
+directory.
+
 ## AS-010 TERMINAL CLOSEOUT — 2026-09-05
 
 `AS010_PROTOCOL_FAIL` is permanent. AS-010 reproduced the AS-007 full

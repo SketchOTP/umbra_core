@@ -1,3 +1,13 @@
+# Current profile — UMBRA-AS-011 ACTIVE
+
+AS-011 is the current downstream qualification authority from
+`bcd5ff361a22288480dd16cf20e3aad432bda26e`. It preserves AS-010 permanently as
+`AS010_PROTOCOL_FAIL`, inherits the valid full-configuration `32/32` population and
+`500`-tick lifecycle, and does not rerun either. The retained AS-010 100k execution is
+real but insufficient for boundedness qualification because final metrics/reduction and
+reattached restart proof were not retained. AS-011 has zero production-semantic scope;
+formal boundedness/soak/ablation execution is not yet started.
+
 # Current profile — UMBRA-AS-010 TERMINAL
 
 AS-010 is permanently terminal as `AS010_PROTOCOL_FAIL`. It reproduced the

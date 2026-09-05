@@ -1,3 +1,8 @@
+# AS-011 ACTIVE — downstream qualification recovery
+
+- `experiments/as011/` owns the centralized full configuration, Habitat reattachment helper, final snapshot/restart path, boundedness, soak, and isolated ablation harness.
+- AS-011 evidence is local/internal at `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-011-boundedness-evidence-recovery-r1/`; formal runs are not yet started.
+
 # REPO_MAP.md
 
 Concise navigation map for agents. Add entries as application code lands.

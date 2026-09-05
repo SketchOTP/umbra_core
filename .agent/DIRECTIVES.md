@@ -1,3 +1,10 @@
+## UMBRA-AS-011 — ACTIVE (2026-09-05)
+
+- Exact baseline: `bcd5ff361a22288480dd16cf20e3aad432bda26e`; accepted predecessor: `AS010_PROTOCOL_FAIL`.
+- Scope: downstream boundedness evidence recovery, current full-config real-time soak, and isolated causal ablations; production `0`, no historical rerun, no automatic CLOSE-03.
+- AS-010 inherited population/lifecycle remain valid (`32/32`, lifecycle PASS); retained AS-010 100k is protocol-only and insufficient for boundedness. AS-011 preflight passed terminal snapshot/restart and ablation seam contract before formal lock. Formal execution: not started.
+- Evidence: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-011-boundedness-evidence-recovery-r1/`; current branch remains at the exact start baseline until governance artifacts are committed.
+
 ## UMBRA-AS-010 — TERMINAL (2026-09-05)
 
 - Exact baseline: `b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`.

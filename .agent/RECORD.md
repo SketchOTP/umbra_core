@@ -1,3 +1,11 @@
+## AS-011 GOVERNANCE START — 2026-09-05
+
+Accepted predecessor: permanent `AS010_PROTOCOL_FAIL`. Exact baseline:
+`bcd5ff361a22288480dd16cf20e3aad432bda26e`. AS-011 is limited to downstream evidence
+recovery, full-config soak, and causal ablation; production changes, historical reruns,
+and automatic CLOSE-03 are prohibited. Retained AS-010 100k evidence is insufficient
+for qualification. Zero formal AS-011 organisms/ticks, retries, and reseeds at start.
+
 ## AS-010 TERMINAL CLOSEOUT
 
 `AS010_PROTOCOL_FAIL` is the permanent terminal result from baseline
