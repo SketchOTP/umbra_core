@@ -1839,3 +1839,14 @@ remain unqualified and blocked. Protocol artifact SHA-256:
 `ad09d43c3c57cd02945fb75703812848964a220a10230034db2481e6073a3d42`.
 Manifest SHA-256:
 `1684c78e34e3393c8dea7bfe883b508dd1907f413d7eaf74e229ec1da70f1b52`.
+
+## 2026-09-06 — UMBRA-AS-013 governance start
+
+AS-013 begins after permanent `AS012_PROTOCOL_FAIL` at exact baseline
+`2723c50d1f06abcae60573307adfe83229def4a6`. AS-012's fresh boundedness
+organism completed `100000` ticks and the in-function final snapshot/restart
+reduction, but its invalid CLI publication discarded the result object and
+retained metrics omit the frozen Python process-CPU measurement. AS-012 is not
+promoted; AS-013 will execute one fresh boundedness run only after exact
+subprocess CLI preflight, then the frozen soak and matched causal ablation.
+Inherited AS-010 population/lifecycle evidence is preserved and not rerun.

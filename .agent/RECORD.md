@@ -495,6 +495,18 @@ executability contract may be introduced, with no magic threshold, scalar
 authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
 counts are `0/0`; no successor started.
 
+## AS-013 governance start — 2026-09-06
+
+Exact baseline: `2723c50d1f06abcae60573307adfe83229def4a6`. Permanent parent:
+`AS012_PROTOCOL_FAIL`. AS-010 full-configuration population `32/32` and
+lifecycle PASS are inherited. AS-012's retained 100000-tick journal and
+SQLite are preserved, but the exact frozen Python process-CPU metric and
+complete result object are unavailable, so one fresh boundedness run is
+authorized after publication-safe exact-CLI preflight. Scope is zero
+production-semantic change; retries/reseeds of AS-012 and automatic CLOSE-03
+are prohibited. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-013-publication-safe-boundedness-recovery-r1/`.
+
 ## UMBRA-AS-009 closeout — 2026-09-04
 
 AS-009 is terminal `AS009_PROTOCOL_FAIL` from exact baseline

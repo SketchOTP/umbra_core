@@ -1242,3 +1242,16 @@ boundedness, real-time soak, or causal ablation occurred. Production delta and
 existing-test semantic delta were `0/0`; retries/reseeds `0/0`.
 Evidence manifest SHA-256:
 `1684c78e34e3393c8dea7bfe883b508dd1907f413d7eaf74e229ec1da70f1b52`.
+
+## 2026-09-06 — UMBRA-AS-013 governance start
+
+Architect authority accepted `AS012_PROTOCOL_FAIL` permanently at exact
+baseline `2723c50d1f06abcae60573307adfe83229def4a6`. The AS-012 100000-tick
+execution and in-function final reduction are preserved, but exact Python
+`time.process_time()` evidence is absent from retained artifacts; AS-013 must
+run one fresh boundedness case after exact subprocess CLI preflight. Inherited
+AS-010 full-configuration population `32/32` and lifecycle PASS are not rerun.
+Scope is downstream evidence infrastructure, the frozen soak, and matched
+causal ablation only; production semantics and historical evidence remain
+immutable. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-013-publication-safe-boundedness-recovery-r1/`.

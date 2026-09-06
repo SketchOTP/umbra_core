@@ -930,3 +930,14 @@ the error is harness protocol evidence, not a production diagnosis. The
 post-lock boundary forbids repair, retry, or reseed, so boundedness, soak, and
 ablation were not run. Keep the composite inherited/fresh population claim
 separate from the terminal AS-009 verdict.
+
+## 2026-09-06 — AS-013 publication boundary
+
+AS-012 demonstrated that completing the organism work and computing a result
+in memory is not sufficient evidence durability: a post-run publisher error
+lost the complete reduction. Every future downstream gate must durably write
+the complete computed result before outer publication, journal Python
+`time.process_time()` alongside other frozen metrics, and preflight the exact
+CLI subprocess rather than importing experiment functions directly. The AS-012
+100000-tick execution remains permanent protocol evidence, not a boundedness
+qualification, because its exact CPU threshold measurement is unavailable.

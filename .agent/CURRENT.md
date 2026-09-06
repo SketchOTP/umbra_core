@@ -1871,3 +1871,17 @@ gate passed `500/500` with zero semantic differences and exact RNG parity.
 Scientific A/B/R1 has not begun.
 
 AS-006 is authorized from exact baseline `2bc042a7e1861b6c0beacca95a310d1d61ed0e5d` after permanent terminal `AS005_PROTOCOL_FAIL`. The objective is to implement executable candidate-caused loss of exact lived MAY recovery options and source-derived recovery slack without scalarization, then proceed through the gated integrated qualification only if each frozen gate passes. AS-005 partial Diagnostic B traces remain retained but uninterpreted. No R7, CLOSE-03, retry, reseed, or automatic successor is authorized. Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-006-executable-weak-continuation-integrated-viability-r1/`.
+
+## UMBRA-AS-013 — governance start
+
+AS-013 is the current authority from exact baseline
+`2723c50d1f06abcae60573307adfe83229def4a6` after permanent
+`AS012_PROTOCOL_FAIL`. AS-010 full-configuration population `32/32` and
+lifecycle PASS are inherited and will not be rerun. AS-012 completed 100000
+boundedness ticks and its in-function snapshot/restart reduction, but the
+publication wrapper failed and the retained evidence lacks the exact frozen
+Python process-CPU measurement. One fresh boundedness run is therefore
+required, followed by the frozen soak and matched ablation gates. Production
+semantic change, historical-evidence rewrite, retry, reseed, and automatic
+CLOSE-03 remain prohibited. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-013-publication-safe-boundedness-recovery-r1/`.
