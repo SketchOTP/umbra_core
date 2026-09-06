@@ -1266,3 +1266,11 @@ Lock artifact SHA-256:
 `bf2e93847a585f949e11bf36f26c8a53dd0b72615a2e1ad8d5add53cd4e2c39f`.
 After the first formal tick, no repair, retry, reseed, threshold, command, or
 publication change is permitted.
+
+### AS-013 terminal boundary
+
+The single fresh boundedness execution completed `100000` ticks with durable
+checkpoint/final-result equality and restart/Habitat continuity, but failed
+the unchanged CPU and database-growth thresholds. AS-013 is permanently
+terminal as `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`; soak and ablation did not
+start, and no retry or reseed is permitted.

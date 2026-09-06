@@ -1,9 +1,14 @@
-# Current profile — UMBRA-AS-012 TERMINAL
+# Current profile — UMBRA-AS-013 TERMINAL
 
-AS-012 is permanently terminal as `AS012_PROTOCOL_FAIL`. Its frozen boundedness
-entrypoint reached `100000` ticks but failed during result publication, so no
-boundedness qualification was acquired. Production remained unchanged; soak and
-causal ablation were not run; CLOSE-03 remains blocked.
+AS-013 is permanently terminal as `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL` from
+exact baseline `2723c50d1f06abcae60573307adfe83229def4a6`. It completed one
+fresh full-configuration boundedness execution through `100000` ticks and
+completed final snapshot/restart continuity with Habitat reattachment. The
+unchanged frozen reduction failed CPU fraction and database-growth limits;
+real-time soak and causal ablation were not run. Production semantics remain
+unchanged, retries/reseeds are `0/0`, integrated viability is unqualified, and
+CLOSE-03 remains blocked. AS-012 remains permanent historical
+`AS012_PROTOCOL_FAIL`.
 
 # Current profile — UMBRA-AS-011 TERMINAL
 

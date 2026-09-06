@@ -941,3 +941,12 @@ the complete computed result before outer publication, journal Python
 CLI subprocess rather than importing experiment functions directly. The AS-012
 100000-tick execution remains permanent protocol evidence, not a boundedness
 qualification, because its exact CPU threshold measurement is unavailable.
+
+## 2026-09-06 — AS-013 boundedness result
+
+Publication-safe evidence infrastructure preserved a complete fresh
+100000-tick reduction, including the frozen Python process-CPU metric. The
+organism completed snapshot/restart continuity, but the fixed boundedness
+contract rejected the run for CPU fraction and database growth. Operational
+completion is therefore not equivalent to boundedness qualification; no
+downstream soak or ablation claim follows.

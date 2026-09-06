@@ -1850,3 +1850,15 @@ retained metrics omit the frozen Python process-CPU measurement. AS-012 is not
 promoted; AS-013 will execute one fresh boundedness run only after exact
 subprocess CLI preflight, then the frozen soak and matched causal ablation.
 Inherited AS-010 population/lifecycle evidence is preserved and not rerun.
+
+## 2026-09-06 — UMBRA-AS-013 terminal closeout
+
+The fresh AS-013 full-configuration boundedness organism completed `100000`
+ticks, final authoritative snapshot, Habitat reattachment, restart continuity,
+and durable computed-result publication. The frozen reduction failed CPU
+fraction (`0.9955079175 > 0.05`) and database growth
+(`846774272 > 67108864`); RSS, RSS slope, event bound, event chain, and
+restart continuity passed. The permitted terminal verdict is
+`AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`. Real-time soak and causal ablation
+were not started. Production delta `0`, retries and reseeds `0/0`,
+integrated viability remains unqualified, and CLOSE-03 remains blocked.

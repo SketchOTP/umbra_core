@@ -1895,3 +1895,11 @@ twice, formal seeds are disjoint, and the lock artifact is
 `bf2e93847a585f949e11bf36f26c8a53dd0b72615a2e1ad8d5add53cd4e2c39f`). The
 single fresh boundedness run is now authorized under the frozen post-lock
 boundary; soak and ablation remain gated on its PASS.
+
+## AS-013 terminal closeout
+
+The fresh boundedness run completed `100000` ticks and passed final snapshot,
+event-chain validation, Habitat reattachment, and restart continuity. The
+frozen reduction failed CPU fraction and database-growth thresholds, so the
+terminal verdict is `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`. Soak and causal
+ablation were not run; production delta and retries/reseeds remain `0/0`.

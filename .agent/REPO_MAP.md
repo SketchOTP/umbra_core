@@ -1,7 +1,7 @@
-# AS-011 TERMINAL — `AS011_PROTOCOL_FAIL`
+# AS-013 TERMINAL — `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`
 
-- `experiments/as011/` owns the centralized full configuration, Habitat reattachment helper, final snapshot/restart path, boundedness, soak, and isolated ablation harness.
-- AS-011 evidence is local/internal at `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-011-boundedness-evidence-recovery-r1/`; frozen boundedness failed before organism creation, so soak and ablation did not run.
+- `experiments/as013/` owns the publication-safe full configuration, exact CLI preflight, durable result checkpoint, CPU journal, boundedness, soak, and matched ablation harness.
+- AS-013 evidence is local/internal at `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-013-publication-safe-boundedness-recovery-r1/`; the fresh boundedness execution completed `100000` ticks but failed the frozen CPU and database-growth limits, so soak and ablation did not run.
 
 # REPO_MAP.md
 

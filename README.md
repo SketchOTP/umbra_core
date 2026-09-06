@@ -6,18 +6,19 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
-## Current status: AS-012 protocol terminal
+## Current status: AS-013 boundedness terminal
 
-The latest governed generation, AS-012, is permanently terminal at
-`AS012_PROTOCOL_FAIL`. It preserves AS-010's qualified full-configuration
-`32/32` population and lifecycle PASS, then ran the exact frozen boundedness
-entrypoint through `100000` ticks. The harness failed afterward while
-publishing the result because binary `Path.open` was given an encoding
-argument; the result artifact was not published and boundedness was not
-qualified. AS-012 did not run the real-time soak or causal ablation. Integrated
-viability remains **NOT QUALIFIED**, planning authority remains unqualified,
-and CLOSE-03 remains blocked. See the [AS-012 evidence guide
-entry](docs/EVIDENCE_GUIDE.md#as-012) and [task packet](.agent/tasks/active/UMBRA-AS-012/RESULT.md).
+The latest governed generation, AS-013, is permanently terminal at
+`AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`. It preserved AS-010's qualified
+full-configuration `32/32` population and lifecycle PASS, then completed one
+fresh `100000`-tick boundedness execution with durable final snapshot and
+restart evidence. The frozen reduction failed its unchanged resource limits:
+CPU fraction was `0.9955` versus `0.05`, and database growth was
+`846,774,272` bytes versus `67,108,864`. The real-time soak and causal
+ablation were not started. Integrated viability remains **NOT QUALIFIED**,
+planning authority remains unqualified, and CLOSE-03 remains blocked. See the
+[AS-013 evidence guide entry](docs/EVIDENCE_GUIDE.md#as-013) and the retained
+[AS-012 publication failure](docs/EVIDENCE_GUIDE.md#as-012).
 
 ## Historical AS-009 protocol terminal
 

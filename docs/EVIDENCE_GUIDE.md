@@ -20,6 +20,20 @@ The canonical Notion page governs strategic authority, but the repository is int
 to remain understandable without Notion access. Git commits and retained artifacts are
 the implementation and execution record.
 
+## AS-013
+
+AS-013 is permanently terminal at `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`.
+AS-010's full-configuration population `32/32` and lifecycle PASS remain
+inherited and were not rerun. AS-013 completed one fresh `100000`-tick
+boundedness organism, including final snapshot, Habitat reattachment, restart
+continuity, and durable CPU journaling. The unchanged frozen reduction failed
+CPU fraction (`0.9955 > 0.05`) and database growth
+(`846774272 > 67108864`); RSS, RSS slope, event bound, and restart continuity
+passed. Per the frozen stop rule, real-time soak and causal ablation were not
+run. Integrated viability and CLOSE-03 remain blocked; no retry or reseed
+occurred. Evidence is under
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-013-publication-safe-boundedness-recovery-r1/`.
+
 ## AS-012
 
 AS-012 is permanently terminal at `AS012_PROTOCOL_FAIL`. Its exact-entrypoint
