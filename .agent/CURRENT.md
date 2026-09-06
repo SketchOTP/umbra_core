@@ -1,6 +1,6 @@
 # CURRENT AUTHORITY — UMBRA-AS-012 ACTIVE
 
-AS-012 is authorized from exact synchronized baseline `b4cc014c3545e19fa0e755407fe2a466e23e72a5` after permanent acceptance of `AS011_PROTOCOL_FAIL`. It inherits AS-010's qualified full-configuration population `32/32` and lifecycle PASS without rerun. The unresolved gates are fresh 100000-tick boundedness, the frozen real-time soak, and matched causal ablation. Scope is experiment/test/evidence/governance only; production semantic delta must remain `0`. Evidence root:
+AS-012 is authorized from exact synchronized baseline `b4cc014c3545e19fa0e755407fe2a466e23e72a5` after permanent acceptance of `AS011_PROTOCOL_FAIL`. It inherits AS-010's qualified full-configuration population `32/32` and lifecycle PASS without rerun. Exact-entrypoint preflight, protected validation, governance, and seed disjointness passed; the scientific lock is frozen at `16e5f9a7954939f085dca9e2abbbebf27a9438b1`. The unresolved gates are fresh 100000-tick boundedness, the frozen real-time soak, and matched causal ablation. Scope is experiment/test/evidence/governance only; production semantic delta must remain `0`. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-012-exact-entrypoint-boundedness-soak-causal-closure-r1/`.
 
 # CURRENT AUTHORITY — UMBRA-AS-011 TERMINAL

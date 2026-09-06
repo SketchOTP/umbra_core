@@ -1,5 +1,9 @@
 ## AS-011 TERMINAL CLOSEOUT — 2026-09-05
 
+## AS-012 PRE-FORMAL LOCK — 2026-09-06
+
+Exact-entrypoint preflight passed for boundedness, soak, and all four ablation variants using non-formal seeds; protected validation passed `28` twice; applicable suite was `1311 passed / 2 skipped / 17 inherited failures` with candidate-only failures `0`; production delta `0`; Authority 3.0, Governance, and diff-check passed. Scientific lock commit: `16e5f9a7954939f085dca9e2abbbebf27a9438b1`; lock SHA-256: `21086d603a9e672fce75fbf9a5424dd5cf45c6f749c70c3936699ceed5757098`. Formal boundedness/soak/ablation remain unstarted.
+
 ## AS-012 GOVERNANCE START — 2026-09-06
 
 AS-012 starts from exact `b4cc014c3545e19fa0e755407fe2a466e23e72a5` after permanent `AS011_PROTOCOL_FAIL`. AS-010 full-configuration population `32/32` and lifecycle PASS are inherited and will not be rerun. The fresh AS-012 namespace repairs only downstream exact-entrypoint boundedness, soak, and matched causal-ablation harnesses; production semantic delta remains `0`. No formal AS-012 organism has run before exact-entrypoint preflight, protected validation, seed disjointness, and scientific lock.

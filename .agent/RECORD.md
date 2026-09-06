@@ -1,3 +1,7 @@
+## UMBRA-AS-012 — PRE-FORMAL LOCK (2026-09-06)
+
+- exact-entrypoint preflight:PASS | protected:28 passed twice | applicable:1311 passed,2 skipped,17 inherited failures | candidate-only:0 | production:0 | lock:16e5f9a7954939f085dca9e2abbbebf27a9438b1 | lock_sha256:21086d603a9e672fce75fbf9a5424dd5cf45c6f749c70c3936699ceed5757098 | formal organism/load/tick:0/0/0
+
 ## UMBRA-AS-012 — START (2026-09-06)
 
 - baseline:`b4cc014c3545e19fa0e755407fe2a466e23e72a5` | parent:`AS011_PROTOCOL_FAIL` | scope:exact-entrypoint boundedness, real-time soak, matched causal ablation | production:0 | inherited:AS010 full-config population 32/32 + lifecycle PASS | formal execution:0 at start | retries:0 | reseeds:0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-012-exact-entrypoint-boundedness-soak-causal-closure-r1/ | successor:none
