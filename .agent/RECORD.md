@@ -1,3 +1,7 @@
+## UMBRA-AS-012 — START (2026-09-06)
+
+- baseline:`b4cc014c3545e19fa0e755407fe2a466e23e72a5` | parent:`AS011_PROTOCOL_FAIL` | scope:exact-entrypoint boundedness, real-time soak, matched causal ablation | production:0 | inherited:AS010 full-config population 32/32 + lifecycle PASS | formal execution:0 at start | retries:0 | reseeds:0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-012-exact-entrypoint-boundedness-soak-causal-closure-r1/ | successor:none
+
 ## AS-011 TERMINAL CLOSEOUT — 2026-09-05
 
 `AS011_PROTOCOL_FAIL` is permanent. The frozen fresh boundedness invocation exited

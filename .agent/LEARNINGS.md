@@ -1,3 +1,7 @@
+## AS-012 exact-entrypoint boundary — 2026-09-06
+
+AS-011's helper-level preflight was insufficient: exact executable entrypoints must be invoked before lock. Downstream flags must be passed through the canonical initializer, causal ablations must share one matched stochastic root, and every frozen metric—including CPU fraction—must participate in the frozen reducer. AS-012 preserves these as experiment-only requirements; production remains untouched.
+
 ## AS-011 TERMINAL LEARNING
 
 Post-lock protocol validation must include importing and invoking every frozen

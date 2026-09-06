@@ -1,5 +1,9 @@
 ## AS-011 TERMINAL CLOSEOUT — 2026-09-05
 
+## AS-012 GOVERNANCE START — 2026-09-06
+
+AS-012 starts from exact `b4cc014c3545e19fa0e755407fe2a466e23e72a5` after permanent `AS011_PROTOCOL_FAIL`. AS-010 full-configuration population `32/32` and lifecycle PASS are inherited and will not be rerun. The fresh AS-012 namespace repairs only downstream exact-entrypoint boundedness, soak, and matched causal-ablation harnesses; production semantic delta remains `0`. No formal AS-012 organism has run before exact-entrypoint preflight, protected validation, seed disjointness, and scientific lock.
+
 `AS011_PROTOCOL_FAIL` is permanent. Phase 0, full-configuration equivalence,
 terminal snapshot/restart preflight, governance, and protected tests passed. The
 post-lock fresh boundedness command exited before organism creation with

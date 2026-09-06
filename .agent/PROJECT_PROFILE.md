@@ -1,3 +1,12 @@
+# Current profile — UMBRA-AS-012 ACTIVE
+
+AS-012 is the current downstream qualification authority from
+`b4cc014c3545e19fa0e755407fe2a466e23e72a5`. It preserves AS-011 permanently as
+`AS011_PROTOCOL_FAIL`, inherits AS-010's valid full-configuration population and
+lifecycle, and leaves only fresh boundedness, real-time soak, and matched causal
+closure open. Production semantic change remains prohibited; CLOSE-03 remains
+blocked.
+
 # Current profile — UMBRA-AS-011 TERMINAL
 
 AS-011 is the current downstream qualification authority from

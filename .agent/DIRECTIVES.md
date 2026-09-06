@@ -1,3 +1,7 @@
+## UMBRA-AS-012 — GOVERNANCE START — 2026-09-06
+
+- Directive: UMBRA-AS-012 | status:active | baseline:b4cc014c3545e19fa0e755407fe2a466e23e72a5 | parent:AS011_PROTOCOL_FAIL | scope:exact-entrypoint boundedness, real-time soak, matched causal ablation | production:0 | inherited:AS010 full-config population 32/32 and lifecycle PASS | formal_runs:0 before lock | retries:0 | reseeds:0 | evidence:/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-012-exact-entrypoint-boundedness-soak-causal-closure-r1/ | successor:none
+
 ## UMBRA-AS-011 — TERMINAL (2026-09-05)
 
 - Exact baseline: `bcd5ff361a22288480dd16cf20e3aad432bda26e`; accepted predecessor: `AS010_PROTOCOL_FAIL`.
