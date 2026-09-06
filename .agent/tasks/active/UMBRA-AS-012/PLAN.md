@@ -7,12 +7,11 @@ Permanent predecessor: `AS011_PROTOCOL_FAIL`.
 Scope is experiment/test/evidence/governance only. The inherited AS-010
 full-configuration population `32/32` and lifecycle PASS are not rerun.
 
-Open gates:
+Terminal boundary:
 
-- exact-entrypoint preflight for boundedness, soak, and all four ablations;
-- one fresh 100000-tick boundedness run;
-- frozen real-time soak;
-- one matched-seed R1/S16 causal ablation set.
+- exact-entrypoint preflight passed;
+- one frozen boundedness run reached 100000 ticks but failed during result publication;
+- soak and matched causal ablation did not run.
 
 Production semantic change, historical evidence rewrite, post-lock repair,
-retry, reseed, and automatic CLOSE-03 are prohibited.
+retry, reseed, and automatic CLOSE-03 remain prohibited.

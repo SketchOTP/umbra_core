@@ -1,3 +1,7 @@
+## UMBRA-AS-012 — TERMINAL CLOSEOUT — 2026-09-06
+
+- verdict:AS012_PROTOCOL_FAIL | boundedness:100000 ticks reached, result publication failed at experiments/as012/downstream.py:331 | result:absent | organisms:1 | loads:1 | ticks:100000 | soak:NOT_RUN | ablation:NOT_RUN | retries:0 | reseeds:0 | production:0 | successor:none
+
 ## UMBRA-AS-012 — PRE-FORMAL LOCK — 2026-09-06
 
 - exact-entrypoint preflight:PASS | protected:28 passed twice | applicable:1311 passed,2 skipped,17 inherited failures | candidate-only:0 | production:0 | lock_commit:16e5f9a7954939f085dca9e2abbbebf27a9438b1 | lock_sha256:21086d603a9e672fce75fbf9a5424dd5cf45c6f749c70c3936699ceed5757098 | formal:unstarted

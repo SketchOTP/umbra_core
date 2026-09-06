@@ -20,6 +20,19 @@ The canonical Notion page governs strategic authority, but the repository is int
 to remain understandable without Notion access. Git commits and retained artifacts are
 the implementation and execution record.
 
+## AS-012
+
+AS-012 is permanently terminal at `AS012_PROTOCOL_FAIL`. Its exact-entrypoint
+preflight passed and protected validation passed `28` twice, with zero
+production change. The single frozen boundedness invocation used seed
+`21773881` and reached `100000` ticks, then failed during result publication at
+`experiments/as012/downstream.py:331` because binary `Path.open` was given an
+encoding argument. The boundedness result artifact was not published and the
+boundedness claim is not qualified. The real-time soak and matched causal
+ablation did not run. The retained journal/SQLite copy is protocol evidence
+only; no retry, reseed, or post-lock repair occurred. Integrated viability and
+CLOSE-03 remain blocked. See the [AS-012 task result](../.agent/tasks/active/UMBRA-AS-012/RESULT.md).
+
 ## AS-010
 
 AS-010 is permanently terminal at `AS010_PROTOCOL_FAIL`. It reproduced the

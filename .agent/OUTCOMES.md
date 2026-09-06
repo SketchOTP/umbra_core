@@ -1,5 +1,9 @@
 ## AS-011 TERMINAL CLOSEOUT — 2026-09-05
 
+## AS-012 TERMINAL CLOSEOUT — 2026-09-06
+
+`AS012_PROTOCOL_FAIL` is permanent. The exact frozen boundedness entrypoint ran one fresh organism for `100000` ticks, with the final journal row at tick `100000` and `521154` events, then failed while atomically publishing the result at `experiments/as012/downstream.py:331` (`ValueError: binary mode doesn't take an encoding argument`). The result artifact was absent; boundedness is not qualified. No retry/reseed occurred; soak and causal ablation were not run. Production delta `0`; AS-010 full-config population `32/32` and lifecycle PASS remain inherited; integrated viability and CLOSE-03 remain unqualified and blocked. Final evidence is under the AS-012 root; no successor started.
+
 ## AS-012 PRE-FORMAL LOCK — 2026-09-06
 
 Exact-entrypoint preflight passed for boundedness, soak, and all four ablation variants using non-formal seeds; protected validation passed `28` twice; applicable suite was `1311 passed / 2 skipped / 17 inherited failures` with candidate-only failures `0`; production delta `0`; Authority 3.0, Governance, and diff-check passed. Scientific lock commit: `16e5f9a7954939f085dca9e2abbbebf27a9438b1`; lock SHA-256: `21086d603a9e672fce75fbf9a5424dd5cf45c6f749c70c3936699ceed5757098`. Formal boundedness/soak/ablation remain unstarted.

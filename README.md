@@ -6,24 +6,18 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
-## Current status: AS-010 protocol terminal
+## Current status: AS-012 protocol terminal
 
-The latest governed generation, AS-010, is permanently terminal at
-`AS010_PROTOCOL_FAIL`. It reproduced the AS-007 full configuration and
-completed a fresh `32/32` population: R0, R1, R2, and R3 each passed `8/8` at
-`7200` ticks. A full-configuration lifecycle also passed its bounded `500`
-ticks, including restart/Habitat restoration and true physical-body
-replacement.
-
-The post-lock boundedness harness reached logical tick `100000` but failed
-while collecting the required final authoritative snapshot with
-`HabitatAuthorityError: habitat_engine_reattachment_required` at
-`experiments/as010/downstream.py:104`. This is a protocol result, not a
-boundedness qualification or scientific boundedness failure. Real-time soak
-and causal ablation were not run. Production delta was `0`; retries/reseeds
-were `0/0`; integrated viability remains **NOT QUALIFIED**, planning authority
-remains unqualified, and CLOSE-03 remains blocked. See the [AS-010 evidence
-guide entry](docs/EVIDENCE_GUIDE.md#as-010) and [task packet](.agent/tasks/active/UMBRA-AS-010/RESULT.md).
+The latest governed generation, AS-012, is permanently terminal at
+`AS012_PROTOCOL_FAIL`. It preserves AS-010's qualified full-configuration
+`32/32` population and lifecycle PASS, then ran the exact frozen boundedness
+entrypoint through `100000` ticks. The harness failed afterward while
+publishing the result because binary `Path.open` was given an encoding
+argument; the result artifact was not published and boundedness was not
+qualified. AS-012 did not run the real-time soak or causal ablation. Integrated
+viability remains **NOT QUALIFIED**, planning authority remains unqualified,
+and CLOSE-03 remains blocked. See the [AS-012 evidence guide
+entry](docs/EVIDENCE_GUIDE.md#as-012) and [task packet](.agent/tasks/active/UMBRA-AS-012/RESULT.md).
 
 ## Historical AS-009 protocol terminal
 
