@@ -1255,3 +1255,14 @@ Scope is downstream evidence infrastructure, the frozen soak, and matched
 causal ablation only; production semantics and historical evidence remain
 immutable. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-013-publication-safe-boundedness-recovery-r1/`.
+
+### AS-013 pre-formal lock
+
+The AS-013 publication-safe harness is frozen at commit
+`2bc52f7450da539c3f362c6fc08ed600749ecc77`. The exact subprocess preflight
+passed for boundedness, soak, and all four ablations; the focused protection
+suite passed `6/6` twice; formal seeds are disjoint; production delta is `0`.
+Lock artifact SHA-256:
+`bf2e93847a585f949e11bf36f26c8a53dd0b72615a2e1ad8d5add53cd4e2c39f`.
+After the first formal tick, no repair, retry, reseed, threshold, command, or
+publication change is permitted.

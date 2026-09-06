@@ -1885,3 +1885,13 @@ required, followed by the frozen soak and matched ablation gates. Production
 semantic change, historical-evidence rewrite, retry, reseed, and automatic
 CLOSE-03 remain prohibited. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-013-publication-safe-boundedness-recovery-r1/`.
+
+## AS-013 scientific execution lock
+
+Harness commit `2bc52f7450da539c3f362c6fc08ed600749ecc77` is pushed and
+refetch-verified. Exact CLI preflight passed, focused protection passed `6/6`
+twice, formal seeds are disjoint, and the lock artifact is
+`AS013_SCIENTIFIC_EXECUTION_LOCK.json` (SHA-256
+`bf2e93847a585f949e11bf36f26c8a53dd0b72615a2e1ad8d5add53cd4e2c39f`). The
+single fresh boundedness run is now authorized under the frozen post-lock
+boundary; soak and ablation remain gated on its PASS.
