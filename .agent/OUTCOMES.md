@@ -1871,3 +1871,11 @@ is not rerun or post-hoc regraded. The new generation begins with retained-datab
 forensics and resource-contract reconstruction. Production persistence/replay changes
 are authorized only when the evidence requires them, and would require full affected
 requalification before an integrated-viability claim.
+
+### AS-014 pre-formal result
+
+The retained AS-013 database established linear authoritative hot-ledger growth;
+AS-014 selected and implemented a checkpoint-chain plus bounded-tail architecture
+with active-provenance protection and physical SQLite reclamation. Non-formal R2/R3,
+lifecycle, downstream CLI, and formal-population CLI preflights pass. Formal result:
+not yet executed. Applicable regression classification: `0` candidate-only failures.

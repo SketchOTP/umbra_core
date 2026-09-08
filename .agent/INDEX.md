@@ -8,6 +8,9 @@
   successor resource scopes and resolving lifetime hot-ledger boundedness.
 - Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-014-persistent-ledger-boundedness-completion-r1/`.
 
+- Pre-formal state: production persistence repair and literal entrypoint preflights
+  pass at `cf5f17da1bd353d1ad591145396ae06e869baaa2`; formal population has not started.
+
 # UMBRA-AS-013 TERMINAL — `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`
 
 - Exact baseline: `2723c50d1f06abcae60573307adfe83229def4a6`; AS-012 remains permanent `AS012_PROTOCOL_FAIL`.

@@ -505,6 +505,15 @@ storage composition of the retained database, then may replace unbounded operati
 ledger architecture if required and must requalify all affected evidence before any
 integrated-viability or CLOSE-03 conclusion.
 
+### AS-014 pre-formal record — 2026-09-08
+
+Pre-formal code is frozen for lock preparation at
+`cf5f17da1bd353d1ad591145396ae06e869baaa2`. The actual R2 authority migration,
+R3 profile transition, lifecycle/restart/replacement path, downstream publication CLIs,
+and population CLI have completed non-formal executable preflight. Formal seeds remain
+unused. The current applicable suite has no candidate-only failure when compared with
+the exact baseline; inherited failures remain explicitly classified in evidence.
+
 ## AS-013 terminal closeout — 2026-09-06
 
 Exact baseline: `2723c50d1f06abcae60573307adfe83229def4a6`. Permanent parent:

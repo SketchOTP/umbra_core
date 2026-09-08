@@ -1,5 +1,16 @@
 # CURRENT AUTHORITY — UMBRA-AS-014 ACTIVE
 
+## Pre-formal checkpoint — 2026-09-08
+
+AS-014 persistence repair is pre-formal at commit
+`cf5f17da1bd353d1ad591145396ae06e869baaa2`. The checkpoint-plus-bounded-tail
+implementation, current-authority R2 intervention path, R3 profile transition,
+lifecycle/restart path, literal downstream CLIs, and literal population CLI have
+all passed non-formal preflight. Protected persistence/body checks passed twice
+(`120 passed, 2 skipped`); the applicable suite has `0` candidate-only failures
+against the exact AS-014 baseline. Frozen formal seeds exist, but no AS-014 formal
+organism has yet been created or ticked. The scientific lock is the next boundary.
+
 AS-014 is authorized from exact synchronized baseline
 `a97171a2dab7c1750e2556727bce9e3648bb359a` after permanent acceptance of
 `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`. AS-013's completed 100000-tick

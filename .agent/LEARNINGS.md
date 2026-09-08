@@ -958,3 +958,11 @@ successor experiments: accelerated 100k records process CPU without applying the
 S3 real-time CPU limit in its PASS reduction, and the 64 MiB field names habitat
 event-storage growth rather than aggregate SQLite file growth. These are scope
 corrections for future frozen contracts, not retroactive threshold changes.
+
+## 2026-09-08 — AS-014 persistence and preflight boundary
+
+Checkpoint compaction must be exercised through the literal population command as
+well as direct test helpers: a seed-manifest shape mismatch and premature work-dir
+creation were found and repaired before lock. Exact-baseline suite comparison is the
+right regression discriminator here: AS-014 has no candidate-only applicable failure,
+while inherited suite debt remains visible rather than being called green.

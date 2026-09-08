@@ -1,5 +1,11 @@
 # Current profile — UMBRA-AS-014 ACTIVE
 
+Pre-formal implementation checkpoint: `cf5f17da1bd353d1ad591145396ae06e869baaa2`.
+The active production profile adds a cryptographically anchored bounded operational
+ledger, preserving current restart authority and active provenance while allowing
+full-birth replay to fail explicitly when a cold archive is unavailable. Formal
+requalification has not started.
+
 AS-014 begins from `a97171a2dab7c1750e2556727bce9e3648bb359a` after the
 permanent AS-013 scientific boundedness failure. The retained result exposed
 an append-only authoritative ledger with snapshots pruned to two and no

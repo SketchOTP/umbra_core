@@ -1286,3 +1286,12 @@ implement the smallest evidence-supported persistence/replay repair, including
 bounded authoritative event-tail architecture if needed, then carry the changed
 current organism through affected regression, fresh population, lifecycle,
 100k, S3 soak, and matched ablation gates. AS-013 is not retried or reinterpreted.
+
+### AS-014 pre-formal lock preparation
+
+At commit `cf5f17da1bd353d1ad591145396ae06e869baaa2`, AS-014 has completed
+source attribution, Path-B checkpoint-plus-tail implementation, crash/restart
+coverage, R2/R3/lifecycle intervention preflights, literal downstream CLI preflight,
+and literal population-CLI preflight. The exact-baseline applicable suite reproduces
+only inherited debt (`17` current failures versus `19` baseline; candidate-only `0`).
+Formal seeds remain unused pending the durable scientific lock.
