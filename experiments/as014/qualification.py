@@ -13,7 +13,7 @@ import os
 import time
 from collections import Counter
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from experiments.as009.qualification import PARTNER_OBJECT_ID, partner_object
 from experiments.as014.full_config import BASELINE, DIRECTIVE, config, fingerprint
@@ -192,21 +192,30 @@ def run_case(regime: str, seed: int, work: Path, horizon: int = HORIZON) -> dict
         _close(state["organism"])
 
 
-def execute(manifest: dict[str, Any], work: Path) -> dict[str, Any]:
+def execute(
+    manifest: dict[str, Any],
+    work: Path,
+    *,
+    on_case: Callable[[dict[str, Any]], None] | None = None,
+    horizon: int = HORIZON,
+) -> dict[str, Any]:
     regimes = manifest.get("regimes")
     if (
         manifest.get("directive") != DIRECTIVE
         or tuple(regimes or ()) != REGIMES
         or any(len(regimes[regime]) != 8 for regime in REGIMES)
+        or horizon < 1
     ):
         raise RuntimeError("AS014_FORMAL_MANIFEST_INVALID")
     work.mkdir(parents=True, exist_ok=False)
     rows: list[dict[str, Any]] = []
     for regime in REGIMES:
         for index, seed in enumerate(regimes[regime]):
-            row = run_case(regime, int(seed), work, HORIZON)
+            row = run_case(regime, int(seed), work, horizon)
             row["seed_index"] = index
             rows.append(row)
+            if on_case is not None:
+                on_case(row)
             if row["terminal"] != "completed":
                 return {
                     "schema": "AS014_FORMAL_POPULATION_V1",
