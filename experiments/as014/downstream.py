@@ -91,9 +91,24 @@ def _counts(organism: Any) -> dict[str, int]:
     }
 
 
-def initialize(seed: int, db: Path, regime: str, *, continuation: bool = True, route_learning: bool = True) -> tuple[Any, HabitatEngine]:
+def initialize(
+    seed: int,
+    db: Path,
+    regime: str,
+    *,
+    continuation: bool = True,
+    route_learning: bool = True,
+    ledger_overrides: dict[str, Any] | None = None,
+) -> tuple[Any, HabitatEngine]:
     organism = create_organism(
-        config(seed, db, regime, bounded_continuation=continuation, route_learning=route_learning)
+        config(
+            seed,
+            db,
+            regime,
+            bounded_continuation=continuation,
+            route_learning=route_learning,
+            ledger_overrides=ledger_overrides,
+        )
     )
     _ensure_histories(organism)
     engine = HabitatEngine(_habitat_state_for_scenario({"R0": "S0", "R1": "S16"}[regime]))
@@ -101,7 +116,17 @@ def initialize(seed: int, db: Path, regime: str, *, continuation: bool = True, r
     return organism, engine
 
 
-def _finalize_restart(organism: Any, engine: HabitatEngine, seed: int, db: Path, regime: str, *, continuation: bool, route_learning: bool) -> dict[str, Any]:
+def _finalize_restart(
+    organism: Any,
+    engine: HabitatEngine,
+    seed: int,
+    db: Path,
+    regime: str,
+    *,
+    continuation: bool,
+    route_learning: bool,
+    ledger_overrides: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     if organism.embodiment._habitat_engine is not engine:
         raise RuntimeError("AS014_FINALIZATION_ENGINE_MISMATCH")
     before = organism.authoritative_state()
@@ -109,7 +134,14 @@ def _finalize_restart(organism: Any, engine: HabitatEngine, seed: int, db: Path,
     organism.store.validate_chain()
     organism.close()
     restored = load_organism(
-        config(seed, db, regime, bounded_continuation=continuation, route_learning=route_learning)
+        config(
+            seed,
+            db,
+            regime,
+            bounded_continuation=continuation,
+            route_learning=route_learning,
+            ledger_overrides=ledger_overrides,
+        )
     )
     restored_engine = restore_habitat_engine_from_checkpoint(restored)
     after = restored.authoritative_state()
@@ -127,9 +159,15 @@ def _finalize_restart(organism: Any, engine: HabitatEngine, seed: int, db: Path,
     return result
 
 
-def boundedness(seed: int, work: Path, ticks: int = ACCELERATED["ticks"]) -> dict[str, Any]:
+def boundedness(
+    seed: int,
+    work: Path,
+    ticks: int = ACCELERATED["ticks"],
+    *,
+    ledger_overrides: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     db, journal = work / "boundedness.sqlite", work / "boundedness.metrics.jsonl"
-    organism, engine = initialize(seed, db, "R0")
+    organism, engine = initialize(seed, db, "R0", ledger_overrides=ledger_overrides)
     initial_bytes, started, cpu_started = _db_bytes(db), time.perf_counter(), time.process_time()
     samples: list[dict[str, float]] = []
     first_no_safe: int | None = None
@@ -150,7 +188,10 @@ def boundedness(seed: int, work: Path, ticks: int = ACCELERATED["ticks"]) -> dic
             }
             _journal_append(journal, row)
             samples.append({key: float(row[key]) for key in ("tick", "elapsed_seconds", "rss_mib")})
-    final = _finalize_restart(organism, engine, seed, db, "R0", continuation=True, route_learning=True)
+    final = _finalize_restart(
+        organism, engine, seed, db, "R0", continuation=True, route_learning=True,
+        ledger_overrides=ledger_overrides,
+    )
     elapsed, cpu_seconds = time.perf_counter() - started, time.process_time() - cpu_started
     rss_values = [sample["rss_mib"] for sample in samples]
     checkpoint_epochs = [int(json.loads(line)["checkpoint_epoch"]) for line in journal.read_text().splitlines()]
@@ -223,9 +264,16 @@ def _run_realtime_window(organism: Any, seconds: float, journal: Path, samples: 
     return ticks, time.perf_counter() - started
 
 
-def soak(seed: int, work: Path, *, warmup_seconds: float = SOAK["warmup_seconds"], measure_seconds: float = SOAK["measure_seconds"]) -> dict[str, Any]:
+def soak(
+    seed: int,
+    work: Path,
+    *,
+    warmup_seconds: float = SOAK["warmup_seconds"],
+    measure_seconds: float = SOAK["measure_seconds"],
+    ledger_overrides: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     db, journal = work / "soak.sqlite", work / "soak.metrics.jsonl"
-    organism, engine = initialize(seed, db, "R0")
+    organism, engine = initialize(seed, db, "R0", ledger_overrides=ledger_overrides)
     started, cpu_started = time.perf_counter(), time.process_time()
     warmup_samples: list[dict[str, float]] = []
     measure_samples: list[dict[str, float]] = []
@@ -233,7 +281,10 @@ def soak(seed: int, work: Path, *, warmup_seconds: float = SOAK["warmup_seconds"
     measure_start = time.perf_counter()
     measure_ticks, _ = _run_realtime_window(organism, measure_seconds, journal, measure_samples, cpu_started, started)
     measured_elapsed, elapsed, cpu_seconds = time.perf_counter() - measure_start, time.perf_counter() - started, time.process_time() - cpu_started
-    final = _finalize_restart(organism, engine, seed, db, "R0", continuation=True, route_learning=True)
+    final = _finalize_restart(
+        organism, engine, seed, db, "R0", continuation=True, route_learning=True,
+        ledger_overrides=ledger_overrides,
+    )
     rss_values = [sample["rss_mib"] for sample in measure_samples] or [float(current_rss_mib())]
     result: dict[str, Any] = {
         "schema": "AS014_REALTIME_SOAK_RESULT_V1",
@@ -283,12 +334,22 @@ def _disable_terminal_readiness(organism: Any) -> dict[str, Any]:
     return calls
 
 
-def ablation(seed: int, work: Path, variant: str, ticks: int = 7200) -> dict[str, Any]:
+def ablation(
+    seed: int,
+    work: Path,
+    variant: str,
+    ticks: int = 7200,
+    *,
+    ledger_overrides: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     if variant not in VARIANTS:
         raise ValueError(variant)
     continuation, route_learning = variant != "CONTINUATION_DISABLED", variant != "ROUTE_LEARNING_DISABLED"
     db = work / f"{variant.lower()}.sqlite"
-    organism, engine = initialize(seed, db, "R1", continuation=continuation, route_learning=route_learning)
+    organism, engine = initialize(
+        seed, db, "R1", continuation=continuation, route_learning=route_learning,
+        ledger_overrides=ledger_overrides,
+    )
     readiness = {"all": 0, "terminal": 0, "probe_changed": False}
     if variant == "TERMINAL_READINESS_DISABLED":
         readiness = _disable_terminal_readiness(organism)
@@ -299,7 +360,10 @@ def ablation(seed: int, work: Path, variant: str, ticks: int = 7200) -> dict[str
         actions.append(str(decision.get("capability")))
         if decision.get("no_safe_action") and first_no_safe is None:
             first_no_safe = organism.tick
-    final = _finalize_restart(organism, engine, seed, db, "R1", continuation=continuation, route_learning=route_learning)
+    final = _finalize_restart(
+        organism, engine, seed, db, "R1", continuation=continuation, route_learning=route_learning,
+        ledger_overrides=ledger_overrides,
+    )
     result = {
         "schema": "AS014_ABLATION_RESULT_V1",
         "directive": DIRECTIVE,
@@ -311,7 +375,10 @@ def ablation(seed: int, work: Path, variant: str, ticks: int = 7200) -> dict[str
         "route_learning_enabled": route_learning,
         "terminal_readiness_disabled": variant == "TERMINAL_READINESS_DISABLED",
         "readiness_seam": readiness,
-        "configuration": fingerprint(config(seed, db, "R1", bounded_continuation=continuation, route_learning=route_learning)),
+        "configuration": fingerprint(config(
+            seed, db, "R1", bounded_continuation=continuation, route_learning=route_learning,
+            ledger_overrides=ledger_overrides,
+        )),
         "action_timeline_hash": hashlib.sha256("\n".join(actions).encode()).hexdigest(),
         "action_counts": {capability: actions.count(capability) for capability in sorted(set(actions))},
         "first_no_safe_action": first_no_safe,
