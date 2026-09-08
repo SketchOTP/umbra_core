@@ -20,6 +20,18 @@ The canonical Notion page governs strategic authority, but the repository is int
 to remain understandable without Notion access. Git commits and retained artifacts are
 the implementation and execution record.
 
+## AS-014
+
+AS-014 is permanently terminal at `AS014_FRESH_R1_FAIL`. It introduced a
+checkpoint-chain and bounded-tail persistence design, then began its required fresh
+requalification. R0 completed `8/8` at `7200` ticks. In R1/S16, seed `32550454`
+reached `NO_SAFE_ACTION` at tick `346` and critical fatigue at tick `347`.
+Checkpoint epoch remained `0` with a `1793`-event hot tail, so the failure preceded
+and was not caused by persistence maintenance. R2/R3, lifecycle, 100k, soak, and
+ablation did not start; no retry or reseed occurred. The terminal evidence manifest
+is `bdb77f4d0adcc470249ea8048560841e3de7c4fc562592fcdba235fa5cac5813`.
+See the [AS-014 result](../.agent/tasks/active/UMBRA-AS-014/RESULT.md).
+
 ## AS-013
 
 AS-013 is permanently terminal at `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`.

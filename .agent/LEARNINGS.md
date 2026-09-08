@@ -966,3 +966,13 @@ well as direct test helpers: a seed-manifest shape mismatch and premature work-d
 creation were found and repaired before lock. Exact-baseline suite comparison is the
 right regression discriminator here: AS-014 has no candidate-only applicable failure,
 while inherited suite debt remains visible rather than being called green.
+
+## 2026-09-08 — AS-014 frozen population boundary
+
+The persistence redesign cannot be credited or blamed for a failure that occurs before
+maintenance begins. Fresh R1/S16 seed `32550454` reached `NO_SAFE_ACTION` at tick
+`346` and critical fatigue at tick `347`, while its checkpoint epoch was `0` and
+hot tail `1793`. The correct result is a permanent scientific R1 failure, not a
+protocol or persistence-integrity failure. Preserve the exact run and investigate the
+verified-outcome branch-safety path only under future Architect authority; do not tune,
+retry, or reseed it.

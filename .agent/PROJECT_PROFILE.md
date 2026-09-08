@@ -1,4 +1,15 @@
-# Current profile — UMBRA-AS-014 ACTIVE
+# Current profile — UMBRA-AS-014 TERMINAL
+
+AS-014 is permanently terminal as `AS014_FRESH_R1_FAIL`. Its frozen population
+tested the changed persistence/replay implementation: R0 completed `8/8`, but
+fresh R1/S16 seed `32550454` hit `NO_SAFE_ACTION` at tick `346` and critical
+fatigue at tick `347`. Checkpoint compaction had not occurred (epoch `0`, tail
+`1793`), so this does not establish a persistence-integrity failure or qualify
+the new persistence architecture. Remaining R1 rows, R2/R3, lifecycle, 100k,
+real-time soak, and ablation were not run. Integrated viability and CLOSE-03
+remain blocked; no retry, reseed, repair, or successor has started.
+
+## Historical pre-formal implementation checkpoint
 
 Pre-formal implementation checkpoint: `cf5f17da1bd353d1ad591145396ae06e869baaa2`.
 The active production profile adds a cryptographically anchored bounded operational

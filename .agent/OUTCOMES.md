@@ -1879,3 +1879,13 @@ AS-014 selected and implemented a checkpoint-chain plus bounded-tail architectur
 with active-provenance protection and physical SQLite reclamation. Non-formal R2/R3,
 lifecycle, downstream CLI, and formal-population CLI preflights pass. Formal result:
 not yet executed. Applicable regression classification: `0` candidate-only failures.
+
+### AS-014 terminal result — `AS014_FRESH_R1_FAIL`
+
+The frozen fresh population completed R0 `8/8` at `7200` ticks and one R1 case at
+`7200` ticks. R1/S16 seed `32550454` reached `NO_SAFE_ACTION` at tick `346`, then
+critical fatigue at tick `347`. No compaction checkpoint had occurred (epoch `0`,
+hot tail `1793`), so the failed organism does not evidence a compaction or persistence
+integrity defect. The frozen stop rule prevented remaining R1 rows, R2/R3,
+lifecycle, boundedness, soak, and ablation. Post-lock production/test/harness changes,
+retries, and reseeds are `0/0/0`; integrated viability and CLOSE-03 remain blocked.

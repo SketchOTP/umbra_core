@@ -9,6 +9,12 @@ Concise navigation map for agents. Add entries as application code lands.
 
 ## Governance
 
+## UMBRA-AS-014 — TERMINAL `AS014_FRESH_R1_FAIL`
+- Exact baseline: `a97171a2dab7c1750e2556727bce9e3648bb359a`; closeout is in `.agent/tasks/active/UMBRA-AS-014/RESULT.md`.
+- Fresh requalification: R0 completed `8/8` at `7200` ticks; R1/S16 seed `32550454` reached `NO_SAFE_ACTION` at tick `346` and critical fatigue at tick `347`.
+- Checkpoint epoch was `0`, hot tail `1793`; maintenance did not run and is not causal. No R2/R3 or downstream qualification gate ran; retries/reseeds `0/0`; CLOSE-03 remains blocked.
+- Evidence: local/internal root `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-014-persistent-ledger-boundedness-completion-r1/`; manifest SHA-256 `bdb77f4d0adcc470249ea8048560841e3de7c4fc562592fcdba235fa5cac5813`.
+
 ## UMBRA-AS-010 — TERMINAL `AS010_PROTOCOL_FAIL`
 - Exact baseline: `b5c7bb2b46e9355a8f5b658f25ebf4f1e7fea27b`; terminal closeout is in `.agent/tasks/active/UMBRA-AS-010/RESULT.md` and the local/internal evidence root.
 - Full configuration population: R0/R1/R2/R3 each `8/8` at `7200` ticks (`32/32` total); lifecycle passed at `500` ticks.

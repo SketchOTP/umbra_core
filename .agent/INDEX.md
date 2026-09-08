@@ -1,4 +1,4 @@
-# UMBRA-AS-014 ACTIVE — Persistent Ledger Boundedness and Integrated Requalification
+# UMBRA-AS-014 TERMINAL — `AS014_FRESH_R1_FAIL`
 
 - Exact baseline: `a97171a2dab7c1750e2556727bce9e3648bb359a`; task packet:
   `.agent/tasks/active/UMBRA-AS-014/`.
@@ -8,8 +8,11 @@
   successor resource scopes and resolving lifetime hot-ledger boundedness.
 - Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-014-persistent-ledger-boundedness-completion-r1/`.
 
-- Pre-formal state: production persistence repair and literal entrypoint preflights
-  pass at `cf5f17da1bd353d1ad591145396ae06e869baaa2`; formal population has not started.
+- Frozen population outcome: R0 completed `8/8`; R1 seed `32550454` reached
+  `NO_SAFE_ACTION` at tick `346` and critical fatigue at tick `347`, before
+  checkpoint maintenance. This is a scientific R1 failure, so no remaining
+  population or downstream gate was started. No retry or reseed is authorized.
+- Final evidence manifest: `bdb77f4d0adcc470249ea8048560841e3de7c4fc562592fcdba235fa5cac5813`.
 
 # UMBRA-AS-013 TERMINAL — `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`
 

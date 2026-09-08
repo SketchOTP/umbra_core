@@ -459,6 +459,17 @@ not as granting reuse rights, unless a license is added separately.
 
 ## Current research frontier
 
+### AS-014 — frozen fresh-R1 scientific failure
+
+AS-014 tested a changed persistence/replay implementation with a fresh,
+disjoint population. R0 completed `8/8` at `7200` ticks; the second fresh
+R1/S16 case then reached `NO_SAFE_ACTION` at tick `346` and critical fatigue at
+tick `347`. The failure happened before its first checkpoint-compaction cycle,
+so it is neither evidence that compaction caused the failure nor a qualification
+of the new persistence architecture. R2/R3 and all downstream gates were not
+started. Integrated long-horizon viability remains **NOT QUALIFIED** and
+CLOSE-03 remains blocked. See the [AS-014 result](.agent/tasks/active/UMBRA-AS-014/RESULT.md).
+
 ### AS-006 — executable weak-continuation loss (pre-scientific)
 
 AS-006 is now terminal at `AS006_KNOWN_R1_FAIL`. Diagnostic A and B completed

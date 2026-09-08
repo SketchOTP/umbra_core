@@ -1295,3 +1295,15 @@ coverage, R2/R3/lifecycle intervention preflights, literal downstream CLI prefli
 and literal population-CLI preflight. The exact-baseline applicable suite reproduces
 only inherited debt (`17` current failures versus `19` baseline; candidate-only `0`).
 Formal seeds remain unused pending the durable scientific lock.
+
+### AS-014 terminal closeout — `AS014_FRESH_R1_FAIL`
+
+The frozen population began without post-lock modification. R0 completed `8/8` at
+`7200` ticks and the first R1 case completed at `7200` ticks. Fresh R1/S16 seed
+`32550454` then reached `NO_SAFE_ACTION` at tick `346` and critical fatigue at
+tick `347`. The failure is scientific and is permanently terminal. Its checkpoint
+epoch was `0` with a hot tail of `1793`, establishing that persistence maintenance
+never occurred and is not causal to this failure. R2/R3 and lifecycle, 100k, S3
+soak, ablation, successor work, and CLOSE-03 were not started. Retries/reseeds are
+`0/0`. Evidence manifest SHA-256:
+`bdb77f4d0adcc470249ea8048560841e3de7c4fc562592fcdba235fa5cac5813`.

@@ -514,6 +514,16 @@ and population CLI have completed non-formal executable preflight. Formal seeds 
 unused. The current applicable suite has no candidate-only failure when compared with
 the exact baseline; inherited failures remain explicitly classified in evidence.
 
+### AS-014 terminal population record — 2026-09-08
+
+The frozen AS-014 population is terminal at `AS014_FRESH_R1_FAIL`. R0 completed
+`8/8` and the first R1 case completed at the `7200`-tick horizon. Fresh R1/S16 seed
+`32550454` stopped scientifically: `NO_SAFE_ACTION` at tick `346`, followed by
+critical fatigue at tick `347`. Its checkpoint epoch was `0` and its hot event tail
+was `1793`, below the configured maintenance limit; persistence maintenance was not
+invoked and is not causal. No remaining formal regime, lifecycle, 100k, real-time
+soak, ablation, retry, reseed, successor, or CLOSE-03 execution occurred.
+
 ## AS-013 terminal closeout — 2026-09-06
 
 Exact baseline: `2723c50d1f06abcae60573307adfe83229def4a6`. Permanent parent:

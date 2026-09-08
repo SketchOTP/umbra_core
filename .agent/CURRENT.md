@@ -1,6 +1,17 @@
-# CURRENT AUTHORITY — UMBRA-AS-014 ACTIVE
+# CURRENT AUTHORITY — UMBRA-AS-014 TERMINAL
 
-## Pre-formal checkpoint — 2026-09-08
+AS-014 is permanently terminal as `AS014_FRESH_R1_FAIL`. From exact baseline
+`a97171a2dab7c1750e2556727bce9e3648bb359a`, the frozen requalification
+population completed R0 `8/8` at `7200` ticks and the first R1 case at `7200`
+ticks. Fresh R1/S16 seed `32550454` then reached `NO_SAFE_ACTION` at tick `346`
+and critical fatigue at tick `347`; this is a scientific failure, not a protocol
+or persistence-integrity failure. The run had checkpoint epoch `0` and a hot tail
+of `1793` events, so compaction never ran and is not causal to this result.
+R2/R3 and lifecycle, 100k, S3 soak, and ablation did not start. No retry,
+reseed, repair, successor, or CLOSE-03 was started. Final manifest SHA-256:
+`bdb77f4d0adcc470249ea8048560841e3de7c4fc562592fcdba235fa5cac5813`.
+
+## Historical pre-formal checkpoint — 2026-09-08
 
 AS-014 persistence repair is pre-formal at commit
 `cf5f17da1bd353d1ad591145396ae06e869baaa2`. The checkpoint-plus-bounded-tail
