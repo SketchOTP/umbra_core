@@ -44,7 +44,7 @@ def run() -> dict[str, object]:
     _ensure_histories(organism)
     engine = HabitatEngine(_habitat_state_for_scenario("S0"))
     organism.embodiment.attach_habitat_engine(engine)
-    organism.run_ticks(8)
+    organism.run_ticks(48)
     checkpoint = organism.store.latest_checkpoint()
     if checkpoint is None:
         raise RuntimeError("AS014_PREFLIGHT_CHECKPOINT_NOT_CREATED")
@@ -76,7 +76,10 @@ def run() -> dict[str, object]:
             "checkpoint_habitat_state": checkpoint.get("habitat_checkpoint") is not None,
             "restart_reattach": restart_ok,
             "tail_chain_valid": latest is not None,
-            "post_restart_tick": restored.tick == 11,
+            "post_restart_tick": restored.tick == 51,
+            "checkpoint_retention_bounded": int(
+                restored.store.conn.execute("SELECT COUNT(*) FROM ledger_checkpoints").fetchone()[0]
+            ) <= cfg.ledger_checkpoint_keep,
             "reclamation_completed_with_valid_chain": True,
         },
         "checkpoint": {
@@ -86,7 +89,7 @@ def run() -> dict[str, object]:
         },
         "physical_bytes": {"before": physical_before, "after": physical_after},
         "organism_creation": 1,
-        "organism_ticks": 11,
+        "organism_ticks": 51,
         "formal_execution_started": False,
     }
     restored.close()
@@ -99,6 +102,6 @@ if __name__ == "__main__":
     value = run()
     print(json.dumps(value, indent=2, sort_keys=True))
     # The create-once initial preflight records a deliberately rejected
-    # page-size assertion; R1 records that correction. R2 additionally covers
-    # the per-tick maintenance trigger that enforces the hot-tail bound.
-    publish("AS014_TERMINAL_EVIDENCE_PATH_PREFLIGHT_R2.json", value)
+    # page-size assertion; R1 records that correction. R2 covers the per-tick
+    # trigger, and R3 verifies repeated maintenance cycles and bounded anchors.
+    publish("AS014_TERMINAL_EVIDENCE_PATH_PREFLIGHT_R3.json", value)
