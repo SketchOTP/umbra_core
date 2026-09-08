@@ -127,6 +127,7 @@ class OrganismConfig:
     # generation, Governance, arbitration, physiology, or learning.
     ledger_compaction_enabled: bool = True
     ledger_hot_tail_event_max: int = 32_768
+    ledger_max_events_per_tick: int = 32
     ledger_checkpoint_keep: int = 4
     ledger_physical_reclaim: bool = True
     condition: str = "C0"  # experiment condition label
@@ -744,17 +745,26 @@ class Organism:
         return (int(self.embodiment.body.x), int(self.embodiment.body.y))
 
     def snapshot_if_due(self, force: bool = False) -> str | None:
-        if force or (self.tick > 0 and self.tick % self.config.snapshot_every == 0):
+        if self.config.ledger_hot_tail_event_max < self.config.ledger_max_events_per_tick:
+            raise PersistenceError("ledger_tail_capacity_below_tick_bound")
+        checkpoint = self.store.latest_checkpoint()
+        compacted_end = int(checkpoint["compacted_sequence_end"]) if checkpoint else 0
+        tail_events = self.store.last_sequence() - compacted_end
+        compaction_trigger = (
+            self.config.ledger_hot_tail_event_max - self.config.ledger_max_events_per_tick
+        )
+        maintenance_due = self.config.ledger_compaction_enabled and tail_events >= compaction_trigger
+        periodic_due = self.tick > 0 and self.tick % self.config.snapshot_every == 0
+        if force or periodic_due or maintenance_due:
+            if tail_events > self.config.ledger_hot_tail_event_max:
+                raise PersistenceError("ledger_tail_event_bound_exceeded")
             sid = self.store.save_snapshot(
                 self.identity.agent_id,
                 self.store.last_sequence(),
                 self.monotonic_time,
                 self.authoritative_state(),
             )
-            checkpoint = self.store.latest_checkpoint()
-            compacted_end = int(checkpoint["compacted_sequence_end"]) if checkpoint else 0
-            tail_events = self.store.last_sequence() - compacted_end
-            if self.config.ledger_compaction_enabled and tail_events >= self.config.ledger_hot_tail_event_max:
+            if maintenance_due:
                 habitat_binding = self.embodiment.habitat_authority_binding or {}
                 habitat_checkpoint = None
                 engine = self.embodiment._habitat_engine

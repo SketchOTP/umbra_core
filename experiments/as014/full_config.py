@@ -13,6 +13,7 @@ BASELINE = "a97171a2dab7c1750e2556727bce9e3648bb359a"
 LEDGER_CONTRACT = {
     "ledger_compaction_enabled": True,
     "ledger_hot_tail_event_max": 32_768,
+    "ledger_max_events_per_tick": 32,
     "ledger_checkpoint_keep": 4,
     "ledger_physical_reclaim": True,
 }

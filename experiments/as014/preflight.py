@@ -34,7 +34,12 @@ def run() -> dict[str, object]:
         shutil.rmtree(work)
     work.mkdir(parents=True)
     db = work / "preflight.sqlite"
-    cfg = config(41414001, db, "R0", ledger_overrides={"ledger_hot_tail_event_max": 8})
+    cfg = config(
+        41414001,
+        db,
+        "R0",
+        ledger_overrides={"ledger_hot_tail_event_max": 32, "ledger_max_events_per_tick": 16},
+    )
     organism = create_organism(cfg)
     _ensure_histories(organism)
     engine = HabitatEngine(_habitat_state_for_scenario("S0"))
@@ -94,5 +99,6 @@ if __name__ == "__main__":
     value = run()
     print(json.dumps(value, indent=2, sort_keys=True))
     # The create-once initial preflight records a deliberately rejected
-    # page-size assertion. R1 is the corrected, contract-faithful rerun.
-    publish("AS014_TERMINAL_EVIDENCE_PATH_PREFLIGHT_R1.json", value)
+    # page-size assertion; R1 records that correction. R2 additionally covers
+    # the per-tick maintenance trigger that enforces the hot-tail bound.
+    publish("AS014_TERMINAL_EVIDENCE_PATH_PREFLIGHT_R2.json", value)

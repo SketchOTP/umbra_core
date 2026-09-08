@@ -20,13 +20,14 @@ from umbra_core.habitat.events import habitat_state_from_checkpoint_payload
 from umbra_core.habitat.state import sample_habitat_state
 
 
-def _config(path: Path, *, tail: int = 8) -> OrganismConfig:
+def _config(path: Path, *, tail: int = 32) -> OrganismConfig:
     return OrganismConfig(
         db_path=str(path),
         seed=4114,
         snapshot_every=1,
         embodiment_adapter_enabled=True,
         ledger_hot_tail_event_max=tail,
+        ledger_max_events_per_tick=16,
         ledger_checkpoint_keep=2,
     )
 
@@ -42,6 +43,7 @@ def test_checkpoint_plus_tail_preserves_restart_and_attachment(tmp_path: Path) -
     assert checkpoint["compacted_sequence_end"] > 0
     assert checkpoint["compacted_event_count"] > 0
     assert len(org.store.iter_events()) < org.store.last_sequence()
+    assert len(org.store.iter_events()) <= cfg.ledger_hot_tail_event_max
     assert org.store.last_event_of_types(("embodiment_body_attached",)) is not None
     org.store.validate_chain()
     before = org.authoritative_state()
@@ -203,7 +205,7 @@ def test_checkpoint_maintenance_does_not_change_logical_organism_state(tmp_path:
 
     common = {"seed": 4114, "snapshot_every": 1, "embodiment_adapter_enabled": True, "wall_time_fn": lambda: 0.0}
     left = load_organism(OrganismConfig(db_path=str(no_maintenance), ledger_hot_tail_event_max=100_000, **common))
-    right = load_organism(OrganismConfig(db_path=str(maintenance), ledger_hot_tail_event_max=8, **common))
+    right = load_organism(OrganismConfig(db_path=str(maintenance), ledger_hot_tail_event_max=32, ledger_max_events_per_tick=16, **common))
     left_actions = [left.tick_once().get("selected_action") for _ in range(5)]
     right_actions = [right.tick_once().get("selected_action") for _ in range(5)]
     assert left_actions == right_actions
