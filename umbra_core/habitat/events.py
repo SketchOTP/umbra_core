@@ -315,7 +315,17 @@ def habitat_state_from_checkpoint_payload(payload: dict[str, Any]) -> HabitatSta
     base = _state_from_init_payload(payload)
     version = int(payload["state_version"])
     expected_hash = str(payload["state_hash"])
-    restored = with_state_hash(replace(base, state_version=version, state_hash=""))
+    # A committed Habitat definition hash is itself part of the authoritative
+    # state.  Do not recompute/replace it while restoring a checkpoint: older
+    # qualified definitions may intentionally carry their original commitment.
+    restored = with_state_hash(
+        replace(
+            base,
+            definition_hash=str(payload["definition_hash"]),
+            state_version=version,
+            state_hash="",
+        )
+    )
     if restored.state_hash != expected_hash:
         raise HabitatEventError("checkpoint_habitat_state_hash_mismatch")
     return restored
