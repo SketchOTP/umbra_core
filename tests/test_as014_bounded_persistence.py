@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import shutil
 
 import pytest
 
@@ -187,3 +188,35 @@ def test_reclamation_crash_boundary_is_always_a_valid_checkpoint_state(tmp_path:
         org.store.reclaim_physical_storage(crash_after="after_vacuum")
     org.store.validate_chain()
     org.close()
+
+
+def test_checkpoint_maintenance_does_not_change_logical_organism_state(tmp_path: Path) -> None:
+    root = tmp_path / "root.sqlite"
+    source_cfg = _config(root, tail=100_000)
+    source = create_organism(source_cfg)
+    source.snapshot_if_due(force=True)
+    source.close()
+    no_maintenance = tmp_path / "no-maintenance.sqlite"
+    maintenance = tmp_path / "maintenance.sqlite"
+    shutil.copy2(root, no_maintenance)
+    shutil.copy2(root, maintenance)
+
+    common = {"seed": 4114, "snapshot_every": 1, "embodiment_adapter_enabled": True, "wall_time_fn": lambda: 0.0}
+    left = load_organism(OrganismConfig(db_path=str(no_maintenance), ledger_hot_tail_event_max=100_000, **common))
+    right = load_organism(OrganismConfig(db_path=str(maintenance), ledger_hot_tail_event_max=8, **common))
+    left_actions = [left.tick_once().get("selected_action") for _ in range(5)]
+    right_actions = [right.tick_once().get("selected_action") for _ in range(5)]
+    assert left_actions == right_actions
+    assert left.rng.export_state() == right.rng.export_state()
+    assert left.phys.to_state() == right.phys.to_state()
+    assert left.embodiment.to_state() == right.embodiment.to_state()
+    assert left.arbitrator.state.to_state() == right.arbitrator.state.to_state()
+    for name in ("world_model", "memory", "social", "individuality"):
+        left_owner, right_owner = getattr(left, name), getattr(right, name)
+        assert (left_owner is None) == (right_owner is None)
+        if left_owner is not None:
+            assert left_owner.accepted_state() == right_owner.accepted_state()
+    assert left.store.latest_checkpoint() is None
+    assert right.store.latest_checkpoint() is not None
+    left.close()
+    right.close()
