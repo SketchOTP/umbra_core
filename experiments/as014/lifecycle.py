@@ -24,8 +24,13 @@ def _ensure_histories(organism: Any) -> None:
         getattr(organism, method)()
 
 
-def _restore(seed: int, db: Path) -> tuple[Any, HabitatEngine]:
-    organism = load_organism(config(seed, db, "R2"))
+def _restore(
+    seed: int,
+    db: Path,
+    *,
+    ledger_overrides: dict[str, Any] | None = None,
+) -> tuple[Any, HabitatEngine]:
+    organism = load_organism(config(seed, db, "R2", ledger_overrides=ledger_overrides))
     engine = restore_habitat_engine_from_checkpoint(organism)
     binding = organism.embodiment.habitat_authority_binding
     view = engine.snapshot_view()
@@ -42,9 +47,22 @@ def _checkpoint_cycle(organism: Any, minimum_ticks: int = 7200) -> None:
     organism.store.validate_chain()
 
 
-def lifecycle(seed: int, work: Path) -> dict[str, Any]:
+def lifecycle(
+    seed: int,
+    work: Path,
+    *,
+    ledger_overrides: dict[str, Any] | None = None,
+    maintenance_ticks: int = 7200,
+) -> dict[str, Any]:
+    """Exercise the full lifecycle under the canonical or a preflight ledger.
+
+    ``ledger_overrides`` and ``maintenance_ticks`` exist solely for non-formal
+    executable preflight.  The qualification caller uses their defaults.
+    """
+    if maintenance_ticks < 1:
+        raise ValueError("maintenance_ticks_must_be_positive")
     db = work / "lifecycle.sqlite"
-    organism = create_organism(config(seed, db, "R2"))
+    organism = create_organism(config(seed, db, "R2", ledger_overrides=ledger_overrides))
     _ensure_histories(organism)
     engine = HabitatEngine(_habitat_state_for_scenario("S10"))
     organism.embodiment.attach_habitat_engine(engine)
@@ -55,14 +73,14 @@ def lifecycle(seed: int, work: Path) -> dict[str, Any]:
         transaction_id=f"as014:lifecycle:create-txn:{seed}",
         request_id=f"as014:lifecycle:create-req:{seed}",
     )
-    _checkpoint_cycle(organism)
+    _checkpoint_cycle(organism, minimum_ticks=maintenance_ticks)
     memory_before = copy.deepcopy(organism.memory.to_state())
     social_before = copy.deepcopy(organism.social.to_state())
     individuality_before = copy.deepcopy(organism.individuality.to_state())
     organism.snapshot_if_due(force=True)
     organism.close()
 
-    organism, engine = _restore(seed, db)
+    organism, engine = _restore(seed, db, ledger_overrides=ledger_overrides)
     first_restart = (
         organism.identity.as_dict() == identity
         and len(engine.authoritative_social_entities()) == 1
@@ -89,7 +107,7 @@ def lifecycle(seed: int, work: Path) -> dict[str, Any]:
     organism.snapshot_if_due(force=True)
     organism.close()
 
-    organism, engine = _restore(seed, db)
+    organism, engine = _restore(seed, db, ledger_overrides=ledger_overrides)
     post_replacement_restart = (
         organism.identity.as_dict() == identity
         and organism.embodiment_adapter.state.body_instance_id == replacement["new_body_instance_id"]
@@ -110,6 +128,8 @@ def lifecycle(seed: int, work: Path) -> dict[str, Any]:
         "baseline": BASELINE,
         "seed": seed,
         "ticks": organism.tick,
+        "maintenance_ticks": maintenance_ticks,
+        "ledger_overrides": ledger_overrides or {},
         "configuration": fingerprint(organism.config),
         "checkpoint_epoch": checkpoint["checkpoint_epoch"] if checkpoint else 0,
         "checks": {
@@ -119,7 +139,7 @@ def lifecycle(seed: int, work: Path) -> dict[str, Any]:
             "owner_continuity": owners_preserved,
             "post_replacement_restart": post_replacement_restart,
             "compatible_profile_swap": profile_ok,
-            "continued_organism_execution": organism.tick >= 7300,
+            "continued_organism_execution": organism.tick >= maintenance_ticks + 100,
         },
     }
     organism.close()
