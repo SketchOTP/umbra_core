@@ -192,6 +192,68 @@ def test_reclamation_crash_boundary_is_always_a_valid_checkpoint_state(tmp_path:
     org.close()
 
 
+def test_active_event_provenance_survives_successive_prefix_compactions(tmp_path: Path) -> None:
+    """An event id still named by live material state must not dangle."""
+    path = tmp_path / "active-provenance.sqlite"
+    store = Store(path)
+    source = create_organism(_config(tmp_path / "identity-active-provenance.sqlite"))
+    store.save_identity(source.identity)
+    source.close()
+    agent_id = store.load_identity().agent_id
+    source_event = store.append_event(
+        agent_id=agent_id,
+        event_type="outcome_verified",
+        monotonic_time=1.0,
+        wall_time=1.0,
+        payload={"outcome": "retained"},
+    )
+    snapshot = store.save_snapshot(
+        agent_id,
+        store.last_sequence(),
+        1.0,
+        {"memory": {"source_event_ids": [source_event["event_id"]]}},
+    )
+    store.compact_authoritative_prefix(
+        agent_id=agent_id,
+        snapshot_id=snapshot,
+        creation_tick=1,
+        creation_wall_time=1.0,
+        habitat_binding={},
+        habitat_checkpoint=None,
+        body_attachment={},
+    )
+    store.append_event(
+        agent_id=agent_id,
+        event_type="physiology_drift",
+        monotonic_time=2.0,
+        wall_time=2.0,
+        payload={"tick": 2},
+    )
+    successor_snapshot = store.save_snapshot(
+        agent_id,
+        store.last_sequence(),
+        2.0,
+        {"memory": {"source_event_ids": [source_event["event_id"]]}},
+    )
+    store.compact_authoritative_prefix(
+        agent_id=agent_id,
+        snapshot_id=successor_snapshot,
+        creation_tick=2,
+        creation_wall_time=2.0,
+        habitat_binding={},
+        habitat_checkpoint=None,
+        body_attachment={},
+    )
+    retained = {
+        item["event"]["event_id"]
+        for item in store.checkpoint_provenance()
+        if item["provenance_key"].startswith("active_event:")
+    }
+    assert source_event["event_id"] in retained
+    store.validate_chain()
+    store.close()
+
+
 def test_checkpoint_maintenance_does_not_change_logical_organism_state(tmp_path: Path) -> None:
     root = tmp_path / "root.sqlite"
     source_cfg = _config(root, tail=100_000)

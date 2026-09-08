@@ -460,6 +460,54 @@ class Store:
             result.append({"provenance_key": str(row["provenance_key"]), "event": event})
         return result
 
+    @staticmethod
+    def _snapshot_strings(value: Any) -> set[str]:
+        """Return scalar strings from a materialized authoritative snapshot.
+
+        A checkpoint is allowed to replace the *operational* prefix, but an
+        active owner may still retain an event id as the provenance for a
+        bounded memory, support interval, or attachment.  We deliberately
+        discover references from material state rather than maintaining a
+        second, fallible list of owners here.  The subsequent event-id lookup
+        makes unrelated UUIDs harmless.
+        """
+        values: set[str] = set()
+        if isinstance(value, dict):
+            for key, item in value.items():
+                values.add(str(key))
+                values.update(Store._snapshot_strings(item))
+        elif isinstance(value, (list, tuple)):
+            for item in value:
+                values.update(Store._snapshot_strings(item))
+        elif isinstance(value, str):
+            values.add(value)
+        return values
+
+    def _events_referenced_by_snapshot(self, snapshot: dict[str, Any]) -> dict[str, dict[str, Any]]:
+        """Promote active event-backed provenance into a checkpoint record.
+
+        Only strings that are exact ledger event ids are selected.  This
+        preserves active source evidence across prefix removal without making
+        arbitrary object, body, or entity identities into event provenance.
+        """
+        candidates = self._snapshot_strings(snapshot["state"])
+        if not candidates:
+            return {}
+        result: dict[str, dict[str, Any]] = {}
+        # SQLite has a finite bind-variable limit; chunks also make the
+        # bounded-state assumption explicit for unusually rich snapshots.
+        ordered = sorted(candidates)
+        for start in range(0, len(ordered), 500):
+            batch = ordered[start : start + 500]
+            placeholders = ",".join("?" for _ in batch)
+            rows = self.conn.execute(
+                f"SELECT * FROM events WHERE event_id IN ({placeholders})", tuple(batch)
+            ).fetchall()
+            for row in rows:
+                event = self._row_to_event(row)
+                result[str(event["event_id"])] = event
+        return result
+
     def compact_authoritative_prefix(
         self,
         *,
@@ -504,10 +552,22 @@ class Store:
         if int(rows[0]["sequence"]) != start or int(rows[-1]["sequence"]) != through:
             raise PersistenceError("checkpoint_tail_sequence_gap")
         protected: dict[str, dict[str, Any]] = {}
+        active_reference_values = self._snapshot_strings(snapshot["state"])
+        active_events = self._events_referenced_by_snapshot(snapshot)
+        # Carry forward only active generic provenance from the preceding
+        # checkpoint.  Type-specific records (notably body attachment) remain
+        # authoritative lookup anchors independently of a current state ref.
+        if previous is not None:
+            for item in self.checkpoint_provenance(previous["checkpoint_id"]):
+                key, event = item["provenance_key"], item["event"]
+                if key.startswith("event_type:") or str(event["event_id"]) in active_reference_values:
+                    protected[key] = event
         for event_type in protected_event_types:
             event = self.last_event_of_types((event_type,))
             if event is not None:
                 protected[f"event_type:{event_type}"] = event
+        for event_id, event in active_events.items():
+            protected[f"active_event:{event_id}"] = event
         checkpoint_id = new_id()
         epoch = int(previous["checkpoint_epoch"]) + 1 if previous else 1
         terminal_hash = str(rows[-1]["event_hash"])
