@@ -3561,6 +3561,35 @@ def _habitat_events_from_store(store: Store, agent_id: str) -> list[dict[str, An
     ]
 
 
+def restore_habitat_engine_from_checkpoint(organism: Organism):
+    """Restore the sole Habitat authority from the latest ledger checkpoint.
+
+    This is intentionally explicit: an organism loaded from a snapshot retains
+    its Habitat binding, and callers must reattach a matching engine before an
+    authoritative Habitat read.  The helper starts from the checkpoint's exact
+    committed state and applies only the retained Habitat tail.
+    """
+    checkpoint = organism.store.latest_checkpoint()
+    if checkpoint is None or checkpoint.get("habitat_checkpoint") is None:
+        raise PersistenceError("checkpoint_habitat_state_unavailable")
+    from umbra_core.habitat.engine import HabitatEngine
+    from umbra_core.habitat.events import (
+        apply_habitat_event,
+        habitat_state_from_checkpoint_payload,
+    )
+
+    state = habitat_state_from_checkpoint_payload(checkpoint["habitat_checkpoint"])
+    for event in organism.store.iter_events(int(checkpoint["compacted_sequence_end"]) + 1):
+        if event["agent_id"] != organism.identity.agent_id:
+            continue
+        if not event["event_type"].startswith("habitat_"):
+            continue
+        state = apply_habitat_event(state, event)
+    engine = HabitatEngine(state)
+    organism.embodiment.attach_habitat_engine(engine)
+    return engine
+
+
 def _held_objects_for_body(habitat_state: Any, body_instance_id: str) -> list[tuple[str, Any]]:
     from umbra_core.habitat.state import HeldByLocation
 

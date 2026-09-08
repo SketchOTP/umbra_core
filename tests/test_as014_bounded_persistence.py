@@ -7,7 +7,13 @@ from pathlib import Path
 import pytest
 
 from umbra_core.persistence import PersistenceError, Store
-from umbra_core.runtime import OrganismConfig, create_organism, load_organism, replay_from_birth
+from umbra_core.runtime import (
+    OrganismConfig,
+    create_organism,
+    load_organism,
+    replay_from_birth,
+    restore_habitat_engine_from_checkpoint,
+)
 from umbra_core.habitat.engine import HabitatEngine
 from umbra_core.habitat.events import habitat_state_from_checkpoint_payload
 from umbra_core.habitat.state import sample_habitat_state
@@ -75,6 +81,13 @@ def test_checkpoint_commits_exact_habitat_state_when_attached(tmp_path: Path) ->
     assert restored.state_hash == engine.state.state_hash
     assert checkpoint["habitat_binding"]["state_hash"] == engine.state.state_hash
     org.close()
+
+    loaded = load_organism(cfg)
+    reattached = restore_habitat_engine_from_checkpoint(loaded)
+    assert reattached.state.habitat_id == engine.state.habitat_id
+    assert reattached.state.state_hash == engine.state.state_hash
+    loaded.authoritative_state()
+    loaded.close()
 
 
 @pytest.mark.parametrize("phase", ("checkpoint_prepared", "checkpoint_commit", "prefix_removal"))
