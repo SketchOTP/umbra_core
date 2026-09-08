@@ -1,3 +1,17 @@
+# CURRENT AUTHORITY — UMBRA-AS-014 ACTIVE
+
+AS-014 is authorized from exact synchronized baseline
+`a97171a2dab7c1750e2556727bce9e3648bb359a` after permanent acceptance of
+`AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`. AS-013's completed 100000-tick
+full-configuration organism, snapshot/restart continuity, and frozen failure
+remain immutable. AS-014 first reconstructs the resource-contract provenance
+and forensically attributes the retained 846774272-byte SQLite database. It
+may repair production persistence/replay architecture if authoritative hot-ledger
+growth is the proven cause, then must requalify all materially affected gates
+through population, lifecycle, long horizon, S3 real-time soak, and matched
+causal ablation. CLOSE-03 remains blocked. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-014-persistent-ledger-boundedness-completion-r1/`.
+
 # CURRENT AUTHORITY — UMBRA-AS-012 TERMINAL
 
 AS-012 is permanently terminal as `AS012_PROTOCOL_FAIL`. The exact frozen boundedness entrypoint executed one fresh organism through `100000` ticks and then failed after the run during result publication at `experiments/as012/downstream.py:331` because binary mode was given an encoding argument. The result artifact was not published, so boundedness was not qualified. No retry or reseed occurred; soak and causal ablation did not run. AS-010's qualified full-config population `32/32` and lifecycle PASS remain inherited. Evidence root:

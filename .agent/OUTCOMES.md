@@ -1862,3 +1862,12 @@ restart continuity passed. The permitted terminal verdict is
 `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`. Real-time soak and causal ablation
 were not started. Production delta `0`, retries and reseeds `0/0`,
 integrated viability remains unqualified, and CLOSE-03 remains blocked.
+
+## 2026-09-08 — UMBRA-AS-014 governance start
+
+AS-014 begins from exact baseline `a97171a2dab7c1750e2556727bce9e3648bb359a`.
+AS-013 remains permanent scientific evidence; its completed 100000-tick execution
+is not rerun or post-hoc regraded. The new generation begins with retained-database
+forensics and resource-contract reconstruction. Production persistence/replay changes
+are authorized only when the evidence requires them, and would require full affected
+requalification before an integrated-viability claim.

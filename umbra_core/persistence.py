@@ -60,8 +60,37 @@ class Store:
               sequence INTEGER NOT NULL,
               monotonic_time REAL NOT NULL,
               state_json TEXT NOT NULL,
-              state_hash TEXT NOT NULL
+              state_hash TEXT NOT NULL,
+              protected INTEGER NOT NULL DEFAULT 0
             );
+            CREATE TABLE IF NOT EXISTS ledger_checkpoints (
+              checkpoint_id TEXT PRIMARY KEY,
+              agent_id TEXT NOT NULL,
+              checkpoint_epoch INTEGER NOT NULL UNIQUE,
+              compacted_sequence_start INTEGER NOT NULL,
+              compacted_sequence_end INTEGER NOT NULL,
+              compacted_event_count INTEGER NOT NULL,
+              previous_checkpoint_hash TEXT NOT NULL,
+              terminal_event_hash TEXT NOT NULL,
+              snapshot_id TEXT NOT NULL,
+              snapshot_state_hash TEXT NOT NULL,
+              habitat_binding_json TEXT NOT NULL,
+              habitat_checkpoint_json TEXT,
+              body_attachment_json TEXT NOT NULL,
+              schema_version TEXT NOT NULL,
+              creation_tick INTEGER NOT NULL,
+              creation_wall_time REAL NOT NULL,
+              checkpoint_hash TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS checkpoint_provenance (
+              checkpoint_id TEXT NOT NULL,
+              provenance_key TEXT NOT NULL,
+              event_json TEXT NOT NULL,
+              event_hash TEXT NOT NULL,
+              PRIMARY KEY(checkpoint_id, provenance_key)
+            );
+            CREATE INDEX IF NOT EXISTS idx_checkpoint_provenance_checkpoint
+              ON checkpoint_provenance(checkpoint_id);
             CREATE TABLE IF NOT EXISTS meta (
               key TEXT PRIMARY KEY,
               value TEXT NOT NULL
@@ -104,6 +133,17 @@ class Store:
               ON habitat_execution_journal(request_id);
             """
         )
+        # SQLite does not add a column to an existing table created by an older
+        # qualified schema. This is a persistence schema migration, not a
+        # reinterpretation of historical snapshots.
+        snapshot_columns = {
+            str(row["name"])
+            for row in self.conn.execute("PRAGMA table_info(snapshots)").fetchall()
+        }
+        if "protected" not in snapshot_columns:
+            self.conn.execute(
+                "ALTER TABLE snapshots ADD COLUMN protected INTEGER NOT NULL DEFAULT 0"
+            )
         self.event_storage_budget: int | None = None
 
     def close(self) -> None:
@@ -150,13 +190,19 @@ class Store:
 
     def last_sequence(self) -> int:
         row = self.conn.execute("SELECT MAX(sequence) AS m FROM events").fetchone()
-        return int(row["m"] or 0)
+        if row["m"] is not None:
+            return int(row["m"])
+        checkpoint = self.latest_checkpoint()
+        return int(checkpoint["compacted_sequence_end"]) if checkpoint else 0
 
     def last_event_hash(self) -> str:
         row = self.conn.execute(
             "SELECT event_hash FROM events ORDER BY sequence DESC LIMIT 1"
         ).fetchone()
-        return str(row["event_hash"]) if row else "genesis"
+        if row is not None:
+            return str(row["event_hash"])
+        checkpoint = self.latest_checkpoint()
+        return str(checkpoint["terminal_event_hash"]) if checkpoint else "genesis"
 
     def append_event(
         self,
@@ -228,16 +274,24 @@ class Store:
             raise
         return {**envelope, "payload": payload, "event_hash": event_hash}
 
-    def save_snapshot(self, agent_id: str, sequence: int, monotonic_time: float, state: dict[str, Any]) -> str:
+    def save_snapshot(
+        self,
+        agent_id: str,
+        sequence: int,
+        monotonic_time: float,
+        state: dict[str, Any],
+        *,
+        protected: bool = False,
+    ) -> str:
         sid = new_id()
         state_s = json.dumps(state, sort_keys=True, separators=(",", ":"), default=str)
         state_hash = sha256_hex(state_s)
         self.conn.execute(
             """
-            INSERT INTO snapshots(snapshot_id, agent_id, sequence, monotonic_time, state_json, state_hash)
-            VALUES (?,?,?,?,?,?)
+            INSERT INTO snapshots(snapshot_id, agent_id, sequence, monotonic_time, state_json, state_hash, protected)
+            VALUES (?,?,?,?,?,?,?)
             """,
-            (sid, agent_id, sequence, monotonic_time, state_s, state_hash),
+            (sid, agent_id, sequence, monotonic_time, state_s, state_hash, int(protected)),
         )
         self.conn.execute(
             "INSERT OR REPLACE INTO meta(key, value) VALUES ('latest_snapshot', ?)",
@@ -246,24 +300,27 @@ class Store:
         return sid
 
     def prune_snapshots(self, keep: int = 2) -> int:
-        """Retain the newest `keep` snapshots; durable history is the event ledger."""
+        """Retain bounded ordinary snapshots and never drop checkpoint anchors."""
         if keep < 1:
             raise ValueError("keep_must_be_positive")
         rows = self.conn.execute(
-            "SELECT snapshot_id FROM snapshots ORDER BY sequence DESC, rowid DESC"
+            "SELECT snapshot_id, protected FROM snapshots ORDER BY sequence DESC, rowid DESC"
         ).fetchall()
-        if len(rows) <= keep:
+        ordinary = [r for r in rows if not bool(r["protected"])]
+        if len(ordinary) <= keep:
             return 0
-        keep_ids = [r["snapshot_id"] for r in rows[:keep]]
-        drop = [r["snapshot_id"] for r in rows[keep:]]
+        keep_ids = [r["snapshot_id"] for r in ordinary[:keep]]
+        drop = [r["snapshot_id"] for r in ordinary[keep:]]
         self.conn.executemany(
             "DELETE FROM snapshots WHERE snapshot_id=?",
             [(sid,) for sid in drop],
         )
-        # Keep meta pointer on the newest retained snapshot.
+        # The newest snapshot overall (including a protected checkpoint) remains
+        # the normal restart point; deleting ordinary snapshots must not move it.
+        newest = rows[0]["snapshot_id"]
         self.conn.execute(
             "INSERT OR REPLACE INTO meta(key, value) VALUES ('latest_snapshot', ?)",
-            (keep_ids[0],),
+            (newest,),
         )
         return len(drop)
 
@@ -289,6 +346,271 @@ class Store:
             "state": state,
             "state_hash": row["state_hash"],
         }
+
+    @staticmethod
+    def _checkpoint_envelope(
+        *,
+        checkpoint_id: str,
+        agent_id: str,
+        checkpoint_epoch: int,
+        compacted_sequence_start: int,
+        compacted_sequence_end: int,
+        compacted_event_count: int,
+        previous_checkpoint_hash: str,
+        terminal_event_hash: str,
+        snapshot_id: str,
+        snapshot_state_hash: str,
+        habitat_binding: dict[str, Any],
+        habitat_checkpoint: dict[str, Any] | None,
+        body_attachment: dict[str, Any],
+        schema_version: str,
+        creation_tick: int,
+        creation_wall_time: float,
+    ) -> dict[str, Any]:
+        return {
+            "checkpoint_id": checkpoint_id,
+            "agent_id": agent_id,
+            "checkpoint_epoch": checkpoint_epoch,
+            "compacted_sequence_start": compacted_sequence_start,
+            "compacted_sequence_end": compacted_sequence_end,
+            "compacted_event_count": compacted_event_count,
+            "previous_checkpoint_hash": previous_checkpoint_hash,
+            "terminal_event_hash": terminal_event_hash,
+            "snapshot_id": snapshot_id,
+            "snapshot_state_hash": snapshot_state_hash,
+            "habitat_binding": habitat_binding,
+            "habitat_checkpoint": habitat_checkpoint,
+            "body_attachment": body_attachment,
+            "schema_version": schema_version,
+            "creation_tick": creation_tick,
+            "creation_wall_time": creation_wall_time,
+        }
+
+    @staticmethod
+    def _checkpoint_from_row(row: sqlite3.Row) -> dict[str, Any]:
+        habitat_checkpoint = row["habitat_checkpoint_json"]
+        return {
+            "checkpoint_id": str(row["checkpoint_id"]),
+            "agent_id": str(row["agent_id"]),
+            "checkpoint_epoch": int(row["checkpoint_epoch"]),
+            "compacted_sequence_start": int(row["compacted_sequence_start"]),
+            "compacted_sequence_end": int(row["compacted_sequence_end"]),
+            "compacted_event_count": int(row["compacted_event_count"]),
+            "previous_checkpoint_hash": str(row["previous_checkpoint_hash"]),
+            "terminal_event_hash": str(row["terminal_event_hash"]),
+            "snapshot_id": str(row["snapshot_id"]),
+            "snapshot_state_hash": str(row["snapshot_state_hash"]),
+            "habitat_binding": json.loads(row["habitat_binding_json"]),
+            "habitat_checkpoint": json.loads(habitat_checkpoint) if habitat_checkpoint else None,
+            "body_attachment": json.loads(row["body_attachment_json"]),
+            "schema_version": str(row["schema_version"]),
+            "creation_tick": int(row["creation_tick"]),
+            "creation_wall_time": float(row["creation_wall_time"]),
+            "checkpoint_hash": str(row["checkpoint_hash"]),
+        }
+
+    def latest_checkpoint(self) -> dict[str, Any] | None:
+        row = self.conn.execute(
+            "SELECT * FROM ledger_checkpoints ORDER BY checkpoint_epoch DESC LIMIT 1"
+        ).fetchone()
+        return self._checkpoint_from_row(row) if row is not None else None
+
+    def has_compacted_prefix(self) -> bool:
+        return self.latest_checkpoint() is not None
+
+    def _validate_latest_checkpoint(self) -> dict[str, Any] | None:
+        checkpoint = self.latest_checkpoint()
+        if checkpoint is None:
+            return None
+        envelope = self._checkpoint_envelope(**{
+            key: checkpoint[key]
+            for key in (
+                "checkpoint_id", "agent_id", "checkpoint_epoch",
+                "compacted_sequence_start", "compacted_sequence_end",
+                "compacted_event_count", "previous_checkpoint_hash",
+                "terminal_event_hash", "snapshot_id", "snapshot_state_hash",
+                "habitat_binding", "habitat_checkpoint", "body_attachment",
+                "schema_version", "creation_tick", "creation_wall_time",
+            )
+        })
+        if sha256_hex(canon_json(envelope)) != checkpoint["checkpoint_hash"]:
+            raise PersistenceError("checkpoint_hash_mismatch")
+        snapshot = self.load_snapshot(checkpoint["snapshot_id"])
+        if snapshot["state_hash"] != checkpoint["snapshot_state_hash"]:
+            raise PersistenceError("checkpoint_snapshot_hash_mismatch")
+        if snapshot["sequence"] < checkpoint["compacted_sequence_end"]:
+            raise PersistenceError("checkpoint_snapshot_precedes_prefix")
+        return checkpoint
+
+    def checkpoint_provenance(self, checkpoint_id: str | None = None) -> list[dict[str, Any]]:
+        checkpoint = self.latest_checkpoint() if checkpoint_id is None else None
+        selected = checkpoint_id or (checkpoint["checkpoint_id"] if checkpoint else None)
+        if selected is None:
+            return []
+        rows = self.conn.execute(
+            "SELECT provenance_key, event_json, event_hash FROM checkpoint_provenance "
+            "WHERE checkpoint_id=? ORDER BY provenance_key",
+            (selected,),
+        ).fetchall()
+        result: list[dict[str, Any]] = []
+        for row in rows:
+            event = json.loads(row["event_json"])
+            if str(event.get("event_hash")) != str(row["event_hash"]):
+                raise PersistenceError("checkpoint_provenance_hash_mismatch")
+            result.append({"provenance_key": str(row["provenance_key"]), "event": event})
+        return result
+
+    def compact_authoritative_prefix(
+        self,
+        *,
+        agent_id: str,
+        snapshot_id: str,
+        creation_tick: int,
+        creation_wall_time: float,
+        habitat_binding: dict[str, Any] | None,
+        habitat_checkpoint: dict[str, Any] | None,
+        body_attachment: dict[str, Any] | None,
+        protected_event_types: tuple[str, ...] = (),
+        keep_checkpoints: int = 4,
+        crash_after: str | None = None,
+    ) -> dict[str, Any] | None:
+        """Atomically replace the current hot prefix with a verifiable anchor.
+
+        Sequences are never renumbered.  The next event's predecessor hash is
+        the terminal hash committed by this checkpoint, so normal validation is
+        checkpoint-plus-tail rather than a fabricated genesis replay.
+        """
+        if keep_checkpoints < 1:
+            raise ValueError("keep_checkpoints_must_be_positive")
+        if self.has_prepared_habitat_execution():
+            raise PersistenceError("compaction_prepared_habitat_execution")
+        self.validate_chain()
+        snapshot = self.load_snapshot(snapshot_id)
+        if snapshot["agent_id"] != agent_id:
+            raise PersistenceError("checkpoint_snapshot_agent_mismatch")
+        through = int(snapshot["sequence"])
+        if through != self.last_sequence():
+            raise PersistenceError("checkpoint_snapshot_not_current_tip")
+        previous = self.latest_checkpoint()
+        start = int(previous["compacted_sequence_end"]) + 1 if previous else 1
+        if through < start:
+            return None
+        rows = self.conn.execute(
+            "SELECT * FROM events WHERE sequence BETWEEN ? AND ? ORDER BY sequence ASC",
+            (start, through),
+        ).fetchall()
+        if not rows:
+            raise PersistenceError("checkpoint_missing_hot_tail")
+        if int(rows[0]["sequence"]) != start or int(rows[-1]["sequence"]) != through:
+            raise PersistenceError("checkpoint_tail_sequence_gap")
+        protected: dict[str, dict[str, Any]] = {}
+        for event_type in protected_event_types:
+            event = self.last_event_of_types((event_type,))
+            if event is not None:
+                protected[f"event_type:{event_type}"] = event
+        checkpoint_id = new_id()
+        epoch = int(previous["checkpoint_epoch"]) + 1 if previous else 1
+        terminal_hash = str(rows[-1]["event_hash"])
+        envelope = self._checkpoint_envelope(
+            checkpoint_id=checkpoint_id,
+            agent_id=agent_id,
+            checkpoint_epoch=epoch,
+            compacted_sequence_start=start,
+            compacted_sequence_end=through,
+            compacted_event_count=len(rows),
+            previous_checkpoint_hash=(
+                str(previous["checkpoint_hash"]) if previous else "genesis"
+            ),
+            terminal_event_hash=terminal_hash,
+            snapshot_id=snapshot_id,
+            snapshot_state_hash=str(snapshot["state_hash"]),
+            habitat_binding=dict(habitat_binding or {}),
+            habitat_checkpoint=(dict(habitat_checkpoint) if habitat_checkpoint else None),
+            body_attachment=dict(body_attachment or {}),
+            schema_version=SCHEMA_VERSION,
+            creation_tick=int(creation_tick),
+            creation_wall_time=float(creation_wall_time),
+        )
+        checkpoint_hash = sha256_hex(canon_json(envelope))
+        if crash_after == "checkpoint_prepared":
+            raise PersistenceError("crash_injection_checkpoint_prepared")
+        self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            self.conn.execute("UPDATE snapshots SET protected=1 WHERE snapshot_id=?", (snapshot_id,))
+            self.conn.execute(
+                """
+                INSERT INTO ledger_checkpoints(
+                  checkpoint_id, agent_id, checkpoint_epoch,
+                  compacted_sequence_start, compacted_sequence_end, compacted_event_count,
+                  previous_checkpoint_hash, terminal_event_hash, snapshot_id, snapshot_state_hash,
+                  habitat_binding_json, habitat_checkpoint_json, body_attachment_json,
+                  schema_version, creation_tick, creation_wall_time, checkpoint_hash
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                """,
+                (
+                    checkpoint_id, agent_id, epoch, start, through, len(rows),
+                    envelope["previous_checkpoint_hash"], terminal_hash, snapshot_id,
+                    snapshot["state_hash"], json.dumps(envelope["habitat_binding"], sort_keys=True),
+                    json.dumps(envelope["habitat_checkpoint"], sort_keys=True) if envelope["habitat_checkpoint"] is not None else None,
+                    json.dumps(envelope["body_attachment"], sort_keys=True), SCHEMA_VERSION,
+                    int(creation_tick), float(creation_wall_time), checkpoint_hash,
+                ),
+            )
+            for key, event in protected.items():
+                self.conn.execute(
+                    "INSERT INTO checkpoint_provenance(checkpoint_id, provenance_key, event_json, event_hash) VALUES (?,?,?,?)",
+                    (checkpoint_id, key, json.dumps(event, sort_keys=True, separators=(",", ":")), event["event_hash"]),
+                )
+            if crash_after == "checkpoint_commit":
+                raise PersistenceError("crash_injection_checkpoint_commit")
+            self.conn.execute("DELETE FROM events WHERE sequence <= ?", (through,))
+            if crash_after == "prefix_removal":
+                raise PersistenceError("crash_injection_prefix_removal")
+            self.conn.execute(
+                "INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)",
+                ("ledger_checkpoint", json.dumps({"checkpoint_id": checkpoint_id, "checkpoint_hash": checkpoint_hash}, sort_keys=True)),
+            )
+            self.conn.execute("COMMIT")
+        except BaseException:
+            if self.conn.in_transaction:
+                self.conn.execute("ROLLBACK")
+            raise
+        # Old anchors are not live authority after their successor has committed.
+        old_rows = self.conn.execute(
+            "SELECT checkpoint_id, snapshot_id FROM ledger_checkpoints "
+            "WHERE checkpoint_id != ? ORDER BY checkpoint_epoch DESC",
+            (checkpoint_id,),
+        ).fetchall()
+        for old in old_rows[keep_checkpoints - 1:]:
+            old_id, old_snapshot = str(old["checkpoint_id"]), str(old["snapshot_id"])
+            self.conn.execute("DELETE FROM checkpoint_provenance WHERE checkpoint_id=?", (old_id,))
+            self.conn.execute("DELETE FROM ledger_checkpoints WHERE checkpoint_id=?", (old_id,))
+            still_protected = self.conn.execute(
+                "SELECT 1 FROM ledger_checkpoints WHERE snapshot_id=? LIMIT 1", (old_snapshot,)
+            ).fetchone()
+            if still_protected is None:
+                self.conn.execute("UPDATE snapshots SET protected=0 WHERE snapshot_id=?", (old_snapshot,))
+        self.prune_snapshots(keep=2)
+        self.validate_chain()
+        return {**envelope, "checkpoint_hash": checkpoint_hash, "protected_provenance_count": len(protected)}
+
+    def reclaim_physical_storage(self, *, crash_after: str | None = None) -> None:
+        """Reclaim free SQLite pages only after a valid logical checkpoint.
+
+        SQLite's own VACUUM is used deliberately: no application-level file
+        replacement is introduced while an organism owns the connection.
+        """
+        if self.conn.in_transaction:
+            raise PersistenceError("reclaim_active_transaction")
+        self._validate_latest_checkpoint()
+        self.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+        if crash_after == "before_vacuum":
+            raise PersistenceError("crash_injection_before_vacuum")
+        self.conn.execute("VACUUM")
+        if crash_after == "after_vacuum":
+            raise PersistenceError("crash_injection_after_vacuum")
+        self.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+        self.validate_chain()
 
     @staticmethod
     def _row_to_event(row: sqlite3.Row) -> dict[str, Any]:
@@ -324,12 +646,29 @@ class Store:
             "ORDER BY sequence DESC LIMIT 1",
             tuple(event_types),
         ).fetchone()
-        return self._row_to_event(row) if row is not None else None
+        tail_event = self._row_to_event(row) if row is not None else None
+        checkpoint_event: dict[str, Any] | None = None
+        checkpoint = self.latest_checkpoint()
+        if checkpoint is not None:
+            candidates = [
+                item["event"]
+                for item in self.checkpoint_provenance(checkpoint["checkpoint_id"])
+                if item["event"].get("event_type") in event_types
+            ]
+            if candidates:
+                checkpoint_event = max(candidates, key=lambda item: int(item["sequence"]))
+        if tail_event is None:
+            return checkpoint_event
+        if checkpoint_event is None:
+            return tail_event
+        return tail_event if int(tail_event["sequence"]) >= int(checkpoint_event["sequence"]) else checkpoint_event
 
     def validate_chain(self) -> None:
-        events = self.iter_events(1)
-        prev_hash = "genesis"
-        expect_seq = 1
+        checkpoint = self._validate_latest_checkpoint()
+        from_sequence = int(checkpoint["compacted_sequence_end"]) + 1 if checkpoint else 1
+        events = self.iter_events(from_sequence)
+        prev_hash = str(checkpoint["terminal_event_hash"]) if checkpoint else "genesis"
+        expect_seq = from_sequence
         for ev in events:
             if ev["sequence"] != expect_seq:
                 raise PersistenceError(f"sequence_gap:expected_{expect_seq}_got_{ev['sequence']}")
@@ -358,7 +697,7 @@ class Store:
         row = self.conn.execute("SELECT value FROM meta WHERE key = 'ledger_tip'").fetchone()
         if row is not None:
             tip = json.loads(row[0])
-            if tip != {"sequence": len(events), "event_hash": prev_hash}:
+            if tip != {"sequence": expect_seq - 1, "event_hash": prev_hash}:
                 raise PersistenceError("ledger_tip_mismatch")
 
     # --- D-006 social evidence links + atomic outcome commit -------------

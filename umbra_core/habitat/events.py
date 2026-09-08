@@ -297,6 +297,30 @@ def habitat_state_to_init_payload(state: HabitatState) -> dict[str, Any]:
     }
 
 
+def habitat_state_to_checkpoint_payload(state: HabitatState) -> dict[str, Any]:
+    """Serialize an exact committed Habitat state for a ledger checkpoint.
+
+    Init payloads intentionally normalize a newly born habitat to version zero.
+    Checkpoints instead preserve the committed version/hash, so a compacted
+    prefix can be restored without replaying deleted habitat events.
+    """
+    payload = habitat_state_to_init_payload(state)
+    payload["state_version"] = state.state_version
+    payload["state_hash"] = state.state_hash
+    return payload
+
+
+def habitat_state_from_checkpoint_payload(payload: dict[str, Any]) -> HabitatState:
+    """Restore and verify an exact state emitted by the checkpoint serializer."""
+    base = _state_from_init_payload(payload)
+    version = int(payload["state_version"])
+    expected_hash = str(payload["state_hash"])
+    restored = with_state_hash(replace(base, state_version=version, state_hash=""))
+    if restored.state_hash != expected_hash:
+        raise HabitatEventError("checkpoint_habitat_state_hash_mismatch")
+    return restored
+
+
 def _state_from_init_payload(payload: dict[str, Any]) -> HabitatState:
     zones = {
         zone_id: _zone_from_payload(zone_payload)

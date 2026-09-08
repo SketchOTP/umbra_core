@@ -1,3 +1,13 @@
+# UMBRA-AS-014 ACTIVE — Persistent Ledger Boundedness and Integrated Requalification
+
+- Exact baseline: `a97171a2dab7c1750e2556727bce9e3648bb359a`; task packet:
+  `.agent/tasks/active/UMBRA-AS-014/`.
+- AS-013 remains permanent `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`; its 100000-tick
+  organism completed snapshot/restart continuity, but its frozen CPU and total-DB
+  reduction failed. AS-014 must preserve that result while reconstructing correct
+  successor resource scopes and resolving lifetime hot-ledger boundedness.
+- Evidence root: `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-014-persistent-ledger-boundedness-completion-r1/`.
+
 # UMBRA-AS-013 TERMINAL — `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`
 
 - Exact baseline: `2723c50d1f06abcae60573307adfe83229def4a6`; AS-012 remains permanent `AS012_PROTOCOL_FAIL`.

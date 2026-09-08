@@ -1,8 +1,9 @@
 """Event retention policy — authoritative vs diagnostic.
 
-Authoritative events are never omitted: they are required for identity,
-physiology causality, governance audit, outcome verification, or replay
-integrity. Diagnostic events may be sampled or omitted; replay must not
+Authoritative events are never silently omitted. A bounded operational ledger
+may compact a verified prefix only into a cryptographic checkpoint plus active
+provenance and an absolute-sequence tail; full birth replay then requires a
+verified archive. Diagnostic events may be sampled or omitted; replay must not
 depend on them.
 """
 
@@ -154,7 +155,7 @@ SUPERSESSION_HISTORY_BOUND = 32  # matches MAX_MODEL_VERSIONS
 SNAPSHOT_EVERY_TICKS_DEFAULT = 200
 WAL_CHECKPOINT_EVERY_TICKS = 500
 COVERAGE_SET_BOUND = 500  # in-memory cells/visited bound (not event ledger)
-SNAPSHOT_RETAIN_COUNT = 2  # keep latest N snapshots; ledger remains authoritative
+SNAPSHOT_RETAIN_COUNT = 2  # ordinary snapshots; checkpoint anchors are protected
 
 # Cadence for diagnostic self-model ledger samples (identical to sealed D-002).
 DIAGNOSTIC_SELF_MODEL_SAMPLE_EVERY_TICKS = 10

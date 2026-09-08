@@ -122,6 +122,13 @@ class OrganismConfig:
     seed: int = 0
     hz: float = 2.0
     snapshot_every: int = 200
+    # AS-014: operational persistence is a checkpoint plus bounded hot tail.
+    # These are infrastructure controls; they are never inspected by candidate
+    # generation, Governance, arbitration, physiology, or learning.
+    ledger_compaction_enabled: bool = True
+    ledger_hot_tail_event_max: int = 32_768
+    ledger_checkpoint_keep: int = 4
+    ledger_physical_reclaim: bool = True
     condition: str = "C0"  # experiment condition label
     drift_enabled: bool = True
     hide_physiology: bool = False
@@ -744,7 +751,37 @@ class Organism:
                 self.monotonic_time,
                 self.authoritative_state(),
             )
-            self.store.prune_snapshots(keep=SNAPSHOT_RETAIN_COUNT)
+            checkpoint = self.store.latest_checkpoint()
+            compacted_end = int(checkpoint["compacted_sequence_end"]) if checkpoint else 0
+            tail_events = self.store.last_sequence() - compacted_end
+            if self.config.ledger_compaction_enabled and tail_events >= self.config.ledger_hot_tail_event_max:
+                habitat_binding = self.embodiment.habitat_authority_binding or {}
+                habitat_checkpoint = None
+                engine = self.embodiment._habitat_engine
+                if engine is not None:
+                    from umbra_core.habitat.events import habitat_state_to_checkpoint_payload
+
+                    habitat_checkpoint = habitat_state_to_checkpoint_payload(engine.state)
+                body_attachment = (
+                    self.embodiment_adapter.state.to_state()
+                    if self.embodiment_adapter is not None
+                    else {}
+                )
+                self.store.compact_authoritative_prefix(
+                    agent_id=self.identity.agent_id,
+                    snapshot_id=sid,
+                    creation_tick=self.tick,
+                    creation_wall_time=float(self.config.wall_time_fn()),
+                    habitat_binding=dict(habitat_binding),
+                    habitat_checkpoint=habitat_checkpoint,
+                    body_attachment=body_attachment,
+                    protected_event_types=ATTACHMENT_EVENT_TYPES,
+                    keep_checkpoints=self.config.ledger_checkpoint_keep,
+                )
+                if self.config.ledger_physical_reclaim:
+                    self.store.reclaim_physical_storage()
+            else:
+                self.store.prune_snapshots(keep=SNAPSHOT_RETAIN_COUNT)
             return sid
         return None
 
@@ -3692,6 +3729,9 @@ def maybe_migrate_d009_profile(store: Store, organism: Organism) -> bool:
 
 def replay_from_birth(db_path: str, until_sequence: int | None = None) -> dict[str, Any]:
     store = Store(db_path)
+    if store.has_compacted_prefix():
+        store.close()
+        raise PersistenceError("full_birth_replay_unavailable_compacted_prefix")
     store.validate_chain()
     identity = store.load_identity()
     events = store.iter_events(1)

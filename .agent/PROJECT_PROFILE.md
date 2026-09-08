@@ -1,3 +1,14 @@
+# Current profile — UMBRA-AS-014 ACTIVE
+
+AS-014 begins from `a97171a2dab7c1750e2556727bce9e3648bb359a` after the
+permanent AS-013 scientific boundedness failure. The retained result exposed
+an append-only authoritative ledger with snapshots pruned to two and no
+prefix-compaction architecture. AS-014 is authorized to investigate and, if
+required, repair persistence/replay semantics and requalify every materially
+affected current-stack gate. The historical AS-013 CPU/total-database result is
+not rewritten; successor contracts must distinguish accelerated observation
+from S3 real-time CPU and habitat-event storage from total SQLite size.
+
 # Current profile — UMBRA-AS-013 TERMINAL
 
 AS-013 is permanently terminal as `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL` from

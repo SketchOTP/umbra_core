@@ -1274,3 +1274,15 @@ checkpoint/final-result equality and restart/Habitat continuity, but failed
 the unchanged CPU and database-growth thresholds. AS-013 is permanently
 terminal as `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`; soak and ablation did not
 start, and no retry or reseed is permitted.
+
+## 2026-09-08 — UMBRA-AS-014 governance start
+
+Architect authority accepts `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL` permanently
+and authorizes AS-014 from exact baseline
+`a97171a2dab7c1750e2556727bce9e3648bb359a`. The successor must first
+reconstruct D-009/D-010/AS-010–013 resource-contract provenance and forensically
+attribute the retained AS-013 SQLite database before altering production. It may
+implement the smallest evidence-supported persistence/replay repair, including
+bounded authoritative event-tail architecture if needed, then carry the changed
+current organism through affected regression, fresh population, lifecycle,
+100k, S3 soak, and matched ablation gates. AS-013 is not retried or reinterpreted.

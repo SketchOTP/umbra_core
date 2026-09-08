@@ -495,6 +495,16 @@ executability contract may be introduced, with no magic threshold, scalar
 authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
 counts are `0/0`; no successor started.
 
+## UMBRA-AS-014 governance start — 2026-09-08
+
+The Architect accepted `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL` as a real scientific
+failure and authorized a single broad completion generation from
+`a97171a2dab7c1750e2556727bce9e3648bb359a`. The retained 100000-tick result is
+preserved exactly. AS-014 first audits threshold provenance and the physical/logical
+storage composition of the retained database, then may replace unbounded operational
+ledger architecture if required and must requalify all affected evidence before any
+integrated-viability or CLOSE-03 conclusion.
+
 ## AS-013 terminal closeout — 2026-09-06
 
 Exact baseline: `2723c50d1f06abcae60573307adfe83229def4a6`. Permanent parent:

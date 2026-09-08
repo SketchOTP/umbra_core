@@ -438,3 +438,10 @@ probability, source priority, or planner semantics.
 - Cimatti, Pistore, Roveri, and Traverso, *Weak, strong, and strong cyclic planning via symbolic model checking* — `REFERENCE` for the distinction between existential action choice and universal supported-outcome obligations; no symbolic model checker or planning dependency imported. [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0004370202003740)
 - Lehoczky, Sha, and Ding, *The Rate Monotonic Scheduling Algorithm: Exact Characterization and Average Case Behavior* / bounded real-time scheduling boundary — `REFERENCE` only for deadline feasibility vocabulary; EDF, least-laxity priority, slack maximization, and scheduling authority are rejected. [UNC scheduling text](https://www.cs.unc.edu/~anderson/papers/srtbook.pdf)
 - External dependencies added: `0`. The AS-006 bridge uses project-local immutable option evidence, bounded branch evaluation, and existing verified-outcome sources.
+
+## UMBRA-AS-014 persistence prior-art boundary — 2026-09-08
+
+- [Event Sourcing pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing) — `REFERENCE`: snapshot-plus-tail recovery reduces full-history replay, but snapshotting alone does not define UMBRA's provenance/compaction authority. `REJECT`: importing a new event-store service or CQRS framework.
+- [Kurrent event streams](https://docs.kurrent.io/server/v25.0/features/streams) — `REFERENCE`: bounded retention is a stream-level operation and old data becomes physically reclaimable only through maintenance. `REJECT`: external event-store dependency and generic retention without UMBRA checkpoint anchors.
+- [SQLite VACUUM](https://www.sqlite.org/lang_vacuum.html) — `REFERENCE`: deletion alone leaves free pages; physical reclamation requires a safe rebuild or configured auto-vacuum. `REJECT`: in-place unguarded VACUUM during an organism transaction.
+- External dependencies added: `0`.

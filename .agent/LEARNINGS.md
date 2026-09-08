@@ -950,3 +950,11 @@ organism completed snapshot/restart continuity, but the fixed boundedness
 contract rejected the run for CPU fraction and database growth. Operational
 completion is therefore not equivalent to boundedness qualification; no
 downstream soak or ablation claim follows.
+
+## 2026-09-08 — AS-014 resource-contract boundary
+
+The AS-013 terminal result is immutable, but D-009 source provenance matters for
+successor experiments: accelerated 100k records process CPU without applying the
+S3 real-time CPU limit in its PASS reduction, and the 64 MiB field names habitat
+event-storage growth rather than aggregate SQLite file growth. These are scope
+corrections for future frozen contracts, not retroactive threshold changes.
