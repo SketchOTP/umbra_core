@@ -16,8 +16,12 @@ Evidence root:
 
 ## Post-denial-learning pre-lock closure
 
-Current candidate remains uncommitted and no formal seed has been consumed.
-The denial-learning seam, modernized legacy owner suites, protected lineage,
-post-change R0--R3 development population, and literal downstream CLI surface
-have completed pre-lock validation.  Final lock review remains pending; this
-record does not establish a scientific lock or authorize formal organisms.
+Accepted implementation is committed/pushed at
+`76182fca517b69ee6b9eef6c9ec9d44efa520d49`; its direct parent is sealed
+AS-014 `b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`. Architect has authorized
+scientific lock, but this record does not establish it: the create-once durable
+lock artifact, readback, and zero-semantic-delta publication verification must
+complete before any formal organism is created. The denial-learning seam,
+modernized legacy owner suites, protected lineage, post-change R0--R3
+development population, and literal downstream CLI surface completed pre-lock
+validation. No formal seed has been consumed.

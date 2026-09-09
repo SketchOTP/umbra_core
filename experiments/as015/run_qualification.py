@@ -66,9 +66,9 @@ def main() -> None:
         name = f"AS015_PREFLIGHT_{args.preflight_label}_{suffix}.json"
     else:
         name = (
-            "AS015_FULL_POPULATION_RESULT.json"
+            "AS015_FORMAL_POPULATION_RESULT_V1.json"
             if result.get("all_completed")
-            else "AS015_FULL_POPULATION_FAILURE.json"
+            else "AS015_FORMAL_POPULATION_FAILURE_V1.json"
         )
     evidence_hash = publish(name, result)
     print(json.dumps({"terminal": result.get("terminal"), "sha256": evidence_hash}, sort_keys=True))

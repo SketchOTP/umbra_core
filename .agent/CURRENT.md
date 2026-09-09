@@ -1,4 +1,14 @@
-# CURRENT AUTHORITY — UMBRA-AS-015 ACTIVE
+# CURRENT AUTHORITY — UMBRA-AS-015 SCIENTIFIC-LOCK PREPARATION
+
+Architect has approved scientific lock against accepted implementation
+`76182fca517b69ee6b9eef6c9ec9d44efa520d49`, whose direct parent is sealed
+AS-014 `b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`. A governance-only lock
+publication may record the immutable contract with zero `umbra_core/**`,
+configuration, threshold, scenario, or seed delta. No formal organism may be
+created until the create-once lock artifact has been published, read back, and
+the clean publication commit has been refetched from GitHub. The frozen AS-015
+formal manifest remains unused; after lock, the first formal failure is
+terminal and no repair/retry/reseed is allowed.
 
 AS-015 is authorized from exact synchronized baseline
 `b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`. AS-014 remains permanently
