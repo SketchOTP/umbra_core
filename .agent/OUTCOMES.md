@@ -1889,3 +1889,13 @@ hot tail `1793`), so the failed organism does not evidence a compaction or persi
 integrity defect. The frozen stop rule prevented remaining R1 rows, R2/R3,
 lifecycle, boundedness, soak, and ablation. Post-lock production/test/harness changes,
 retries, and reseeds are `0/0/0`; integrated viability and CLOSE-03 remain blocked.
+### AS-015 preimplementation recovery attribution — 2026-09-08
+
+Retained AS-014 R1/S16 seed `32550454` was inspected read-only. Its terminal
+denial at tick `346` was the authoritative verified-outcome branch-safety gate;
+the next drift made fatigue critical at tick `347`. The trace also records a
+successful CHARGE at tick `336`, with fatigue effect `-0.01`, while the frozen
+single-target fatigue recovery path continued toward REST. The preimplementation
+result is `AS015_SINGLE_TARGET_FATIGUE_RECOVERY_DEFECT_CONFIRMED`, bounded by
+the absence of post-tick-200 decision-frame and target-parameter persistence.
+It is development attribution, not a replay, repair, or behavioral qualification.

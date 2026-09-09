@@ -445,3 +445,20 @@ probability, source priority, or planner semantics.
 - [Kurrent event streams](https://docs.kurrent.io/server/v25.0/features/streams) — `REFERENCE`: bounded retention is a stream-level operation and old data becomes physically reclaimable only through maintenance. `REJECT`: external event-store dependency and generic retention without UMBRA checkpoint anchors.
 - [SQLite VACUUM](https://www.sqlite.org/lang_vacuum.html) — `REFERENCE`: deletion alone leaves free pages; physical reclamation requires a safe rebuild or configured auto-vacuum. `REJECT`: in-place unguarded VACUUM during an organism transaction.
 - External dependencies added: `0`.
+## UMBRA-AS-015 recovery-viability reference boundary — 2026-09-08
+
+- [Shields for Safe Reinforcement Learning](https://doi.org/10.1145/3715958) —
+  `REFERENCE`: a final shield cannot establish safety once no safe action exists,
+  and its guarantee is model-relative. `REJECT`: RL, reward shaping,
+  probability-weighted risk, or a replacement safety controller.
+- [Disturbance-Robust Backup Control Barrier Functions](https://doi.org/10.1109/LCSYS.2024.3514998) —
+  `REFERENCE`: retain a controlled-invariant region in which a backup action
+  remains available. `REJECT`: continuous CBF mathematics, optimizer, learned
+  dynamics, or external dependency.
+- [Safety from in-the-loop reachability for cyber-physical systems](https://doi.org/10.1145/3457335.3461706) —
+  `REFERENCE`: a backup-safe region can be checked from bounded reachable
+  consequences. `REJECT`: a reachability solver, hidden Habitat geometry, or
+  fabricated route guarantees.
+- AS-015 adaptation: categorical, componentwise evaluation of UMBRA's own
+  policy-visible candidates, current authoritative branch effects, and
+  unavoidable drift. No external implementation or dependency was imported.

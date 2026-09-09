@@ -1,3 +1,13 @@
+# UMBRA-AS-015 ACTIVE — multi-need viability kernel and end-to-end requalification
+
+AS-015 starts from `b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`, preserving
+AS-014 as permanent `AS014_FRESH_R1_FAIL`. It must reconstruct retained R1/S16
+seed `32550454` without replay, repair only a demonstrated general
+source-backed recovery-route defect, then requalify affected production through
+population, lifecycle, boundedness, S3, ablation, and CLOSE-03 assessment.
+Task packet: `.agent/tasks/active/UMBRA-AS-015/`. No formal organism has yet
+been created for AS-015.
+
 # UMBRA-AS-014 TERMINAL — `AS014_FRESH_R1_FAIL`
 
 - Exact baseline: `a97171a2dab7c1750e2556727bce9e3648bb359a`; task packet:

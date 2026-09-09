@@ -976,3 +976,13 @@ hot tail `1793`. The correct result is a permanent scientific R1 failure, not a
 protocol or persistence-integrity failure. Preserve the exact run and investigate the
 verified-outcome branch-safety path only under future Architect authority; do not tune,
 retry, or reseed it.
+## AS-015 start learning — recovery must preserve a route before terminal denial
+
+AS-014's R1/S16 failure occurred before checkpoint maintenance. The retained
+trace proves that, after the rest affordance was occluded, CHARGE executed
+successfully with a fatigue-reducing verified effect, yet the fatigue-specific
+recovery path continued to seek REST and later reached no safe action. A final
+branch-safety shield should remain conservative; the repair boundary is a
+source-backed multi-need recovery reserve, not an exemption from critical
+physiology or a seed-specific emergency action. Observed/distant movement may
+guide a MAY route but cannot become a hard future-arrival guarantee.

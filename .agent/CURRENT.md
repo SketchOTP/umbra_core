@@ -1,3 +1,19 @@
+# CURRENT AUTHORITY — UMBRA-AS-015 ACTIVE
+
+AS-015 is authorized from exact synchronized baseline
+`b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`. AS-014 remains permanently
+terminal as `AS014_FRESH_R1_FAIL`: its R1/S16 seed `32550454` reached
+`NO_SAFE_ACTION` at tick `346` and critical fatigue at tick `347`, before any
+persistence maintenance (checkpoint epoch `0`). AS-015 must first reconstruct
+the retained failure and establish a source-backed, general multi-need recovery
+viability contract. It may repair production recovery policy without weakening
+verified-outcome branch safety, changing S16, or retrying/reseeding the failed
+case. After a fresh scientific lock it must run the complete fresh population,
+lifecycle, repeated-compaction 100k, S3 soak, matched five-arm ablation, and
+final CLOSE-03 assessment unless the first frozen scientific stop is reached.
+Integrated viability and CLOSE-03 remain unqualified. Evidence root:
+`/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-015-multi-need-viability-kernel-completion-r1/`.
+
 # CURRENT AUTHORITY — UMBRA-AS-014 TERMINAL
 
 AS-014 is permanently terminal as `AS014_FRESH_R1_FAIL`. From exact baseline

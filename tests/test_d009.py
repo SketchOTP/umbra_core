@@ -2632,24 +2632,58 @@ def test_individuality_disabled_reduces_separation():
 
 
 def test_manipulation_candidates_compete_in_arbitration():
-    from umbra_core.arbitration import Arbitrator
-    from umbra_core.physiology import Physiology
+    """A policy-visible manipulation joins normal competition and commits lawfully.
 
-    _, _, perception, _, _ = _task7_habitat_setup()
-    bindings = perception.policy_view()["manipulation_bindings"]
+    This replaces the obsolete assertion that MANIPULATE must defeat APPROACH
+    in one historical mixed pool.
+    """
+    from umbra_core.arbitration import Arbitrator
+    from umbra_core.governance import Governance, GovernanceState
+    from umbra_core.physiology import Physiology
+    from umbra_core.util import SeededRNG
+
+    engine, embodiment, perception, adapter, _ = _task7_habitat_setup()
+    bindings = [
+        binding
+        for binding in perception.policy_view()["manipulation_bindings"]
+        if binding["perceived_object_kind"] == "resource"
+    ]
+    assert bindings
+    assert "resource:0" not in str(bindings)
     phys = Physiology()
-    phys.energy = 0.31
     arb = Arbitrator()
-    obs = [{"kind": "resource", "relative_direction": 0.0, "estimated_distance": 1.0}]
     chosen = arb.select(
         phys,
-        obs,
+        [],
         tick=1,
-        rng=__import__("umbra_core.util", fromlist=["SeededRNG"]).SeededRNG(7),
+        rng=SeededRNG(7),
         manipulation_bindings=bindings,
     )
     assert chosen.capability == "MANIPULATE"
     assert chosen.params.get("target_address_ref")
+    assert "target_object_id" not in chosen.params
+    governance = Governance(GovernanceState())
+    proposal = governance.propose(chosen.capability, chosen.params)
+    decision = governance.admit(proposal, tick=1)
+    assert decision.admitted
+    before = engine.get_object("resource:0").object_version
+    outcome = governance.execute_manipulation(
+        proposal,
+        decision,
+        habitat_engine=engine,
+        affordance_engine=_affordance_engine(),
+        adapter=adapter,
+        embodiment=embodiment,
+        bindings=perception.object_bindings,
+        store=adapter.store,
+        phys=phys,
+        agent_id="agent:test",
+        tick=1,
+        monotonic_time=1.0,
+        wall_time=1.0,
+    )
+    assert outcome is not None and outcome.success
+    assert engine.get_object("resource:0").object_version > before
 
 
 def test_spontaneous_manipulate_does_not_mutate_unrelated_routine_lifecycle(tmp_path):
@@ -3575,4 +3609,3 @@ def test_adaptive_performance_validation():
                 assert float(data["modes"][mode]["total_measurement_seconds"]) >= float(
                     proto["initial_measurement_seconds"]
                 ) * 0.99
-

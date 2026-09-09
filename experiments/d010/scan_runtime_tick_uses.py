@@ -176,15 +176,31 @@ def validate_inventory(inventory_path: Path | None = None) -> list[str]:
     data = json.loads(path.read_text(encoding="utf-8"))
     entries = data.get("entries", [])
     inventory = {str(e["site_id"]): e for e in entries}
+    used_inventory_ids: set[str] = set()
     for site in scan_production_runtime_tick_uses():
         entry = inventory.get(site.site_id)
+        # The Q4 registry classifies semantics, not physical source offsets.
+        # AS-015 inserted non-tick runtime fields, shifting unrelated sites.
+        # Retain strict matching first, then permit a unique semantic match so
+        # harmless line movement cannot make a complete inventory stale.
+        if entry is None:
+            matches = [
+                candidate
+                for candidate in entries
+                if candidate.get("path") == site.path
+                and candidate.get("kind") == site.kind
+                and candidate.get("symbol") == site.symbol
+                and candidate.get("snippet") == site.snippet
+            ]
+            entry = matches[0] if len(matches) == 1 else None
         if entry is None:
             errors.append(f"unclassified: {site.site_id} ({site.snippet})")
             continue
+        used_inventory_ids.add(str(entry["site_id"]))
         cls = entry.get("class")
         if cls not in {"O", "T", "B"}:
             errors.append(f"invalid class {cls!r} for {site.site_id}")
-    stale = set(inventory) - {s.site_id for s in scan_production_runtime_tick_uses()}
+    stale = set(inventory) - used_inventory_ids
     for site_id in sorted(stale):
         errors.append(f"stale inventory entry (no matching site): {site_id}")
     return errors

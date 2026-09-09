@@ -1,0 +1,13 @@
+{
+  "schema": "AS015_SEED_MANIFEST_V1",
+  "directive": "AS015_FORMAL_RUNNER_PREFLIGHT",
+  "baseline": "b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7",
+  "formal_regimes": {
+    "R0": [41515001],
+    "R1": [41515002],
+    "R2": [41515003],
+    "R3": [41515004]
+  },
+  "retries": 0,
+  "reseeds": 0
+}

@@ -1307,3 +1307,12 @@ never occurred and is not causal to this failure. R2/R3 and lifecycle, 100k, S3
 soak, ablation, successor work, and CLOSE-03 were not started. Retries/reseeds are
 `0/0`. Evidence manifest SHA-256:
 `bdb77f4d0adcc470249ea8048560841e3de7c4fc562592fcdba235fa5cac5813`.
+### AS-015 authorization — Multi-Need Viability Kernel, Recovery-Route Requalification, and Final End-to-End Completion
+
+AS-015 is authorized from `b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7` after
+acceptance of permanent `AS014_FRESH_R1_FAIL`. It may change production recovery
+architecture only after retained evidence reconstructs the source-level failure.
+It must preserve final verified-outcome branch safety, S16 semantics, and all
+historical evidence. The retained seed `32550454` is analysis-only: no retry or
+reseed. Formal execution requires a fresh, historically disjoint population and
+a prospective lock; first post-lock scientific failure is terminal.

@@ -1221,33 +1221,53 @@ def test_social_pins_self_world_memory_to_c0_on_reload(tmp_path):
 
 
 def test_full_tick_recognizes_proposes_governs_and_opens_pending(tmp_path):
-    """End-to-end wiring: recognize -> resolve pendings -> soft propose -> govern ->
-    execute -> create_pending, driven entirely through `Organism.tick_once()`."""
-    org = _soc_org(tmp_path)
-    # Test-only placement beside the H0-plant spawn point (12.0, 8.0) so recognition
-    # accumulates familiarity without depending on multi-tick APPROACH movement noise.
-    org.embodiment.body.x = 11.0
-    org.embodiment.body.y = 8.0
+    """Current-authority social pending lifecycle from a policy signal.
 
-    for _ in range(10):
-        org.tick_once()
-        events = [e["event_type"] for e in org.store.iter_events()]
-        if "social_pending_created" in events:
-            break
-
-    events = [e["event_type"] for e in org.store.iter_events()]
-    assert "social_pending_created" in events
-    assert org.social is not None
-    assert len(org.social.pending) >= 1
-    # A denial never opens a pending trace (design §5) — every created pending here
-    # traces back to an admitted+executed proposal event on the same tick.
-    signal_admits = [
-        e
-        for e in org.store.iter_events()
-        if e["event_type"] == "proposal"
-        and e["payload"]["capability"] in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE")
-    ]
-    assert signal_admits and all(e["payload"]["admitted"] for e in signal_admits)
+    The prior fixed ten-tick organism trajectory was not guaranteed to select a
+    social signal, so it never reliably exercised the pending contract.
+    """
+    org = _soc_org(tmp_path, memory_enabled=True)
+    try:
+        org._ensure_social_history()
+        org.embodiment.body.x = 11.0
+        org.embodiment.body.y = 8.0
+        org.monotonic_time = 1.0
+        org.perception.perceive(org.embodiment, org.monotonic_time, org.rng)
+        cues = org.perception.policy_view()["partner_cues"]
+        assert cues and "partner_id" not in str(cues)
+        assert org.social is not None
+        org.social.recognize(cues, tick=1, store=org.store)
+        org.social.recognize(cues, tick=2, store=org.store)
+        hypothesis = next(iter(org.social.hypotheses.values()))
+        hypothesis.familiarity = 1.0  # policy-side opportunity state, not authority
+        candidate = org.social.propose(org.phys, cues, tick=3, critical=False, memory=org.memory)
+        assert candidate is not None and candidate.capability in ("SIGNAL_PLAY", "SIGNAL_ASSISTANCE")
+        proposal = org.governance.propose(candidate.capability, candidate.params)
+        decision = org.governance.admit(proposal, tick=3)
+        assert decision.admitted
+        outcome = org.governance.execute_and_verify(
+            proposal, decision, org.embodiment, org.rng,
+            resolve_params=org._resolve_params, tick=3,
+        )
+        assert outcome is not None and outcome.verified and outcome.success
+        meta = candidate.params["_social_signal"]
+        pending = org.social.create_pending(
+            hypothesis_id=meta["hypothesis_id"], context=meta["context"],
+            signal=outcome.capability, execution_id=proposal.proposal_id,
+            signal_tick=3, recognition_confidence=meta["recognition_confidence"],
+            governance_admitted=True, capability_executed=True, store=org.store, tick=3,
+        )
+        assert pending.pending_interaction_id in org.social.pending
+        org.social.observe_outcome(
+            pending.pending_interaction_id, response_tick=5, response_observed=True,
+            store=org.store, memory=org.memory,
+        )
+        assert org.social.pending[pending.pending_interaction_id].status != "PENDING"
+        events = [event["event_type"] for event in org.store.iter_events()]
+        assert "social_pending_created" in events
+        assert "social_pending_resolved" in events
+    finally:
+        org.close()
 
 
 def test_recovery_history_revises_expectation(tmp_path):

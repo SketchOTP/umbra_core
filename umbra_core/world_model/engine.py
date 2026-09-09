@@ -80,6 +80,13 @@ REQUIRED_ENVIRONMENTAL_ANCHOR_KEYS = (
     "committed_habitat_version",
 )
 MAX_PROCESSED_ENVIRONMENTAL_EXECUTIONS = 256
+MAX_PROCESSED_EXECUTABILITY_DENIALS = 256
+MAX_EXECUTABILITY_DENIAL_HISTORY = 64
+
+# A terminal preflight may establish that an observed affordance is currently
+# unavailable without establishing that an action physically executed.  This
+# allowlist is intentionally narrower than general execution failure reasons.
+AFFORDANCE_CONTRADICTION_DENIAL_REASONS = frozenset(("affordance_denied",))
 
 
 class ModelStatus(str, Enum):
@@ -365,6 +372,42 @@ class WorldModelConfig:
     max_route_experiences: int = DEFAULT_ROUTE_EVIDENCE_CAPACITY
 
 
+@dataclass(frozen=True)
+class VerifiedExecutabilityDenial:
+    """Sanitized verified evidence that an observed affordance was unavailable.
+
+    This is not a VerifiedOutcome: the proposed action was not executed.  It
+    carries only policy-visible target evidence and the categorical conclusion
+    supplied by the final execution preflight authority.
+    """
+
+    evidence_id: str
+    root_id: str
+    tick: int
+    capability: str
+    candidate_identity: str
+    entity_kind: str
+    policy_evidence_ref: str
+    reason: str
+    verified: bool = True
+    executed: bool = False
+    executability: str = "NOT_EXECUTABLE"
+
+    def validate(self) -> None:
+        if not self.evidence_id or not self.root_id:
+            raise ValueError("executability_denial_identity_required")
+        if not self.capability or not self.candidate_identity:
+            raise ValueError("executability_denial_candidate_required")
+        if not self.entity_kind or not self.policy_evidence_ref:
+            raise ValueError("executability_denial_policy_source_required")
+        if self.reason not in AFFORDANCE_CONTRADICTION_DENIAL_REASONS:
+            raise ValueError("executability_denial_reason_not_allowed")
+        if not self.verified or self.executed:
+            raise ValueError("executability_denial_execution_semantics_invalid")
+        if self.executability != "NOT_EXECUTABLE":
+            raise ValueError("executability_denial_status_invalid")
+
+
 def condition_to_world_model_config(condition: str) -> WorldModelConfig:
     c = WorldModelConfig()
     if condition == "C0":
@@ -433,6 +476,12 @@ class WorldModel:
     )
     _external_move_ticks: list[int] = field(default_factory=list)
     _processed_environmental_executions: dict[str, dict[str, Any]] = field(
+        default_factory=dict, repr=False
+    )
+    executability_denials: BoundedRing[dict[str, Any]] = field(
+        default_factory=lambda: BoundedRing(MAX_EXECUTABILITY_DENIAL_HISTORY)
+    )
+    _processed_executability_denials: dict[str, dict[str, Any]] = field(
         default_factory=dict, repr=False
     )
     metrics: dict[str, Any] = field(default_factory=dict)
@@ -539,6 +588,8 @@ class WorldModel:
             self.observation_log.append({"tick": -1, "init": True})
         while len(self._prediction_errors) < self._prediction_errors.maxlen:
             self._prediction_errors.append(-1.0)
+        while len(self.executability_denials) < self.executability_denials.maxlen:
+            self.executability_denials.append({"tick": -1, "init": True})
 
     def _ring_write(self, ring: BoundedRing[Any], item: Any) -> None:
         """In-place overwrite when full (steady RSS)."""
@@ -1242,6 +1293,87 @@ class WorldModel:
         result["record"] = record
         return result
 
+    def observe_verified_executability_denial(
+        self, evidence: VerifiedExecutabilityDenial
+    ) -> dict[str, Any]:
+        """Apply one verified, unexecuted affordance contradiction.
+
+        Unlike :meth:`observe_outcome`, this method deliberately does not
+        touch transition models, route evidence, recovery memory, or any
+        executed-action accounting.  A final preflight authority established
+        only that a policy-visible affordance was unavailable at this root.
+        """
+        result: dict[str, Any] = {
+            "accepted": False,
+            "duplicate": False,
+            "reason": None,
+            "affordance_updated": False,
+        }
+        try:
+            evidence.validate()
+        except ValueError as exc:
+            result["reason"] = str(exc)
+            return result
+        if not self.config.learning_enabled or self.config.fixed_authored:
+            result["reason"] = "learning_disabled"
+            return result
+        if not self.config.affordance_learning:
+            result["reason"] = "affordance_learning_disabled"
+            return result
+        if evidence.evidence_id in self._processed_executability_denials:
+            result["duplicate"] = True
+            result["reason"] = "duplicate_evidence"
+            result["record"] = dict(
+                self._processed_executability_denials[evidence.evidence_id]
+            )
+            return result
+        if CAPABILITY_TO_AFFORDANCE.get(evidence.capability) is None:
+            result["reason"] = "capability_has_no_affordance_mapping"
+            return result
+
+        before = self.affordances.get(
+            f"aff-{evidence.entity_kind}-{CAPABILITY_TO_AFFORDANCE[evidence.capability]}"
+        )
+        before_contradictions = before.contradiction_count if before is not None else 0
+        self._update_affordance(
+            evidence.capability, evidence.entity_kind, False, evidence.tick
+        )
+        after = self.affordances.get(
+            f"aff-{evidence.entity_kind}-{CAPABILITY_TO_AFFORDANCE[evidence.capability]}"
+        )
+        if after is None or after.contradiction_count != before_contradictions + 1:
+            result["reason"] = "affordance_update_not_applied"
+            return result
+
+        record = {
+            "evidence_id": evidence.evidence_id,
+            "root_id": evidence.root_id,
+            "tick": int(evidence.tick),
+            "capability": evidence.capability,
+            "candidate_identity": evidence.candidate_identity,
+            "entity_kind": evidence.entity_kind,
+            "policy_evidence_ref": evidence.policy_evidence_ref,
+            "reason": evidence.reason,
+            "verified": True,
+            "executed": False,
+            "executability": evidence.executability,
+            "affordance_id": after.affordance_id,
+            "affordance_status": after.status,
+            "contradiction_count": after.contradiction_count,
+        }
+        self._processed_executability_denials[evidence.evidence_id] = dict(record)
+        if len(self._processed_executability_denials) > MAX_PROCESSED_EXECUTABILITY_DENIALS:
+            oldest = next(iter(self._processed_executability_denials))
+            self._processed_executability_denials.pop(oldest, None)
+        self._ring_write(self.executability_denials, record)
+        result.update({
+            "accepted": True,
+            "reason": "affordance_contradiction_recorded",
+            "affordance_updated": True,
+            "record": record,
+        })
+        return result
+
     def _infer_kind_from_obs(self, observations: list[dict[str, Any]]) -> str | None:
         if not observations:
             return None
@@ -1648,6 +1780,14 @@ class WorldModel:
             "processed_environmental_executions": dict(
                 self._processed_environmental_executions
             ),
+            "executability_denials": [
+                dict(record)
+                for record in self.executability_denials
+                if record.get("tick", -1) >= 0
+            ],
+            "processed_executability_denials": dict(
+                self._processed_executability_denials
+            ),
             "route_evidence": self.route_evidence.to_state(),
             "metrics": dict(self.metrics),
             "seed": self.seed,
@@ -1750,6 +1890,12 @@ class WorldModel:
         wm._plan_retries = dict(d.get("plan_retries", {}))
         wm._processed_environmental_executions = dict(
             d.get("processed_environmental_executions") or {}
+        )
+        for record in d.get("executability_denials", []):
+            if isinstance(record, dict):
+                wm.executability_denials.append(dict(record))
+        wm._processed_executability_denials = dict(
+            d.get("processed_executability_denials") or {}
         )
         wm.metrics = dict(d.get("metrics", {}))
         return wm

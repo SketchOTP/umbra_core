@@ -28,6 +28,11 @@ from umbra_core.recoverability.contracts import (
     TERMINAL_CAPABILITIES,
     candidate_is_admissible,
 )
+from umbra_core.recoverability.viability import (
+    enumerate_regulatory_recovery_routes,
+    may_route_candidates,
+    robust_candidates,
+)
 from umbra_core.stochastic_competition import (
     candidate_behavioral_identity,
     candidate_stochastic_term,
@@ -134,6 +139,11 @@ class ArbitrationState:
     # ablation flags
     hide_physiology: bool = False
     mode: str = "full"  # full | random | scripted
+    # AS-015 bounded evidence record.  It is written only by the viability
+    # kernel and is never read by selection, scoring, Governance, or learning.
+    # Keeping the latest record makes activation/provenance restart-auditable
+    # without introducing an unbounded operational history.
+    last_viability_kernel: dict[str, Any] | None = None
 
     def to_state(self) -> dict[str, Any]:
         return {
@@ -156,6 +166,11 @@ class ArbitrationState:
             else None,
             "hide_physiology": self.hide_physiology,
             "mode": self.mode,
+            "last_viability_kernel": (
+                dict(self.last_viability_kernel)
+                if self.last_viability_kernel is not None
+                else None
+            ),
         }
 
     @classmethod
@@ -181,6 +196,11 @@ class ArbitrationState:
             ),
             hide_physiology=bool(d.get("hide_physiology", False)),
             mode=str(d.get("mode", "full")),
+            last_viability_kernel=(
+                dict(d["last_viability_kernel"])
+                if d.get("last_viability_kernel") is not None
+                else None
+            ),
         )
         s.visited_cells = {tuple(c) for c in d.get("visited_cells", [])}
         return s
@@ -842,6 +862,7 @@ class Arbitrator:
         distributed_trace: dict[str, Any] | None = None,
         continuation_filter_for: Callable[[Sequence[Candidate]], tuple[Sequence[Candidate], Mapping[str, Any]]] | None = None,
         candidate_executability: Callable[[Candidate], str] | None = None,
+        viability_kernel_enabled: bool = True,
     ) -> Candidate:
         # ``tick`` remains the orchestration clock for compatibility and for
         # explicitly orchestration-scoped modes.  Organism policy cadence must
@@ -964,7 +985,19 @@ class Arbitrator:
                 scored.sort(key=lambda c: c.total, reverse=True)
                 return scored[0]
 
-            def commit_safe_recovery(chosen: Candidate) -> Candidate:
+            def viability_admissible(candidate: Candidate) -> bool:
+                return (
+                    candidate_allowed_here(candidate)
+                    and not introduces(candidate)
+                    and contract_admissible(candidate)
+                    and execution_ready(candidate)
+                )
+
+            def commit_safe_recovery(
+                chosen: Candidate,
+                *,
+                preserve_legacy: bool = True,
+            ) -> Candidate:
                 """Adjudicate and commit one recovery action exactly once."""
                 def focus_exemption(candidate: Candidate) -> str | None:
                     energy_effect = float(
@@ -1003,25 +1036,26 @@ class Arbitrator:
                         else self._no_safe_action()
                     )
 
-                preserved = self._preserve_recoverability(
-                    phys, observations, chosen, active_tick
-                )
-                if preserved is not chosen and immediately_safe(preserved):
-                    if contract_admissible(preserved) and execution_ready(preserved):
-                        chosen = preserved
-                    else:
-                        alternatives = [
-                            candidate
-                            for candidate in self.generate_candidates(
-                                phys, observations, orchestration_tick
+                if preserve_legacy:
+                    preserved = self._preserve_recoverability(
+                        phys, observations, chosen, active_tick
+                    )
+                    if preserved is not chosen and immediately_safe(preserved):
+                        if contract_admissible(preserved) and execution_ready(preserved):
+                            chosen = preserved
+                        else:
+                            alternatives = [
+                                candidate
+                                for candidate in self.generate_candidates(
+                                    phys, observations, orchestration_tick
+                                )
+                                if admissible_recovery_candidate(candidate)
+                            ]
+                            chosen = (
+                                pick_recovery(alternatives)
+                                if alternatives
+                                else self._no_safe_action()
                             )
-                            if admissible_recovery_candidate(candidate)
-                        ]
-                        chosen = (
-                            pick_recovery(alternatives)
-                            if alternatives
-                            else self._no_safe_action()
-                        )
 
                 if not immediately_safe(chosen) or not execution_ready(chosen):
                     alternatives = [
@@ -1040,6 +1074,87 @@ class Arbitrator:
                 self._commit(chosen, active_tick)
                 return chosen
 
+            # General categorical viability kernel.  Terminal candidates are
+            # already generated from policy-visible opportunities.  Their
+            # regulatory role is derived from the authority branches at this
+            # root, not from a need-to-action table.  A direct preflighted
+            # endpoint is robust; a distant target remains a MAY route and
+            # cannot manufacture a hard preservation claim.
+            # The kernel is only meaningful with both current-authority
+            # sources.  Legacy direct callers have no terminal preflight and
+            # therefore must retain their pre-existing recovery behavior
+            # instead of treating absent evidence as executable.
+            if (
+                viability_kernel_enabled
+                and authority_effect_branches is not None
+                and candidate_executability is not None
+            ):
+                recovery_pool = self.generate_candidates(phys, observations, orchestration_tick)
+                recovery_routes = enumerate_regulatory_recovery_routes(
+                    physiology=phys.as_dict(),
+                    active_needs=needs,
+                    candidates=recovery_pool,
+                    observations=observations,
+                    authority_effect_branches_for=authority_effect_branches,
+                    current_executability_for=candidate_executability,
+                )
+
+                def record_kernel(chosen: Candidate | None, disposition: str) -> None:
+                    # Values are derived only from the existing ordinary
+                    # candidates, policy observation kinds, and authority
+                    # effect/executability sources used above.  No Habitat
+                    # object identity, coordinate, confidence, or score is
+                    # retained here.
+                    self.state.last_viability_kernel = {
+                        "active_tick": active_tick,
+                        "active_needs": list(needs),
+                        "disposition": disposition,
+                        "chosen": (
+                            {
+                                "capability": chosen.capability,
+                                "target_kind": (
+                                    dict(chosen.params).get("toward")
+                                    or dict(chosen.params).get("from")
+                                ),
+                            }
+                            if chosen is not None
+                            else None
+                        ),
+                        "routes": [
+                            {
+                                "need": route.need,
+                                "status": route.status,
+                                "endpoint_capability": route.endpoint_capability,
+                                "target_kind": route.target_kind,
+                                "source": route.source,
+                                "blocked_by": route.blocked_by,
+                            }
+                            for route in recovery_routes
+                        ],
+                        "endpoint_effect_source": "authority_effect_branches",
+                        "opportunity_source": "ordinary_policy_visible_candidate",
+                        "branch_safety": "existing_verified_branch_safety_unchanged",
+                    }
+
+                direct_regulators = [
+                    candidate
+                    for candidate in robust_candidates(recovery_routes)
+                    if viability_admissible(candidate)
+                ]
+                if direct_regulators:
+                    chosen = pick_recovery(direct_regulators)
+                    record_kernel(chosen, "ROBUST_ENDPOINT_SELECTED")
+                    return commit_safe_recovery(chosen, preserve_legacy=False)
+                source_visible_routes = [
+                    candidate
+                    for candidate in may_route_candidates(recovery_routes)
+                    if viability_admissible(candidate)
+                ]
+                if source_visible_routes:
+                    chosen = pick_recovery(source_visible_routes)
+                    record_kernel(chosen, "MAY_ROUTE_SELECTED")
+                    return commit_safe_recovery(chosen, preserve_legacy=False)
+                record_kernel(None, "NO_ROBUST_OR_MAY_ROUTE")
 
             if focus == "energy":
                 current = [

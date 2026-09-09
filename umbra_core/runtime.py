@@ -113,7 +113,12 @@ from umbra_core.temporal.events import (
 )
 from umbra_core.temporal.migration import TemporalMigrationContext, initialize_temporal_epoch
 from umbra_core.wait_execution import WaitJournal
-from umbra_core.world_model import WorldModel, WorldModelConfig, condition_to_world_model_config
+from umbra_core.world_model import (
+    VerifiedExecutabilityDenial,
+    WorldModel,
+    WorldModelConfig,
+    condition_to_world_model_config,
+)
 
 
 @dataclass
@@ -206,6 +211,10 @@ class OrganismConfig:
     # Legacy configurations remain unchanged until the AS-004 candidate is
     # frozen for scientific execution.
     bounded_continuation_enabled: bool = False
+    # AS-015: this explicit switch supports the matched causal ablation.  It
+    # removes only the source-backed recoverability kernel while retaining
+    # verified-branch safety and current terminal executability.
+    viability_kernel_enabled: bool = False
 
 
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, angle_diff, current_rss_mib, new_id
@@ -405,6 +414,10 @@ class Organism:
         self._body_before_action: dict[str, Any] | None = None
         self._tick_organism_age: int = 0
         self._tick_active_ticks: int = 0
+        # AS-015: preflight may collect sanitized denial facts during a root,
+        # but WorldModel mutation is deferred until that root has completed.
+        self._deferred_executability_denials: dict[str, VerifiedExecutabilityDenial] = {}
+        self._policy_visible_terminal_sources: dict[str, dict[str, str]] = {}
 
     @property
     def dt(self) -> float:
@@ -1044,7 +1057,105 @@ class Organism:
         raw = self.embodiment.preflight_primitive(candidate.capability, params)
         if raw is None:
             return UNKNOWN_EXECUTABILITY
-        return EXECUTABLE if bool(raw.get("ok_raw")) else NOT_EXECUTABLE
+        if bool(raw.get("ok_raw")):
+            return EXECUTABLE
+        self._capture_qualifying_executability_denial(candidate, raw)
+        return NOT_EXECUTABLE
+
+    def _begin_executability_denial_root(
+        self, observations: list[dict[str, Any]], organism_age: int
+    ) -> None:
+        """Capture only the policy-visible sources used by ordinary candidates."""
+        self._deferred_executability_denials = {}
+        sources: dict[str, dict[str, str]] = {}
+        # Mirrors generate_candidates' last-observation-per-kind construction.
+        # It deliberately retains only public membrane fields, never Habitat IDs
+        # or geometry truth.
+        for observation in observations:
+            kind = observation.get("kind")
+            observation_id = observation.get("observation_id")
+            if not isinstance(kind, str) or not kind:
+                continue
+            if not isinstance(observation_id, str) or not observation_id:
+                continue
+            sources[kind] = {
+                "policy_evidence_ref": observation_id,
+                "root_id": f"root:{int(organism_age)}:{observation_id}",
+            }
+        self._policy_visible_terminal_sources = sources
+
+    def _capture_qualifying_executability_denial(
+        self, candidate: Candidate, raw: dict[str, Any]
+    ) -> None:
+        """Capture one lawful denial fact without mutating current-root policy."""
+        if self.world_model is None or not self.config.world_model_enabled:
+            return
+        reason = raw.get("reason")
+        if reason != "affordance_denied":
+            return
+        # Only ordinary policy-generated candidates are eligible. Auxiliary
+        # intent/procedural candidates cannot create environmental learning by
+        # borrowing a coincidentally similar terminal parameter.
+        if candidate.params.get("source") not in (None, "ordinary_policy"):
+            return
+        target_kind = candidate.params.get("toward")
+        if not isinstance(target_kind, str) or not target_kind:
+            return
+        source = self._policy_visible_terminal_sources.get(target_kind)
+        if source is None:
+            return
+        candidate_identity = candidate_behavioral_identity(
+            candidate.capability, candidate.params
+        )
+        evidence_id = canonical_fingerprint({
+            "schema": "AS015_VERIFIED_EXECUTABILITY_DENIAL_V1",
+            "root_id": source["root_id"],
+            "candidate_identity": candidate_identity,
+            "entity_kind": target_kind,
+            "policy_evidence_ref": source["policy_evidence_ref"],
+            "reason": reason,
+        })
+        evidence = VerifiedExecutabilityDenial(
+            evidence_id=evidence_id,
+            root_id=source["root_id"],
+            tick=int(self._tick_organism_age),
+            capability=str(candidate.capability),
+            candidate_identity=candidate_identity,
+            entity_kind=target_kind,
+            policy_evidence_ref=source["policy_evidence_ref"],
+            reason=reason,
+        )
+        # Dictionary identity is the root-local deduplication barrier. Multiple
+        # callback probes for the same semantic candidate remain one datum.
+        self._deferred_executability_denials.setdefault(evidence.evidence_id, evidence)
+
+    def _commit_deferred_executability_denials(self, wall: float) -> list[dict[str, Any]]:
+        """Commit post-root affordance evidence without re-entering policy."""
+        pending = tuple(
+            self._deferred_executability_denials[key]
+            for key in sorted(self._deferred_executability_denials)
+        )
+        self._deferred_executability_denials = {}
+        self._policy_visible_terminal_sources = {}
+        committed: list[dict[str, Any]] = []
+        if self.world_model is None:
+            return committed
+        for evidence in pending:
+            result = self.world_model.observe_verified_executability_denial(evidence)
+            if not result.get("accepted"):
+                continue
+            record = dict(result["record"])
+            assert "world_model_executability_denial_verified" in AUTHORITATIVE_EVENT_TYPES
+            event = self.store.append_event(
+                agent_id=self.identity.agent_id,
+                event_type="world_model_executability_denial_verified",
+                monotonic_time=self.monotonic_time,
+                wall_time=wall,
+                payload=record,
+            )
+            record["event_sequence"] = int(event["sequence"])
+            committed.append(record)
+        return committed
 
     def _ensure_intervention(self) -> None:
         if self._intervention_applied:
@@ -1981,6 +2092,11 @@ class Organism:
 
         distributed_competition_trace: dict[str, Any] = {}
 
+        # Candidate executability may be queried more than once while the
+        # arbitrator evaluates this root.  Start a fresh ephemeral collection;
+        # it is committed only after selection/execution is complete.
+        self._begin_executability_denial_root(obs_dicts, organism_age)
+
         planning_frame = None
         if self._planning_shadow.enabled or self.config.bounded_continuation_enabled:
             try:
@@ -2017,6 +2133,7 @@ class Organism:
             wait_journal=self._wait_journal,
             wait_generation_enabled=wait_on,
             temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()), authority_effect_branches=lambda candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params),
+            viability_kernel_enabled=self.config.viability_kernel_enabled,
             # ``None`` preserves the established in-method authority path
             # when this tick has no auxiliary proposal. Non-empty intent
             # sets activate the hierarchical intent gate.
@@ -2031,6 +2148,14 @@ class Organism:
             candidate_executability=self._candidate_executability,
         )
         base_candidate = cand
+        if self._decision_trace.enabled:
+            kernel_record = self.arbitrator.state.last_viability_kernel
+            trace_data["viability_kernel"] = (
+                dict(kernel_record)
+                if kernel_record is not None
+                and kernel_record.get("active_tick") == self._tick_active_ticks
+                else None
+            )
         if planning_frame is not None:
             try:
                 self._planning_shadow.record(
@@ -2265,6 +2390,7 @@ class Organism:
             )
             if self.phys.in_viable():
                 self.metrics["viable_ticks"] += 1
+            denial_learning = self._commit_deferred_executability_denials(wall)
             self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
             snap = self.snapshot_if_due()
             trace_data.update({
@@ -2273,6 +2399,7 @@ class Organism:
                 "governance_proposal": None,
                 "governance_decision": {"admitted": False, "reason": "no_safe_action"},
                 "verified_outcome_linkage": None,
+                "verified_executability_denials": denial_learning,
                 "terminal_reason": "no_safe_action",
             })
             self._attach_trace_lineage(trace_data, trace_transitions, base_candidate)
@@ -2517,6 +2644,11 @@ class Organism:
             last_outcome_view = None  # admitted this tick but delayed — nothing verified yet
         self._push_expression_frame(last_outcome_view)
 
+        # This is intentionally after arbitration, Governance, and any
+        # immediate verified action outcome.  The data cannot affect the
+        # current root's candidate ordering, RNG trajectory, or selection.
+        denial_learning = self._commit_deferred_executability_denials(wall)
+
         self._finish_temporal_tick(temporal_begin, commit=True, wall=wall)
         snap = self.snapshot_if_due()
         trace_data["verified_outcome_linkage"] = {
@@ -2526,6 +2658,7 @@ class Organism:
             "reason": outcome_payload.get("reason") if outcome_payload else None,
             "effects": outcome_payload.get("effects") if outcome_payload else None,
         }
+        trace_data["verified_executability_denials"] = denial_learning
         self._emit_decision_trace(trace_data)
         return {
             "tick": self.tick,

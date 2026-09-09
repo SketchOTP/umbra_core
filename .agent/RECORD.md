@@ -602,3 +602,14 @@ before any production repair. If coherent, only one shared terminal
 executability contract may be introduced, with no magic threshold, scalar
 authority, hidden Habitat truth, retry, or reseed. AS-007 organism and tick
 counts are `0/0`; no successor started.
+### AS-015 governance start — 2026-09-08
+
+AS-015 begins from exact GitHub/local baseline
+`b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`. AS-014 remains immutable terminal
+evidence: R1/S16 seed `32550454` failed at `NO_SAFE_ACTION` tick `346` and
+critical fatigue tick `347`, with checkpoint epoch `0`. The AS-015 question is
+whether policy-visible, verified CHARGE effects provided an ignored alternate
+fatigue recovery route and, if so, how to preserve robust multi-need recovery
+routes without authored need-to-action rules or a relaxation of branch safety.
+No AS-015 organism execution, retry, reseeding, or production modification has
+occurred at this start record.

@@ -90,19 +90,49 @@ def test_prediction_error_uses_verified_outcome(tmp_path):
 
 
 def test_prediction_error_decreases_with_experience(tmp_path):
-    # Isolate the D-002 learning invariant from D-013T-R1 low-energy recovery arbitration.
+    # Exercise the production SelfModel against repeated *verified* movement
+    # outcomes.  A fixed live-policy horizon cannot guarantee a comparable
+    # locomotion sample after later arbitration architecture changes.
     org = create_organism(
         OrganismConfig(
             db_path=_db(tmp_path), seed=5, intervention="I1", drift_enabled=False
         )
     )
-    org.run_ticks(200)
-    assert org.self_model is not None
-    early, late = org.self_model.initial_vs_recent_error(window=25, skip_first=5)
-    # After learning movement gain, recent error should not exceed early by much;
-    # material decrease expected under I1 mismatch.
-    assert late < early * 0.95 or late < early - 0.02
-    org.close()
+    try:
+        assert org.self_model is not None
+        org._ensure_intervention()
+        # Stay inside the deterministic free-motion portion of the fixture;
+        # collision responses are a different (and separately tested) model.
+        for tick in range(20):
+            before = org.embodiment.body.to_state()
+            org.self_model.note_body_before(before)
+            heading = (tick * 0.4) % 6.0
+            org.self_model.predict("MOVE", {"step": 1.0, "heading": heading}, tick, before)
+            raw = org.embodiment.execute_primitive(
+                "MOVE", {"step": 1.0, "heading": heading}, SeededRNG(500 + tick)
+            )
+            outcome = org.governance.verify_outcome("MOVE", raw)
+            assert outcome.verified
+            org.self_model.observe_outcome(
+                tick=tick,
+                capability="MOVE",
+                verified_outcome={
+                    "capability": "MOVE",
+                    "success": outcome.success,
+                    "reason": outcome.reason,
+                    "effects": outcome.physiology_effects,
+                    "verified": True,
+                },
+                body_after=org.embodiment.body.to_state(),
+                observation_summary={"max_range_seen": 5.0},
+                action_issued=True,
+                now=float(tick),
+            )
+        early, late = org.self_model.initial_vs_recent_error(window=5, skip_first=0)
+        assert late < early * 0.70
+        assert abs(org.self_model.active.expected_motion["step_gain"] - 0.45) < 0.08
+    finally:
+        org.close()
 
 
 def test_policy_cannot_read_world_truth(tmp_path):

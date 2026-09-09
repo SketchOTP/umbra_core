@@ -85,6 +85,9 @@ AUTHORITATIVE_EVENT_TYPES = frozenset(
         "embodiment_bind",
         "body_schema_supersede",
         "world_model_supersede",
+        # AS-015: verified final-preflight evidence that a policy-visible
+        # affordance was unavailable. This is explicitly unexecuted evidence.
+        "world_model_executability_denial_verified",
         "runtime_ready",
         "memory_correction",
         # D-008 embodiment attachment — attach/detach/swap always emitted, never sampled.

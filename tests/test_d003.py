@@ -9,7 +9,9 @@ from pathlib import Path
 import pytest
 
 from umbra_core.governance import FORBIDDEN_CAPABILITY_EFFECTS
+from umbra_core.recoverability.contracts import NOT_EXECUTABLE
 from umbra_core.runtime import OrganismConfig, create_organism, load_organism, resimulate
+from umbra_core.arbitration import Candidate
 from umbra_core.world_model import (
     MAX_ENTITIES,
     MAX_PLAN_DEPTH,
@@ -36,6 +38,94 @@ def _wm_org(tmp_path: Path, seed: int = 1, **kwargs):
     )
     cfg.update(kwargs)
     return create_organism(OrganismConfig(**cfg))
+
+
+def _run_charge_affordance_world_change_race(org):
+    """Exercise the current authority path for a changed CHARGE affordance.
+
+    The environmental change occurs after ordinary policy selection and before
+    normal Governance execution.  Later roots are safely denied by the same
+    terminal preflight authority, so only the narrow verified-denial seam may
+    corroborate the affordance contradiction.
+    """
+    feature = org.embodiment._habitat.feature("resource")
+    assert feature is not None
+
+    def observations():
+        org.embodiment.body.x = feature.x
+        org.embodiment.body.y = feature.y
+        org.phys.intervene(energy=0.10, fatigue=0.20, stimulation=0.50)
+        return [row.to_dict() for row in org.perception.perceive(
+            org.embodiment, org.monotonic_time, org.rng
+        )]
+
+    def select_charge(rows):
+        selected = org.arbitrator.select(
+            org.phys,
+            rows,
+            org.tick,
+            org.rng,
+            candidate_executability=org._candidate_executability,
+        )
+        assert selected.capability == "CHARGE"
+        return selected
+
+    def execute_charge(selected, rows):
+        proposal = org.governance.propose(selected.capability, selected.params)
+        decision = org.governance.admit(proposal, tick=org.tick)
+        assert decision.admitted
+        org._pending_action = {"capability": "CHARGE", "params": selected.params}
+        outcome = org.governance.execute_and_verify(
+            proposal, decision, org.embodiment, org.rng,
+            resolve_params=org._resolve_params, tick=org.tick,
+        )
+        assert outcome is not None
+        return org._finish_outcome(outcome, 0.0, rows, action_issued=True)
+
+    # Ordinary policy, Governance, execution, verifier, and WorldModel
+    # ingestion establish the existing affordance support threshold.
+    for _ in range(3):
+        rows = observations()
+        assert execute_charge(select_charge(rows), rows)["success"] is True
+        org.tick += 1
+        org._tick_organism_age = org.tick
+    belief = org.world_model.affordances["aff-resource-charge_from"]
+    assert belief.status == ModelStatus.ACTIVE.value
+    assert belief.support_count == 3
+
+    # External Habitat authority changes the affordance after selection.  The
+    # selected policy proposal is left untouched and normal execution reports
+    # its genuine verified negative outcome.
+    rows = observations()
+    selected = select_charge(rows)
+    feature.chargeable = False
+    executed = execute_charge(selected, rows)
+    assert executed["success"] is False
+    assert executed["reason"] == "affordance_denied"
+    transition = next(model for model in org.world_model.models.values() if model.action == "CHARGE")
+    assert transition.status == ModelStatus.ACTIVE.value
+    assert transition.contradiction_count == 1
+
+    # Fresh ordinary roots retain policy-visible resource observations.  Final
+    # preflight blocks physical CHARGE, then deferred verified denials update
+    # the affordance-only contradiction path exactly once per root.
+    for _ in range(8):
+        org.embodiment.body.x = feature.x
+        org.embodiment.body.y = feature.y
+        org.phys.intervene(energy=0.10, fatigue=0.20, stimulation=0.50)
+        org.tick_once()
+        if belief.status == ModelStatus.WEAKENED.value:
+            break
+    denial_events = [
+        event for event in org.store.iter_events()
+        if event["event_type"] == "world_model_executability_denial_verified"
+    ]
+    return {
+        "belief": belief,
+        "transition": transition,
+        "executed": executed,
+        "denial_events": denial_events,
+    }
 
 
 def test_prior_seals_validate():
@@ -135,22 +225,17 @@ def test_single_anomaly_does_not_rewrite_model(tmp_path):
 
 
 def test_contradiction_weakens_obsolete_model(tmp_path):
-    org = _wm_org(tmp_path, 7, world_intervention="I6")
-    org.phys.intervene(energy=0.15, stimulation=0.5)
-    org.run_ticks(150)
-    charge = [m for m in org.world_model.models.values() if m.action == "CHARGE"]
-    affs = [
-        a
-        for a in org.world_model.affordances.values()
-        if a.action == "charge_from"
-    ]
-    assert (
-        any(m.contradiction_count >= 2 or m.status == ModelStatus.WEAKENED.value for m in charge)
-        or any(a.contradiction_count >= 2 or a.status == ModelStatus.WEAKENED.value for a in affs)
-        or len(org.world_model.live_supersessions()) >= 1
-        or any(m.predicted_effect.get("success", 1) < 0.5 for m in charge)
-    )
-    org.close()
+    org = _wm_org(tmp_path, 7)
+    try:
+        result = _run_charge_affordance_world_change_race(org)
+        # Multiple distinct authoritative roots weaken the affordance under its
+        # established threshold; the executed transition model retains its
+        # separate single-anomaly protection.
+        assert result["belief"].status == ModelStatus.WEAKENED.value
+        assert result["belief"].contradiction_count >= 4
+        assert result["transition"].contradiction_count == 1
+    finally:
+        org.close()
 
 
 def test_superseded_model_remains_inspectable(tmp_path):
@@ -186,22 +271,25 @@ def test_affordance_is_learned_from_outcomes(tmp_path):
 
 
 def test_false_affordance_is_revised(tmp_path):
-    org = _wm_org(tmp_path, 10, world_intervention="I10")
-    org.phys.intervene(energy=0.12, fatigue=0.2)
-    org.run_ticks(160)
-    charge_aff = [
-        a
-        for a in org.world_model.affordances.values()
-        if a.entity_kind == "resource" and a.action == "charge_from"
-    ]
-    assert charge_aff
-    a = charge_aff[0]
-    assert (
-        a.contradiction_count >= 1
-        or a.status in (ModelStatus.WEAKENED.value, ModelStatus.SUPERSEDED.value)
-        or a.confidence < 0.5
-    )
-    org.close()
+    org = _wm_org(tmp_path, 10)
+    try:
+        result = _run_charge_affordance_world_change_race(org)
+        # A positional denial is not an affordance contradiction.  It lacks
+        # the allowlisted environmental reason even though final preflight is
+        # still authoritative for the current candidate.
+        before = result["belief"].contradiction_count
+        org.embodiment.body.x += 100.0
+        org.embodiment.body.y += 100.0
+        rows = [row.to_dict() for row in org.perception.perceive(
+            org.embodiment, org.monotonic_time, org.rng
+        )]
+        org._tick_organism_age += 1
+        org._begin_executability_denial_root(rows, organism_age=org._tick_organism_age)
+        assert org._candidate_executability(Candidate("CHARGE", {"toward": "resource"})) == NOT_EXECUTABLE
+        assert org._commit_deferred_executability_denials(wall=0.0) == []
+        assert result["belief"].contradiction_count == before
+    finally:
+        org.close()
 
 
 def test_unobserved_entity_confidence_decays(tmp_path):
@@ -267,21 +355,18 @@ def test_novel_object_affordance_generalization(tmp_path):
 
 
 def test_changed_affordance_adaptation(tmp_path):
-    org = _wm_org(tmp_path, 15, world_intervention="I6")
-    org.phys.intervene(energy=0.12)
-    org.run_ticks(180)
-    charge_models = [m for m in org.world_model.models.values() if m.action == "CHARGE"]
-    affs = [a for a in org.world_model.affordances.values() if a.action == "charge_from"]
-    adapted = (
-        any(
-            m.contradiction_count >= 2 or m.status != ModelStatus.ACTIVE.value
-            for m in charge_models
-        )
-        or any(a.contradiction_count >= 2 or a.confidence < 0.55 for a in affs)
-        or len(org.world_model.live_supersessions()) >= 1
-    )
-    assert adapted
-    org.close()
+    org = _wm_org(tmp_path, 15)
+    try:
+        result = _run_charge_affordance_world_change_race(org)
+        assert result["executed"]["reason"] == "affordance_denied"
+        assert len(result["denial_events"]) >= 3
+        assert all(event["payload"]["executed"] is False for event in result["denial_events"])
+        assert result["belief"].status == ModelStatus.WEAKENED.value
+        # The final preflight was never bypassed and denied roots did not
+        # masquerade as executed physical failures.
+        assert org.metrics["actions"].get("CHARGE") == 4
+    finally:
+        org.close()
 
 
 def test_planning_depth_is_bounded(tmp_path):
