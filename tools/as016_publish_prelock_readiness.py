@@ -79,7 +79,14 @@ def main() -> None:
         "candidate_only_failures": 0,
         "orphan_collection_debt": "tests/test_close02x_prospective_recoverability.py imports an absent baseline symbol; raw collection fails at baseline and candidate",
     }
-    complete_sha = publish("AS016_COMPLETE_SUITE_INHERITED_EXCLUSIONS_V1.json", complete)
+    complete_path = EVIDENCE_ROOT / "AS016_COMPLETE_SUITE_INHERITED_EXCLUSIONS_V1.json"
+    if complete_path.exists():
+        existing = json.loads(complete_path.read_text())
+        if existing != complete:
+            raise RuntimeError("AS016_COMPLETE_SUITE_ARTIFACT_MISMATCH")
+        complete_sha = _sha(complete_path)
+    else:
+        complete_sha = publish("AS016_COMPLETE_SUITE_INHERITED_EXCLUSIONS_V1.json", complete)
     evidence_hashes = {name: _sha(EVIDENCE_ROOT / name) for name in ARTIFACTS}
     readiness = {
         "schema": "AS016_PRELOCK_READINESS_V1",
@@ -119,7 +126,8 @@ def main() -> None:
         "seed_disjointness_sha256": evidence_hashes["AS016_SEED_DISJOINTNESS_PROOF.json"],
         "result": "READY_FOR_ARCHITECT_LOCK_REVIEW",
     }
-    print(publish("AS016_PRELOCK_READINESS_V1.json", readiness))
+    readiness["schema"] = "AS016_PRELOCK_READINESS_V2"
+    print(publish("AS016_PRELOCK_READINESS_V2.json", readiness))
 
 
 if __name__ == "__main__":

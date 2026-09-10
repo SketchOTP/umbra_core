@@ -1,6 +1,6 @@
 ## UMBRA-AS-016 — PRE-LOCK CLOSURE (2026-09-10)
 
-- baseline:`17859e03143b2278e612efeb3e96684f830b741f` | verdict:pre-lock ready for Architect review | development:R0-R3 `4000/4000` | protected:`90` PASS twice | applicable:`1365 PASS / 4 SKIP / 7 inherited` | candidate-only:`0` | literal CLI:downstream `8/8`, population `4/4` PASS | formal seeds:`36`, disjoint PASS, unused | formal organism/retry/reseed:0/0/0 | readiness:`730c98eae829cf48572145f98c4f3a65be0fb5fd87f002804fb303370fd4d8c7`
+- baseline:`17859e03143b2278e612efeb3e96684f830b741f` | verdict:pre-lock ready for Architect review | development:R0-R3 `4000/4000` | protected:`90` PASS twice | applicable:`1365 PASS / 4 SKIP / 7 inherited` | candidate-only:`0` | literal CLI:downstream `8/8`, population `4/4` PASS | formal seeds:`36`, disjoint PASS, unused | formal organism/retry/reseed:0/0/0 | readiness:`0705b414bbe7cc60e369511382505a5e8de991047ebd4f4f1c5497539167cd07`
 
 ## UMBRA-AS-012 — TERMINAL CLOSEOUT (2026-09-06)
 

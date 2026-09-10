@@ -16,7 +16,7 @@ recovery/persistence/body lineages (`90` each), a path-safe applicable suite
 of `1365 PASS / 4 SKIP / 7 exact-baseline inherited failures`, literal
 downstream and population CLI publication/readback preflights, and a fresh
 36-seed disjointness proof. Readiness artifact SHA-256:
-`730c98eae829cf48572145f98c4f3a65be0fb5fd87f002804fb303370fd4d8c7`.
+`0705b414bbe7cc60e369511382505a5e8de991047ebd4f4f1c5497539167cd07`.
 AS-016 remains pre-lock pending candidate publication and Architect lock
 review; no fresh formal organism or formal seed has been consumed.
 
