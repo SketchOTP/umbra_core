@@ -20,6 +20,24 @@ The canonical Notion page governs strategic authority, but the repository is int
 to remain understandable without Notion access. Git commits and retained artifacts are
 the implementation and execution record.
 
+## AS-015
+
+AS-015 is permanently terminal at `AS015_FRESH_R2_FAIL`. The formal subject was
+frozen at implementation `76182fca517b69ee6b9eef6c9ec9d44efa520d49`; the
+separate governance-only lock publication was
+`3d277949ccae06d77cced66a1b1d89432605b777`. R0 completed `8/8`, R1/S16
+completed `8/8`, and R2 completed `2/8`, all at `7200` ticks. The first formal
+failure was R2/S10 seed `1995954`: `NO_SAFE_ACTION` at tick `3537`, critical
+stimulation at tick `3566`. The runner stopped immediately. Remaining R2/R3,
+lifecycle, repeated-compaction 100k, S3, ablation, and CLOSE-03 were not run;
+retries/reseeds/substitutions/post-lock production changes were `0/0/0/0`.
+The immutable lock SHA-256 is
+`8563dc504e6b142e47b73aff7d35038e1c69ab25b5c10fd9c34f8f65ffe59917`; formal
+closeout SHA-256 is
+`d815206ee9babfe71ca0871c1ee0b05f9ef1a511060d40818bbc487ce12ea457`.
+
+See the [AS-015 task result](../.agent/tasks/active/UMBRA-AS-015/RESULT.md).
+
 ## AS-014
 
 AS-014 is permanently terminal at `AS014_FRESH_R1_FAIL`. It introduced a

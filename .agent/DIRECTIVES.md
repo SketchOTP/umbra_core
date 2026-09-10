@@ -1316,3 +1316,26 @@ It must preserve final verified-outcome branch safety, S16 semantics, and all
 historical evidence. The retained seed `32550454` is analysis-only: no retry or
 reseed. Formal execution requires a fresh, historically disjoint population and
 a prospective lock; first post-lock scientific failure is terminal.
+
+### 2026-09-09 — repository-local TrailHQ Graft tooling authorization
+
+The user explicitly authorizes a repository-local TrailHQ Graft integration
+for Codex. Scope is limited to a narrow marker-fenced section in root
+`AGENTS.md`, an appended `graft/` rule in `.gitignore` if absent, and the
+local regenerable `graft/` cache. The integration must use transient
+`npx --yes @nanonets/graft` execution with `--no-global`; it must not alter
+`~/.codex`, install packages globally, add project dependencies, modify
+application or scientific source, configure provider keys, use `--deep`,
+enable LLM-generated summaries, commit, push, or contact external services.
+This tooling authorization does not alter AS-015 authority, scientific locks,
+formal organism/seed boundaries, historical evidence, or acceptance status.
+
+### AS-015 terminal boundary — 2026-09-10
+
+The prospective lock was established at scientific implementation
+`76182fca517b69ee6b9eef6c9ec9d44efa520d49` before formal ticks. The frozen
+population stopped on its first scientific failure: R2/S10 seed `1995954`
+reached `NO_SAFE_ACTION` at tick `3537` and critical stimulation at tick
+`3566`. Terminal verdict is `AS015_FRESH_R2_FAIL`; no retry, reseed, repair,
+remaining population row, lifecycle, 100k, S3, ablation, or CLOSE-03 is
+authorized within AS-015.

@@ -613,3 +613,12 @@ fatigue recovery route and, if so, how to preserve robust multi-need recovery
 routes without authored need-to-action rules or a relaxation of branch safety.
 No AS-015 organism execution, retry, reseeding, or production modification has
 occurred at this start record.
+
+### AS-015 formal terminal closeout — 2026-09-10
+
+The lock was readback-verified before formal creation. Under the frozen
+population command, R0 `8/8`, R1 `8/8`, and R2 `2/8` completed at `7200`
+ticks. R2/S10 seed `1995954` then recorded `NO_SAFE_ACTION` at tick `3537`
+and critical stimulation at tick `3566`; `AS015_FRESH_R2_FAIL` is permanent.
+The evidence preserves `19` durable case records / `133166` executed ticks.
+No repair, retry, reseed, substitution, downstream gate, or successor began.

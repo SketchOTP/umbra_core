@@ -1,14 +1,20 @@
-# CURRENT AUTHORITY — UMBRA-AS-015 SCIENTIFIC-LOCK PREPARATION
+# CURRENT AUTHORITY — UMBRA-AS-015 TERMINAL
 
-Architect has approved scientific lock against accepted implementation
-`76182fca517b69ee6b9eef6c9ec9d44efa520d49`, whose direct parent is sealed
-AS-014 `b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`. A governance-only lock
-publication may record the immutable contract with zero `umbra_core/**`,
-configuration, threshold, scenario, or seed delta. No formal organism may be
-created until the create-once lock artifact has been published, read back, and
-the clean publication commit has been refetched from GitHub. The frozen AS-015
-formal manifest remains unused; after lock, the first formal failure is
-terminal and no repair/retry/reseed is allowed.
+AS-015 is permanently terminal as `AS015_FRESH_R2_FAIL`. The scientific
+implementation was frozen at `76182fca517b69ee6b9eef6c9ec9d44efa520d49`; the
+governance-only lock publication is `3d277949ccae06d77cced66a1b1d89432605b777`.
+The lock SHA-256 is
+`8563dc504e6b142e47b73aff7d35038e1c69ab25b5c10fd9c34f8f65ffe59917`.
+
+The frozen population completed R0 `8/8` and R1/S16 `8/8` at `7200` ticks,
+then R2 `2/8` at `7200` ticks. Fresh R2/S10 seed `1995954` reached
+`NO_SAFE_ACTION` at tick `3537` and critical stimulation at tick `3566`; the
+formal runner stopped at that first scientific failure. R2 remaining rows,
+R3, lifecycle, repeated-compaction 100k, S3, ablation, and CLOSE-03 were not
+run. Retries, reseeds, substitutions, and post-lock production changes are
+all `0`. Integrated viability and CLOSE-03 remain unqualified and blocked.
+Formal closeout SHA-256:
+`d815206ee9babfe71ca0871c1ee0b05f9ef1a511060d40818bbc487ce12ea457`.
 
 AS-015 is authorized from exact synchronized baseline
 `b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`. AS-014 remains permanently
@@ -23,6 +29,18 @@ lifecycle, repeated-compaction 100k, S3 soak, matched five-arm ablation, and
 final CLOSE-03 assessment unless the first frozen scientific stop is reached.
 Integrated viability and CLOSE-03 remain unqualified. Evidence root:
 `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-015-multi-need-viability-kernel-completion-r1/`.
+
+## Repository-local tooling state — 2026-09-09
+
+TrailHQ Graft is installed only as repository-local Codex guidance and a
+regenerable ignored `graft/` wiring cache. Root `AGENTS.md` retains all prior
+Authority instructions and contains a Graft-owned marker-fenced section whose
+commands use `npx --yes @nanonets/graft`; `~/.codex`, provider settings,
+global packages, application/scientific source, and formal-execution state are
+unchanged. The wiring graph was built without `--deep`, provider keys, or
+LLM-generated summaries, then `graft check` and `graft map` succeeded.
+This is developer tooling only and grants no AS-015 authority or scientific
+acceptance.
 
 # CURRENT AUTHORITY — UMBRA-AS-014 TERMINAL
 

@@ -1,3 +1,14 @@
+# UMBRA-AS-015 TERMINAL — `AS015_FRESH_R2_FAIL`
+
+- Production subject: `76182fca517b69ee6b9eef6c9ec9d44efa520d49`; the durable
+  lock is `AS015_SCIENTIFIC_LOCK_V1.json`.
+- Formal result: R0 `8/8`, R1 `8/8`, and R2 `2/8` completed at `7200` ticks;
+  R2/S10 seed `1995954` stopped at `NO_SAFE_ACTION` tick `3537` and critical
+  stimulation tick `3566`.
+- No remaining population row, lifecycle, 100k, S3, ablation, retry, reseed,
+  repair, or CLOSE-03 was started. Evidence root:
+  `/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-015-multi-need-viability-kernel-completion-r1/`.
+
 # AS-013 TERMINAL — `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`
 
 - `experiments/as013/` owns the publication-safe full configuration, exact CLI preflight, durable result checkpoint, CPU journal, boundedness, soak, and matched ablation harness.

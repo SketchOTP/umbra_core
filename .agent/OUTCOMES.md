@@ -1899,3 +1899,29 @@ single-target fatigue recovery path continued toward REST. The preimplementation
 result is `AS015_SINGLE_TARGET_FATIGUE_RECOVERY_DEFECT_CONFIRMED`, bounded by
 the absence of post-tick-200 decision-frame and target-parameter persistence.
 It is development attribution, not a replay, repair, or behavioral qualification.
+
+## 2026-09-09 — repository-local TrailHQ Graft setup
+
+After an explicit user tooling authorization was appended to `DIRECTIVES.md`,
+`npx --yes @nanonets/graft init --agents agents --no-global` appended only its
+marker-fenced section to root `AGENTS.md`, built a local deterministic wiring
+graph, and added the ignored `graft/` cache rule. The Graft section was then
+narrowly changed to invoke all CLI examples through `npx --yes
+@nanonets/graft`, avoiding any global installation requirement. No `--deep`
+build, provider-key configuration, LLM-generated summary, source/test/
+scientific-semantic change, organism execution, retry, reseed, commit, push,
+or external-service configuration occurred. `graft check` reported its wiring
+graph in sync and `graft map` completed successfully; the optional deep meaning
+layer remains intentionally absent.
+
+## 2026-09-10 — UMBRA-AS-015 formal terminal closeout
+
+AS-015's prospective lock bound production implementation
+`76182fca517b69ee6b9eef6c9ec9d44efa520d49` and frozen formal seeds before any
+formal organism tick. R0 completed `8/8` and R1/S16 `8/8` at `7200` ticks;
+R2 completed `2/8` before seed `1995954` reached `NO_SAFE_ACTION` at tick
+`3537` and critical stimulation at tick `3566`. The first-failure rule yielded
+permanent `AS015_FRESH_R2_FAIL`. The remaining population, lifecycle, 100k,
+S3, ablation, and CLOSE-03 did not run. No retry, reseed, substitution, or
+post-lock production change occurred. Closeout SHA-256:
+`d815206ee9babfe71ca0871c1ee0b05f9ef1a511060d40818bbc487ce12ea457`.

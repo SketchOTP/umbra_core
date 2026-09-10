@@ -6,7 +6,19 @@ perception, learned causal models, verified consequences, memory, development,
 relationships, individuality, temporal context, and environmental opportunity—not
 from a chatbot loop or a scripted persona.
 
-## Current status: AS-013 boundedness terminal
+## Current status: AS-015 formal R2 terminal
+
+AS-015 is permanently terminal at `AS015_FRESH_R2_FAIL`. The prospective
+scientific lock froze production implementation
+`76182fca517b69ee6b9eef6c9ec9d44efa520d49` before any formal tick. Its fresh
+population completed R0 `8/8`, R1/S16 `8/8`, and R2 `2/8` at `7200` ticks.
+Fresh R2/S10 seed `1995954` then reached `NO_SAFE_ACTION` at tick `3537` and
+critical stimulation at tick `3566`; the frozen first-failure rule stopped all
+remaining work. No retry, reseed, production repair, lifecycle, 100k, S3,
+ablation, or CLOSE-03 followed. Integrated viability remains **NOT QUALIFIED**
+and CLOSE-03 remains blocked. See the [AS-015 evidence guide entry](docs/EVIDENCE_GUIDE.md#as-015).
+
+## Historical AS-013 boundedness terminal
 
 The latest governed generation, AS-013, is permanently terminal at
 `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`. It preserved AS-010's qualified

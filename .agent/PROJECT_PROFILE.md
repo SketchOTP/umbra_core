@@ -1,4 +1,14 @@
-# Current profile — UMBRA-AS-014 TERMINAL
+# Current profile — UMBRA-AS-015 TERMINAL
+
+AS-015 is permanently terminal at `AS015_FRESH_R2_FAIL`. Its prospective lock
+froze production at `76182fca517b69ee6b9eef6c9ec9d44efa520d49`, then the fresh
+formal population completed R0 `8/8`, R1 `8/8`, and R2 `2/8` at `7200` ticks.
+R2/S10 seed `1995954` reached `NO_SAFE_ACTION` at tick `3537` and critical
+stimulation at tick `3566`. The frozen stop rule prevented all remaining
+population rows and downstream gates. Integrated viability and CLOSE-03 remain
+unqualified; no retry, reseed, repair, or successor is authorized.
+
+# Historical profile — UMBRA-AS-014 TERMINAL
 
 AS-014 is permanently terminal as `AS014_FRESH_R1_FAIL`. Its frozen population
 tested the changed persistence/replay implementation: R0 completed `8/8`, but

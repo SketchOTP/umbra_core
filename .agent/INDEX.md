@@ -1,12 +1,15 @@
-# UMBRA-AS-015 ACTIVE — multi-need viability kernel and end-to-end requalification
+# UMBRA-AS-015 TERMINAL — `AS015_FRESH_R2_FAIL`
 
-AS-015 starts from `b8977c6c05ad3ca89743368bbfd0fc48bb2b1ee7`, preserving
-AS-014 as permanent `AS014_FRESH_R1_FAIL`. It must reconstruct retained R1/S16
-seed `32550454` without replay, repair only a demonstrated general
-source-backed recovery-route defect, then requalify affected production through
-population, lifecycle, boundedness, S3, ablation, and CLOSE-03 assessment.
-Task packet: `.agent/tasks/active/UMBRA-AS-015/`. No formal organism has yet
-been created for AS-015.
+- Scientific implementation: `76182fca517b69ee6b9eef6c9ec9d44efa520d49`;
+  governance lock publication: `3d277949ccae06d77cced66a1b1d89432605b777`.
+- The prospective lock was readback-verified before formal creation. R0 `8/8`,
+  R1 `8/8`, and R2 `2/8` completed at `7200` ticks. R2/S10 seed `1995954`
+  reached `NO_SAFE_ACTION` at tick `3537` and critical stimulation at tick
+  `3566`. The first-failure stop rule terminated the population.
+- No retry, reseed, substitution, production change, lifecycle, 100k, S3,
+  ablation, or CLOSE-03 was started. Evidence:
+  `AS015_FORMAL_POPULATION_CLOSEOUT_V1.json`, SHA-256
+  `d815206ee9babfe71ca0871c1ee0b05f9ef1a511060d40818bbc487ce12ea457`.
 
 # UMBRA-AS-014 TERMINAL — `AS014_FRESH_R1_FAIL`
 
