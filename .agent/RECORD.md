@@ -1,3 +1,7 @@
+## UMBRA-AS-016 — SCIENTIFIC LOCK AUTHORIZED (2026-09-10)
+
+- accepted-review:`a6d7493acfe264c766e9e2af6dec2f0f8f55acc8` | scientific implementation:`c669bb1d9500e750f51b2d70b99d90f8f0d8f12c` | tracked tree:`a4d0e35ade97a5331be1b8a17e7c03688882151b` | directive:establish durable lock in a clean detached checkout before the reviewed serial R0--R3 population | formal organism/retry/reseed:0/0/0
+
 ## UMBRA-AS-016 — PRE-LOCK CLOSURE (2026-09-10)
 
 - baseline:`17859e03143b2278e612efeb3e96684f830b741f` | verdict:pre-lock ready for Architect review | development:R0-R3 `4000/4000` | protected:`90` PASS twice | applicable:`1365 PASS / 4 SKIP / 7 inherited` | candidate-only:`0` | literal CLI:downstream `8/8`, population `4/4` PASS | formal seeds:`36`, disjoint PASS, unused | formal organism/retry/reseed:0/0/0 | readiness:`0705b414bbe7cc60e369511382505a5e8de991047ebd4f4f1c5497539167cd07`

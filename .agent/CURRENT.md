@@ -17,8 +17,14 @@ of `1365 PASS / 4 SKIP / 7 exact-baseline inherited failures`, literal
 downstream and population CLI publication/readback preflights, and a fresh
 36-seed disjointness proof. Readiness artifact SHA-256:
 `0705b414bbe7cc60e369511382505a5e8de991047ebd4f4f1c5497539167cd07`.
-AS-016 remains pre-lock pending candidate publication and Architect lock
-review; no fresh formal organism or formal seed has been consumed.
+AS-016 candidate publication is accepted at
+`a6d7493acfe264c766e9e2af6dec2f0f8f55acc8`; Architect has authorized a
+prospective scientific freeze. Before formal organism creation, Codex must
+create and readback-verify `AS016_SCIENTIFIC_LOCK_CONTRACT_V1.json` from a
+clean detached execution checkout, publish a governance-only lock record with
+zero semantic delta, refetch GitHub/Notion, and verify the frozen 36-seed
+manifest remains unused. No fresh formal organism or formal seed has yet been
+consumed.
 
 # CURRENT AUTHORITY — UMBRA-AS-015 TERMINAL
 
