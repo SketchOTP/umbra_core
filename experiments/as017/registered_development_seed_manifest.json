@@ -1,0 +1,16 @@
+{
+  "baseline": "fd8c50e1134d7d2ef54e20148ac9b7880e63708d",
+  "classification": "excluded_development_only_not_formal_qualification",
+  "development_regimes": {
+    "R0": [54869811, 17182603, 20493007, 45470476],
+    "R1": [37694890, 45091995, 73814749, 59467015],
+    "R2": [263162, 79727746, 36077893, 6975379],
+    "R3": [55042798, 45706632, 6975204, 39859985]
+  },
+  "directive": "UMBRA-AS-017",
+  "execution_mode": "serial_only_no_shared_thread_rebinding",
+  "horizon_ticks": 7200,
+  "reseeds": 0,
+  "retries": 0,
+  "schema": "AS017_DEVELOPMENT_SEED_MANIFEST_V1"
+}

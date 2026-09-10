@@ -1031,6 +1031,26 @@ class Organism:
             out["heading"] = body.heading
         return out
 
+    def _candidate_preflight(self, candidate: Candidate) -> tuple[str, dict[str, Any], dict[str, Any] | None]:
+        """Pure current-root preflight returning translated execution params."""
+        params = self._resolve_params(dict(candidate.params))
+        if self.embodiment_adapter is not None:
+            request = AdapterRequest(
+                request_id="recovery-executability-preflight", capability=candidate.capability,
+                params=params, attachment_generation=self.embodiment_adapter.state.attachment_generation,
+                tick=self.tick,
+            )
+            rejection, params, _ = self.embodiment_adapter.preflight_execution(request)
+            if rejection is not None:
+                return NOT_EXECUTABLE, dict(params), dict(rejection)
+        raw = self.embodiment.preflight_primitive(candidate.capability, params)
+        if raw is None:
+            return EXECUTABLE, dict(params), None
+        return (EXECUTABLE if bool(raw.get("ok_raw")) else NOT_EXECUTABLE), dict(params), dict(raw)
+
+    def _candidate_execution_params(self, candidate: Candidate) -> dict[str, Any]:
+        return self._candidate_preflight(candidate)[1]
+
     def _candidate_executability(self, candidate: Candidate) -> str:
         """Return source-backed current readiness for terminal actions.
 
@@ -1040,27 +1060,12 @@ class Organism:
         to policy. Motion remains outside this contract and is verified after
         it executes.
         """
+        status, _, raw = self._candidate_preflight(candidate)
         if candidate.capability not in TERMINAL_CAPABILITIES:
             return EXECUTABLE
-        params = self._resolve_params(dict(candidate.params))
-        if self.embodiment_adapter is not None:
-            request = AdapterRequest(
-                request_id="recovery-executability-preflight",
-                capability=candidate.capability,
-                params=params,
-                attachment_generation=self.embodiment_adapter.state.attachment_generation,
-                tick=self.tick,
-            )
-            rejection, params, _ = self.embodiment_adapter.preflight_execution(request)
-            if rejection is not None:
-                return NOT_EXECUTABLE
-        raw = self.embodiment.preflight_primitive(candidate.capability, params)
-        if raw is None:
-            return UNKNOWN_EXECUTABILITY
-        if bool(raw.get("ok_raw")):
-            return EXECUTABLE
-        self._capture_qualifying_executability_denial(candidate, raw)
-        return NOT_EXECUTABLE
+        if status == NOT_EXECUTABLE and raw is not None:
+            self._capture_qualifying_executability_denial(candidate, raw)
+        return status
 
     def _begin_executability_denial_root(
         self, observations: list[dict[str, Any]], organism_age: int
@@ -2146,6 +2151,16 @@ class Organism:
             distributed_trace=distributed_competition_trace,
             continuation_filter_for=continuation_filter,
             candidate_executability=self._candidate_executability,
+            governance_precondition_for=lambda candidate: self.governance.preflight_admission(
+                candidate.capability, candidate.params, tick=organism_age
+            ),
+            candidate_execution_params_for=self._candidate_execution_params,
+            recovery_assessment_context={
+                "observation_version": canonical_fingerprint(obs_dicts),
+                "body_binding_version": canonical_fingerprint(self.embodiment.body.to_state()),
+                "governance_version": canonical_fingerprint(self.governance.state.to_state()),
+                "model_version": canonical_fingerprint(self.world_model.to_state() if self.world_model is not None else {}),
+            },
         )
         base_candidate = cand
         if self._decision_trace.enabled:

@@ -19,6 +19,7 @@ from umbra_core.physiology import (
     verified_outcome_effect_branches,
 )
 from umbra_core.recoverability.contracts import EXECUTABLE, TERMINAL_CAPABILITIES
+from umbra_core.util import canon_json
 
 
 ROBUST_NOW = "ROBUST_NOW"
@@ -26,6 +27,57 @@ MAY_ROUTE = "MAY_ROUTE"
 UNKNOWN_ROUTE = "UNKNOWN_ROUTE"
 PROVEN_DIRECT_RECOVERY_PATH = "PROVEN_DIRECT_RECOVERY_PATH"
 DIRECT_RECOVERY_PATH_NOT_PROVEN = "DIRECT_RECOVERY_PATH_NOT_PROVEN"
+ASSESSMENT_ALLOWED = "ALLOWED"
+ASSESSMENT_DENIED = "DENIED"
+ASSESSMENT_UNKNOWN = "UNKNOWN"
+CERTIFICATE_PROVEN = "PROVEN"
+CERTIFICATE_UNKNOWN = "UNKNOWN"
+
+
+def _candidate_identity(candidate: Any) -> str:
+    """Stable exact behavioral identity; params are never capability-aliased."""
+    return f"{getattr(candidate, 'capability', '')}:{canon_json(dict(getattr(candidate, 'params', {}) or {}))}"
+
+
+@dataclass(frozen=True)
+class RecoveryAssessmentContext:
+    """Explicit facts used by a pure recovery assessment at one root."""
+
+    root_id: str
+    physiology: Mapping[str, float]
+    observation_version: str
+    body_binding_version: str
+    governance_version: str
+    model_version: str
+    drift_enabled: bool = True
+
+
+@dataclass(frozen=True)
+class CandidateAssessment:
+    """Pure shared authority result for one exact candidate and parameters."""
+
+    root_id: str
+    candidate_identity: str
+    requested_params: Mapping[str, Any]
+    execution_params: Mapping[str, Any]
+    status: str
+    reasons: tuple[str, ...]
+    effect_branches: tuple[Mapping[str, float], ...]
+    successor_physiology: Mapping[str, float] | None
+
+
+@dataclass(frozen=True)
+class RecoveryCertificate:
+    """Bounded proof for the selected first action, never a global guarantee."""
+
+    root_id: str
+    first_candidate_identity: str
+    status: str
+    witness: tuple[str, ...]
+    terminal_condition: str | None
+    assumptions: Mapping[str, str]
+    search_budget_status: str
+    reason: str
 
 
 @dataclass(frozen=True)
@@ -80,6 +132,140 @@ def _project(
         if any(bounds.critical_violation(value) for value in values):
             safe = False
     return safe, projected
+
+
+def assess_candidate(
+    *,
+    context: RecoveryAssessmentContext,
+    candidate: Any,
+    execution_params_for: Callable[[RecoveryAssessmentContext, Any], Mapping[str, Any] | None],
+    eligible_for: Callable[[RecoveryAssessmentContext, Any], bool | None],
+    compositional_admissible_for: Callable[[RecoveryAssessmentContext, Any, Sequence[Mapping[str, float]]], bool | None],
+    executability_for: Callable[[RecoveryAssessmentContext, Any], str | None],
+    governance_precondition_for: Callable[[RecoveryAssessmentContext, Any], bool | None],
+    effect_branches_for: Callable[[RecoveryAssessmentContext, Any], Sequence[Mapping[str, float]] | None],
+) -> CandidateAssessment:
+    """Pure exact-candidate assessment shared by selection and certification.
+
+    Callbacks must use the supplied context, not a captured live organism.  The
+    function has no learning, RNG, persistence, or actuator side effects.
+    """
+    requested = dict(getattr(candidate, "params", {}) or {})
+    identity = _candidate_identity(candidate)
+    execution = execution_params_for(context, candidate)
+    if execution is None:
+        return CandidateAssessment(context.root_id, identity, requested, {}, ASSESSMENT_UNKNOWN,
+                                   ("execution_params_unknown",), (), None)
+    execution = dict(execution)
+    execution_candidate = type(candidate)(str(getattr(candidate, "capability", "")), execution)
+    eligibility = eligible_for(context, candidate)
+    if eligibility is not True:
+        return CandidateAssessment(context.root_id, identity, requested, execution,
+                                   ASSESSMENT_UNKNOWN if eligibility is None else ASSESSMENT_DENIED,
+                                   ("self_model_eligibility_unknown" if eligibility is None else "self_model_ineligible",), (), None)
+    executable = executability_for(context, candidate)
+    if executable != EXECUTABLE:
+        return CandidateAssessment(context.root_id, identity, requested, execution,
+                                   ASSESSMENT_UNKNOWN if executable is None or executable == ASSESSMENT_UNKNOWN else ASSESSMENT_DENIED,
+                                   ("executability_unknown" if executable is None or executable == ASSESSMENT_UNKNOWN else "not_executable",), (), None)
+    governance = governance_precondition_for(context, candidate)
+    if governance is not True:
+        return CandidateAssessment(context.root_id, identity, requested, execution,
+                                   ASSESSMENT_UNKNOWN if governance is None else ASSESSMENT_DENIED,
+                                   ("governance_precondition_unknown" if governance is None else "governance_precondition_denied",), (), None)
+    branches = effect_branches_for(context, candidate)
+    if not branches:
+        return CandidateAssessment(context.root_id, identity, requested, execution,
+                                   ASSESSMENT_UNKNOWN, ("effect_branches_unknown",), (), None)
+    normalized = tuple(dict(branch) for branch in branches)
+    composition = compositional_admissible_for(context, execution_candidate, normalized)
+    if composition is not True:
+        return CandidateAssessment(context.root_id, identity, requested, execution,
+                                   ASSESSMENT_UNKNOWN if composition is None else ASSESSMENT_DENIED,
+                                   ("compositional_constraints_unknown" if composition is None else "compositional_constraints_denied",), normalized, None)
+    safe, projected = _project(context.physiology, normalized, drift_enabled=context.drift_enabled)
+    if not safe:
+        return CandidateAssessment(context.root_id, identity, requested, execution,
+                                   ASSESSMENT_DENIED, ("verified_branch_safety_denied",), normalized, projected)
+    return CandidateAssessment(context.root_id, identity, requested, execution,
+                               ASSESSMENT_ALLOWED, (), normalized, projected)
+
+
+def certify_candidate_recovery(
+    *,
+    context: RecoveryAssessmentContext,
+    first_candidate: Any,
+    assessments: Mapping[str, CandidateAssessment],
+    successor_assessment_for: Callable[[RecoveryAssessmentContext, Mapping[str, float], Any], CandidateAssessment] | None = None,
+    max_steps: int = 16,
+    max_explored_states: int = 256,
+) -> RecoveryCertificate:
+    """Certify this exact first action, conservatively re-assessing successors.
+
+    Without a successor-context authority callback, only an action that
+    directly reaches the existing viable region is proven.  Missing future
+    facts are UNKNOWN rather than an invented continuation or impossibility.
+    """
+    first_id = _candidate_identity(first_candidate)
+    assumptions = {
+        "observation_version": context.observation_version,
+        "body_binding_version": context.body_binding_version,
+        "governance_version": context.governance_version,
+        "model_version": context.model_version,
+    }
+    first = assessments.get(first_id) or next(
+        (value for value in assessments.values() if value.candidate_identity == first_id),
+        None,
+    )
+    if first is None or first.status != ASSESSMENT_ALLOWED:
+        return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (), None,
+                                   assumptions, "NOT_STARTED", "first_action_not_allowed")
+    successors = [
+        project_verified_transition(dict(context.physiology), dict(branch), drift_enabled=context.drift_enabled)
+        for branch in first.effect_branches
+    ]
+    if all(not active_recovery_needs_for(state) for state in successors):
+        return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_PROVEN, (first_id,),
+                                   "current_viable_region", assumptions, "COMPLETE", "direct_recovery")
+    # A current terminal endpoint may need several immediate applications.
+    # This remains conditional on the exact root versions above; the runtime
+    # drops/reassesses the witness at the next root if any condition changes.
+    # No position/body fact is projected or invented here.
+    states = successors
+    witness = [first_id]
+    for _ in range(1, max_steps):
+        if len(states) > max_explored_states:
+            return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, tuple(witness), None,
+                                       assumptions, "BUDGET_EXHAUSTED", "bounded_search_incomplete")
+        states = [
+            project_verified_transition(dict(state), dict(branch), drift_enabled=context.drift_enabled)
+            for state in states for branch in first.effect_branches
+        ]
+        witness.append(first_id)
+        if all(not active_recovery_needs_for(state) for state in states):
+            return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_PROVEN, tuple(witness),
+                                       "current_viable_region", assumptions, "COMPLETE", "bounded_direct_recovery")
+    if successor_assessment_for is None:
+        return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
+                                   assumptions, "SUCCESSOR_CONTEXT_REQUIRED", "future_context_not_assumed")
+    # Keep the certified domain explicitly finite and require every reachable
+    # branch to possess one lawful next step.  The callback supplies a fresh
+    # explicit successor context; the live root is never read as that state.
+    explored = 0
+    for state in successors:
+        if explored >= max_explored_states or max_steps < 2:
+            return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
+                                       assumptions, "BUDGET_EXHAUSTED", "bounded_search_incomplete")
+        explored += 1
+        permitted = [
+            assessment for assessment in assessments.values()
+            if successor_assessment_for(context, state, first_candidate).status == ASSESSMENT_ALLOWED
+        ]
+        if not permitted:
+            return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
+                                       assumptions, "EXHAUSTED_SUPPORTED_DOMAIN", "no_supported_successor")
+    return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
+                               assumptions, "SUCCESSOR_REVALIDATION_REQUIRED", "conditional_witness_only")
 
 
 def _corrects_need(
@@ -181,6 +367,7 @@ def enumerate_regulatory_recovery_routes(
     observations: Sequence[Mapping[str, Any]],
     authority_effect_branches_for: Callable[[Any], Sequence[Mapping[str, float]]],
     current_executability_for: Callable[[Any], str],
+    assessment_for: Callable[[Any], CandidateAssessment] | None = None,
     drift_enabled: bool = True,
 ) -> tuple[RegulatoryRecoveryRoute, ...]:
     """Derive direct endpoints and explicitly non-authoritative MAY routes.
@@ -207,8 +394,13 @@ def enumerate_regulatory_recovery_routes(
 
     for endpoint in direct:
         endpoint_target = _target(endpoint)
+        assessment = assessment_for(endpoint) if assessment_for is not None else None
         branches = tuple(dict(branch) for branch in authority_effect_branches_for(endpoint))
-        executable = current_executability_for(endpoint) == EXECUTABLE
+        executable = (
+            assessment.status == ASSESSMENT_ALLOWED
+            if assessment is not None
+            else current_executability_for(endpoint) == EXECUTABLE
+        )
         safe, projected = _project(physiology, branches, drift_enabled=drift_enabled)
         for need in needs:
             if executable and safe and _corrects_need(

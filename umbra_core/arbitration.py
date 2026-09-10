@@ -30,7 +30,13 @@ from umbra_core.recoverability.contracts import (
     candidate_is_admissible,
 )
 from umbra_core.recoverability.viability import (
+    ASSESSMENT_ALLOWED,
+    CERTIFICATE_PROVEN,
+    CandidateAssessment,
     DIRECT_RECOVERY_PATH_NOT_PROVEN,
+    RecoveryAssessmentContext,
+    assess_candidate,
+    certify_candidate_recovery,
     enumerate_regulatory_recovery_routes,
     direct_regulatory_recovery_path_status,
     may_route_candidates,
@@ -863,6 +869,9 @@ class Arbitrator:
         distributed_trace: dict[str, Any] | None = None,
         continuation_filter_for: Callable[[Sequence[Candidate]], tuple[Sequence[Candidate], Mapping[str, Any]]] | None = None,
         candidate_executability: Callable[[Candidate], str] | None = None,
+        governance_precondition_for: Callable[[Candidate], bool | None] | None = None,
+        candidate_execution_params_for: Callable[[Candidate], Mapping[str, Any] | None] | None = None,
+        recovery_assessment_context: Mapping[str, str] | None = None,
         viability_kernel_enabled: bool = True,
     ) -> Candidate:
         # ``tick`` remains the orchestration clock for compatibility and for
@@ -902,6 +911,49 @@ class Arbitrator:
 
         def candidate_allowed_here(candidate: Candidate) -> bool:
             return candidate_allowed is None or candidate_allowed(candidate)
+
+        metadata = dict(recovery_assessment_context or {})
+        shared_context = RecoveryAssessmentContext(
+            root_id=f"recovery-root:{active_tick}:{candidate_behavioral_identity('ROOT', phys.as_dict())}",
+            physiology=phys.as_dict(),
+            observation_version=str(metadata.get("observation_version", canon_json(observations))),
+            body_binding_version=str(metadata.get("body_binding_version", "unknown")),
+            governance_version=str(metadata.get("governance_version", "unknown")),
+            model_version=str(metadata.get("model_version", "unknown")),
+            drift_enabled=phys.drift_enabled,
+        )
+        assessment_cache: dict[str, CandidateAssessment] = {}
+
+        def assess_recovery_candidate(candidate: Candidate) -> CandidateAssessment:
+            identity = candidate_behavioral_identity(candidate.capability, candidate.params)
+            cached = assessment_cache.get(identity)
+            if cached is not None:
+                return cached
+            assessment = assess_candidate(
+                context=shared_context,
+                candidate=candidate,
+                execution_params_for=lambda _ctx, value: (
+                    candidate_execution_params_for(value)
+                    if candidate_execution_params_for is not None else dict(value.params)
+                ),
+                eligible_for=lambda _ctx, value: candidate_allowed_here(value),
+                compositional_admissible_for=lambda _ctx, value, branches: candidate_is_admissible(
+                    value, physiology=phys, observations=observations,
+                    arbitration_state=self.state, effect_branches=branches,
+                ),
+                executability_for=lambda _ctx, value: (
+                    candidate_executability(value) if candidate_executability is not None else EXECUTABLE
+                ),
+                governance_precondition_for=lambda _ctx, value: (
+                    governance_precondition_for(value) if governance_precondition_for is not None else True
+                ),
+                effect_branches_for=lambda _ctx, value: (
+                    authority_effect_branches(value) if authority_effect_branches is not None
+                    else verified_outcome_effect_branches(value.capability)
+                ),
+            )
+            assessment_cache[identity] = assessment
+            return assessment
 
         def execution_ready(candidate: Candidate) -> bool:
             """Apply the trusted categorical gate to terminal actions."""
@@ -1098,6 +1150,7 @@ class Arbitrator:
                     observations=observations,
                     authority_effect_branches_for=authority_effect_branches,
                     current_executability_for=candidate_executability,
+                    assessment_for=assess_recovery_candidate,
                     drift_enabled=phys.drift_enabled,
                 )
 
@@ -1147,26 +1200,26 @@ class Arbitrator:
                 direct_regulators = [
                     candidate
                     for candidate in robust_candidates(recovery_routes)
-                    if viability_admissible(candidate)
+                    if assess_recovery_candidate(candidate).status == ASSESSMENT_ALLOWED
                 ]
                 if direct_regulators:
                     source_visible_routes = [
                         candidate
                         for candidate in may_route_candidates(recovery_routes)
-                        if viability_admissible(candidate)
+                        if assess_recovery_candidate(candidate).status == ASSESSMENT_ALLOWED
                     ]
-                    reserve_preserving = [
-                        candidate
-                        for candidate in direct_regulators
-                        if preserves_robust_recovery_reserve(
-                            candidate=candidate,
-                            physiology=phys.as_dict(),
-                            candidates=recovery_pool,
-                            observations=observations,
-                            authority_effect_branches_for=authority_effect_branches,
-                            current_executability_for=candidate_executability,
-                            drift_enabled=phys.drift_enabled,
+                    certificates = {
+                        candidate_behavioral_identity(candidate.capability, candidate.params):
+                        certify_candidate_recovery(
+                            context=shared_context,
+                            first_candidate=candidate,
+                            assessments=assessment_cache,
                         )
+                        for candidate in direct_regulators
+                    }
+                    reserve_preserving = [
+                        candidate for candidate in direct_regulators
+                        if certificates[candidate_behavioral_identity(candidate.capability, candidate.params)].status == CERTIFICATE_PROVEN
                     ]
                     direct_path_status = (
                         direct_regulatory_recovery_path_status(
@@ -1222,7 +1275,7 @@ class Arbitrator:
                 source_visible_routes = [
                     candidate
                     for candidate in may_route_candidates(recovery_routes)
-                    if viability_admissible(candidate)
+                    if assess_recovery_candidate(candidate).status == ASSESSMENT_ALLOWED
                 ]
                 if source_visible_routes:
                     chosen = pick_recovery(source_visible_routes)

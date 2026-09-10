@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 
 from umbra_core.embodiment import CAPABILITIES, Embodiment
 from umbra_core.embodiment_adapters.adapter import AdapterRequest, EmbodimentAdapter
@@ -351,6 +351,21 @@ class Governance:
             params=dict(params),
             requested_effects=list(requested_effects or []),
         )
+
+    def preflight_admission(
+        self, capability: str, params: Mapping[str, Any], *, tick: int
+    ) -> bool | None:
+        """Pure subset of ordinary admission; ``None`` is unknown, never allow."""
+        if capability == WAIT_CAPABILITY:
+            return None
+        if capability not in self.state.grants or capability not in PREAUTHORIZED:
+            return False
+        if not isinstance(params, Mapping):
+            return False
+        if capability in SIGNAL_CAPABILITIES and tick - self.state.last_signal_tick < self.state.signal_cooldown_ticks:
+            return False
+        unsafe_keys = set(params) & {"agent_id", "identity_commitment", "grants", "authority", "physiology_set", "target_object_id"}
+        return not unsafe_keys
 
     def admit(
         self,
