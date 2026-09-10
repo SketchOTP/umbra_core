@@ -1047,6 +1047,18 @@ class Embodiment:
             if ok:
                 detail["inspectable"] = True
             return detail
+        if capability == "ORIENT":
+            # This is a pure mirror of execute_primitive's dispatch boundary.
+            # A delayed body produces the real deferred verified branch; an
+            # immediate body cannot produce that branch merely because safety
+            # is evaluating it before execution.
+            delayed = body.actuator_delay >= 1.0
+            detail.update(
+                ok_raw=True,
+                reason="delayed" if delayed else "ok",
+                delayed=delayed,
+            )
+            return detail
         return None
 
     def execute_primitive(

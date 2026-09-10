@@ -1,0 +1,11 @@
+{
+  "directive": "AS016_FORMAL_RUNNER_PREFLIGHT",
+  "formal_regimes": {
+    "R0": [41616021],
+    "R1": [41616022],
+    "R2": [41616023],
+    "R3": [41616024]
+  },
+  "schema": "AS016_SEED_MANIFEST_V1",
+  "seed_status": "development_preflight_only"
+}

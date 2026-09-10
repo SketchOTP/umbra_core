@@ -1,3 +1,12 @@
+## AS-016 pre-lock learning — 2026-09-10
+
+Correct immediate action modeling does not by itself preserve recoverability.
+A one-step regulator can retain a local corrective effect while exhausting the
+bounded all-need continuation. A source-visible MAY approach remains MAY, but
+it must not be suppressed by a direct-regulator loop that cannot prove a
+current direct return to viability. This distinction must remain effect- and
+preflight-derived, with no need-priority table or future-arrival guarantee.
+
 ## AS-012 exact-entrypoint boundary — 2026-09-06
 
 AS-011's helper-level preflight was insufficient: exact executable entrypoints must be invoked before lock. Downstream flags must be passed through the canonical initializer, causal ablations must share one matched stochastic root, and every frozen metric—including CPU fraction—must participate in the frozen reducer. AS-012 preserves these as experiment-only requirements; production remains untouched.

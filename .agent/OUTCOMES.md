@@ -1,3 +1,15 @@
+## AS-016 PRE-LOCK REPAIR CLOSURE — 2026-09-10
+
+AS-016 remains pre-lock. The candidate repaired immediate/delayed ORIENT
+preflight parity, effect-then-drift physiology projection, authority-derived
+direct regulators, and bounded multi-need recovery continuity. Excluded
+development R0--R3 completed `4000/4000`; current focused lineage passed
+`90/90` twice; applicable regression was `1365 PASS / 4 SKIP / 7 exact-baseline
+inherited failures`, candidate-only `0`; literal downstream and population
+CLIs passed with create-once readback. Formal/disjoint downstream seeds are
+fresh (`36`, overlap `0`) but unused. Authority, Governance, and diff-check
+passed. No scientific lock has been established.
+
 ## AS-011 TERMINAL CLOSEOUT — 2026-09-05
 
 ## AS-012 TERMINAL CLOSEOUT — 2026-09-06

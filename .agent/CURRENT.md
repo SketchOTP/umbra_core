@@ -1,3 +1,25 @@
+# CURRENT AUTHORITY — UMBRA-AS-016 PRE-LOCK REPAIR
+
+AS-016 is authorized from exact baseline
+`17859e03143b2278e612efeb3e96684f830b741f`; local `HEAD` and
+`github/master` reconcile to that SHA before AS-016 production work. AS-015 is
+permanently terminal as `AS015_FRESH_R2_FAIL` and its R2/S10 seed `1995954`
+must not be rerun, reseeded, completed, or tuned. AS-016 has established three
+source-level inconsistencies: immediate ORIENT dispatch was represented by an
+imaginary delayed branch, direct regulatory endpoint discovery was restricted
+to terminal capability membership, and safety/recoverability projected
+physiology with a different clamp order than the physiology owner. Retained
+failure evidence does not preserve the candidate/preflight chain needed to
+prove that an ORIENT rejection caused the R2 tick-3537 denial. The repaired
+candidate passed excluded R0--R3 `4000/4000`, two identical
+recovery/persistence/body lineages (`90` each), a path-safe applicable suite
+of `1365 PASS / 4 SKIP / 7 exact-baseline inherited failures`, literal
+downstream and population CLI publication/readback preflights, and a fresh
+36-seed disjointness proof. Readiness artifact SHA-256:
+`730c98eae829cf48572145f98c4f3a65be0fb5fd87f002804fb303370fd4d8c7`.
+AS-016 remains pre-lock pending candidate publication and Architect lock
+review; no fresh formal organism or formal seed has been consumed.
+
 # CURRENT AUTHORITY — UMBRA-AS-015 TERMINAL
 
 AS-015 is permanently terminal as `AS015_FRESH_R2_FAIL`. The scientific

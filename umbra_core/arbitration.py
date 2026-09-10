@@ -14,6 +14,7 @@ from umbra_core.physiology import (
     Physiology,
     verified_outcome_effects,
     verified_outcome_effect_branches,
+    project_verified_transition,
 )
 from umbra_core.temporal.policy import PolicyExpectationView
 from umbra_core.util import SeededRNG, canon_json, clamp
@@ -29,8 +30,11 @@ from umbra_core.recoverability.contracts import (
     candidate_is_admissible,
 )
 from umbra_core.recoverability.viability import (
+    DIRECT_RECOVERY_PATH_NOT_PROVEN,
     enumerate_regulatory_recovery_routes,
+    direct_regulatory_recovery_path_status,
     may_route_candidates,
+    preserves_robust_recovery_reserve,
     robust_candidates,
 )
 from umbra_core.stochastic_competition import (
@@ -361,16 +365,13 @@ class Arbitrator:
         invariant covers every homeostatic variable.
         """
         _ = ignore
-        drift = DEFAULT_DRIFT if phys.drift_enabled else {}
         branches = effect_branches or verified_outcome_effect_branches(cand.capability)
         for effects in branches:
             for name in BOUNDS:
                 before = phys.get(name)
-                after = clamp(
-                    before
-                    + float(effects.get(name, 0.0))
-                    + float(drift.get(name, 0.0))
-                )
+                after = project_verified_transition(
+                    phys.as_dict(), effects, drift_enabled=phys.drift_enabled
+                )[name]
                 if not BOUNDS[name].critical_violation(before) and BOUNDS[name].critical_violation(after):
                     return True
         return False
@@ -1097,9 +1098,15 @@ class Arbitrator:
                     observations=observations,
                     authority_effect_branches_for=authority_effect_branches,
                     current_executability_for=candidate_executability,
+                    drift_enabled=phys.drift_enabled,
                 )
 
-                def record_kernel(chosen: Candidate | None, disposition: str) -> None:
+                def record_kernel(
+                    chosen: Candidate | None,
+                    disposition: str,
+                    *,
+                    direct_path_status: str | None = None,
+                ) -> None:
                     # Values are derived only from the existing ordinary
                     # candidates, policy observation kinds, and authority
                     # effect/executability sources used above.  No Habitat
@@ -1134,6 +1141,7 @@ class Arbitrator:
                         "endpoint_effect_source": "authority_effect_branches",
                         "opportunity_source": "ordinary_policy_visible_candidate",
                         "branch_safety": "existing_verified_branch_safety_unchanged",
+                        "direct_regulatory_path_status": direct_path_status,
                     }
 
                 direct_regulators = [
@@ -1142,8 +1150,74 @@ class Arbitrator:
                     if viability_admissible(candidate)
                 ]
                 if direct_regulators:
+                    source_visible_routes = [
+                        candidate
+                        for candidate in may_route_candidates(recovery_routes)
+                        if viability_admissible(candidate)
+                    ]
+                    reserve_preserving = [
+                        candidate
+                        for candidate in direct_regulators
+                        if preserves_robust_recovery_reserve(
+                            candidate=candidate,
+                            physiology=phys.as_dict(),
+                            candidates=recovery_pool,
+                            observations=observations,
+                            authority_effect_branches_for=authority_effect_branches,
+                            current_executability_for=candidate_executability,
+                            drift_enabled=phys.drift_enabled,
+                        )
+                    ]
+                    direct_path_status = (
+                        direct_regulatory_recovery_path_status(
+                            physiology=phys.as_dict(),
+                            candidates=recovery_pool,
+                            observations=observations,
+                            authority_effect_branches_for=authority_effect_branches,
+                            current_executability_for=candidate_executability,
+                            drift_enabled=phys.drift_enabled,
+                        )
+                        if source_visible_routes
+                        else None
+                    )
+                    # An otherwise corrective action may not destroy the last
+                    # bounded robust recovery continuation while an ordinary
+                    # source-backed regulator preserves one.
+                    if reserve_preserving and direct_path_status != DIRECT_RECOVERY_PATH_NOT_PROVEN:
+                        chosen = pick_recovery(reserve_preserving)
+                        record_kernel(
+                            chosen,
+                            "ROBUST_ENDPOINT_PRESERVING_SELECTED",
+                            direct_path_status=direct_path_status,
+                        )
+                        return commit_safe_recovery(chosen, preserve_legacy=False)
+
+                    # A direct regulator with only a one-step effect cannot
+                    # suppress an already source-visible, currently safe
+                    # approach to a corrective endpoint merely because that
+                    # endpoint's future arrival remains MAY.  The approach is
+                    # not reclassified as robust or guaranteed; it is only
+                    # preferred over a direct action already shown unable to
+                    # retain a bounded multi-need continuation.
+                    if source_visible_routes:
+                        chosen = pick_recovery(source_visible_routes)
+                        record_kernel(
+                            chosen,
+                            (
+                                "MAY_ROUTE_SELECTED_DIRECT_PATH_NOT_PROVEN"
+                                if direct_path_status == DIRECT_RECOVERY_PATH_NOT_PROVEN
+                                else "MAY_ROUTE_SELECTED_AFTER_RESERVE_LOSS"
+                            ),
+                            direct_path_status=direct_path_status,
+                        )
+                        return commit_safe_recovery(chosen, preserve_legacy=False)
+
                     chosen = pick_recovery(direct_regulators)
-                    record_kernel(chosen, "ROBUST_ENDPOINT_SELECTED")
+                    record_kernel(
+                        chosen,
+                        "ROBUST_ENDPOINT_NO_PRESERVING_ALTERNATIVE",
+                        direct_path_status=direct_path_status,
+                    )
                     return commit_safe_recovery(chosen, preserve_legacy=False)
                 source_visible_routes = [
                     candidate

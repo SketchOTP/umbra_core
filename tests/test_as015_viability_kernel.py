@@ -222,7 +222,7 @@ def test_active_fatigue_recovery_uses_current_charge_without_a_fatigue_action_ma
     assert selected.params["toward"] == "resource"
     evidence = arbiter.state.last_viability_kernel
     assert evidence is not None
-    assert evidence["disposition"] == "ROBUST_ENDPOINT_SELECTED"
+    assert evidence["disposition"] == "ROBUST_ENDPOINT_PRESERVING_SELECTED"
     assert evidence["endpoint_effect_source"] == "authority_effect_branches"
     assert evidence["opportunity_source"] == "ordinary_policy_visible_candidate"
     assert evidence["routes"] == [{

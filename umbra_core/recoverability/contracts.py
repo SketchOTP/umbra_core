@@ -8,7 +8,11 @@ from __future__ import annotations
 
 from typing import Any, Mapping, Sequence
 
-from umbra_core.physiology import BOUNDS, DEFAULT_DRIFT, verified_outcome_effect_branches
+from umbra_core.physiology import (
+    BOUNDS,
+    project_verified_transition,
+    verified_outcome_effect_branches,
+)
 
 ALLOW = "ALLOW"
 CONSTRAIN = "CONSTRAIN"
@@ -59,16 +63,33 @@ def _critical_margin(name: str, value: float) -> float:
     return min(value - bounds.critical_low, bounds.critical_high - value)
 
 
-def _worst_margin(physiology: Mapping[str, float], branches: Sequence[Mapping[str, float]], attempts: int) -> float:
+def _worst_margin(
+    physiology: Mapping[str, float],
+    branches: Sequence[Mapping[str, float]],
+    attempts: int,
+    *,
+    drift_enabled: bool,
+) -> float:
     minimum = float("inf")
     for branch in branches or ({},):
+        projected = dict(physiology)
+        for _ in range(attempts):
+            projected = project_verified_transition(
+                projected, dict(branch), drift_enabled=drift_enabled
+            )
         for name in BOUNDS:
-            projected = float(physiology[name]) + attempts * (float(branch.get(name, 0.0)) + float(DEFAULT_DRIFT.get(name, 0.0)))
-            minimum = min(minimum, _critical_margin(name, projected))
+            minimum = min(minimum, _critical_margin(name, projected[name]))
     return minimum
 
 
-def _reserve(capability: str, physiology: Mapping[str, float], params: Mapping[str, Any], effect_branches: Sequence[Mapping[str, float]] | None) -> dict[str, Any]:
+def _reserve(
+    capability: str,
+    physiology: Mapping[str, float],
+    params: Mapping[str, Any],
+    effect_branches: Sequence[Mapping[str, float]] | None,
+    *,
+    drift_enabled: bool,
+) -> dict[str, Any]:
     required = params.get("required_attempts")
     reserve = params.get("retry_reserve")
     if required is None or reserve is None:
@@ -78,7 +99,7 @@ def _reserve(capability: str, physiology: Mapping[str, float], params: Mapping[s
     except (TypeError, ValueError):
         return _record("R", UNKNOWN, capability, "reserve_fields_invalid")
     branches = tuple(effect_branches or verified_outcome_effect_branches(capability))
-    margin = _worst_margin(physiology, branches, attempts)
+    margin = _worst_margin(physiology, branches, attempts, drift_enabled=drift_enabled)
     if margin < 0.0:
         return _record("R", CONSTRAIN, capability, "bounded_failure_retry_reserve_inadequate", projected_minimum_margin=margin, attempts=attempts)
     return _record("R", ALLOW, capability, "bounded_failure_retry_reserve_adequate", projected_minimum_margin=margin, attempts=attempts)
@@ -116,11 +137,22 @@ def _horizon(capability: str, params: Mapping[str, Any]) -> dict[str, Any]:
     return _record("H", ALLOW, capability, "horizon_comfortable", time_to_critical=remaining_i, required_steps=required_i)
 
 
-def evaluate_recovery_contracts(*, capability: str, params: Mapping[str, Any], physiology: Mapping[str, float], observations: Sequence[Mapping[str, Any]], arbitration_state: Any, effect_branches: Sequence[Mapping[str, float]] | None = None) -> dict[str, Any]:
+def evaluate_recovery_contracts(
+    *,
+    capability: str,
+    params: Mapping[str, Any],
+    physiology: Mapping[str, float],
+    observations: Sequence[Mapping[str, Any]],
+    arbitration_state: Any,
+    effect_branches: Sequence[Mapping[str, float]] | None = None,
+    drift_enabled: bool = True,
+) -> dict[str, Any]:
     """Return bounded contract evidence for one policy-visible candidate."""
     contracts = [
         _executability(capability, params, observations, arbitration_state),
-        _reserve(capability, physiology, params, effect_branches),
+        _reserve(
+            capability, physiology, params, effect_branches, drift_enabled=drift_enabled
+        ),
         _progress(capability, params, observations),
         _horizon(capability, params),
     ]
@@ -137,7 +169,14 @@ def evaluate_recovery_contracts(*, capability: str, params: Mapping[str, Any], p
     }
 
 
-def candidate_is_admissible(candidate: Any, *, physiology: Any, observations: Sequence[Mapping[str, Any]], arbitration_state: Any, effect_branches: Sequence[Mapping[str, float]] | None = None) -> bool:
+def candidate_is_admissible(
+    candidate: Any,
+    *,
+    physiology: Any,
+    observations: Sequence[Mapping[str, Any]],
+    arbitration_state: Any,
+    effect_branches: Sequence[Mapping[str, float]] | None = None,
+) -> bool:
     evidence = evaluate_recovery_contracts(
         capability=str(candidate.capability),
         params=dict(candidate.params),
@@ -145,6 +184,7 @@ def candidate_is_admissible(candidate: Any, *, physiology: Any, observations: Se
         observations=observations,
         arbitration_state=arbitration_state,
         effect_branches=effect_branches,
+        drift_enabled=bool(getattr(physiology, "drift_enabled", True)),
     )
     return bool(evidence["admissible"])
 

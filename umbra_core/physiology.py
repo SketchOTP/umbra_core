@@ -51,6 +51,32 @@ DEFAULT_DRIFT = {
 }
 
 
+def project_verified_transition(
+    physiology: dict[str, float],
+    effects: dict[str, float],
+    *,
+    drift_enabled: bool = True,
+    dt: float = 1.0,
+) -> dict[str, float]:
+    """Pure next-decision projection using the physiology owner's order.
+
+    Verified effects are clamped when they occur; unavoidable drift is then
+    clamped independently on the next decision boundary.  Safety and
+    recoverability must use this exact sequence rather than collapsing both
+    deltas into one pre-clamp arithmetic expression.
+    """
+    projected = {
+        name: clamp(float(physiology[name]) + float(effects.get(name, 0.0)))
+        for name in BOUNDS
+    }
+    if drift_enabled:
+        projected = {
+            name: clamp(value + float(DEFAULT_DRIFT[name]) * float(dt))
+            for name, value in projected.items()
+        }
+    return projected
+
+
 @dataclass
 class Physiology:
     energy: float = 0.70
