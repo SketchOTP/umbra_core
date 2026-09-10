@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sqlite3
 import subprocess
 import sys
 
@@ -58,6 +59,7 @@ def main() -> None:
     parser.add_argument("--evidence-work", type=Path, required=True)
     parser.add_argument("--result", type=Path, required=True)
     parser.add_argument("--candidate-commit", required=True)
+    parser.add_argument("--publication-smoke", action="store_true")
     args = parser.parse_args()
     if args.local_work.exists() or args.evidence_work.exists() or args.result.exists():
         raise RuntimeError("AS017_CREATE_ONCE_PATH_ALREADY_EXISTS")
@@ -67,6 +69,29 @@ def main() -> None:
     if manifest.get("directive") != DIRECTIVE or manifest.get("horizon_ticks") != HORIZON:
         raise RuntimeError("AS017_MANIFEST_CONTRACT_INVALID")
     manifest_hash = sha256(args.manifest)
+
+    if args.publication_smoke:
+        args.local_work.mkdir(parents=True, exist_ok=False)
+        database = args.local_work / "publication-smoke.sqlite"
+        with sqlite3.connect(database) as connection:
+            connection.execute("PRAGMA journal_mode=WAL")
+            connection.execute("CREATE TABLE smoke (value TEXT NOT NULL)")
+            connection.execute("INSERT INTO smoke VALUES ('local-runtime-storage')")
+        database_hash = publish_file_once(
+            database, args.evidence_work / "case-databases" / database.name
+        )
+        payload = {
+            "schema": "AS017_DEVELOPMENT_PUBLICATION_SMOKE_V1",
+            "directive": DIRECTIVE,
+            "candidate_commit": args.candidate_commit,
+            "seed_manifest_sha256": manifest_hash,
+            "runtime_storage": "local_sqlite_wal_shm",
+            "database_sha256": database_hash,
+            "formal_seed_consumption": 0,
+        }
+        digest = publish_json_once(args.result, payload)
+        print(json.dumps({"terminal": "AS017_PUBLICATION_SMOKE_PASS", "sha256": digest}, sort_keys=True))
+        return
 
     def on_case(row: dict) -> None:
         database = args.local_work / f"{row['regime']}-{row['seed']}.sqlite"
