@@ -73,13 +73,21 @@ def main() -> None:
     if args.publication_smoke:
         args.local_work.mkdir(parents=True, exist_ok=False)
         database = args.local_work / "publication-smoke.sqlite"
-        with sqlite3.connect(database) as connection:
+        connection = sqlite3.connect(database)
+        try:
             connection.execute("PRAGMA journal_mode=WAL")
             connection.execute("CREATE TABLE smoke (value TEXT NOT NULL)")
             connection.execute("INSERT INTO smoke VALUES ('local-runtime-storage')")
+            connection.commit()
+        finally:
+            connection.close()
         database_hash = publish_file_once(
             database, args.evidence_work / "case-databases" / database.name
         )
+        with sqlite3.connect(args.evidence_work / "case-databases" / database.name) as exported:
+            observed = exported.execute("SELECT value FROM smoke").fetchall()
+        if observed != [("local-runtime-storage",)]:
+            raise RuntimeError("AS017_PUBLICATION_SMOKE_CONTENT_MISMATCH")
         payload = {
             "schema": "AS017_DEVELOPMENT_PUBLICATION_SMOKE_V1",
             "directive": DIRECTIVE,
