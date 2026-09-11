@@ -9,7 +9,7 @@ route: observed movement evidence cannot become a future-arrival guarantee.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import math
 from typing import Any, Callable, Mapping, Sequence
 
@@ -227,45 +227,61 @@ def certify_candidate_recovery(
     if all(not active_recovery_needs_for(state) for state in successors):
         return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_PROVEN, (first_id,),
                                    "current_viable_region", assumptions, "COMPLETE", "direct_recovery")
-    # A current terminal endpoint may need several immediate applications.
-    # This remains conditional on the exact root versions above; the runtime
-    # drops/reassesses the witness at the next root if any condition changes.
-    # No position/body fact is projected or invented here.
+    # A later application is a distinct action at a distinct successor state.
+    # It therefore requires a fresh, explicit authority assessment.  Reusing
+    # the root assessment merely because the capability and root-version
+    # labels match would silently claim that body, admission and opportunity
+    # facts survive an imagined step.
+    if successor_assessment_for is None:
+        return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
+                                   assumptions, "SUCCESSOR_CONTEXT_REQUIRED", "future_context_not_assumed")
     states = successors
     witness = [first_id]
-    for _ in range(1, max_steps):
+    explored = 0
+    for step in range(1, max_steps):
         if len(states) > max_explored_states:
             return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, tuple(witness), None,
                                        assumptions, "BUDGET_EXHAUSTED", "bounded_search_incomplete")
-        states = [
-            project_verified_transition(dict(state), dict(branch), drift_enabled=context.drift_enabled)
-            for state in states for branch in first.effect_branches
-        ]
+        next_states: list[dict[str, float]] = []
+        for branch_index, state in enumerate(states):
+            if explored >= max_explored_states:
+                return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, tuple(witness), None,
+                                           assumptions, "BUDGET_EXHAUSTED", "bounded_search_incomplete")
+            explored += 1
+            successor_context = replace(
+                context,
+                root_id=f"{context.root_id}:successor:{step}:{branch_index}",
+                physiology=dict(state),
+            )
+            successor = successor_assessment_for(successor_context, state, first_candidate)
+            if successor.status != ASSESSMENT_ALLOWED:
+                return RecoveryCertificate(
+                    context.root_id, first_id, CERTIFICATE_UNKNOWN, tuple(witness), None,
+                    assumptions,
+                    "SUCCESSOR_DENIED" if successor.status == ASSESSMENT_DENIED else "SUCCESSOR_UNKNOWN",
+                    "future_action_not_supported",
+                )
+            # The witness is for this exact requested action and translated
+            # parameters. A callback may not substitute a similarly named
+            # action at the successor root and retain this certificate.
+            if (
+                successor.candidate_identity != first_id
+                or dict(successor.requested_params) != dict(first.requested_params)
+                or dict(successor.execution_params) != dict(first.execution_params)
+            ):
+                return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, tuple(witness), None,
+                                           assumptions, "SUCCESSOR_IDENTITY_MISMATCH", "future_action_not_exact")
+            next_states.extend(
+                project_verified_transition(dict(state), dict(branch), drift_enabled=context.drift_enabled)
+                for branch in successor.effect_branches
+            )
+        states = next_states
         witness.append(first_id)
         if all(not active_recovery_needs_for(state) for state in states):
             return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_PROVEN, tuple(witness),
                                        "current_viable_region", assumptions, "COMPLETE", "bounded_direct_recovery")
-    if successor_assessment_for is None:
-        return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
-                                   assumptions, "SUCCESSOR_CONTEXT_REQUIRED", "future_context_not_assumed")
-    # Keep the certified domain explicitly finite and require every reachable
-    # branch to possess one lawful next step.  The callback supplies a fresh
-    # explicit successor context; the live root is never read as that state.
-    explored = 0
-    for state in successors:
-        if explored >= max_explored_states or max_steps < 2:
-            return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
-                                       assumptions, "BUDGET_EXHAUSTED", "bounded_search_incomplete")
-        explored += 1
-        permitted = [
-            assessment for assessment in assessments.values()
-            if successor_assessment_for(context, state, first_candidate).status == ASSESSMENT_ALLOWED
-        ]
-        if not permitted:
-            return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
-                                       assumptions, "EXHAUSTED_SUPPORTED_DOMAIN", "no_supported_successor")
-    return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (first_id,), None,
-                               assumptions, "SUCCESSOR_REVALIDATION_REQUIRED", "conditional_witness_only")
+    return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, tuple(witness), None,
+                               assumptions, "STEP_LIMIT", "bounded_recovery_not_completed")
 
 
 def _corrects_need(

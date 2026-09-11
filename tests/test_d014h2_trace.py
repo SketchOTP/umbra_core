@@ -44,7 +44,17 @@ def _run(tmp_path: Path, seed: int, trace_path: Path | None, name: str, ticks: i
 
 
 def _without_hash(rows):
-    return [{key: value for key, value in row.items() if key != "trace_row_hash"} for row in rows]
+    def scrub(value):
+        if isinstance(value, dict):
+            return {
+                key: scrub(item)
+                for key, item in value.items()
+                if key not in {"trace_row_hash", "execution_id"}
+            }
+        if isinstance(value, list):
+            return [scrub(item) for item in value]
+        return value
+    return [scrub(row) for row in rows]
 
 
 def test_trace_is_default_disabled(tmp_path):

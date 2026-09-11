@@ -34,6 +34,7 @@ from umbra_core.recoverability.viability import (
     CERTIFICATE_PROVEN,
     CandidateAssessment,
     DIRECT_RECOVERY_PATH_NOT_PROVEN,
+    RecoveryCertificate,
     RecoveryAssessmentContext,
     assess_candidate,
     certify_candidate_recovery,
@@ -1159,6 +1160,7 @@ class Arbitrator:
                     disposition: str,
                     *,
                     direct_path_status: str | None = None,
+                    certificate: RecoveryCertificate | None = None,
                 ) -> None:
                     # Values are derived only from the existing ordinary
                     # candidates, policy observation kinds, and authority
@@ -1195,6 +1197,28 @@ class Arbitrator:
                         "opportunity_source": "ordinary_policy_visible_candidate",
                         "branch_safety": "existing_verified_branch_safety_unchanged",
                         "direct_regulatory_path_status": direct_path_status,
+                        "selected_recovery_certificate": (
+                            {
+                                "root_id": certificate.root_id,
+                                "first_candidate_identity": certificate.first_candidate_identity,
+                                "first_candidate": (
+                                    {
+                                        "capability": chosen.capability,
+                                        "requested_params": dict(chosen.params),
+                                    }
+                                    if chosen is not None
+                                    else None
+                                ),
+                                "status": certificate.status,
+                                "witness": list(certificate.witness),
+                                "terminal_condition": certificate.terminal_condition,
+                                "assumptions": dict(certificate.assumptions),
+                                "search_budget_status": certificate.search_budget_status,
+                                "reason": certificate.reason,
+                            }
+                            if certificate is not None
+                            else None
+                        ),
                     }
 
                 direct_regulators = [
@@ -1242,6 +1266,9 @@ class Arbitrator:
                             chosen,
                             "ROBUST_ENDPOINT_PRESERVING_SELECTED",
                             direct_path_status=direct_path_status,
+                            certificate=certificates[
+                                candidate_behavioral_identity(chosen.capability, chosen.params)
+                            ],
                         )
                         return commit_safe_recovery(chosen, preserve_legacy=False)
 

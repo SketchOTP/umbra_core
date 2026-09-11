@@ -222,7 +222,12 @@ def test_active_fatigue_recovery_uses_current_charge_without_a_fatigue_action_ma
     assert selected.params["toward"] == "resource"
     evidence = arbiter.state.last_viability_kernel
     assert evidence is not None
-    assert evidence["disposition"] == "ROBUST_ENDPOINT_PRESERVING_SELECTED"
+    # CHARGE is selected through the ordinary recovery path, but its small
+    # current effect does not itself certify repeated future CHARGE actions
+    # without successor authority.  Selecting it must not manufacture a
+    # multi-step preservation certificate.
+    assert evidence["disposition"] == "ROBUST_ENDPOINT_NO_PRESERVING_ALTERNATIVE"
+    assert evidence["selected_recovery_certificate"] is None
     assert evidence["endpoint_effect_source"] == "authority_effect_branches"
     assert evidence["opportunity_source"] == "ordinary_policy_visible_candidate"
     assert evidence["routes"] == [{

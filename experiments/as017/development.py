@@ -15,9 +15,18 @@ BASELINE = "fd8c50e1134d7d2ef54e20148ac9b7880e63708d"
 
 
 def run_case(regime: str, seed: int, local_work: Path, horizon: int = HORIZON) -> dict[str, Any]:
-    """Reuse frozen regime mechanics with the current AS-017 configuration."""
+    """Reuse frozen regime mechanics with an inert per-case decision trace."""
     original = (_as014.config, _as014.fingerprint, _as014.DIRECTIVE, _as014.BASELINE)
-    _as014.config, _as014.fingerprint = config, fingerprint
+    trace_path = local_work / "case-traces" / f"{regime}-{seed}.trace.jsonl"
+
+    def traced_config(case_seed: int, db: Path, case_regime: str):
+        value = config(case_seed, db, case_regime)
+        # DecisionTraceSink is default-disabled and never read by policy.  It
+        # records the prospective certificate-to-execution linkage only.
+        value.decision_trace_path = str(trace_path)
+        return value
+
+    _as014.config, _as014.fingerprint = traced_config, fingerprint
     _as014.DIRECTIVE, _as014.BASELINE = DIRECTIVE, BASELINE
     try:
         row = _as014.run_case(regime, seed, local_work, horizon)
@@ -29,6 +38,7 @@ def run_case(regime: str, seed: int, local_work: Path, horizon: int = HORIZON) -
         baseline=BASELINE,
         classification="excluded_development_not_formal_qualification",
         execution_mode="serial_local_sqlite",
+        decision_trace_filename=str(trace_path.relative_to(local_work)),
     )
     return row
 

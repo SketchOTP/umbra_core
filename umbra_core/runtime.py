@@ -418,6 +418,7 @@ class Organism:
         # but WorldModel mutation is deferred until that root has completed.
         self._deferred_executability_denials: dict[str, VerifiedExecutabilityDenial] = {}
         self._policy_visible_terminal_sources: dict[str, dict[str, str]] = {}
+        self._root_terminal_preflight_cache: dict[str, tuple[Candidate, str, dict[str, Any], dict[str, Any] | None]] = {}
 
     @property
     def dt(self) -> float:
@@ -1067,11 +1068,39 @@ class Organism:
             self._capture_qualifying_executability_denial(candidate, raw)
         return status
 
+    def _candidate_executability_for_selection(self, candidate: Candidate) -> str:
+        """Return cached current-root readiness without learning side effects.
+
+        Arbitration and hypothetical recovery assessment can query this more
+        than once.  The cache records one ordinary current-root preflight and
+        is committed, if relevant, only after selection/outcome handling.
+        """
+        identity = candidate_behavioral_identity(candidate.capability, candidate.params)
+        cached = self._root_terminal_preflight_cache.get(identity)
+        if cached is None:
+            status, params, raw = self._candidate_preflight(candidate)
+            cached = (candidate, status, params, raw)
+            self._root_terminal_preflight_cache[identity] = cached
+        return cached[1] if candidate.capability in TERMINAL_CAPABILITIES else EXECUTABLE
+
+    def _candidate_execution_params_for_selection(self, candidate: Candidate) -> dict[str, Any]:
+        """Use the same cached root preflight as the shared assessment."""
+        self._candidate_executability_for_selection(candidate)
+        identity = candidate_behavioral_identity(candidate.capability, candidate.params)
+        return dict(self._root_terminal_preflight_cache[identity][2])
+
+    def _capture_root_preflight_denials(self) -> None:
+        """Defer only already-observed real-root denials after selection."""
+        for candidate, status, _params, raw in self._root_terminal_preflight_cache.values():
+            if candidate.capability in TERMINAL_CAPABILITIES and status == NOT_EXECUTABLE and raw is not None:
+                self._capture_qualifying_executability_denial(candidate, raw)
+
     def _begin_executability_denial_root(
         self, observations: list[dict[str, Any]], organism_age: int
     ) -> None:
         """Capture only the policy-visible sources used by ordinary candidates."""
         self._deferred_executability_denials = {}
+        self._root_terminal_preflight_cache = {}
         sources: dict[str, dict[str, str]] = {}
         # Mirrors generate_candidates' last-observation-per-kind construction.
         # It deliberately retains only public membrane fields, never Habitat IDs
@@ -2150,11 +2179,11 @@ class Organism:
             contextual_channels_for=contextual_channels,
             distributed_trace=distributed_competition_trace,
             continuation_filter_for=continuation_filter,
-            candidate_executability=self._candidate_executability,
+            candidate_executability=self._candidate_executability_for_selection,
             governance_precondition_for=lambda candidate: self.governance.preflight_admission(
                 candidate.capability, candidate.params, tick=organism_age
             ),
-            candidate_execution_params_for=self._candidate_execution_params,
+            candidate_execution_params_for=self._candidate_execution_params_for_selection,
             recovery_assessment_context={
                 "observation_version": canonical_fingerprint(obs_dicts),
                 "body_binding_version": canonical_fingerprint(self.embodiment.body.to_state()),
@@ -2163,6 +2192,9 @@ class Organism:
             },
         )
         base_candidate = cand
+        # Capture only facts already obtained by the shared root assessment.
+        # This runs after selection and makes no additional preflight call.
+        self._capture_root_preflight_denials()
         if self._decision_trace.enabled:
             kernel_record = self.arbitrator.state.last_viability_kernel
             trace_data["viability_kernel"] = (
@@ -2468,6 +2500,7 @@ class Organism:
         trace_data["governance_proposal"] = {
             "capability": proposal.capability,
             "params": dict(proposal.params),
+            "execution_id": proposal.proposal_id,
             "requested_effects": list(proposal.requested_effects),
             "proposal_fingerprint": canonical_fingerprint({
                 "capability": proposal.capability,
@@ -2497,6 +2530,7 @@ class Organism:
         outcome_payload: dict[str, Any] | None = None
         sm_result: dict[str, Any] | None = None
         action_issued = False
+        outcome = None
         if decision.admitted:
             action_issued = True
             self._body_before_action = self.embodiment.body.to_state()
@@ -2519,7 +2553,6 @@ class Organism:
                 "body_schema_id": action_body_schema_id,
                 "route_binding": route_binding,
             }
-            outcome = None
             if (
                 cand.capability == "MANIPULATE"
                 and self.embodiment._habitat_engine is not None
@@ -2668,11 +2701,53 @@ class Organism:
         snap = self.snapshot_if_due()
         trace_data["verified_outcome_linkage"] = {
             "event_sequence": self._last_verified_event_sequence,
+            "execution_id": (
+                str(outcome.outcome_id) if outcome_payload is not None and outcome is not None else None
+            ),
+            "requested_params": dict(cand.params),
+            "applied_params": (
+                dict((outcome.raw or {}).get("applied_parameters", (outcome.raw or {}).get("params")) or {})
+                if outcome is not None
+                and isinstance((outcome.raw or {}).get("applied_parameters", (outcome.raw or {}).get("params")), dict)
+                else None
+            ),
             "capability": outcome_payload.get("capability") if outcome_payload else None,
             "success": outcome_payload.get("success") if outcome_payload else None,
             "reason": outcome_payload.get("reason") if outcome_payload else None,
             "effects": outcome_payload.get("effects") if outcome_payload else None,
         }
+        kernel_trace = trace_data.get("viability_kernel")
+        certificate_trace = (
+            kernel_trace.get("selected_recovery_certificate")
+            if isinstance(kernel_trace, dict)
+            else None
+        )
+        if certificate_trace is not None:
+            selected = trace_data.get("final_candidate") or {}
+            same_first_action = (
+                selected.get("capability")
+                == (certificate_trace.get("first_candidate") or {}).get("capability")
+                and dict(selected.get("params") or {})
+                == dict((certificate_trace.get("first_candidate") or {}).get("requested_params") or {})
+            )
+            if not same_first_action:
+                continuation_status = "REPLACED_BEFORE_EXECUTION"
+            elif not decision.admitted:
+                continuation_status = "GOVERNANCE_DENIED"
+            elif outcome_payload is None:
+                continuation_status = "DELAYED_REVALIDATION_REQUIRED"
+            elif not bool(outcome_payload.get("verified")) or not bool(outcome_payload.get("success")):
+                continuation_status = "INVALIDATED_BY_VERIFIED_OUTCOME"
+            elif len(certificate_trace.get("witness") or ()) == 1 and not self.phys.active_recovery_needs():
+                continuation_status = "TERMINAL_RECOVERY_REVALIDATED"
+            else:
+                continuation_status = "NEXT_ROOT_REVALIDATION_REQUIRED"
+            trace_data["recovery_certificate_continuation"] = {
+                "status": continuation_status,
+                "certificate_root_id": certificate_trace.get("root_id"),
+                "certificate_identity": certificate_trace.get("first_candidate_identity"),
+                "execution_id": (trace_data.get("governance_proposal") or {}).get("execution_id"),
+            }
         trace_data["verified_executability_denials"] = denial_learning
         self._emit_decision_trace(trace_data)
         return {

@@ -10,6 +10,7 @@ from pathlib import Path
 import sqlite3
 import subprocess
 import sys
+from collections import Counter
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -50,6 +51,42 @@ def publish_file_once(source: Path, destination: Path) -> str:
 
 def head() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+
+
+def certificate_linkage(trace: Path) -> dict:
+    """Reduce inert decision traces without replaying policy or preflight."""
+    records: list[dict] = []
+    statuses: Counter[str] = Counter()
+    with trace.open(encoding="utf-8") as handle:
+        for line in handle:
+            row = json.loads(line)
+            kernel = row.get("viability_kernel")
+            if not isinstance(kernel, dict):
+                continue
+            certificate = kernel.get("selected_recovery_certificate")
+            if certificate is None:
+                statuses["ABSENT_CERTIFICATE"] += 1
+                continue
+            continuation = row.get("recovery_certificate_continuation") or {}
+            status = str(continuation.get("status", "UNMATCHED"))
+            statuses[status] += 1
+            records.append({
+                "tick": row.get("tick"),
+                "certificate": certificate,
+                "selected_candidate": row.get("final_candidate"),
+                "governance_proposal": row.get("governance_proposal"),
+                "governance_decision": row.get("governance_decision"),
+                "verified_outcome": row.get("verified_outcome_linkage"),
+                "continuation": continuation,
+                "trace_row_hash": row.get("trace_row_hash"),
+            })
+    return {
+        "schema": "AS017_RECOVERY_CERTIFICATE_LINKAGE_V1",
+        "linked_records": records,
+        "linked_count": len(records),
+        "status_counts": dict(sorted(statuses.items())),
+        "unmatched_count": statuses["UNMATCHED"],
+    }
 
 
 def main() -> None:
@@ -107,6 +144,14 @@ def main() -> None:
         row["database_sha256"] = publish_file_once(database, destination)
         row["candidate_commit"] = args.candidate_commit
         row["seed_manifest_sha256"] = manifest_hash
+        trace = args.local_work / str(row["decision_trace_filename"])
+        trace_destination = args.evidence_work / "case-traces" / trace.name
+        row["decision_trace_sha256"] = publish_file_once(trace, trace_destination)
+        linkage = certificate_linkage(trace_destination)
+        linkage["trace_sha256"] = row["decision_trace_sha256"]
+        linkage["candidate_commit"] = args.candidate_commit
+        linkage_path = args.evidence_work / "certificate-linkage" / f"{row['regime']}-{row['seed_index']:02d}-{row['seed']}.json"
+        row["certificate_linkage_sha256"] = publish_json_once(linkage_path, linkage)
         publish_json_once(args.evidence_work / "case-results" / f"{row['regime']}-{row['seed_index']:02d}-{row['seed']}.json", row)
 
     result = execute(manifest, args.local_work, on_case=on_case)
