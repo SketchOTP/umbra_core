@@ -49,7 +49,11 @@ def _without_hash(rows):
             return {
                 key: scrub(item)
                 for key, item in value.items()
-                if key not in {"trace_row_hash", "execution_id"}
+                if key not in {
+                    "trace_row_hash", "proposal_id", "verified_outcome_id",
+                    "adapter_execution_id", "adapter_request_id",
+                    "governance_proposal_id",
+                }
             }
         if isinstance(value, list):
             return [scrub(item) for item in value]

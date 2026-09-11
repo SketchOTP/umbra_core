@@ -227,5 +227,5 @@ def test_one_step_reserve_cannot_hide_a_source_visible_route_after_multineed_los
     assert chosen.capability == "APPROACH"
     assert chosen.params["source"] == "policy_visible_recovery_approach"
     assert arbiter.state.last_viability_kernel is not None
-    assert arbiter.state.last_viability_kernel["disposition"] == "MAY_ROUTE_SELECTED_DIRECT_PATH_NOT_PROVEN"
-    assert arbiter.state.last_viability_kernel["direct_regulatory_path_status"] == DIRECT_RECOVERY_PATH_NOT_PROVEN
+    assert arbiter.state.last_viability_kernel["disposition"] == "MAY_ROUTE_SELECTED_NO_VECTOR_DIRECT"
+    assert arbiter.state.last_viability_kernel["direct_regulatory_path_status"] is None

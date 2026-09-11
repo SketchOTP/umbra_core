@@ -226,7 +226,7 @@ def test_active_fatigue_recovery_uses_current_charge_without_a_fatigue_action_ma
     # current effect does not itself certify repeated future CHARGE actions
     # without successor authority.  Selecting it must not manufacture a
     # multi-step preservation certificate.
-    assert evidence["disposition"] == "ROBUST_ENDPOINT_NO_PRESERVING_ALTERNATIVE"
+    assert evidence["disposition"] == "ROBUST_ENDPOINT_COVERS_ACTIVE_NEEDS"
     assert evidence["selected_recovery_certificate"] is None
     assert evidence["endpoint_effect_source"] == "authority_effect_branches"
     assert evidence["opportunity_source"] == "ordinary_policy_visible_candidate"
@@ -238,6 +238,36 @@ def test_active_fatigue_recovery_uses_current_charge_without_a_fatigue_action_ma
         "source": "current_authority_preflight",
         "blocked_by": None,
     }]
+
+
+def test_uncertified_may_route_cannot_displace_currently_assessed_regulator() -> None:
+    """Regression for V4C R0: no root-wide path claim may select another action."""
+    arbiter = Arbitrator()
+    physiology = Physiology(energy=0.17, fatigue=0.74, integrity=0.99, stimulation=0.74)
+    observations = [
+        {"kind": "resource", "relative_direction": 0.0, "estimated_distance": 0.5},
+        {"kind": "rest", "relative_direction": 0.1, "estimated_distance": 0.5},
+    ]
+
+    selected = arbiter.select(
+        physiology,
+        observations,
+        tick=176,
+        rng=SeededRNG(15),
+        authority_effect_branches=_branches,
+        # Terminal REST is unavailable, so its approach remains MAY-only;
+        # current CHARGE is an allowed effect-derived regulator.
+        candidate_executability=lambda candidate: (
+            NOT_EXECUTABLE if candidate.capability == "REST" else EXECUTABLE
+        ),
+    )
+
+    assert selected.capability == "CHARGE"
+    assert selected.params == {"toward": "resource"}
+    evidence = arbiter.state.last_viability_kernel
+    assert evidence is not None
+    assert evidence["disposition"] == "ROBUST_ENDPOINT_COVERS_ACTIVE_NEEDS"
+    assert evidence["selected_recovery_certificate"] is None
 
 
 def test_kernel_enabled_recovery_does_not_call_legacy_energy_corridor() -> None:

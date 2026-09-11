@@ -32,16 +32,14 @@ from umbra_core.recoverability.contracts import (
 from umbra_core.recoverability.viability import (
     ASSESSMENT_ALLOWED,
     CERTIFICATE_PROVEN,
+    ROBUST_NOW,
     CandidateAssessment,
-    DIRECT_RECOVERY_PATH_NOT_PROVEN,
     RecoveryCertificate,
     RecoveryAssessmentContext,
     assess_candidate,
     certify_candidate_recovery,
     enumerate_regulatory_recovery_routes,
-    direct_regulatory_recovery_path_status,
     may_route_candidates,
-    preserves_robust_recovery_reserve,
     robust_candidates,
 )
 from umbra_core.stochastic_competition import (
@@ -1227,6 +1225,25 @@ class Arbitrator:
                     if assess_recovery_candidate(candidate).status == ASSESSMENT_ALLOWED
                 ]
                 if direct_regulators:
+                    direct_coverage: dict[str, set[str]] = {}
+                    for route in recovery_routes:
+                        if route.status != ROBUST_NOW:
+                            continue
+                        identity = candidate_behavioral_identity(
+                            route.candidate.capability, route.candidate.params
+                        )
+                        direct_coverage.setdefault(identity, set()).add(route.need)
+                    full_vector_regulators = [
+                        candidate for candidate in direct_regulators
+                        if set(needs).issubset(
+                            direct_coverage.get(
+                                candidate_behavioral_identity(
+                                    candidate.capability, candidate.params
+                                ),
+                                set(),
+                            )
+                        )
+                    ]
                     source_visible_routes = [
                         candidate
                         for candidate in may_route_candidates(recovery_routes)
@@ -1245,59 +1262,44 @@ class Arbitrator:
                         candidate for candidate in direct_regulators
                         if certificates[candidate_behavioral_identity(candidate.capability, candidate.params)].status == CERTIFICATE_PROVEN
                     ]
-                    direct_path_status = (
-                        direct_regulatory_recovery_path_status(
-                            physiology=phys.as_dict(),
-                            candidates=recovery_pool,
-                            observations=observations,
-                            authority_effect_branches_for=authority_effect_branches,
-                            current_executability_for=candidate_executability,
-                            drift_enabled=phys.drift_enabled,
-                        )
-                        if source_visible_routes
-                        else None
-                    )
                     # An otherwise corrective action may not destroy the last
                     # bounded robust recovery continuation while an ordinary
                     # source-backed regulator preserves one.
-                    if reserve_preserving and direct_path_status != DIRECT_RECOVERY_PATH_NOT_PROVEN:
+                    if reserve_preserving:
                         chosen = pick_recovery(reserve_preserving)
                         record_kernel(
                             chosen,
                             "ROBUST_ENDPOINT_PRESERVING_SELECTED",
-                            direct_path_status=direct_path_status,
                             certificate=certificates[
                                 candidate_behavioral_identity(chosen.capability, chosen.params)
                             ],
                         )
                         return commit_safe_recovery(chosen, preserve_legacy=False)
 
-                    # A direct regulator with only a one-step effect cannot
-                    # suppress an already source-visible, currently safe
-                    # approach to a corrective endpoint merely because that
-                    # endpoint's future arrival remains MAY.  The approach is
-                    # not reclassified as robust or guaranteed; it is only
-                    # preferred over a direct action already shown unable to
-                    # retain a bounded multi-need continuation.
-                    if source_visible_routes:
-                        chosen = pick_recovery(source_visible_routes)
+                    # If no finite continuation is certifiable, an immediate
+                    # effect-derived regulator that corrects *every* active
+                    # dimension remains stronger current authority than an
+                    # unguaranteed arrival route.  This is vector coverage,
+                    # not a need-to-action priority or a future guarantee.
+                    if full_vector_regulators:
+                        chosen = pick_recovery(full_vector_regulators)
                         record_kernel(
                             chosen,
-                            (
-                                "MAY_ROUTE_SELECTED_DIRECT_PATH_NOT_PROVEN"
-                                if direct_path_status == DIRECT_RECOVERY_PATH_NOT_PROVEN
-                                else "MAY_ROUTE_SELECTED_AFTER_RESERVE_LOSS"
-                            ),
-                            direct_path_status=direct_path_status,
+                            "ROBUST_ENDPOINT_COVERS_ACTIVE_NEEDS",
                         )
                         return commit_safe_recovery(chosen, preserve_legacy=False)
 
+                    # No present action covers the active vector. A
+                    # policy-visible approach remains MAY-only, but is a
+                    # lawful ordinary alternative rather than being hidden
+                    # by a disconnected root-wide path assertion.
+                    if source_visible_routes:
+                        chosen = pick_recovery(source_visible_routes)
+                        record_kernel(chosen, "MAY_ROUTE_SELECTED_NO_VECTOR_DIRECT")
+                        return commit_safe_recovery(chosen, preserve_legacy=False)
+
                     chosen = pick_recovery(direct_regulators)
-                    record_kernel(
-                        chosen,
-                        "ROBUST_ENDPOINT_NO_PRESERVING_ALTERNATIVE",
-                        direct_path_status=direct_path_status,
-                    )
+                    record_kernel(chosen, "ROBUST_ENDPOINT_NO_PRESERVING_ALTERNATIVE")
                     return commit_safe_recovery(chosen, preserve_legacy=False)
                 source_visible_routes = [
                     candidate

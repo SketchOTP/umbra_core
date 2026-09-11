@@ -2500,7 +2500,7 @@ class Organism:
         trace_data["governance_proposal"] = {
             "capability": proposal.capability,
             "params": dict(proposal.params),
-            "execution_id": proposal.proposal_id,
+            "proposal_id": proposal.proposal_id,
             "requested_effects": list(proposal.requested_effects),
             "proposal_fingerprint": canonical_fingerprint({
                 "capability": proposal.capability,
@@ -2701,8 +2701,15 @@ class Organism:
         snap = self.snapshot_if_due()
         trace_data["verified_outcome_linkage"] = {
             "event_sequence": self._last_verified_event_sequence,
-            "execution_id": (
+            "verified_outcome_id": (
                 str(outcome.outcome_id) if outcome_payload is not None and outcome is not None else None
+            ),
+            "governance_proposal_id": proposal.proposal_id,
+            "adapter_execution_id": (
+                (outcome.raw or {}).get("execution_id") if outcome is not None else None
+            ),
+            "adapter_request_id": (
+                (outcome.raw or {}).get("request_id") if outcome is not None else None
             ),
             "requested_params": dict(cand.params),
             "applied_params": (
@@ -2746,7 +2753,7 @@ class Organism:
                 "status": continuation_status,
                 "certificate_root_id": certificate_trace.get("root_id"),
                 "certificate_identity": certificate_trace.get("first_candidate_identity"),
-                "execution_id": (trace_data.get("governance_proposal") or {}).get("execution_id"),
+                "governance_proposal_id": (trace_data.get("governance_proposal") or {}).get("proposal_id"),
             }
         trace_data["verified_executability_denials"] = denial_learning
         self._emit_decision_trace(trace_data)
