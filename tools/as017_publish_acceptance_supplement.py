@@ -212,10 +212,10 @@ def main() -> None:
     }
 
     supplement = {
-        "schema": "AS017_RECOVERY_ACCEPTANCE_SUPPLEMENT_V1",
+        "schema": "AS017_RECOVERY_ACCEPTANCE_SUPPLEMENT_V2",
         "directive": DIRECTIVE,
         "classification": "scoped_prelock_development_evidence",
-        "terminal": "AS017_RECOVERY_ACCEPTANCE_SCOPED_PASS_PRELOCK",
+        "terminal": "AS017_RECOVERY_ACCEPTANCE_SCOPED_PASS_PRELOCK_V2",
         "candidate": {
             "implementation_commit": V5_CANDIDATE,
             "seed_manifest_sha256": SEED_MANIFEST_SHA,
@@ -273,20 +273,22 @@ def main() -> None:
         },
         "recovery_acceptance_matrix": {
             "transition_consistency": {
-                "verdict": "PASS_WITH_SCOPE_LIMITS",
-                "support": "V5 affected contract tests and retained verified outcomes; linkage review alone is not a complete timing proof.",
+                "verdict": "NOT_DEMONSTRATED",
+                "support": "V5 linkage and affected tests do not establish complete prediction-versus-effect-clamp-drift timing agreement across the retained episodes.",
             },
             "supported_successor_assumptions": {
                 "verdict": "PASS",
                 "support": "Published successor-denial and supported-successor contract tests in the affected suite.",
             },
             "compound_or_recurring_recovery": {
-                "verdict": "PASS_WITH_SCOPE_LIMITS",
+                "verdict": "PASS",
                 "support": "Retained R0-01-17182603 multi-need REST recurrence followed by CHARGE, with governed verified outcomes.",
+                "scope_limit": "One retained compacted-tail episode; no indefinite or global viability claim.",
             },
             "observer_neutrality": {
-                "verdict": "PASS_WITH_SCOPE_LIMITS",
+                "verdict": "PASS",
                 "support": "Bounded V5 R1 capture-on/off probe: 1200/1200, no compared semantic differences.",
+                "scope_limit": "One bounded development seed; not a formal replicate.",
             },
             "affected_regressions": {
                 "verdict": "NOT_CLEAN_RAW_SUITE",
