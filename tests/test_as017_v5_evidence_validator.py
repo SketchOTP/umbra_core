@@ -8,9 +8,13 @@ from tools.as017_review_v5_evidence import (
 )
 
 
-def _fixture(*, translated: bool = False) -> tuple[dict, dict, str]:
+def _fixture(*, translated: bool = False, default_heading: bool = False) -> tuple[dict, dict, str]:
     requested = {"heading_delta": 0.25, "toward": "resource"} if translated else {"toward": "resource"}
-    applied = {"heading": 1.25, "toward": "resource"} if translated else {"toward": "resource"}
+    applied = (
+        {"heading": 1.25, "toward": "resource"}
+        if translated or default_heading
+        else {"toward": "resource"}
+    )
     first = {"capability": "ORIENT" if translated else "CHARGE", "requested_params": requested}
     selected = {"capability": first["capability"], "params": requested, "scores": {}, "total": 0.0}
     proposal = {"capability": first["capability"], "params": requested, "proposal_id": "proposal-1"}
@@ -66,8 +70,8 @@ def _fixture(*, translated: bool = False) -> tuple[dict, dict, str]:
 
 
 def test_valid_requested_and_adapter_translated_records_pass() -> None:
-    for translated in (False, True):
-        linkage, rows, trace_hash = _fixture(translated=translated)
+    for translated, default_heading in ((False, False), (False, True), (True, False)):
+        linkage, rows, trace_hash = _fixture(translated=translated, default_heading=default_heading)
         summary, failures = validate_linkage(linkage, rows, trace_hash, "candidate-1")
         assert failures == []
         if translated:

@@ -122,11 +122,21 @@ def requested_parameters_match(
         if key in translated:
             translation[key] = applied_key
     allowed_applied_keys = {translated.get(key, key) for key in requested}
-    if set(applied) - allowed_applied_keys:
+    unexpected_applied_keys = set(applied) - allowed_applied_keys
+    # The runtime adapter adds the current absolute heading for any targeted
+    # action that carries ``toward`` but no body-relative heading_delta.  The
+    # source contract permits this default translation; the linkage still has
+    # to record the resulting numeric heading and may not contain other extras.
+    if unexpected_applied_keys == {"heading"} and "toward" in requested and "heading_delta" not in requested:
+        if not isinstance(applied["heading"], (int, float)):
+            return False, {"status": "UNRESOLVED", "reason": "adapter_translation_invalid:heading"}
+        translation["adapter_default_heading"] = "heading"
+        unexpected_applied_keys = set()
+    if unexpected_applied_keys:
         return False, {
             "status": "UNRESOLVED",
             "reason": "unrecorded_adapter_translation",
-            "unexpected_applied_keys": sorted(set(applied) - allowed_applied_keys),
+            "unexpected_applied_keys": sorted(unexpected_applied_keys),
         }
     if "heading_delta" in requested:
         if "heading" not in applied:
