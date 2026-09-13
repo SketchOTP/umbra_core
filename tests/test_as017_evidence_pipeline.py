@@ -178,7 +178,15 @@ def test_stage_summary_distinguishes_execution_from_export(
     journal = StageJournal(path)
     journal.append("REGISTERED", case_count=1)
     for stage in stages:
-        journal.append(stage, case_id="R0-00-1")
+        if stage == "CASE_FINISHED":
+            journal.append(
+                stage,
+                case_id="R0-00-1",
+                required_artifacts=["database", "compact_trace", "linkage_records", "linkage_summary", "case_result"],
+                case_result_sha256="case-result-hash",
+            )
+        else:
+            journal.append(stage, case_id="R0-00-1")
     journal.close()
     summary = summarize_stage_journal(path)
     assert (summary["incomplete_cases"] == []) is complete
@@ -252,7 +260,13 @@ def test_compact_reduce_export_linkage_and_case_close_are_one_chain(tmp_path: Pa
     journal.append("EXPORT_VERIFIED", case_id="R0-00-1", artifact="database")
     journal.append("EXPORT_VERIFIED", case_id="R0-00-1", artifact="compact_trace")
     journal.append("EXPORT_VERIFIED", case_id="R0-00-1", artifact="linkage_records")
-    journal.append("CASE_FINISHED", case_id="R0-00-1", linkage_records=linkage["linked_records"])
+    journal.append(
+        "CASE_FINISHED",
+        case_id="R0-00-1",
+        required_artifacts=["database", "compact_trace", "linkage_records", "linkage_summary", "case_result"],
+        case_result_sha256="case-result-hash",
+        linkage_records=linkage["linked_records"],
+    )
     journal.close()
     assert summarize_stage_journal(journal_path)["acceptance_ready"] is True
 

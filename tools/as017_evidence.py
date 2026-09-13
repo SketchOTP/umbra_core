@@ -173,9 +173,10 @@ class StageJournal:
 
 def summarize_stage_journal(path: Path) -> dict[str, Any]:
     """Read accounting with bounded memory and expose incomplete cases."""
-    latest: dict[str, str] = {}
+    latest: dict[str, dict[str, Any]] = {}
     stage_counts: Counter[str] = Counter()
     records = 0
+    expected_cases: int | None = None
     journal_status = "VALID"
     journal_error = None
     try:
@@ -183,9 +184,13 @@ def summarize_stage_journal(path: Path) -> dict[str, Any]:
             records += 1
             stage = str(row.get("stage", "UNKNOWN"))
             stage_counts[stage] += 1
+            if stage == "REGISTERED":
+                registered_count = row.get("expected_cases", row.get("case_count"))
+                if isinstance(registered_count, int) and registered_count >= 0:
+                    expected_cases = registered_count
             case_id = row.get("case_id")
             if isinstance(case_id, str):
-                latest[case_id] = stage
+                latest[case_id] = row
     except EvidenceFormatError as exc:
         journal_status = "CORRUPTED"
         journal_error = str(exc)
@@ -194,14 +199,26 @@ def summarize_stage_journal(path: Path) -> dict[str, Any]:
         "journal_status": journal_status,
         "journal_error": journal_error,
         "records": records,
+        "expected_cases": expected_cases,
         "stage_counts": dict(sorted(stage_counts.items())),
-        "case_states": dict(sorted(latest.items())),
+        "case_states": {case_id: row.get("stage", "UNKNOWN") for case_id, row in sorted(latest.items())},
         "incomplete_cases": sorted(
-            case_id for case_id, stage in latest.items()
-            if stage != "CASE_FINISHED"
+            case_id for case_id, row in latest.items()
+            if row.get("stage") != "CASE_FINISHED"
+            or set(row.get("required_artifacts", [])) < {
+                "database", "compact_trace", "linkage_records", "linkage_summary", "case_result"
+            }
+            or not isinstance(row.get("case_result_sha256"), str)
         ),
-        "acceptance_ready": journal_status == "VALID" and all(
-            stage == "CASE_FINISHED" for stage in latest.values()
+        "completed_case_count": sum(row.get("stage") == "CASE_FINISHED" for row in latest.values()),
+        "acceptance_ready": journal_status == "VALID" and expected_cases is not None
+        and len(latest) == expected_cases and all(
+            row.get("stage") == "CASE_FINISHED"
+            and set(row.get("required_artifacts", [])) >= {
+                "database", "compact_trace", "linkage_records", "linkage_summary", "case_result"
+            }
+            and isinstance(row.get("case_result_sha256"), str)
+            for row in latest.values()
         ),
     }
 
