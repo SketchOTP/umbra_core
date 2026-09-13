@@ -10,10 +10,10 @@
   },
   "subject": {
     "starting_commit": "4b12315c5cfa84cac39021a9c171b28eaf0013bd",
-    "implementation_commit": "55f5218c6d5353c95bae2aaabee3a671a55b0328",
+    "implementation_commit": "58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa",
     "branch": "as017-recovery-development",
     "remote_ref": "github/as017-recovery-development",
-    "remote_refetched_commit": "55f5218c6d5353c95bae2aaabee3a671a55b0328",
+    "remote_refetched_commit": "58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa",
     "master_untouched": true
   },
   "preserved_predecessor": {
@@ -32,12 +32,12 @@
     "formal_or_development_rerun": false
   },
   "source_hashes": {
-    "tools/as017_evidence.py": "db8871a98c56cf0b322236f47161793862bbddf9a373df89f1a4b8505c7c232a",
+    "tools/as017_evidence.py": "937c4569ba9bce88d46b4e5511d61d802e3c783213baa172bf4f051d2c84520c",
     "tools/as017_run_development.py": "2a07498024b20e77b0ebfa6af69f6d7ad068cc8381f3e7a33086df3855eed21e",
     "umbra_core/decision_trace.py": "819b04aaaac3bae3822406410d934f754ea36a7b8f8831f10187184ea46ae685",
     "umbra_core/runtime.py": "a6ed7d518591e9e61d61a1026fcac375c91828bd7f0f812bba2eaac10bddf22d",
     "experiments/as017/development.py": "9adc93cdd84a733cead71d8931f9fd7f58c6c1eceb4550810b610d786b8c903f",
-    "tests/test_as017_evidence_pipeline.py": "c276a1275e8c55a9763f649da486d50b433c94e0794cd63044215216bcbc0156",
+    "tests/test_as017_evidence_pipeline.py": "f9a442ff5d37c06e71487a19f4628db5aea154e2ce007ff7ed88403406072567",
     "tools/as017_observer_neutrality_probe.py": "a4ce9b5d84be0d92752042250195479254e77717fa14d4223629b30107b06b99",
     "tools/as017_publish_recovery_acceptance_packet.py": "61557931025606b3722f4cd2ab0c1a694f6735c19ec435fe0e29202871f3e553",
     "tools/as017_review_v5_evidence.py": "123c7ca3994b6888b8e716704a9d549b9a95af29905f197c1c3214a5ae171aae"
@@ -120,8 +120,8 @@
     "literal_smoke": {
       "result": "AS017_PUBLICATION_SMOKE_PASS",
       "exit_code": 0,
-      "candidate_commit": "55f5218c6d5353c95bae2aaabee3a671a55b0328",
-      "result_sha256": "43f59593582a32593932cda08eebd8819d6f1f88a9512803f914b33126e753df",
+      "candidate_commit": "58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa",
+      "result_sha256": "2022bdfeca9ae2efa015088fc422593a34e2085c0d77ce444dbc2907ae7c052d",
       "checks": [
         "local SQLite WAL database closed before copy",
         "exported database queried for expected row",

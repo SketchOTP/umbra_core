@@ -1,7 +1,7 @@
 # CURRENT AUTHORITY — UMBRA-AS-017 EVIDENCE PIPELINE CLOSEOUT
 
 AS-017 remains PRE-LOCK DEVELOPMENT. The active infrastructure-only repair is
-published at `220c938619199f17badaa9f288f45ca27b567053` on
+published at `58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa` on
 `github/as017-recovery-development`, and the refetched remote matches exactly.
 `github/master` is untouched. V2 remains incomplete and its scientific outcome
 undetermined; no organism was resumed or rerun, no formal seed was consumed,
@@ -15,7 +15,7 @@ publication smoke closes the SQLite connection before copying and queries the
 exported database content.
 
 Validation is target-scoped: the focused evidence/validator/trace command passed
-`18` tests; the literal local-storage publication smoke passed; relevant Python
+`25` tests; the literal local-storage publication smoke passed; relevant Python
 compilation, `git diff --check`, and the active-runner no-`read_bytes` scan pass.
 The readiness packet is
 `docs/evidence/as017-integrated-core/AS017_EVIDENCE_PIPELINE_READINESS.json`.

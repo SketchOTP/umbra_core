@@ -1992,13 +1992,13 @@ preflights remain unrun or unresolved; no formal seed or organism was consumed.
   DEVELOPMENT LAUNCH REVIEW. No organism execution, retry, formal seed, or
   scientific lock occurred.
 - Starting subject: `4b12315c5cfa84cac39021a9c171b28eaf0013bd`.
-- Implementation commit: `220c938619199f17badaa9f288f45ca27b567053`, pushed and
+- Implementation commit: `58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa`, pushed and
   refetched exactly on `github/as017-recovery-development`; `master` untouched.
 - V2 is preserved as incomplete/undetermined: two completed cases, 14,400
   completed ticks, one partial case through tick 1,887, and thirteen unresolved
   case states. The immutable report hash is
   `7519184fdec8872017e0b7e604440058b946273939f6184dc4e02156c757d1cc`.
-- Focused validation: `18 passed`; literal publication smoke PASS with exported
+- Focused validation: `25 passed`; literal publication smoke PASS with exported
   SQLite content readback; compile and `git diff --check` PASS. No full regression
   or organism challenge was authorized under this work unit.
 - Readiness packet:

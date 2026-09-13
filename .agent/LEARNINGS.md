@@ -1007,3 +1007,9 @@ and a publication smoke must close the source connection and query the exported
 copy rather than validating bytes alone. The large V2 trace hashes remain
 runner-recorded versus independently recomputed facts; unavailable recomputation
 must not be silently promoted to verification.
+
+The case journal must distinguish artifact completion from case completion. Only
+a validated CASE_FINISHED record naming every required artifact can close a case;
+a torn journal is explicitly corrupt and never acceptance-ready. Already-compact
+trace rows must retain their authenticated identity instead of being projected a
+second time.
