@@ -1977,3 +1977,12 @@ preflights remain unrun or unresolved; no formal seed or organism was consumed.
   `e0358db4996fc6a1f6a35ae4512ec7cc4e0db9c9d94bb72c921df34d1dfb00ad`.
 - Readiness state: candidate publication and consolidated packet remain to be
   committed/pushed; no scientific lock or formal population has started.
+
+## 2026-09-13 — AS-017 candidate publication
+
+- Candidate commit: `231422618ea2e3db5173ae020c6b8980386a0d63`, pushed to
+  `github/as017-recovery-development` and refetched exactly.
+- `github/master` remains `fd8c50e1134d7d2ef54e20148ac9b7880e63708d`.
+- Consolidated packet: `docs/evidence/as017-integrated-core/README.md`.
+- Post-push Authority 3.0 PASS, Governance PASS, `git diff --check` PASS, and
+  clean worktree. Scientific lock and formal execution remain unauthorized.

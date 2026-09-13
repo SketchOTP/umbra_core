@@ -24,8 +24,11 @@ and five ablation variants, with checkpoint/final-result equality and unused
 development seeds. The raw suite is not wholly green because the seven
 pre-existing D-012/D-013 failures reproduce on the pre-repair candidate; they
 remain explicitly disclosed and are not AS-017 candidate-only failures.
-AS-017 remains PRE-LOCK: candidate publication/readiness packet and Architect
-lock review are still pending. No formal seed or organism has been consumed.
+AS-017 remains PRE-LOCK: the validated candidate is published on
+`github/as017-recovery-development` at
+`231422618ea2e3db5173ae020c6b8980386a0d63`, with readiness record
+`docs/evidence/as017-integrated-core/README.md`; Architect lock review is still
+pending. No formal seed or organism has been consumed.
 
 ## 2026-09-13 task-start record
 

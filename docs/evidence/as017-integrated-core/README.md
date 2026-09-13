@@ -8,6 +8,8 @@ lock, formal organisms, or formal seed consumption.
 - Development baseline: `f9bb1f809602b584b4931d887115d252d164e5e2`
 - Published master at adoption: `fd8c50e1134d7d2ef54e20148ac9b7880e63708d`
 - V5 predecessor subject: `fe783295a0de175b88000a9ffadfd1b7ff4afa38`
+- Published implementation commit: `231422618ea2e3db5173ae020c6b8980386a0d63`
+- Published branch: `github/as017-recovery-development`
 - Formal seeds consumed: `0`
 - Historical V5/V1--V4C evidence: preserved and not pooled with this subject.
 
@@ -83,3 +85,10 @@ claims remain explicitly disclosed.
 Formal lock, fresh population, lifecycle qualification, repeated-compaction
 100k, real-time S3, causal ablation, essential-subsystem causal acceptance,
 and believable-creature/CLOSE-03 acceptance remain NOT RUN or OPEN.
+
+## Publication state
+
+The candidate commit was pushed and refetched successfully. Authority 3.0,
+Governance, `git diff --check`, and clean-worktree checks pass at the published
+commit. This is a development/readiness publication only; Architect lock review
+is still required before any formal organism is created.
