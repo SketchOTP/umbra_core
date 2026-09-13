@@ -1339,3 +1339,13 @@ reached `NO_SAFE_ACTION` at tick `3537` and critical stimulation at tick
 `3566`. Terminal verdict is `AS015_FRESH_R2_FAIL`; no retry, reseed, repair,
 remaining population row, lifecycle, 100k, S3, ablation, or CLOSE-03 is
 authorized within AS-015.
+### 2026-09-13 — UMBRA-AS-017 integrated core closure adoption
+
+Architect directive adopted for immediate PRE-LOCK DEVELOPMENT execution from
+the acknowledged AS-017 branch state `f9bb1f809602b584b4931d887115d252d164e5e2`.
+Scope is prediction/execution conformance, seven inherited regression
+dispositions plus orphan import, literal downstream preflights, and one
+published readiness packet. V5 evidence remains immutable predecessor evidence;
+formal lock, formal seeds, formal organisms, and CLOSE-03 remain unauthorized.
+Preserve unrelated dirty `.gitignore`/`AGENTS.md` work in the original checkout.
+Repository record: `.agent/tasks/active/UMBRA-AS-017/DIRECTIVE_INTEGRATED_CORE_CLOSURE.md`.

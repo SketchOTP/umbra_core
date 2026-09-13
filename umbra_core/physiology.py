@@ -55,6 +55,7 @@ def project_verified_transition(
     physiology: dict[str, float],
     effects: dict[str, float],
     *,
+    capability: str | None = None,
     drift_enabled: bool = True,
     dt: float = 1.0,
 ) -> dict[str, float]:
@@ -65,8 +66,11 @@ def project_verified_transition(
     recoverability must use this exact sequence rather than collapsing both
     deltas into one pre-clamp arithmetic expression.
     """
+    effective_effects = contextual_verified_effects(
+        capability, effects, physiology
+    )
     projected = {
-        name: clamp(float(physiology[name]) + float(effects.get(name, 0.0)))
+        name: clamp(float(physiology[name]) + float(effective_effects.get(name, 0.0)))
         for name in BOUNDS
     }
     if drift_enabled:
@@ -75,6 +79,26 @@ def project_verified_transition(
             for name, value in projected.items()
         }
     return projected
+
+
+def contextual_verified_effects(
+    capability: str | None,
+    effects: dict[str, float],
+    physiology: dict[str, float],
+) -> dict[str, float]:
+    """Apply the physiology owner's state-dependent verified-effect rules.
+
+    Governance has historically applied these two depletion safeguards at
+    execution time.  Prediction and safety assessment must use the same pure
+    transition contract.  The rules remain effects of verified outcomes; this
+    helper does not assign policy effects or write physiology.
+    """
+    adjusted = dict(effects)
+    if capability in ("MOVE", "APPROACH", "RETREAT") and float(physiology["fatigue"]) > 0.65:
+        adjusted["fatigue"] = min(0.0, adjusted.get("fatigue", 0.0))
+    if capability in ("MOVE", "APPROACH") and float(physiology["energy"]) < 0.2:
+        adjusted["energy"] = max(-0.002, adjusted.get("energy", 0.0))
+    return adjusted
 
 
 @dataclass

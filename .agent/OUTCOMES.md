@@ -1937,3 +1937,43 @@ permanent `AS015_FRESH_R2_FAIL`. The remaining population, lifecycle, 100k,
 S3, ablation, and CLOSE-03 did not run. No retry, reseed, substitution, or
 post-lock production change occurred. Closeout SHA-256:
 `d815206ee9babfe71ca0871c1ee0b05f9ef1a511060d40818bbc487ce12ea457`.
+## 2026-09-13 — AS-017 integrated core closure started
+
+The current Architect instruction was adopted as substantive PRE-LOCK work.
+Initial inspection found a real active mismatch between contextual verified
+locomotion effects in `Governance.apply_physiology()` and the static prediction
+branches used by safety/recovery assessment. A RED conformance test reproduced
+the mismatch; the shared physiology transition contract and active runtime
+authority callers were repaired. The historical recoverability helper export
+was restored, and stale tests for a removed arbitration hook were replaced with
+current-authority assertions. Initial candidate validation is `24 passed` for
+transition/certificate/orphan closure and `363 passed` for the broader focused
+AS-017/D-003/D-006/D-009/D-010 surface. Full regression and literal downstream
+preflights remain unrun or unresolved; no formal seed or organism was consumed.
+## 2026-09-13 — UMBRA-AS-017 integrated-core closure validation
+
+- Status: PRE-LOCK DEVELOPMENT; formal science not authorized.
+- Subject baseline: `f9bb1f809602b584b4931d887115d252d164e5e2`; public master
+  remains `fd8c50e1134d7d2ef54e20148ac9b7880e63708d`.
+- Active repair: authoritative physiology projection now shares the owner’s
+  contextual effect rules and clamp-then-drift-clamp ordering; context-aware
+  branch evaluation is threaded through arbitration/recovery assessment; the
+  historical prospective-recoverability API was restored and its stale test
+  surface modernized; the downstream preflight gained a unique create-once
+  publication name.
+- Focused closure: `382 passed` in `45.02s`, repeated `382 passed` in
+  `46.34s`; no retries or reseeds.
+- Full repository regression: `1383 passed / 4 skipped / 7 failed`. All seven
+  failures reproduce unchanged at the pre-repair baseline and are retained as
+  inherited/stale D-012/D-013 evidence; candidate-only failures `0`.
+- Collection: `1394 tests collected`; Authority 3.0 PASS; Governance PASS;
+  `git diff --check` PASS; relevant modules compile.
+- Literal downstream preflight: `7/7 PASS` (lifecycle, boundedness, soak, and
+  FULL/TERMINAL_READINESS_DISABLED/CONTINUATION_DISABLED/ROUTE_LEARNING_DISABLED/
+  VIABILITY_KERNEL_DISABLED), checkpoint/final-result equality, no temporary
+  publication files, no formal seeds.
+- External preflight artifact:
+  `AS017_LITERAL_DOWNSTREAM_PREFLIGHT_V1.json`, SHA-256
+  `e0358db4996fc6a1f6a35ae4512ec7cc4e0db9c9d94bb72c921df34d1dfb00ad`.
+- Readiness state: candidate publication and consolidated packet remain to be
+  committed/pushed; no scientific lock or formal population has started.

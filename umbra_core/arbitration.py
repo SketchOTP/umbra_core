@@ -375,7 +375,8 @@ class Arbitrator:
             for name in BOUNDS:
                 before = phys.get(name)
                 after = project_verified_transition(
-                    phys.as_dict(), effects, drift_enabled=phys.drift_enabled
+                    phys.as_dict(), effects, capability=cand.capability,
+                    drift_enabled=phys.drift_enabled
                 )[name]
                 if not BOUNDS[name].critical_violation(before) and BOUNDS[name].critical_violation(after):
                     return True
@@ -859,6 +860,9 @@ class Arbitrator:
         authority_effect_branches: Callable[
             [Candidate], tuple[dict[str, float], ...]
         ] | None = None,
+        authority_effect_branches_for_context: Callable[
+            [RecoveryAssessmentContext, Candidate], Sequence[Mapping[str, float]]
+        ] | None = None,
         intent_candidates: list[Candidate] | None = None,
         candidate_allowed: Callable[[Candidate], bool] | None = None,
         self_model_view_for: Callable[[Candidate], dict[str, Any]] | None = None,
@@ -919,6 +923,7 @@ class Arbitrator:
             body_binding_version=str(metadata.get("body_binding_version", "unknown")),
             governance_version=str(metadata.get("governance_version", "unknown")),
             model_version=str(metadata.get("model_version", "unknown")),
+            observations=tuple(dict(observation) for observation in observations),
             drift_enabled=phys.drift_enabled,
         )
         assessment_cache: dict[str, CandidateAssessment] = {}
@@ -936,8 +941,13 @@ class Arbitrator:
                     if candidate_execution_params_for is not None else dict(value.params)
                 ),
                 eligible_for=lambda _ctx, value: candidate_allowed_here(value),
-                compositional_admissible_for=lambda _ctx, value, branches: candidate_is_admissible(
-                    value, physiology=phys, observations=observations,
+                compositional_admissible_for=lambda context, value, branches: candidate_is_admissible(
+                    value,
+                    physiology=Physiology.from_state({
+                        **dict(context.physiology),
+                        "drift_enabled": context.drift_enabled,
+                    }),
+                    observations=list(context.observations),
                     arbitration_state=self.state, effect_branches=branches,
                 ),
                 executability_for=lambda _ctx, value: (
@@ -946,8 +956,12 @@ class Arbitrator:
                 governance_precondition_for=lambda _ctx, value: (
                     governance_precondition_for(value) if governance_precondition_for is not None else True
                 ),
-                effect_branches_for=lambda _ctx, value: (
-                    authority_effect_branches(value) if authority_effect_branches is not None
+                effect_branches_for=lambda context, value: (
+                    (
+                        authority_effect_branches_for_context(context, value)
+                        if authority_effect_branches_for_context is not None
+                        else authority_effect_branches(value)
+                    ) if authority_effect_branches is not None
                     else verified_outcome_effect_branches(value.capability)
                 ),
             )

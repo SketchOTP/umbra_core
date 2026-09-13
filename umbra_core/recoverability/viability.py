@@ -49,6 +49,7 @@ class RecoveryAssessmentContext:
     body_binding_version: str
     governance_version: str
     model_version: str
+    observations: tuple[Mapping[str, Any], ...] = ()
     drift_enabled: bool = True
 
 
@@ -110,6 +111,7 @@ def _project(
     physiology: Mapping[str, float],
     branches: Sequence[Mapping[str, float]],
     *,
+    capability: str | None = None,
     drift_enabled: bool = True,
 ) -> tuple[bool, dict[str, float]]:
     """Return all-branch noncriticality and its conservative componentwise state."""
@@ -117,7 +119,8 @@ def _project(
     safe = True
     branch_states = [
         project_verified_transition(
-            dict(physiology), dict(branch), drift_enabled=drift_enabled
+            dict(physiology), dict(branch), capability=capability,
+            drift_enabled=drift_enabled
         )
         for branch in (branches or ({},))
     ]
@@ -183,7 +186,12 @@ def assess_candidate(
         return CandidateAssessment(context.root_id, identity, requested, execution,
                                    ASSESSMENT_UNKNOWN if composition is None else ASSESSMENT_DENIED,
                                    ("compositional_constraints_unknown" if composition is None else "compositional_constraints_denied",), normalized, None)
-    safe, projected = _project(context.physiology, normalized, drift_enabled=context.drift_enabled)
+    safe, projected = _project(
+        context.physiology,
+        normalized,
+        capability=str(getattr(candidate, "capability", "")),
+        drift_enabled=context.drift_enabled,
+    )
     if not safe:
         return CandidateAssessment(context.root_id, identity, requested, execution,
                                    ASSESSMENT_DENIED, ("verified_branch_safety_denied",), normalized, projected)
@@ -221,7 +229,10 @@ def certify_candidate_recovery(
         return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, (), None,
                                    assumptions, "NOT_STARTED", "first_action_not_allowed")
     successors = [
-        project_verified_transition(dict(context.physiology), dict(branch), drift_enabled=context.drift_enabled)
+        project_verified_transition(
+            dict(context.physiology), dict(branch), capability=first_candidate.capability,
+            drift_enabled=context.drift_enabled
+        )
         for branch in first.effect_branches
     ]
     if all(not active_recovery_needs_for(state) for state in successors):
@@ -272,7 +283,7 @@ def certify_candidate_recovery(
                 return RecoveryCertificate(context.root_id, first_id, CERTIFICATE_UNKNOWN, tuple(witness), None,
                                            assumptions, "SUCCESSOR_IDENTITY_MISMATCH", "future_action_not_exact")
             next_states.extend(
-                project_verified_transition(dict(state), dict(branch), drift_enabled=context.drift_enabled)
+                project_verified_transition(dict(state), dict(branch), capability=first_candidate.capability, drift_enabled=context.drift_enabled)
                 for branch in successor.effect_branches
             )
         states = next_states
@@ -289,6 +300,7 @@ def _corrects_need(
     physiology: Mapping[str, float],
     branches: Sequence[Mapping[str, float]],
     *,
+    capability: str | None = None,
     drift_enabled: bool = True,
 ) -> bool:
     direction = _direction(need, float(physiology[need]))
@@ -302,7 +314,8 @@ def _corrects_need(
         direction
         * (
             project_verified_transition(
-                dict(physiology), dict(branch), drift_enabled=drift_enabled
+                dict(physiology), dict(branch), capability=capability,
+                drift_enabled=drift_enabled
             )[need]
             - float(physiology[need])
         )
@@ -316,6 +329,7 @@ def _success_branch_corrects_need(
     physiology: Mapping[str, float],
     branches: Sequence[Mapping[str, float]],
     *,
+    capability: str | None = None,
     drift_enabled: bool = True,
 ) -> bool:
     """Direction for a MAY route after a future terminal success.
@@ -325,7 +339,8 @@ def _success_branch_corrects_need(
     approach candidate to remain visible to active recovery.
     """
     return _corrects_need(
-        need, physiology, tuple(branches[:1]), drift_enabled=drift_enabled
+        need, physiology, tuple(branches[:1]), capability=capability,
+        drift_enabled=drift_enabled
     )
 
 
@@ -417,10 +432,19 @@ def enumerate_regulatory_recovery_routes(
             if assessment is not None
             else current_executability_for(endpoint) == EXECUTABLE
         )
-        safe, projected = _project(physiology, branches, drift_enabled=drift_enabled)
+        safe, projected = _project(
+            physiology,
+            branches,
+            capability=str(getattr(endpoint, "capability", "")),
+            drift_enabled=drift_enabled,
+        )
         for need in needs:
             if executable and safe and _corrects_need(
-                need, physiology, branches, drift_enabled=drift_enabled
+                need,
+                physiology,
+                branches,
+                capability=str(getattr(endpoint, "capability", "")),
+                drift_enabled=drift_enabled,
             ):
                 routes.append(
                     RegulatoryRecoveryRoute(
@@ -459,6 +483,7 @@ def enumerate_regulatory_recovery_routes(
                     need,
                     physiology,
                     endpoint_branches,
+                    capability=str(endpoint.capability),
                     drift_enabled=drift_enabled,
                 ):
                     routes.append(
@@ -557,7 +582,8 @@ def preserves_robust_recovery_reserve(
         return False
     for branch in branches:
         successor = project_verified_transition(
-            dict(physiology), branch, drift_enabled=drift_enabled
+            dict(physiology), branch, capability=getattr(candidate, "capability", None),
+            drift_enabled=drift_enabled
         )
         if not state_has_continuation(successor, continuation_depth):
             return False
@@ -629,7 +655,8 @@ def direct_regulatory_recovery_path_status(
                     continue
                 successors = [
                     project_verified_transition(
-                        dict(state), branch, drift_enabled=drift_enabled
+                        dict(state), branch, capability=getattr(candidate, "capability", None),
+                        drift_enabled=drift_enabled
                     )
                     for branch in branches
                 ]

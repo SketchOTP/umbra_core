@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import argparse
 import subprocess
 import sys
 import tempfile
@@ -87,6 +88,13 @@ def _run(root: Path, mode: str, seed: int, variant: str | None = None) -> dict[s
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--publication-name",
+        default="AS015_FULL_CLI_SURFACE_PREFLIGHT_V2.json",
+        help="Create-once evidence filename for the aggregate preflight record.",
+    )
+    args = parser.parse_args()
     with tempfile.TemporaryDirectory(prefix="as015-cli-preflight-") as directory:
         root = Path(directory)
         rows = [
@@ -107,7 +115,7 @@ def main() -> None:
             "rows": rows,
             "status": "PASS" if all(row["pass"] for row in rows) else "FAIL",
         }
-    publish("AS015_FULL_CLI_SURFACE_PREFLIGHT_V2.json", result)
+    publish(args.publication_name, result)
     print(json.dumps(result, indent=2, sort_keys=True))
     if result["status"] != "PASS":
         raise SystemExit(1)

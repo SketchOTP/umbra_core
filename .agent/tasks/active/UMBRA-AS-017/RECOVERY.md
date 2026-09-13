@@ -1,5 +1,16 @@
 # AS-017 crash recovery candidate
 
+## 2026-09-13 integrated-core closure adoption
+
+The Architect directed immediate execution of the existing AS-017 integrated
+core closure directive. This is PRE-LOCK DEVELOPMENT only. The adopted
+repository-local directive is
+`.agent/tasks/active/UMBRA-AS-017/DIRECTIVE_INTEGRATED_CORE_CLOSURE.md`.
+The isolated subject began at `f9bb1f809602b584b4931d887115d252d164e5e2`,
+matching `github/as017-recovery-development`; `github/master` remains
+`fd8c50e1134d7d2ef54e20148ac9b7880e63708d`. Historical V5 evidence is
+preserved and no formal seed/organism has been consumed.
+
 This reconstruction begins from committed baseline `fd8c50e1134d7d2ef54e20148ac9b7880e63708d` after the uncommitted earlier AS-017 worktree was lost in a host crash.
 
 V1 is a zero-tick GVFS SQLite infrastructure failure. V2 contains two historical R0 development observations only; their source fingerprint is unavailable and they are not combined with this candidate.

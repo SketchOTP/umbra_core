@@ -64,6 +64,7 @@ def _critical_margin(name: str, value: float) -> float:
 
 
 def _worst_margin(
+    capability: str,
     physiology: Mapping[str, float],
     branches: Sequence[Mapping[str, float]],
     attempts: int,
@@ -75,7 +76,7 @@ def _worst_margin(
         projected = dict(physiology)
         for _ in range(attempts):
             projected = project_verified_transition(
-                projected, dict(branch), drift_enabled=drift_enabled
+                projected, dict(branch), capability=capability, drift_enabled=drift_enabled
             )
         for name in BOUNDS:
             minimum = min(minimum, _critical_margin(name, projected[name]))
@@ -99,7 +100,7 @@ def _reserve(
     except (TypeError, ValueError):
         return _record("R", UNKNOWN, capability, "reserve_fields_invalid")
     branches = tuple(effect_branches or verified_outcome_effect_branches(capability))
-    margin = _worst_margin(physiology, branches, attempts, drift_enabled=drift_enabled)
+    margin = _worst_margin(capability, physiology, branches, attempts, drift_enabled=drift_enabled)
     if margin < 0.0:
         return _record("R", CONSTRAIN, capability, "bounded_failure_retry_reserve_inadequate", projected_minimum_margin=margin, attempts=attempts)
     return _record("R", ALLOW, capability, "bounded_failure_retry_reserve_adequate", projected_minimum_margin=margin, attempts=attempts)

@@ -3,6 +3,7 @@
 from umbra_core.recoverability.view import (
     RecoverabilityStatus,
     derive_recoverability_view,
+    prospective_recoverability_transition,
     project_support_region,
 )
 from umbra_core.recoverability.viability import (
@@ -32,6 +33,7 @@ from umbra_core.recoverability.viability import (
 __all__ = [
     "RecoverabilityStatus",
     "derive_recoverability_view",
+    "prospective_recoverability_transition",
     "project_support_region",
     "ASSESSMENT_ALLOWED",
     "ASSESSMENT_DENIED",

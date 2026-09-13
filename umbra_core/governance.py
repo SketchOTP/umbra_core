@@ -10,6 +10,7 @@ from umbra_core.embodiment_adapters.adapter import AdapterRequest, EmbodimentAda
 from umbra_core.physiology import (
     OUTCOME_EFFECTS,
     Physiology,
+    contextual_verified_effects,
     verified_outcome_effect_branches,
     verified_outcome_effects,
 )
@@ -252,8 +253,19 @@ def authority_effect_branches(
     adapter: EmbodimentAdapter | None,
     *,
     resolve_params: Callable[[dict[str, Any]], dict[str, Any]],
+    physiology: Mapping[str, float] | None = None,
 ) -> tuple[dict[str, float], ...]:
-    """Resolve final-authority reachable effects without policy leakage."""
+    """Resolve final-authority reachable effects without policy leakage.
+
+    When a pre-action physiology snapshot is supplied, apply the same pure
+    state-dependent verified-effect rules used by execution.  Omitting it
+    preserves the static branch API for callers that do not have a root state.
+    """
+    def contextualize(effects: dict[str, float]) -> dict[str, float]:
+        if physiology is None:
+            return effects
+        return contextual_verified_effects(candidate.capability, effects, dict(physiology))
+
     params = resolve_params(dict(candidate.params))
     if adapter is not None:
         request = AdapterRequest(
@@ -267,18 +279,18 @@ def authority_effect_branches(
         rejection, params, _ = adapter.preflight_execution(request)
         if rejection is not None:
             _, effects = project_verified_outcome(candidate.capability, rejection)
-            return (effects,)
+            return (contextualize(effects),)
 
     raw = embodiment.preflight_primitive(candidate.capability, params)
     if raw is not None:
         _, effects = project_verified_outcome(candidate.capability, raw)
-        return (effects,)
+        return (contextualize(effects),)
 
     scale = embodiment.body.energy_cost_scale
     base_branches = verified_outcome_effect_branches(candidate.capability)
     branches: list[dict[str, float]] = []
     for branch in base_branches:
-        effects = dict(branch)
+        effects = contextualize(dict(branch))
         if scale != 1.0 and effects.get("energy", 0.0) < 0.0:
             effects["energy"] *= scale
         branches.append(effects)
@@ -289,9 +301,10 @@ def authority_effect_branches(
         )
         if hazard is not None:
             for branch in base_branches:
-                hazard_effects = dict(branch)
+                hazard_effects = contextualize(dict(branch))
                 for key, value in OUTCOME_EFFECTS["HAZARD_HIT"].items():
                     hazard_effects[key] = hazard_effects.get(key, 0.0) + value
+                hazard_effects = contextualize(hazard_effects)
                 if scale != 1.0 and hazard_effects.get("energy", 0.0) < 0.0:
                     hazard_effects["energy"] *= scale
                 branches.append(hazard_effects)
@@ -746,10 +759,7 @@ class Governance:
         """Physiology owner applies verified effects — governance does not write H directly from policy."""
         if not outcome.verified:
             return
-        effects = dict(outcome.physiology_effects)
-        # desperate locomotion: seeking rest/charge while depleted shouldn't deepen fatigue trap
-        if outcome.capability in ("MOVE", "APPROACH", "RETREAT") and phys.fatigue > 0.65:
-            effects["fatigue"] = min(0.0, effects.get("fatigue", 0.0))
-        if outcome.capability in ("MOVE", "APPROACH") and phys.energy < 0.2:
-            effects["energy"] = max(-0.002, effects.get("energy", 0.0))
+        effects = contextual_verified_effects(
+            outcome.capability, dict(outcome.physiology_effects), phys.as_dict()
+        )
         phys.apply_outcome_effects(effects)

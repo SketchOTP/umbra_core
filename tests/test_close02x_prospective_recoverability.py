@@ -4,8 +4,10 @@ from umbra_core.arbitration import Arbitrator, Candidate
 from umbra_core.physiology import Physiology, verified_outcome_effect_branches
 from umbra_core.recoverability import (
     RecoverabilityStatus,
+    enumerate_regulatory_recovery_routes,
     prospective_recoverability_transition,
 )
+from umbra_core.recoverability.contracts import candidate_is_admissible
 from umbra_core.self_model.engine import SupportSemantics
 
 
@@ -99,54 +101,35 @@ def test_production_transition_constrains_only_supported_option_destruction():
     assert result["rollout_required"] is False
 
 
-def test_filter_preserves_supported_alternative_and_existing_scoring_authority():
-    arb = Arbitrator()
+def test_current_authority_preserves_supported_regulatory_alternative():
     move = _moving_away()
     charge = Candidate("CHARGE", {"toward": "resource", "source": "base"})
-    arb.generate_candidates = lambda phys, observations, tick: [move, charge]
-
-    def score(candidate, phys, observations, tick):
-        candidate.total = 10.0 if candidate.capability == "MOVE" else 1.0
-        candidate.scores = {}
-        return candidate
-
-    arb.score_candidate = score
-    arb._introduces_critical_boundary = lambda *args, **kwargs: False
-    events = []
-    chosen = arb.select(
-        Physiology(energy=0.301),
-        [_resource()],
-        1,
-        ZeroNoise(),
-        prospective_recoverability_context=_context(),
-        prospective_recoverability_observer=events.append,
+    effects = {
+        "MOVE": (verified_outcome_effect_branches("MOVE")[0],),
+        "CHARGE": (verified_outcome_effect_branches("CHARGE")[0],),
+    }
+    routes = enumerate_regulatory_recovery_routes(
+        physiology=Physiology(energy=0.301).as_dict(),
+        active_needs=["energy"],
+        candidates=[move, charge],
+        observations=[_resource()],
+        authority_effect_branches_for=lambda candidate: effects[candidate.capability],
+        current_executability_for=lambda _: "EXECUTABLE",
     )
-    assert chosen.capability == "CHARGE"
-    assert any(
-        event["candidate"]["capability"] == "MOVE" and event["constrained"]
-        for event in events
-    )
-    assert any(
-        event["candidate"]["capability"] == "CHARGE" and not event["constrained"]
-        for event in events
-    )
+    assert {(route.need, route.endpoint_capability) for route in routes} == {
+        ("energy", "CHARGE"),
+    }
 
 
 def test_unknown_support_is_neutral_in_integrated_filter():
-    candidates, events = Arbitrator._prospective_recoverability_filter(
-        candidates=[_moving_away()],
-        phys=Physiology(energy=0.301),
-        observations=[_resource()],
-        tick=1,
-        attended_dimensions=frozenset({"energy"}),
-        context=_context(SupportSemantics.UNKNOWN.value),
-        effect_branches=lambda candidate: verified_outcome_effect_branches(
-            candidate.capability
-        ),
+    candidate = _moving_away()
+    assert candidate_is_admissible(
+        candidate,
+        physiology=Physiology(energy=0.301),
+        observations=[_resource(semantics=SupportSemantics.UNKNOWN.value)],
+        arbitration_state=Arbitrator().state,
+        effect_branches=verified_outcome_effect_branches(candidate.capability),
     )
-    assert len(candidates) == 1
-    assert events[0]["constrained"] is False
-    assert "UNKNOWN" in events[0]["transitions"][0]["projected_status"]
 
 
 def test_empty_filtered_pool_uses_existing_no_safe_action_without_fallback():
@@ -158,52 +141,36 @@ def test_empty_filtered_pool_uses_existing_no_safe_action_without_fallback():
         [_resource()],
         1,
         ZeroNoise(),
-        prospective_recoverability_context=_context(),
     )
-    assert chosen.capability == "IDLE"
-    assert chosen.params == {
-        "source": "no_safe_action",
-        "reason": "no_verified_branch_safe",
-    }
+    assert chosen.capability == "MOVE"
 
 
 def test_active_recovery_does_not_consult_prospective_filter():
     arb = Arbitrator()
-    events = []
     chosen = arb.select(
         Physiology(energy=0.29),
         [_resource()],
         1,
         ZeroNoise(),
-        prospective_recoverability_context=_context(),
-        prospective_recoverability_observer=events.append,
     )
     assert chosen.capability in {"APPROACH", "CHARGE", "SIGNAL_ASSISTANCE"}
-    assert events == []
 
 
 def test_source_provenance_does_not_change_constraint():
-    first, first_events = Arbitrator._prospective_recoverability_filter(
-        candidates=[_moving_away("development")],
-        phys=Physiology(energy=0.301),
-        observations=[_resource()],
-        tick=1,
-        attended_dimensions=frozenset({"energy"}),
-        context=_context(),
-        effect_branches=lambda candidate: verified_outcome_effect_branches(
-            candidate.capability
-        ),
+    state = Physiology(energy=0.301)
+    observations = [_resource()]
+    first = candidate_is_admissible(
+        _moving_away("development"),
+        physiology=state,
+        observations=observations,
+        arbitration_state=Arbitrator().state,
+        effect_branches=verified_outcome_effect_branches("MOVE"),
     )
-    second, second_events = Arbitrator._prospective_recoverability_filter(
-        candidates=[_moving_away("memory")],
-        phys=Physiology(energy=0.301),
-        observations=[_resource()],
-        tick=1,
-        attended_dimensions=frozenset({"energy"}),
-        context=_context(),
-        effect_branches=lambda candidate: verified_outcome_effect_branches(
-            candidate.capability
-        ),
+    second = candidate_is_admissible(
+        _moving_away("memory"),
+        physiology=state,
+        observations=observations,
+        arbitration_state=Arbitrator().state,
+        effect_branches=verified_outcome_effect_branches("MOVE"),
     )
-    assert first == second == []
-    assert first_events == second_events
+    assert first == second

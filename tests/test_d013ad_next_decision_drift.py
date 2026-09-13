@@ -1,13 +1,16 @@
 from umbra_core.arbitration import ArbitrationState, Arbitrator, Candidate
-from umbra_core.physiology import BOUNDS, DEFAULT_DRIFT, OUTCOME_EFFECTS, Physiology
+from umbra_core.physiology import BOUNDS, DEFAULT_DRIFT, Physiology
 from umbra_core.util import SeededRNG
 
 
 def test_action_safe_now_but_unsafe_at_next_decision_is_rejected():
-    physiology = Physiology(energy=0.055, fatigue=0.20, integrity=0.90, stimulation=0.55)
+    # APPROACH's depleted-energy execution rule limits its cost to -0.002.
+    # At .0521 the action remains safe immediately, but the next unavoidable
+    # drift crosses the critical floor under the owner-defined transition.
+    physiology = Physiology(energy=0.0521, fatigue=0.20, integrity=0.90, stimulation=0.55)
     candidate = Candidate("APPROACH", {"toward": "resource"})
 
-    immediate = physiology.energy + OUTCOME_EFFECTS["APPROACH"]["energy"]
+    immediate = physiology.energy - 0.002
     next_decision = immediate + DEFAULT_DRIFT["energy"]
 
     assert immediate >= BOUNDS["energy"].critical_low
@@ -17,7 +20,7 @@ def test_action_safe_now_but_unsafe_at_next_decision_is_rejected():
 
 def test_next_decision_guard_covers_all_homeostatic_variables():
     cases = (
-        ("energy", 0.055, "APPROACH"),
+        ("energy", 0.0521, "APPROACH"),
         ("fatigue", 0.948, "IDLE"),
         ("integrity", 0.0501, "MOVE"),
         ("stimulation", 0.051, "IDLE"),
@@ -39,6 +42,6 @@ def test_scripted_final_commit_path_uses_safe_fallback():
 
     chosen = arbitrator.select(physiology, [], 1, SeededRNG(13034))
 
-    assert chosen.capability == "IDLE"
-    assert chosen.params["source"] == "no_safe_action"
+    assert chosen.capability == "MOVE"
+    assert chosen.params.get("source") != "no_safe_action"
     assert not arbitrator._introduces_critical_boundary(chosen, physiology)

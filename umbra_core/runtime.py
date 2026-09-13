@@ -2166,7 +2166,8 @@ class Organism:
             policy_expectations=policy_expectations,
             wait_journal=self._wait_journal,
             wait_generation_enabled=wait_on,
-            temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()), authority_effect_branches=lambda candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params),
+            temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()), authority_effect_branches=lambda candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params, physiology=self.phys.as_dict()),
+            authority_effect_branches_for_context=lambda context, candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params, physiology=dict(context.physiology)),
             viability_kernel_enabled=self.config.viability_kernel_enabled,
             # ``None`` preserves the established in-method authority path
             # when this tick has no auxiliary proposal. Non-empty intent
@@ -2326,6 +2327,7 @@ class Organism:
                         self.embodiment,
                         self.embodiment_adapter,
                         resolve_params=self._resolve_params,
+                        physiology=self.phys.as_dict(),
                     )
                 ]
                 ref = str(row["candidate_ref"])
@@ -2394,6 +2396,7 @@ class Organism:
                     self.embodiment,
                     self.embodiment_adapter,
                     resolve_params=self._resolve_params,
+                    physiology=self.phys.as_dict(),
                 ),
             ):
                 raise RuntimeError("d014h3d_selector_selected_unsafe_candidate")
@@ -2420,6 +2423,7 @@ class Organism:
                     self.embodiment,
                     self.embodiment_adapter,
                     resolve_params=self._resolve_params,
+                    physiology=self.phys.as_dict(),
                 )
             ]
         if cand.params.get("source") == "no_safe_action":
