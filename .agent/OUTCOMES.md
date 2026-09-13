@@ -2018,3 +2018,14 @@ preflights remain unrun or unresolved; no formal seed or organism was consumed.
   `8c609eb39b98cf994cd2290cbd531305b4ba520fef670156fd1d08b069e3247d`; local
   SQLite/export smoke passed. One serial 16-case development attempt is
   conditionally authorized but has not been launched in this record.
+## AS-017 V8 LAUNCH CLOSEOUT — 2026-09-13
+
+`job-mu06hhg2-29ebb055` failed before organism creation with exit code `1`.
+The runner was invoked from checkout `ad223dfdc791761e40fcba298cb46cbeef06d77b`
+while pinned to candidate `11795badd4b43126d62dfe6e15193cf2a0a170ac`, and
+correctly raised `AS017_CANDIDATE_COMMIT_MISMATCH` before creating its stage
+journal. No case, organism, tick, database, trace, or result artifact was
+created. V8 is preserved as an infrastructure startup incident, contributes
+no challenge rows, and is not a scientific organism failure. The authorized
+next attempt must use an isolated checkout pinned to the exact candidate;
+formal seeds, lock, and qualification remain unauthorized.

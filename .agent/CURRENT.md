@@ -1,6 +1,15 @@
 # CURRENT AUTHORITY — UMBRA-AS-017 EVIDENCE PIPELINE CLOSEOUT
 
-AS-017 remains PRE-LOCK DEVELOPMENT. The active infrastructure-only repair is
+AS-017 remains PRE-LOCK DEVELOPMENT. Corrected development launch V8C is pending
+from an isolated checkout pinned to the exact candidate. V8 is preserved as a
+zero-tick infrastructure startup failure: the runner was invoked at
+`ad223dfdc791761e40fcba298cb46cbeef06d77b` while pinned to
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`, raised
+`AS017_CANDIDATE_COMMIT_MISMATCH`, and created no journal, organism, case, or
+evidence artifact. Its incident report is
+`docs/evidence/as017-integrated-core/AS017_V8_LAUNCH_FAILURE.json`.
+
+The active infrastructure-only repair is
 published at `11795badd4b43126d62dfe6e15193cf2a0a170ac` on
 `github/as017-recovery-development`, and the refetched remote matches exactly.
 `github/master` is untouched. V2 remains incomplete and its scientific outcome
