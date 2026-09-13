@@ -1,0 +1,181 @@
+{
+  "schema": "AS017_V2_INTERRUPTION_REPORT_V1",
+  "directive": "AS-017",
+  "status": "INCOMPLETE_INFRASTRUCTURE_TERMINATION",
+  "scientific_verdict": "UNDETERMINED",
+  "acceptance": "NOT_ACCEPTED",
+  "job": {
+    "id": "job-mtzvdwk4-9779f0eb",
+    "name": "AS-017 final-candidate 16-case development challenge V2",
+    "status": "failed",
+    "exit_code": null,
+    "signal": null,
+    "error_message": "Tracked process ended without reporting a terminal status.",
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "created_at": "2026-09-13T13:48:50.840Z",
+    "started_at": "2026-09-13T13:48:50.873Z",
+    "completed_at": "2026-09-13T17:15:53.007Z",
+    "command_candidate_commit": "e91a7c01c2540c8da13e0cae8f8b773e997db3f8",
+    "command_cwd": "/home/sketch/Projects/umbra-as017-recovery",
+    "cpj_stdout_log": "/home/sketch/.codex/process-jobs/logs/job-mtzvdwk4-9779f0eb.stdout.log",
+    "cpj_stderr_log": "/home/sketch/.codex/process-jobs/logs/job-mtzvdwk4-9779f0eb.stderr.log",
+    "cpj_log_sha256": "e3b0c44298fc1c149af4bf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "accounting": {
+    "target_cases": 16,
+    "target_ticks_per_case": 7200,
+    "completed_exported_cases": 2,
+    "completed_exported_ticks": 14400,
+    "cases_without_completed_result_records": 14,
+    "cases_with_surviving_partial_local_artifacts": 1,
+    "cases_without_any_surviving_case_artifact_observed": 13,
+    "aggregate_result_manifest": {
+      "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/AS017_FINAL_CANDIDATE_DEVELOPMENT_V2.json",
+      "exists": false
+    },
+    "interpretation": "Absence of a completed row is not classified as not-run. The runner publishes a row only after case execution, database copy, trace copy, linkage reduction, and row publication; interruption at any of those stages can leave no row."
+  },
+  "candidate": {
+    "implementation_commit": "e91a7c01c2540c8da13e0cae8f8b773e997db3f8",
+    "branch": "as017-recovery-development",
+    "manifest_sha256_recorded_in_case_rows": "8c609eb39b98cf994cd2290cbd531305b4ba520fef670156fd1d08b069e3247d",
+    "formal_seed_consumption": 0
+  },
+  "completed_cases": [
+    {
+      "case": "R0-00-54869811",
+      "seed": 54869811,
+      "ticks": 7200,
+      "terminal": "completed",
+      "critical_failure": null,
+      "checkpoint_epoch": 1,
+      "hot_tail_event_count": 4617,
+      "database": {
+        "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/case-databases/R0-54869811.sqlite",
+        "bytes": 16564224,
+        "sha256_recomputed": "1dcdf5212a4f3e708f20d392c62985a845ef6da2ce44697dc4512afdfa30750e"
+      },
+      "case_result": {
+        "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/case-results/R0-00-54869811.json",
+        "bytes": 3744,
+        "sha256_recomputed": "f4819dec85a7d391ef53448b42319105d612679932d96aaa958d7691723669bb"
+      },
+      "linkage": {
+        "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/certificate-linkage/R0-00-54869811.json",
+        "bytes": 1897560,
+        "sha256_recomputed": "d5c59fa7fbc0a70ef6772e676780e43372a956536d95c65b27073f2cf8f322f8"
+      },
+      "trace": {
+        "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/case-traces/R0-54869811.trace.jsonl",
+        "bytes": 5327193989,
+        "sha256_recorded_by_runner": "612af2d941b8b554f44918f2299fc5e79616f2437561d04157fae19b4b9da505",
+        "sha256_recomputed": null,
+        "hash_status": "NOT_OBTAINED_WITHIN_BOUNDED_READ_WINDOW"
+      }
+    },
+    {
+      "case": "R0-01-17182603",
+      "seed": 17182603,
+      "ticks": 7200,
+      "terminal": "completed",
+      "critical_failure": null,
+      "checkpoint_epoch": 1,
+      "hot_tail_event_count": 4737,
+      "database": {
+        "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/case-databases/R0-17182603.sqlite",
+        "bytes": 16859136,
+        "sha256_recomputed": "08eb95625ab1b2517e7630b3f49b0ec9c01a457768c131f54e57794b07795828"
+      },
+      "case_result": {
+        "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/case-results/R0-01-17182603.json",
+        "bytes": 3741,
+        "sha256_recomputed": "813c98904a27cf9b111f0258268762f43d1cfd11c06f02a822c48746273bd876"
+      },
+      "linkage": {
+        "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/certificate-linkage/R0-01-17182603.json",
+        "bytes": 1349271,
+        "sha256_recomputed": "17a97432d4fa5215d13cf0aa4824979bcc421c4e68eba73ae8c74495bdcfc97a"
+      },
+      "trace": {
+        "path": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-as-017-integrated-core-closure-r1/case-traces/R0-17182603.trace.jsonl",
+        "bytes": 5520122019,
+        "sha256_recorded_by_runner": "4ca608d7cca64b8b108aa1e036df5f6d7822b2ccf9824cefbccb38bc3943cd54",
+        "sha256_recomputed": null,
+        "hash_status": "NOT_OBTAINED_WITHIN_BOUNDED_READ_WINDOW"
+      }
+    }
+  ],
+  "partial_case": {
+    "case": "R0-02-20493007",
+    "seed": 20493007,
+    "source": "runner_local_work_only",
+    "local_work": "/tmp/umbra-as017-v7-local",
+    "database": {
+      "path": "/tmp/umbra-as017-v7-local/R0-20493007.sqlite",
+      "bytes": 23494656,
+      "mtime": "2026-09-13 11:28:19.052856854 -0400",
+      "sha256": "c21443843be616baff9e0698f8ab5228e9787089f9df59383612cc1bae89087"
+    },
+    "wal": {
+      "path": "/tmp/umbra-as017-v7-local/R0-20493007.sqlite-wal",
+      "bytes": 4153344,
+      "mtime": "2026-09-13 11:28:18.906854604 -0400",
+      "sha256": "261c82508f8975d27432d12b42d06fcba85c81a0dd4bd7ec6355463a77d6d634"
+    },
+    "shm": {
+      "path": "/tmp/umbra-as017-v7-local/R0-20493007.sqlite-shm",
+      "bytes": 32768,
+      "mtime": "2026-09-13 11:27:59.627557537 -0400",
+      "sha256": "547247d821f0a606dddd0ac68f266cb048d351729101370dd3baba66297321dc"
+    },
+    "trace": {
+      "path": "/tmp/umbra-as017-v7-local/case-traces/R0-20493007.trace.jsonl",
+      "bytes": 953679872,
+      "mtime": "2026-09-13 11:28:18.720851738 -0400",
+      "sha256": "1240f5069a9c14da8be5beb54d18034a99635be75c4cab51a30ab111ea0ab49e"
+    },
+    "read_only_validation": {
+      "isolated_copy": "/tmp/umbra-as017-v2-validate.BHLXuZ/R0-20493007.sqlite",
+      "integrity_check": "ok",
+      "foreign_key_check": [],
+      "journal_mode": "wal",
+      "event_count": 9826,
+      "sequence_bounds": [1, 9826],
+      "monotonic_time_bounds": [0.0, 1887.0],
+      "last_observed_event": "outcome_verified",
+      "last_observed_event_sequence": 9826,
+      "snapshot_sequences": [8327, 9375],
+      "snapshot_monotonic_times": [1600.0, 1800.0],
+      "checkpoint_rows": 0,
+      "terminal_result": "absent"
+    },
+    "interpretation": "At least through monotonic tick 1887 is established in the surviving trace/database. No terminal snapshot, export, linkage, or case-result publication is present; the case has no scientific verdict."
+  },
+  "runner_source_findings": {
+    "source_commit": "e91a7c01c2540c8da13e0cae8f8b773e997db3f8",
+    "hash_helper": "tools/as017_run_development.py:21-22 uses hashlib.sha256(path.read_bytes()).hexdigest()",
+    "case_publication_order": "database copy/readback hash, trace copy/readback hash, linkage reduction/publication, case-result publication",
+    "aggregate_publication": "execute(manifest, local_work, on_case=on_case) returns before aggregate result publication",
+    "accounting_consequence": "An interruption during execution or any per-case publication step can leave no completed case-result row; whole-file readback hashing also creates publication-time memory pressure.",
+    "source_finding_status": "CONFIRMED_SOURCE_BEHAVIOR; NOT_CONFIRMED_INCIDENT_CAUSE"
+  },
+  "environment_observations": {
+    "evidence_mount": "sshfs",
+    "evidence_mount_options": "rw,nosuid,nodev,relatime,user_id=1000,group_id=1000",
+    "evidence_mount_free_at_inspection": "907G",
+    "local_tmp_free_at_inspection": "433G",
+    "matching_kernel_log_lines": "none available in queried window; journal availability/coverage is limited",
+    "oom_storage_sqlite_mount_cause": "not established"
+  },
+  "preservation": {
+    "original_v1_and_v2_artifacts": "preserved",
+    "databases_reopened_for_recovery": false,
+    "historical_result_manifest_recreated": false,
+    "formal_seeds_consumed": 0,
+    "retries": 0,
+    "reseeds": 0,
+    "substitutions": 0
+  },
+  "remaining_status": "AS-017_PRE_LOCK; V2 INCOMPLETE; no rerun, continuation, scientific lock, or formal launch authorized"
+}
