@@ -1,0 +1,103 @@
+{
+  "schema": "AS017_EVIDENCE_PIPELINE_READINESS_V1",
+  "directive": "AS-017",
+  "status": "READY_FOR_DEVELOPMENT_LAUNCH_REVIEW",
+  "scope": "bounded evidence processing and interruption-safe experiment accounting only",
+  "formal_execution": {"authorized": false, "launched": false, "formal_seeds_consumed": 0},
+  "subject": {
+    "starting_commit": "4b12315c5cfa84cac39021a9c171b28eaf0013bd",
+    "implementation_commit": "220c938619199f17badaa9f288f45ca27b567053",
+    "branch": "as017-recovery-development",
+    "remote_ref": "github/as017-recovery-development",
+    "remote_refetched_commit": "220c938619199f17badaa9f288f45ca27b567053",
+    "master_untouched": true
+  },
+  "preserved_predecessor": {
+    "v2_report": "docs/evidence/as017-integrated-core/AS017_V2_INTERRUPTION_REPORT.json",
+    "v2_report_sha256": "7519184fdec8872017e0b7e604440058b946273939f6184dc4e02156c757d1cc",
+    "status": "incomplete_scientific_outcome_undetermined",
+    "completed_cases": 2,
+    "completed_ticks": 14400,
+    "evidenced_partial_case": {"case": "R0-20493007", "last_complete_tick": 1887, "trace_complete_rows": 1828, "trace_truncated": true},
+    "unresolved_case_states": 13,
+    "formal_or_development_rerun": false
+  },
+  "source_hashes": {
+    "tools/as017_evidence.py": "a52c5b90aebca031473b0d4e1bf60091a8eb683c233cc263f16acaf3ca58562c",
+    "tools/as017_run_development.py": "851eba13f98ac4410cdbb8513e5762d58bdd752575cfd475718854423f87d492",
+    "umbra_core/decision_trace.py": "2236e4519eab544fa16d2e3224d976f654c2b4e61368c290da874d89fcf9361b",
+    "umbra_core/runtime.py": "a6ed7d518591e9e61d61a1026fcac375c91828bd7f0f812bba2eaac10bddf22d",
+    "experiments/as017/development.py": "9adc93cdd84a733cead71d8931f9fd7f58c6c1eceb4550810b610d786b8c903f",
+    "tests/test_as017_evidence_pipeline.py": "5d03ee035fa73b3851822cb3d9be68adfe8163b25088be202a96b3d869091473",
+    "tools/as017_observer_neutrality_probe.py": "a4ce9b5d84be0d92752042250195479254e77717fa14d4223629b30107b06b99",
+    "tools/as017_publish_recovery_acceptance_packet.py": "61557931025606b3722f4cd2ab0c1a694f6735c19ec435fe0e29202871f3e553",
+    "tools/as017_review_v5_evidence.py": "123c7ca3994b6888b8e716704a9d549b9a95af29905f197c1c3214a5ae171aae"
+  },
+  "bounded_processing": {
+    "chunk_bytes": 1048576,
+    "max_trace_record_bytes": 4194304,
+    "hashing": "incremental SHA-256",
+    "copy_readback": "incremental digest and chunk comparison",
+    "trace_reduction": "one JSONL record at a time; truncation and oversize records fail explicitly",
+    "linkage_reduction": "streamed JSONL records; no full linked-record list",
+    "compact_trace_schema": "AS017_ACCEPTANCE_TRACE_V1",
+    "omitted_bulk_diagnostic": "distributed_competition.attempts and other verbose diagnostic fields are summarized or marked omitted",
+    "measured_memory_test": {"fixture": "approximately 8 MiB source", "peak_tracemalloc_bytes": "less_than_4194304", "result": "PASS"}
+  },
+  "trace_attribution": {
+    "source": "valid prefix of preserved R0-20493007 partial trace",
+    "complete_rows": 1828,
+    "malformed_row": 1829,
+    "max_complete_row_bytes": 1202522,
+    "dominant_serialized_fields_bytes": {
+      "distributed_competition": 931310431,
+      "final_candidate_lineage": 10179481,
+      "final_safety_transition": 1682980,
+      "dormant_capability_transition": 1681152,
+      "manipulation_bindings": 914633,
+      "verified_outcome_linkage": 855681,
+      "memory_transition": 817104,
+      "governance_proposal": 464113,
+      "base_candidate": 456188,
+      "final_candidate": 456188,
+      "viability_kernel": 370522
+    },
+    "interpretation": "measurement of serialized valid-prefix content; does not establish redundancy or the V2 termination cause"
+  },
+  "accounting": {
+    "stages": ["REGISTERED", "STARTED", "EXECUTION_FINISHED", "LOCALLY_VALIDATED", "EXPORT_STARTED", "EXPORT_VERIFIED", "EXPORT_PENDING", "CAMPAIGN_FINISHED", "RUNNER_INTERRUPTED"],
+    "durability": "append-only JSONL with flush and fsync per record",
+    "case_start": "persisted before organism execution",
+    "execution_result": "persisted locally before remote publication",
+    "remote_export": "separate from execution; export failure is explicit pending state",
+    "missing_terminal_notification": "incomplete when latest case state is not EXPORT_VERIFIED or CASE_FINISHED",
+    "retry_policy": "no organism execution retry; export retry is a separate operation",
+    "synthetic_failure_controls": ["started worker without terminal record remains incomplete", "execution-finished case without export remains incomplete", "export-pending case remains incomplete"]
+  },
+  "validation": {
+    "focused_command": "/home/sketch/.local/share/tamamonchi/venv/bin/python -m pytest -q tests/test_as017_evidence_pipeline.py tests/test_as017_v5_evidence_validator.py tests/test_d014h2_trace.py",
+    "focused_result": "14 passed",
+    "focused_exit_code": 0,
+    "literal_smoke": {
+      "result": "AS017_PUBLICATION_SMOKE_PASS",
+      "exit_code": 0,
+      "result_sha256": "65f73c08b81cd8b5fdc6f5b9f10a5a425a0e8381c47e885843d018717766eae6",
+      "checks": ["local SQLite WAL database closed before copy", "exported database queried for expected row", "exported result published and read back", "stage journal written"]
+    },
+    "compile": "PASS",
+    "git_diff_check": "PASS",
+    "active_runner_read_bytes_scan": "no matches in active runner, AS-017 tools, AS-017 experiments, or core trace/runtime paths",
+    "full_repository_regression": "NOT RUN under infrastructure-only authorization",
+    "organism_challenge": "NOT RUN; V2 was not resumed or rerun",
+    "formal_lock": "NOT AUTHORIZED"
+  },
+  "historical_trace_hashes": {
+    "R0-54869811": {"bytes": 5327195989, "runner_recorded_sha256": "612af2d941b8b554f44918f2299fc5e79616f2437561d04157fae19b4b9da505", "independent_recomputed_sha256": null, "recompute_status": "NOT_OBTAINED_WITHIN_BOUNDED_READ_WINDOW"},
+    "R0-17182603": {"bytes": 5520122019, "runner_recorded_sha256": "4ca608d7cca64b8b108aa1e036df5f6d7822b2ccf9824cefbccb38bc3943cd54", "independent_recomputed_sha256": null, "recompute_status": "NOT_OBTAINED_WITHIN_BOUNDED_READ_WINDOW"}
+  },
+  "resource_projection": {"completed_trace_bytes": 10847318008, "completed_database_bytes": 33423360, "interpretation": "descriptive evidence only; compacted V2 databases and trace redundancy do not establish the termination cause"},
+  "external_basis": ["https://docs.python.org/3/library/hashlib.html", "https://www.sqlite.org/wal.html", "https://www.sqlite.org/howtocorrupt.html"],
+  "notion": "NOT_UPDATED: no Notion connector was available in this execution",
+  "next_boundary": "development-launch review required before any registered 16-case challenge; no automatic launch",
+  "remaining_gap": "The final-candidate 16-case development challenge remains incomplete, followed by regression reconciliation, scientific lock review, formal viability, long-horizon resources, causal integration, and final creature acceptance."
+}

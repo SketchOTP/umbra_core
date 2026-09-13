@@ -995,3 +995,15 @@ branch-safety shield should remain conservative; the repair boundary is a
 source-backed multi-need recovery reserve, not an exemption from critical
 physiology or a seed-specific emergency action. Observed/distant movement may
 guide a MAY route but cannot become a hard future-arrival guarantee.
+# 2026-09-13 — AS-017 evidence-pipeline boundary
+
+Evidence processing must be bounded independently of organism semantics. Hash
+and copy in chunks, reduce JSONL one record at a time, and fail visibly on
+truncation or oversize records. A local fsync-backed stage journal must record
+case start and local execution completion before remote export; missing terminal
+notifications and export failures are incomplete states, not scientific results.
+SQLite WAL databases must remain paired with their WAL/SHM during preservation,
+and a publication smoke must close the source connection and query the exported
+copy rather than validating bytes alone. The large V2 trace hashes remain
+runner-recorded versus independently recomputed facts; unavailable recomputation
+must not be silently promoted to verification.

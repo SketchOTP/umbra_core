@@ -1986,3 +1986,21 @@ preflights remain unrun or unresolved; no formal seed or organism was consumed.
 - Consolidated packet: `docs/evidence/as017-integrated-core/README.md`.
 - Post-push Authority 3.0 PASS, Governance PASS, `git diff --check` PASS, and
   clean worktree. Scientific lock and formal execution remain unauthorized.
+# 2026-09-13 — AS-017 bounded evidence processing and interruption accounting
+
+- Status: COMPLETE for the infrastructure-only continuation; READY FOR
+  DEVELOPMENT LAUNCH REVIEW. No organism execution, retry, formal seed, or
+  scientific lock occurred.
+- Starting subject: `4b12315c5cfa84cac39021a9c171b28eaf0013bd`.
+- Implementation commit: `220c938619199f17badaa9f288f45ca27b567053`, pushed and
+  refetched exactly on `github/as017-recovery-development`; `master` untouched.
+- V2 is preserved as incomplete/undetermined: two completed cases, 14,400
+  completed ticks, one partial case through tick 1,887, and thirteen unresolved
+  case states. The immutable report hash is
+  `7519184fdec8872017e0b7e604440058b946273939f6184dc4e02156c757d1cc`.
+- Focused validation: `14 passed`; literal publication smoke PASS with exported
+  SQLite content readback; compile and `git diff --check` PASS. No full regression
+  or organism challenge was authorized under this work unit.
+- Readiness packet:
+  `docs/evidence/as017-integrated-core/AS017_EVIDENCE_PIPELINE_READINESS.json`.
+  Notion update was unavailable because no Notion connector was present.

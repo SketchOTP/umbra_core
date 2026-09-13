@@ -1,34 +1,27 @@
-# CURRENT AUTHORITY — UMBRA-AS-017 INTEGRATED CORE CLOSURE
+# CURRENT AUTHORITY — UMBRA-AS-017 EVIDENCE PIPELINE CLOSEOUT
 
-AS-017 continues in PRE-LOCK DEVELOPMENT under the adopted integrated-core
-closure directive `.agent/tasks/active/UMBRA-AS-017/DIRECTIVE_INTEGRATED_CORE_CLOSURE.md`.
-The isolated branch starts at `f9bb1f809602b584b4931d887115d252d164e5e2`,
-matching `github/as017-recovery-development`; `github/master` remains
-`fd8c50e1134d7d2ef54e20148ac9b7880e63708d`. V5's 16/16 development result and
-scoped evidence review remain immutable predecessor evidence.
+AS-017 remains PRE-LOCK DEVELOPMENT. The active infrastructure-only repair is
+published at `220c938619199f17badaa9f288f45ca27b567053` on
+`github/as017-recovery-development`, and the refetched remote matches exactly.
+`github/master` is untouched. V2 remains incomplete and its scientific outcome
+undetermined; no organism was resumed or rerun, no formal seed was consumed,
+and no scientific lock was established.
 
-This closure has identified and repaired one active prediction/execution
-inconsistency: state-dependent locomotion effects applied by
-`Governance.apply_physiology()` were absent from authoritative prediction
-branches. The repair is pre-lock and target-tested; formal science remains
-unauthorized. The legitimate historical `prospective_recoverability_transition`
-API was restored/exported, while stale tests for a removed arbitration hook were
-modernized against current authority behavior.
+The repair adds incremental hashing/copy readback, bounded JSONL trace and
+linkage reduction, a compact acceptance-trace schema, and an fsync-backed
+append-only campaign stage journal. Local execution results are recorded before
+remote export, and export failures remain explicit pending states. The literal
+publication smoke closes the SQLite connection before copying and queries the
+exported database content.
 
-Current validation: focused transition/certificate/orphan/recovery surface
-`382 passed` twice; full repository regression `1383 passed / 4 skipped / 7
-exact-baseline inherited failures`; candidate-only failures `0`; collection
-`1394` tests; Authority 3.0, Governance, and `git diff --check` PASS. Literal
-AS-015 downstream preflight is `7/7 PASS` across lifecycle, boundedness, soak,
-and five ablation variants, with checkpoint/final-result equality and unused
-development seeds. The raw suite is not wholly green because the seven
-pre-existing D-012/D-013 failures reproduce on the pre-repair candidate; they
-remain explicitly disclosed and are not AS-017 candidate-only failures.
-AS-017 remains PRE-LOCK: the validated candidate is published on
-`github/as017-recovery-development` at
-`231422618ea2e3db5173ae020c6b8980386a0d63`, with readiness record
-`docs/evidence/as017-integrated-core/README.md`; Architect lock review is still
-pending. No formal seed or organism has been consumed.
+Validation is target-scoped: the focused evidence/validator/trace command passed
+`14` tests; the literal local-storage publication smoke passed; relevant Python
+compilation, `git diff --check`, and the active-runner no-`read_bytes` scan pass.
+The readiness packet is
+`docs/evidence/as017-integrated-core/AS017_EVIDENCE_PIPELINE_READINESS.json`.
+Large historical V2 trace hashes remain runner-recorded only where independent
+bounded recomputation was not obtained. Full regression, the 16-case challenge,
+formal lock, and formal qualification remain NOT RUN or unauthorized.
 
 ## 2026-09-13 task-start record
 

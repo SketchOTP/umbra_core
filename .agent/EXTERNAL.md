@@ -462,3 +462,14 @@ probability, source priority, or planner semantics.
 - AS-015 adaptation: categorical, componentwise evaluation of UMBRA's own
   policy-visible candidates, current authoritative branch effects, and
   unavoidable drift. No external implementation or dependency was imported.
+# 2026-09-13 — AS-017 bounded evidence and SQLite preservation
+
+- [Python hashlib](https://docs.python.org/3/library/hashlib.html) — REFERENCE:
+  incremental `update()` hashing is equivalent to hashing the concatenated byte
+  stream; used for bounded artifact hashing. No external dependency added.
+- [SQLite WAL](https://www.sqlite.org/wal.html) — REFERENCE: WAL and shared-memory
+  files are part of the database state boundary; active runtime storage remains
+  local and paired files are preserved.
+- [SQLite how to corrupt](https://www.sqlite.org/howtocorrupt.html) — REFERENCE:
+  separating a database from a surviving WAL can lose committed state; validation
+  uses isolated copies while preserving originals.
