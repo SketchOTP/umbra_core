@@ -24,6 +24,7 @@ def run_case(regime: str, seed: int, local_work: Path, horizon: int = HORIZON) -
         # DecisionTraceSink is default-disabled and never read by policy.  It
         # records the prospective certificate-to-execution linkage only.
         value.decision_trace_path = str(trace_path)
+        value.decision_trace_mode = "compact_acceptance"
         return value
 
     _as014.config, _as014.fingerprint = traced_config, fingerprint
@@ -44,7 +45,13 @@ def run_case(regime: str, seed: int, local_work: Path, horizon: int = HORIZON) -
 
 
 def execute(
-    manifest: dict[str, Any], local_work: Path, *, on_case: Callable[[dict[str, Any]], None], horizon: int = HORIZON
+    manifest: dict[str, Any],
+    local_work: Path,
+    *,
+    on_case: Callable[[dict[str, Any]], None],
+    horizon: int = HORIZON,
+    on_case_start: Callable[[dict[str, Any]], None] | None = None,
+    on_execution_finished: Callable[[dict[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
     regimes = manifest.get("development_regimes")
     if (
@@ -58,9 +65,18 @@ def execute(
     rows: list[dict[str, Any]] = []
     for regime in REGIMES:
         for seed_index, seed in enumerate(regimes[regime]):
+            if on_case_start is not None:
+                on_case_start({
+                    "regime": regime,
+                    "seed": int(seed),
+                    "seed_index": seed_index,
+                    "target_ticks": horizon,
+                })
             row = run_case(regime, int(seed), local_work, horizon)
             row["seed_index"] = seed_index
             rows.append(row)
+            if on_execution_finished is not None:
+                on_execution_finished(row)
             on_case(row)
             if row.get("terminal") != "completed":
                 return {"schema": "AS017_DEVELOPMENT_CHALLENGE_V2", "directive": DIRECTIVE,

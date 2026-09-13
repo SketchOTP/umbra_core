@@ -15,6 +15,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from tools.as017_evidence import stream_sha256
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -113,7 +115,7 @@ def _run(mode: str, root: Path) -> dict[str, Any]:
         "outcome_sequence": outcomes,
         "rng_final": rng_final,
         "trace_present": trace.is_file(),
-        "trace_sha256": hashlib.sha256(trace.read_bytes()).hexdigest() if trace.is_file() else None,
+        "trace_sha256": stream_sha256(trace) if trace.is_file() else None,
         "config_fingerprint": fingerprint(probe_config(SEED, db, REGIME)),
     })
     return row

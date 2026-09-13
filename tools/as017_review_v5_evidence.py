@@ -25,6 +25,7 @@ if __package__ in (None, ""):
 
 from umbra_core.persistence import Store
 from umbra_core.util import canon_json
+from tools.as017_evidence import stream_bytes_equal
 
 
 DIRECTIVE = "UMBRA-AS-017"
@@ -61,8 +62,7 @@ def publish_json_once(path: Path, payload: dict[str, Any]) -> str:
         handle.write(data)
         handle.flush()
         os.fsync(handle.fileno())
-    readback = path.read_bytes()
-    require(readback == data, "artifact_readback_mismatch")
+    require(stream_bytes_equal(path, data), "artifact_readback_mismatch")
     return hashlib.sha256(data).hexdigest()
 
 

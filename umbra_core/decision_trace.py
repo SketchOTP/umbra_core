@@ -43,11 +43,87 @@ def candidate_to_trace(candidate: Any) -> dict[str, Any] | None:
     }
 
 
+def _compact_distributed_competition(value: Any) -> dict[str, Any] | None:
+    if not isinstance(value, dict):
+        return None
+    keep = (
+        "schema",
+        "admissible_candidate_count",
+        "applicable_channel_count",
+        "distributed_changed_winner",
+        "eliminated_candidate_count",
+        "frontier_equals_full_pool",
+        "frontier_full_pool_ratio",
+        "frontier_size",
+        "pairwise_dominance_count",
+        "selected_identity",
+        "stochastic_resolution_required",
+        "supported_count_by_channel",
+        "unknown_count_by_channel",
+    )
+    result = {key: value[key] for key in keep if key in value}
+    continuation = value.get("continuation")
+    if isinstance(continuation, dict):
+        result["continuation"] = {
+            key: continuation[key]
+            for key in ("root_fingerprint", "root_size", "survivor_count", "unknown_rate")
+            if key in continuation
+        }
+    return result
+
+
+_COMPACT_FIELDS = (
+    "tick",
+    "decision_cycle",
+    "active_ticks",
+    "organism_age",
+    "physiology",
+    "body_schema_generation",
+    "policy_observation_fingerprint",
+    "critical_recovery_context",
+    "base_candidate",
+    "final_candidate",
+    "final_candidate_lineage",
+    "final_safety_transition",
+    "final_authority_reachable_effect_branches",
+    "governance_proposal",
+    "governance_decision",
+    "verified_outcome_linkage",
+    "verified_executability_denials",
+    "viability_kernel",
+    "recovery_certificate_continuation",
+)
+
+
+def compact_acceptance_row(row: dict[str, Any]) -> dict[str, Any]:
+    """Project one trace row without recursively copying diagnostic bulk."""
+    compact = {key: row[key] for key in _COMPACT_FIELDS if key in row}
+    compact["schema"] = "AS017_ACCEPTANCE_TRACE_ROW_V1"
+    competition = _compact_distributed_competition(row.get("distributed_competition"))
+    if competition is not None:
+        compact["distributed_competition_summary"] = competition
+    compact["omitted_diagnostic_fields"] = {
+        key: key in row
+        for key in (
+            "distributed_competition",
+            "development_transition",
+            "memory_transition",
+            "social_transition",
+            "world_model_transition",
+            "individuality_context",
+            "manipulation_bindings",
+            "temporal_proposals_or_modifiers",
+        )
+    }
+    return compact
+
+
 class DecisionTraceSink:
     """Best-effort file sink. It is never consulted by organism policy."""
 
-    def __init__(self, path: str | None):
+    def __init__(self, path: str | None, *, mode: str = "full"):
         self.path = path
+        self.mode = mode
         self._handle = None
         if not path:
             return
@@ -66,7 +142,12 @@ class DecisionTraceSink:
         if self._handle is None:
             return False
         try:
-            safe_row = _safe(row)
+            source_row = row
+            if self.mode == "compact_acceptance":
+                source_row = compact_acceptance_row(row)
+            elif self.mode != "full":
+                raise ValueError(f"unknown_decision_trace_mode:{self.mode}")
+            safe_row = _safe(source_row)
             encoded = json.dumps(safe_row, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
             record = dict(safe_row)
             record["trace_row_hash"] = hashlib.sha256(encoded.encode("utf-8")).hexdigest()

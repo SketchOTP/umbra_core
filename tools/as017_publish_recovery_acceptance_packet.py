@@ -9,6 +9,8 @@ import os
 from pathlib import Path
 from typing import Any
 
+from tools.as017_evidence import stream_bytes_equal
+
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
@@ -25,7 +27,7 @@ def publish(path: Path, payload: dict[str, Any]) -> str:
         handle.write(data)
         handle.flush()
         os.fsync(handle.fileno())
-    if path.read_bytes() != data:
+    if not stream_bytes_equal(path, data):
         raise RuntimeError("AS017_RECOVERY_PACKET_READBACK_MISMATCH")
     return hashlib.sha256(data).hexdigest()
 

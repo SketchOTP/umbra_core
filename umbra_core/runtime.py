@@ -201,6 +201,7 @@ class OrganismConfig:
     temporal_scenario_hook: Any = field(default=None, repr=False)
     # D-014H2: opt-in read-only trace; never consulted by organism policy.
     decision_trace_path: str | None = field(default=None, repr=False)
+    decision_trace_mode: str = field(default="full", repr=False)
     # AS-003P: opt-in write-only planning evidence trace. Never consulted by
     # candidate generation, arbitration, Governance, Embodiment, or learning.
     planning_shadow_path: str | None = field(default=None, repr=False)
@@ -325,7 +326,10 @@ class Organism:
         self.governance = governance
         self.rng = rng
         self.config = config
-        self._decision_trace = DecisionTraceSink(config.decision_trace_path)
+        self._decision_trace = DecisionTraceSink(
+            config.decision_trace_path,
+            mode=config.decision_trace_mode,
+        )
         self._planning_shadow = PlanningShadowSink(config.planning_shadow_path)
         # D-014H3D: this is an opt-in research callback only. It is never
         # persisted and is absent from ordinary configurations.
