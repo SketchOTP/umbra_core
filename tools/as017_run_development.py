@@ -23,6 +23,7 @@ from tools.as017_evidence import (
     reduce_acceptance_trace,
     reduce_certificate_linkage,
     stream_sha256,
+    validate_sqlite_copy,
 )
 
 
@@ -121,6 +122,13 @@ def main() -> None:
         trace = args.local_work / str(row["decision_trace_filename"])
         if not database.is_file() or not trace.is_file():
             raise RuntimeError("AS017_LOCAL_ARTIFACT_MISSING")
+        compact_trace = args.local_work / "case-traces-compact" / trace.name
+        trace_summary = reduce_acceptance_trace(trace, compact_trace)
+        if trace_summary["rows"] != row.get("ticks"):
+            raise EvidenceFormatError(
+                f"trace_row_count_mismatch:expected_{row.get('ticks')}_got_{trace_summary['rows']}"
+            )
+        database_validation = validate_sqlite_copy(database)
         journal.append(
             "LOCALLY_VALIDATED",
             case_id=cid,
@@ -128,6 +136,8 @@ def main() -> None:
             trace_path=str(trace),
             database_bytes=database.stat().st_size,
             trace_bytes=trace.stat().st_size,
+            database_validation=database_validation,
+            trace_processing=trace_summary,
         )
         destination = args.evidence_work / "case-databases" / database.name
         journal.append("EXPORT_STARTED", case_id=cid, artifact="database", destination=str(destination))
@@ -135,12 +145,6 @@ def main() -> None:
         journal.append("EXPORT_VERIFIED", case_id=cid, artifact="database", sha256=row["database_sha256"])
         row["candidate_commit"] = args.candidate_commit
         row["seed_manifest_sha256"] = manifest_hash
-        compact_trace = args.local_work / "case-traces-compact" / trace.name
-        trace_summary = reduce_acceptance_trace(trace, compact_trace)
-        if trace_summary["rows"] != row.get("ticks"):
-            raise EvidenceFormatError(
-                f"trace_row_count_mismatch:expected_{row.get('ticks')}_got_{trace_summary['rows']}"
-            )
         trace_destination = args.evidence_work / "case-traces" / compact_trace.name
         journal.append("EXPORT_STARTED", case_id=cid, artifact="compact_trace", destination=str(trace_destination))
         row["decision_trace_sha256"] = publish_file_once(compact_trace, trace_destination)
@@ -158,8 +162,14 @@ def main() -> None:
         row["certificate_linkage_records_filename"] = linkage_records_destination.name
         row["trace_processing"] = trace_summary
         case_result_destination = args.evidence_work / "case-results" / f"{cid}.json"
-        publish_json_once(case_result_destination, row)
-        journal.append("EXPORT_VERIFIED", case_id=cid, artifact="case_result", sha256=stream_sha256(case_result_destination))
+        case_result_sha256 = publish_json_once(case_result_destination, row)
+        journal.append("EXPORT_VERIFIED", case_id=cid, artifact="case_result", sha256=case_result_sha256)
+        journal.append(
+            "CASE_FINISHED",
+            case_id=cid,
+            required_artifacts=["database", "compact_trace", "linkage_records", "linkage_summary", "case_result"],
+            case_result_sha256=case_result_sha256,
+        )
 
     def on_case_accounted(row: dict) -> None:
         try:

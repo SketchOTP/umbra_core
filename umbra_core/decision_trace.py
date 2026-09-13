@@ -32,6 +32,18 @@ def canonical_fingerprint(value: Any) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def trace_row_hash(row: dict[str, Any]) -> str:
+    """Hash a trace row without its derived identity field."""
+    base = dict(row)
+    base.pop("trace_row_hash", None)
+    return canonical_fingerprint(base)
+
+
+def verify_trace_row_hash(row: dict[str, Any]) -> bool:
+    stored = row.get("trace_row_hash")
+    return isinstance(stored, str) and stored == trace_row_hash(row)
+
+
 def candidate_to_trace(candidate: Any) -> dict[str, Any] | None:
     if candidate is None:
         return None
@@ -150,7 +162,7 @@ class DecisionTraceSink:
             safe_row = _safe(source_row)
             encoded = json.dumps(safe_row, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
             record = dict(safe_row)
-            record["trace_row_hash"] = hashlib.sha256(encoded.encode("utf-8")).hexdigest()
+            record["trace_row_hash"] = trace_row_hash(safe_row)
             self._handle.write(json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n")
             self._handle.flush()
             return True
