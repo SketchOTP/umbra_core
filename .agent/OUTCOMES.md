@@ -2004,3 +2004,17 @@ preflights remain unrun or unresolved; no formal seed or organism was consumed.
 - Readiness packet:
   `docs/evidence/as017-integrated-core/AS017_EVIDENCE_PIPELINE_READINESS.json`.
   Notion update was unavailable because no Notion connector was present.
+
+# 2026-09-13 — AS-017 conditional launch gates
+
+- V2 linkage consumer published at `11795badd4b43126d62dfe6e15193cf2a0a170ac`;
+  V1 historical validation remains unchanged.
+- Gate 1 PASS: compact producer to reduction to exported files to streaming
+  semantic consumer; valid fixtures pass and tampered linkage fails.
+- Gate 2 PASS with disclosed inherited debt: exact regression produced
+  `1403 passed / 4 skipped / 7 inherited failures`; excluding the seven known
+  baseline nodes produced `1403 passed / 4 skipped / 7 deselected`.
+- Clean detached checkout imported only its own tree; manifest hash was
+  `8c609eb39b98cf994cd2290cbd531305b4ba520fef670156fd1d08b069e3247d`; local
+  SQLite/export smoke passed. One serial 16-case development attempt is
+  conditionally authorized but has not been launched in this record.

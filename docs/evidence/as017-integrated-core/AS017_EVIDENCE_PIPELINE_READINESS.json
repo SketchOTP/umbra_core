@@ -10,10 +10,10 @@
   },
   "subject": {
     "starting_commit": "4b12315c5cfa84cac39021a9c171b28eaf0013bd",
-    "implementation_commit": "58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa",
+    "implementation_commit": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
     "branch": "as017-recovery-development",
     "remote_ref": "github/as017-recovery-development",
-    "remote_refetched_commit": "58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa",
+    "remote_refetched_commit": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
     "master_untouched": true
   },
   "preserved_predecessor": {
@@ -37,10 +37,11 @@
     "umbra_core/decision_trace.py": "819b04aaaac3bae3822406410d934f754ea36a7b8f8831f10187184ea46ae685",
     "umbra_core/runtime.py": "a6ed7d518591e9e61d61a1026fcac375c91828bd7f0f812bba2eaac10bddf22d",
     "experiments/as017/development.py": "9adc93cdd84a733cead71d8931f9fd7f58c6c1eceb4550810b610d786b8c903f",
-    "tests/test_as017_evidence_pipeline.py": "f9a442ff5d37c06e71487a19f4628db5aea154e2ce007ff7ed88403406072567",
+    "tests/test_as017_evidence_pipeline.py": "65a5909355b1ca9fa20e6aa21e79e1e3f3026ca8e49aa0c9aff0b67a9cd01731",
     "tools/as017_observer_neutrality_probe.py": "a4ce9b5d84be0d92752042250195479254e77717fa14d4223629b30107b06b99",
     "tools/as017_publish_recovery_acceptance_packet.py": "61557931025606b3722f4cd2ab0c1a694f6735c19ec435fe0e29202871f3e553",
-    "tools/as017_review_v5_evidence.py": "123c7ca3994b6888b8e716704a9d549b9a95af29905f197c1c3214a5ae171aae"
+    "tools/as017_review_v5_evidence.py": "123c7ca3994b6888b8e716704a9d549b9a95af29905f197c1c3214a5ae171aae",
+    "tools/as017_validate_linkage_v2.py": "e7d7c9555cdade5ec60fe1fe2260d5942274b06d339fddb749d3600747f68316"
   },
   "bounded_processing": {
     "chunk_bytes": 1048576,
@@ -115,13 +116,13 @@
   },
   "validation": {
     "focused_command": "/home/sketch/.local/share/tamamonchi/venv/bin/python -m pytest -q tests/test_as017_evidence_pipeline.py tests/test_as017_v5_evidence_validator.py tests/test_d014h2_trace.py",
-    "focused_result": "25 passed",
+    "focused_result": "26 passed",
     "focused_exit_code": 0,
     "literal_smoke": {
       "result": "AS017_PUBLICATION_SMOKE_PASS",
       "exit_code": 0,
-      "candidate_commit": "58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa",
-      "result_sha256": "2022bdfeca9ae2efa015088fc422593a34e2085c0d77ce444dbc2907ae7c052d",
+      "candidate_commit": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+      "result_sha256": "93148b5f210a740f9765c888b781de4a540c51c1e2545f59b90c0a32d237cfa3",
       "checks": [
         "local SQLite WAL database closed before copy",
         "exported database queried for expected row",
@@ -132,9 +133,16 @@
     "compile": "PASS",
     "git_diff_check": "PASS",
     "active_runner_read_bytes_scan": "no matches in active runner, AS-017 tools, AS-017 experiments, or core trace/runtime paths",
-    "full_repository_regression": "NOT RUN under infrastructure-only authorization",
+    "full_repository_regression": "1403 passed, 4 skipped, 7 documented inherited failures; exact deselection confirmation 1403 passed, 4 skipped, 7 deselected",
     "organism_challenge": "NOT RUN; V2 was not resumed or rerun",
     "formal_lock": "NOT AUTHORIZED"
+  },
+  "launch_gates": {
+    "gate_1_v2_consumer": "PASS: direct and literal CLI consumer accepted valid compact producer output and rejected semantic tampering",
+    "gate_2_regression": "PASS WITH DISCLOSED INHERITED DEBT: no unexplained candidate-only failures; seven exact baseline nodes remain documented",
+    "clean_checkout": "PASS: detached checkout imported umbra_core and AS-017 tools from its own tree; manifest directive and hash matched",
+    "local_runtime_storage": "PASS: closed local SQLite WAL database exported and queried successfully",
+    "launch_condition": "both conditional gates passed; one serial 16-case development attempt is authorized"
   },
   "historical_trace_hashes": {
     "R0-54869811": {

@@ -1,7 +1,7 @@
 # CURRENT AUTHORITY — UMBRA-AS-017 EVIDENCE PIPELINE CLOSEOUT
 
 AS-017 remains PRE-LOCK DEVELOPMENT. The active infrastructure-only repair is
-published at `58d4cb563c5a3e4d9d84ea7d4dbb5055d51e28fa` on
+published at `11795badd4b43126d62dfe6e15193cf2a0a170ac` on
 `github/as017-recovery-development`, and the refetched remote matches exactly.
 `github/master` is untouched. V2 remains incomplete and its scientific outcome
 undetermined; no organism was resumed or rerun, no formal seed was consumed,
@@ -12,15 +12,18 @@ linkage reduction, a compact acceptance-trace schema, and an fsync-backed
 append-only campaign stage journal. Local execution results are recorded before
 remote export, and export failures remain explicit pending states. The literal
 publication smoke closes the SQLite connection before copying and queries the
-exported database content.
+exported database content. A streaming V2 linkage consumer now validates row,
+candidate, proposal, outcome, parameter, count, and file bindings while leaving
+the historical V1 validator unchanged.
 
 Validation is target-scoped: the focused evidence/validator/trace command passed
-`25` tests; the literal local-storage publication smoke passed; relevant Python
+`26` tests; the literal local-storage publication smoke passed; relevant Python
 compilation, `git diff --check`, and the active-runner no-`read_bytes` scan pass.
 The readiness packet is
 `docs/evidence/as017-integrated-core/AS017_EVIDENCE_PIPELINE_READINESS.json`.
 Large historical V2 trace hashes remain runner-recorded only where independent
-bounded recomputation was not obtained. Full regression, the 16-case challenge,
+bounded recomputation was not obtained. Full regression has only the seven
+documented inherited failures. The 16-case challenge,
 formal lock, and formal qualification remain NOT RUN or unauthorized.
 
 ## 2026-09-13 task-start record
