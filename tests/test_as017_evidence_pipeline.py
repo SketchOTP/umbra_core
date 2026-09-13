@@ -22,6 +22,7 @@ from tools.as017_evidence import (
     trace_row_hash,
     validate_sqlite_copy,
 )
+from tools.as017_validate_linkage_v2 import validate_linkage_v2
 from umbra_core.decision_trace import DecisionTraceSink
 
 
@@ -269,6 +270,75 @@ def test_compact_reduce_export_linkage_and_case_close_are_one_chain(tmp_path: Pa
     )
     journal.close()
     assert summarize_stage_journal(journal_path)["acceptance_ready"] is True
+
+
+def test_v2_consumer_accepts_valid_chain_and_rejects_semantic_tampering(tmp_path: Path) -> None:
+    trace = tmp_path / "trace.jsonl"
+    sink = DecisionTraceSink(str(trace), mode="compact_acceptance")
+    sink.record(
+        {
+            "tick": 1,
+            "viability_kernel": {"selected_recovery_certificate": {"status": "PROVEN", "root_id": "r1", "first_candidate": {"capability": "CHARGE", "requested_params": {}}, "first_candidate_identity": "CHARGE:b'{}'"}},
+            "final_candidate": {"capability": "CHARGE", "params": {}, "scores": {}, "total": 0.0},
+            "governance_proposal": {"capability": "CHARGE", "params": {}, "proposal_id": "p1"},
+            "governance_decision": {"admitted": True},
+            "verified_outcome_linkage": {"capability": "CHARGE", "requested_params": {}, "applied_params": {}, "governance_proposal_id": "p1", "verified_outcome_id": "o1"},
+            "recovery_certificate_continuation": {"status": "TERMINAL_RECOVERY_REVALIDATED"},
+        }
+    )
+    sink.close()
+    compact_row = json.loads(trace.read_text())
+    records = tmp_path / "records.jsonl"
+    record = {
+        "tick": 1,
+        "certificate": compact_row["viability_kernel"]["selected_recovery_certificate"],
+        "selected_candidate": compact_row["final_candidate"],
+        "governance_proposal": compact_row["governance_proposal"],
+        "governance_decision": compact_row["governance_decision"],
+        "verified_outcome": compact_row["verified_outcome_linkage"],
+        "continuation": compact_row["recovery_certificate_continuation"],
+        "trace_row_hash": compact_row["trace_row_hash"],
+    }
+    records.write_text(json.dumps(record) + "\n")
+    record_hash = stream_sha256(records)
+    summary = tmp_path / "summary.json"
+    summary_payload = {
+        "schema": "AS017_RECOVERY_CERTIFICATE_LINKAGE_V2",
+        "candidate_commit": "candidate-1",
+        "trace_rows": 1,
+        "linked_records": 1,
+        "status_counts": {"TERMINAL_RECOVERY_REVALIDATED": 1},
+        "records_sha256": record_hash,
+        "unmatched_count": 0,
+    }
+    summary.write_text(json.dumps(summary_payload))
+    result = validate_linkage_v2(summary, records, trace, "candidate-1", expected_summary_sha256=stream_sha256(summary))
+    assert result["verdict"] == "PASS", result
+    cli_output = tmp_path / "v2-validation.json"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "tools/as017_validate_linkage_v2.py",
+            "--summary", str(summary),
+            "--records", str(records),
+            "--trace", str(trace),
+            "--candidate-commit", "candidate-1",
+            "--expected-summary-sha256", stream_sha256(summary),
+            "--output", str(cli_output),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0, completed.stderr
+    assert json.loads(cli_output.read_text())["verdict"] == "PASS"
+
+    tampered = json.loads(records.read_text())
+    tampered["governance_proposal"]["proposal_id"] = "wrong"
+    records.write_text(json.dumps(tampered) + "\n")
+    result = validate_linkage_v2(summary, records, trace, "candidate-1")
+    assert result["verdict"] == "FAIL"
+    assert any("proposal_outcome_id_mismatch" in failure or "proposal_trace_mismatch" in failure for failure in result["failures"])
 
 
 def test_json_publication_readback_does_not_use_path_read_bytes(tmp_path: Path) -> None:
