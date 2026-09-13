@@ -15,7 +15,7 @@ publication smoke closes the SQLite connection before copying and queries the
 exported database content.
 
 Validation is target-scoped: the focused evidence/validator/trace command passed
-`14` tests; the literal local-storage publication smoke passed; relevant Python
+`18` tests; the literal local-storage publication smoke passed; relevant Python
 compilation, `git diff --check`, and the active-runner no-`read_bytes` scan pass.
 The readiness packet is
 `docs/evidence/as017-integrated-core/AS017_EVIDENCE_PIPELINE_READINESS.json`.

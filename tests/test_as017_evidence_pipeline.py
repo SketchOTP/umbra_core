@@ -133,6 +133,28 @@ def test_stage_summary_keeps_interrupted_case_unresolved(tmp_path: Path) -> None
     assert summary["incomplete_cases"] == ["R0-00-1"]
 
 
+@pytest.mark.parametrize(
+    ("stages", "complete"),
+    [
+        (["STARTED"], False),
+        (["STARTED", "EXECUTION_FINISHED"], False),
+        (["STARTED", "EXECUTION_FINISHED", "LOCALLY_VALIDATED", "EXPORT_PENDING"], False),
+        (["STARTED", "EXECUTION_FINISHED", "LOCALLY_VALIDATED", "EXPORT_STARTED", "EXPORT_VERIFIED"], True),
+    ],
+)
+def test_stage_summary_distinguishes_execution_from_export(
+    tmp_path: Path, stages: list[str], complete: bool
+) -> None:
+    path = tmp_path / "stages.jsonl"
+    journal = StageJournal(path)
+    journal.append("REGISTERED", case_count=1)
+    for stage in stages:
+        journal.append(stage, case_id="R0-00-1")
+    journal.close()
+    summary = summarize_stage_journal(path)
+    assert (summary["incomplete_cases"] == []) is complete
+
+
 def test_json_publication_readback_does_not_use_path_read_bytes(tmp_path: Path) -> None:
     destination = tmp_path / "result.json"
     digest = publish_json_once(destination, {"terminal": "ok", "rows": 1})
