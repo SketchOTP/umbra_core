@@ -72,6 +72,7 @@ def build() -> dict[str, Any]:
         "status": "properly_established_never_executed",
         "reason": "formal_harness_accounting_and_acceptance_defect",
         "supersession_record": str(V1_SUPERSESSION_PATH.relative_to(ROOT)),
+        "supersession_record_sha256": sha256(V1_SUPERSESSION_PATH),
     }
     contract["publication_model"] = dict(contract["publication_model"])
     contract["publication_model"]["semantic_production_subject_is_organism_implementation_sha"] = ORGANISM_IMPLEMENTATION_SHA
