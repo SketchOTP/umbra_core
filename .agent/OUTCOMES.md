@@ -2113,3 +2113,15 @@ Focused harness/evidence tests passed `24/24` and the clean detached literal
 formal CLI preflight passed with matching HEAD, zero created organisms, zero
 formal seed consumption, and no work artifact. Formal launch remains
 unauthorized pending Architect review.
+
+## AS-017 SCIENTIFIC LOCK V2 PUBLICATION — 2026-09-13
+
+Lock V2 publication commit is
+`e0dfa6e1b25a721cb08eca946b25742eb9f36ec7`; the lock artifact
+`experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V2.json` has SHA-256
+`d162522022450cfe0edb50c245608e8f9a6c69222b95f37e3da2780de442f7cd`.
+The corrected execution subject is
+`31da940336721edbf8d4f265cf69d109661404ce`; organism implementation remains
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`. Remote publication and contract
+readback remain required before any formal launch. Formal organisms and seeds
+consumed remain zero.

@@ -1,3 +1,21 @@
+# CURRENT AUTHORITY — UMBRA-AS-017 SCIENTIFIC LOCK V2 ESTABLISHED
+
+Lock V2 is durably published and readback verification is required before any
+formal launch. Artifact
+`experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V2.json` has SHA-256
+`d162522022450cfe0edb50c245608e8f9a6c69222b95f37e3da2780de442f7cd`.
+Lock-publication commit is
+`e0dfa6e1b25a721cb08eca946b25742eb9f36ec7`; corrected formal execution
+subject is `31da940336721edbf8d4f265cf69d109661404ce`. The unchanged organism
+implementation is `11795badd4b43126d62dfe6e15193cf2a0a170ac`.
+
+V1 remains immutable and is superseded pre-execution by
+`docs/evidence/as017-integrated-core/AS017_SCIENTIFIC_LOCK_V1_SUPERSESSION.json`
+(SHA-256 `2192280eb0d495ab7571dc4fc2ee70bb1baa366dacea9ad6ff3ed0f5a5243a54`).
+No formal organism was created and no formal seed was consumed. The corrected
+contract-only path passed in a clean detached checkout; formal launch remains
+unauthorized pending Architect review.
+
 # CURRENT AUTHORITY — UMBRA-AS-017 SCIENTIFIC LOCK V1 SUPERSEDED PRE-EXECUTION
 
 AS-017 Lock V1 remains permanent historical evidence, but is superseded before

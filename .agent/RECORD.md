@@ -665,3 +665,15 @@ The harness-only correction is published at
 `11795badd4b43126d62dfe6e15193cf2a0a170ac`. Lock V2 preserves the formal
 manifest, scenarios, thresholds, horizons, and stop rules. Formal organisms and
 seeds remain unused pending Architect launch review.
+
+## AS-017 Lock V2 publication — 2026-09-13
+
+Lock V2 was published at `e0dfa6e1b25a721cb08eca946b25742eb9f36ec7` with
+artifact SHA-256
+`d162522022450cfe0edb50c245608e8f9a6c69222b95f37e3da2780de442f7cd`.
+It binds corrected formal execution subject
+`31da940336721edbf8d4f265cf69d109661404ce` to the unchanged organism
+implementation `11795badd4b43126d62dfe6e15193cf2a0a170ac`; the formal manifest,
+thresholds, scenarios, horizons, and stop rules are unchanged. No formal
+organism or seed has been consumed. Formal launch remains unauthorized pending
+Architect review.
