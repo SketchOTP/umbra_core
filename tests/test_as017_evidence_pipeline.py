@@ -286,8 +286,11 @@ def test_v2_consumer_accepts_valid_chain_and_rejects_semantic_tampering(tmp_path
             "recovery_certificate_continuation": {"status": "TERMINAL_RECOVERY_REVALIDATED"},
         }
     )
+    sink.record({"tick": 2})
+    sink.record({"tick": 3, "viability_kernel": {"selected_recovery_certificate": None}})
     sink.close()
-    compact_row = json.loads(trace.read_text())
+    compact_rows = [json.loads(line) for line in trace.read_text().splitlines()]
+    compact_row = compact_rows[0]
     records = tmp_path / "records.jsonl"
     record = {
         "tick": 1,
@@ -305,9 +308,13 @@ def test_v2_consumer_accepts_valid_chain_and_rejects_semantic_tampering(tmp_path
     summary_payload = {
         "schema": "AS017_RECOVERY_CERTIFICATE_LINKAGE_V2",
         "candidate_commit": "candidate-1",
-        "trace_rows": 1,
+        "trace_rows": 3,
         "linked_records": 1,
-        "status_counts": {"TERMINAL_RECOVERY_REVALIDATED": 1},
+        "status_counts": {
+            "ABSENT_CERTIFICATE": 1,
+            "NO_VIABILITY_OBLIGATION": 1,
+            "TERMINAL_RECOVERY_REVALIDATED": 1,
+        },
         "records_sha256": record_hash,
         "unmatched_count": 0,
     }

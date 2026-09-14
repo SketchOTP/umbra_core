@@ -1,0 +1,39 @@
+{
+  "schema": "AS017_V8C_COPY_ONLY_VALIDATION_SUMMARY_V1",
+  "attempt_id": "V8C",
+  "candidate_commit": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+  "manifest_sha256": "8c609eb39b98cf994cd2290cbd531305b4ba520fef670156fd1d08b069e3247d",
+  "development_result": "evidence/live-evidence/AS017_FINAL_CANDIDATE_DEVELOPMENT_V8C.json",
+  "development_result_sha256": "33e424c88b86279693e7603d55d5085a83f2a6c93f774e73d7c128fc526f4c81",
+  "copy_only_audit": "evidence/live-evidence/as017-development-v8c/AS017_V8C_COPY_ONLY_VALIDATION_V2.json",
+  "copy_only_audit_sha256": "f9a4ac3e678c5ab2acfab31cee7476eb00a330d1a80ad2a28e6a41a03fcc648f",
+  "stage_journal": "/tmp/umbra-as017-v8c-local.stages.jsonl",
+  "stage_journal_status": "VALID",
+  "stage_journal_records": 179,
+  "case_count": 16,
+  "case_finished_count": 16,
+  "target_ticks": 7200,
+  "database_validation": {
+    "passed": 16,
+    "failed": 0,
+    "sqlite_integrity_check": "16/16 ok",
+    "foreign_key_check": "16/16 zero rows",
+    "terminal_snapshot_tick": "16/16 at 7200",
+    "checkpoint_tail_join": "16/16 pass"
+  },
+  "linkage_validation": {
+    "passed": 16,
+    "failed": 0,
+    "trace_rows": 115200,
+    "linked_records": 6932,
+    "unmatched_records": 0,
+    "semantic_failures": 0,
+    "candidate_binding": "16/16 exact"
+  },
+  "retries": 0,
+  "reseeds": 0,
+  "formal_seed_consumption": 0,
+  "verdict": "AS017_V8C_DEVELOPMENT_EVIDENCE_AND_COPY_ONLY_AUDIT_PASS",
+  "scope_limit": "This validates the preserved development attempt and its evidence pipeline. It is not formal qualification, scientific lock, or a claim that V8C demonstrates lifecycle, long-horizon, real-time, causal, or CLOSE-03 acceptance.",
+  "validator_note": "The V2 consumer was corrected to count producer-declared non-linked trace statuses as well as linked continuation statuses; the original V2 audit startup/failure records remain preserved separately."
+}

@@ -2029,3 +2029,24 @@ created. V8 is preserved as an infrastructure startup incident, contributes
 no challenge rows, and is not a scientific organism failure. The authorized
 next attempt must use an isolated checkout pinned to the exact candidate;
 formal seeds, lock, and qualification remain unauthorized.
+## AS-017 V8C DEVELOPMENT AND AUDIT CLOSEOUT — 2026-09-14
+
+V8C completed the registered excluded-development challenge: `16/16` cases at
+`7200/7200` ticks on candidate
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`, with retries/reseeds `0/0` and
+formal seed consumption `0`. Its result artifact SHA-256 is
+`33e424c88b86279693e7603d55d5085a83f2a6c93f774e73d7c128fc526f4c81`.
+
+The copy-only audit then passed all `16/16` exported databases and V2 linkage
+consumers. SQLite integrity and foreign-key checks passed for every isolated
+copy; all terminal snapshots are at tick `7200`; checkpoint/tail joins passed;
+linkage covered `115200` trace rows with `6932` linked records, `0` unmatched
+records, and `0` semantic failures. Audit artifact SHA-256:
+`f9a4ac3e678c5ab2acfab31cee7476eb00a330d1a80ad2a28e6a41a03fcc648f`.
+
+The first audit attempt was preserved as a validator startup failure. Its
+validator correction was limited to aggregating producer-declared non-linked
+trace statuses in the V2 consumer and publishing the schema as V2; no
+organism evidence was changed or rerun. Development evidence is accepted only
+within this scope. AS-017 remains pre-lock; formal lock and qualification are
+not established.

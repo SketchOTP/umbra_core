@@ -93,6 +93,10 @@ def validate_linkage_v2(
             kernel = trace_row.get("viability_kernel")
             requires_link = isinstance(kernel, dict) and kernel.get("selected_recovery_certificate") is not None
             expected_linked += int(requires_link)
+            if not isinstance(kernel, dict):
+                statuses["NO_VIABILITY_OBLIGATION"] += 1
+            elif not requires_link:
+                statuses["ABSENT_CERTIFICATE"] += 1
             if next_record is not None:
                 record_tick = next_record.get("tick")
                 if not isinstance(record_tick, int):
