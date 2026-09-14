@@ -1,4 +1,15 @@
-# UMBRA-AS-017 — SCIENTIFIC LOCK ESTABLISHED
+# UMBRA-AS-017 — SCIENTIFIC LOCK V2 ESTABLISHED
+
+- Lock V1 is permanently preserved and superseded pre-execution by
+  `docs/evidence/as017-integrated-core/AS017_SCIENTIFIC_LOCK_V1_SUPERSESSION.json`.
+- Lock V2 contract: `experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V2.json`.
+- Organism implementation subject:
+  `11795badd4b43126d62dfe6e15193cf2a0a170ac`; corrected formal execution
+  subject: `31da940336721edbf8d4f265cf69d109661404ce`.
+- Formal organisms and formal seeds consumed: `0`; formal launch remains
+  unauthorized pending Architect review.
+
+# UMBRA-AS-017 — SCIENTIFIC LOCK V1 ESTABLISHED
 
 - Lock contract: `experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V1.json`,
   SHA-256 `d9dca282a76ef7c7ca3274db7bd1919516c3b83f46d575b95c80fd650062fec0`.

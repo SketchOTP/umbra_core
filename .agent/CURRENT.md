@@ -1,3 +1,20 @@
+# CURRENT AUTHORITY — UMBRA-AS-017 SCIENTIFIC LOCK V1 SUPERSEDED PRE-EXECUTION
+
+AS-017 Lock V1 remains permanent historical evidence, but is superseded before
+formal execution as `AS017_SCIENTIFIC_LOCK_V1_SUPERSEDED_PRE_EXECUTION`.
+It created zero formal organisms and consumed zero formal seeds; no scientific
+result is invalidated. The defect was in the formal harness: seed consumption
+was hardcoded to zero, population completion did not require the full P0
+artifact/semantic acceptance contract, and hardened interruption-safe stage
+accounting was not connected to the formal runner.
+
+The corrected formal harness is published at
+`31da940336721edbf8d4f265cf69d109661404ce`. Lock V2 is being established
+around the unchanged organism implementation
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`, unchanged scenarios, thresholds,
+formal manifest, and acceptance standards. Formal organisms and formal seeds
+remain zero until a later explicit launch review.
+
 # CURRENT AUTHORITY — UMBRA-AS-017 SCIENTIFIC LOCK ESTABLISHED
 
 AS-017 scientific lock contract

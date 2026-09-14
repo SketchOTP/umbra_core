@@ -2090,3 +2090,26 @@ Organism implementation subject is
 the literal contract-only formal CLI preflight with matching HEAD, manifest
 hash, import origins, zero created organisms, zero formal seed consumption,
 and no work artifact created. Formal launch was not performed.
+
+## AS-017 SCIENTIFIC LOCK V1 SUPERSEDED PRE-EXECUTION — 2026-09-13
+
+Lock V1 is preserved as immutable evidence and was never executed. It created
+zero formal organisms and consumed zero formal seeds. Pre-launch review found
+three formal-harness defects: seed consumption was hardcoded to zero, formal
+population success did not fail closed on the complete P0 artifact and semantic
+acceptance contract, and the hardened interruption-safe stage accounting was not
+connected to the formal runner. No scientific organism result is invalidated.
+
+The correction is harness/accounting-only. The unchanged organism subject is
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`; the corrected execution subject is
+`31da940336721edbf8d4f265cf69d109661404ce`. Formal execution remains not run.
+
+## AS-017 SCIENTIFIC LOCK V2 — 2026-09-13
+
+Lock V2 was generated before formal organism creation around the unchanged
+organism and scientific contract. It binds actual started-case seed accounting,
+the formal case acceptance callback, and the interruption-safe stage journal.
+Focused harness/evidence tests passed `24/24` and the clean detached literal
+formal CLI preflight passed with matching HEAD, zero created organisms, zero
+formal seed consumption, and no work artifact. Formal launch remains
+unauthorized pending Architect review.

@@ -1369,3 +1369,14 @@ clean execution subject `0e20b5ffb662f81c7de14756012bba6e9afc7de9`, the fresh
 P0–P5 criteria, and the first-failure stop rule. The clean detached formal CLI
 preflight passed with zero organisms and zero formal seed consumption. Formal
 launch remains a separate Architect review boundary.
+
+### 2026-09-13 — UMBRA-AS-017 Lock V1 supersession and Lock V2 correction
+
+Architect found before formal execution that Lock V1's formal runner could
+report zero seed consumption after execution, accept population completion
+without the complete locked P0 artifact contract, and omit the hardened
+interruption-safe stage journal. Lock V1 is preserved and superseded before
+execution; it is not an organism failure. The authorized correction is harness
+and accounting only, with unchanged organism, scientific thresholds, scenarios,
+formal seeds, and stop rules. Formal execution remains unauthorized until the
+corrected V2 lock is reviewed.

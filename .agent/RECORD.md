@@ -650,3 +650,18 @@ The frozen organism implementation is
 `0e20b5ffb662f81c7de14756012bba6e9afc7de9`. Contract-only preflight passed in
 a detached checkout with no formal organism or seed consumption. Formal launch
 remains unauthorized pending the next Architect review.
+
+## AS-017 Lock V1 supersession and V2 correction — 2026-09-13
+
+Lock V1 remains immutable evidence and is superseded before formal execution as
+`AS017_SCIENTIFIC_LOCK_V1_SUPERSEDED_PRE_EXECUTION`. It created zero formal
+organisms and consumed zero formal seeds. The pre-launch review found formal
+runner defects in seed-consumption reporting, P0 acceptance enforcement, and
+connection to interruption-safe stage accounting; no organism result is
+invalidated.
+
+The harness-only correction is published at
+`31da940336721edbf8d4f265cf69d109661404ce`; the organism implementation remains
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`. Lock V2 preserves the formal
+manifest, scenarios, thresholds, horizons, and stop rules. Formal organisms and
+seeds remain unused pending Architect launch review.
