@@ -1,3 +1,16 @@
+# CURRENT AUTHORITY — UMBRA-AS-017 SCIENTIFIC LOCK PREPARATION
+
+Architect accepted AS-017 pre-lock development and authorized establishment of
+the scientific lock, but no formal organism may be created in this step. The
+lock binds organism implementation
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`, the complete frozen configuration,
+fresh 32-seed population, evidence harness, and P0–P5 stop/acceptance
+contracts. The formal manifest and repository-scoped disjointness proof are
+prepared with `0` formal seeds consumed. A clean detached execution checkout
+and literal contract-only CLI preflight are required before the lock is
+reported established. The separate lock-publication commit must contain no
+production, test, threshold, scenario, or execution-semantic change.
+
 # CURRENT AUTHORITY — UMBRA-AS-017 EVIDENCE PIPELINE CLOSEOUT
 
 AS-017 remains PRE-LOCK DEVELOPMENT. Corrected development launch V8C completed
@@ -17,7 +30,8 @@ copy-only validation summary is
 The result is bound to candidate `11795badd4b43126d62dfe6e15193cf2a0a170ac`,
 manifest `8c609eb39b98cf994cd2290cbd531305b4ba520fef670156fd1d08b069e3247d`,
 with `0` retries/reseeds and `0` formal seed consumption. This is development
-evidence only; lock and formal qualification remain unauthorized.
+evidence only. The 16-case development challenge is complete; scientific lock
+and formal qualification remain not yet established.
 
 Focused evidence tests passed twice at `26/26`. The raw regression reported
 `1403 passed / 4 skipped / 7 documented inherited failures`; the exact

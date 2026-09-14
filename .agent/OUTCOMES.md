@@ -2066,3 +2066,14 @@ The raw suite remains visibly non-green by design; the applicable result has
 zero unexplained candidate-only failures. AS-017 remains pre-lock and awaits
 Architect review of the consolidated readiness packet; no formal seed or
 scientific lock has been used.
+
+## AS-017 SCIENTIFIC LOCK PREPARATION — 2026-09-13
+
+Architect accepted AS-017 pre-lock development and authorized durable lock
+creation without formal organism creation. The lock subject remains organism
+implementation `11795badd4b43126d62dfe6e15193cf2a0a170ac`; V8C development and
+regression-publication commits remain separately attributable. A fresh 32-seed
+formal manifest and repository-scoped disjointness proof were prepared with
+formal seed consumption `0`. The contract-only formal CLI and clean detached
+execution checkout are the required next checks. This outcome is a task-start
+record for lock establishment; formal qualification is not started.

@@ -630,3 +630,12 @@ ticks. R2/S10 seed `1995954` then recorded `NO_SAFE_ACTION` at tick `3537`
 and critical stimulation at tick `3566`; `AS015_FRESH_R2_FAIL` is permanent.
 The evidence preserves `19` durable case records / `133166` executed ticks.
 No repair, retry, reseed, substitution, downstream gate, or successor began.
+
+## AS-017 scientific lock authorization — 2026-09-13
+
+Architect accepted the AS-017 development candidate for scientific freeze. This
+step is limited to a durable lock contract, fresh formal seed manifest and
+disjointness record, clean detached-checkout verification, and contract-only
+CLI preflight. The exact organism implementation subject is
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`; formal organism creation and seed
+consumption remain zero until a later explicit launch review.

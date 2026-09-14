@@ -1,3 +1,13 @@
+# UMBRA-AS-017 — SCIENTIFIC LOCK PREPARATION
+
+- Architect accepted AS-017 pre-lock development and authorized a durable
+  scientific lock before any new formal organism. The exact organism subject
+  is `11795badd4b43126d62dfe6e15193cf2a0a170ac`; the formal manifest and
+  disjointness proof are prepared, with `0` formal seeds consumed.
+- Current step is lock publication and clean detached-checkout preflight only.
+  No formal population has started; the next Architect boundary is formal
+  launch review after lock readback.
+
 # UMBRA-AS-015 TERMINAL — `AS015_FRESH_R2_FAIL`
 
 - Scientific implementation: `76182fca517b69ee6b9eef6c9ec9d44efa520d49`;

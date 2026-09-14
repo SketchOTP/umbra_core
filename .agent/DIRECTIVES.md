@@ -1349,3 +1349,13 @@ published readiness packet. V5 evidence remains immutable predecessor evidence;
 formal lock, formal seeds, formal organisms, and CLOSE-03 remain unauthorized.
 Preserve unrelated dirty `.gitignore`/`AGENTS.md` work in the original checkout.
 Repository record: `.agent/tasks/active/UMBRA-AS-017/DIRECTIVE_INTEGRATED_CORE_CLOSURE.md`.
+
+### 2026-09-13 — UMBRA-AS-017 scientific lock authorization
+
+Architect accepted the AS-017 development candidate and authorized creation of
+`AS017_SCIENTIFIC_LOCK_CONTRACT_V1.json` before any formal organism creation.
+The lock must distinguish organism implementation
+`11795badd4b43126d62dfe6e15193cf2a0a170ac` from V8C development/evidence and
+regression-publication revisions, bind the fresh 32-seed manifest and its
+disjointness evidence, and freeze P0–P5 acceptance and stop rules. This is a
+lock-publication step only: formal seeds and formal organisms remain unused.

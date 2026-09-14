@@ -1,0 +1,22 @@
+{
+  "schema": "AS017_FORMAL_SEED_DISJOINTNESS_V1",
+  "directive": "UMBRA-AS-017",
+  "organism_implementation_sha": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+  "manifest": "experiments/as017/AS017_FORMAL_SEED_MANIFEST_V1.json",
+  "manifest_seed_count": 32,
+  "manifest_unique": true,
+  "historical_scan": {
+    "roots": [".agent", "experiments", "tools", "docs/evidence", "evidence"],
+    "repository_text_files_scanned": 1841,
+    "historical_seed_values_collected": 374,
+    "prior_development_and_formal_records_included": true,
+    "external_host_only_records": "not independently available in this checkout; no claim is made beyond the scanned repository/evidence scope"
+  },
+  "overlap_with_scanned_historical_values": [],
+  "result": "PASS",
+  "formal_seeds_consumed": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "substitutions": 0,
+  "limitation": "This proof establishes disjointness against the explicitly scanned local repository and retained evidence scope. It does not retroactively certify unavailable external records."
+}
