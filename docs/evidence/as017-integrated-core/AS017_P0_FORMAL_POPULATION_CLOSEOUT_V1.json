@@ -1,0 +1,114 @@
+{
+  "schema": "AS017_P0_FORMAL_POPULATION_CLOSEOUT_V1",
+  "directive": "UMBRA-AS-017",
+  "verdict": "AS017_FORMAL_R1_CASE_ACCEPTANCE_FAIL",
+  "scientific_disposition": "AS017_FRESH_R1_FAIL",
+  "status": "TERMINAL_FORMAL_P0_FAILURE",
+  "job": {
+    "id": "job-mu0xvxtx-15add26d",
+    "exit_code": 1,
+    "status": "failed",
+    "stdout_summary": "{\"accepted_cases\": 8, \"completed_runs\": 8, \"formal_seed_consumption\": 9, \"terminal\": \"AS017_FORMAL_R1_CASE_ACCEPTANCE_FAIL\"}",
+    "stderr": ""
+  },
+  "subjects": {
+    "organism_implementation_sha": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+    "formal_execution_subject": "31da940336721edbf8d4f265cf69d109661404ce",
+    "lock_v2_sha256": "d162522022450cfe0edb50c245608e8f9a6c69222b95f37e3da2780de442f7cd",
+    "manifest_sha256": "7cc37467f63d561b4e17fcafe2f16047efa11cecc1486178328b082f1a72ee3c"
+  },
+  "accounting": {
+    "target_cases": 32,
+    "target_ticks": 230400,
+    "accepted_cases": 8,
+    "completed_runs": 8,
+    "started_cases": 9,
+    "formal_seed_consumption": 9,
+    "retries": 0,
+    "reseeds": 0,
+    "substitutions": 0,
+    "p0_pass": false,
+    "downstream_stages": "NOT_RUN"
+  },
+  "first_failure": {
+    "case_id": "R1-00-26489381",
+    "regime": "R1",
+    "scenario": "S16",
+    "seed": 26489381,
+    "seed_index": 0,
+    "target_ticks": 7200,
+    "execution_terminal": "scientific_failure",
+    "last_trace_tick": 435,
+    "acceptance_failures": [
+      "execution_not_completed",
+      "tick_horizon_mismatch",
+      "critical_physiology",
+      "unresolved_no_safe_action"
+    ],
+    "first_decisive_trace_state": {
+      "tick": 434,
+      "physiology": {
+        "energy": 0.23499999999999932,
+        "fatigue": 0.9480000000000008,
+        "integrity": 0.9436000000000062,
+        "stimulation": 0.9550000000000004
+      },
+      "kernel_disposition": "NO_ROBUST_OR_MAY_ROUTE",
+      "active_needs": ["energy", "fatigue", "stimulation"],
+      "routes": "CHARGE and REST routes for all active needs were MAY_ROUTE candidates blocked by future_arrival_not_hard_proven; no selected recovery certificate was present",
+      "candidate": "IDLE",
+      "governance": "no_safe_action"
+    },
+    "terminal_trace_state": {
+      "tick": 435,
+      "physiology": {
+        "energy": 0.23299999999999932,
+        "fatigue": 0.9500000000000008,
+        "integrity": 0.9434000000000062,
+        "stimulation": 0.9530000000000004
+      },
+      "candidate": "MOVE",
+      "requested_params": {"heading_delta": 0.0, "step": 1.0},
+      "governance_admitted": true,
+      "verified_outcome_success": true,
+      "verified_outcome_id": "6de91665-6d9c-484b-b02b-b990b948aac8",
+      "event_sequence": 2241
+    },
+    "preceding_decisions": [
+      {"ticks": "430-433", "selected": "APPROACH", "governance": "admitted", "verified_effect": {"energy": -0.004, "fatigue": 0.003, "stimulation": 0.004}},
+      {"tick": 434, "selected": "IDLE", "governance": "denied", "reason": "no_safe_action"},
+      {"tick": 435, "selected": "MOVE", "governance": "admitted", "verified_effect": {"energy": -0.005, "fatigue": 0.004, "stimulation": 0.003}}
+    ]
+  },
+  "causal_attribution": {
+    "classification": "FROZEN_SCIENTIFIC_ORGANISM_FAILURE",
+    "supported_finding": "At tick 434 the locked kernel reported no robust or MAY route and Governance denied IDLE; at tick 435 the selected MOVE executed, after which fatigue was critical and the 7200-tick acceptance horizon was not reached.",
+    "not_established": [
+      "The retained formal trace does not prove that a different earlier action was executable and would have preserved recovery.",
+      "The trace does not establish whether an earlier approach, resource, or rest route was physically reachable before route certification was lost.",
+      "The failure is not attributed to a specific implementation defect without a post-lock repair, which is prohibited for this frozen experiment."
+    ],
+    "safety_status": "No terminal safety threshold was weakened and no hidden Habitat truth or retry was observed in the retained record."
+  },
+  "evidence": {
+    "result_path": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/result.json",
+    "result_sha256": "d868daf3f7fbba5d312cfad72883d3b6fa3814af2106df79230a5e32e47e0ae3",
+    "stage_journal_path": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/work.stages.jsonl",
+    "stage_journal_sha256": "fcf1670937755aa6c9b773cc61162ed6172b7ef7e58f4cc07d83ed930753aee5",
+    "failed_database_path": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/work/R1-26489381.sqlite",
+    "failed_database_sha256": "1267bc97a2627ddd4d4ad9eba9cfe1f1635b82e3fe74f4e774088683a781259f",
+    "failed_trace_path": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/work/case-traces/R1-26489381.trace.jsonl",
+    "failed_trace_sha256": "c8490a927f3d883d682f8199009e2c8d5dac98a6d3cade60e9a9f0bfe97d6f25",
+    "failed_database_read_only_diagnostics": {"integrity_check": "ok", "foreign_key_check_rows": 0, "terminal_snapshot": "not_present", "checkpoint_rows": 0}
+  },
+  "preservation": {
+    "formal_failure_rerun": false,
+    "retry": false,
+    "reseed": false,
+    "substitution": false,
+    "repair_after_lock": false,
+    "v8c_or_development_rows_pooled": false,
+    "historical_prelaunch_artifact_preserved": true
+  },
+  "next_state": "P0_TERMINAL; P1-P5 NOT_RUN; return to Architect; no formal rerun or downstream launch authorized"
+}

@@ -2135,3 +2135,18 @@ Authority 3.0, Governance, and `git diff --check` all passed. No other AS-017
 formal process was active. Formal organisms and formal seeds consumed were
 `0` immediately before launch. The durable artifact is
 `docs/evidence/as017-integrated-core/AS017_P0_FORMAL_LAUNCH_PREFLIGHT_V2.json`.
+
+## AS-017 P0 formal terminal closeout — 2026-09-14
+
+The authorized Lock V2 P0 campaign stopped at the first formal scientific
+failure. Job `job-mu0xvxtx-15add26d` ran from formal execution subject
+`31da940336721edbf8d4f265cf69d109661404ce` and recorded 8 accepted R0 cases,
+then consumed R1/S16 seed `26489381` for case `R1-00-26489381`. The case
+reached `scientific_failure` at tick 435 after the trace recorded
+`NO_SAFE_ACTION` at tick 434; acceptance failed on incomplete execution,
+horizon, critical physiology, and unresolved no-safe-action criteria.
+Formal seed consumption was 9; retries, reseeds, and substitutions were 0.
+P0 is terminal and P1-P5 were not run. This is formal scientific failure
+evidence, not an infrastructure interruption. See
+`docs/evidence/as017-integrated-core/AS017_P0_FORMAL_POPULATION_CLOSEOUT_V1.json`
+for hashes and the explicit attribution limits.

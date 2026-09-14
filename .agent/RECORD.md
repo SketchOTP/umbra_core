@@ -687,3 +687,14 @@ import provenance, local runtime paths, Authority 3.0, Governance, and
 `git diff --check` passed. Formal organisms and seeds consumed were `0`.
 Preflight artifact:
 `docs/evidence/as017-integrated-core/AS017_P0_FORMAL_LAUNCH_PREFLIGHT_V2.json`.
+
+## AS-017 P0 formal outcome — 2026-09-14
+
+Append-only outcome: the one authorized formal P0 attempt
+`job-mu0xvxtx-15add26d` stopped at the first frozen failure. Eight R0 cases
+were accepted; R1/S16 case `R1-00-26489381`, seed `26489381`, was started and
+therefore consumed, then failed at tick 435 with `NO_SAFE_ACTION` at tick 434
+and critical fatigue at tick 435. Counts: accepted 8, started/consumed 9,
+retries 0, reseeds 0, substitutions 0. P0 failed; no downstream stage ran.
+The complete closeout and retained evidence hashes are in
+`docs/evidence/as017-integrated-core/AS017_P0_FORMAL_POPULATION_CLOSEOUT_V1.json`.

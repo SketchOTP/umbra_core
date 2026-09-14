@@ -5,6 +5,21 @@ execution checkout is `31da940336721edbf8d4f265cf69d109661404ce`; Lock V2,
 manifest, configuration fingerprints, imports, local runtime paths, Authority
 3.0, Governance, and diff-check all passed. Durable preflight artifact:
 `docs/evidence/as017-integrated-core/AS017_P0_FORMAL_LAUNCH_PREFLIGHT_V2.json`.
+
+## AS-017 P0 formal terminal closeout — 2026-09-14
+
+The single authorized P0 formal campaign is terminal at
+`AS017_FORMAL_R1_CASE_ACCEPTANCE_FAIL`. Job
+`job-mu0xvxtx-15add26d` accepted all eight R0 cases, then started and consumed
+R1/S16 seed `26489381` as case `R1-00-26489381`. That case reached
+`scientific_failure` at tick 435: the trace records `NO_SAFE_ACTION` at tick
+434, followed by an admitted MOVE at tick 435 and fatigue
+`0.9500000000000008`. Formal accounting is 8 accepted, 9 started/consumed,
+zero retries, reseeds, and substitutions. P0 did not pass; P1-P5 were not
+run. The immutable closeout is
+`docs/evidence/as017-integrated-core/AS017_P0_FORMAL_POPULATION_CLOSEOUT_V1.json`.
+No formal rerun, repair, seed substitution, or downstream launch is
+authorized after this frozen failure.
 Formal organisms and formal seeds consumed remain `0`; the exact serial P0
 command is authorized by the Architect and is the next operation.
 
