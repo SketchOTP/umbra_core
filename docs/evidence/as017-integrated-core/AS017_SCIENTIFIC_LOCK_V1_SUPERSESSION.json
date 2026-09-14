@@ -1,0 +1,28 @@
+{
+  "schema": "AS017_SCIENTIFIC_LOCK_V1_SUPERSESSION_V1",
+  "directive": "UMBRA-AS-017",
+  "status": "AS017_SCIENTIFIC_LOCK_V1_SUPERSEDED_PRE_EXECUTION",
+  "prior_lock": {
+    "path": "experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V1.json",
+    "sha256": "d9dca282a76ef7c7ca3274db7bd1919516c3b83f46d575b95c80fd650062fec0",
+    "organism_implementation_sha": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+    "execution_subject_commit": "0e20b5ffb662f81c7de14756012bba6e9afc7de9",
+    "formal_organisms_created": 0,
+    "formal_seeds_consumed": 0
+  },
+  "disposition": {
+    "scientific_result": "NOT_APPLICABLE_NO_FORMAL_ORGANISM_CREATED",
+    "organism_failure": false,
+    "reason": "Formal launch review found that the locked runner hardcoded zero seed consumption, did not fail closed on the full P0 artifact acceptance contract, and did not use hardened interruption-safe stage accounting.",
+    "scope": "formal_harness_accounting_and_acceptance_only",
+    "organism_semantics_changed": false,
+    "scientific_conditions_changed": false,
+    "formal_seeds_consumed": 0
+  },
+  "superseding_candidate": {
+    "organism_implementation_sha": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+    "corrected_execution_subject_commit": "31da940336721edbf8d4f265cf69d109661404ce",
+    "lock_contract": "experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V2.json"
+  },
+  "historical_evidence_immutable": true
+}
