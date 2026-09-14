@@ -14,16 +14,18 @@ if __package__ in (None, ""):
 from experiments.as017.qualification import DIRECTIVE, execute, validate_manifest
 from tools.as017_evidence import publish_json_once, stream_sha256
 
+ROOT = Path(__file__).resolve().parents[1]
+
 
 def head() -> str:
-    return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+    return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
 def require_clean_candidate(candidate_commit: str) -> str:
     execution_head = head()
     if execution_head != candidate_commit:
         raise RuntimeError("AS017_FORMAL_CANDIDATE_COMMIT_MISMATCH")
-    status = subprocess.check_output(["git", "status", "--porcelain"], text=True)
+    status = subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True)
     if status:
         raise RuntimeError("AS017_FORMAL_EXECUTION_WORKTREE_NOT_CLEAN")
     return execution_head
