@@ -1,0 +1,47 @@
+{
+  "schema": "AS018_REGRESSION_ACCOUNTING_V1",
+  "directive": "UMBRA-AS-018",
+  "candidate_commit": "86525f66809a8fc65b091ddc47b10d7a7982c0b4",
+  "baseline_commit": "46a37833b090ae1931348db44a5773f34c025133",
+  "candidate_remote_ref": "github/as017-recovery-development",
+  "candidate_remote_head": "86525f66809a8fc65b091ddc47b10d7a7982c0b4",
+  "candidate_full_suite": {
+    "command": "/home/sketch/cs14n-runtime/bin/pytest -q",
+    "cwd": "/tmp/umbra-as018-exec",
+    "job_id": "job-mu18jgwr-aa1f8b1c",
+    "exit_code": 1,
+    "passed": 1420,
+    "skipped": 4,
+    "failed": 9,
+    "stdout_sha256": "02d4f8e79482cdb4c534f64723a12594ba289b692fb4078fde5b668f331919d6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "baseline_exact_disposition_run": {
+    "command": "/home/sketch/cs14n-runtime/bin/pytest -q <nine exact nodes>",
+    "cwd": "/tmp/umbra-as018-baseline",
+    "exit_code": 1,
+    "passed": 0,
+    "skipped": 0,
+    "failed": 9,
+    "interpretation": "Every candidate failure reproduced at the pre-AS-018 baseline. The baseline run was targeted and its stdout was not persisted as a separately hashed artifact."
+  },
+  "candidate_only_failures": 0,
+  "raw_suite_status": "NOT_WHOLLY_GREEN_INHERITED_FAILURES_VISIBLE",
+  "failures": [
+    {"nodeid": "tests/test_d008.py::test_c8_disposable_db_guard_rejects_production_paths", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "disposable database path guard"},
+    {"nodeid": "tests/test_d010.py::test_c8_disposable_db_guard_rejects_production_paths", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "disposable database path guard"},
+    {"nodeid": "tests/test_d012.py::test_disposable_real_runtime_dry_run_and_process_audit", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "disposable process audit"},
+    {"nodeid": "tests/test_d012_process_boundary.py::test_full_distinct_process_campaign", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "distinct process campaign boundary"},
+    {"nodeid": "tests/test_d013ab_multineed_corridor.py::test_active_fatigue_recovery_uses_corridor_adjudication_once", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "multineed corridor adjudication"},
+    {"nodeid": "tests/test_d013ab_multineed_corridor.py::test_integrity_and_stimulation_candidates_share_the_boundary", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "shared physiology boundary"},
+    {"nodeid": "tests/test_d013ak_authority_reachability.py::test_default_13035_authority_retains_charge_without_changing_score", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "authority reachability"},
+    {"nodeid": "tests/test_d013h_v2_formal_readiness.py::test_real_perception_path_detects_material_resource_change", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "real perception material-change detection"},
+    {"nodeid": "tests/test_d013y_integrated.py::test_cold_start_discovery_uses_physical_action_and_real_observation", "classification": "PREEXISTING_INHERITED_FAILURE", "baseline_reproduced": true, "required_current_claim": "cold-start physical observation"}
+  ],
+  "evidence_level": "CODER_VERIFIED",
+  "limitations": [
+    "The raw applicable suite is not wholly green.",
+    "The nine failures are visibly retained and baseline-reproduced; this establishes zero AS-018 candidate-only failures, not waiver of their underlying claims.",
+    "No formal seeds or organisms were used by these regression runs."
+  ]
+}

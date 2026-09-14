@@ -2159,3 +2159,11 @@ currently uncommitted from the AS-017 terminal baseline
 The retained formal trace establishes the observed R1 failure sequence and
 does not establish a counterfactual saving action. Formal lock and formal
 organisms remain prohibited.
+
+AS-018 regression reconciliation is recorded for candidate
+`86525f66809a8fc65b091ddc47b10d7a7982c0b4`. The clean full suite reported
+`1420 passed / 4 skipped / 9 failed`; all nine exact nodes reproduced against
+baseline `46a37833b090ae1931348db44a5773f34c025133`, establishing candidate-only
+failures `0`. The raw suite remains non-green and each inherited failure remains
+visible; see `docs/evidence/as018/AS018_REGRESSION_ACCOUNTING_V1.json`.
+The registered 32-case excluded-development challenge has not started.

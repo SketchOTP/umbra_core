@@ -2161,3 +2161,14 @@ policy-visible opportunity support and owner-defined physiological transition
 semantics, with no action authority or hidden Habitat input. Focused controls
 are passing; regression and fresh excluded-development qualification remain
 pending.
+
+## AS-018 regression accounting — 2026-09-14
+
+The clean candidate regression at `86525f66809a8fc65b091ddc47b10d7a7982c0b4`
+reported `1420 passed / 4 skipped / 9 failed`. A targeted exact-node run at
+baseline `46a37833b090ae1931348db44a5773f34c025133` reproduced all nine
+failures, including D-008/D-010 disposable-path guards that were not changed by
+AS-018. Candidate-only failures are `0`; the raw suite is not wholly green and
+the inherited failures remain disclosed. The accounting artifact is
+`docs/evidence/as018/AS018_REGRESSION_ACCOUNTING_V1.json`. No formal seed or
+organism was consumed; the fresh AS-018 development population remains pending.
