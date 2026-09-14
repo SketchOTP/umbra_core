@@ -13,6 +13,8 @@ import tempfile
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 ORGANISM_IMPLEMENTATION_SHA = "11795badd4b43126d62dfe6e15193cf2a0a170ac"
 DEVELOPMENT_PUBLICATION_SHA = "2d619b8f4ccf1e7d97b724034227d324bcc8a255"
 MASTER_SHA = "fd8c50e1134d7d2ef54e20148ac9b7880e63708d"
