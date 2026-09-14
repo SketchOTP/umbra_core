@@ -677,3 +677,13 @@ implementation `11795badd4b43126d62dfe6e15193cf2a0a170ac`; the formal manifest,
 thresholds, scenarios, horizons, and stop rules are unchanged. No formal
 organism or seed has been consumed. Formal launch remains unauthorized pending
 Architect review.
+
+## AS-017 P0 formal launch preflight — 2026-09-14
+
+Architect authorized P0 after accepting Lock V2. Before creating an organism,
+the exact execution subject `31da940336721edbf8d4f265cf69d109661404ce` was
+verified clean and detached; Lock V2, manifest, configuration fingerprints,
+import provenance, local runtime paths, Authority 3.0, Governance, and
+`git diff --check` passed. Formal organisms and seeds consumed were `0`.
+Preflight artifact:
+`docs/evidence/as017-integrated-core/AS017_P0_FORMAL_LAUNCH_PREFLIGHT_V2.json`.

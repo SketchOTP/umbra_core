@@ -2125,3 +2125,13 @@ The corrected execution subject is
 `11795badd4b43126d62dfe6e15193cf2a0a170ac`. Remote publication and contract
 readback remain required before any formal launch. Formal organisms and seeds
 consumed remain zero.
+
+## AS-017 P0 FORMAL LAUNCH PREFLIGHT — 2026-09-14
+
+Mandatory pre-launch gates passed in a clean detached checkout at
+`31da940336721edbf8d4f265cf69d109661404ce`. Lock V2, formal manifest,
+configuration fingerprints, import provenance, fresh local runtime paths,
+Authority 3.0, Governance, and `git diff --check` all passed. No other AS-017
+formal process was active. Formal organisms and formal seeds consumed were
+`0` immediately before launch. The durable artifact is
+`docs/evidence/as017-integrated-core/AS017_P0_FORMAL_LAUNCH_PREFLIGHT_V2.json`.

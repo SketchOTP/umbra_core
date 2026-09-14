@@ -1,0 +1,55 @@
+{
+  "schema": "AS017_P0_FORMAL_LAUNCH_PREFLIGHT_V2",
+  "directive": "UMBRA-AS-017",
+  "status": "PASS_READY_BEFORE_FORMAL_ORGANISM_CREATION",
+  "lock": {
+    "path": "experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V2.json",
+    "sha256": "d162522022450cfe0edb50c245608e8f9a6c69222b95f37e3da2780de442f7cd",
+    "organism_implementation_sha": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+    "execution_subject_commit": "31da940336721edbf8d4f265cf69d109661404ce"
+  },
+  "manifest": {
+    "path": "experiments/as017/AS017_FORMAL_SEED_MANIFEST_V1.json",
+    "sha256": "7cc37467f63d561b4e17fcafe2f16047efa11cecc1486178328b082f1a72ee3c",
+    "seed_count": 32,
+    "disjointness_sha256": "dffc882babb7f1dd4fa3fbecda0bb7ebed0137c132d89588c198858ad114aca8"
+  },
+  "execution_checkout": {
+    "path": "/home/sketch/umbra-as017-formal-exec-v2b",
+    "head": "31da940336721edbf8d4f265cf69d109661404ce",
+    "clean": true,
+    "imports_inside_checkout": true,
+    "configuration_fingerprints_match": true
+  },
+  "runtime": {
+    "storage": "local_sqlite_wal_shm",
+    "fresh_writable_run_root": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal",
+    "no_other_as017_formal_process": true
+  },
+  "accounting_before_first_case": {
+    "formal_seeds_consumed": 0,
+    "formal_organisms_created": 0,
+    "retries": 0,
+    "reseeds": 0,
+    "substitutions": 0
+  },
+  "governance": {
+    "authority_3_0": "PASS",
+    "governance": "PASS",
+    "git_diff_check": "PASS",
+    "notion": "NOT_AVAILABLE_IN_EXECUTION_ENVIRONMENT"
+  },
+  "command": [
+    "/home/sketch/.local/share/tamamonchi/venv/bin/python",
+    "tools/as017_run_formal.py",
+    "--manifest",
+    "experiments/as017/AS017_FORMAL_SEED_MANIFEST_V1.json",
+    "--work",
+    "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/work",
+    "--result",
+    "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/result.json",
+    "--candidate-commit",
+    "31da940336721edbf8d4f265cf69d109661404ce"
+  ],
+  "formal_launch_started": false
+}

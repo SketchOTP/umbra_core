@@ -1,3 +1,13 @@
+# CURRENT AUTHORITY — UMBRA-AS-017 P0 FORMAL LAUNCH READY
+
+Lock V2 launch gates passed before formal organism creation. The clean
+execution checkout is `31da940336721edbf8d4f265cf69d109661404ce`; Lock V2,
+manifest, configuration fingerprints, imports, local runtime paths, Authority
+3.0, Governance, and diff-check all passed. Durable preflight artifact:
+`docs/evidence/as017-integrated-core/AS017_P0_FORMAL_LAUNCH_PREFLIGHT_V2.json`.
+Formal organisms and formal seeds consumed remain `0`; the exact serial P0
+command is authorized by the Architect and is the next operation.
+
 # CURRENT AUTHORITY — UMBRA-AS-017 SCIENTIFIC LOCK V2 ESTABLISHED
 
 Lock V2 is durably published and readback verification is required before any
