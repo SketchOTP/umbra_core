@@ -462,6 +462,25 @@ probability, source priority, or planner semantics.
 - AS-015 adaptation: categorical, componentwise evaluation of UMBRA's own
   policy-visible candidates, current authoritative branch effects, and
   unavoidable drift. No external implementation or dependency was imported.
+
+## UMBRA-AS-018 recovery reachability boundary — 2026-09-14
+
+- [Wabersich and Zeilinger, A predictive safety filter for learning-based
+  control of constrained nonlinear dynamical systems](https://arxiv.org/abs/1812.05506)
+  — `REFERENCE`: proposed inputs can be filtered against state/input constraints
+  using model and uncertainty assumptions. `REJECT`: RL, MPC, or an imported
+  safety controller.
+- [Wabersich and Zeilinger, Predictive control barrier functions](https://arxiv.org/abs/2105.10241)
+  — `REFERENCE`: preserving a future feasible continuation is distinct from
+  checking immediate safety. `REJECT`: continuous CBF mathematics, optimizer,
+  or softened constraints.
+- [Vahs, Verhagen, and Tumova, Safety-critical Control Under Partial
+  Observability](https://arxiv.org/abs/2603.10572) — `REFERENCE`: safety and
+  reachability must preserve uncertainty under partial observation. `REJECT`:
+  POMDP, learned belief controller, and probabilistic guarantee import.
+- External dependencies added: `0`. AS-018 uses a bounded categorical bridge
+  over existing policy-visible support, verified effect branches, and the
+  physiology owner's pure transition contract.
 # 2026-09-13 — AS-017 bounded evidence and SQLite preservation
 
 - [Python hashlib](https://docs.python.org/3/library/hashlib.html) — REFERENCE:

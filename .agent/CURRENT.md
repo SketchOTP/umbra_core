@@ -2148,3 +2148,14 @@ event-chain validation, Habitat reattachment, and restart continuity. The
 frozen reduction failed CPU fraction and database-growth thresholds, so the
 terminal verdict is `AS013_LONG_HORIZON_BOUNDEDNESS_FAIL`. Soak and causal
 ablation were not run; production delta and retries/reseeds remain `0/0`.
+
+### AS-018 pre-lock development — 2026-09-14
+
+AS-017 is terminal as `AS017_FRESH_R1_FAIL`; no AS-017 formal seed may be
+replayed. AS-018 is authorized for the Recovery Reachability Envelope repair
+and fresh excluded-development qualification only. The implementation is
+currently uncommitted from the AS-017 terminal baseline
+`46a37833b090ae1931348db44a5773f34c025133`; focused tests are in progress.
+The retained formal trace establishes the observed R1 failure sequence and
+does not establish a counterfactual saving action. Formal lock and formal
+organisms remain prohibited.

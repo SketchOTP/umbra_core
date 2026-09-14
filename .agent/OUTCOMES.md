@@ -2150,3 +2150,14 @@ P0 is terminal and P1-P5 were not run. This is formal scientific failure
 evidence, not an infrastructure interruption. See
 `docs/evidence/as017-integrated-core/AS017_P0_FORMAL_POPULATION_CLOSEOUT_V1.json`
 for hashes and the explicit attribution limits.
+
+## AS-018 start — 2026-09-14
+
+AS-018 begins as pre-lock development from terminal AS-017 evidence. The
+retained R1/S16 failure is preserved without replay. A pure Recovery
+Reachability Envelope is implemented behind an explicit configuration switch
+and integrated as a constraint in the existing arbitration path. It uses
+policy-visible opportunity support and owner-defined physiological transition
+semantics, with no action authority or hidden Habitat input. Focused controls
+are passing; regression and fresh excluded-development qualification remain
+pending.

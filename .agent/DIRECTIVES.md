@@ -1380,3 +1380,13 @@ execution; it is not an organism failure. The authorized correction is harness
 and accounting only, with unchanged organism, scientific thresholds, scenarios,
 formal seeds, and stop rules. Formal execution remains unauthorized until the
 corrected V2 lock is reviewed.
+
+## UMBRA-AS-018 — Recovery Reachability Envelope — 2026-09-14
+
+Architect authorized successor pre-lock development after the AS-017 terminal
+R1/S16 failure. Scope is a pure policy-visible bounded-reachability
+constraint, focused controls, source-bound forensic analysis, fresh disjoint
+excluded-development qualification, regression closure, and publication. No
+AS-017 formal replay, formal seed, scientific lock, threshold change, forced
+action, hidden Habitat input, or AS-019 is authorized. Full directive:
+`.agent/tasks/active/UMBRA-AS-018/DIRECTIVE_RECOVERY_REACHABILITY.md`.

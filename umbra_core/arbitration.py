@@ -42,6 +42,7 @@ from umbra_core.recoverability.viability import (
     may_route_candidates,
     robust_candidates,
 )
+from umbra_core.recoverability.view import filter_recovery_reserve_candidates
 from umbra_core.stochastic_competition import (
     candidate_behavioral_identity,
     candidate_stochastic_term,
@@ -876,6 +877,10 @@ class Arbitrator:
         candidate_execution_params_for: Callable[[Candidate], Mapping[str, Any] | None] | None = None,
         recovery_assessment_context: Mapping[str, str] | None = None,
         viability_kernel_enabled: bool = True,
+        recovery_reachability_enabled: bool = False,
+        recovery_body_schema_id: str | None = None,
+        recovery_capability_support: Mapping[str, Mapping[str, Any]] | None = None,
+        recovery_body_energy_cost_scale: float = 1.0,
     ) -> Candidate:
         # ``tick`` remains the orchestration clock for compatibility and for
         # explicitly orchestration-scoped modes.  Organism policy cadence must
@@ -1156,6 +1161,44 @@ class Arbitrator:
                 and candidate_executability is not None
             ):
                 recovery_pool = self.generate_candidates(phys, observations, orchestration_tick)
+                reachability_filter_result: dict[str, Any] | None = None
+                if (
+                    recovery_reachability_enabled
+                    and recovery_body_schema_id is not None
+                    and recovery_capability_support is not None
+                ):
+                    def reachability_effects(candidate: Candidate) -> Sequence[Mapping[str, float]]:
+                        # Terminal readiness is supplied by the trusted current
+                        # root.  Motion and other nonterminal branches use only
+                        # the published verified-effect envelope; this avoids
+                        # importing hidden Habitat hazards into the pure RRE.
+                        if candidate.capability in TERMINAL_CAPABILITIES:
+                            if authority_effect_branches_for_context is not None:
+                                return authority_effect_branches_for_context(
+                                    shared_context, candidate
+                                )
+                            return authority_effect_branches(candidate)
+                        return verified_outcome_effect_branches(candidate.capability)
+
+                    reachability_filter_result = filter_recovery_reserve_candidates(
+                        organism_tick=active_tick,
+                        body_schema_id=recovery_body_schema_id,
+                        physiology=phys.as_dict(),
+                        active_needs=needs,
+                        observations=observations,
+                        candidates=recovery_pool,
+                        capability_support=recovery_capability_support,
+                        authority_effect_branches_for=reachability_effects,
+                        body_energy_cost_scale=float(recovery_body_energy_cost_scale),
+                        drift_enabled=phys.drift_enabled,
+                    )
+                    # An empty result is authoritative evidence that every
+                    # currently generated candidate would eliminate the only
+                    # supported bounded recovery opportunity.  Do not fall
+                    # back to the unfiltered pool, which would turn the
+                    # constraint into logging-only behavior.  The existing
+                    # kernel then reports its normal no-safe-action outcome.
+                    recovery_pool = list(reachability_filter_result["candidates"])
                 recovery_routes = enumerate_regulatory_recovery_routes(
                     physiology=phys.as_dict(),
                     active_needs=needs,
@@ -1208,6 +1251,7 @@ class Arbitrator:
                         "endpoint_effect_source": "authority_effect_branches",
                         "opportunity_source": "ordinary_policy_visible_candidate",
                         "branch_safety": "existing_verified_branch_safety_unchanged",
+                        "recovery_reachability_envelope": reachability_filter_result,
                         "direct_regulatory_path_status": direct_path_status,
                         "selected_recovery_certificate": (
                             {

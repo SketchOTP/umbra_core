@@ -698,3 +698,15 @@ and critical fatigue at tick 435. Counts: accepted 8, started/consumed 9,
 retries 0, reseeds 0, substitutions 0. P0 failed; no downstream stage ran.
 The complete closeout and retained evidence hashes are in
 `docs/evidence/as017-integrated-core/AS017_P0_FORMAL_POPULATION_CLOSEOUT_V1.json`.
+
+## AS-018 task start — 2026-09-14
+
+Successor development starts after permanent `AS017_FRESH_R1_FAIL`. The
+source-bound formal failure map is retained at
+`docs/evidence/as018/AS018_FORMAL_FAILURE_FORENSIC_MAP.json`. Initial source
+implementation is in `umbra_core/recoverability/view.py`,
+`umbra_core/recoverability/__init__.py`, `umbra_core/arbitration.py`, and
+`umbra_core/runtime.py`; tests are in
+`tests/test_as018_recovery_reachability.py`. No formal organism or seed was
+created. Existing unrelated `.gitignore`, `AGENTS.md`, and untracked evidence
+are preserved.

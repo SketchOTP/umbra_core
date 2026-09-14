@@ -1,0 +1,60 @@
+{
+  "schema": "AS018_RECOVERY_GRAPH_AUDIT_V1",
+  "directive": "UMBRA-AS-018",
+  "classification": "pre_lock_source_and_retained_evidence_audit",
+  "formal_replay": false,
+  "formal_seed_replayed": false,
+  "retained_failure": {
+    "directive": "UMBRA-AS-017",
+    "seed": 26489381,
+    "regime": "R1",
+    "scenario": "S16",
+    "no_safe_action_tick": 434,
+    "critical_tick": 435,
+    "causal_status": "earlier_counterfactual_saving_action_not_established"
+  },
+  "authority_graph": [
+    {
+      "stage": "physiology",
+      "owner": "umbra_core/physiology.py",
+      "contract": "verified effect clamp, then drift clamp"
+    },
+    {
+      "stage": "recovery_routes",
+      "owner": "umbra_core/recoverability/view.py and viability.py",
+      "contract": "ROBUST_NOW and MAY_ROUTE remain distinct; AS-018 adds bounded envelope"
+    },
+    {
+      "stage": "candidate_assessment",
+      "owner": "umbra_core/recoverability/contracts.py and arbitration.py",
+      "contract": "categorical readiness and current hard admissibility"
+    },
+    {
+      "stage": "selection",
+      "owner": "umbra_core/arbitration.py",
+      "contract": "RRE is a constraint only; ordinary arbitration remains preference authority"
+    },
+    {
+      "stage": "governance_and_execution",
+      "owner": "umbra_core/runtime.py and Governance/embodiment owners",
+      "contract": "normal admission, adapter execution, and verification remain authoritative"
+    },
+    {
+      "stage": "consequence_learning",
+      "owner": "umbra_core/runtime.py and WorldModel",
+      "contract": "only verified consequences update learning; pure RRE does not"
+    }
+  ],
+  "source_finding": {
+    "before_as018": "MAY_ROUTE described visible recovery opportunities but did not preserve a bounded physiological reserve while ordinary candidates consumed time and effort.",
+    "as018_contract": "A finite conservative route envelope may constrain only candidates whose supported branches eliminate every bounded opportunity under a genuine reserve threat.",
+    "unknown_policy": "Unsupported progress, stale body/opportunity context, exhausted search, and unavailable future conditions remain UNKNOWN_ROUTE.",
+    "hidden_truth": "No Habitat coordinates, object identity, renderer state, or future world truth enters the envelope."
+  },
+  "retained_evidence_limits": [
+    "Observed APPROACH actions at ticks 430-433 consumed reserve before terminal failure.",
+    "CHARGE and REST were recorded as MAY_ROUTE because arrival was not hard-proven.",
+    "The trace does not establish that any alternative action would have saved the formal organism.",
+    "This forensic map is engineering evidence and is not an independent qualification replicate."
+  ]
+}

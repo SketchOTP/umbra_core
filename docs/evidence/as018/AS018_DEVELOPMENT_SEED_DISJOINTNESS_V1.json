@@ -1,0 +1,18 @@
+{
+  "schema": "AS018_DEVELOPMENT_SEED_DISJOINTNESS_V1",
+  "directive": "UMBRA-AS-018",
+  "classification": "excluded_development_only",
+  "manifest": "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V1.json",
+  "manifest_seed_count": 32,
+  "manifest_unique_seed_count": 32,
+  "candidate_range": [88000001, 88000032],
+  "scan_scope": "repository JSON seed-bearing fields plus registered AS-015/AS-016/AS-017 manifests and retained evidence manifests",
+  "prior_seed_values_scanned": 367,
+  "prior_seed_files_scanned": 196,
+  "collisions": [],
+  "formal_seed_consumption": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "substitutions": 0,
+  "qualification_status": "not_formal_and_not_lock_authorized"
+}

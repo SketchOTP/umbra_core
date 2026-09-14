@@ -85,7 +85,11 @@ def test_production_transition_constrains_only_supported_option_destruction():
     result = prospective_recoverability_transition(
         organism_tick=1,
         body_schema_id="body-1",
-        physiology=Physiology(energy=0.301).to_state(),
+        # Keep the action materially inside the current supported band while
+        # exercising the owner-defined low-energy depletion safeguard.  The
+        # old 0.301 fixture relied on the removed combined-delta projection
+        # and no longer reaches exhaustion under actual execution semantics.
+        physiology=Physiology(energy=0.22).to_state(),
         attended_dimensions=["energy"],
         observations=[_resource()],
         candidate=_moving_away(),

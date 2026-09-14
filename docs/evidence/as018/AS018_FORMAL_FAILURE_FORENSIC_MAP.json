@@ -1,0 +1,93 @@
+{
+  "schema": "AS018_FORMAL_FAILURE_FORENSIC_MAP_V1",
+  "status": "PRESERVED_FORENSIC_INPUT",
+  "source_commit": "46a37833b090ae1931348db44a5773f34c025133",
+  "formal_closeout": {
+    "path": "docs/evidence/as017-integrated-core/AS017_P0_FORMAL_POPULATION_CLOSEOUT_V1.json",
+    "sha256": "5d4e700075a43cd3c79302d4bbddf96f4f689fc81976a528a181446c0f96c7d2"
+  },
+  "failure": {
+    "case_id": "R1-00-26489381",
+    "regime": "R1",
+    "scenario": "S16",
+    "seed": 26489381,
+    "formal_replay": false,
+    "first_decisive_tick": 434,
+    "terminal_tick": 435,
+    "formal_verdict": "AS017_FRESH_R1_FAIL",
+    "recorded_state": {
+      "physiology_at_434": {
+        "energy": 0.23499999999999932,
+        "fatigue": 0.9480000000000008,
+        "integrity": 0.9436000000000062,
+        "stimulation": 0.9550000000000004
+      },
+      "active_needs": ["energy", "fatigue", "stimulation"],
+      "kernel_disposition": "NO_ROBUST_OR_MAY_ROUTE",
+      "candidate": "IDLE",
+      "governance": "no_safe_action",
+      "route_disposition": "CHARGE and REST were MAY_ROUTE candidates blocked by future_arrival_not_hard_proven"
+    },
+    "preceding_verified_actions": [
+      {
+        "ticks": "430-433",
+        "capability": "APPROACH",
+        "governance": "admitted",
+        "effects": {"energy": -0.004, "fatigue": 0.003, "stimulation": 0.004},
+        "status": "OBSERVED"
+      },
+      {
+        "tick": 434,
+        "capability": "IDLE",
+        "governance": "denied",
+        "reason": "no_safe_action",
+        "status": "OBSERVED"
+      },
+      {
+        "tick": 435,
+        "capability": "MOVE",
+        "governance": "admitted",
+        "effects": {"energy": -0.005, "fatigue": 0.004, "stimulation": 0.003},
+        "verified_outcome_id": "6de91665-6d9c-484b-b02b-b990b948aac8",
+        "event_sequence": 2241,
+        "status": "OBSERVED"
+      }
+    ]
+  },
+  "retained_artifacts": [
+    {
+      "kind": "result",
+      "path": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/result.json",
+      "sha256": "d868daf3f7fbba5d312cfad72883d3b6fa3814af2106df79230a5e32e47e0ae3",
+      "status": "PRESERVED"
+    },
+    {
+      "kind": "stage_journal",
+      "path": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/work.stages.jsonl",
+      "sha256": "fcf1670937755aa6c9b773cc61162ed6172b7ef7e58f4cc07d83ed930753aee5",
+      "status": "PRESERVED"
+    },
+    {
+      "kind": "database",
+      "path": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/work/R1-26489381.sqlite",
+      "sha256": "1267bc97a2627ddd4d4ad9eba9cfe1f1635b82e3fe74f4e774088683a781259f",
+      "status": "PRESERVED_READ_ONLY"
+    },
+    {
+      "kind": "decision_trace",
+      "path": "/home/sketch/umbra-as017-formal-runs/p0-v2-20260914-formal/work/case-traces/R1-26489381.trace.jsonl",
+      "sha256": "c8490a927f3d883d682f8199009e2c8d5dac98a6d3cade60e9a9f0bfe97d6f25",
+      "status": "PRESERVED_READ_ONLY"
+    }
+  ],
+  "causal_limits": [
+    "The retained evidence establishes the loss of a supported route by tick 434, but does not establish which earlier counterfactual action would have saved the organism.",
+    "The exact first reserve-loss root before the 430-433 approach sequence is not established by this map.",
+    "The proposed Recovery Reachability Envelope is a source-bound repair hypothesis until prospective development evidence validates it."
+  ],
+  "classification": {
+    "observed": ["APPROACH effects and governance at ticks 430-433", "NO_SAFE_ACTION at tick 434", "MOVE effects and critical fatigue at tick 435"],
+    "source_derived": ["existing MAY_ROUTE path has no bounded physiological reachability test", "existing physiology owner transition is effect-clamp then drift-clamp"],
+    "counterfactual_not_established": ["a particular alternative action would have prevented the formal failure"]
+  }
+}

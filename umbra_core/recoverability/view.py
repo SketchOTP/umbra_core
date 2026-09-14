@@ -11,8 +11,14 @@ import math
 from enum import Enum
 from typing import Any, Mapping, Sequence
 
-from umbra_core.physiology import BOUNDS, DEFAULT_DRIFT, verified_outcome_effect_branches
+from umbra_core.physiology import (
+    BOUNDS,
+    DEFAULT_DRIFT,
+    project_verified_transition,
+    verified_outcome_effect_branches,
+)
 from umbra_core.self_model.engine import SupportSemantics
+from umbra_core.util import canon_json
 
 
 MOTION_CAPABILITIES = frozenset({"MOVE", "APPROACH", "RETREAT"})
@@ -29,6 +35,14 @@ EPSILON = 1.0e-12
 MAX_PROVENANCE_REFS = 8
 MAX_TEXT_LENGTH = 160
 PROSPECTIVE_BASELINE_CAPABILITY = "PROSPECTIVE_BASELINE"
+
+# These categories belong to the pure reachability envelope.  They are not
+# action authority and deliberately remain distinct from the viability kernel's
+# current-endpoint statuses in viability.py.
+ROBUST_NOW = "ROBUST_NOW"
+BOUNDED_RECOVERY_OPPORTUNITY = "BOUNDED_RECOVERY_OPPORTUNITY"
+MAY_ROUTE = "MAY_ROUTE"
+UNKNOWN_ROUTE = "UNKNOWN_ROUTE"
 
 
 class RecoverabilityStatus(str, Enum):
@@ -135,17 +149,54 @@ def _worst_projected_value(
     branches: Sequence[Mapping[str, Any]],
     name: str,
     *,
+    capability: str,
     executions: int,
     drift_intervals: int,
+    drift_enabled: bool,
 ) -> float:
     choices = branches or ({},)
-    projected = [
-        float(current)
-        + executions * float(branch.get(name, 0.0))
-        + executions * drift_intervals * float(DEFAULT_DRIFT.get(name, 0.0))
-        for branch in choices
-    ]
+    projected: list[float] = []
+    for branch in choices:
+        state = {variable: float(current) for variable in BOUNDS}
+        # Only the selected dimension is known at this helper boundary.  The
+        # complete-state caller below supplies the correlated projection; this
+        # fallback keeps the helper safe for legacy direct callers.
+        state[name] = float(current)
+        for _ in range(executions):
+            state = project_verified_transition(
+                state,
+                dict(branch),
+                capability=capability,
+                drift_enabled=drift_enabled,
+                dt=float(drift_intervals),
+            )
+        projected.append(float(state[name]))
     return min(projected, key=lambda value: _signed_critical_margin(name, value))
+
+
+def _project_branch_states(
+    current: Mapping[str, Any],
+    branches: Sequence[Mapping[str, Any]],
+    *,
+    capability: str,
+    executions: int,
+    drift_intervals: int,
+    drift_enabled: bool,
+) -> list[dict[str, float]]:
+    """Project correlated branches through the physiology owner's transition."""
+    states: list[dict[str, float]] = []
+    for branch in branches or ({},):
+        state = {name: float(current[name]) for name in BOUNDS}
+        for _ in range(max(0, executions)):
+            state = project_verified_transition(
+                state,
+                dict(branch),
+                capability=capability,
+                drift_enabled=drift_enabled,
+                dt=float(drift_intervals),
+            )
+        states.append(state)
+    return states
 
 
 def _scale_negative_energy(
@@ -164,15 +215,23 @@ def _project_physiology(
     physiology: Mapping[str, Any],
     branches: Sequence[Mapping[str, Any]],
     completion_max: float | None,
+    *,
+    capability: str = PROSPECTIVE_BASELINE_CAPABILITY,
+    drift_enabled: bool = True,
 ) -> dict[str, float]:
     intervals = _drift_intervals(completion_max)
+    states = _project_branch_states(
+        physiology,
+        branches,
+        capability=capability,
+        executions=1,
+        drift_intervals=intervals,
+        drift_enabled=drift_enabled,
+    )
     return {
-        name: _worst_projected_value(
-            float(physiology[name]),
-            branches,
-            name,
-            executions=1,
-            drift_intervals=intervals,
+        name: min(
+            (float(state[name]) for state in states),
+            key=lambda value: _signed_critical_margin(name, value),
         )
         for name in BOUNDS
     }
@@ -235,7 +294,29 @@ def _geometry(
     if str(observation.get("support_body_schema_id", "")) != str(body_schema_id):
         return None
     if center_dx is None or center_dy is None or radius is None or radius < 0.0:
-        return None
+        # A policy-visible upper distance is sufficient for a conservative
+        # route-length bound, but not for directional geometry.  Do not infer
+        # coordinates or progress from it.
+        upper = _finite(observation.get("distance_support_upper_bound"))
+        if upper is None or upper < 0.0 or not provenance:
+            return None
+        semantics = _opportunity_semantics(observation)
+        if semantics in {
+            SupportSemantics.UNKNOWN.value,
+            SupportSemantics.PROBABILISTIC_SUPPORT.value,
+        }:
+            return None
+        return {
+            "support_center_dx": None,
+            "support_center_dy": None,
+            "support_radius": None,
+            "support_provenance": _bounded_text(provenance),
+            "support_source_kind": _bounded_text(observation.get("support_source_kind")),
+            "semantics": semantics,
+            "distance_support_upper_bound": upper,
+            "projected_centers": [],
+            "directional_geometry": False,
+        }
     if not provenance:
         return None
     return {
@@ -245,6 +326,7 @@ def _geometry(
         "support_provenance": _bounded_text(provenance),
         "support_source_kind": _bounded_text(observation.get("support_source_kind")),
         "semantics": _opportunity_semantics(observation),
+        "directional_geometry": True,
     }
 
 
@@ -257,6 +339,14 @@ def _candidate_parts(candidate: Any) -> tuple[str, dict[str, Any]]:
         raw = dict(candidate.params)
     heading = _finite(raw.get("heading_delta"))
     return capability, ({"heading_delta": heading} if heading is not None else {})
+
+
+def _candidate_identity(candidate: Any) -> str:
+    capability, params = _candidate_parts(candidate)
+    encoded = canon_json(params)
+    if isinstance(encoded, bytes):
+        encoded = encoded.decode("utf-8")
+    return f"{capability}:{encoded}"
 
 
 def _movement_projection(
@@ -273,11 +363,14 @@ def _movement_projection(
         return (
             {
                 **geometry,
-                "distance_support_upper_bound": math.hypot(
-                    geometry["support_center_dx"], geometry["support_center_dy"]
-                )
-                + geometry["support_radius"],
-                "projected_centers": [{
+                "distance_support_upper_bound": geometry.get(
+                    "distance_support_upper_bound",
+                    math.hypot(
+                        geometry["support_center_dx"], geometry["support_center_dy"]
+                    )
+                    + geometry["support_radius"],
+                ),
+                "projected_centers": geometry.get("projected_centers") or [{
                     "progress": 0.0,
                     "center_dx": geometry["support_center_dx"],
                     "center_dy": geometry["support_center_dy"],
@@ -301,6 +394,8 @@ def _movement_projection(
     # Zero remains reachable for declared movement failure modes.  Observed
     # success extrema are evidence, not a guarantee that a future attempt will
     # realize either endpoint.
+    if not geometry.get("directional_geometry", True):
+        return geometry, _weakest_semantics(geometry["semantics"], progress["semantics"]), None
     values = [0.0, float(progress["minimum"]), float(progress["maximum"])]
     projected = project_support_region(
         center_dx=geometry["support_center_dx"],
@@ -327,6 +422,7 @@ def _route_projection(
     capability_support: Mapping[str, Mapping[str, Any]],
     body_energy_cost_scale: float,
     candidate_timing_semantics: str,
+    drift_enabled: bool,
 ) -> dict[str, Any]:
     terminal_capability, served_needs = RECOVERY_PATHS[str(observation["kind"])]
     candidate_geometry, candidate_semantics, error = _movement_projection(
@@ -414,13 +510,18 @@ def _route_projection(
         float(body_energy_cost_scale),
     )
     intervals = _drift_intervals(float(completion["maximum"]))
+    route_states = _project_branch_states(
+        post_candidate_physiology,
+        route_branches,
+        capability=ROUTE_MOVEMENT_CAPABILITY,
+        executions=executions,
+        drift_intervals=intervals,
+        drift_enabled=drift_enabled,
+    )
     route_post = {
-        name: _worst_projected_value(
-            float(post_candidate_physiology[name]),
-            route_branches,
-            name,
-            executions=executions,
-            drift_intervals=intervals,
+        name: min(
+            (float(state[name]) for state in route_states),
+            key=lambda value: _signed_critical_margin(name, value),
         )
         for name in BOUNDS
     }
@@ -428,7 +529,12 @@ def _route_projection(
         verified_outcome_effect_branches(terminal_capability),
         float(body_energy_cost_scale),
     )
-    terminal_post = _project_physiology(route_post, terminal_branches, 0.0)
+    terminal_post = _project_physiology(
+        route_post,
+        terminal_branches,
+        0.0,
+        capability=terminal_capability,
+    )
     margins = _slack(terminal_post)
     bottleneck = min(margins, key=margins.get)
     minimum_margin = margins[bottleneck]
@@ -516,6 +622,7 @@ def derive_recoverability_view(
     capability_support: Mapping[str, Mapping[str, Any]],
     body_energy_cost_scale: float = 1.0,
     pending_commitment: bool = False,
+    drift_enabled: bool = True,
 ) -> dict[str, Any]:
     """Compose a bounded read-only recoverability view for one candidate."""
     capability, params = _candidate_parts(candidate)
@@ -585,7 +692,11 @@ def derive_recoverability_view(
         else None
     )
     post_candidate = _project_physiology(
-        physiology, authority_effect_branches, candidate_completion
+        physiology,
+        authority_effect_branches,
+        candidate_completion,
+        capability=capability,
+        drift_enabled=drift_enabled,
     )
     routes: list[dict[str, Any]] = []
     for need in normalized_needs:
@@ -608,6 +719,7 @@ def derive_recoverability_view(
                     capability_support=schema_support,
                     body_energy_cost_scale=float(body_energy_cost_scale),
                     candidate_timing_semantics=str(completion["semantics"]),
+                    drift_enabled=bool(drift_enabled),
                 )
                     for observation in matching
                 ]
@@ -777,5 +889,264 @@ def prospective_recoverability_transition(
         "rollout_required": False,
         "action_authority": False,
         "candidate_created": False,
+        "hidden_truth_fields": 0,
+    }
+
+
+def _envelope_status(view: Mapping[str, Any]) -> str:
+    """Map the existing route evidence into the AS-018 categorical vocabulary."""
+    raw = str(view["candidate_projection"].get("status"))
+    if raw == RecoverabilityStatus.SUPPORTED_MARGIN_POSITIVE.value:
+        return BOUNDED_RECOVERY_OPPORTUNITY
+    if raw == RecoverabilityStatus.SUPPORTED_MARGIN_EXHAUSTED.value:
+        # The opportunity is visible and model-supported, but the projected
+        # reserve is exhausted.  This is not robust recovery and is retained as
+        # a MAY route for ordinary exploration/diagnostics.
+        return MAY_ROUTE
+    if raw == RecoverabilityStatus.NO_KNOWN_RECOVERY_ROUTE.value:
+        return UNKNOWN_ROUTE
+    return UNKNOWN_ROUTE
+
+
+def _reserve_threatened(
+    physiology: Mapping[str, Any],
+    active_needs: Sequence[str],
+    baseline_view: Mapping[str, Any],
+) -> bool:
+    """Detect a narrow pre-critical reserve threat without choosing an action."""
+    if not active_needs:
+        return False
+    routes = baseline_view["candidate_projection"].get("post_candidate_routes", [])
+    horizons = [int(route.get("required_movement_executions", 0)) for route in routes]
+    horizon = max(horizons or [0])
+    # The viable-band margin activates the filter before the critical boundary;
+    # the critical margin scales with a bounded route horizon.  These are
+    # activation guards, not physiology thresholds and do not alter BOUNDS.
+    for name in active_needs:
+        bounds = BOUNDS[name]
+        value = float(physiology[name])
+        viable_margin = (
+            value - bounds.viable_low
+            if name != "fatigue"
+            else bounds.viable_high - value
+        )
+        critical_margin = _signed_critical_margin(name, value)
+        if viable_margin <= 0.025 or critical_margin <= max(0.01, 0.004 * (horizon + 1)):
+            return True
+    return False
+
+
+def assess_recovery_reachability_envelope(
+    *,
+    organism_tick: int,
+    body_schema_id: str,
+    physiology: Mapping[str, Any],
+    active_needs: Sequence[str],
+    observations: Sequence[Mapping[str, Any]],
+    candidate: Any,
+    authority_effect_branches: Sequence[Mapping[str, Any]],
+    capability_support: Mapping[str, Mapping[str, Any]],
+    body_energy_cost_scale: float = 1.0,
+    drift_enabled: bool = True,
+    max_route_steps: int = 32,
+) -> dict[str, Any]:
+    """Assess a bounded recovery opportunity using policy-visible state only.
+
+    This is a pure shadow assessment.  It does not grant authority, execute a
+    candidate, consume randomness, mutate learning, or inspect Habitat state.
+    It deliberately certifies only a finite route envelope; terminal recovery
+    remains conditional on later ordinary authority and verification.
+    """
+    if int(max_route_steps) < 1:
+        raise ValueError("max_route_steps_must_be_positive")
+    capability, params = _candidate_parts(candidate)
+    common = {
+        "organism_tick": int(organism_tick),
+        "body_schema_id": str(body_schema_id),
+        "physiology": {name: float(physiology[name]) for name in BOUNDS},
+        "active_needs": tuple(str(item) for item in active_needs),
+        "observations": tuple(dict(item) for item in observations),
+        "candidate": candidate,
+        "capability_support": capability_support,
+        "body_energy_cost_scale": float(body_energy_cost_scale),
+    }
+    view = derive_recoverability_view(
+        **common,
+        authority_effect_branches=tuple(dict(branch) for branch in authority_effect_branches),
+        drift_enabled=bool(drift_enabled),
+    )
+    route_status = str(view["candidate_projection"].get("status"))
+    classification = _envelope_status(view)
+    bounded_routes = [
+        route
+        for route in view["candidate_projection"].get("post_candidate_routes", [])
+        if route.get("status") == RecoverabilityStatus.SUPPORTED_MARGIN_POSITIVE.value
+    ]
+    unknown_routes = [
+        route
+        for route in view["candidate_projection"].get("post_candidate_routes", [])
+        if route.get("status") not in {
+            RecoverabilityStatus.SUPPORTED_MARGIN_POSITIVE.value,
+            RecoverabilityStatus.SUPPORTED_MARGIN_EXHAUSTED.value,
+        }
+    ]
+    return {
+        "schema": "AS018_RECOVERY_REACHABILITY_ENVELOPE_V1",
+        "organism_tick": int(organism_tick),
+        "body_schema_id": str(body_schema_id)[:MAX_TEXT_LENGTH],
+        "candidate": {"capability": capability, "params": params},
+        "active_needs": [str(item) for item in view["active_needs"]],
+        "active_need_status": {
+            str(need): (
+                BOUNDED_RECOVERY_OPPORTUNITY
+                if _dimension_status(view, str(need))
+                == RecoverabilityStatus.SUPPORTED_MARGIN_POSITIVE.value
+                else MAY_ROUTE
+                if _dimension_status(view, str(need))
+                == RecoverabilityStatus.SUPPORTED_MARGIN_EXHAUSTED.value
+                else UNKNOWN_ROUTE
+            )
+            for need in view["active_needs"]
+        },
+        "status": classification,
+        "robust_now": False,
+        "route_status": route_status,
+        "bounded_opportunity_count": len(bounded_routes),
+        "unknown_route_count": len(unknown_routes),
+        "reserve_threatened": _reserve_threatened(
+            physiology,
+            view["active_needs"],
+            view,
+        ),
+        "post_candidate_physiology": dict(view["candidate_projection"].get("post_candidate_physiology") or {}),
+        "route_evidence": [dict(route) for route in view["candidate_projection"].get("post_candidate_routes", [])],
+        "search_budget": {
+            "max_route_steps": int(max_route_steps),
+            "status": "BOUNDED_FINITE_ROUTE_ONLY",
+        },
+        "assumptions": {
+            "policy_visible_sources_only": True,
+            "terminal_success_not_guaranteed": True,
+            "uncertainty_is_not_proof": True,
+            "hidden_habitat_fields": 0,
+            "drift_semantics": "physiology_owner_effect_clamp_then_drift_clamp",
+            "drift_enabled": bool(drift_enabled),
+        },
+        "fixed_size": True,
+        "persisted_state": False,
+        "action_authority": False,
+        "hidden_truth_fields": 0,
+    }
+
+
+def filter_recovery_reserve_candidates(
+    *,
+    organism_tick: int,
+    body_schema_id: str,
+    physiology: Mapping[str, Any],
+    active_needs: Sequence[str],
+    observations: Sequence[Mapping[str, Any]],
+    candidates: Sequence[Any],
+    capability_support: Mapping[str, Mapping[str, Any]],
+    authority_effect_branches_for: Any,
+    body_energy_cost_scale: float = 1.0,
+    drift_enabled: bool = True,
+    max_route_steps: int = 32,
+) -> dict[str, Any]:
+    """Constrain only candidates that eliminate every supported envelope branch."""
+    baseline = assess_recovery_reachability_envelope(
+        organism_tick=organism_tick,
+        body_schema_id=body_schema_id,
+        physiology=physiology,
+        active_needs=active_needs,
+        observations=observations,
+        candidate={"capability": PROSPECTIVE_BASELINE_CAPABILITY, "params": {}},
+        authority_effect_branches=({},),
+        capability_support=capability_support,
+        body_energy_cost_scale=body_energy_cost_scale,
+        drift_enabled=drift_enabled,
+        max_route_steps=max_route_steps,
+    )
+    activation = bool(
+        baseline["status"] == BOUNDED_RECOVERY_OPPORTUNITY
+        and baseline["reserve_threatened"]
+    )
+    kept: list[Any] = list(candidates)
+    rejected: list[str] = []
+    decisions: list[dict[str, Any]] = []
+    if not activation:
+        return {
+            "schema": "AS018_RECOVERY_REACHABILITY_FILTER_V1",
+            "activation": False,
+            "reason": "reserve_threat_not_established",
+            "baseline": baseline,
+            "candidates": kept,
+            "rejected": rejected,
+            "decisions": decisions,
+            "action_authority": False,
+            "hidden_truth_fields": 0,
+        }
+
+    for candidate in candidates:
+        branches = tuple(
+            dict(branch)
+            for branch in (authority_effect_branches_for(candidate) or ({},))
+        )
+        projected: list[dict[str, Any]] = []
+        for branch in branches:
+            projected.append(
+                assess_recovery_reachability_envelope(
+                    organism_tick=organism_tick,
+                    body_schema_id=body_schema_id,
+                    physiology=physiology,
+                    active_needs=active_needs,
+                    observations=observations,
+                    candidate=candidate,
+                    authority_effect_branches=(branch,),
+                    capability_support=capability_support,
+                    body_energy_cost_scale=body_energy_cost_scale,
+                    drift_enabled=drift_enabled,
+                    max_route_steps=max_route_steps,
+                )
+            )
+        statuses = [str(item["status"]) for item in projected]
+        known_preservation = any(
+            status in {BOUNDED_RECOVERY_OPPORTUNITY, ROBUST_NOW}
+            for status in statuses
+        )
+        unknown_branch = UNKNOWN_ROUTE in statuses
+        eliminates_all = bool(statuses) and not known_preservation and not unknown_branch
+        identity = _candidate_identity(candidate)
+        decision = {
+            "candidate": identity,
+            "branch_statuses": statuses,
+            "rejected": eliminates_all,
+            "reason": "all_supported_branches_eliminate_bounded_opportunity"
+            if eliminates_all
+            else "preserved_or_uncertain",
+        }
+        decisions.append(decision)
+        if eliminates_all:
+            rejected.append(identity)
+        else:
+            kept_candidate = candidate
+            if kept_candidate not in kept:
+                kept.append(kept_candidate)
+    rejected_set = set(rejected)
+    kept = [
+        candidate
+        for candidate in kept
+        if _candidate_identity(candidate)
+        not in rejected_set
+    ]
+    return {
+        "schema": "AS018_RECOVERY_REACHABILITY_FILTER_V1",
+        "activation": True,
+        "reason": "precritical_recovery_reserve_threat",
+        "baseline": baseline,
+        "candidates": kept,
+        "rejected": rejected,
+        "decisions": decisions,
+        "action_authority": False,
         "hidden_truth_fields": 0,
     }

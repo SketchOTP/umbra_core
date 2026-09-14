@@ -1,8 +1,14 @@
 """Pure, non-authoritative homeostatic recoverability composition."""
 
 from umbra_core.recoverability.view import (
+    BOUNDED_RECOVERY_OPPORTUNITY,
+    MAY_ROUTE as VIEW_MAY_ROUTE,
+    ROBUST_NOW as VIEW_ROBUST_NOW,
+    UNKNOWN_ROUTE,
     RecoverabilityStatus,
+    assess_recovery_reachability_envelope,
     derive_recoverability_view,
+    filter_recovery_reserve_candidates,
     prospective_recoverability_transition,
     project_support_region,
 )
@@ -32,7 +38,13 @@ from umbra_core.recoverability.viability import (
 
 __all__ = [
     "RecoverabilityStatus",
+    "BOUNDED_RECOVERY_OPPORTUNITY",
+    "VIEW_MAY_ROUTE",
+    "VIEW_ROBUST_NOW",
+    "UNKNOWN_ROUTE",
+    "assess_recovery_reachability_envelope",
     "derive_recoverability_view",
+    "filter_recovery_reserve_candidates",
     "prospective_recoverability_transition",
     "project_support_region",
     "ASSESSMENT_ALLOWED",

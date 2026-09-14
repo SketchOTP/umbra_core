@@ -216,6 +216,9 @@ class OrganismConfig:
     # removes only the source-backed recoverability kernel while retaining
     # verified-branch safety and current terminal executability.
     viability_kernel_enabled: bool = False
+    # AS-018: explicit opt-in for the pure, policy-visible recovery
+    # reachability constraint.  False preserves all prior configurations.
+    recovery_reachability_enabled: bool = False
 
 
 from umbra_core.util import SCHEMA_VERSION, SeededRNG, angle_diff, current_rss_mib, new_id
@@ -2173,6 +2176,21 @@ class Organism:
             temporal_modifiers_enabled=modifiers_on, discovery_needed=bool(self.world_model is not None and not self.world_model.has_policy_safe_resource()), authority_effect_branches=lambda candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params, physiology=self.phys.as_dict()),
             authority_effect_branches_for_context=lambda context, candidate: authority_effect_branches(candidate, self.embodiment, self.embodiment_adapter, resolve_params=self._resolve_params, physiology=dict(context.physiology)),
             viability_kernel_enabled=self.config.viability_kernel_enabled,
+            recovery_reachability_enabled=self.config.recovery_reachability_enabled,
+            recovery_body_schema_id=(
+                self.self_model.active.body_schema_id
+                if self.self_model is not None and self.self_model.active is not None
+                else None
+            ),
+            recovery_capability_support=(
+                {
+                    capability: self.self_model.capability_support(capability)
+                    for capability in ("MOVE", "APPROACH", "RETREAT")
+                }
+                if self.self_model is not None
+                else None
+            ),
+            recovery_body_energy_cost_scale=float(self.embodiment.body.energy_cost_scale),
             # ``None`` preserves the established in-method authority path
             # when this tick has no auxiliary proposal. Non-empty intent
             # sets activate the hierarchical intent gate.
