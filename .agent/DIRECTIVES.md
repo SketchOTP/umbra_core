@@ -1359,3 +1359,13 @@ The lock must distinguish organism implementation
 regression-publication revisions, bind the fresh 32-seed manifest and its
 disjointness evidence, and freeze P0–P5 acceptance and stop rules. This is a
 lock-publication step only: formal seeds and formal organisms remain unused.
+
+### 2026-09-13 — UMBRA-AS-017 scientific lock established
+
+The durable AS-017 lock contract was read back before formal organism creation.
+It binds organism implementation `11795badd4b43126d62dfe6e15193cf2a0a170ac`,
+clean execution subject `0e20b5ffb662f81c7de14756012bba6e9afc7de9`, the fresh
+32-seed manifest and local disjointness proof, full configuration fingerprints,
+P0–P5 criteria, and the first-failure stop rule. The clean detached formal CLI
+preflight passed with zero organisms and zero formal seed consumption. Formal
+launch remains a separate Architect review boundary.

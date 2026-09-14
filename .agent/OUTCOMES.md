@@ -2077,3 +2077,16 @@ formal manifest and repository-scoped disjointness proof were prepared with
 formal seed consumption `0`. The contract-only formal CLI and clean detached
 execution checkout are the required next checks. This outcome is a task-start
 record for lock establishment; formal qualification is not started.
+
+## AS-017 SCIENTIFIC LOCK ESTABLISHED — 2026-09-13
+
+The lock contract was generated and read back before any formal organism
+creation. Artifact:
+`experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V1.json`; SHA-256
+`d9dca282a76ef7c7ca3274db7bd1919516c3b83f46d575b95c80fd650062fec0`.
+Organism implementation subject is
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`; clean execution subject is
+`0e20b5ffb662f81c7de14756012bba6e9afc7de9`. A clean detached checkout passed
+the literal contract-only formal CLI preflight with matching HEAD, manifest
+hash, import origins, zero created organisms, zero formal seed consumption,
+and no work artifact created. Formal launch was not performed.

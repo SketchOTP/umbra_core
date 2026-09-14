@@ -1,15 +1,18 @@
-# CURRENT AUTHORITY — UMBRA-AS-017 SCIENTIFIC LOCK PREPARATION
+# CURRENT AUTHORITY — UMBRA-AS-017 SCIENTIFIC LOCK ESTABLISHED
 
-Architect accepted AS-017 pre-lock development and authorized establishment of
-the scientific lock, but no formal organism may be created in this step. The
-lock binds organism implementation
-`11795badd4b43126d62dfe6e15193cf2a0a170ac`, the complete frozen configuration,
-fresh 32-seed population, evidence harness, and P0–P5 stop/acceptance
-contracts. The formal manifest and repository-scoped disjointness proof are
-prepared with `0` formal seeds consumed. A clean detached execution checkout
-and literal contract-only CLI preflight are required before the lock is
-reported established. The separate lock-publication commit must contain no
-production, test, threshold, scenario, or execution-semantic change.
+AS-017 scientific lock contract
+`experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V1.json` is established before
+formal organism creation. Its exact organism implementation subject is
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`; its clean execution subject is
+`0e20b5ffb662f81c7de14756012bba6e9afc7de9`. The contract binds the complete
+configuration, fresh 32-seed population, evidence harness, and P0–P5
+stop/acceptance contracts. Lock artifact SHA-256:
+`d9dca282a76ef7c7ca3274db7bd1919516c3b83f46d575b95c80fd650062fec0`.
+
+The clean detached contract-only preflight passed with imports resolved inside
+the execution checkout, `0` formal organisms created, and `0` formal seeds
+consumed. The lock-publication commit is governance/documentation only; formal
+population launch remains a separate Architect review boundary.
 
 # CURRENT AUTHORITY — UMBRA-AS-017 EVIDENCE PIPELINE CLOSEOUT
 

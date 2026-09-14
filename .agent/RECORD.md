@@ -639,3 +639,14 @@ disjointness record, clean detached-checkout verification, and contract-only
 CLI preflight. The exact organism implementation subject is
 `11795badd4b43126d62dfe6e15193cf2a0a170ac`; formal organism creation and seed
 consumption remain zero until a later explicit launch review.
+
+## AS-017 scientific lock established — 2026-09-13
+
+Lock artifact
+`experiments/as017/AS017_SCIENTIFIC_LOCK_CONTRACT_V1.json` was read back with
+SHA-256 `d9dca282a76ef7c7ca3274db7bd1919516c3b83f46d575b95c80fd650062fec0`.
+The frozen organism implementation is
+`11795badd4b43126d62dfe6e15193cf2a0a170ac`; the clean execution subject is
+`0e20b5ffb662f81c7de14756012bba6e9afc7de9`. Contract-only preflight passed in
+a detached checkout with no formal organism or seed consumption. Formal launch
+remains unauthorized pending the next Architect review.
