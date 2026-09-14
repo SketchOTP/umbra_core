@@ -27,34 +27,71 @@ def execute(
     manifest: dict[str, Any],
     work: Path,
     *,
-    on_case: Callable[[dict[str, Any]], None] | None = None,
+    candidate_commit: str,
+    manifest_sha256: str,
+    on_case_start: Callable[[dict[str, Any]], None] | None = None,
+    on_execution_finished: Callable[[dict[str, Any]], None] | None = None,
+    accept_case: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
     horizon: int = HORIZON,
 ) -> dict[str, Any]:
     validate_manifest(manifest)
     if horizon != HORIZON:
         raise RuntimeError("AS017_FORMAL_HORIZON_INVALID")
+    if accept_case is None:
+        raise RuntimeError("AS017_FORMAL_ACCEPTANCE_CALLBACK_REQUIRED")
     work.mkdir(parents=True, exist_ok=False)
     rows: list[dict[str, Any]] = []
+    started: list[dict[str, Any]] = []
     for regime in REGIMES:
         for seed_index, seed in enumerate(manifest["formal_regimes"][regime]):
+            start = {
+                "regime": regime,
+                "seed": int(seed),
+                "seed_index": seed_index,
+                "target_ticks": horizon,
+            }
+            started.append(start)
+            if on_case_start is not None:
+                on_case_start(start)
             row = run_development_case(regime, int(seed), work, horizon)
             row.update(
                 schema="AS017_FORMAL_CASE_V1",
                 directive=DIRECTIVE,
                 classification="formal_qualification_candidate",
+                candidate_commit=candidate_commit,
+                seed_manifest_sha256=manifest_sha256,
                 regime=regime,
                 scenario=SCENARIOS[regime],
                 seed_index=seed_index,
             )
+            if on_execution_finished is not None:
+                on_execution_finished(row)
+            acceptance = accept_case(row)
+            if not isinstance(acceptance, dict) or acceptance.get("verdict") != "PASS":
+                return {
+                    "schema": "AS017_FORMAL_POPULATION_V1",
+                    "directive": DIRECTIVE,
+                    "expected_runs": 32,
+                    "completed_runs": len(rows),
+                    "accepted_cases": len(rows),
+                    "started_cases": started,
+                    "formal_seed_consumption": len(started),
+                    "all_completed": False,
+                    "terminal": f"AS017_FORMAL_{regime}_CASE_ACCEPTANCE_FAIL",
+                    "failure": acceptance,
+                    "rows": rows,
+                }
+            row["formal_acceptance"] = acceptance
             rows.append(row)
-            if on_case is not None:
-                on_case(row)
             if row.get("terminal") != "completed":
                 return {
                     "schema": "AS017_FORMAL_POPULATION_V1",
                     "directive": DIRECTIVE,
                     "expected_runs": 32,
                     "completed_runs": len(rows),
+                    "accepted_cases": len(rows),
+                    "started_cases": started,
+                    "formal_seed_consumption": len(started),
                     "all_completed": False,
                     "terminal": f"AS017_FRESH_{regime}_FAIL",
                     "rows": rows,
@@ -64,6 +101,9 @@ def execute(
         "directive": DIRECTIVE,
         "expected_runs": 32,
         "completed_runs": 32,
+        "accepted_cases": 32,
+        "started_cases": started,
+        "formal_seed_consumption": len(started),
         "all_completed": True,
         "terminal": "AS017_FORMAL_POPULATION_PASS",
         "rows": rows,
