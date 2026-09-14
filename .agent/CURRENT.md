@@ -2167,3 +2167,10 @@ baseline `46a37833b090ae1931348db44a5773f34c025133`, establishing candidate-only
 failures `0`. The raw suite remains non-green and each inherited failure remains
 visible; see `docs/evidence/as018/AS018_REGRESSION_ACCOUNTING_V1.json`.
 The registered 32-case excluded-development challenge has not started.
+
+The first AS-018 development attempt `job-mu18vhub-114eb9c5` is preserved as an
+infrastructure validation interruption, not a behavioral verdict. Its first
+case executed 7200 ticks and then failed because the old read-only validator
+assumed genesis-relative event numbering (`sequence_gap:1:32740`) after a valid
+checkpoint. The remaining case states are unresolved. See
+`docs/evidence/as018/AS018_DEVELOPMENT_V1_VALIDATION_INTERRUPTION.json`.

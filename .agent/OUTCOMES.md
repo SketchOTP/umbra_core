@@ -2172,3 +2172,14 @@ AS-018. Candidate-only failures are `0`; the raw suite is not wholly green and
 the inherited failures remain disclosed. The accounting artifact is
 `docs/evidence/as018/AS018_REGRESSION_ACCOUNTING_V1.json`. No formal seed or
 organism was consumed; the fresh AS-018 development population remains pending.
+
+## AS-018 development V1 validation interruption — 2026-09-14
+
+Attempt `job-mu18vhub-114eb9c5` executed the first R0 case, seed `88000001`,
+to 7200 ticks, then stopped in copy-only database validation with
+`sequence_gap:1:32740`. The database has a valid checkpoint through sequence
+32739 and an absolute hot tail beginning at 32740; the owner persistence
+validator accepts that representation, while the legacy read-only validator did
+not. No aggregate result was emitted, remaining case states are unresolved,
+and no scientific organism verdict is assigned. The preserved interruption
+record is `docs/evidence/as018/AS018_DEVELOPMENT_V1_VALIDATION_INTERRUPTION.json`.

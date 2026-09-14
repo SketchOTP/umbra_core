@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 from pathlib import Path
 
 from experiments.as014.qualification import REGIMES
 from experiments.as018.development import execute
 from experiments.as018.full_config import config, fingerprint
+from experiments.d012.readonly_validation import validate_read_only
+from umbra_core.runtime import create_organism
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,3 +45,32 @@ def test_challenge_rejects_wrong_shape_before_creating_work(tmp_path: Path) -> N
     else:
         raise AssertionError("invalid manifest was accepted")
     assert not (tmp_path / "work").exists()
+
+
+def test_read_only_validation_accepts_checkpoint_plus_absolute_tail(tmp_path: Path) -> None:
+    database = tmp_path / "checkpoint-tail.sqlite"
+    value = config(
+        88009999,
+        database,
+        "R0",
+        ledger_overrides={
+            "ledger_hot_tail_event_max": 32,
+            "ledger_max_events_per_tick": 16,
+        },
+    )
+    value.snapshot_every = 1
+    value.ledger_checkpoint_keep = 2
+    organism = create_organism(value)
+    organism.run_ticks(4)
+    organism.close()
+
+    result = validate_read_only(database)
+
+    assert result["chain_status"] == "ok"
+    assert result["max_event_sequence"] == result["event_count"]
+    with sqlite3.connect(database) as connection:
+        checkpoint_end = connection.execute(
+            "SELECT compacted_sequence_end FROM ledger_checkpoints"
+        ).fetchone()[0]
+        tail_start = connection.execute("SELECT MIN(sequence) FROM events").fetchone()[0]
+    assert tail_start == checkpoint_end + 1
