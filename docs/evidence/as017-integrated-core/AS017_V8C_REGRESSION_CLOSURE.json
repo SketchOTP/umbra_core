@@ -1,0 +1,39 @@
+{
+  "schema": "AS017_V8C_REGRESSION_CLOSURE_V1",
+  "candidate_commit": "d79354ad68ba25c2f3512990fa283f3e0615298d",
+  "organism_subject_commit": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+  "focused_lineage": {
+    "runs": 2,
+    "passed_each_run": 26,
+    "candidate_only_failures": 0
+  },
+  "raw_regression": {
+    "job_id": "job-mu0jtr6m-904de089",
+    "passed": 1403,
+    "skipped": 4,
+    "known_inherited_failures": 7,
+    "candidate_only_failures": 0,
+    "exit_code": 1,
+    "duration_seconds": 141.49
+  },
+  "applicable_regression": {
+    "job_id": "job-mu0jx8qy-4c786905",
+    "passed": 1403,
+    "skipped": 4,
+    "deselected_known_inherited": 7,
+    "candidate_only_failures": 0,
+    "exit_code": 0,
+    "duration_seconds": 188.22
+  },
+  "known_inherited_nodes": [
+    "tests/test_d012.py::test_disposable_real_runtime_dry_run_and_process_audit",
+    "tests/test_d012_process_boundary.py::test_full_distinct_process_campaign",
+    "tests/test_d013ab_multineed_corridor.py::test_active_fatigue_recovery_uses_corridor_adjudication_once",
+    "tests/test_d013ab_multineed_corridor.py::test_integrity_and_stimulation_candidates_share_the_boundary",
+    "tests/test_d013ak_authority_reachability.py::test_default_13035_authority_retains_charge_without_changing_score",
+    "tests/test_d013h_v2_formal_readiness.py::test_real_perception_path_detects_material_resource_change",
+    "tests/test_d013y_integrated.py::test_cold_start_discovery_uses_physical_action_and_real_observation"
+  ],
+  "interpretation": "The raw suite is not wholly green because the seven documented inherited nodes still fail. The exact candidate has zero unexplained candidate-only failures; the applicable suite passes with those seven nodes explicitly deselected.",
+  "scope": "This is pre-lock development/regression evidence. It does not establish scientific lock, formal viability, long-horizon, real-time, causal, or CLOSE-03 qualification."
+}

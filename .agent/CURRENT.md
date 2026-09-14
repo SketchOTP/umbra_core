@@ -19,6 +19,12 @@ manifest `8c609eb39b98cf994cd2290cbd531305b4ba520fef670156fd1d08b069e3247d`,
 with `0` retries/reseeds and `0` formal seed consumption. This is development
 evidence only; lock and formal qualification remain unauthorized.
 
+Focused evidence tests passed twice at `26/26`. The raw regression reported
+`1403 passed / 4 skipped / 7 documented inherited failures`; the exact
+applicable regression passed `1403 / 4 skipped / 7 deselected` with zero
+unexplained candidate-only failures. Closure details and job identifiers are in
+`docs/evidence/as017-integrated-core/AS017_V8C_REGRESSION_CLOSURE.json`.
+
 The active infrastructure-only repair is
 published at `11795badd4b43126d62dfe6e15193cf2a0a170ac` on
 `github/as017-recovery-development`, and the refetched remote matches exactly.

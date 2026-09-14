@@ -2050,3 +2050,19 @@ trace statuses in the V2 consumer and publishing the schema as V2; no
 organism evidence was changed or rerun. Development evidence is accepted only
 within this scope. AS-017 remains pre-lock; formal lock and qualification are
 not established.
+## AS-017 V8C REGRESSION CLOSURE — 2026-09-14
+
+Against published revision `d79354ad68ba25c2f3512990fa283f3e0615298d`, the
+focused evidence lineage passed twice at `26/26`. The raw repository regression
+reported `1403 passed, 4 skipped, 7 failed` (job
+`job-mu0jtr6m-904de089`); all seven are the documented inherited D-012/D-013
+nodes and there were no candidate-only failures. The exact applicable command
+then passed `1403 passed, 4 skipped, 7 deselected` in `188.22s` (job
+`job-mu0jx8qy-4c786905`).
+
+The regression closure artifact is
+`docs/evidence/as017-integrated-core/AS017_V8C_REGRESSION_CLOSURE.json`.
+The raw suite remains visibly non-green by design; the applicable result has
+zero unexplained candidate-only failures. AS-017 remains pre-lock and awaits
+Architect review of the consolidated readiness packet; no formal seed or
+scientific lock has been used.
