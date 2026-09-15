@@ -1,0 +1,29 @@
+{
+  "schema": "AS018_FORMAL_SEED_MANIFEST_V1",
+  "directive": "UMBRA-AS-018",
+  "classification": "fresh_formal_population_seed_manifest",
+  "seed_status": "frozen_before_formal_execution",
+  "organism_implementation_sha": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "formal_execution_subject": "d7968a2de557513f2316d684b394ed851d1aae51",
+  "source_baseline": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "formal_regimes": {
+    "R0": [99100001, 99100002, 99100003, 99100004, 99100005, 99100006, 99100007, 99100008],
+    "R1": [99100009, 99100010, 99100011, 99100012, 99100013, 99100014, 99100015, 99100016],
+    "R2": [99100017, 99100018, 99100019, 99100020, 99100021, 99100022, 99100023, 99100024],
+    "R3": [99100025, 99100026, 99100027, 99100028, 99100029, 99100030, 99100031, 99100032]
+  },
+  "regime_scenarios": {
+    "R0": "S0",
+    "R1": "S16",
+    "R2": "S10",
+    "R3": "S12"
+  },
+  "organisms_per_regime": 8,
+  "ticks_per_organism": 7200,
+  "total_organisms": 32,
+  "total_ticks": 230400,
+  "retries": 0,
+  "reseeds": 0,
+  "substitutions": 0,
+  "formal_seeds_consumed": 0
+}

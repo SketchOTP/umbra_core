@@ -2218,3 +2218,12 @@ zero candidate-only failures. The nine inherited failures, skips, and raw
 non-green status remain visible and unwaived. V3 is preserved as development
 evidence only and is ready for Architect lock review; scientific lock and
 formal execution remain pending.
+
+## AS-018 scientific-lock establishment — 2026-09-15
+
+Architect authorized lock establishment only after accepting the fresh V3
+development evidence. The lock freezes organism semantics at
+`e8d048b510a477e677637b67bc0f56473cfe6540`, registers formal seeds
+`99100001-99100032` before observation, and requires contract-only preflight.
+No formal organism or formal seed has been consumed. AS-017 remains terminal
+and all prior negative evidence remains immutable.

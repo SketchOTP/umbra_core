@@ -1,0 +1,745 @@
+{
+  "configuration": {
+    "database_binding": "isolated_local_runtime_path_per_case",
+    "fingerprint_sha256": {
+      "R0": "217d4b2686ad6c101f01b23d1826d56e1d20b6c02701d4e6451dc20164a683d1",
+      "R1": "846f69454af5c227dd7b366c11aba223e07151d2b67071d6c6f20d832f3344a7",
+      "R2": "ed56e866585bd352743365ac79da4d53dee4a40de5b0a160dca77c5c80e9b00c",
+      "R3": "7137c519a5fff9b817bb5c96b7fa0b716424a3170ec79c0ba64342e257adfe1e"
+    },
+    "fingerprints": {
+      "R0": {
+        "arbitration_mode": "full",
+        "as015": {
+          "directive": "UMBRA-AS-015",
+          "multi_need_viability_kernel": "enabled_by_current_production",
+          "persistence_contract": {
+            "ledger_checkpoint_keep": 4,
+            "ledger_compaction_enabled": true,
+            "ledger_hot_tail_event_max": 32768,
+            "ledger_max_events_per_tick": 32,
+            "ledger_physical_reclaim": true
+          },
+          "viability_kernel_enabled": true
+        },
+        "as016": {
+          "directive": "UMBRA-AS-016",
+          "orient_preflight": "immediate_or_delayed_dispatch_mirror",
+          "physiology_projection": "effect_clamp_then_drift_clamp",
+          "recovery_reserve": "all_active_needs_robustly_covered",
+          "regulatory_endpoints": "current_authority_effect_derived"
+        },
+        "as018": {
+          "activation": "precritical_recovery_reserve_threat_only",
+          "authority": "constraint_only_existing_arbitration_preference",
+          "baseline_organism_subject": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+          "directive": "UMBRA-AS-018",
+          "envelope_schema": "AS018_RECOVERY_REACHABILITY_ENVELOPE_V1",
+          "filter_schema": "AS018_RECOVERY_REACHABILITY_FILTER_V1",
+          "recovery_reachability_enabled": true,
+          "status_categories": [
+            "ROBUST_NOW",
+            "BOUNDED_RECOVERY_OPPORTUNITY",
+            "MAY_ROUTE",
+            "UNKNOWN_ROUTE"
+          ]
+        },
+        "bounded_continuation_enabled": true,
+        "condition": "C0",
+        "development_enabled": true,
+        "drift_enabled": true,
+        "embodiment_adapter_enabled": true,
+        "expression_enabled": true,
+        "governance_bypass": false,
+        "habitat_enabled": true,
+        "habitat_scenario_id": "S0",
+        "hooks": {
+          "habitat_scenario_hook": "apply_scenario_plants",
+          "temporal_scenario_hook": "apply_scenario_plants"
+        },
+        "individuality_enabled": true,
+        "leak_world_truth": false,
+        "ledger": {
+          "ledger_checkpoint_keep": 4,
+          "ledger_compaction_enabled": true,
+          "ledger_hot_tail_event_max": 32768,
+          "ledger_max_events_per_tick": 32,
+          "ledger_physical_reclaim": true
+        },
+        "memory_enabled": true,
+        "seed": 0,
+        "self_model_enabled": true,
+        "snapshot_every": 200,
+        "social_enabled": true,
+        "temporal_enabled": true,
+        "temporal_scenario_id": "S0",
+        "world_model_config": {
+          "affordance_learning": true,
+          "contradiction_revision": true,
+          "learning_enabled": true,
+          "max_route_experiences": 128,
+          "object_persistence": true,
+          "planning_enabled": true,
+          "prediction_enabled": true,
+          "route_demand_learning_enabled": true
+        },
+        "world_model_enabled": true
+      },
+      "R1": {
+        "arbitration_mode": "full",
+        "as015": {
+          "directive": "UMBRA-AS-015",
+          "multi_need_viability_kernel": "enabled_by_current_production",
+          "persistence_contract": {
+            "ledger_checkpoint_keep": 4,
+            "ledger_compaction_enabled": true,
+            "ledger_hot_tail_event_max": 32768,
+            "ledger_max_events_per_tick": 32,
+            "ledger_physical_reclaim": true
+          },
+          "viability_kernel_enabled": true
+        },
+        "as016": {
+          "directive": "UMBRA-AS-016",
+          "orient_preflight": "immediate_or_delayed_dispatch_mirror",
+          "physiology_projection": "effect_clamp_then_drift_clamp",
+          "recovery_reserve": "all_active_needs_robustly_covered",
+          "regulatory_endpoints": "current_authority_effect_derived"
+        },
+        "as018": {
+          "activation": "precritical_recovery_reserve_threat_only",
+          "authority": "constraint_only_existing_arbitration_preference",
+          "baseline_organism_subject": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+          "directive": "UMBRA-AS-018",
+          "envelope_schema": "AS018_RECOVERY_REACHABILITY_ENVELOPE_V1",
+          "filter_schema": "AS018_RECOVERY_REACHABILITY_FILTER_V1",
+          "recovery_reachability_enabled": true,
+          "status_categories": [
+            "ROBUST_NOW",
+            "BOUNDED_RECOVERY_OPPORTUNITY",
+            "MAY_ROUTE",
+            "UNKNOWN_ROUTE"
+          ]
+        },
+        "bounded_continuation_enabled": true,
+        "condition": "C0",
+        "development_enabled": true,
+        "drift_enabled": true,
+        "embodiment_adapter_enabled": true,
+        "expression_enabled": true,
+        "governance_bypass": false,
+        "habitat_enabled": true,
+        "habitat_scenario_id": "S16",
+        "hooks": {
+          "habitat_scenario_hook": "apply_scenario_plants",
+          "temporal_scenario_hook": "apply_scenario_plants"
+        },
+        "individuality_enabled": true,
+        "leak_world_truth": false,
+        "ledger": {
+          "ledger_checkpoint_keep": 4,
+          "ledger_compaction_enabled": true,
+          "ledger_hot_tail_event_max": 32768,
+          "ledger_max_events_per_tick": 32,
+          "ledger_physical_reclaim": true
+        },
+        "memory_enabled": true,
+        "seed": 0,
+        "self_model_enabled": true,
+        "snapshot_every": 200,
+        "social_enabled": true,
+        "temporal_enabled": true,
+        "temporal_scenario_id": "S16",
+        "world_model_config": {
+          "affordance_learning": true,
+          "contradiction_revision": true,
+          "learning_enabled": true,
+          "max_route_experiences": 128,
+          "object_persistence": true,
+          "planning_enabled": true,
+          "prediction_enabled": true,
+          "route_demand_learning_enabled": true
+        },
+        "world_model_enabled": true
+      },
+      "R2": {
+        "arbitration_mode": "full",
+        "as015": {
+          "directive": "UMBRA-AS-015",
+          "multi_need_viability_kernel": "enabled_by_current_production",
+          "persistence_contract": {
+            "ledger_checkpoint_keep": 4,
+            "ledger_compaction_enabled": true,
+            "ledger_hot_tail_event_max": 32768,
+            "ledger_max_events_per_tick": 32,
+            "ledger_physical_reclaim": true
+          },
+          "viability_kernel_enabled": true
+        },
+        "as016": {
+          "directive": "UMBRA-AS-016",
+          "orient_preflight": "immediate_or_delayed_dispatch_mirror",
+          "physiology_projection": "effect_clamp_then_drift_clamp",
+          "recovery_reserve": "all_active_needs_robustly_covered",
+          "regulatory_endpoints": "current_authority_effect_derived"
+        },
+        "as018": {
+          "activation": "precritical_recovery_reserve_threat_only",
+          "authority": "constraint_only_existing_arbitration_preference",
+          "baseline_organism_subject": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+          "directive": "UMBRA-AS-018",
+          "envelope_schema": "AS018_RECOVERY_REACHABILITY_ENVELOPE_V1",
+          "filter_schema": "AS018_RECOVERY_REACHABILITY_FILTER_V1",
+          "recovery_reachability_enabled": true,
+          "status_categories": [
+            "ROBUST_NOW",
+            "BOUNDED_RECOVERY_OPPORTUNITY",
+            "MAY_ROUTE",
+            "UNKNOWN_ROUTE"
+          ]
+        },
+        "bounded_continuation_enabled": true,
+        "condition": "C0",
+        "development_enabled": true,
+        "drift_enabled": true,
+        "embodiment_adapter_enabled": true,
+        "expression_enabled": true,
+        "governance_bypass": false,
+        "habitat_enabled": true,
+        "habitat_scenario_id": "S10",
+        "hooks": {
+          "habitat_scenario_hook": "apply_scenario_plants",
+          "temporal_scenario_hook": "apply_scenario_plants"
+        },
+        "individuality_enabled": true,
+        "leak_world_truth": false,
+        "ledger": {
+          "ledger_checkpoint_keep": 4,
+          "ledger_compaction_enabled": true,
+          "ledger_hot_tail_event_max": 32768,
+          "ledger_max_events_per_tick": 32,
+          "ledger_physical_reclaim": true
+        },
+        "memory_enabled": true,
+        "seed": 0,
+        "self_model_enabled": true,
+        "snapshot_every": 200,
+        "social_enabled": true,
+        "temporal_enabled": true,
+        "temporal_scenario_id": "S10",
+        "world_model_config": {
+          "affordance_learning": true,
+          "contradiction_revision": true,
+          "learning_enabled": true,
+          "max_route_experiences": 128,
+          "object_persistence": true,
+          "planning_enabled": true,
+          "prediction_enabled": true,
+          "route_demand_learning_enabled": true
+        },
+        "world_model_enabled": true
+      },
+      "R3": {
+        "arbitration_mode": "full",
+        "as015": {
+          "directive": "UMBRA-AS-015",
+          "multi_need_viability_kernel": "enabled_by_current_production",
+          "persistence_contract": {
+            "ledger_checkpoint_keep": 4,
+            "ledger_compaction_enabled": true,
+            "ledger_hot_tail_event_max": 32768,
+            "ledger_max_events_per_tick": 32,
+            "ledger_physical_reclaim": true
+          },
+          "viability_kernel_enabled": true
+        },
+        "as016": {
+          "directive": "UMBRA-AS-016",
+          "orient_preflight": "immediate_or_delayed_dispatch_mirror",
+          "physiology_projection": "effect_clamp_then_drift_clamp",
+          "recovery_reserve": "all_active_needs_robustly_covered",
+          "regulatory_endpoints": "current_authority_effect_derived"
+        },
+        "as018": {
+          "activation": "precritical_recovery_reserve_threat_only",
+          "authority": "constraint_only_existing_arbitration_preference",
+          "baseline_organism_subject": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+          "directive": "UMBRA-AS-018",
+          "envelope_schema": "AS018_RECOVERY_REACHABILITY_ENVELOPE_V1",
+          "filter_schema": "AS018_RECOVERY_REACHABILITY_FILTER_V1",
+          "recovery_reachability_enabled": true,
+          "status_categories": [
+            "ROBUST_NOW",
+            "BOUNDED_RECOVERY_OPPORTUNITY",
+            "MAY_ROUTE",
+            "UNKNOWN_ROUTE"
+          ]
+        },
+        "bounded_continuation_enabled": true,
+        "condition": "C0",
+        "development_enabled": true,
+        "drift_enabled": true,
+        "embodiment_adapter_enabled": true,
+        "expression_enabled": true,
+        "governance_bypass": false,
+        "habitat_enabled": true,
+        "habitat_scenario_id": "S12",
+        "hooks": {
+          "habitat_scenario_hook": "apply_scenario_plants",
+          "temporal_scenario_hook": "apply_scenario_plants"
+        },
+        "individuality_enabled": true,
+        "leak_world_truth": false,
+        "ledger": {
+          "ledger_checkpoint_keep": 4,
+          "ledger_compaction_enabled": true,
+          "ledger_hot_tail_event_max": 32768,
+          "ledger_max_events_per_tick": 32,
+          "ledger_physical_reclaim": true
+        },
+        "memory_enabled": true,
+        "seed": 0,
+        "self_model_enabled": true,
+        "snapshot_every": 200,
+        "social_enabled": true,
+        "temporal_enabled": true,
+        "temporal_scenario_id": "S12",
+        "world_model_config": {
+          "affordance_learning": true,
+          "contradiction_revision": true,
+          "learning_enabled": true,
+          "max_route_experiences": 128,
+          "object_persistence": true,
+          "planning_enabled": true,
+          "prediction_enabled": true,
+          "route_demand_learning_enabled": true
+        },
+        "world_model_enabled": true
+      }
+    },
+    "name": "AS018_FULL_CONFIGURATION_RRE_ENABLED",
+    "regimes": [
+      "R0",
+      "R1",
+      "R2",
+      "R3"
+    ],
+    "scenarios": {
+      "R0": "S0",
+      "R1": "S16",
+      "R2": "S10",
+      "R3": "S12"
+    },
+    "seed_binding": "manifest_seed_per_case",
+    "ticks_per_organism": 7200
+  },
+  "directive": "UMBRA-AS-018",
+  "downstream_contract": {
+    "ablation_design": "one matched base seed, five arms, identical persistence behavior",
+    "ablation_variants": [
+      "FULL",
+      "TERMINAL_READINESS_DISABLED",
+      "CONTINUATION_DISABLED",
+      "ROUTE_LEARNING_DISABLED",
+      "VIABILITY_KERNEL_DISABLED"
+    ],
+    "accelerated_100k": {
+      "event_growth_records_per_tick_max": 32,
+      "rss_hard_max_mib": 180.0,
+      "rss_slope_mib_per_hour_max": 1.0,
+      "ticks": 100000
+    },
+    "s3": {
+      "cpu_mean_fraction_max": 0.05,
+      "measure_seconds": 3600.0,
+      "minimum_samples": 360,
+      "rss_hard_max_mib": 180.0,
+      "rss_slope_mib_per_hour_max": 1.0,
+      "sample_interval_seconds": 5.0,
+      "tick_hz": 2.0,
+      "warmup_seconds": 300.0
+    }
+  },
+  "environment": {
+    "cwd_at_lock_creation": "/home/sketch/Projects/umbra-as017-recovery",
+    "pip_freeze_sha256": "c055ca109cde04a611a9e80cad94a751bde05f6ee59df3cca5a44f60a7f92a2d",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+    "python_executable": "/home/sketch/cs14n-runtime/bin/python",
+    "python_version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "pythonpath": ""
+  },
+  "evidence_readback_sha256": {
+    "development_closeout": {
+      "path": "docs/evidence/as018/AS018_DEVELOPMENT_V3_CLOSEOUT.json",
+      "sha256": "f67b851b2c7230dac289ee4f767af67787d728901c24d8994ebca8476c3adb4c"
+    },
+    "development_disjointness": {
+      "path": "docs/evidence/as018/AS018_DEVELOPMENT_SEED_DISJOINTNESS_V2.json",
+      "sha256": "cf9f6afc9d585f9dced0299f9822dd6e753eb75def6d9cd323af761af51c1fc5"
+    },
+    "development_manifest": {
+      "path": "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V2.json",
+      "sha256": "d09e816ee2f0cbbcd82413a511dde8071ca4e689b35ac9c9aa99afb19a2e668b"
+    },
+    "formal_failure_forensic_map": {
+      "path": "docs/evidence/as018/AS018_FORMAL_FAILURE_FORENSIC_MAP.json",
+      "sha256": "4baf106f50a55dc627044012f0379483bf2dc3da4b6c0a02e697b81f3b5b155a"
+    },
+    "regression_accounting": {
+      "path": "docs/evidence/as018/AS018_REGRESSION_ACCOUNTING_V1.json",
+      "sha256": "1d21317ea8a59ea47e5588e8235f2c307a0a78dbffd1de428256edee2e9e6bba"
+    }
+  },
+  "formal_execution_subject": "d7968a2de557513f2316d684b394ed851d1aae51",
+  "frozen_source": {
+    "clean_detached_checkout_required": true,
+    "contract_test_sha256": {
+      "tests/test_as018_scientific_lock.py": "d0ee9f4240cc3e1d2fb60eef147deb0fadc3ace9564126d3174b27c3078aaae7"
+    },
+    "import_provenance_required": true,
+    "production_subtree": "umbra_core",
+    "production_subtree_sha": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863",
+    "transitive_imported_harness_source_hashes": {
+      "experiments/as009/__init__.py": "df0cb86e41fad1fe8e41d1a4e64730397f4c8517a842249772fd6dff3e467b72",
+      "experiments/as009/qualification.py": "ff70b7a780bab5a1c36672eb9843036b0d2aa9492d590c5fe81915f0a6a1ef4b",
+      "experiments/as010/__init__.py": "20e170aadc4a1a171a650324754b5694abdcdb9f19b40099c265ff551c854a7d",
+      "experiments/as010/full_config.py": "25e325dcdaaf213b3e8709541002c84b25973ef7e8323d1f61bcb6ff439e2d3f",
+      "experiments/as014/__init__.py": "56820edc5cf5e21934afbb5535a95e6bec8064ae2dd30e066f0aace8c4067e4d",
+      "experiments/as014/full_config.py": "7aba5ee3a66351101256b248bc35f4a1df3d7bfb8b54ae05b18cf4f0555c8cd4",
+      "experiments/as014/qualification.py": "c6002c8c1c20a25100c161cdacd17fb12cab0c75ac26f8935e7179a49860237e",
+      "experiments/as015/__init__.py": "0d8b98e004f62f7565276644750366d75e519dec5d692bd3e4e682bd022f667e",
+      "experiments/as015/full_config.py": "1b47e9cca254b937338f592c91be0ca8b38a2b257f814345049186018db4369a",
+      "experiments/as016/__init__.py": "95a233f58be63215ffe30c8082078c7d9b835acbfbb4d33508d0b400686ffadc",
+      "experiments/as016/full_config.py": "d2c0bca6388d4252ef5814b02f3f96e7f9a6b92d931fe25fda8b1a741f6716b2",
+      "experiments/as018/__init__.py": "dcb801a6c7bd6343bf768890d46e4e3535b30aa2674ce767eb62dd99ed619dad",
+      "experiments/as018/development.py": "8222455e377f8768a38334406231bf49649c95f7c4a986bf14df3a6c87f1bca5",
+      "experiments/as018/formal_accounting.py": "f5bea0c3def81ffdee11e5af8e736c2a4cbbf548cd88bc6e4ed15a555c5674d0",
+      "experiments/as018/full_config.py": "193c7e26e9d16a9c4e918a187bd01616acc78dff3d04bf8c76df3aa715a6b679",
+      "experiments/as018/qualification.py": "e75ad638bfcf1be06a3cafcd6b79a6da95ab4a21f7504a73a98a07a0cd07bac8",
+      "experiments/d009/__init__.py": "7b1d327ed1736abc638a2fd68ad6ffb3e27dd4a2cb63fd8ef1a29b16643e0da6",
+      "experiments/d009/diagnostic_controllers.py": "6efdb33abfae2d87a0c3d349e1c8fd5e7377dfe9c1fa12cc46ea24e5f6a1f762",
+      "experiments/d009/evidence.py": "3edf868452a10da978cf5d33d9e83475fde0ae6181796178cb49d837b61f6143",
+      "experiments/d009/governance_bypass.py": "fac37600692eb14e7dfe4b05fe97d871c628e86ce74a4f1869b3082b81dcff49",
+      "experiments/d009/hostile_habitat_view.py": "b7cb5a23b7ca3f28e166bd4f6683f06b162055e9634073d9f5ed51b489b31247",
+      "experiments/d009/run_experiment.py": "682e54e0f308cec6238e293c900616639ef3d141ed33ad034ae363a992841f34",
+      "experiments/d009/scenario_plants.py": "d9fa30e7f778ca24eaaf85e4d1bcfb817ddfa81064a4d38569c1dd7e38c2e661",
+      "experiments/d014/__init__.py": "bbed3cbf768c7028806fe210bff0048a01eca5ebafac6c2139af7f8fb6ddf680",
+      "experiments/d014/run_formal.py": "f2253c7d86aa78d137f72216f77d93d41c7e02581450f81c21f9b4d89c730f83",
+      "tools/as017_evidence.py": "937c4569ba9bce88d46b4e5511d61d802e3c783213baa172bf4f051d2c84520c",
+      "tools/as017_formal_acceptance.py": "4304463d3c60544164bcbb476f7fcc6ea6998090434c16db403ff022f50e904e",
+      "tools/as017_review_v5_evidence.py": "123c7ca3994b6888b8e716704a9d549b9a95af29905f197c1c3214a5ae171aae",
+      "tools/as017_validate_linkage_v2.py": "20ab1e42d29b04f043fbebaa87e45fdcf7d9183ebda415714c339b78ab5c9449",
+      "tools/as017_validate_v8c.py": "555556682a8da2aa324d194522c8de942f58b74af09948c1ee9f842f1fe3e893",
+      "tools/as018_establish_scientific_lock.py": "ec2e0f5133f5e57633d2ae835e2408cf40f40b5caaaf734e733afe95d10a123f",
+      "tools/as018_formal_acceptance.py": "849c5c9ef62a26c6e27f5195bb94ef35cd4d14ab0dc62b65d5855181e94390b2",
+      "tools/as018_run_formal.py": "1835ef4240105fafc2e0627b49b26ae7f9792f17b784a0af93c82b4e2917bca0",
+      "umbra_core/__init__.py": "ff5123ea10194a77fae772a882c469deb44d0d67561a0d4bd2beea146c71a8cf",
+      "umbra_core/arbitration.py": "6f6a206c49f619e52358544f89baf571ab559afb375fb685f32385a848ae1d1e",
+      "umbra_core/decision_trace.py": "819b04aaaac3bae3822406410d934f754ea36a7b8f8831f10187184ea46ae685",
+      "umbra_core/development/__init__.py": "e5c8f6cb72f42d36c50e60972fbdac31003d008b93a2f5bd8a53773ac589dde0",
+      "umbra_core/development/engine.py": "b5051daeae3d4c384185ee32617e9a68bdd3096a439178fc812a2cfc1289c314",
+      "umbra_core/distributed_competition.py": "c7d6bf76c25dc4f140f6b143eb5e690cc71711d816face80b38bf2500d048cbe",
+      "umbra_core/embodiment.py": "3f9101ad237b78e8e817601982aecea35658716a4568bf2a170d3edd35a1bebf",
+      "umbra_core/embodiment_adapters/__init__.py": "06e3ea1946483fcaec73a63e4550e70755a23dafc755e583f3267b7be276e6a6",
+      "umbra_core/embodiment_adapters/adapter.py": "a9b9ce878fbbf5a342631cf0a018b5488667ccdd48461b33cae307fda5ef9765",
+      "umbra_core/embodiment_adapters/profiles.py": "45ca9d6d64bfce48f7df58fcd0fc920bc04ba1d13d4be0332982f0fd3b8c4f37",
+      "umbra_core/events.py": "8ead20d81f1513bb88a44f261f26c0a93e462522519a6e9a16bc6c10d1f81d7b",
+      "umbra_core/expression/__init__.py": "9f39b9020de289f15ece72bb8da669e39ff32ce56cefcd53d533cb39df809a92",
+      "umbra_core/expression/engine.py": "6ac813d324af9614269c0cc0ba808dbbcaa395d4501ef8c5645f0fcec064c588",
+      "umbra_core/expression/frame_ring.py": "15c62cea365c1c76baad65424d699909b80c5f9c759ef41d4d602f6ceb82eb8f",
+      "umbra_core/expression/habitat_read_model.py": "ce8f6828b224345ed2bbea1ecc62a40173e5460196fde5a3b65c3dd38cd9988f",
+      "umbra_core/expression/headless_renderer.py": "df990022f9f5f6093f77be2480a9a22166b4327edbff9091df5acf7b92b6682f",
+      "umbra_core/expression/presentation_state.py": "dd0bdb3220549946ac18c6203d2cfde22bea9d77b712603615ecdcc34b16650a",
+      "umbra_core/expression/renderer.py": "0ebad8627a92da0db0bf946d2f68bb5d687c2d3798bf3573d6e92f3869d95c88",
+      "umbra_core/governance.py": "a79c35f2045614c460b0d2238c01fdf476235d4d29913aca6eee30e5fd04b4ac",
+      "umbra_core/habitat/__init__.py": "6222f3886b31beddec440241e1ff407be2ffc498f79a8868b80e19b48f43b07c",
+      "umbra_core/habitat/config.py": "44c7d5ec334308604d25eb9aa3e33e937c622de72a7ccde4a718b827a2a93948",
+      "umbra_core/habitat/engine.py": "706353c6460321a749e675fcc8bbd7df17941365f8cde85741a0db5c0fc384cf",
+      "umbra_core/habitat/events.py": "1f0d6312a31418167bc14f3a649f8b0c9363655849e5d7cf7dd7840c4f845855",
+      "umbra_core/habitat/migration.py": "a4f160d8ebc2fe5be62b9ec95c2b9536d8feac53b1e1f3d8d2560307326b965d",
+      "umbra_core/habitat/projection.py": "162bab6cc306b50bf34d9037d2bef41ccf89da13912fff9e1f811f7bfb796624",
+      "umbra_core/habitat/state.py": "e8493c35380fc2ef9e5eeac439a98db76b42faf7a5857d69025cfa6384985a59",
+      "umbra_core/habitat_affordances/__init__.py": "88e7bc8497b3023ffa76513d40ec4750c2feb343bbc784f3a8e40f1353b3387a",
+      "umbra_core/habitat_affordances/definitions.py": "f7ca4001d62b7bf853befda549ece3ab49e6f4ad57611c405942804040a362e3",
+      "umbra_core/habitat_affordances/engine.py": "4213a2ca4cfa8d897915163111b2456ff4f01f7952a0e76d3643ed5334e3495a",
+      "umbra_core/hypothetical/__init__.py": "136403dce591088867f710552d916569d72bade332f426170c4f583cd328b284",
+      "umbra_core/hypothetical/action_selection.py": "cee1a7f6886ca0c5346d4a19816cfa1d27e547b238807d43176c5aca1138a612",
+      "umbra_core/hypothetical/adapters.py": "a04c43e5c2bd5ba3471c90d636e74875806983c95f3aca47293e429ca902db8f",
+      "umbra_core/hypothetical/continuation.py": "af85f67f860c83f8901e7854ace7e3974d5432f20754ae7b5413a96b2b55a6aa",
+      "umbra_core/hypothetical/core.py": "d6f78d3676027633cbbf4851aa45f796d41342a753e206a01f0606adb57b6ca9",
+      "umbra_core/hypothetical/frame.py": "8340a8f2a4e775b148b4e19b775befa6240fb75562dd422f38440e2e23440476",
+      "umbra_core/hypothetical/modal.py": "44286a47bb17c395b33c2cd90ecac93ac9388951948729f825bff2ae2568cd16",
+      "umbra_core/hypothetical/shadow.py": "8c52b9cb8b54e3b09a10d8a79062477af33444a6a57e6c6982ee901d79fe4767",
+      "umbra_core/identity.py": "a1ea045cde9d42c93dd5368c5ec52eccdb62abee7b0a249ef130c49d26438355",
+      "umbra_core/individuality/__init__.py": "cd76b62fd26c803f9308e823d26e2442e588e91f84c92e5419d8335ddeb820c5",
+      "umbra_core/individuality/engine.py": "5206dc5e6b3e850555eb3a0355203940ac8e1f5e6b7edfadc3f36045e2ec14bb",
+      "umbra_core/memory/__init__.py": "42600aadaaeffb06b6c08a5d79a582003ae8070e454a0f06d3fe20c03c1b124c",
+      "umbra_core/memory/engine.py": "e67fb997d43302cd754ab9a7d1103aa8a849000fac6edc75dcfaba8ecf79416f",
+      "umbra_core/perception.py": "89710730208e4a99ccc75d2e5a8bb55e163e7b636dff49cfd51926e1691f7ff2",
+      "umbra_core/perception_adapters/__init__.py": "ec40e51d1da9a1969507fbdebe25744f6fa6281bb6730f57a62551c6ba7cae6b",
+      "umbra_core/perception_adapters/contracts.py": "eaa2b1c0bdfe8cffc2b4c23d7471f7b2fc6d651c1b895b3a83d5a962ce0886b4",
+      "umbra_core/persistence.py": "87d530f76361250ad61c33cbe2a9c032642e99ab69781389badd3fa69bce458a",
+      "umbra_core/physiology.py": "00072b45851486ab86491d0f5a2ad30906620c49b2b1b0b5b38a4e0100f384ea",
+      "umbra_core/recoverability/__init__.py": "786b118a75066e40a1f685e7e1977b182e952c055e53cde8df5633cf485d28df",
+      "umbra_core/recoverability/contracts.py": "0274265c0c520807408d94c32d7dbd383343966a43a5bb735b41c0b6c137077d",
+      "umbra_core/recoverability/viability.py": "4db678217b2d5d97ffb4dd2ced8ce8e8aa0716b24b9c8f17dfd6f54683d651cf",
+      "umbra_core/recoverability/view.py": "38b5bdf7fa60840acc66e94ced40fbe07b05d4a74662c2bc4b272508328308ec",
+      "umbra_core/runtime.py": "92562e824378870864db4fb4b6cba93b133d2e1215c4ddc729a5269b6d972ff0",
+      "umbra_core/self_model/__init__.py": "9d2d904f3ee1f9a2fbd0b04b27cd542bc3b31a25503128c7969d5b0e42e8e0af",
+      "umbra_core/self_model/engine.py": "5d6e3efb686bd3840fdeb23bf179e3b1dd53f630bfffb14c86411cab80a6f197",
+      "umbra_core/social/__init__.py": "38e7456bcf354302ca1b1bd56181bb7e9bcd049853e8d0f996a02c666a6a5cab",
+      "umbra_core/social/engine.py": "9f5a5f4ff5f9e2fdabb867268f19cb302ff8807ddb00af054e3cee2049aae6c1",
+      "umbra_core/stochastic_competition.py": "5352ce2a5021458b88deffae09ea659f813d9e13cd1d7ab15c0cbf104f99473f",
+      "umbra_core/temporal/__init__.py": "12f85ebb75b9c9784f95070bb30bd129727af1d92ceb180dd7c12fceb9c575be",
+      "umbra_core/temporal/allowlists.py": "5b58af28ce4f82362b8baddf0aca7181ce8321862ad4f8752fde7187ef5c9861",
+      "umbra_core/temporal/clock.py": "f769b2477fd3cfe5dc71c0e8db8cb0f4cbaa8ca491301aab10c2126ddbb6cfdf",
+      "umbra_core/temporal/config.py": "82d9988f1228bed977be854d4b0b946735d5d7a1903d1e31bd989c0a65046059",
+      "umbra_core/temporal/contracts.py": "5761251f2874b5b8af177c6ffb8659adabd55e5d374f28e518aca0d1369dae52",
+      "umbra_core/temporal/downtime.py": "d09b93d02b3a0dae468601d6f0fbe4e95e195d39ca5274e2d288c26a7b9869ea",
+      "umbra_core/temporal/engine.py": "811143787c3d1438d042be2a94b81703696217575f3eb3a2bc004bd17ee1cff2",
+      "umbra_core/temporal/events.py": "0bfbc80e24d6a5cb5e843674da8f8457e4b195510b039100564b19750107fb0c",
+      "umbra_core/temporal/migration.py": "d85ca59b66beac09e893ab286fe56ea823c13ffa0f62d316c1bec8c78f8ab7c7",
+      "umbra_core/temporal/observations.py": "41fdee9c898aec36404b01eee53ede554f4fae648273004b0080df151d7ee7f2",
+      "umbra_core/temporal/policy.py": "255ba105b37d589590094382084e3ff4d3334be22e18d67c11007cc0e04f8403",
+      "umbra_core/temporal/recurrence.py": "4efa3a276788ccfe3ae0085fca0f2cf4287b2551fb93c21074ebe16230e0a167",
+      "umbra_core/temporal/state.py": "36be10e4f47b169124681028e4b09884a9ca8741bc688d9e4ff9cecc60db4ad3",
+      "umbra_core/util.py": "6e24bbb6494e3e5d9dea6e059476b50a9918fe0cc8a97bd4cdfe2e46c9e977a7",
+      "umbra_core/wait_execution.py": "cd292c787fc9fb3e6dd8b118c3dd6e1a424275e604ea30443b0b6a0b39bde9ec",
+      "umbra_core/world_model/__init__.py": "c31e45b4c980b4a228ee31948e208e6c7140ba941c056ab7ac636451f0164d1f",
+      "umbra_core/world_model/engine.py": "416850f4ffa1060a870c9fd3ac26aacfcf990d6d2f1eb4f38052fde72e0fcf40",
+      "umbra_core/world_model/route_evidence.py": "987729a674af5aae244108cb0e029fb0c7c6b25a8badf7ecbf1962642f211974"
+    }
+  },
+  "limitations": {
+    "development_not_formal": true,
+    "external_seed_records": "not independently available to this checkout; universal disjointness outside local scan scope is not claimed",
+    "p4_status": "OPEN_REQUIRES_PROSPECTIVE_PROTOCOL",
+    "p5_status": "OPEN_REQUIRES_PROSPECTIVE_PROTOCOL"
+  },
+  "lock_integrity": {
+    "formal_organisms_created_at_lock": 0,
+    "formal_seeds_consumed_at_lock": 0,
+    "literal_preflight_creates_zero_organisms": true,
+    "lock_artifact_self_hash_reported_out_of_band": true,
+    "lock_fails_closed_on_bound_identity_change": true
+  },
+  "lock_publication_commit_recorded_in_append_only_closeout": true,
+  "lock_status": "ESTABLISHED_BEFORE_FORMAL_ORGANISM_CREATION",
+  "organism_implementation_sha": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "p0_population_contract": {
+    "acceptance": {
+      "all_32_complete_7200": true,
+      "authenticated_trace_and_semantic_linkage_valid": true,
+      "case_finished_only_after_all_artifact_validation": true,
+      "exact_registered_seed_regime_scenario_candidate_configuration": true,
+      "identity_preserved": true,
+      "no_critical_physiology": true,
+      "no_hidden_retry_reseed_or_substitution": true,
+      "no_unresolved_no_safe_action": true,
+      "population_pass_requires_exactly_32_accepted_cases": true,
+      "required_rre_evidence_valid": true,
+      "sqlite_integrity_and_foreign_key_valid": true,
+      "terminal_snapshot_and_checkpoint_tail_valid": true
+    },
+    "case_schema": "AS018_FORMAL_CASE_V1",
+    "configuration": "AS018_FULL_CONFIGURATION_RRE_ENABLED",
+    "execution_mode": "serial_local_sqlite_wal_shm_hardened_accounting",
+    "launch_command_template": [
+      "/home/sketch/cs14n-runtime/bin/python",
+      "tools/as018_run_formal.py",
+      "--manifest",
+      "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V1.json",
+      "--lock",
+      "experiments/as018/AS018_SCIENTIFIC_LOCK_CONTRACT_V1.json",
+      "--lock-sha256",
+      "<lock-sha256>",
+      "--work",
+      "<fresh-local-work>",
+      "--result",
+      "<durable-result>",
+      "--candidate-commit",
+      "d7968a2de557513f2316d684b394ed851d1aae51"
+    ],
+    "organisms_per_regime": 8,
+    "output_schema": "AS018_FORMAL_POPULATION_V1",
+    "preflight_command": [
+      "/home/sketch/cs14n-runtime/bin/python",
+      "tools/as018_run_formal.py",
+      "--manifest",
+      "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V1.json",
+      "--lock",
+      "experiments/as018/AS018_SCIENTIFIC_LOCK_CONTRACT_V1.json",
+      "--lock-sha256",
+      "<lock-sha256>",
+      "--work",
+      "/tmp/as018-formal-work-v1",
+      "--candidate-commit",
+      "d7968a2de557513f2316d684b394ed851d1aae51",
+      "--preflight"
+    ],
+    "regimes": [
+      "R0",
+      "R1",
+      "R2",
+      "R3"
+    ],
+    "scenarios": {
+      "R0": "S0",
+      "R1": "S16",
+      "R2": "S10",
+      "R3": "S12"
+    },
+    "stage_sequence": [
+      "REGISTERED",
+      "STARTED",
+      "EXECUTION_FINISHED",
+      "VALIDATION_STARTED",
+      "LOCALLY_VALIDATED",
+      "EXPORT_VERIFIED",
+      "CASE_FINISHED"
+    ],
+    "ticks_per_organism": 7200,
+    "total_organisms": 32,
+    "total_ticks": 230400
+  },
+  "predecessor_evidence": {
+    "as017_formal_failure_seed": 26489381,
+    "as017_terminal": "AS017_FRESH_R1_FAIL",
+    "as018_v1": "docs/evidence/as018/AS018_DEVELOPMENT_V1_VALIDATION_INTERRUPTION.json",
+    "as018_v2_replay": "docs/evidence/as018/AS018_DEVELOPMENT_V2_REPLAY_CLOSEOUT.json",
+    "as018_v3_development_only": true,
+    "historical_evidence_immutable": true
+  },
+  "publication_model": {
+    "execution_subject_production_subtree_matches": true,
+    "lock_publication_commit_is_governance_only": true,
+    "production_subtree": "umbra_core",
+    "production_subtree_sha_at_organism_subject": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863",
+    "semantic_production_subject_is_organism_implementation_sha": "e8d048b510a477e677637b67bc0f56473cfe6540"
+  },
+  "qualification_sequence": [
+    {
+      "acceptance": "all 32 cases satisfy frozen P0 contract",
+      "name": "fresh_integrated_population",
+      "stage": "P0"
+    },
+    {
+      "acceptance": "restart, snapshot/load, downtime, Habitat reattachment, body continuity/transfer",
+      "name": "lifecycle_continuity",
+      "stage": "P1"
+    },
+    {
+      "acceptance": "existing bounded persistence, RSS, storage, restart, and chain thresholds",
+      "name": "repeated_compaction_100k",
+      "stage": "P2"
+    },
+    {
+      "acceptance": "preregistered 300-second warmup plus 3600-second measurement protocol",
+      "name": "isolated_real_time_s3",
+      "stage": "P3"
+    },
+    {
+      "acceptance": "OPEN_REQUIRES_PROSPECTIVE_PROTOCOL for memory, relationships, self-model, WorldModel, individuality, temporal continuity, authoritative history",
+      "name": "essential_organization_causal_qualification",
+      "stage": "P4"
+    },
+    {
+      "acceptance": "OPEN_REQUIRES_PROSPECTIVE_PROTOCOL pending whole-organism protocol",
+      "name": "believable_creature_close_03",
+      "stage": "P5"
+    }
+  ],
+  "regression": {
+    "candidate_only_failures": 0,
+    "evidence_path": "docs/evidence/as018/AS018_REGRESSION_ACCOUNTING_V1.json",
+    "inherited_failures_unwaived": true,
+    "raw_result": "1422 passed / 4 skipped / 9 inherited failures"
+  },
+  "rre_authority_invariants": [
+    "ROBUST_NOW, BOUNDED_RECOVERY_OPPORTUNITY, MAY_ROUTE, and UNKNOWN_ROUTE remain distinct",
+    "RRE is a viability constraint, not a preference owner or action selector",
+    "only supported recovery-reserve-eliminating candidates may be rejected under a genuine threat",
+    "normal distributed arbitration remains authoritative among surviving candidates",
+    "no Habitat coordinates, hidden IDs, renderer state, or future-world truth enter RRE",
+    "body and movement support originate through lawful SelfModel/body evidence",
+    "physiology projection follows owner effect-clamp then drift-clamp semantics",
+    "unsupported or probabilistic route evidence remains UNKNOWN or MAY_ROUTE",
+    "RRE is dormant outside the recovery-reserve threat boundary"
+  ],
+  "schema": "AS018_SCIENTIFIC_LOCK_CONTRACT_V1",
+  "sealed_master_sha": "fd8c50e1134d7d2ef54e20148ac9b7880e63708d",
+  "seed_contract": {
+    "disjointness_path": "experiments/as018/AS018_FORMAL_SEED_DISJOINTNESS_V1.json",
+    "disjointness_scope": "The local repository and accessible retained evidence were scanned. External host-only historical seed registries unavailable to this checkout were not independently verified; universal disjointness outside this scope is not claimed.",
+    "disjointness_sha256": "62a34b95a6939768717d2d37de432777dbef1aa9d9779854ec7bc117dfdbb5d4",
+    "formal_regimes": {
+      "R0": [
+        99100001,
+        99100002,
+        99100003,
+        99100004,
+        99100005,
+        99100006,
+        99100007,
+        99100008
+      ],
+      "R1": [
+        99100009,
+        99100010,
+        99100011,
+        99100012,
+        99100013,
+        99100014,
+        99100015,
+        99100016
+      ],
+      "R2": [
+        99100017,
+        99100018,
+        99100019,
+        99100020,
+        99100021,
+        99100022,
+        99100023,
+        99100024
+      ],
+      "R3": [
+        99100025,
+        99100026,
+        99100027,
+        99100028,
+        99100029,
+        99100030,
+        99100031,
+        99100032
+      ]
+    },
+    "formal_seed_count": 32,
+    "formal_seeds_consumed_at_lock": 0,
+    "manifest_path": "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V1.json",
+    "manifest_sha256": "9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c",
+    "organisms_per_regime": 8,
+    "reseeds": 0,
+    "retries": 0,
+    "substitutions": 0,
+    "ticks_per_organism": 7200,
+    "total_ticks": 230400
+  },
+  "stop_rules": {
+    "after_lock_forbidden": [
+      "repair",
+      "retry",
+      "reseed",
+      "substitution",
+      "threshold_change",
+      "scenario_change",
+      "horizon_change",
+      "execution_mode_change",
+      "RRE_semantic_change"
+    ],
+    "consumed_seed_remains_consumed_after_interruption": true,
+    "downstream_not_run_after_failed_upstream_stage": true,
+    "first_preregistered_scientific_or_protocol_failure_terminal_for_active_stage": true,
+    "infrastructure_failure_classified_separately": true
+  }
+}

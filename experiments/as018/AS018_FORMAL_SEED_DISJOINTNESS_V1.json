@@ -1,0 +1,41 @@
+{
+  "schema": "AS018_FORMAL_SEED_DISJOINTNESS_V1",
+  "directive": "UMBRA-AS-018",
+  "classification": "fresh_formal_population_disjointness_proof",
+  "manifest": "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V1.json",
+  "manifest_sha256": "9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c",
+  "candidate_range": [99100001, 99100032],
+  "manifest_seed_count": 32,
+  "manifest_unique_seed_count": 32,
+  "explicit_exclusions": [
+    "all AS-017 formal seeds, including consumed seed 26489381",
+    "all AS-017 development and diagnostic/reproduction seeds",
+    "AS-018 V1 retired manifest 88000001-88000032",
+    "AS-018 V2 development manifest 88100001-88100032",
+    "AS-015 and AS-016 population seeds",
+    "historical formal, development, diagnostic, reproduction, performance, and ablation seeds discoverable in the local records"
+  ],
+  "scan_scope": {
+    "roots": [".agent", "experiments", "tools", "docs/evidence", "evidence"],
+    "method": "binary-safe exact-token scan of every non-.git path plus explicit seed-bearing manifest/history review",
+    "candidate_exact_collision_files": [],
+    "candidate_exact_collision_count": 0,
+    "candidate_tokens_scanned": 32,
+    "source_records_checked": [
+      "experiments/as017/AS017_FORMAL_SEED_MANIFEST_V1.json",
+      "experiments/as017/registered_development_seed_manifest.json",
+      "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V1.json",
+      "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V2.json",
+      "docs/evidence/as018/AS018_DEVELOPMENT_V1_VALIDATION_INTERRUPTION.json",
+      "docs/evidence/as018/AS018_DEVELOPMENT_V2_REPLAY_CLOSEOUT.json",
+      "docs/evidence/as018/AS018_DEVELOPMENT_SEED_DISJOINTNESS_V2.json"
+    ]
+  },
+  "formal_seed_consumption": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "substitutions": 0,
+  "result": "PASS",
+  "qualification_status": "fresh_formal_manifest_registered_before_observation",
+  "limitation": "The local repository and accessible retained evidence were scanned. External host-only historical seed registries unavailable to this checkout were not independently verified; universal disjointness outside this scope is not claimed."
+}

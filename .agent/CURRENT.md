@@ -2205,3 +2205,9 @@ only failures are zero. The raw applicable suite is therefore not wholly
 green, and the inherited failures remain visible and unwaived. V3 is
 development evidence only and is ready for Architect lock review; no
 scientific lock or formal execution has been established.
+
+AS-018 scientific-lock establishment is now authorized. The lock-only work
+must freeze organism semantics at `e8d048b510a477e677637b67bc0f56473cfe6540`,
+register a new 32-seed formal manifest before observation, prove local-scope
+disjointness, and run only synthetic/contract preflight. Formal organisms and
+formal seed consumption remain zero. AS-017 remains terminal and immutable.
