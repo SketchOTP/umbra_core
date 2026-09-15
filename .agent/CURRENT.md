@@ -2174,3 +2174,15 @@ case executed 7200 ticks and then failed because the old read-only validator
 assumed genesis-relative event numbering (`sequence_gap:1:32740`) after a valid
 checkpoint. The remaining case states are unresolved. See
 `docs/evidence/as018/AS018_DEVELOPMENT_V1_VALIDATION_INTERRUPTION.json`.
+
+The subsequent attempt `job-mu19vmap-a3244036` completed 32/32 cases and
+validated 230400 ticks on `e8d048b510a477e677637b67bc0f56473cfe6540`, with
+53570 envelope evaluations, 4870 bounded opportunities, 4870 reserve
+activations, and 32 envelope rejections. It is preserved as non-qualifying
+replay evidence because it reused the retired V1 manifest after seed 88000001
+had already executed. See
+`docs/evidence/as018/AS018_DEVELOPMENT_V2_REPLAY_CLOSEOUT.json`.
+
+The V1 manifest is retired. Fresh manifest V2 uses seeds 88100001-88100032;
+the disjointness scan found no collisions across 758 JSON artifacts. No fresh
+V2-manifest population has started.

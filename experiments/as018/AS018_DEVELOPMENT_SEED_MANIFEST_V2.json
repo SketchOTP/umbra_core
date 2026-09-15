@@ -1,0 +1,32 @@
+{
+  "schema": "AS018_DEVELOPMENT_SEED_MANIFEST_V2",
+  "directive": "UMBRA-AS-018",
+  "classification": "fresh_excluded_development_population",
+  "seed_status": "registered_before_observation",
+  "predecessor_manifest": "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V1.json",
+  "predecessor_manifest_sha256": "983acbc693182eb434244ae4167ba8f4a1877ea3529e963300a1e487d02141f7",
+  "organism_subject": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+  "execution_candidate": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "source_baseline": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+  "development_regimes": {
+    "R0": [88100001, 88100002, 88100003, 88100004, 88100005, 88100006, 88100007, 88100008],
+    "R1": [88100009, 88100010, 88100011, 88100012, 88100013, 88100014, 88100015, 88100016],
+    "R2": [88100017, 88100018, 88100019, 88100020, 88100021, 88100022, 88100023, 88100024],
+    "R3": [88100025, 88100026, 88100027, 88100028, 88100029, 88100030, 88100031, 88100032]
+  },
+  "regime_scenarios": {
+    "R0": "S0",
+    "R1": "S16",
+    "R2": "S10",
+    "R3": "S12"
+  },
+  "allocation": "mechanical sequential allocation in disjoint range 88100001-88100032",
+  "disjointness_scan_scope": "repository JSON seed-bearing fields plus retained formal runs and AS-018 V1/V2 evidence",
+  "organisms_per_regime": 8,
+  "ticks_per_organism": 7200,
+  "total_organisms": 32,
+  "total_ticks": 230400,
+  "retries": 0,
+  "reseeds": 0,
+  "substitutions": 0
+}

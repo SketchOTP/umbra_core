@@ -1,0 +1,20 @@
+{
+  "schema": "AS018_DEVELOPMENT_SEED_DISJOINTNESS_V2",
+  "directive": "UMBRA-AS-018",
+  "classification": "fresh_excluded_development_only",
+  "manifest": "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V2.json",
+  "manifest_sha256": "d09e816ee2f0cbbcd82413a511dde8071ca4e689b35ac9c9aa99afb19a2e668b",
+  "predecessor_manifest": "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V1.json",
+  "predecessor_manifest_sha256": "983acbc693182eb434244ae4167ba8f4a1877ea3529e963300a1e487d02141f7",
+  "candidate_range": [88100001, 88100032],
+  "manifest_seed_count": 32,
+  "manifest_unique_seed_count": 32,
+  "scan_scope": "repository JSON seed-bearing fields plus retained formal runs and AS-018 V1/V2 evidence",
+  "json_files_scanned": 758,
+  "collisions": [],
+  "formal_seed_consumption": 0,
+  "retries": 0,
+  "reseeds": 0,
+  "substitutions": 0,
+  "qualification_status": "not_formal_and_not_lock_authorized"
+}

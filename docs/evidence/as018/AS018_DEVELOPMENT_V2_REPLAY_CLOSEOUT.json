@@ -1,0 +1,28 @@
+{
+  "schema": "AS018_DEVELOPMENT_V2_REPLAY_CLOSEOUT",
+  "directive": "UMBRA-AS-018",
+  "attempt_id": "job-mu19vmap-a3244036",
+  "candidate_commit": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "manifest": "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V1.json",
+  "manifest_sha256": "983acbc693182eb434244ae4167ba8f4a1877ea3529e963300a1e487d02141f7",
+  "terminal": "AS018_DEVELOPMENT_PASS",
+  "process_exit_code": 0,
+  "completed_runs": 32,
+  "validated_cases": 32,
+  "ticks": 230400,
+  "regimes": {"R0": {"cases": 8, "ticks": 57600}, "R1": {"cases": 8, "ticks": 57600}, "R2": {"cases": 8, "ticks": 57600}, "R3": {"cases": 8, "ticks": 57600}},
+  "retries": 0,
+  "reseeds": 0,
+  "substitutions": 0,
+  "formal_seeds_consumed": 0,
+  "rre_statistics": {
+    "envelope_evaluations": 53570,
+    "bounded_opportunities": 4870,
+    "reserve_activations": 4870,
+    "envelope_rejections": 32
+  },
+  "result_sha256": "96e6d1189e0ceff5d7cb4dc9178b61460f2f3b4761942c24d785e93802f11002",
+  "stage_journal_sha256": "995f811ef4cbe22bcc81b831da1c4317c717a3a65cf69210749ebd10fe2549e8",
+  "qualification_disposition": "NON_QUALIFYING_REPLAY_RETIRE_MANIFEST",
+  "reason": "Seed 88000001 had already executed in AS-018 V1 before V2 started; all V2 rows are preserved process evidence but cannot satisfy the fresh 32-case requirement."
+}

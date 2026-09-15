@@ -25,6 +25,18 @@ def test_registered_development_manifest_is_fresh_and_complete() -> None:
     assert manifest["retries"] == manifest["reseeds"] == manifest["substitutions"] == 0
 
 
+def test_replacement_development_manifest_is_fresh_and_disjoint() -> None:
+    path = ROOT / "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V2.json"
+    manifest = json.loads(path.read_text())
+    seeds = [seed for regime in REGIMES for seed in manifest["development_regimes"][regime]]
+    assert manifest["schema"] == "AS018_DEVELOPMENT_SEED_MANIFEST_V2"
+    assert manifest["predecessor_manifest_sha256"] == "983acbc693182eb434244ae4167ba8f4a1877ea3529e963300a1e487d02141f7"
+    assert seeds == list(range(88100001, 88100033))
+    assert len(seeds) == len(set(seeds)) == 32
+    assert manifest["ticks_per_organism"] == 7200
+    assert manifest["retries"] == manifest["reseeds"] == manifest["substitutions"] == 0
+
+
 def test_as018_configuration_explicitly_enables_only_the_rre_switch(tmp_path: Path) -> None:
     value = config(81818003, tmp_path / "config.sqlite", "R0")
     assert value.recovery_reachability_enabled is True

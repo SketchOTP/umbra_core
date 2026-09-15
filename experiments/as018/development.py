@@ -61,7 +61,10 @@ def execute(
 ) -> dict[str, Any]:
     regimes = manifest.get("development_regimes")
     if (
-        manifest.get("schema") != "AS018_DEVELOPMENT_SEED_MANIFEST_V1"
+        manifest.get("schema") not in {
+            "AS018_DEVELOPMENT_SEED_MANIFEST_V1",
+            "AS018_DEVELOPMENT_SEED_MANIFEST_V2",
+        }
         or manifest.get("directive") != DIRECTIVE
         or tuple(regimes or ()) != REGIMES
         or any(len(regimes[regime]) != 8 for regime in REGIMES)
@@ -92,7 +95,7 @@ def execute(
                 on_case(row)
             if row.get("terminal") != "completed":
                 return {
-                    "schema": "AS018_DEVELOPMENT_CHALLENGE_V1",
+                    "schema": f"AS018_DEVELOPMENT_CHALLENGE_{manifest['schema'][-2:]}",
                     "directive": DIRECTIVE,
                     "expected_runs": 32,
                     "completed_runs": len(rows),
@@ -101,7 +104,7 @@ def execute(
                     "rows": rows,
                 }
     return {
-        "schema": "AS018_DEVELOPMENT_CHALLENGE_V1",
+        "schema": f"AS018_DEVELOPMENT_CHALLENGE_{manifest['schema'][-2:]}",
         "directive": DIRECTIVE,
         "expected_runs": 32,
         "completed_runs": 32,

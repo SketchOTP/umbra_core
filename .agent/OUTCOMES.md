@@ -2183,3 +2183,18 @@ validator accepts that representation, while the legacy read-only validator did
 not. No aggregate result was emitted, remaining case states are unresolved,
 and no scientific organism verdict is assigned. The preserved interruption
 record is `docs/evidence/as018/AS018_DEVELOPMENT_V1_VALIDATION_INTERRUPTION.json`.
+
+## AS-018 development V2 replay closeout — 2026-09-15
+
+Attempt `job-mu19vmap-a3244036` completed and validated all 32 registered cases
+(`230400` ticks) on `e8d048b510a477e677637b67bc0f56473cfe6540`. The run recorded
+53570 envelope evaluations, 4870 bounded opportunities, 4870 reserve
+activations, and 32 envelope rejections. It is permanently non-qualifying:
+seed `88000001` had already executed in V1 before V2 began, so the entire V1
+manifest is retired and no rows are pooled. See
+`docs/evidence/as018/AS018_DEVELOPMENT_V2_REPLAY_CLOSEOUT.json`.
+
+Fresh manifest V2, seeds `88100001-88100032`, is registered with hash
+`d09e816ee2f0cbbcd82413a511dde8071ca4e689b35ac9c9aa99afb19a2e668b`; the
+disjointness scan covered 758 JSON artifacts with zero collisions. A fresh
+population has not started.
