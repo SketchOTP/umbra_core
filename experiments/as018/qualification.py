@@ -18,11 +18,16 @@ EXECUTION_SUBJECT = "d7968a2de557513f2316d684b394ed851d1aae51"
 def validate_manifest(manifest: dict[str, Any]) -> None:
     regimes = manifest.get("formal_regimes")
     if (
-        manifest.get("schema") != "AS018_FORMAL_SEED_MANIFEST_V1"
+        manifest.get("schema") not in {
+            "AS018_FORMAL_SEED_MANIFEST_V1",
+            "AS018_FORMAL_SEED_MANIFEST_V2",
+        }
         or manifest.get("directive") != DIRECTIVE
         or manifest.get("seed_status") != "frozen_before_formal_execution"
         or manifest.get("organism_implementation_sha") != ORGANISM_IMPLEMENTATION_SHA
-        or manifest.get("formal_execution_subject") != EXECUTION_SUBJECT
+        or not isinstance(manifest.get("formal_execution_subject"), str)
+        or len(manifest.get("formal_execution_subject", "")) != 40
+        or any(char not in "0123456789abcdef" for char in manifest.get("formal_execution_subject", "").lower())
         or tuple(regimes or ()) != REGIMES
         or any(len(regimes[regime]) != 8 for regime in REGIMES)
         or manifest.get("ticks_per_organism") != HORIZON
@@ -31,6 +36,11 @@ def validate_manifest(manifest: dict[str, Any]) -> None:
         or any(manifest.get(name) != 0 for name in ("retries", "reseeds", "substitutions", "formal_seeds_consumed"))
     ):
         raise RuntimeError("AS018_FORMAL_MANIFEST_CONTRACT_INVALID")
+    if (
+        manifest.get("schema") == "AS018_FORMAL_SEED_MANIFEST_V1"
+        and manifest.get("formal_execution_subject") != EXECUTION_SUBJECT
+    ):
+        raise RuntimeError("AS018_FORMAL_MANIFEST_EXECUTION_SUBJECT_INVALID")
     seeds = [int(seed) for regime in REGIMES for seed in regimes[regime]]
     if len(seeds) != 32 or len(set(seeds)) != 32:
         raise RuntimeError("AS018_FORMAL_SEED_UNIQUENESS_INVALID")
@@ -75,18 +85,20 @@ def execute(
         for seed_index, seed in enumerate(manifest["formal_regimes"][regime]):
             seed = int(seed)
             case_id = _case_id(regime, seed_index, seed)
-            accounting.start(case_id)
             start = {
-                "stage": "STARTED",
                 "case_id": case_id,
                 "regime": regime,
                 "seed": seed,
                 "seed_index": seed_index,
                 "target_ticks": horizon,
             }
-            started.append(start)
             if on_case_start is not None:
                 on_case_start(start)
+            # The callback is the durable STARTED boundary.  Only after it
+            # succeeds may the in-memory accounting consume the seed or may
+            # organism execution begin.
+            accounting.start(case_id)
+            started.append({"stage": "STARTED", **start})
             row = run_case(regime, seed, work, horizon)
             row.update(
                 schema="AS018_FORMAL_CASE_V1",
@@ -95,7 +107,7 @@ def execute(
                 candidate_commit=candidate_commit,
                 seed_manifest_sha256=manifest_sha256,
                 organism_implementation_sha=ORGANISM_IMPLEMENTATION_SHA,
-                formal_execution_subject=EXECUTION_SUBJECT,
+                formal_execution_subject=manifest["formal_execution_subject"],
                 regime=regime,
                 scenario=SCENARIOS[regime],
                 seed_index=seed_index,

@@ -156,7 +156,19 @@ class StageJournal:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._handle = path.open("x", encoding="utf-8")
 
-    def append(self, stage: str, **fields: Any) -> None:
+    def append(self, *args: Any, **fields: Any) -> None:
+        if len(args) > 1:
+            raise EvidenceFormatError("stage_journal_stage_argument_invalid")
+        if args and "stage" in fields:
+            raise EvidenceFormatError("reserved_stage_journal_field")
+        if "stage" in fields:
+            stage = fields.pop("stage")
+        elif args:
+            stage = args[0]
+        else:
+            raise EvidenceFormatError("stage_journal_stage_required")
+        if "schema" in fields:
+            raise EvidenceFormatError("reserved_stage_journal_field")
         record = {
             "schema": "AS017_STAGE_RECORD_V1",
             "stage": stage,

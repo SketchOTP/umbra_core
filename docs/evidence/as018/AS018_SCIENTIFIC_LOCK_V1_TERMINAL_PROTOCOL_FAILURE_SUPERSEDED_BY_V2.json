@@ -1,0 +1,23 @@
+{
+  "schema": "AS018_SCIENTIFIC_LOCK_V1_TERMINAL_PROTOCOL_FAILURE_SUPERSEDED_BY_V2",
+  "directive": "UMBRA-AS-018",
+  "v1_lock_sha256": "f7d90b233b73e46e5b34c34035c4ea030afed3fbf83da07159f54ec6769e6adb",
+  "v1_manifest_sha256": "9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c",
+  "v1_closeout": "docs/evidence/as018/AS018_FORMAL_P0_CLOSEOUT_V1.json",
+  "v1_closeout_sha256": "81b1978c31848764fafdf9796407360fb1ff3b3a612b9b627fcc7384c07f9fba",
+  "status": "V1_TERMINAL_PROTOCOL_FAILURE_SUPERSEDED_PRE_EXECUTION_BY_V2",
+  "v1_formal_seeds": {
+    "99100001": "FORMALLY_CONSUMED",
+    "99100002-99100032": "NOT_CONSUMED_BUT_RETIRED_FROM_FUTURE_QUALIFICATION"
+  },
+  "v1_result": {
+    "organisms_created": 0,
+    "ticks": 0,
+    "accepted_cases": 0,
+    "scientific_viability_verdict": "NOT_DETERMINED",
+    "failure": "StageJournal.append() got multiple values for argument 'stage'"
+  },
+  "prohibition": "No V1 seed may be used by Lock V2 or any later formal qualification population; V1 rows cannot be pooled or relabeled.",
+  "v2_scope": "Harness/accounting correction only; organism semantic subject and scientific thresholds remain unchanged.",
+  "formal_seeds_consumed_by_v2_at_registration": 0
+}

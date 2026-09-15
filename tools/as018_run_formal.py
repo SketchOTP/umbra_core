@@ -13,13 +13,25 @@ import sys
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from experiments.as018.qualification import EXECUTION_SUBJECT, execute, validate_manifest
+from experiments.as018.qualification import execute, validate_manifest
 from tools.as017_evidence import StageJournal, publish_json_once, stream_sha256
 from tools.as018_formal_acceptance import accept_case
 
 
 ROOT = Path(__file__).resolve().parents[1]
-LOCK_PATH = ROOT / "experiments/as018/AS018_SCIENTIFIC_LOCK_CONTRACT_V1.json"
+LOCK_PATH = ROOT / "experiments/as018/AS018_SCIENTIFIC_LOCK_CONTRACT_V2.json"
+
+
+def append_started_record(journal: StageJournal, info: dict[str, object]) -> None:
+    """Persist the exact live STARTED record with journal fields reserved."""
+    journal.append(
+        "STARTED",
+        case_id=str(info["case_id"]),
+        regime=str(info["regime"]),
+        seed=int(info["seed"]),
+        seed_index=int(info["seed_index"]),
+        target_ticks=int(info["target_ticks"]),
+    )
 
 
 def head() -> str:
@@ -40,7 +52,10 @@ def require_lock(lock_path: Path, expected_hash: str, candidate_commit: str) -> 
     if not lock_path.is_file() or stream_sha256(lock_path) != expected_hash:
         raise RuntimeError("AS018_FORMAL_LOCK_HASH_MISMATCH")
     value = json.loads(lock_path.read_text(encoding="utf-8"))
-    if value.get("schema") != "AS018_SCIENTIFIC_LOCK_CONTRACT_V1":
+    if value.get("schema") not in {
+        "AS018_SCIENTIFIC_LOCK_CONTRACT_V1",
+        "AS018_SCIENTIFIC_LOCK_CONTRACT_V2",
+    }:
         raise RuntimeError("AS018_FORMAL_LOCK_SCHEMA_INVALID")
     if value.get("organism_implementation_sha") != "e8d048b510a477e677637b67bc0f56473cfe6540":
         raise RuntimeError("AS018_FORMAL_LOCK_ORGANISM_MISMATCH")
@@ -76,6 +91,8 @@ def main() -> None:
     manifest_hash = stream_sha256(args.manifest)
     if lock["seed_contract"]["manifest_sha256"] != manifest_hash:
         raise RuntimeError("AS018_FORMAL_LOCK_MANIFEST_HASH_MISMATCH")
+    if lock.get("formal_execution_subject") != manifest.get("formal_execution_subject"):
+        raise RuntimeError("AS018_FORMAL_LOCK_MANIFEST_EXECUTION_SUBJECT_MISMATCH")
     if args.preflight:
         print(json.dumps({
             "schema": "AS018_FORMAL_CLI_PREFLIGHT_V1",
@@ -116,7 +133,7 @@ def main() -> None:
             journal.append("REGISTERED_CASE", case_id=case_id)
 
     def on_case_start(info: dict[str, object]) -> None:
-        journal.append("STARTED", **info)
+        append_started_record(journal, info)
 
     def on_execution_finished(row: dict[str, object]) -> None:
         journal.append(

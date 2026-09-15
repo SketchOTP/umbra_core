@@ -152,6 +152,13 @@ def test_stage_journal_is_append_only_and_fsync_backed(tmp_path: Path) -> None:
     assert rows[1]["case_id"] == "R0-00-1"
 
 
+def test_stage_journal_rejects_reserved_field_override(tmp_path: Path) -> None:
+    journal = StageJournal(tmp_path / "stages.jsonl")
+    with pytest.raises(EvidenceFormatError, match="reserved_stage_journal_field"):
+        journal.append("STARTED", case_id="R0-00-1", stage="CORRUPTED")
+    journal.close()
+
+
 def test_stage_summary_keeps_interrupted_case_unresolved(tmp_path: Path) -> None:
     path = tmp_path / "stages.jsonl"
     journal = StageJournal(path)
