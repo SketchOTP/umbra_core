@@ -1,0 +1,60 @@
+{
+  "schema": "AS018_DEVELOPMENT_V3_CLOSEOUT",
+  "directive": "UMBRA-AS-018",
+  "qualification_status": "DEVELOPMENT_EVIDENCE_ONLY_READY_FOR_ARCHITECT_LOCK_REVIEW",
+  "organism_semantic_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "execution_checkout_commit": "90fdc1fa80beccca9687837a8868f8b82256af28",
+  "source_binding": {
+    "production_path_diff_between_subjects": [],
+    "interpretation": "The execution checkout adds only AS-018 manifest, development-harness, test, evidence, and governance files; no umbra_core or AS-014 through AS-016 organism path differs from e8d048b."
+  },
+  "manifest": "experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V2.json",
+  "manifest_sha256": "d09e816ee2f0cbbcd82413a511dde8071ca4e689b35ac9c9aa99afb19a2e668b",
+  "seed_disjointness_artifact": "docs/evidence/as018/AS018_DEVELOPMENT_SEED_DISJOINTNESS_V2.json",
+  "population": {
+    "job_id": "job-mu20e6je-a8ba8dda",
+    "command": "/home/sketch/cs14n-runtime/bin/python -m experiments.as018.run_development --manifest /tmp/umbra-as018-exec-v3/experiments/as018/AS018_DEVELOPMENT_SEED_MANIFEST_V2.json --output /tmp/as018-development-v3-20260915",
+    "checkout": "/tmp/umbra-as018-exec-v3",
+    "terminal": "AS018_DEVELOPMENT_PASS",
+    "process_exit_code": 0,
+    "expected_cases": 32,
+    "completed_cases": 32,
+    "validated_cases": 32,
+    "ticks": 230400,
+    "regimes": {"R0": {"cases": 8, "ticks": 57600}, "R1": {"cases": 8, "ticks": 57600}, "R2": {"cases": 8, "ticks": 57600}, "R3": {"cases": 8, "ticks": 57600}},
+    "retries": 0,
+    "reseeds": 0,
+    "substitutions": 0,
+    "formal_seeds_consumed": 0,
+    "stage_counts": {"STARTED": 32, "EXECUTION_FINISHED": 32, "CASE_FINISHED": 32},
+    "result_sha256": "0c4d8398452b9efda20a1344b96ce3a75e0665292cce7bc711cc9d252b5ab694",
+    "stage_journal_sha256": "5d32b878f80ca8682875cb7c47b4b5b44997eb4cfcd629e0d3841c343d627800",
+    "trace_files": 32,
+    "trace_bytes": 2835505139,
+    "trace_inventory_sha256": "dd373629118064a88a6499335408c48b170d0053abc1063a4dfdb79ae1fdd292",
+    "database_validation": {"all_cases_pass": true, "sqlite_integrity_failures": 0, "foreign_key_failures": 0, "chain_failures": 0, "terminal_tick_failures": 0}
+  },
+  "rre_statistics": {"envelope_evaluations": 48037, "bounded_opportunities": 4367, "reserve_activations": 4367, "envelope_rejections": 20},
+  "regression": {
+    "job_id": "job-mu35hkw0-04cc2355",
+    "checkout": "/tmp/umbra-as018-exec-v3",
+    "command": "/home/sketch/cs14n-runtime/bin/pytest -q",
+    "exit_code": 1,
+    "passed": 1422,
+    "skipped": 4,
+    "failed": 9,
+    "candidate_only_failures": 0,
+    "stdout_sha256": "e688a98261f09639483635c335e03ff62cfe00bfc1e8b66d5d919a0597f0c6da",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "failure_disposition_artifact": "docs/evidence/as018/AS018_REGRESSION_ACCOUNTING_V1.json",
+    "raw_suite_status": "NOT_WHOLLY_GREEN_INHERITED_FAILURES_VISIBLE"
+  },
+  "focused_validation": {"tests": 36, "passed": 36, "formal_seeds_consumed": 0},
+  "formal_status": {"lock": false, "formal_launch": false, "formal_seeds_consumed": 0},
+  "limitations": [
+    "The nine inherited failures remain visible and are not waived by this packet.",
+    "The fresh population rows record execution checkout 90fdc1f; the manifest binds the organism semantic subject to e8d048b and the production-path diff between them is empty.",
+    "RRE counts demonstrate participation but do not by themselves establish formal viability or the full end-goal criteria."
+  ],
+  "evidence_level": "CODER_VERIFIED"
+}

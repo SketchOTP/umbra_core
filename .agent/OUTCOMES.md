@@ -2198,3 +2198,23 @@ Fresh manifest V2, seeds `88100001-88100032`, is registered with hash
 `d09e816ee2f0cbbcd82413a511dde8071ca4e689b35ac9c9aa99afb19a2e668b`; the
 disjointness scan covered 758 JSON artifacts with zero collisions. A fresh
 population has not started.
+
+## AS-018 fresh development V3 closeout — 2026-09-15
+
+Attempt `job-mu20e6je-a8ba8dda` completed 32/32 validated cases and
+`230400/230400` ticks using fresh manifest V2 (`88100001-88100032`). The
+organism semantic subject was `e8d048b510a477e677637b67bc0f56473cfe6540`;
+the execution checkout was `90fdc1fa80beccca9687837a8868f8b82256af28`, with
+no production-path difference from the semantic subject. All database,
+checkpoint/tail, trace, and semantic-linkage checks passed. The run recorded
+zero retries, reseeds, substitutions, and formal seeds; RRE recorded 48037
+evaluations, 4367 bounded opportunities/reserve activations, and 20 envelope
+rejections. Full details are in
+`docs/evidence/as018/AS018_DEVELOPMENT_V3_CLOSEOUT.json`.
+
+The exact-candidate regression result was `1422 passed / 4 skipped / 9
+failed`, with the same nine failures reproduced on the recorded baseline and
+zero candidate-only failures. The nine inherited failures, skips, and raw
+non-green status remain visible and unwaived. V3 is preserved as development
+evidence only and is ready for Architect lock review; scientific lock and
+formal execution remain pending.

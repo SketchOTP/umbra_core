@@ -2186,3 +2186,22 @@ had already executed. See
 The V1 manifest is retired. Fresh manifest V2 uses seeds 88100001-88100032;
 the disjointness scan found no collisions across 758 JSON artifacts. No fresh
 V2-manifest population has started.
+
+The fresh AS-018 development attempt `job-mu20e6je-a8ba8dda` completed 32/32
+validated cases and 230400/230400 ticks on manifest V2. Its organism semantic
+subject is `e8d048b510a477e677637b67bc0f56473cfe6540`; the execution checkout
+was `90fdc1fa80beccca9687837a8868f8b82256af28`, whose production-path diff
+against the organism subject was empty and whose additional changes were
+development harness, manifest, tests, evidence, and governance records. The
+run recorded zero retries, reseeds, substitutions, and formal seeds. Database,
+checkpoint/tail, trace, and semantic-linkage validation passed for all 32
+cases. RRE recorded 48037 evaluations, 4367 bounded opportunities/reserve
+activations, and 20 envelope rejections. See
+`docs/evidence/as018/AS018_DEVELOPMENT_V3_CLOSEOUT.json`.
+
+The exact-candidate regression completed with 1422 passed, 4 skipped, and 9
+inherited failures; all nine reproduce on the recorded baseline and candidate-
+only failures are zero. The raw applicable suite is therefore not wholly
+green, and the inherited failures remain visible and unwaived. V3 is
+development evidence only and is ready for Architect lock review; no
+scientific lock or formal execution has been established.
