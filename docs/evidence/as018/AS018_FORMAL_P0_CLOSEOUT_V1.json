@@ -1,0 +1,59 @@
+{
+  "schema": "AS018_FORMAL_P0_CLOSEOUT_V1",
+  "directive": "UMBRA-AS-018",
+  "terminal_verdict": "AS018_P0_PROTOCOL_FAIL_BEFORE_ORGANISM_CREATION",
+  "job_id": "job-mu393asc-f311c9dc",
+  "exit_code": 1,
+  "execution_subject": "6a68f6806ebdd601b7daabea560775a1e5b589cb",
+  "organism_semantic_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "lock_sha256": "f7d90b233b73e46e5b34c34035c4ea030afed3fbf83da07159f54ec6769e6adb",
+  "manifest_sha256": "9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c",
+  "formal_accounting": {
+    "registered_cases": 32,
+    "durable_started_records": 0,
+    "in_memory_started_cases": 1,
+    "attempted_case": "R0-00-99100001",
+    "formal_seed_consumption_by_frozen_started_rule": 1,
+    "consumed_seed": 99100001,
+    "organisms_created": 0,
+    "accepted_cases": 0,
+    "completed_executions": 0,
+    "retries": 0,
+    "reseeds": 0,
+    "substitutions": 0
+  },
+  "failure": {
+    "classification": "INFRASTRUCTURE_PROTOCOL_FAILURE",
+    "scientific_verdict": "NOT_DETERMINED",
+    "stage": "STARTED_CALLBACK_BEFORE_ORGANISM_EXECUTION",
+    "exception_type": "TypeError",
+    "exception": "StageJournal.append() got multiple values for argument 'stage'",
+    "source": {
+      "path": "tools/as018_run_formal.py",
+      "line": 119,
+      "expression": "journal.append(\"STARTED\", **info)"
+    },
+    "execution_call_reached": false,
+    "organism_creation_reached": false
+  },
+  "preserved_evidence": {
+    "stage_journal": "/tmp/as018-p0-formal-work-v1.stages.jsonl",
+    "stage_journal_sha256": "da1cdff46fa585a84775ba7b473bf185ffad28a45683fd478b5a9cdda9b29a1d",
+    "stage_journal_records": 34,
+    "work_directory": "/tmp/as018-p0-formal-work-v1",
+    "work_directory_file_count": 0,
+    "result_artifact": "/tmp/as018-p0-formal-result-v1.json",
+    "result_artifact_present": false,
+    "cpj_stdout": "",
+    "cpj_stderr_contains_exact_failure": true
+  },
+  "downstream": {
+    "P1_started": false,
+    "P2_started": false,
+    "P3_started": false,
+    "P4_started": false,
+    "P5_started": false
+  },
+  "disposition": "P0_STOPPED_FIRST_PROTOCOL_FAILURE_NO_RERUN_NO_RESEED_NO_REPAIR",
+  "limitation": "No organism trajectory, physiology result, or scientific viability verdict was produced. The durable journal lacks STARTED because the callback failed during its argument binding; the runner had already entered its in-memory STARTED accounting transition, so seed 99100001 remains consumed under the frozen rule."
+}

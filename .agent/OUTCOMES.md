@@ -2245,3 +2245,22 @@ Formal manifest SHA-256: `9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93
 Disjointness SHA-256: `62a34b95a6939768717d2d37de432777dbef1aa9d9779854ec7bc117dfdbb5d4`.
 Preflight evidence: `docs/evidence/as018/AS018_SCIENTIFIC_LOCK_PREFLIGHT_V1.json`.
 P0 formal launch is not automatic and remains pending Architect launch review.
+
+## AS-018 P0 formal closeout — protocol failure before organism creation — 2026-09-15
+
+The one authorized formal P0 attempt (`job-mu393asc-f311c9dc`) terminated with
+exit code 1 on the first registered case `R0-00-99100001`. It failed in the
+`STARTED` journal callback at `tools/as018_run_formal.py:119` with
+`TypeError: StageJournal.append() got multiple values for argument "stage"`.
+`run_case()` was not called, the work directory contains zero files, and no
+formal organism was created. The in-memory accounting had already entered
+`STARTED`, so seed `99100001` is counted as consumed under the frozen rule,
+although the durable journal has zero `STARTED` records. There were zero
+accepted cases, zero ticks, zero retries/reseeds/substitutions, and no result
+manifest. P0 is terminally stopped as
+`AS018_P0_PROTOCOL_FAIL_BEFORE_ORGANISM_CREATION`; scientific verdict is not
+determined and P1-P5 were not run. Preserve the stage journal and closeout
+artifact unchanged; no repair or rerun is authorized without Architect review.
+Closeout artifact: `docs/evidence/as018/AS018_FORMAL_P0_CLOSEOUT_V1.json`.
+Stage-journal SHA-256:
+`da1cdff46fa585a84775ba7b473bf185ffad28a45683fd478b5a9cdda9b29a1d`.

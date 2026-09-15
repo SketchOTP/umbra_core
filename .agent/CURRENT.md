@@ -2223,3 +2223,19 @@ organisms and zero formal seeds consumed. Lock SHA-256 is
 SHA-256 is `9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c`.
 See `docs/evidence/as018/AS018_SCIENTIFIC_LOCK_PREFLIGHT_V1.json`. Formal P0
 launch remains pending separate Architect launch review.
+
+## AS-018 P0 formal closeout — protocol failure before organism creation — 2026-09-15
+
+The single authorized P0 launch `job-mu393asc-f311c9dc` stopped at the first
+case before `run_case()` or organism creation. The runner had entered its
+in-memory `STARTED` transition for `R0-00-99100001`, then the durable callback
+raised `TypeError: StageJournal.append() got multiple values for argument
+\"stage\"` at `tools/as018_run_formal.py:119`; the journal therefore contains
+no durable `STARTED` row. Under the frozen accounting rule, formal seed
+`99100001` is treated as consumed; durable started records, organisms created,
+accepted cases, execution ticks, and result artifact are all zero/absent.
+This is `AS018_P0_PROTOCOL_FAIL_BEFORE_ORGANISM_CREATION`, scientific verdict
+not determined. No retry, reseed, repair, or downstream P1-P5 stage occurred.
+Stage-journal SHA-256 is
+`da1cdff46fa585a84775ba7b473bf185ffad28a45683fd478b5a9cdda9b29a1d`.
+See `docs/evidence/as018/AS018_FORMAL_P0_CLOSEOUT_V1.json`.
