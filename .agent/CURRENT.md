@@ -2211,3 +2211,15 @@ must freeze organism semantics at `e8d048b510a477e677637b67bc0f56473cfe6540`,
 register a new 32-seed formal manifest before observation, prove local-scope
 disjointness, and run only synthetic/contract preflight. Formal organisms and
 formal seed consumption remain zero. AS-017 remains terminal and immutable.
+
+AS-018 scientific lock V1 is established before formal organism creation at
+publication commit `6a68f6806ebdd601b7daabea560775a1e5b589cb`. The immutable
+organism semantic subject is `e8d048b510a477e677637b67bc0f56473cfe6540`, and
+the formal execution subject is `d7968a2de557513f2316d684b394ed851d1aae51`.
+Formal manifest V1 contains seeds `99100001-99100032`, with local-scope
+disjointness PASS. The clean detached literal CLI preflight passed with zero
+organisms and zero formal seeds consumed. Lock SHA-256 is
+`f7d90b233b73e46e5b34c34035c4ea030afed3fbf83da07159f54ec6769e6adb`; manifest
+SHA-256 is `9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c`.
+See `docs/evidence/as018/AS018_SCIENTIFIC_LOCK_PREFLIGHT_V1.json`. Formal P0
+launch remains pending separate Architect launch review.

@@ -2227,3 +2227,21 @@ development evidence. The lock freezes organism semantics at
 `99100001-99100032` before observation, and requires contract-only preflight.
 No formal organism or formal seed has been consumed. AS-017 remains terminal
 and all prior negative evidence remains immutable.
+
+## AS-018 scientific lock established — 2026-09-15
+
+Scientific Lock V1 was established before formal organism creation at
+publication commit `6a68f6806ebdd601b7daabea560775a1e5b589cb`. It freezes the
+AS-018 organism semantic subject `e8d048b510a477e677637b67bc0f56473cfe6540`
+and formal execution subject `d7968a2de557513f2316d684b394ed851d1aae51`.
+Formal manifest V1 registers `99100001-99100032`; the local repository and
+accessible retained-evidence disjointness scan passed with the external-host
+limitation stated in the proof. Synthetic lock/accounting tests passed `5/5`,
+the literal clean-detached formal CLI preflight passed, and formal organisms
+and formal seeds consumed remain `0/0`.
+
+Lock SHA-256: `f7d90b233b73e46e5b34c34035c4ea030afed3fbf83da07159f54ec6769e6adb`.
+Formal manifest SHA-256: `9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c`.
+Disjointness SHA-256: `62a34b95a6939768717d2d37de432777dbef1aa9d9779854ec7bc117dfdbb5d4`.
+Preflight evidence: `docs/evidence/as018/AS018_SCIENTIFIC_LOCK_PREFLIGHT_V1.json`.
+P0 formal launch is not automatic and remains pending Architect launch review.

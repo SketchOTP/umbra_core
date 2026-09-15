@@ -1,0 +1,44 @@
+{
+  "schema": "AS018_SCIENTIFIC_LOCK_PREFLIGHT_V1",
+  "directive": "UMBRA-AS-018",
+  "status": "PASS",
+  "lock_status": "ESTABLISHED_BEFORE_FORMAL_ORGANISM_CREATION",
+  "organism_implementation_sha": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "formal_execution_subject": "d7968a2de557513f2316d684b394ed851d1aae51",
+  "lock_publication_commit": "6a68f6806ebdd601b7daabea560775a1e5b589cb",
+  "lock_sha256": "f7d90b233b73e46e5b34c34035c4ea030afed3fbf83da07159f54ec6769e6adb",
+  "manifest_path": "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V1.json",
+  "manifest_sha256": "9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c",
+  "disjointness_path": "experiments/as018/AS018_FORMAL_SEED_DISJOINTNESS_V1.json",
+  "disjointness_sha256": "62a34b95a6939768717d2d37de432777dbef1aa9d9779854ec7bc117dfdbb5d4",
+  "clean_detached_checkout": {
+    "path": "/tmp/as018-lock-exec-v1",
+    "head": "6a68f6806ebdd601b7daabea560775a1e5b589cb",
+    "worktree_clean": true,
+    "import_origins": [
+      "/tmp/as018-lock-exec-v1/experiments/as018/qualification.py",
+      "/tmp/as018-lock-exec-v1/tools/as018_run_formal.py"
+    ],
+    "production_subtree_matches_frozen_subject": true
+  },
+  "literal_cli_preflight": {
+    "command": "python tools/as018_run_formal.py --manifest experiments/as018/AS018_FORMAL_SEED_MANIFEST_V1.json --lock experiments/as018/AS018_SCIENTIFIC_LOCK_CONTRACT_V1.json --lock-sha256 f7d90b233b73e46e5b34c34035c4ea030afed3fbf83da07159f54ec6769e6adb --work /tmp/as018-formal-work-v1 --candidate-commit 6a68f6806ebdd601b7daabea560775a1e5b589cb --preflight",
+    "status": "PASS",
+    "scientific_execution_started": false,
+    "formal_organisms_created": 0,
+    "formal_seed_consumption": 0,
+    "manifest_hash_verified": true,
+    "lock_hash_verified": true
+  },
+  "governance": {
+    "authority_3_0": "PASS",
+    "governance": "PASS",
+    "git_diff_check": "PASS",
+    "formal_seeds_consumed": 0,
+    "historical_evidence_rewritten": false
+  },
+  "qualification_sequence_frozen": ["P0", "P1", "P2", "P3", "P4", "P5"],
+  "formal_launch_authorized": false,
+  "evidence_level": "CODER_VERIFIED",
+  "limitation": "This is lock and contract-only preflight evidence. No formal organism was created, no formal seed was consumed, and P0-P5 scientific results do not exist. External host-only seed records outside the documented local scan scope were not independently verified."
+}
