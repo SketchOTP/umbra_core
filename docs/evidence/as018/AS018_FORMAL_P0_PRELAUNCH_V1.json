@@ -1,0 +1,60 @@
+{
+  "schema": "AS018_FORMAL_P0_PRELAUNCH_V1",
+  "directive": "UMBRA-AS-018",
+  "status": "PASS_BEFORE_FORMAL_ORGANISM_CREATION",
+  "recorded_at": "2026-09-15",
+  "execution_subject": {
+    "checkout": "/tmp/as018-p0-exec",
+    "commit": "6a68f6806ebdd601b7daabea560775a1e5b589cb",
+    "worktree_clean": true,
+    "production_subtree_sha256": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863"
+  },
+  "organism_semantic_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "lock": {
+    "path": "experiments/as018/AS018_SCIENTIFIC_LOCK_CONTRACT_V1.json",
+    "sha256": "f7d90b233b73e46e5b34c34035c4ea030afed3fbf83da07159f54ec6769e6adb"
+  },
+  "formal_manifest": {
+    "path": "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V1.json",
+    "sha256": "9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c",
+    "seed_count": 32,
+    "ticks_per_organism": 7200,
+    "formal_seed_consumption_at_prelaunch": 0
+  },
+  "configuration_fingerprints": {
+    "R0": "217d4b2686ad6c101f01b23d1826d56e1d20b6c02701d4e6451dc20164a683d1",
+    "R1": "846f69454af5c227dd7b366c11aba223e07151d2b67071d6c6f20d832f3344a7",
+    "R2": "ed56e866585bd352743365ac79da4d53dee4a40de5b0a160dca77c5c80e9b00c",
+    "R3": "7137c519a5fff9b817bb5c96b7fa0b716424a3170ec79c0ba64342e257adfe1e"
+  },
+  "import_provenance": {
+    "experiments/as018/qualification.py": "/tmp/as018-p0-exec/experiments/as018/qualification.py",
+    "tools/as018_run_formal.py": "/tmp/as018-p0-exec/tools/as018_run_formal.py",
+    "tools/as018_formal_acceptance.py": "/tmp/as018-p0-exec/tools/as018_formal_acceptance.py"
+  },
+  "runtime_paths": {
+    "work": "/tmp/as018-p0-formal-work-v1",
+    "result": "/tmp/as018-p0-formal-result-v1.json",
+    "fresh_before_creation": true,
+    "local_sqlite_wal_shm": true
+  },
+  "checks": {
+    "authority_3_0": "PASS",
+    "governance": "PASS",
+    "git_diff_check": "PASS",
+    "other_as018_formal_process": "NONE_FOUND",
+    "literal_cli_preflight": "PASS",
+    "scientific_execution_started": false,
+    "formal_organisms_created": 0,
+    "formal_seeds_consumed": 0
+  },
+  "cli_preflight": {
+    "schema": "AS018_FORMAL_CLI_PREFLIGHT_V1",
+    "candidate_commit": "6a68f6806ebdd601b7daabea560775a1e5b589cb",
+    "lock_sha256": "f7d90b233b73e46e5b34c34035c4ea030afed3fbf83da07159f54ec6769e6adb",
+    "manifest_sha256": "9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c",
+    "status": "PASS"
+  },
+  "formal_launch_authorized_by_architect": true,
+  "downstream_stages_started": false
+}
