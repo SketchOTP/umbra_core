@@ -2264,3 +2264,30 @@ artifact unchanged; no repair or rerun is authorized without Architect review.
 Closeout artifact: `docs/evidence/as018/AS018_FORMAL_P0_CLOSEOUT_V1.json`.
 Stage-journal SHA-256:
 `da1cdff46fa585a84775ba7b473bf185ffad28a45683fd478b5a9cdda9b29a1d`.
+
+## AS-018 Scientific Lock V2 established — 2026-09-15
+
+Lock V1 is preserved and superseded transparently after its terminal protocol
+failure before organism creation. Formal seed `99100001` is consumed by the
+frozen STARTED rule; `99100002-99100032` were not consumed but are retired.
+The corrected formal start boundary durably records STARTED before in-memory
+seed consumption and before organism execution, and journal-owned fields are
+protected. The organism semantic subject remains
+`e8d048b510a477e677637b67bc0f56473cfe6540`, with zero production-subtree
+delta. Lock V2 publication commit is
+`246e1ac574eff96ddc68b3e4cd1ff17789936449`; corrected harness subject is
+`d054ee11dfd63e602ad4b2d32448a3c5f063e95c`.
+
+Fresh V2 formal manifest registers `99200001-99200032` (8 each for R0/S0,
+R1/S16, R2/S10, and R3/S12), SHA-256
+`8389f413e0561f5c991de0ef1c468e1b4e845aec6989174d021673da6bbcbe5b`.
+Disjointness passed across 1930 accessible files with zero collisions; proof
+SHA-256 is `fe268a7a7c800657bc47357821e61af8bb05eaa76f9544fdeb1cc6b0d41c15bf`.
+Focused V2 protocol tests passed `35/35`. Clean detached contract-only
+preflight, Authority 3.0, Governance, and diff-check passed with formal
+organisms/seeds `0/0`. Lock SHA-256 is
+`1354af3826402ef471ecc641b25b4852305ab32421f45904f4ab9340b1ec3019`.
+Preflight artifact:
+`docs/evidence/as018/AS018_SCIENTIFIC_LOCK_PREFLIGHT_V2.json`.
+No formal P0 launch occurred; separate Architect launch review remains
+required.

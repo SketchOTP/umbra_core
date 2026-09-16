@@ -2239,3 +2239,24 @@ not determined. No retry, reseed, repair, or downstream P1-P5 stage occurred.
 Stage-journal SHA-256 is
 `da1cdff46fa585a84775ba7b473bf185ffad28a45683fd478b5a9cdda9b29a1d`.
 See `docs/evidence/as018/AS018_FORMAL_P0_CLOSEOUT_V1.json`.
+
+## AS-018 Lock V1 superseded; Lock V2 established — 2026-09-15
+
+Lock V1 remains permanent evidence of a terminal protocol failure before
+organism creation. Seed `99100001` is consumed under the frozen STARTED rule;
+`99100002-99100032` were not consumed but are retired from qualification.
+The duplicate-stage callback defect was corrected without changing the
+`umbra_core/` production subtree. Scientific Lock V2 is established at
+publication commit `246e1ac574eff96ddc68b3e4cd1ff17789936449`, with corrected
+harness execution subject `d054ee11dfd63e602ad4b2d32448a3c5f063e95c`, lock
+SHA-256 `1354af3826402ef471ecc641b25b4852305ab32421f45904f4ab9340b1ec3019`,
+and fresh formal manifest SHA-256
+`8389f413e0561f5c991de0ef1c468e1b4e845aec6989174d021673da6bbcbe5b`.
+V2 seeds are `99200001-99200032`; disjointness SHA-256 is
+`fe268a7a7c800657bc47357821e61af8bb05eaa76f9544fdeb1cc6b0d41c15bf`, with
+zero collisions across 1930 accessible files and the external-host limitation
+explicitly retained. Focused live-callback/accounting tests passed `35/35`.
+The clean detached literal CLI preflight passed with zero organisms and zero
+V2 seeds consumed. See
+`docs/evidence/as018/AS018_SCIENTIFIC_LOCK_PREFLIGHT_V2.json`. Formal P0 is
+not launched; separate Architect launch review is required.

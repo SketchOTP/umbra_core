@@ -1,0 +1,72 @@
+{
+  "schema": "AS018_SCIENTIFIC_LOCK_PREFLIGHT_V2",
+  "directive": "UMBRA-AS-018",
+  "status": "PASS_BEFORE_FORMAL_ORGANISM_CREATION",
+  "execution_checkout": {
+    "path": "/tmp/as018-lock-v2-exec",
+    "head": "246e1ac574eff96ddc68b3e4cd1ff17789936449",
+    "worktree_clean": true,
+    "production_subtree_sha256": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863",
+    "production_subtree_matches_organism_subject": true,
+    "organism_semantic_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+    "formal_execution_subject": "d054ee11dfd63e602ad4b2d32448a3c5f063e95c"
+  },
+  "lock": {
+    "path": "experiments/as018/AS018_SCIENTIFIC_LOCK_CONTRACT_V2.json",
+    "sha256": "1354af3826402ef471ecc641b25b4852305ab32421f45904f4ab9340b1ec3019"
+  },
+  "formal_manifest": {
+    "path": "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V2.json",
+    "sha256": "8389f413e0561f5c991de0ef1c468e1b4e845aec6989174d021673da6bbcbe5b",
+    "seed_ranges": {
+      "R0/S0": "99200001-99200008",
+      "R1/S16": "99200009-99200016",
+      "R2/S10": "99200017-99200024",
+      "R3/S12": "99200025-99200032"
+    },
+    "total_organisms": 32,
+    "ticks_per_organism": 7200,
+    "formal_seed_consumption": 0
+  },
+  "disjointness": {
+    "path": "experiments/as018/AS018_FORMAL_SEED_DISJOINTNESS_V2.json",
+    "sha256": "fe268a7a7c800657bc47357821e61af8bb05eaa76f9544fdeb1cc6b0d41c15bf",
+    "result": "PASS",
+    "scanned_file_count": 1930,
+    "candidate_exact_collision_count": 0,
+    "external_host_history_limitation": true
+  },
+  "harness_validation": {
+    "focused_protocol_tests": "35 passed",
+    "production_semantic_delta_from_e8d048b510a477e677637b67bc0f56473cfe6540": "0",
+    "v1_supersession_readback": "PASS",
+    "live_callback_started_boundary": "durable STARTED precedes in-memory consumption and organism execution"
+  },
+  "import_provenance": {
+    "experiments/as018/qualification.py": "/tmp/as018-lock-v2-exec/experiments/as018/qualification.py",
+    "tools/as018_run_formal.py": "/tmp/as018-lock-v2-exec/tools/as018_run_formal.py",
+    "tools/as018_formal_acceptance.py": "/tmp/as018-lock-v2-exec/tools/as018_formal_acceptance.py",
+    "tools/as017_evidence.py": "/tmp/as018-lock-v2-exec/tools/as017_evidence.py"
+  },
+  "literal_cli_preflight": {
+    "candidate_commit": "246e1ac574eff96ddc68b3e4cd1ff17789936449",
+    "lock_sha256": "1354af3826402ef471ecc641b25b4852305ab32421f45904f4ab9340b1ec3019",
+    "manifest_sha256": "8389f413e0561f5c991de0ef1c468e1b4e845aec6989174d021673da6bbcbe5b",
+    "scientific_execution_started": false,
+    "formal_organisms_created": 0,
+    "formal_seed_consumption": 0,
+    "status": "PASS"
+  },
+  "governance": {
+    "authority_3_0": "PASS",
+    "governance": "PASS",
+    "git_diff_check": "PASS",
+    "formal_launch_authorized": false,
+    "downstream_stages_started": false
+  },
+  "v1_disposition": {
+    "supersession_artifact": "docs/evidence/as018/AS018_SCIENTIFIC_LOCK_V1_TERMINAL_PROTOCOL_FAILURE_SUPERSEDED_BY_V2.json",
+    "consumed_seed": 99100001,
+    "retired_unconsumed_seed_range": "99100002-99100032"
+  }
+}
