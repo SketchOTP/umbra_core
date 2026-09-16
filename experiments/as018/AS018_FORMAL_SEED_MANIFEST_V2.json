@@ -1,0 +1,68 @@
+{
+  "allocation": "mechanical sequential allocation from the first locally disjoint seed at 99200001",
+  "classification": "fresh_formal_population_lock_v2",
+  "directive": "UMBRA-AS-018",
+  "formal_execution_subject": "d054ee11dfd63e602ad4b2d32448a3c5f063e95c",
+  "formal_regimes": {
+    "R0": [
+      99200001,
+      99200002,
+      99200003,
+      99200004,
+      99200005,
+      99200006,
+      99200007,
+      99200008
+    ],
+    "R1": [
+      99200009,
+      99200010,
+      99200011,
+      99200012,
+      99200013,
+      99200014,
+      99200015,
+      99200016
+    ],
+    "R2": [
+      99200017,
+      99200018,
+      99200019,
+      99200020,
+      99200021,
+      99200022,
+      99200023,
+      99200024
+    ],
+    "R3": [
+      99200025,
+      99200026,
+      99200027,
+      99200028,
+      99200029,
+      99200030,
+      99200031,
+      99200032
+    ]
+  },
+  "formal_seeds_consumed": 0,
+  "organism_implementation_sha": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "organisms_per_regime": 8,
+  "regime_scenarios": {
+    "R0": "S0",
+    "R1": "S16",
+    "R2": "S10",
+    "R3": "S12"
+  },
+  "reseeds": 0,
+  "retries": 0,
+  "schema": "AS018_FORMAL_SEED_MANIFEST_V2",
+  "seed_status": "frozen_before_formal_execution",
+  "source_baseline": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "substitutions": 0,
+  "superseded_manifest": "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V1.json",
+  "superseded_manifest_sha256": "9ca4fef2cfae7613e390eee83f43a2fbb349140500f9d47c836e93890056d22c",
+  "ticks_per_organism": 7200,
+  "total_organisms": 32,
+  "total_ticks": 230400
+}

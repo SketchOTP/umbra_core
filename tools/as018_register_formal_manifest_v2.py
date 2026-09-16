@@ -43,20 +43,26 @@ def scan_paths() -> list[Path]:
     return sorted(set(paths))
 
 
-def scan_seed(path: Path, token: bytes) -> bool:
-    pattern = re.compile(rb"(?<![0-9])" + re.escape(token) + rb"(?![0-9])")
+def scan_seeds(path: Path, seeds: list[int]) -> list[int]:
+    tokens = b"|".join(re.escape(str(seed).encode()) for seed in seeds)
+    pattern = re.compile(rb"(?<![0-9])(?:" + tokens + rb")(?![0-9])")
+    found: set[int] = set()
+    overlap = 16
+    tail = b""
     with path.open("rb") as handle:
         while chunk := handle.read(1024 * 1024):
-            if pattern.search(chunk):
-                return True
-    return False
+            data = tail + chunk
+            for match in pattern.finditer(data):
+                found.add(int(match.group()))
+            tail = data[-overlap:]
+    return sorted(found)
 
 
 def build() -> tuple[dict, dict]:
     seeds = list(range(SEED_START, SEED_START + 32))
     paths = scan_paths()
     collisions = {
-        str(path.relative_to(ROOT)): [seed for seed in seeds if scan_seed(path, str(seed).encode())]
+        str(path.relative_to(ROOT)): scan_seeds(path, seeds)
         for path in paths
     }
     collisions = {path: values for path, values in collisions.items() if values}

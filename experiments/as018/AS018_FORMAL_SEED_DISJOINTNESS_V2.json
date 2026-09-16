@@ -1,0 +1,41 @@
+{
+  "candidate_range": [
+    99200001,
+    99200032
+  ],
+  "classification": "fresh_formal_population_disjointness_proof_lock_v2",
+  "collisions": {},
+  "directive": "UMBRA-AS-018",
+  "explicit_exclusions": [
+    "all AS-018 Lock V1 formal seeds 99100001-99100032, including consumed 99100001",
+    "AS-018 V1 protocol closeout and all AS-018 development manifests",
+    "all AS-017 formal, development, diagnostic, reproduction, ablation, and performance seeds",
+    "AS-015 and AS-016 population seeds and all discoverable historical formal seeds"
+  ],
+  "formal_seed_consumption": 0,
+  "limitation": "Only the local repository and accessible retained evidence were scanned; external host-only seed registries remain unavailable and universal disjointness is not claimed.",
+  "manifest": "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V2.json",
+  "manifest_seed_count": 32,
+  "manifest_sha256": "8389f413e0561f5c991de0ef1c468e1b4e845aec6989174d021673da6bbcbe5b",
+  "manifest_unique_seed_count": 32,
+  "qualification_status": "registered_before_observation",
+  "reseeds": 0,
+  "result": "PASS",
+  "retries": 0,
+  "scan_scope": {
+    "candidate_exact_collision_count": 0,
+    "candidate_exact_collision_files": [],
+    "candidate_tokens_scanned": 32,
+    "method": "binary-safe bounded exact-token scan of every accessible non-.git file, excluding this generator and the two outputs",
+    "roots": [
+      ".agent",
+      "experiments",
+      "tools",
+      "docs/evidence",
+      "evidence"
+    ],
+    "scanned_file_count": 1930
+  },
+  "schema": "AS018_FORMAL_SEED_DISJOINTNESS_V2",
+  "substitutions": 0
+}
