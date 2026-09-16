@@ -66,14 +66,9 @@ def build() -> dict[str, Any]:
         raise RuntimeError("AS018_LOCK_V2_EXECUTION_SUBJECT_INVALID")
     if sha256(MANIFEST_PATH) != disjointness.get("manifest_sha256"):
         raise RuntimeError("AS018_LOCK_V2_MANIFEST_DISJOINTNESS_BINDING_INVALID")
-    if sha256(V1_SUPERSESSION_PATH) != load(V1_SUPERSESSION_PATH).get("v1_closeout_sha256"):
-        raise RuntimeError("AS018_LOCK_V2_V1_SUPERSESSION_INVALID")
-    if sha256(V1_CLOSEOUT_PATH) != load(V1_SUPERSESSION_PATH).get("v1_closeout_sha256"):
+    supersession = load(V1_SUPERSESSION_PATH)
+    if sha256(V1_CLOSEOUT_PATH) != supersession.get("v1_closeout_sha256"):
         raise RuntimeError("AS018_LOCK_V2_V1_CLOSEOUT_INVALID")
-    if sha256(V1_PATH) != v1.get("lock_integrity", {}).get("lock_artifact_sha256", sha256(V1_PATH)):
-        # V1 has no self-hash field in the published contract; the fallback is
-        # intentionally its direct digest, so this check remains explicit.
-        pass
     if subprocess_git("rev-parse", f"{execution_subject}:umbra_core") != subprocess_git(
         "rev-parse", f"{ORGANISM_IMPLEMENTATION_SHA}:umbra_core"
     ):
