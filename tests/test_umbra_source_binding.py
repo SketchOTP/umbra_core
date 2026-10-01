@@ -12,7 +12,9 @@ def test_current_source_and_loaded_dependency_closure_are_bound():
     assert "tools/as017_validate_linkage_v2.py" in binding["files"]
     assert binding["historical_execution_source_reconstructed"] is False
     assert validate_source_binding(binding, binding) == []
-    verify_accepted_production("e8d048b510a477e677637b67bc0f56473cfe6540")
+    # A new explicitly authorized semantic candidate must bind its own exact
+    # committed production, not falsely advertise the predecessor's blobs.
+    verify_accepted_production(binding["head"])
 
 
 @pytest.mark.parametrize("mutation", ["changed_file", "missing_file", "extra_module", "runtime", "wrong_origin"])
