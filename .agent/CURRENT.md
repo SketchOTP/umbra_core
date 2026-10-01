@@ -1,3 +1,36 @@
+# Current reconciled state — 2026-10-01
+
+Focused preparation on branch `baseline-preparation-20261001`; baseline
+`2c4481f53dbfde0837f5f51fa21a02f82b59bb68`. Historical P0 disposition:
+**Historical runner-reported PASS; detailed evidence unavailable;
+independently unverified.** All 32 seeds `99200001–99200032` remain consumed.
+Missing archives do not mandate indefinite searching or permit reexecution.
+No qualified baseline or successor scientific launch is established here.
+
+The copy-only auditor now recognizes actual `REGISTERED_CASE` records and the
+outer/inner validation-start pair. Synthetic tests exercise the real frozen CLI,
+callbacks, compact sink, reduction/export and linkage path; no organism is
+created in that synthetic protocol qualification. Additional source bindings
+cover runtime Python/dependencies and actual accepted production blobs; they
+do not reconstruct missing historical imports. Source-only production delta 0.
+
+Prospective preparation V2 fixes causal scoring, 14-day owner scoring,
+interruptions and missed-session rules. It remains CANDIDATE — NOT CANONICAL.
+Two explicit decisions block complete qualification readiness: advertised RRE
+`max_route_steps` is not enforced (a lawful pure fixture proves a 34-action
+bounded route despite a declared cap of 1); the old 100k lock does not specify
+numerical total-storage limits or P2 sampling cadence. No production repair or
+scientific threshold invention is silently authorized. Required Architect
+decision is documented in `docs/evidence/preparation-20261001/HANDOFF.md`.
+
+90 final focused/integration tests and 27 exact prior protected nodes passed; these
+overlapping selections are not a full-suite rerun. Accepted historical suite
+truth remains 1422 passed / 4 skipped / nine inherited failures, unwaived.
+P1–P5 and companion sessions remain unrun; the existing 1024-tick restart
+observation is scoped development evidence only. No new formal seed consumed.
+
+## Preserved September 30 state (historical snapshot)
+
 # Current reconciled state — 2026-09-30
 
 Active user work: trustworthy baseline → sustained life → repeated companion

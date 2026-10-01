@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="16.995" timestamp="2026-10-01T06:10:39.668356-04:00" hostname="atlas-desktop"><testcase classname="tests.test_umbra_frozen_journal_compatibility" name="test_exact_frozen_cli_journal_is_accepted" time="16.802"><failure message="AssertionError: {'artifact_hashes': {'R0-00-700001': {}, 'R0-01-700002': {}, 'R0-02-700003': {}, 'R0-03-700004': {}, ...}, 'case_resul...-02-700003', 'R0-03-700004', 'R0-04-700005', 'R0-05-700006', ...], 'journal_error': 'journal_unknown_stage', ...}, ...}&#10;assert 'FAIL' == 'PASS'&#10;  &#10;  - PASS&#10;  + FAIL">original_journal = (PosixPath('/tmp/pytest-of-sketch/pytest-11/test_exact_frozen_cli_journal_0/work.stages.jsonl'), {'R0-00-700001': ('R0...: 'REGISTERED_CASE'}, {'case_id': 'R0-04-700005', 'schema': 'AS017_STAGE_RECORD_V1', 'stage': 'REGISTERED_CASE'}, ...])
+
+    def test_exact_frozen_cli_journal_is_accepted(original_journal):
+        path, expected, rows = original_journal
+        assert sum(r["stage"] == "REGISTERED_CASE" for r in rows) == 32
+        assert sum(r["stage"] == "VALIDATION_STARTED" for r in rows) == 64
+        report = validate_accounting(path, expected)
+&gt;       assert report["verdict"] == "PASS", report
+E       AssertionError: {'artifact_hashes': {'R0-00-700001': {}, 'R0-01-700002': {}, 'R0-02-700003': {}, 'R0-03-700004': {}, ...}, 'case_resul...-02-700003', 'R0-03-700004', 'R0-04-700005', 'R0-05-700006', ...], 'journal_error': 'journal_unknown_stage', ...}, ...}
+E       assert 'FAIL' == 'PASS'
+E         
+E         - PASS
+E         + FAIL
+
+tests/test_umbra_frozen_journal_compatibility.py:83: AssertionError</failure></testcase></testsuite></testsuites>

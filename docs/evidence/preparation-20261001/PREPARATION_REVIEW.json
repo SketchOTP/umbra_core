@@ -1,0 +1,126 @@
+{
+  "artifact_hashes": {
+    "docs/evidence/preparation-20261001/AUDITOR_SOURCE_BINDING.json": "ed0b143a3b68e3fd92f6cddc4eaad526faa3e1a49e5ad5081ec30fd82fe91968",
+    "docs/evidence/preparation-20261001/AUDITOR_SOURCE_BINDING_FINAL.json": "193e80938b1d65448f99ab226d343128aa6a2a74f7241b5f8bcd22cb3cbdc130",
+    "docs/evidence/preparation-20261001/COMMANDS.json": "e8c77d1ed2a5fe0a1bea6077492d0cfc539361974a91370db367e281a4c8876e",
+    "docs/evidence/preparation-20261001/HANDOFF.md": "47da4a9897d0b250084369530bc1ff410f8faf6cae9fd4c9de87fff3551a9d52",
+    "docs/evidence/preparation-20261001/P0_AUDIT_DISPOSITION.json": "810eae9b6ddb7563489a0cdbca8a0c7c663a0adf8de6d1d51b44f01667e0e41e",
+    "docs/evidence/preparation-20261001/P0_AUDIT_DISPOSITION_FINAL.json": "262294e8097693b8c485548d9fcc60ee7b56312ddc2ee102687dc2aed0a870d2",
+    "docs/evidence/preparation-20261001/RECOVERY_LIMIT_COUNTEREXAMPLE.json": "277301535d45e0f247c025ecfd860baccad7d9e5c5e43fe56f52c7d76e768ae7",
+    "docs/evidence/preparation-20261001/SYNTHETIC_JOURNAL_VALIDATION.json": "acf560fa3ec15e438ffaf1c7140ced4865e444aa43cde68e6061bbf107c04107",
+    "docs/evidence/preparation-20261001/SYNTHETIC_ORIGINAL_FORMAT.stages.jsonl": "a202dc1f70de33b04f1f1fbe4670c57487e5916497989137417e3912a7c60a33",
+    "docs/evidence/preparation-20261001/final-integration-tests.xml": "4921cdf98ef0e89aa6841430635d83e0770ad8de9d5337d41c2d824638e36e46",
+    "docs/evidence/preparation-20261001/focused-tests.xml": "ad8302dbbeacf3271311001edebd00eafcd7818a4fbcacfbcc2308197b144ba1",
+    "docs/evidence/preparation-20261001/integration-tests.xml": "09082586880772cb75e10652bf2b7808c42a55101f1d03f3a7935af16028f111",
+    "docs/evidence/preparation-20261001/journal-baseline-red.xml": "9e36c3a73907a09c03a37ea85bd97fc23ed04cd20565793e7aa8c5144e7495a0",
+    "docs/evidence/preparation-20261001/journal-candidate-green.xml": "509b4a98855817ea8a2715fdb6a5e1b9faeb11c388198eb210b1f101784910a2",
+    "docs/evidence/preparation-20261001/protected-tests.xml": "0d8f79dde9c2c4ceba313721e76001eefa3508ef9f5c6cb321b9c1126a427bcb"
+  },
+  "baseline_commit": "2c4481f53dbfde0837f5f51fa21a02f82b59bb68",
+  "decisions_required": [
+    "Authorize advertised RRE route-budget enforcement repair or approve alternative source-backed conservative resource contract",
+    "Prospectively freeze P2 storage thresholds and sampling cadence",
+    "Review proposed causal/session scoring and owner participation before new qualification"
+  ],
+  "frozen_runner_modified": false,
+  "full_repository_suite_rerun": false,
+  "historical_baseline": "Historical runner-reported PASS; detailed evidence unavailable; independently unverified",
+  "historical_consumed_seeds": [
+    99200001,
+    99200002,
+    99200003,
+    99200004,
+    99200005,
+    99200006,
+    99200007,
+    99200008,
+    99200009,
+    99200010,
+    99200011,
+    99200012,
+    99200013,
+    99200014,
+    99200015,
+    99200016,
+    99200017,
+    99200018,
+    99200019,
+    99200020,
+    99200021,
+    99200022,
+    99200023,
+    99200024,
+    99200025,
+    99200026,
+    99200027,
+    99200028,
+    99200029,
+    99200030,
+    99200031,
+    99200032
+  ],
+  "historical_regression": {
+    "inherited_failed": 9,
+    "passed": 1422,
+    "skipped": 4,
+    "waived": false
+  },
+  "new_formal_organisms": 0,
+  "new_formal_seeds_consumed": 0,
+  "organism_semantic_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "production_delta": 0,
+  "production_tree": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863",
+  "protocol_v2_sha256": "69ef92a3b2708bcfbbbee6578f3a9d74b8a979f5e4af0e3f7b4564fdf282f274",
+  "qualification_ready": false,
+  "schema": "UMBRA_FOCUSED_PREPARATION_REVIEW_V1",
+  "source_binding_validation": {
+    "failures": [],
+    "historical_dependencies_reconstructed": false,
+    "verdict": "PASS"
+  },
+  "test_outputs": {
+    "final-integration-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "4921cdf98ef0e89aa6841430635d83e0770ad8de9d5337d41c2d824638e36e46",
+      "skipped": 0,
+      "tests": 90
+    },
+    "focused-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "ad8302dbbeacf3271311001edebd00eafcd7818a4fbcacfbcc2308197b144ba1",
+      "skipped": 0,
+      "tests": 33
+    },
+    "integration-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "09082586880772cb75e10652bf2b7808c42a55101f1d03f3a7935af16028f111",
+      "skipped": 0,
+      "tests": 89
+    },
+    "journal-baseline-red.xml": {
+      "errors": 0,
+      "failures": 1,
+      "sha256": "9e36c3a73907a09c03a37ea85bd97fc23ed04cd20565793e7aa8c5144e7495a0",
+      "skipped": 0,
+      "tests": 1
+    },
+    "journal-candidate-green.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "509b4a98855817ea8a2715fdb6a5e1b9faeb11c388198eb210b1f101784910a2",
+      "skipped": 0,
+      "tests": 18
+    },
+    "protected-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "0d8f79dde9c2c4ceba313721e76001eefa3508ef9f5c6cb321b9c1126a427bcb",
+      "skipped": 0,
+      "tests": 27
+    }
+  },
+  "verdict": "NEEDS_ARCHITECT_DECISION"
+}

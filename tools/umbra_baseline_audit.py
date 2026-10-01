@@ -27,6 +27,7 @@ from tools.as017_evidence import (
 )
 from tools.as017_validate_linkage_v2 import validate_linkage_v2
 from umbra_core.physiology import Physiology
+from tools.umbra_source_binding import capture_source_binding, validate_source_binding
 
 ROOT = Path(__file__).resolve().parents[1]
 CANDIDATE = "246e1ac574eff96ddc68b3e4cd1ff17789936449"
@@ -196,16 +197,20 @@ def validate_trace_scope(path: Path, expected_tick: int) -> dict[str, Any]:
 def validate_accounting(path: Path, expected_cases: dict[str, tuple[str, int, int]]) -> dict[str, Any]:
     """Check individual durable starts, stage order and each exported artifact.
 
-    The frozen implementation exports files before LOCALLY_VALIDATED; that
-    order is accepted here, but never confused with case acceptance.
+    Frozen format: REGISTERED is campaign-level, REGISTERED_CASE is individual;
+    outer VALIDATION_STARTED has no source paths and inner VALIDATION_STARTED
+    names both paths. Preserve both raw records, allowing only that exact pair.
+    The frozen implementation exports files before LOCALLY_VALIDATED.
     """
     failures = []
-    required = ("REGISTERED", "STARTED", "EXECUTION_FINISHED", "VALIDATION_STARTED",
+    required = ("REGISTERED_CASE", "STARTED", "EXECUTION_FINISHED", "VALIDATION_STARTED",
                 "LOCALLY_VALIDATED", "CASE_FINISHED")
     progress = {case_id: [] for case_id in expected_cases}
     artifacts: dict[str, dict[str, str]] = {case_id: {} for case_id in expected_cases}
     case_result_hashes: dict[str, str] = {}
+    validations = {case_id: 0 for case_id in expected_cases}
     counts: Counter[str] = Counter()
+    campaign_rows: dict[str, list[dict[str, Any]]] = {}
     latest: dict[str, str] = {}
     records = 0
     journal_status = "VALID"
@@ -216,27 +221,46 @@ def validate_accounting(path: Path, expected_cases: dict[str, tuple[str, int, in
             if records > 4096:
                 raise ValueError("journal_record_bound_exceeded")
             stage = row.get("stage")
-            if stage not in {*required, "EXPORT_STARTED", "EXPORT_VERIFIED", "CASE_REJECTED",
+            if stage not in {*required, "REGISTERED", "EXPORT_STARTED", "EXPORT_VERIFIED", "CASE_REJECTED",
                              "RUNNER_INTERRUPTED", "CAMPAIGN_FINISHED", "CAMPAIGN_STARTED"}:
                 raise ValueError("journal_unknown_stage")
             counts[stage] += 1
             case_id = row.get("case_id")
             if case_id is None:
+                campaign_rows.setdefault(stage, []).append(row)
                 continue  # campaign-level accounting is reconciled separately
             if case_id not in progress:
                 raise ValueError("journal_unregistered_case")
+            if stage == "REGISTERED":
+                failures.append(f"campaign_registration_has_case_id:{case_id}")
             latest[case_id] = stage
             if stage in required:
                 prefix = progress[case_id]
-                if len(prefix) >= len(required) or stage != required[len(prefix)]:
+                inner = (stage == "VALIDATION_STARTED" and validations[case_id] == 1
+                         and tuple(prefix) == required[:4])
+                if not inner and (len(prefix) >= len(required) or stage != required[len(prefix)]):
                     failures.append(f"stage_order_or_duplicate:{case_id}:{stage}")
-                prefix.append(stage)
+                if not inner:
+                    prefix.append(stage)
+                if stage == "VALIDATION_STARTED":
+                    validations[case_id] += 1
+                    paths = (row.get("source_database"), row.get("source_trace"))
+                    if ((validations[case_id] == 1 and any(value is not None for value in paths))
+                            or (validations[case_id] == 2 and not all(isinstance(value, str) and value for value in paths))
+                            or validations[case_id] > 2):
+                        failures.append(f"validation_callback_payload:{case_id}")
+                if stage == "LOCALLY_VALIDATED" and validations[case_id] != 2:
+                    failures.append(f"validation_pair_incomplete:{case_id}")
             if stage == "STARTED":
                 regime, index, seed = expected_cases[case_id]
                 if (row.get("regime"), row.get("seed_index"), row.get("seed"), row.get("target_ticks")) != (regime, index, seed, 7200):
                     failures.append(f"started_binding:{case_id}")
             if stage == "EXPORT_VERIFIED":
                 name, digest = row.get("artifact"), row.get("sha256")
+                if validations[case_id] != 2 or tuple(progress[case_id]) not in (required[:4], required[:5]):
+                    failures.append(f"export_before_validation_or_after_finish:{case_id}")
+                if name == "case_result" and tuple(progress[case_id]) != required[:5]:
+                    failures.append(f"case_result_before_local_validation:{case_id}")
                 if name not in {"database", "compact_trace", "linkage_records", "linkage_summary", "case_result"} or not isinstance(digest, str) or len(digest) != 64:
                     failures.append(f"artifact_binding_invalid:{case_id}")
                 elif name in artifacts[case_id]:
@@ -265,10 +289,15 @@ def validate_accounting(path: Path, expected_cases: dict[str, tuple[str, int, in
     if summary["journal_status"] != "VALID" or summary["incomplete_cases"]:
         failures.append("journal_corrupted_or_incomplete")
     return {"verdict": "PASS" if not failures else "FAIL", "failures": failures,
-            "summary": summary, "artifact_hashes": artifacts, "case_result_hashes": case_result_hashes}
+            "summary": summary, "artifact_hashes": artifacts, "case_result_hashes": case_result_hashes,
+            "validation_start_counts": validations,
+            "campaign_records": campaign_rows,
+            "format": "AS018_LOCK_V2_ORIGINAL_JOURNAL"}
 
 
-def audit_population(result: Path, journal: Path, work: Path) -> dict[str, Any]:
+def audit_population(result: Path, journal: Path, work: Path,
+                     *, source_manifest: Path | None = None) -> dict[str, Any]:
+    sources_before = capture_source_binding()
     manifest_path = ROOT / "experiments/as018/AS018_FORMAL_SEED_MANIFEST_V2.json"
     lock_path = ROOT / "experiments/as018/AS018_SCIENTIFIC_LOCK_CONTRACT_V2.json"
     manifest, lock = bounded_json(manifest_path), bounded_json(lock_path)
@@ -284,6 +313,8 @@ def audit_population(result: Path, journal: Path, work: Path) -> dict[str, Any]:
         "missing": missing, "failures": failures, "expected_cases": 32,
         "frozen_verdict_rewritten": False, "formal_execution_performed": False,
         "validator_sha256": stream_sha256(Path(__file__)),
+        "audit_source_binding": sources_before,
+        "historical_dependency_binding": "UNAVAILABLE_NOT_RECONSTRUCTED",
         "limitations": ["schema checks do not prove numerical headings or recovery predictions",
                         "missing historical evidence is not reconstructed"],
     }
@@ -293,6 +324,13 @@ def audit_population(result: Path, journal: Path, work: Path) -> dict[str, Any]:
         payload["verdict"] = "BLOCKED"
         return payload
     try:
+        if source_manifest is None:
+            raise ValueError("prospective_auditor_source_manifest_required")
+        source_expected = bounded_json(source_manifest)
+        failures.extend(validate_source_binding(source_expected, sources_before))
+        payload["audit_source_manifest_sha256"] = stream_sha256(source_manifest)
+        if failures:
+            raise ValueError("source_binding_preflight_failed")
         campaign = bounded_json(result)
         accounting = validate_accounting(journal, {f"{r}-{i:02d}-{s}": (r, i, s) for r, i, s in expected})
         stages = accounting["summary"]
@@ -301,9 +339,28 @@ def audit_population(result: Path, journal: Path, work: Path) -> dict[str, Any]:
         payload["journal"] = stages
         payload["result_sha256"] = stream_sha256(result)
         payload["journal_sha256"] = stream_sha256(journal)
+        registered = accounting["campaign_records"].get("REGISTERED", [])
+        finished = accounting["campaign_records"].get("CAMPAIGN_FINISHED", [])
+        if (len(registered) != 1 or len(finished) != 1
+                or any(stages["stage_counts"].get(stage, 0) for stage in ("RUNNER_INTERRUPTED", "CASE_REJECTED"))):
+            failures.append("campaign_registration_or_terminal_incomplete")
+        else:
+            for key, value in (("candidate_commit", CANDIDATE), ("lock_sha256", LOCK_SHA),
+                               ("manifest_sha256", MANIFEST_SHA), ("expected_cases", 32),
+                               ("target_ticks", 7200),
+                               ("registered_case_ids", [r["case_id"] for r in reports])):
+                if registered[0].get(key) != value:
+                    failures.append(f"campaign_registration_binding:{key}")
+            for key in ("terminal", "completed_runs", "accepted_cases", "formal_seed_consumption"):
+                if key not in campaign or finished[0].get(key) != campaign[key]:
+                    failures.append(f"campaign_terminal_binding:{key}")
+            if finished[0].get("result_sha256") != payload["result_sha256"]:
+                failures.append("campaign_result_hash_binding")
         expected_ids = {row["case_id"] for row in reports}
         if (stages["journal_status"] != "VALID" or stages["incomplete_cases"]
                 or set(stages["case_states"]) != expected_ids
+                or stages["stage_counts"].get("REGISTERED_CASE") != 32
+                or stages["stage_counts"].get("VALIDATION_STARTED") != 64
                 or stages["stage_counts"].get("STARTED") != 32
                 or stages["stage_counts"].get("CASE_FINISHED") != 32):
             failures.append("journal_accounting_incomplete")
@@ -382,6 +439,8 @@ def audit_population(result: Path, journal: Path, work: Path) -> dict[str, Any]:
             failures.extend(f"{case_id}:{error}" for error in errors)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         failures.append(f"audit_input:{type(exc).__name__}:{exc}")
+    if capture_source_binding()["files"] != sources_before["files"]:
+        failures.append("auditor_source_changed_during_audit")
     payload["verdict"] = "PASS" if not failures and all(r["verdict"] == "PASS" for r in reports) else "FAIL"
     return payload
 
@@ -392,8 +451,10 @@ def main() -> None:
     parser.add_argument("--journal", required=True, type=Path)
     parser.add_argument("--work", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--source-manifest", type=Path,
+                        help="prospectively sealed auditor/dependency binding; required before PASS")
     args = parser.parse_args()
-    result = audit_population(args.result, args.journal, args.work)
+    result = audit_population(args.result, args.journal, args.work, source_manifest=args.source_manifest)
     digest = publish_json_once(args.output, result)
     print(json.dumps({"verdict": result["verdict"], "sha256": digest}))
     raise SystemExit(0 if result["verdict"] == "PASS" else 2 if result["verdict"] == "BLOCKED" else 1)

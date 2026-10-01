@@ -21,6 +21,7 @@ from experiments.as018.full_config import config, fingerprint
 from experiments.d009.run_experiment import _habitat_state_for_scenario
 from tools.as017_evidence import StageJournal, iter_jsonl, publish_json_once, stream_sha256
 from tools.umbra_baseline_audit import validate_database_copy, validate_trace_scope
+from tools.umbra_source_binding import capture_source_binding, verify_accepted_production
 from umbra_core.habitat.engine import HabitatEngine
 from umbra_core.physiology import BOUNDS
 from umbra_core.runtime import create_organism, load_organism, restore_habitat_engine_from_checkpoint
@@ -46,6 +47,8 @@ def run(root: Path, *, seed: int = 97093002, segments: int = 4, segment_ticks: i
         ["git", "diff", "HEAD", "--", "umbra_core"], cwd=ROOT, text=True
     ):
         raise ValueError("accepted_production_subtree_mismatch")
+    verify_accepted_production(SUBJECT)
+    source_binding = capture_source_binding()
     root.mkdir(parents=True, exist_ok=False)
     database, trace = root / "life.sqlite", root / "decisions.jsonl"
     cfg = config(seed, database, "R0", ledger_overrides={"ledger_hot_tail_event_max": 128})
@@ -64,6 +67,8 @@ def run(root: Path, *, seed: int = 97093002, segments: int = 4, segment_ticks: i
         "schema": "UMBRA_DEVELOPMENT_LIFE_PROBE_V1", "classification": "DEVELOPMENT_ONLY",
         "organism_subject": SUBJECT, "production_subtree": actual_tree,
         "harness_sha256": stream_sha256(Path(__file__)), "seed": seed,
+        "source_binding": source_binding,
+        "historical_probe_source_binding_reconstructed": False,
         "configuration": fingerprint(cfg), "target_ticks": segments * segment_ticks,
         "formal_seeds_consumed": 0, "formal_stages_executed": [],
         "limits": {"rss_observed_ceiling_mib": 180, "hot_tail_events": 128,
@@ -173,6 +178,10 @@ def run(root: Path, *, seed: int = 97093002, segments: int = 4, segment_ticks: i
             report["database_sha256"] = stream_sha256(database)
         if tick != segments * segment_ticks or len(restarts) != segments - 1:
             failures.append("probe_horizon_or_restart_count_incomplete")
+        source_after = capture_source_binding()
+        report["source_bytes_unchanged"] = source_after["files"] == source_binding["files"]
+        if not report["source_bytes_unchanged"]:
+            failures.append("source_changed_during_probe")
         report["verdict"] = "PASS" if not failures else "FAIL"
         journal.append("PROBE_FINISHED", case_id="development-life", verdict=report["verdict"], ticks=tick)
         journal.close()

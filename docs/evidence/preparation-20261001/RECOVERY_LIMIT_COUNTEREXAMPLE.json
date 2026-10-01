@@ -1,0 +1,275 @@
+{
+  "classification": "PURE_SOURCE_BOUND_ENGINEERING_NOT_QUALIFICATION",
+  "declared_1": {
+    "action_authority": false,
+    "active_need_status": {
+      "energy": "BOUNDED_RECOVERY_OPPORTUNITY"
+    },
+    "active_needs": [
+      "energy"
+    ],
+    "assumptions": {
+      "drift_enabled": true,
+      "drift_semantics": "physiology_owner_effect_clamp_then_drift_clamp",
+      "hidden_habitat_fields": 0,
+      "policy_visible_sources_only": true,
+      "terminal_success_not_guaranteed": true,
+      "uncertainty_is_not_proof": true
+    },
+    "body_schema_id": "body-1",
+    "bounded_opportunity_count": 1,
+    "candidate": {
+      "capability": "IDLE",
+      "params": {}
+    },
+    "fixed_size": true,
+    "hidden_truth_fields": 0,
+    "organism_tick": 434,
+    "persisted_state": false,
+    "post_candidate_physiology": {
+      "energy": 0.2875,
+      "fatigue": 0.2025,
+      "integrity": 0.9198000000000001,
+      "stimulation": 0.547
+    },
+    "reserve_threatened": true,
+    "robust_now": false,
+    "route_evidence": [
+      {
+        "bottleneck_variable": "energy",
+        "candidate_geometry": {
+          "directional_geometry": true,
+          "distance_support_upper_bound": 35.1,
+          "projected_centers": [
+            {
+              "center_dx": 35.0,
+              "center_dy": 0.0,
+              "progress": 0.0
+            }
+          ],
+          "semantics": "VERIFIED_OBSERVED_SUPPORT",
+          "support_center_dx": 35.0,
+          "support_center_dy": 0.0,
+          "support_provenance": "sensor:bounded_body_region",
+          "support_radius": 0.1,
+          "support_source_kind": "CURRENT_OBSERVATION"
+        },
+        "completion_lag_support": {
+          "evidence_count": 3,
+          "maximum": 0.0,
+          "minimum": 0.0,
+          "provenance": [
+            "test:as018"
+          ],
+          "semantics": "VERIFIED_OBSERVED_SUPPORT"
+        },
+        "directional_progress_support": {
+          "evidence_count": 3,
+          "maximum": 1.0,
+          "minimum": 1.0,
+          "provenance": [
+            "test:as018"
+          ],
+          "semantics": "VERIFIED_OBSERVED_SUPPORT"
+        },
+        "drift_intervals_per_execution": 1,
+        "homeostatic_slack": {
+          "energy": 0.06649999999999982,
+          "fatigue": 0.36450000000000016,
+          "integrity": 0.08719999999999917,
+          "stimulation": 0.3869999999999999
+        },
+        "margin_semantics": "VERIFIED_OBSERVED_SUPPORT",
+        "need": "energy",
+        "opportunity_fact_kind": "CURRENT_OBSERVATION",
+        "opportunity_provenance": "sensor:bounded_body_region",
+        "physiology_burden": {
+          "energy": 0.16600000000000015,
+          "fatigue": -0.17000000000000015,
+          "integrity": 0.006799999999999251,
+          "stimulation": -0.06800000000000006
+        },
+        "post_route_physiology": {
+          "energy": 0.12149999999999983,
+          "fatigue": 0.37250000000000016,
+          "integrity": 0.9130000000000008,
+          "stimulation": 0.6150000000000001
+        },
+        "post_terminal_physiology": {
+          "energy": 0.11649999999999983,
+          "fatigue": 0.36450000000000016,
+          "integrity": 0.9128000000000008,
+          "stimulation": 0.6130000000000001
+        },
+        "recovery_margin": 0.06649999999999982,
+        "recovery_opportunity": "resource",
+        "required_movement_executions": 34,
+        "route_capability": "APPROACH",
+        "served_needs": [
+          "energy"
+        ],
+        "status": "SUPPORTED_MARGIN_POSITIVE",
+        "terminal_capability": "CHARGE",
+        "terminal_drift_intervals": 1,
+        "terminal_effect_branches": [
+          {
+            "energy": 0.14,
+            "fatigue": -0.01,
+            "stimulation": -0.005
+          },
+          {
+            "energy": -0.003,
+            "fatigue": 0.002
+          }
+        ]
+      }
+    ],
+    "route_status": "SUPPORTED_MARGIN_POSITIVE",
+    "schema": "AS018_RECOVERY_REACHABILITY_ENVELOPE_V1",
+    "search_budget": {
+      "max_route_steps": 1,
+      "status": "BOUNDED_FINITE_ROUTE_ONLY"
+    },
+    "status": "BOUNDED_RECOVERY_OPPORTUNITY",
+    "unknown_route_count": 0
+  },
+  "default_32": {
+    "action_authority": false,
+    "active_need_status": {
+      "energy": "BOUNDED_RECOVERY_OPPORTUNITY"
+    },
+    "active_needs": [
+      "energy"
+    ],
+    "assumptions": {
+      "drift_enabled": true,
+      "drift_semantics": "physiology_owner_effect_clamp_then_drift_clamp",
+      "hidden_habitat_fields": 0,
+      "policy_visible_sources_only": true,
+      "terminal_success_not_guaranteed": true,
+      "uncertainty_is_not_proof": true
+    },
+    "body_schema_id": "body-1",
+    "bounded_opportunity_count": 1,
+    "candidate": {
+      "capability": "IDLE",
+      "params": {}
+    },
+    "fixed_size": true,
+    "hidden_truth_fields": 0,
+    "organism_tick": 434,
+    "persisted_state": false,
+    "post_candidate_physiology": {
+      "energy": 0.2875,
+      "fatigue": 0.2025,
+      "integrity": 0.9198000000000001,
+      "stimulation": 0.547
+    },
+    "reserve_threatened": true,
+    "robust_now": false,
+    "route_evidence": [
+      {
+        "bottleneck_variable": "energy",
+        "candidate_geometry": {
+          "directional_geometry": true,
+          "distance_support_upper_bound": 35.1,
+          "projected_centers": [
+            {
+              "center_dx": 35.0,
+              "center_dy": 0.0,
+              "progress": 0.0
+            }
+          ],
+          "semantics": "VERIFIED_OBSERVED_SUPPORT",
+          "support_center_dx": 35.0,
+          "support_center_dy": 0.0,
+          "support_provenance": "sensor:bounded_body_region",
+          "support_radius": 0.1,
+          "support_source_kind": "CURRENT_OBSERVATION"
+        },
+        "completion_lag_support": {
+          "evidence_count": 3,
+          "maximum": 0.0,
+          "minimum": 0.0,
+          "provenance": [
+            "test:as018"
+          ],
+          "semantics": "VERIFIED_OBSERVED_SUPPORT"
+        },
+        "directional_progress_support": {
+          "evidence_count": 3,
+          "maximum": 1.0,
+          "minimum": 1.0,
+          "provenance": [
+            "test:as018"
+          ],
+          "semantics": "VERIFIED_OBSERVED_SUPPORT"
+        },
+        "drift_intervals_per_execution": 1,
+        "homeostatic_slack": {
+          "energy": 0.06649999999999982,
+          "fatigue": 0.36450000000000016,
+          "integrity": 0.08719999999999917,
+          "stimulation": 0.3869999999999999
+        },
+        "margin_semantics": "VERIFIED_OBSERVED_SUPPORT",
+        "need": "energy",
+        "opportunity_fact_kind": "CURRENT_OBSERVATION",
+        "opportunity_provenance": "sensor:bounded_body_region",
+        "physiology_burden": {
+          "energy": 0.16600000000000015,
+          "fatigue": -0.17000000000000015,
+          "integrity": 0.006799999999999251,
+          "stimulation": -0.06800000000000006
+        },
+        "post_route_physiology": {
+          "energy": 0.12149999999999983,
+          "fatigue": 0.37250000000000016,
+          "integrity": 0.9130000000000008,
+          "stimulation": 0.6150000000000001
+        },
+        "post_terminal_physiology": {
+          "energy": 0.11649999999999983,
+          "fatigue": 0.36450000000000016,
+          "integrity": 0.9128000000000008,
+          "stimulation": 0.6130000000000001
+        },
+        "recovery_margin": 0.06649999999999982,
+        "recovery_opportunity": "resource",
+        "required_movement_executions": 34,
+        "route_capability": "APPROACH",
+        "served_needs": [
+          "energy"
+        ],
+        "status": "SUPPORTED_MARGIN_POSITIVE",
+        "terminal_capability": "CHARGE",
+        "terminal_drift_intervals": 1,
+        "terminal_effect_branches": [
+          {
+            "energy": 0.14,
+            "fatigue": -0.01,
+            "stimulation": -0.005
+          },
+          {
+            "energy": -0.003,
+            "fatigue": 0.002
+          }
+        ]
+      }
+    ],
+    "route_status": "SUPPORTED_MARGIN_POSITIVE",
+    "schema": "AS018_RECOVERY_REACHABILITY_ENVELOPE_V1",
+    "search_budget": {
+      "max_route_steps": 32,
+      "status": "BOUNDED_FINITE_ROUTE_ONLY"
+    },
+    "status": "BOUNDED_RECOVERY_OPPORTUNITY",
+    "unknown_route_count": 0
+  },
+  "formal_organisms_created": 0,
+  "formal_seeds_consumed": 0,
+  "historical_P0_exposure_established": false,
+  "physiology_safety_failure_established": false,
+  "schema": "UMBRA_RECOVERY_LIMIT_ENGINEERING_COUNTEREXAMPLE_V1",
+  "source_sha256": "38b5bdf7fa60840acc66e94ced40fbe07b05d4a74662c2bc4b272508328308ec"
+}

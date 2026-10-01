@@ -1,3 +1,18 @@
+# Current entrypoint — focused auditor/protocol preparation (2026-10-01)
+
+Read the top of CURRENT.md. Historical runner-reported PASS; detailed evidence
+unavailable; independently unverified. All 32 consumed P0 V2 seeds stay consumed.
+Actual frozen journal compatibility is repaired, source binding strengthened,
+and prospective scoring fixed. No population or downstream launch is authorized.
+Recovery-bound and storage-contract decisions remain explicit review blockers.
+
+Task: `.agent/tasks/active/UMBRA-BASELINE-PREPARATION-20261001/`.
+Evidence: `docs/evidence/preparation-20261001/`.
+Preparation candidate:
+`docs/qualification/BASELINE_LIFE_COMPANION_PROTOCOL_V2.md`.
+
+## Preserved September 30 entrypoint
+
 # Current entrypoint — baseline/life/companion reconciliation (2026-09-30)
 
 Read the top of CURRENT.md first. AS-018 P0 V2 has a surviving reported PASS,

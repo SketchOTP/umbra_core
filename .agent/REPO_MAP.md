@@ -246,3 +246,12 @@ Concise navigation map for agents. Add entries as application code lands.
 - `experiments/as004/` — contract, authority map, seed manifest, and gated qualification runner
 - `tests/test_as004_continuation.py` — pure continuation and authority-boundary proofs
 - `tools/as004_static_audit.py` — source fingerprint and static authority evidence
+
+## Focused baseline preparation — 2026-10-01
+
+- `tools/umbra_baseline_audit.py`: copy-only original-format stage/cryptographic/trace/linkage audit, fail-closed source binding before PASS.
+- `tools/umbra_source_binding.py`: prospective runtime/contract/import fingerprints and actual accepted-production blob guard.
+- `tests/test_umbra_frozen_journal_compatibility.py`: actual frozen CLI/finalizer callbacks with fake cases; no organism creation.
+- `tests/test_umbra_recovery_limit_characterization.py`: pure ignored-cap counterexample, explicitly not qualification acceptance.
+- `docs/qualification/BASELINE_LIFE_COMPANION_PROTOCOL_V2.md`: fixed proposed human/causal/interruption rules and explicit recovery/resource contract blockers.
+- `docs/evidence/preparation-20261001/`: raw RED/GREEN, synthetic journal, source hashes and preparation handoff.

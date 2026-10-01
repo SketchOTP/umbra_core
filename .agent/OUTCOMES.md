@@ -2376,3 +2376,37 @@ companion protocol were read back. Historical lock-time zero/not-launched
 text is labeled historical; predecessor failure entries remain present.
 `PUBLICATION_READBACK.json` and `detached-readback-tests.xml` record the checks.
 This follow-up is record-only and does not change the tested production/tools.
+
+## Focused auditor/protocol preparation — 2026-10-01
+
+NEEDS_ARCHITECT_DECISION. Baseline `2c4481f53dbfde0837f5f51fa21a02f82b59bb68`.
+Actual frozen CLI/finalizer synthetic path reproduces the compatibility defect:
+baseline 1 failure (exit 1), initial repair 18 PASS, final combined selection
+90 PASS (exit 0, 22.96s), exact prior protected selection 27 PASS (8.19s).
+No synthetic protocol fixture creates an organism; diagnostic unit probes are
+not qualification rows. Original-format events and strict corruption controls
+are preserved, not normalized away. Production/frozen runner delta remains 0.
+
+Historical P0 disposition: historical runner-reported PASS; detailed evidence
+unavailable; independently unverified. All 32 V2 seeds remain consumed. New
+literal copy-only audit stays BLOCKED, exit 2, all 32 cases unknown; final
+artifact SHA `262294e8097693b8c485548d9fcc60ee7b56312ddc2ee102687dc2aed0a870d2`.
+No indefinite archive search, rerun or historical verdict rewrite.
+
+Future source/dependency/import/blob guards added. Final 511-file source binding
+SHA `193e80938b1d65448f99ab226d343128aa6a2a74f7241b5f8bcd22cb3cbdc130`.
+Old imported dependency bytes remain unavailable, not reconstructed.
+
+Pure RRE counterexample proves 34 movement executions can be certified bounded
+with reported max_route_steps=1/default 32. Counterexample SHA
+`277301535d45e0f247c025ecfd860baccad7d9e5c5e43fe56f52c7d76e768ae7`.
+It does not prove unsafe physiology or historical exposure. No semantic repair
+is made without the Architect bound-enforcement/alternative-contract decision.
+Existing 100k lock also lacks numerical total-storage/cadence criteria.
+
+Protocol V2 fixes proposed causal thresholds, scoring, interruptions and
+missed-session rules before new observations; remains CANDIDATE — NOT CANONICAL
+and not launch-ready while the explicit bound/resource decisions are open.
+Historical full-suite 1422 passed/4 skipped/9 inherited failures remains
+unwaived; no full-suite rerun here. Authority 3.0/Governance/diff-check PASS.
+New formal organisms/seeds = 0/0; P1–P5 and human sessions NOT RUN.

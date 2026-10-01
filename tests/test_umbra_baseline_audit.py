@@ -154,14 +154,17 @@ def test_accounting_requires_one_ordered_start_and_complete_artifact_bindings(tm
     path = tmp_path / "stages.jsonl"
     case = "R0-00-100001"
     journal = StageJournal(path)
-    journal.append("REGISTERED", case_id=case)
+    journal.append("REGISTERED", expected_cases=1)
+    journal.append("REGISTERED_CASE", case_id=case)
     journal.append("STARTED", case_id=case, regime="R0", seed_index=0, seed=100001, target_ticks=7200)
     journal.append("EXECUTION_FINISHED", case_id=case)
     journal.append("VALIDATION_STARTED", case_id=case)
+    journal.append("VALIDATION_STARTED", case_id=case, source_database="fixture.sqlite", source_trace="fixture.jsonl")
     artifacts = ["database", "compact_trace", "linkage_records", "linkage_summary", "case_result"]
-    for name in artifacts:
+    for name in artifacts[:-1]:
         journal.append("EXPORT_VERIFIED", case_id=case, artifact=name, sha256="a" * 64)
     journal.append("LOCALLY_VALIDATED", case_id=case)
+    journal.append("EXPORT_VERIFIED", case_id=case, artifact="case_result", sha256="a" * 64)
     journal.append("CASE_FINISHED", case_id=case, required_artifacts=artifacts, case_result_sha256="a" * 64)
     journal.close()
     assert validate_accounting(path, {case: ("R0", 0, 100001)})["verdict"] == "PASS"

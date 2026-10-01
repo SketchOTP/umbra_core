@@ -1,0 +1,21 @@
+{
+  "schema": "UMBRA_FOCUSED_PREPARATION_COMMANDS_V1",
+  "cwd": "/home/sketch/Projects/umbra-baseline-life-companion",
+  "baseline_commit": "2c4481f53dbfde0837f5f51fa21a02f82b59bb68",
+  "scope": "copy-only audit/protocol and diagnostic unit fixtures; no formal execution",
+  "commands": [
+    {"command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q tests/test_umbra_frozen_journal_compatibility.py::test_exact_frozen_cli_journal_is_accepted --junitxml=docs/evidence/preparation-20261001/journal-baseline-red.xml", "exit_code": 1, "failed": 1, "seconds": 16.99, "subject": "baseline auditor plus new actual-callback synthetic test"},
+    {"command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q tests/test_umbra_frozen_journal_compatibility.py::test_exact_frozen_cli_journal_is_accepted tests/test_umbra_baseline_audit.py --junitxml=docs/evidence/preparation-20261001/journal-candidate-green.xml", "exit_code": 0, "passed": 18, "seconds": 19.54},
+    {"command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q tests/test_umbra_frozen_journal_compatibility.py tests/test_umbra_baseline_audit.py tests/test_umbra_source_binding.py tests/test_umbra_recovery_limit_characterization.py tests/test_umbra_life_probe.py --junitxml=docs/evidence/preparation-20261001/focused-tests.xml", "exit_code": 0, "passed": 33, "seconds": 21.95},
+    {"command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q tests/test_umbra_frozen_journal_compatibility.py tests/test_umbra_baseline_audit.py tests/test_umbra_source_binding.py tests/test_umbra_recovery_limit_characterization.py tests/test_umbra_life_probe.py tests/test_as018_formal_protocol_v2.py tests/test_as018_scientific_lock.py tests/test_as018_development.py tests/test_as017_evidence_pipeline.py tests/test_d013f_formal_contract_v2.py tests/test_governance_validation.py --junitxml=docs/evidence/preparation-20261001/integration-tests.xml", "exit_code": 0, "passed": 89, "seconds": 23.76},
+    {"entrypoint": "/home/sketch/cs14n-runtime/bin/python -m pytest -q", "selection": "exact 27 testcase node IDs from docs/evidence/continuity-20260930/protected-tests.xml; convert classname dots to slashes then append .py::name", "output": "protected-tests.xml", "exit_code": 0, "passed": 27, "seconds": 8.19},
+    {"command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q tests/test_umbra_frozen_journal_compatibility.py tests/test_umbra_baseline_audit.py tests/test_umbra_source_binding.py tests/test_umbra_recovery_limit_characterization.py tests/test_umbra_life_probe.py tests/test_as018_formal_protocol_v2.py tests/test_as018_scientific_lock.py tests/test_as018_development.py tests/test_as017_evidence_pipeline.py tests/test_d013f_formal_contract_v2.py tests/test_governance_validation.py --junitxml=docs/evidence/preparation-20261001/final-integration-tests.xml", "exit_code": 0, "passed": 90, "seconds": 22.96},
+    {"command": "/home/sketch/cs14n-runtime/bin/python tools/umbra_baseline_audit.py --result /tmp/as018-p0-formal-result-v2-20260916.json --journal /tmp/as018-p0-formal-work-v2-20260916.stages.jsonl --work /tmp/as018-p0-formal-work-v2-20260916 --source-manifest docs/evidence/preparation-20261001/AUDITOR_SOURCE_BINDING_FINAL.json --output docs/evidence/preparation-20261001/P0_AUDIT_DISPOSITION_FINAL.json", "exit_code": 2, "verdict": "BLOCKED"},
+    {"command": "/home/sketch/cs14n-runtime/bin/python tools/validate_governance.py", "exit_code": 0, "stdout": "governance validation passed"},
+    {"command": "git diff --check", "exit_code": 0}
+  ],
+  "full_repository_suite_executed": false,
+  "new_formal_organisms_created": 0,
+  "new_formal_seeds_consumed": 0,
+  "synthetic_live_cli_fixture": {"protocol_cases": 32, "fake_run_case": true, "database_content_checker_stubbed": true, "organisms_created": 0, "not_scientific_evidence": true}
+}

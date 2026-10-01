@@ -1013,3 +1013,17 @@ a validated CASE_FINISHED record naming every required artifact can close a case
 a torn journal is explicitly corrupt and never acceptance-ready. Already-compact
 trace rows must retain their authenticated identity instead of being projected a
 second time.
+
+## Frozen journal compatibility and advertised budget — 2026-10-01
+
+Actual AS-018 V2 callbacks emit campaign REGISTERED, individual REGISTERED_CASE
+and two validation-start records with distinct payloads. A simplified one-stage
+fixture falsely rejected lawful output; actual CLI/finalizer synthetic coverage
+closes that gap without creating an organism. Do not globally tolerate duplicates.
+
+RRE max_route_steps is validated and reported but does not cap the route
+projection. A pure lawful support fixture receives a bounded 34-movement
+route with declared limit 1/default 32. This proves a budget-contract defect,
+not unsafe physiology, historical seed exposure or a saving counterfactual.
+Preserve accepted organism bytes pending the explicit repair/contract decision.
+Prospective source bindings never recreate missing historical dependency bytes.

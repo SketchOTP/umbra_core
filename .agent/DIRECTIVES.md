@@ -1404,3 +1404,14 @@ Copy-only baseline audits and bounded non-formal continuity checks are in
 scope. Formal downstream acceptance remains gated on recovered/accepted
 baseline and prospectively reviewed protocols. Outcome is PARTIAL with a
 concrete missing-evidence blocker; no P1–P5, lock replacement or release claim.
+
+## Focused auditor/protocol preparation — 2026-10-01
+
+User identified original REGISTERED_CASE and duplicate outer/inner validation
+events missing from the new auditor. Repair the copy-only auditor using the
+exact frozen format, resolve source/recovery-limit claims, and fix prospective
+causal/session/interruption/missed-session criteria. Disposition missing old
+P0 as historical runner-reported PASS, detailed evidence unavailable,
+independently unverified. Preserve all 32 consumed seeds. No new qualification
+run is authorized. Task start/outcome and source-bound blockers are retained
+in `.agent/tasks/active/UMBRA-BASELINE-PREPARATION-20261001/`.

@@ -1,0 +1,415 @@
+{
+  "artifact_hashes": {
+    "R0-00-700001": {
+      "case_result": "e6d51a36323393d5e2627e3b40ad93257cc2405275dc6affccb8d3f4e127d8fa",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "dbd2f5b925b5d97093c01b60b24ce438720b09a92e80cdaac98ea8d2f103fe76"
+    },
+    "R0-01-700002": {
+      "case_result": "c4826c56eac98af0b8c75145533b93eb2963aed85fa9cf4cd2e83d1be2620b17",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "07f5f4f73a244e206d02fc1b77380acc91cedc3f36aa29a6982023f4890d60eb"
+    },
+    "R0-02-700003": {
+      "case_result": "b6d96b1d155bca0edda24419e9070699c10934fb8235c063476a1550f18355b0",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "ec8ff5bd59aaee4b1853b416aa4a748d1fc1cbc6d1732de25300fc837f06880a"
+    },
+    "R0-03-700004": {
+      "case_result": "00981af7801a1fd6f80c37498cb4f27e93568e9f8531b413fd9b3d5bfde94b66",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "f106d78fe48da7e1581348f5063bbfa50e35528f3ad768fa2ba4ed8716183d9d"
+    },
+    "R0-04-700005": {
+      "case_result": "ff1c27c6de03475782ad6278672c0856b9db960acb698eba9793bbee533e0be9",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "873e13b5fe8b1f5727681a878e52472f8198ac690848960d4a85e14800cb628c"
+    },
+    "R0-05-700006": {
+      "case_result": "fa5e90febc2091fb06daec5bec870465d7fb0007fd545fcdb864111107faabfa",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "abcb52d69ae319ef814ce3836ac26c792dd3ac9c9ac80bf4d08f0befdd754626"
+    },
+    "R0-06-700007": {
+      "case_result": "44f2a2cba67150ba88a31a2737dd0e38dc86bdc1d77f825f23b6eaaa9ee7aef6",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "1728e3901a5af67de81931c98ebc90c26c2f9eafc85ce962b58ad7e41871eca6"
+    },
+    "R0-07-700008": {
+      "case_result": "e9554f1eab0677911629296aa95847b2816ccb3d7f6a71ed7da4c9dab014452f",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "6413cd22104e816e43ea382338338cb02bca90c92c4e0295aef41c77647fbdf6"
+    },
+    "R1-00-700009": {
+      "case_result": "059416c48cb72c7d23738ea9266a1f5d9a4e029b0ee2068bc76b5280aace7d6d",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "60af8909a8ceed5c2b8f21ee8dc53c65f78026fddce42b76d173aecf1b4d4431"
+    },
+    "R1-01-700010": {
+      "case_result": "7699d80a2c92b35b375be20b5d6334b42d4722e71faa12d5f62cfd1d1788bc22",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "15e1c7bb38f992d355fa333182ed101f506b1b5459a3f17672712b7ac60106b6"
+    },
+    "R1-02-700011": {
+      "case_result": "0e8c29c16e5f81754723f5e2965affa0ff365a7c559d014033770d35b3924b80",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "73563d1ce0cf9c093e43f3de44716ed29ef97a2f40e5bbce1d52d8ec140eb238"
+    },
+    "R1-03-700012": {
+      "case_result": "18bdd8afbed6169f6b055799fbe26ea6ae58beefb1883224bae8ccc33c0c36dd",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "9d117fcdc93da5f1dcdc45ec5e32b310dc1f18b6a46254a070801fb8e85d1b53"
+    },
+    "R1-04-700013": {
+      "case_result": "fed101e80213deddc399e40db34f28fb848f9e13a9b3db0a5566da5ed6bf9657",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "2cdca779391b619023aaab3169dbdeac8b208c183c3a3c723e1c0fca585f408d"
+    },
+    "R1-05-700014": {
+      "case_result": "4e3004fe1e38008a978aa63a828e0594dae927800f95a414dc4ed5c8555fcae5",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "68fd37ae114ddf89197529a56d2c895addd9e75926ec69e37ec1105dd533d805"
+    },
+    "R1-06-700015": {
+      "case_result": "562b721b053872a6bcafea32cfbdd7e9d1a42bcd770712c7aa6c08d6dcfa4371",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "cb435236bee66791c9d1480956b8c3d44ab18474623c0a9aebd260939913bacd"
+    },
+    "R1-07-700016": {
+      "case_result": "8f0be39e1fe201b4129063f0ea23dee750bd858293c8e3d8d6f0effccff85622",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "0c8f11c78532671d300f719b47376d1eed4d4678b0fdd4222ab097b401a07fb6"
+    },
+    "R2-00-700017": {
+      "case_result": "00178bc5417d5caa0de184a699265bf34655939b61e41ef9e4d2e021087f4b29",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "eb2877e6a20bab9bb208a16c0b121b86fa9e0b9314777e61a1b799b6dfa4706c"
+    },
+    "R2-01-700018": {
+      "case_result": "f5806f5cdca782edd2dcd51d9cdb7443082f0e201bdd089afda94d416903b378",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "2b595f3b930497f76e25624a13041e72e046bca6ff4c89c96f17724fea2646be"
+    },
+    "R2-02-700019": {
+      "case_result": "fb4315eb082abafd5f3c994c39eb54ac1833d53c0e7ec9441592479c8d3e1b46",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "85934c2c8f9c147e1669f1da9fa4d9d476bbf0eaa59ff7d7678a605875e6e8a2"
+    },
+    "R2-03-700020": {
+      "case_result": "6d7157f0cbd09aa095f4d95e9df83b0b02f34b9f465a40f6b1ac45db3f9b0b18",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "6d8d4caca5ee94ff2d1cdfd64d285f0cf98bca51be481eac33465d045d5060b9"
+    },
+    "R2-04-700021": {
+      "case_result": "d04d04f375c6287ac84042e5eacd22ad7e99133d8208049fd3a3c25b03ad094e",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "987e9bc57d21ee396e236e8f60c94584ebc0367ee09e51b7bff318d49903143c"
+    },
+    "R2-05-700022": {
+      "case_result": "d4eeca26d1f6b774b653874db4fc72ecfb91a4e2627a8e51c9f4f8e18c7bcdd0",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "2f1d0a94534bb4b362934f69e628cdd8e774908d9818011604094f5598ca9b43"
+    },
+    "R2-06-700023": {
+      "case_result": "220578a349561798288af8af3ba30cd7eb096b1140f4b4bcd6a62f2509a5f2e9",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "7d26c95733c74f95d447732159fdb87d66aed25869f9392fceb0ae5512df91e9"
+    },
+    "R2-07-700024": {
+      "case_result": "b3bb00e434fa6f12b67e30cf3ec661fcf14b14fbee1cc66a5231881b10b966be",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "7ca42063228bb9d3f1a4495df16849fc4b3d68e63a8a01d28dcac71e32a1e2ee"
+    },
+    "R3-00-700025": {
+      "case_result": "46e56ee7f4b6b221dee1879edeb2a87689d79484e764beb65814f1ceed774839",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "4fc1260712cff519e59f9ecc4641348c2993bef6a83fcd356d6b9be4a89561bb"
+    },
+    "R3-01-700026": {
+      "case_result": "d9008dd43067057364823581845c017c8777ba9fb5f1fcaf9238574f8048a20e",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "47bbaac34329e861d5808f1c144f3a4a2767cc3074ca0eb9a8c1de1157c727ba"
+    },
+    "R3-02-700027": {
+      "case_result": "8bc4c2997d56ef53cea5d7fb006f73fecbb18c9cd6ebba94053f90a7bceee1b2",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "ef8a074cdf66da917b350af04c31e7076fa7e75faadd9f7bdfb7717dcf175987"
+    },
+    "R3-03-700028": {
+      "case_result": "598aef45aedfbc5ad6ff8326fc4dec785c317414b145b302fb6db17c4246adaa",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "d4df17d980fac3743eb27654c23162abc261e5cf33edc7a19de7c74653d8c4c6"
+    },
+    "R3-04-700029": {
+      "case_result": "336017a57b917ec8c2a50503f2ca8f67840850871a8dcbf3616057e453b60968",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "8c933cc103fc52d5d9f5b8f9266376a95bea5d103f025f32e78b021ca258a1f9"
+    },
+    "R3-05-700030": {
+      "case_result": "f8a407367fac8cea3518a8f8459c0c216a4ccbbd3bf6d9d90330b7950cf322d8",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "1af5ebe8c112266f0f5f1237086149894f58cd2c326ca1d9f262046e749d9c03"
+    },
+    "R3-06-700031": {
+      "case_result": "c0d2f6ab5366050d26c2c9a4464a7e39de743a1e1734f0addd940de8bbd816cf",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "44afb94253e26f1effb4ca16622586b7bdb0d44a68b925a5bab47a5a4d94cfe6"
+    },
+    "R3-07-700032": {
+      "case_result": "1f1a9c9ac1c1aef3f62555cb12a02c24729c67a4aa6c5e65c8f34a5c5ca2d534",
+      "compact_trace": "acf31529885f30f2a5f28504b553f96c89adeaf1be6d9f560d843d03877b9956",
+      "database": "23c226aacd6d637c726092d376676ad4ec478c8a8e47db51d5f2d2956f472675",
+      "linkage_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linkage_summary": "b8dfb22d3fcbd0c9c56ecf52822d26113a181945cb2ff5981a94de5ffe5961cf"
+    }
+  },
+  "campaign_records": {
+    "CAMPAIGN_FINISHED": [
+      {
+        "accepted_cases": 32,
+        "completed_runs": 32,
+        "formal_seed_consumption": 32,
+        "result_sha256": "ecae04cd173b5e11240d55c372ccf468cdded91ef1acecfba1fb6cb088e2b85d",
+        "schema": "AS017_STAGE_RECORD_V1",
+        "stage": "CAMPAIGN_FINISHED",
+        "terminal": "AS018_FORMAL_POPULATION_PASS"
+      }
+    ],
+    "REGISTERED": [
+      {
+        "candidate_commit": "synthetic",
+        "expected_cases": 32,
+        "lock_sha256": "synthetic",
+        "manifest_sha256": "95ad4ac87320990a8eb2d56275396d2e211de685bc71e222750dabe082712e26",
+        "registered_case_ids": [
+          "R0-00-700001",
+          "R0-01-700002",
+          "R0-02-700003",
+          "R0-03-700004",
+          "R0-04-700005",
+          "R0-05-700006",
+          "R0-06-700007",
+          "R0-07-700008",
+          "R1-00-700009",
+          "R1-01-700010",
+          "R1-02-700011",
+          "R1-03-700012",
+          "R1-04-700013",
+          "R1-05-700014",
+          "R1-06-700015",
+          "R1-07-700016",
+          "R2-00-700017",
+          "R2-01-700018",
+          "R2-02-700019",
+          "R2-03-700020",
+          "R2-04-700021",
+          "R2-05-700022",
+          "R2-06-700023",
+          "R2-07-700024",
+          "R3-00-700025",
+          "R3-01-700026",
+          "R3-02-700027",
+          "R3-03-700028",
+          "R3-04-700029",
+          "R3-05-700030",
+          "R3-06-700031",
+          "R3-07-700032"
+        ],
+        "schema": "AS017_STAGE_RECORD_V1",
+        "stage": "REGISTERED",
+        "target_ticks": 7200
+      }
+    ]
+  },
+  "case_result_hashes": {
+    "R0-00-700001": "e6d51a36323393d5e2627e3b40ad93257cc2405275dc6affccb8d3f4e127d8fa",
+    "R0-01-700002": "c4826c56eac98af0b8c75145533b93eb2963aed85fa9cf4cd2e83d1be2620b17",
+    "R0-02-700003": "b6d96b1d155bca0edda24419e9070699c10934fb8235c063476a1550f18355b0",
+    "R0-03-700004": "00981af7801a1fd6f80c37498cb4f27e93568e9f8531b413fd9b3d5bfde94b66",
+    "R0-04-700005": "ff1c27c6de03475782ad6278672c0856b9db960acb698eba9793bbee533e0be9",
+    "R0-05-700006": "fa5e90febc2091fb06daec5bec870465d7fb0007fd545fcdb864111107faabfa",
+    "R0-06-700007": "44f2a2cba67150ba88a31a2737dd0e38dc86bdc1d77f825f23b6eaaa9ee7aef6",
+    "R0-07-700008": "e9554f1eab0677911629296aa95847b2816ccb3d7f6a71ed7da4c9dab014452f",
+    "R1-00-700009": "059416c48cb72c7d23738ea9266a1f5d9a4e029b0ee2068bc76b5280aace7d6d",
+    "R1-01-700010": "7699d80a2c92b35b375be20b5d6334b42d4722e71faa12d5f62cfd1d1788bc22",
+    "R1-02-700011": "0e8c29c16e5f81754723f5e2965affa0ff365a7c559d014033770d35b3924b80",
+    "R1-03-700012": "18bdd8afbed6169f6b055799fbe26ea6ae58beefb1883224bae8ccc33c0c36dd",
+    "R1-04-700013": "fed101e80213deddc399e40db34f28fb848f9e13a9b3db0a5566da5ed6bf9657",
+    "R1-05-700014": "4e3004fe1e38008a978aa63a828e0594dae927800f95a414dc4ed5c8555fcae5",
+    "R1-06-700015": "562b721b053872a6bcafea32cfbdd7e9d1a42bcd770712c7aa6c08d6dcfa4371",
+    "R1-07-700016": "8f0be39e1fe201b4129063f0ea23dee750bd858293c8e3d8d6f0effccff85622",
+    "R2-00-700017": "00178bc5417d5caa0de184a699265bf34655939b61e41ef9e4d2e021087f4b29",
+    "R2-01-700018": "f5806f5cdca782edd2dcd51d9cdb7443082f0e201bdd089afda94d416903b378",
+    "R2-02-700019": "fb4315eb082abafd5f3c994c39eb54ac1833d53c0e7ec9441592479c8d3e1b46",
+    "R2-03-700020": "6d7157f0cbd09aa095f4d95e9df83b0b02f34b9f465a40f6b1ac45db3f9b0b18",
+    "R2-04-700021": "d04d04f375c6287ac84042e5eacd22ad7e99133d8208049fd3a3c25b03ad094e",
+    "R2-05-700022": "d4eeca26d1f6b774b653874db4fc72ecfb91a4e2627a8e51c9f4f8e18c7bcdd0",
+    "R2-06-700023": "220578a349561798288af8af3ba30cd7eb096b1140f4b4bcd6a62f2509a5f2e9",
+    "R2-07-700024": "b3bb00e434fa6f12b67e30cf3ec661fcf14b14fbee1cc66a5231881b10b966be",
+    "R3-00-700025": "46e56ee7f4b6b221dee1879edeb2a87689d79484e764beb65814f1ceed774839",
+    "R3-01-700026": "d9008dd43067057364823581845c017c8777ba9fb5f1fcaf9238574f8048a20e",
+    "R3-02-700027": "8bc4c2997d56ef53cea5d7fb006f73fecbb18c9cd6ebba94053f90a7bceee1b2",
+    "R3-03-700028": "598aef45aedfbc5ad6ff8326fc4dec785c317414b145b302fb6db17c4246adaa",
+    "R3-04-700029": "336017a57b917ec8c2a50503f2ca8f67840850871a8dcbf3616057e453b60968",
+    "R3-05-700030": "f8a407367fac8cea3518a8f8459c0c216a4ccbbd3bf6d9d90330b7950cf322d8",
+    "R3-06-700031": "c0d2f6ab5366050d26c2c9a4464a7e39de743a1e1734f0addd940de8bbd816cf",
+    "R3-07-700032": "1f1a9c9ac1c1aef3f62555cb12a02c24729c67a4aa6c5e65c8f34a5c5ca2d534"
+  },
+  "classification": "SYNTHETIC_CALLBACK_FORMAT_QUALIFICATION_ONLY",
+  "database_checker_stubbed": true,
+  "failures": [],
+  "formal_seeds_consumed": 0,
+  "format": "AS018_LOCK_V2_ORIGINAL_JOURNAL",
+  "journal_sha256": "a202dc1f70de33b04f1f1fbe4670c57487e5916497989137417e3912a7c60a33",
+  "organisms_created": 0,
+  "summary": {
+    "case_states": {
+      "R0-00-700001": "CASE_FINISHED",
+      "R0-01-700002": "CASE_FINISHED",
+      "R0-02-700003": "CASE_FINISHED",
+      "R0-03-700004": "CASE_FINISHED",
+      "R0-04-700005": "CASE_FINISHED",
+      "R0-05-700006": "CASE_FINISHED",
+      "R0-06-700007": "CASE_FINISHED",
+      "R0-07-700008": "CASE_FINISHED",
+      "R1-00-700009": "CASE_FINISHED",
+      "R1-01-700010": "CASE_FINISHED",
+      "R1-02-700011": "CASE_FINISHED",
+      "R1-03-700012": "CASE_FINISHED",
+      "R1-04-700013": "CASE_FINISHED",
+      "R1-05-700014": "CASE_FINISHED",
+      "R1-06-700015": "CASE_FINISHED",
+      "R1-07-700016": "CASE_FINISHED",
+      "R2-00-700017": "CASE_FINISHED",
+      "R2-01-700018": "CASE_FINISHED",
+      "R2-02-700019": "CASE_FINISHED",
+      "R2-03-700020": "CASE_FINISHED",
+      "R2-04-700021": "CASE_FINISHED",
+      "R2-05-700022": "CASE_FINISHED",
+      "R2-06-700023": "CASE_FINISHED",
+      "R2-07-700024": "CASE_FINISHED",
+      "R3-00-700025": "CASE_FINISHED",
+      "R3-01-700026": "CASE_FINISHED",
+      "R3-02-700027": "CASE_FINISHED",
+      "R3-03-700028": "CASE_FINISHED",
+      "R3-04-700029": "CASE_FINISHED",
+      "R3-05-700030": "CASE_FINISHED",
+      "R3-06-700031": "CASE_FINISHED",
+      "R3-07-700032": "CASE_FINISHED"
+    },
+    "expected_cases": 32,
+    "incomplete_cases": [],
+    "journal_error": null,
+    "journal_status": "VALID",
+    "records": 482,
+    "stage_counts": {
+      "CAMPAIGN_FINISHED": 1,
+      "CASE_FINISHED": 32,
+      "EXECUTION_FINISHED": 32,
+      "EXPORT_STARTED": 96,
+      "EXPORT_VERIFIED": 160,
+      "LOCALLY_VALIDATED": 32,
+      "REGISTERED": 1,
+      "REGISTERED_CASE": 32,
+      "STARTED": 32,
+      "VALIDATION_STARTED": 64
+    }
+  },
+  "validation_start_counts": {
+    "R0-00-700001": 2,
+    "R0-01-700002": 2,
+    "R0-02-700003": 2,
+    "R0-03-700004": 2,
+    "R0-04-700005": 2,
+    "R0-05-700006": 2,
+    "R0-06-700007": 2,
+    "R0-07-700008": 2,
+    "R1-00-700009": 2,
+    "R1-01-700010": 2,
+    "R1-02-700011": 2,
+    "R1-03-700012": 2,
+    "R1-04-700013": 2,
+    "R1-05-700014": 2,
+    "R1-06-700015": 2,
+    "R1-07-700016": 2,
+    "R2-00-700017": 2,
+    "R2-01-700018": 2,
+    "R2-02-700019": 2,
+    "R2-03-700020": 2,
+    "R2-04-700021": 2,
+    "R2-05-700022": 2,
+    "R2-06-700023": 2,
+    "R2-07-700024": 2,
+    "R3-00-700025": 2,
+    "R3-01-700026": 2,
+    "R3-02-700027": 2,
+    "R3-03-700028": 2,
+    "R3-04-700029": 2,
+    "R3-05-700030": 2,
+    "R3-06-700031": 2,
+    "R3-07-700032": 2
+  },
+  "verdict": "PASS"
+}
