@@ -2445,3 +2445,15 @@ Final protected/recovery/resource selection 72 PASS, intermediate integration
 prospective excluded seed protocol prepared; measurement still pending.
 No new scientific storage ceiling, formal seed consumption or master merge.
 Canonical Notion authorization append/refetch succeeded, operator marker intact.
+
+## Resource candidate publication/preflight — 2026-10-01
+
+Published/refetched source 548ed6f74980db9d5b6ce5e82f995920d9de9f1c.
+Only production view.py differs from e8d048b, tree
+9f0166b27bcbf045b2d0576672c8846cabcada21. Final-source tests 81 PASS;
+clean detached combined restore 88 PASS (overlap), Authority/Governance/diff
+PASS. Literal zero-organism local-filesystem preflight PASS, 513 bound source
+files, runtime/import provenance pinned. New local and Atlas evidence paths
+verified fresh/writable; Atlas exceeds existing 50 GiB capacity gate.
+Bounded excluded-development measurement prepared, not yet completed or
+scientifically qualified. No numerical storage ceiling or formal launch.

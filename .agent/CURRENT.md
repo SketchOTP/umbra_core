@@ -28,6 +28,17 @@ P1–P5, lock, master merge and scientific acceptance remain unauthorized.
 Task: .agent/tasks/active/UMBRA-RRE-RESOURCE-20261001/.
 Canonical Notion authorization append/refetch succeeded; operator marker kept.
 
+Published frozen measurement subject 548ed6f74980db9d5b6ce5e82f995920d9de9f1c,
+production tree 9f0166b27bcbf045b2d0576672c8846cabcada21. Final source 81 PASS;
+clean detached combined tests 88 PASS, Authority/Governance/diff PASS. Literal
+zero-organism preflight passed; protocol SHA
+06aa09e0a74288bbf07b9274810c80a7b567e5669f838d2cd42103cd7cad533a.
+New work /home/sketch/Projects/umbra-resource-r0-s0-20261001-v1; canonical export
+/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-resource-r0-s0-20261001-v1.
+Measurement prepared for Codex Process Jobs; no result/ceiling yet. All formal
+qualification remains paused. Evidence-only publication does not replace the
+frozen measurement source subject.
+
 ## Preserved previous October 1 state
 
 # Current reconciled state — 2026-10-01

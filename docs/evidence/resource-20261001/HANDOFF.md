@@ -94,7 +94,20 @@ append and refetch succeeded, historical/operator fields retained.
 
 ## GitHub state
 
-Publication/readback pending. Master must remain unchanged.
+Frozen measurement subject 548ed6f74980db9d5b6ce5e82f995920d9de9f1c is published
+and refetch-verified on rre-bound-resource-20261001. Master unchanged.
+Production tree 9f0166b27bcbf045b2d0576672c8846cabcada21; only view.py differs
+from e8d048b. Final source tests 81 PASS; clean detached combined restore 88
+PASS (overlap), Authority 3.0/Governance/diff PASS. Literal preflight creates
+zero organisms and consumes zero formal seeds. Source/import binding covers
+513 Python/contracts and runtime. Measurement remains pending launch/result.
+
+Preflight SHA-256 22005b37ff715c2e9a2c34f3b1d3f695873d0a48c24cabaad795588fd9ade937.
+Protocol SHA-256 06aa09e0a74288bbf07b9274810c80a7b567e5669f838d2cd42103cd7cad533a.
+Full preflight and raw restore output are included beside this document.
+Atlas fresh writable destination verified with 964243427328 bytes available
+(exceeds existing 50 GiB evidence-capacity gate); local work destination is
+fresh and on a local filesystem. Durable export is separate from sealed results.
 
 ## Recommendation to Architect
 
