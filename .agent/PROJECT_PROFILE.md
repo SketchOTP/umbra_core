@@ -1,3 +1,15 @@
+# Current profile — new RRE route-budget candidate; resources uncharacterized
+
+Narrow authorized production repair begins at 89be8332f61c4b04a7ebac42d64e6f25e05a2f1c;
+final caller-scoped source enforces complete RRE recovery-route movement bounds.
+The separate older prospective contract retains its own semantics. Predecessor AS-018 evidence
+does not qualify changed behavior. Canonical P2 R0/S0 characterization is
+authorized with 30000-tick hard stop, five natural compactions and restart/export
+coverage; numerical storage ceiling remains pending representative measurement.
+All historical consumed/retired seeds and scientific negatives remain intact.
+
+## Preserved prior profile snapshot
+
 # Current profile — AS-018 development-qualified; formal baseline audit blocked
 
 As of 2026-09-30 the semantic subject remains

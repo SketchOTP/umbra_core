@@ -2431,3 +2431,17 @@ disposition, 90/27 scoped results, source hash scope, route-budget and storage
 decisions, proposed V2 protocol and no-launch boundary read back. Organizer
 field and AS-017 terminal history preserved. Final review/Notion receipt in
 `docs/evidence/preparation-20261001/`. Verdict NEEDS_ARCHITECT_DECISION remains.
+
+## RRE bound/resource implementation checkpoint — 2026-10-01
+
+User authorized narrow route-bound enforcement and a canonical bounded R0/S0
+engineering observation, not formal qualification. Baseline f132; pure exact
+baseline regression 3 failed/5 passed. RRE over-limit continuation now returns
+UNKNOWN_ROUTE before projection without truncation. Initial shared-default
+change exposed one separate prospective-contract regression (70 passed/1 failed),
+preserved in raw output; final caller-scoped fix preserves that owner semantics.
+Final protected/recovery/resource selection 72 PASS, intermediate integration
+46 PASS, overlapping counts not a full-suite claim. Canonical observer and
+prospective excluded seed protocol prepared; measurement still pending.
+No new scientific storage ceiling, formal seed consumption or master merge.
+Canonical Notion authorization append/refetch succeeded, operator marker intact.

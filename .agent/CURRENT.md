@@ -1,3 +1,35 @@
+# Current authorized work — RRE bound and resource measurement (2026-10-01)
+
+User authorizes the narrow complete 32-step RRE route bound and one bounded
+excluded-development P2 R0/S0 characterization. Baseline f132c003f41fca92aa6dcd63e1b43abb9d55c2b6.
+Intermediate repair subject 89be8332f61c4b04a7ebac42d64e6f25e05a2f1c.
+Final source scopes the budget to the RRE caller, preserving the older separate
+prospective-recoverability contract without an RRE budget.
+Over-limit complete routes return UNKNOWN_ROUTE_LIMIT_EXCEEDED, externally
+UNKNOWN_ROUTE, before route physiology projection. No truncated proof, changed
+drift/threshold, new chooser or hidden Habitat input. Changed production is not
+qualified by predecessor development or historical formal summaries.
+
+Protocol: experiments/resource/RESOURCE_PROBE_20261001.json. Mechanically
+selected excluded seed 62542619 has zero exact collisions in 1926 accessible
+retained repository files; external-host history limitation stays explicit.
+Canonical hot tail 32768, keep four checkpoints, no forced compaction. Sample
+100 ticks/5 seconds first and all maintenance/restart/export boundaries; require
+five natural compactions, eviction, same-identity reload/Habitat reattachment,
+100 post-restart ticks and exported content/linkage validation. Hard stop 30000
+ticks; no extension or retry. Measurement is PENDING, not a P2 qualification.
+Storage ceiling remains unset pending representative measurements and review.
+
+Baseline RED: exact corrected tests on f132, 3 failed/5 passed. Candidate GREEN:
+72 final protected/recovery/resource tests, plus 46 intermediate integration
+tests (overlap with 35 earlier), not a whole raw-suite
+claim. Historical 1422/4/nine inherited failures stays unwaived. Formal seeds,
+P1–P5, lock, master merge and scientific acceptance remain unauthorized.
+Task: .agent/tasks/active/UMBRA-RRE-RESOURCE-20261001/.
+Canonical Notion authorization append/refetch succeeded; operator marker kept.
+
+## Preserved previous October 1 state
+
 # Current reconciled state — 2026-10-01
 
 Focused preparation on branch `baseline-preparation-20261001`; baseline

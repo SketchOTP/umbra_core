@@ -1415,3 +1415,16 @@ P0 as historical runner-reported PASS, detailed evidence unavailable,
 independently unverified. Preserve all 32 consumed seeds. No new qualification
 run is authorized. Task start/outcome and source-bound blockers are retained
 in `.agent/tasks/active/UMBRA-BASELINE-PREPARATION-20261001/`.
+
+## RRE bound enforcement and bounded resource characterization — 2026-10-01
+
+User authorizes complete-route enforcement of the existing 32 movement-step
+bound: over-limit becomes UNKNOWN_ROUTE before projection, not a truncated
+certificate. Preserve ordinary action safety, uncertainty and existing authority.
+On the corrected published candidate measure canonical P2 R0/S0, one excluded
+development seed, at 100 ticks or five seconds first and both sides of compaction,
+restart/export. Cover five natural compactions, four-generation eviction and
+same-identity restart/export; stop at 30000 ticks, no extension or retry. Propose
+storage limits only from measured representative evidence and machine budget,
+scoped to that profile. Accepted auditor and historical records stay preserved;
+formal qualification remains paused. Task UMBRA-RRE-RESOURCE-20261001.

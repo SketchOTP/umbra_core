@@ -1,3 +1,14 @@
+# Current entrypoint — RRE bound and bounded resource characterization
+
+Read current authorization at top of CURRENT.md. Narrow semantic repair and
+one excluded-development canonical P2 R0/S0 observation are authorized; formal
+qualification is paused. Task .agent/tasks/active/UMBRA-RRE-RESOURCE-20261001/.
+Protocol experiments/resource/RESOURCE_PROBE_20261001.json; evidence
+docs/evidence/resource-20261001/. Do not extend beyond 30000 ticks or set a
+scientific storage ceiling from an incomplete observation.
+
+## Preserved focused-preparation entrypoint
+
 # Current entrypoint — focused auditor/protocol preparation (2026-10-01)
 
 Read the top of CURRENT.md. Historical runner-reported PASS; detailed evidence

@@ -1,6 +1,6 @@
 """Budget regression; original counterexample remains in Git/evidence."""
 import pytest
-from tests.test_as018_recovery_reachability import _envelope, _observation, _phys
+from tests.test_as018_recovery_reachability import _envelope, _observation, _phys, _supports
 from umbra_core.recoverability import view
 
 
@@ -48,3 +48,18 @@ def test_within_limit_route_projects_exact_untruncated_count(monkeypatch, steps)
 def test_invalid_budget_rejected():
     with pytest.raises(ValueError, match="max_route_steps_must_be_positive"):
         route(1, max_route_steps=0)
+
+
+def test_over_limit_uncertainty_does_not_reject_or_choose_ordinary_candidates():
+    candidate = {"capability": "IDLE", "params": {}}
+    result = view.filter_recovery_reserve_candidates(
+        organism_tick=10, body_schema_id="body-1", physiology=_phys(energy=.29),
+        active_needs=["energy"], observations=[_observation(
+            support_center_dx=35., distance_support_upper_bound=35.1)],
+        candidates=[candidate], capability_support=_supports(),
+        authority_effect_branches_for=lambda c: ({},))
+    assert result["baseline"]["status"] == "UNKNOWN_ROUTE"
+    assert result["activation"] is False
+    assert result["rejected"] == []
+    assert result["candidates"] == [candidate]
+    assert result["action_authority"] is False

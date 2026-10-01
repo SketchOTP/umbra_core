@@ -424,7 +424,7 @@ def _route_projection(
     body_energy_cost_scale: float,
     candidate_timing_semantics: str,
     drift_enabled: bool,
-    max_route_steps: int,
+    max_route_steps: int | None,
 ) -> dict[str, Any]:
     terminal_capability, served_needs = RECOVERY_PATHS[str(observation["kind"])]
     candidate_geometry, candidate_semantics, error = _movement_projection(
@@ -509,7 +509,7 @@ def _route_projection(
     )
     # Bound the complete continuation, not a convenient prefix. Unknown is not
     # a physiological impossibility claim. Do not allocate/project this route.
-    if executions > max_route_steps:
+    if max_route_steps is not None and executions > max_route_steps:
         return {
             **base,
             "status": RecoverabilityStatus.UNKNOWN_ROUTE_LIMIT_EXCEEDED.value,
@@ -640,10 +640,10 @@ def derive_recoverability_view(
     body_energy_cost_scale: float = 1.0,
     pending_commitment: bool = False,
     drift_enabled: bool = True,
-    max_route_steps: int = 32,
+    max_route_steps: int | None = None,
 ) -> dict[str, Any]:
     """Compose a bounded read-only recoverability view for one candidate."""
-    if int(max_route_steps) < 1:
+    if max_route_steps is not None and int(max_route_steps) < 1:
         raise ValueError("max_route_steps_must_be_positive")
     capability, params = _candidate_parts(candidate)
     normalized_needs = tuple(
@@ -740,7 +740,7 @@ def derive_recoverability_view(
                     body_energy_cost_scale=float(body_energy_cost_scale),
                     candidate_timing_semantics=str(completion["semantics"]),
                     drift_enabled=bool(drift_enabled),
-                    max_route_steps=int(max_route_steps),
+                    max_route_steps=int(max_route_steps) if max_route_steps is not None else None,
                 )
                     for observation in matching
                 ]
