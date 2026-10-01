@@ -1,0 +1,166 @@
+{
+  "artifact_hashes": {
+    "docs/evidence/preparation-20261001/AUDITOR_SOURCE_BINDING.json": "ed0b143a3b68e3fd92f6cddc4eaad526faa3e1a49e5ad5081ec30fd82fe91968",
+    "docs/evidence/preparation-20261001/AUDITOR_SOURCE_BINDING_FINAL.json": "193e80938b1d65448f99ab226d343128aa6a2a74f7241b5f8bcd22cb3cbdc130",
+    "docs/evidence/preparation-20261001/COMMANDS.json": "e8c77d1ed2a5fe0a1bea6077492d0cfc539361974a91370db367e281a4c8876e",
+    "docs/evidence/preparation-20261001/HANDOFF.md": "e3b8bc37c5844c5c8a46c0ed8dd3274dec01f96e75ce9f441369ab3f11a6707c",
+    "docs/evidence/preparation-20261001/NOTION_READBACK.json": "388bbe2e8043d6a489698516d615c9c4aed1412f8919ae32972255c9db0b761e",
+    "docs/evidence/preparation-20261001/P0_AUDIT_DISPOSITION.json": "810eae9b6ddb7563489a0cdbca8a0c7c663a0adf8de6d1d51b44f01667e0e41e",
+    "docs/evidence/preparation-20261001/P0_AUDIT_DISPOSITION_FINAL.json": "262294e8097693b8c485548d9fcc60ee7b56312ddc2ee102687dc2aed0a870d2",
+    "docs/evidence/preparation-20261001/PREPARATION_REVIEW.json": "8641d3b87c90ba9cb719243f7cd712f7443aed3464a24754dcc258a6d7ec0f89",
+    "docs/evidence/preparation-20261001/RECOVERY_LIMIT_COUNTEREXAMPLE.json": "277301535d45e0f247c025ecfd860baccad7d9e5c5e43fe56f52c7d76e768ae7",
+    "docs/evidence/preparation-20261001/SYNTHETIC_JOURNAL_VALIDATION.json": "acf560fa3ec15e438ffaf1c7140ced4865e444aa43cde68e6061bbf107c04107",
+    "docs/evidence/preparation-20261001/SYNTHETIC_ORIGINAL_FORMAT.stages.jsonl": "a202dc1f70de33b04f1f1fbe4670c57487e5916497989137417e3912a7c60a33",
+    "docs/evidence/preparation-20261001/detached-readback-tests.xml": "3b8acb29b4a04744da20a46b2fd61f2706a9d88371d96005641f8fb3d0f3a413",
+    "docs/evidence/preparation-20261001/final-integration-tests.xml": "4921cdf98ef0e89aa6841430635d83e0770ad8de9d5337d41c2d824638e36e46",
+    "docs/evidence/preparation-20261001/focused-tests.xml": "ad8302dbbeacf3271311001edebd00eafcd7818a4fbcacfbcc2308197b144ba1",
+    "docs/evidence/preparation-20261001/integration-tests.xml": "09082586880772cb75e10652bf2b7808c42a55101f1d03f3a7935af16028f111",
+    "docs/evidence/preparation-20261001/journal-baseline-red.xml.gz": "56328e63f3cb865463c5f60e89b25fb38daacf63318b9a64fa9784c472f33727",
+    "docs/evidence/preparation-20261001/journal-candidate-green.xml": "509b4a98855817ea8a2715fdb6a5e1b9faeb11c388198eb210b1f101784910a2",
+    "docs/evidence/preparation-20261001/protected-tests.xml": "0d8f79dde9c2c4ceba313721e76001eefa3508ef9f5c6cb321b9c1126a427bcb"
+  },
+  "baseline_commit": "2c4481f53dbfde0837f5f51fa21a02f82b59bb68",
+  "decisions_required": [
+    "Authorize advertised RRE route-budget enforcement repair or approve alternative source-backed conservative resource contract",
+    "Prospectively freeze P2 storage thresholds and sampling cadence",
+    "Review proposed causal/session scoring and owner participation before new qualification"
+  ],
+  "detached_restore": {
+    "clean": true,
+    "diff_check": "PASS",
+    "governance": "PASS",
+    "head": "8645ffc5c04325ffefea52133c998a3ae4751f9b",
+    "organisms_formal_created": 0,
+    "seconds": 22.42,
+    "source_binding": "PASS",
+    "tests_passed": 36
+  },
+  "frozen_runner_modified": false,
+  "full_repository_suite_rerun": false,
+  "historical_baseline": "Historical runner-reported PASS; detailed evidence unavailable; independently unverified",
+  "historical_consumed_seeds": [
+    99200001,
+    99200002,
+    99200003,
+    99200004,
+    99200005,
+    99200006,
+    99200007,
+    99200008,
+    99200009,
+    99200010,
+    99200011,
+    99200012,
+    99200013,
+    99200014,
+    99200015,
+    99200016,
+    99200017,
+    99200018,
+    99200019,
+    99200020,
+    99200021,
+    99200022,
+    99200023,
+    99200024,
+    99200025,
+    99200026,
+    99200027,
+    99200028,
+    99200029,
+    99200030,
+    99200031,
+    99200032
+  ],
+  "historical_regression": {
+    "inherited_failed": 9,
+    "passed": 1422,
+    "skipped": 4,
+    "waived": false
+  },
+  "implementation_commit": "6688201480941b52f6c6804f6c2ea2abf5348c91",
+  "initial_review_preserved": true,
+  "master_unchanged": "fd8c50e1134d7d2ef54e20148ac9b7880e63708d",
+  "new_formal_organisms": 0,
+  "new_formal_seeds_consumed": 0,
+  "notion_readback": {
+    "AS017_failure_preserved": true,
+    "markers": {
+      "8645ffc5c04325ffefea52133c998a3ae4751f9b": true,
+      "90 passed": true,
+      "Current focused preparation \u2014 October 1, 2026": true,
+      "Historical runner-reported PASS; detailed evidence unavailable; independently unverified": true,
+      "max_route_steps=1": true
+    },
+    "metadata": {
+      "type": "page"
+    },
+    "organizer_field_preserved": true,
+    "page_id": "3b3833cb27ff80309f1fe73e7af37fe6",
+    "page_last_edited_at": "2026-10-01T10:43:51.088Z"
+  },
+  "organism_semantic_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "production_delta": 0,
+  "production_tree": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863",
+  "protocol_v2_sha256": "69ef92a3b2708bcfbbbee6578f3a9d74b8a979f5e4af0e3f7b4564fdf282f274",
+  "publication_subject": "8645ffc5c04325ffefea52133c998a3ae4751f9b",
+  "qualification_ready": false,
+  "raw_baseline_red": {
+    "archive": "journal-baseline-red.xml.gz",
+    "exit_code": 1,
+    "failed": 1,
+    "original_commit": "6688201480941b52f6c6804f6c2ea2abf5348c91",
+    "original_xml_sha256": "9e36c3a73907a09c03a37ea85bd97fc23ed04cd20565793e7aa8c5144e7495a0"
+  },
+  "schema": "UMBRA_FOCUSED_PREPARATION_REVIEW_FINAL_V1",
+  "source_binding_validation": {
+    "failures": [],
+    "historical_dependencies_reconstructed": false,
+    "verdict": "PASS"
+  },
+  "test_outputs": {
+    "detached-readback-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "3b8acb29b4a04744da20a46b2fd61f2706a9d88371d96005641f8fb3d0f3a413",
+      "skipped": 0,
+      "tests": 36
+    },
+    "final-integration-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "4921cdf98ef0e89aa6841430635d83e0770ad8de9d5337d41c2d824638e36e46",
+      "skipped": 0,
+      "tests": 90
+    },
+    "focused-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "ad8302dbbeacf3271311001edebd00eafcd7818a4fbcacfbcc2308197b144ba1",
+      "skipped": 0,
+      "tests": 33
+    },
+    "integration-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "09082586880772cb75e10652bf2b7808c42a55101f1d03f3a7935af16028f111",
+      "skipped": 0,
+      "tests": 89
+    },
+    "journal-candidate-green.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "509b4a98855817ea8a2715fdb6a5e1b9faeb11c388198eb210b1f101784910a2",
+      "skipped": 0,
+      "tests": 18
+    },
+    "protected-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "sha256": "0d8f79dde9c2c4ceba313721e76001eefa3508ef9f5c6cb321b9c1126a427bcb",
+      "skipped": 0,
+      "tests": 27
+    }
+  },
+  "verdict": "NEEDS_ARCHITECT_DECISION"
+}

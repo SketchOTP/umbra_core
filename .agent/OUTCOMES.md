@@ -2410,3 +2410,24 @@ and not launch-ready while the explicit bound/resource decisions are open.
 Historical full-suite 1422 passed/4 skipped/9 inherited failures remains
 unwaived; no full-suite rerun here. Authority 3.0/Governance/diff-check PASS.
 New formal organisms/seeds = 0/0; P1–P5 and human sessions NOT RUN.
+
+### Focused preparation publication/readback — 2026-10-01
+
+Implementation `6688201480941b52f6c6804f6c2ea2abf5348c91`, publication
+`8645ffc5c04325ffefea52133c998a3ae4751f9b`, refetch-verified on both
+`baseline-preparation-20261001` and `as017-recovery-development`. Master
+unchanged. A clean detached restore passed 36 focused checks (22.42s), exact
+511-file dependency/source and actual production-blob checks, Governance and
+full baseline-to-publication diff-check. Frozen runner/production unchanged.
+
+The original failing pytest XML contains diagnostic trailing whitespace.
+Its bytes are losslessly archived as journal-baseline-red.xml.gz, original
+decompressed SHA unchanged, with uncompressed bytes also retained in the
+implementation parent. The initial staged raw-output whitespace issue remains
+disclosed; no assertion or failure output is edited to manufacture a pass.
+
+Canonical Notion updated and refetched successfully; current baseline
+disposition, 90/27 scoped results, source hash scope, route-budget and storage
+decisions, proposed V2 protocol and no-launch boundary read back. Organizer
+field and AS-017 terminal history preserved. Final review/Notion receipt in
+`docs/evidence/preparation-20261001/`. Verdict NEEDS_ARCHITECT_DECISION remains.

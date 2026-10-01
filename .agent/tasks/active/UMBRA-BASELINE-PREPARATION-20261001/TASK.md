@@ -41,3 +41,10 @@ requires explicit semantic-repair authority, or an approved alternative bound
 contract. P2 storage/cadence also needs a prospectively frozen numerical rule.
 See `docs/evidence/preparation-20261001/HANDOFF.md`. Production and frozen runner
 remain unchanged; no formal organism or downstream stage is executed here.
+
+Published source/evidence subject `8645ffc5c04325ffefea52133c998a3ae4751f9b`
+refetched on both development branches. Detached clean source restore passed
+36 focused tests, dependency/import/blob checks, Governance and diff-check.
+Canonical Notion current-state append and refetch succeeded. Raw RED output
+is preserved losslessly (including its diagnostic whitespace). Final review
+records the precise decision gaps without authorizing new execution.
