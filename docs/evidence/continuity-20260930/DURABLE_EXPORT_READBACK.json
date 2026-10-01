@@ -1,0 +1,21 @@
+{
+  "schema": "UMBRA_DEVELOPMENT_EVIDENCE_EXPORT_READBACK_V1",
+  "scope": "shortened non-formal continuity probe only; not recovered AS-018 P0 evidence",
+  "host": "atlas-laptop",
+  "directory": "/srv/ATLAS/100_ACTIVE/Projects/UMBRA-CORE/evidence/live-evidence/umbra-baseline-life-companion-20260930/umbra-life-evidence-20260930-v4",
+  "operation": "scp copy followed by independent SSH sha256sum readback",
+  "matching_files": {
+    "life.sqlite": "8936e53292139d9a1c2e8abbcfa0b0fab5fc48990752ae798370cedbf3d038d1",
+    "decisions.jsonl": "5ae9f66d66ac681fba95d81c48f37dc6bd593447fff164fe6366c78ebfc577ea",
+    "stages.jsonl": "c6e177cf0b423451f65059acf4e70694a092c1baebba8b970f6bc3ac6b67365c",
+    "result.json": "f646294941afb4ecc9333ae676368252991740f878ddd87502ba45e57830c81e"
+  },
+  "sidecars_preserved": ["life.sqlite-wal", "life.sqlite-shm"],
+  "predecessor_directories_preserved_separately": [
+    "umbra-life-evidence-20260930",
+    "umbra-life-evidence-20260930-v2",
+    "umbra-life-evidence-20260930-v3"
+  ],
+  "historical_formal_artifacts_recovered": 0,
+  "organisms_created_by_export": 0
+}

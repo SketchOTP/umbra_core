@@ -1,0 +1,38 @@
+{
+  "schema": "UMBRA_SCOPED_VALIDATION_COMMANDS_V1",
+  "cwd": "/home/sketch/Projects/umbra-baseline-life-companion",
+  "source_state": "validation-only working candidate before publication; source SHA-256 fingerprints in sealed review, not a claim of launch-time commit sealing",
+  "commands": [
+    {
+      "command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q tests/test_umbra_baseline_audit.py tests/test_umbra_life_probe.py tests/test_as018_formal_protocol_v2.py tests/test_as018_scientific_lock.py tests/test_as018_development.py tests/test_as017_evidence_pipeline.py tests/test_d013f_formal_contract_v2.py tests/test_governance_validation.py --junitxml=docs/evidence/continuity-20260930/publication-target-tests.xml",
+      "exit_code": 0,
+      "passed": 74,
+      "elapsed_seconds": 6.04,
+      "scope": "targeted integration, not full repository regression"
+    },
+    {
+      "entrypoint": "/home/sketch/cs14n-runtime/bin/python -m pytest -q",
+      "selection": "Each testcase in immutable protected-tests.xml: classname dots become path separators, append .py:: then exact testcase name; same 27 node IDs, no filtering",
+      "junitxml": "docs/evidence/continuity-20260930/publication-protected-tests.xml",
+      "exit_code": 0,
+      "passed": 27,
+      "elapsed_seconds": 8.52,
+      "scope": "scoped protected tests, not whole-core causal qualification"
+    },
+    {
+      "command": "/home/sketch/cs14n-runtime/bin/python tools/umbra_baseline_audit.py --result /tmp/as018-p0-formal-result-v2-20260916.json --journal /tmp/as018-p0-formal-work-v2-20260916.stages.jsonl --work /tmp/as018-p0-formal-work-v2-20260916 --output docs/evidence/continuity-20260930/P0_RETROSPECTIVE_AUDIT_FINAL.json",
+      "exit_code": 2,
+      "verdict": "BLOCKED"
+    },
+    {
+      "command": "/home/sketch/cs14n-runtime/bin/python tools/validate_governance.py",
+      "exit_code": 0,
+      "stdout": "governance validation passed"
+    },
+    {"command": "git diff --check", "exit_code": 0},
+    {"command": "git diff e8d048b510a477e677637b67bc0f56473cfe6540 -- umbra_core", "exit_code": 0, "stdout_bytes": 0}
+  ],
+  "full_repository_suite_executed_here": false,
+  "formal_organisms_created_here": 0,
+  "formal_seeds_consumed_here": 0
+}

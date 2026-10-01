@@ -2291,3 +2291,70 @@ Preflight artifact:
 `docs/evidence/as018/AS018_SCIENTIFIC_LOCK_PREFLIGHT_V2.json`.
 No formal P0 launch occurred; separate Architect launch review remains
 required.
+
+## Baseline/life/companion reconciliation — 2026-09-30 — PARTIAL
+
+Starting commit `7284f41d6129e623cadbd70cff35a8229f62795e`. The surviving
+AS-018 P0 V2 CPJ job completed 2026-09-16 (exit 0), reporting 32 accepted,
+32 completed and 32 consumed. The earlier lock-time “not launched/zero”
+statements are historical, not current authority. All V2 formal seeds are
+reserved against reuse. No detailed case artifacts were recovered in the
+documented local/remote searches. All 32 retrospective case validations remain
+BLOCKED; the stdout report is preserved, not rewritten as an organism failure.
+
+Frozen acceptance gap reproduced on disposable fixtures: altered snapshot
+state, event payload and checkpoint hash each pass the frozen shape checker
+but fail new cryptographic copy-only validation. New audit also checks exact
+trace ticks, active-root RRE evidence, complete configuration and per-case
+stage/artifact bindings. It does not prove historical numerical headings,
+recovery predictions or absent trace-to-committed-history correspondence.
+
+Bounded development probe: 1024 ticks, three restart/Habitat reattachments,
+54 checkpoint epochs, sampled peak RSS 64.37109375 MiB, no declared owner/RNG
+differences. RRE evaluations 190, activations 29, rejections 0; 834 ordinary
+roots had no active envelope. Local originals, sidecars, traces, journal and
+all earlier harness failures remain retained separately. Exact executed probe
+source hash `8856951915958bb48308c87f4be405fe248a33ea3d5205c3e0308d6a5960f9a2`
+matches the published source snapshot. The development compaction threshold
+128 differs explicitly from canonical 32768. This does not qualify 100k/S3,
+whole-core causal necessity or companion acceptance; S0 had no partner exposure.
+
+Targeted integration/validator checks 73 PASS; scoped protected/model/memory/
+relationship/temporal/embodiment/recovery/transition checks 27 PASS; final
+targeted rerun after harness guards 28 PASS. Raw JUnit outputs are retained.
+Full repository regression was not rerun; historical accepted result stays
+1422 passed / 4 skipped / 9 inherited failures, unwaived. Authority 3.0,
+Governance and diff-check passed. Production subtree is byte-identical to
+`e8d048b510a477e677637b67bc0f56473cfe6540`; no formal seed was consumed here.
+
+Review artifact `docs/evidence/continuity-20260930/BASELINE_LIFE_COMPANION_REVIEW.json`
+SHA-256 `7e88891e7e5e7acca01eb698d7cedb2cfa1bb8e0168bb748b8d047444fe8ab76`.
+Proposal `docs/qualification/BASELINE_LIFE_COMPANION_PROTOCOL_V1.md` defines
+current-stack sustained-life and causal controls, a 14-day/12-encounter owner
+assay and gated reusable packaging. It remains CANDIDATE — NOT CANONICAL.
+P1–P5 were not launched. Missing original P0 evidence and prospective
+protocol/owner review are the concrete barriers to a qualified release.
+
+### Sealed validation supplement — 2026-09-30
+
+The initial review above remains preserved. The bounded copy audit's final
+literal CLI exited 2/BLOCKED, SHA-256
+`4240013f34ebd5b5aa96750ea8684bea82e98d7b7520e7fc3fbcbab89dea0cd1`.
+Final target integration rerun: 74 passed (6.04 seconds); protected selection
+rerun: 27 passed (8.52 seconds); bounded-reader target check: 29 passed
+(5.07 seconds). These overlapping executions are not summed into a unique
+suite count. `COMMANDS.json` and raw JUnit files record the actual selections.
+No full-suite or scientific downstream execution is claimed.
+
+Sealed review `BASELINE_LIFE_COMPANION_REVIEW_SEALED.json` SHA-256
+`4a2f574573bd21a84a2a8efdafd0d8f36b267c298e68572af7ee69a44e7b6786`.
+It retains seven raw test-output hashes and exact current source/environment
+fingerprints. Initial audit source snapshot matches the initial validator
+fingerprint. Final probe database/trace/journal/result hashes were separately
+recomputed on atlas-laptop; `DURABLE_EXPORT_READBACK.json` records the matching
+values. All original attempts and matching sidecars remain preserved.
+
+Outcome remains PARTIAL: missing original 32-case formal artifacts block
+independent baseline acceptance; shortened continuity is demonstrated, while
+100k/S3/current-core causal and repeated human companion qualification are
+unrun. The organism is unchanged. No qualified reusable-core release.

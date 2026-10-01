@@ -1,0 +1,356 @@
+{
+  "acceptance_gaps": [
+    {
+      "disposition": "source-proven; new copy-only audit; historical exposure unknown",
+      "evidence": "three disposable corruption controls pass old check and fail new check",
+      "finding": "snapshot/payload/checkpoint cryptographic validation omitted by frozen shape validator"
+    },
+    {
+      "disposition": "new audit checks exact 1..7200 with duplicate/missing controls",
+      "finding": "trace row count/monotonicity does not establish exact tick coverage"
+    },
+    {
+      "disposition": "new audit validates active-kernel RRE categories/authority/schema; no numerical prediction claim",
+      "finding": "RRE enabled flag is not RRE evidence validation"
+    },
+    {
+      "disposition": "new audit compares resolved regime configuration to frozen configuration",
+      "finding": "configuration seed equality is not full frozen configuration binding"
+    },
+    {
+      "disposition": "new audit enforces individual ordered starts, exact seed bindings, artifacts and hashes",
+      "finding": "aggregate counts are insufficient for durable per-case/artifact reconciliation"
+    },
+    {
+      "disposition": "NOT DEMONSTRATED; unavailable historical databases/traces/archives cannot be reconstructed",
+      "finding": "complete trace-to-committed-outcome correspondence needs retained authority evidence"
+    }
+  ],
+  "artifact_inventory": [
+    {
+      "bytes": 2880,
+      "mtime_ns": 1790818018095945338,
+      "path": "/home/sketch/.codex/process-jobs/jobs/job-mu3l6lrx-ddb17f3a.json",
+      "sha256": "30a27bb9f4d312b8b6901f0aecb56a68dfa23a0edf51f8bf8893b3f860fa5e2e"
+    },
+    {
+      "bytes": 120,
+      "mtime_ns": 1789575024600816402,
+      "path": "/home/sketch/.codex/process-jobs/logs/job-mu3l6lrx-ddb17f3a.stdout.log",
+      "sha256": "c5eed63ea2a4a804118ee98975f51bb037fd1ee946f851d58fef158cabdb35e5"
+    },
+    {
+      "bytes": 0,
+      "mtime_ns": 1789532058812747957,
+      "path": "/home/sketch/.codex/process-jobs/logs/job-mu3l6lrx-ddb17f3a.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 12612861,
+      "mtime_ns": 1790819558739181892,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/decisions.jsonl",
+      "sha256": "5ae9f66d66ac681fba95d81c48f37dc6bd593447fff164fe6366c78ebfc577ea"
+    },
+    {
+      "bytes": 10895360,
+      "mtime_ns": 1790819558780182612,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/life.sqlite",
+      "sha256": "8936e53292139d9a1c2e8abbcfa0b0fab5fc48990752ae798370cedbf3d038d1"
+    },
+    {
+      "bytes": 32768,
+      "mtime_ns": 1790819733482285747,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/life.sqlite-shm",
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "bytes": 0,
+      "mtime_ns": 1790819733481200392,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/life.sqlite-wal",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 17886,
+      "mtime_ns": 1790819559317566530,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/result.json",
+      "sha256": "f646294941afb4ecc9333ae676368252991740f878ddd87502ba45e57830c81e"
+    },
+    {
+      "bytes": 1608,
+      "mtime_ns": 1790819464620099620,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/segment-00.json",
+      "sha256": "88be6f5a1811520b6e1368fe72a631cdfeff3ea9574430e468d406bbdef04d0e"
+    },
+    {
+      "bytes": 1608,
+      "mtime_ns": 1790819485047288421,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/segment-01.json",
+      "sha256": "68e9e57025ad5957b2295c487bf1a8bb95aaae59126b71be0548a7e84669042a"
+    },
+    {
+      "bytes": 1608,
+      "mtime_ns": 1790819517554697537,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/segment-02.json",
+      "sha256": "7b441649acef44a0a5dcaa01f2b8e8b325382789c6a9c54a613ff3dfce0212eb"
+    },
+    {
+      "bytes": 1609,
+      "mtime_ns": 1790819558862133815,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/segment-03.json",
+      "sha256": "4526d6a25e89f31abfb392c75222a66be430abd813299e5f59c0a135618cc0cb"
+    },
+    {
+      "bytes": 3910,
+      "mtime_ns": 1790819559312191952,
+      "path": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/stages.jsonl",
+      "sha256": "c6e177cf0b423451f65059acf4e70694a092c1baebba8b970f6bc3ac6b67365c"
+    }
+  ],
+  "environment": {
+    "executable": "/home/sketch/cs14n-runtime/bin/python",
+    "packages": {
+      "Jinja2": "3.1.6",
+      "MarkupSafe": "3.0.3",
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "anyio": "4.14.2",
+      "av": "18.1.0",
+      "certifi": "2026.7.22",
+      "cffi": "2.1.1",
+      "click": "8.5.0",
+      "ctranslate2": "4.8.1",
+      "faster-whisper": "1.2.1",
+      "filelock": "3.32.4",
+      "flatbuffers": "25.12.19",
+      "fsspec": "2026.7.0",
+      "h11": "0.16.0",
+      "hf-xet": "1.6.0",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "huggingface_hub": "1.29.0",
+      "idna": "3.19",
+      "iniconfig": "2.3.0",
+      "ml_dtypes": "0.6.0",
+      "mpmath": "1.3.0",
+      "msgpack": "1.2.2",
+      "networkx": "3.6.1",
+      "numpy": "2.5.2",
+      "nvidia-cublas-cu12": "12.9.2.10",
+      "nvidia-cuda-nvrtc-cu12": "12.9.86",
+      "nvidia-cudnn-cu12": "9.24.0.43",
+      "nvidia-ml-py": "13.610.43",
+      "onnx": "1.22.0",
+      "onnx-ir": "1.0.0",
+      "onnxruntime": "1.29.0",
+      "onnxscript": "0.7.1",
+      "opencv-python-headless": "4.11.0.86",
+      "packaging": "26.3",
+      "pip": "26.2.1",
+      "pluggy": "1.6.0",
+      "protobuf": "7.36.0",
+      "psutil": "7.2.2",
+      "pycparser": "3.0",
+      "pynvml": "13.0.1",
+      "pytest": "8.4.2",
+      "scipy": "1.18.1",
+      "setuptools": "84.0.0",
+      "sounddevice": "0.5.5",
+      "sympy": "1.14.0",
+      "tokenizers": "0.23.1",
+      "torch": "2.13.0+cpu",
+      "tqdm": "4.70.0",
+      "typing_extensions": "4.16.0",
+      "webrtcvad-wheels": "2.0.14"
+    },
+    "python": "3.12.3",
+    "runtime_import_origin": "/home/sketch/Projects/umbra-baseline-life-companion/umbra_core/runtime.py",
+    "sqlite": "3.45.1"
+  },
+  "formal_p0": {
+    "case_artifacts_recovered": 0,
+    "case_validation_unavailable": 32,
+    "completed_at": "2026-09-16T16:10:24.625Z",
+    "exit_code": 0,
+    "historical_scientific_verdict_rewritten": false,
+    "independent_audit": "BLOCKED",
+    "job_id": "job-mu3l6lrx-ddb17f3a",
+    "reported_consumed_seeds_reserved_against_reuse": [
+      99200001,
+      99200002,
+      99200003,
+      99200004,
+      99200005,
+      99200006,
+      99200007,
+      99200008,
+      99200009,
+      99200010,
+      99200011,
+      99200012,
+      99200013,
+      99200014,
+      99200015,
+      99200016,
+      99200017,
+      99200018,
+      99200019,
+      99200020,
+      99200021,
+      99200022,
+      99200023,
+      99200024,
+      99200025,
+      99200026,
+      99200027,
+      99200028,
+      99200029,
+      99200030,
+      99200031,
+      99200032
+    ],
+    "started_at": "2026-09-16T04:14:18.853Z",
+    "surviving_stdout": {
+      "accepted_cases": 32,
+      "completed_runs": 32,
+      "formal_seed_consumption": 32,
+      "terminal": "AS018_FORMAL_POPULATION_PASS"
+    }
+  },
+  "formal_seeds_consumed_this_task": 0,
+  "formal_stages_started_this_task": [],
+  "life_probe": {
+    "checkpoint_epoch": 54,
+    "executed_harness_sha256": "8856951915958bb48308c87f4be405fe248a33ea3d5205c3e0308d6a5960f9a2",
+    "limitations": [
+      "compaction threshold 128 is a development override, not canonical 32768",
+      "no long-horizon slope or real-time CPU qualification",
+      "continuity is not subsystem causal necessity or human companion acceptance"
+    ],
+    "observed_rss_max_mib": 64.37109375,
+    "relationship_exposure": "none in S0 probe; empty-state continuity is not relationship causality",
+    "restarts": [
+      {
+        "boundary_tick": 256,
+        "declared_comparison_exclusions": [
+          "session_id",
+          "runtime_ready events",
+          "wall-time anchor"
+        ],
+        "habitat_binding_matches": true,
+        "owner_differences": []
+      },
+      {
+        "boundary_tick": 512,
+        "declared_comparison_exclusions": [
+          "session_id",
+          "runtime_ready events",
+          "wall-time anchor"
+        ],
+        "habitat_binding_matches": true,
+        "owner_differences": []
+      },
+      {
+        "boundary_tick": 768,
+        "declared_comparison_exclusions": [
+          "session_id",
+          "runtime_ready events",
+          "wall-time anchor"
+        ],
+        "habitat_binding_matches": true,
+        "owner_differences": []
+      }
+    ],
+    "rre": {
+      "activations": 29,
+      "evaluations": 190,
+      "no_active_envelope": 834,
+      "rejections": 0
+    },
+    "sampled_hot_tail_max": 84,
+    "scope": "1024-tick DEVELOPMENT continuity/compaction, not sustained-life qualification",
+    "ticks": 1024,
+    "verdict": "PASS"
+  },
+  "new_target_failures": [],
+  "organism_semantic_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "owner_or_architect_decisions": [
+    "provide original P0 archive if available; otherwise disposition unverifiable reported P0 before any new formal generation",
+    "prospectively review life/causal/companion criteria and provide owner participation"
+  ],
+  "probe_attempts": [
+    {
+      "completed_ticks": 0,
+      "outcome": "StageJournal keyword interface error before organism creation",
+      "work": "/home/sketch/Projects/umbra-life-evidence-20260930"
+    },
+    {
+      "completed_trace_rows": 0,
+      "organism_created": true,
+      "outcome": "environment fixture setup after sole-authority Habitat attachment; first tick interrupted",
+      "work": "/home/sketch/Projects/umbra-life-evidence-20260930-v2"
+    },
+    {
+      "completed_trace_rows": 256,
+      "outcome": "authoritative read before restart Habitat reattachment; harness error",
+      "work": "/home/sketch/Projects/umbra-life-evidence-20260930-v3"
+    },
+    {
+      "completed_trace_rows": 1024,
+      "outcome": "PASS",
+      "work": "/home/sketch/Projects/umbra-life-evidence-20260930-v4"
+    }
+  ],
+  "production_delta": false,
+  "production_subtree": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863",
+  "readiness": {
+    "baseline": "BLOCKED_MISSING_ORIGINAL_CASE_EVIDENCE",
+    "companion": "PROSPECTIVE_PROTOCOL_PROPOSED; human sessions not run",
+    "full_core_causality": "SCOPED_MODULE_TESTS_ONLY; P4 not qualified",
+    "reusable_release": "NOT_QUALIFIED; packaging must not fabricate acceptance",
+    "sustained_life": "DEVELOPMENT_CONTINUITY_ONLY; P1-P3 not qualified"
+  },
+  "regression_scope": "target/protected checks only; historical accepted full suite 1422 passed / 4 skipped / 9 inherited, unwaived; complete suite not rerun here",
+  "schema": "UMBRA_BASELINE_LIFE_COMPANION_REVIEW_V1",
+  "search_scope": [
+    "local /home/sketch, /tmp, /mnt, /media, /srv/ATLAS (bounded read-only scans; unavailable paths not inferred)",
+    "local Projects/Documents and /mnt/windows-n through depth six",
+    "atlas-laptop retained /srv/ATLAS/.../UMBRA-CORE/evidence recursively; remote Projects/.codex/tmp through depth five",
+    "exact retained launch conversation and CPJ metadata/logs; no external/private backup recovery performed"
+  ],
+  "source_fingerprints": {
+    "docs/qualification/BASELINE_LIFE_COMPANION_PROTOCOL_V1.md": "3c4076e79ca9524141b61c4b50645b50166d288194968dfaa040d87ae3d2e851",
+    "tests/test_umbra_baseline_audit.py": "49bcda8006bd38da279ed35e5ee09f7d05442083f9014eb3968577c2533c457d",
+    "tests/test_umbra_life_probe.py": "82364250626b4cea4917887b4f542658e385b5f9ac04007f0ba42d2c32714cd5",
+    "tools/umbra_baseline_audit.py": "441047bb35c6d279567264b6d83f255de194a12c7acb6a29ee51b0d4c3e73f60",
+    "tools/umbra_life_probe.py": "70e6fa9917d51d795c4b6b054b1d470dad0129978502073a4f732fb59915daeb",
+    "tools/umbra_record_baseline_review.py": "370200bd78505bf769ab4bb4924a1654fadad1490315f5844877fbce2731d39e"
+  },
+  "starting_commit": "7284f41d6129e623cadbd70cff35a8229f62795e",
+  "targeted_tests": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "file": "target-tests.xml",
+      "sha256": "3e9bb1da2bedf99f20051cfb53c1d7726c3cd28d94610dd8ae30c34221373aba",
+      "skipped": 0,
+      "tests": 73
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "file": "protected-tests.xml",
+      "sha256": "2ae02c9cbde313920bd6e6b89ec6e4d1eb798f890c34ffd1157baceee8556d3e",
+      "skipped": 0,
+      "tests": 27
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "file": "final-target-tests.xml",
+      "sha256": "43efd49d21d35aebaad9158da817ef4d55abbd030f23c355b0d80f03b6cfec02",
+      "skipped": 0,
+      "tests": 28
+    }
+  ],
+  "verdict": "PARTIAL"
+}

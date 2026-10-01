@@ -1,0 +1,590 @@
+{
+  "actions": {
+    "APPROACH": 446,
+    "CHARGE": 41,
+    "IDLE": 6,
+    "MOVE": 455,
+    "ORIENT": 34,
+    "REST": 42
+  },
+  "birth_identity": {
+    "agent_id": "0fe44c22-3653-b930-d561-d189507b5e01",
+    "birth_event_id": "41de02de-420b-39eb-e319-e31d77382329",
+    "created_at": 1700000097.093004,
+    "identity_commitment": "a22b8cc6bb07c0b85825d910888a6745f1b608552934a8614755036de2631411",
+    "lifecycle_sequence": 0,
+    "lineage_id": "0fe44c22-3653-b930-d561-d189507b5e01",
+    "schema_version": "1.0.0"
+  },
+  "checkpoint_epoch": 54,
+  "classification": "DEVELOPMENT_ONLY",
+  "configuration": {
+    "arbitration_mode": "full",
+    "as015": {
+      "directive": "UMBRA-AS-015",
+      "multi_need_viability_kernel": "enabled_by_current_production",
+      "persistence_contract": {
+        "ledger_checkpoint_keep": 4,
+        "ledger_compaction_enabled": true,
+        "ledger_hot_tail_event_max": 32768,
+        "ledger_max_events_per_tick": 32,
+        "ledger_physical_reclaim": true
+      },
+      "viability_kernel_enabled": true
+    },
+    "as016": {
+      "directive": "UMBRA-AS-016",
+      "orient_preflight": "immediate_or_delayed_dispatch_mirror",
+      "physiology_projection": "effect_clamp_then_drift_clamp",
+      "recovery_reserve": "all_active_needs_robustly_covered",
+      "regulatory_endpoints": "current_authority_effect_derived"
+    },
+    "as018": {
+      "activation": "precritical_recovery_reserve_threat_only",
+      "authority": "constraint_only_existing_arbitration_preference",
+      "baseline_organism_subject": "11795badd4b43126d62dfe6e15193cf2a0a170ac",
+      "directive": "UMBRA-AS-018",
+      "envelope_schema": "AS018_RECOVERY_REACHABILITY_ENVELOPE_V1",
+      "filter_schema": "AS018_RECOVERY_REACHABILITY_FILTER_V1",
+      "recovery_reachability_enabled": true,
+      "status_categories": [
+        "ROBUST_NOW",
+        "BOUNDED_RECOVERY_OPPORTUNITY",
+        "MAY_ROUTE",
+        "UNKNOWN_ROUTE"
+      ]
+    },
+    "bounded_continuation_enabled": true,
+    "condition": "C0",
+    "development_enabled": true,
+    "drift_enabled": true,
+    "embodiment_adapter_enabled": true,
+    "expression_enabled": true,
+    "governance_bypass": false,
+    "habitat_enabled": true,
+    "habitat_scenario_id": "S0",
+    "hooks": {
+      "habitat_scenario_hook": "apply_scenario_plants",
+      "temporal_scenario_hook": "apply_scenario_plants"
+    },
+    "individuality_enabled": true,
+    "leak_world_truth": false,
+    "ledger": {
+      "ledger_checkpoint_keep": 4,
+      "ledger_compaction_enabled": true,
+      "ledger_hot_tail_event_max": 128,
+      "ledger_max_events_per_tick": 32,
+      "ledger_physical_reclaim": true
+    },
+    "memory_enabled": true,
+    "seed": 97093004,
+    "self_model_enabled": true,
+    "snapshot_every": 200,
+    "social_enabled": true,
+    "temporal_enabled": true,
+    "temporal_scenario_id": "S0",
+    "world_model_config": {
+      "affordance_learning": true,
+      "contradiction_revision": true,
+      "learning_enabled": true,
+      "max_route_experiences": 128,
+      "object_persistence": true,
+      "planning_enabled": true,
+      "prediction_enabled": true,
+      "route_demand_learning_enabled": true
+    },
+    "world_model_enabled": true
+  },
+  "database_sha256": "8936e53292139d9a1c2e8abbcfa0b0fab5fc48990752ae798370cedbf3d038d1",
+  "elapsed_seconds": 103.33157912499883,
+  "failures": [],
+  "formal_seeds_consumed": 0,
+  "formal_stages_executed": [],
+  "harness_sha256": "8856951915958bb48308c87f4be405fe248a33ea3d5205c3e0308d6a5960f9a2",
+  "initial_environment_setup": "accepted_population_fixture_before_Habitat_attachment",
+  "journal_sha256": "c6e177cf0b423451f65059acf4e70694a092c1baebba8b970f6bc3ac6b67365c",
+  "limitations": [
+    "compaction threshold 128 is a development override, not canonical 32768",
+    "no long-horizon slope or real-time CPU qualification",
+    "continuity is not subsystem causal necessity or human companion acceptance"
+  ],
+  "limits": {
+    "hot_tail_events": 128,
+    "rss_observed_ceiling_mib": 180,
+    "segment_ticks": 256,
+    "segments": 4
+  },
+  "organism_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "process_cpu_seconds": 102.26575053900001,
+  "production_subtree": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863",
+  "restarts": [
+    {
+      "boundary_tick": 256,
+      "declared_comparison_exclusions": [
+        "session_id",
+        "runtime_ready events",
+        "wall-time anchor"
+      ],
+      "habitat_binding_matches": true,
+      "owner_differences": []
+    },
+    {
+      "boundary_tick": 512,
+      "declared_comparison_exclusions": [
+        "session_id",
+        "runtime_ready events",
+        "wall-time anchor"
+      ],
+      "habitat_binding_matches": true,
+      "owner_differences": []
+    },
+    {
+      "boundary_tick": 768,
+      "declared_comparison_exclusions": [
+        "session_id",
+        "runtime_ready events",
+        "wall-time anchor"
+      ],
+      "habitat_binding_matches": true,
+      "owner_differences": []
+    }
+  ],
+  "rre_capture_counts": {
+    "activations": 29,
+    "evaluations": 190,
+    "no_active_envelope": 834,
+    "rejections": 0
+  },
+  "samples": [
+    {
+      "database_and_sidecar_bytes": 8304632,
+      "elapsed_seconds": 0.8351569860024028,
+      "hot_tail_events": 74,
+      "physiological_margins": {
+        "energy": 0.17600000000000005,
+        "fatigue": 0.3190000000000001,
+        "integrity": 0.06639999999999924,
+        "stimulation": 0.4149999999999999
+      },
+      "rss_mib": 50.328125,
+      "tick": 32
+    },
+    {
+      "database_and_sidecar_bytes": 7837200,
+      "elapsed_seconds": 1.9207714139993186,
+      "hot_tail_events": 41,
+      "physiological_margins": {
+        "energy": 0.21750000000000014,
+        "fatigue": 0.46650000000000025,
+        "integrity": 0.052799999999998515,
+        "stimulation": 0.3769999999999999
+      },
+      "rss_mib": 52.34765625,
+      "tick": 64
+    },
+    {
+      "database_and_sidecar_bytes": 7546232,
+      "elapsed_seconds": 2.926109625004756,
+      "hot_tail_events": 10,
+      "physiological_margins": {
+        "energy": 0.4155000000000002,
+        "fatigue": 0.31449999999999956,
+        "integrity": 0.019199999999997774,
+        "stimulation": 0.33799999999999986
+      },
+      "rss_mib": 53.0546875,
+      "tick": 96
+    },
+    {
+      "database_and_sidecar_bytes": 9361688,
+      "elapsed_seconds": 3.9174695359979523,
+      "hot_tail_events": 76,
+      "physiological_margins": {
+        "energy": 0.3519999999999997,
+        "fatigue": 0.3019999999999995,
+        "integrity": 0.0009999999999998899,
+        "stimulation": 0.32299999999999984
+      },
+      "rss_mib": 53.6953125,
+      "tick": 128
+    },
+    {
+      "database_and_sidecar_bytes": 9087176,
+      "elapsed_seconds": 4.9345578600041335,
+      "hot_tail_events": 46,
+      "physiological_margins": {
+        "energy": 0.29599999999999954,
+        "fatigue": 0.24799999999999944,
+        "integrity": 0.007399999999999185,
+        "stimulation": 0.2809999999999998
+      },
+      "rss_mib": 54.703125,
+      "tick": 160
+    },
+    {
+      "database_and_sidecar_bytes": 8652032,
+      "elapsed_seconds": 6.032587604000582,
+      "hot_tail_events": 9,
+      "physiological_margins": {
+        "energy": 0.34099999999999947,
+        "fatigue": 0.4150000000000007,
+        "integrity": 0.0019999999999997797,
+        "stimulation": 0.3629999999999999
+      },
+      "rss_mib": 56.22265625,
+      "tick": 192
+    },
+    {
+      "database_and_sidecar_bytes": 10652168,
+      "elapsed_seconds": 7.5889564550016075,
+      "hot_tail_events": 78,
+      "physiological_margins": {
+        "energy": 0.2739999999999993,
+        "fatigue": 0.3689999999999991,
+        "integrity": 0.008399999999999075,
+        "stimulation": 0.32699999999999985
+      },
+      "rss_mib": 56.7578125,
+      "tick": 224
+    },
+    {
+      "database_and_sidecar_bytes": 10246512,
+      "elapsed_seconds": 8.980564538003819,
+      "hot_tail_events": 47,
+      "physiological_margins": {
+        "energy": 0.22299999999999914,
+        "fatigue": 0.271999999999999,
+        "integrity": 0.01479999999999837,
+        "stimulation": 0.2899999999999998
+      },
+      "rss_mib": 49.26953125,
+      "tick": 256
+    },
+    {
+      "database_and_sidecar_bytes": 9828400,
+      "elapsed_seconds": 11.104073483998945,
+      "hot_tail_events": 15,
+      "physiological_margins": {
+        "energy": 0.348000000000001,
+        "fatigue": 0.245999999999999,
+        "integrity": 0.021199999999997665,
+        "stimulation": 0.2809999999999998
+      },
+      "rss_mib": 62.671875,
+      "tick": 288
+    },
+    {
+      "database_and_sidecar_bytes": 11550056,
+      "elapsed_seconds": 13.022806068001955,
+      "hot_tail_events": 84,
+      "physiological_margins": {
+        "energy": 0.4179999999999989,
+        "fatigue": 0.2509999999999989,
+        "integrity": 0.005199999999999427,
+        "stimulation": 0.2619999999999998
+      },
+      "rss_mib": 58.8515625,
+      "tick": 320
+    },
+    {
+      "database_and_sidecar_bytes": 10853248,
+      "elapsed_seconds": 15.302226749998226,
+      "hot_tail_events": 51,
+      "physiological_margins": {
+        "energy": 0.3729999999999987,
+        "fatigue": 0.2609999999999988,
+        "integrity": 0.005799999999999361,
+        "stimulation": 0.2519999999999998
+      },
+      "rss_mib": 50.6015625,
+      "tick": 352
+    },
+    {
+      "database_and_sidecar_bytes": 10111432,
+      "elapsed_seconds": 17.242680023002322,
+      "hot_tail_events": 18,
+      "physiological_margins": {
+        "energy": 0.2509999999999986,
+        "fatigue": 0.45100000000000134,
+        "integrity": 0.00039999999999995595,
+        "stimulation": 0.2899999999999998
+      },
+      "rss_mib": 60.08984375,
+      "tick": 384
+    },
+    {
+      "database_and_sidecar_bytes": 11549144,
+      "elapsed_seconds": 19.35320476799825,
+      "hot_tail_events": 78,
+      "physiological_margins": {
+        "energy": 0.2379999999999986,
+        "fatigue": 0.022000000000000002,
+        "integrity": 0.0007999999999999119,
+        "stimulation": 0.47300000000000003
+      },
+      "rss_mib": 59.49609375,
+      "tick": 416
+    },
+    {
+      "database_and_sidecar_bytes": 10720712,
+      "elapsed_seconds": 22.3467714110011,
+      "hot_tail_events": 40,
+      "physiological_margins": {
+        "energy": 0.32899999999999846,
+        "fatigue": 0.16500000000000012,
+        "integrity": 0.007199999999999207,
+        "stimulation": 0.45599999999999996
+      },
+      "rss_mib": 61.0546875,
+      "tick": 448
+    },
+    {
+      "database_and_sidecar_bytes": 10127072,
+      "elapsed_seconds": 25.733184035001614,
+      "hot_tail_events": 13,
+      "physiological_margins": {
+        "energy": 0.4079999999999983,
+        "fatigue": 0.3170000000000002,
+        "integrity": 0.013599999999998502,
+        "stimulation": 0.43199999999999994
+      },
+      "rss_mib": 61.921875,
+      "tick": 480
+    },
+    {
+      "database_and_sidecar_bytes": 11412176,
+      "elapsed_seconds": 29.396665608001058,
+      "hot_tail_events": 81,
+      "physiological_margins": {
+        "energy": 0.17400000000000182,
+        "fatigue": 0.44200000000000034,
+        "integrity": 0.019999999999997797,
+        "stimulation": 0.42499999999999993
+      },
+      "rss_mib": 52.390625,
+      "tick": 512
+    },
+    {
+      "database_and_sidecar_bytes": 11304792,
+      "elapsed_seconds": 34.87384230099997,
+      "hot_tail_events": 58,
+      "physiological_margins": {
+        "energy": 0.33900000000000197,
+        "fatigue": 0.36099999999999954,
+        "integrity": 0.026399999999997092,
+        "stimulation": 0.3649999999999999
+      },
+      "rss_mib": 62.19921875,
+      "tick": 544
+    },
+    {
+      "database_and_sidecar_bytes": 10666072,
+      "elapsed_seconds": 38.90892380900186,
+      "hot_tail_events": 30,
+      "physiological_margins": {
+        "energy": 0.4229999999999979,
+        "fatigue": 0.28799999999999937,
+        "integrity": 0.005399999999999405,
+        "stimulation": 0.34699999999999986
+      },
+      "rss_mib": 61.5234375,
+      "tick": 576
+    },
+    {
+      "database_and_sidecar_bytes": 9973760,
+      "elapsed_seconds": 42.46902007699828,
+      "hot_tail_events": 0,
+      "physiological_margins": {
+        "energy": 0.24999999999999772,
+        "fatigue": 0.3569999999999992,
+        "integrity": 0.00039999999999995595,
+        "stimulation": 0.3599999999999999
+      },
+      "rss_mib": 60.73828125,
+      "tick": 608
+    },
+    {
+      "database_and_sidecar_bytes": 11510480,
+      "elapsed_seconds": 45.31525785299891,
+      "hot_tail_events": 65,
+      "physiological_margins": {
+        "energy": 0.30599999999999766,
+        "fatigue": 0.25300000000000084,
+        "integrity": 0.0031999999999996476,
+        "stimulation": 0.46399999999999997
+      },
+      "rss_mib": 61.7109375,
+      "tick": 640
+    },
+    {
+      "database_and_sidecar_bytes": 10772760,
+      "elapsed_seconds": 49.27187804500136,
+      "hot_tail_events": 32,
+      "physiological_margins": {
+        "energy": 0.2629999999999975,
+        "fatigue": 0.33100000000000096,
+        "integrity": 0.0,
+        "stimulation": 0.44699999999999995
+      },
+      "rss_mib": 61.98046875,
+      "tick": 672
+    },
+    {
+      "database_and_sidecar_bytes": 10076160,
+      "elapsed_seconds": 53.145682492999185,
+      "hot_tail_events": 0,
+      "physiological_margins": {
+        "energy": 0.3659999999999974,
+        "fatigue": 0.3950000000000011,
+        "integrity": 0.005799999999999361,
+        "stimulation": 0.44199999999999995
+      },
+      "rss_mib": 62.7578125,
+      "tick": 704
+    },
+    {
+      "database_and_sidecar_bytes": 11794136,
+      "elapsed_seconds": 57.20085539499996,
+      "hot_tail_events": 72,
+      "physiological_margins": {
+        "energy": 0.3039999999999972,
+        "fatigue": 0.3919999999999988,
+        "integrity": 0.012199999999998656,
+        "stimulation": 0.4109999999999999
+      },
+      "rss_mib": 62.91015625,
+      "tick": 736
+    },
+    {
+      "database_and_sidecar_bytes": 11044128,
+      "elapsed_seconds": 61.89764274399931,
+      "hot_tail_events": 39,
+      "physiological_margins": {
+        "energy": 0.25799999999999707,
+        "fatigue": 0.35199999999999865,
+        "integrity": 0.00019999999999997797,
+        "stimulation": 0.3969999999999999
+      },
+      "rss_mib": 63.26171875,
+      "tick": 768
+    },
+    {
+      "database_and_sidecar_bytes": 11633024,
+      "elapsed_seconds": 66.17601087500225,
+      "hot_tail_events": 8,
+      "physiological_margins": {
+        "energy": 0.425999999999997,
+        "fatigue": 0.4060000000000014,
+        "integrity": 0.0039999999999995595,
+        "stimulation": 0.46099999999999997
+      },
+      "rss_mib": 54.140625,
+      "tick": 800
+    },
+    {
+      "database_and_sidecar_bytes": 12073720,
+      "elapsed_seconds": 70.83142198800488,
+      "hot_tail_events": 80,
+      "physiological_margins": {
+        "energy": 0.3629999999999968,
+        "fatigue": 0.38099999999999845,
+        "integrity": 0.010399999999998855,
+        "stimulation": 0.42599999999999993
+      },
+      "rss_mib": 62.6796875,
+      "tick": 832
+    },
+    {
+      "database_and_sidecar_bytes": 11303160,
+      "elapsed_seconds": 76.58841598000436,
+      "hot_tail_events": 46,
+      "physiological_margins": {
+        "energy": 0.028000000000000025,
+        "fatigue": 0.2959999999999984,
+        "integrity": 0.01679999999999815,
+        "stimulation": 0.43499999999999994
+      },
+      "rss_mib": 63.125,
+      "tick": 864
+    },
+    {
+      "database_and_sidecar_bytes": 10582064,
+      "elapsed_seconds": 82.39045980100491,
+      "hot_tail_events": 15,
+      "physiological_margins": {
+        "energy": 0.05800000000000005,
+        "fatigue": 0.25199999999999834,
+        "integrity": 0.023199999999997445,
+        "stimulation": 0.4099999999999999
+      },
+      "rss_mib": 63.3359375,
+      "tick": 896
+    },
+    {
+      "database_and_sidecar_bytes": 12205296,
+      "elapsed_seconds": 87.2573662690047,
+      "hot_tail_events": 83,
+      "physiological_margins": {
+        "energy": 0.24400000000000022,
+        "fatigue": 0.25499999999999823,
+        "integrity": 0.005199999999999427,
+        "stimulation": 0.3929999999999999
+      },
+      "rss_mib": 62.54296875,
+      "tick": 928
+    },
+    {
+      "database_and_sidecar_bytes": 11607800,
+      "elapsed_seconds": 92.03689162700175,
+      "hot_tail_events": 58,
+      "physiological_margins": {
+        "energy": 0.0,
+        "fatigue": 0.29199999999999815,
+        "integrity": 0.0041999999999995374,
+        "stimulation": 0.3939999999999999
+      },
+      "rss_mib": 53.81640625,
+      "tick": 960
+    },
+    {
+      "database_and_sidecar_bytes": 11014424,
+      "elapsed_seconds": 97.47684318500251,
+      "hot_tail_events": 32,
+      "physiological_margins": {
+        "energy": 0.14700000000000013,
+        "fatigue": 0.31399999999999806,
+        "integrity": 0.00019999999999997797,
+        "stimulation": 0.3799999999999999
+      },
+      "rss_mib": 63.5703125,
+      "tick": 992
+    },
+    {
+      "database_and_sidecar_bytes": 10289152,
+      "elapsed_seconds": 103.20671517000301,
+      "hot_tail_events": 0,
+      "physiological_margins": {
+        "energy": 0.3330000000000003,
+        "fatigue": 0.30799999999999794,
+        "integrity": 0.0005999999999999339,
+        "stimulation": 0.3629999999999999
+      },
+      "rss_mib": 64.37109375,
+      "tick": 1024
+    }
+  ],
+  "schema": "UMBRA_DEVELOPMENT_LIFE_PROBE_V1",
+  "seed": 97093004,
+  "target_ticks": 1024,
+  "ticks": 1024,
+  "trace": {
+    "failures": [],
+    "numerical_heading_verification": "NOT_ESTABLISHED_BY_SCHEMA_CHECK",
+    "recovery_prediction_verification": "NOT_ESTABLISHED_BY_SCHEMA_CHECK",
+    "rows": 1024,
+    "rre_rows": 190,
+    "verdict": "PASS"
+  },
+  "trace_sha256": "5ae9f66d66ac681fba95d81c48f37dc6bd593447fff164fe6366c78ebfc577ea",
+  "verdict": "PASS"
+}

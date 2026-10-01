@@ -1390,3 +1390,17 @@ excluded-development qualification, regression closure, and publication. No
 AS-017 formal replay, formal seed, scientific lock, threshold change, forced
 action, hidden Habitat input, or AS-019 is authorized. Full directive:
 `.agent/tasks/active/UMBRA-AS-018/DIRECTIVE_RECOVERY_REACHABILITY.md`.
+
+## Baseline → sustained life → companion acceptance — 2026-09-30
+
+User requested recovery/reconciliation of the detailed 32-case results,
+acceptance-gap closure, current-version sustained-life/resource/causal proof,
+and a concrete repeated-interaction acceptance test leading to a reusable core.
+Task-start record:
+`.agent/tasks/active/UMBRA-BASELINE-LIFE-COMPANION-20260930/TASK.md`.
+This is not an AS-019 organism repair or a replay authorization. Preserve
+consumed seeds, all scientific history and operator-only `.agent/RECORD.md`.
+Copy-only baseline audits and bounded non-formal continuity checks are in
+scope. Formal downstream acceptance remains gated on recovered/accepted
+baseline and prospectively reviewed protocols. Outcome is PARTIAL with a
+concrete missing-evidence blocker; no P1–P5, lock replacement or release claim.

@@ -1,0 +1,244 @@
+{
+  "cases": [
+    {
+      "case_id": "R0-00-99200001",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R0",
+      "seed": 99200001,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R0-01-99200002",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R0",
+      "seed": 99200002,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R0-02-99200003",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R0",
+      "seed": 99200003,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R0-03-99200004",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R0",
+      "seed": 99200004,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R0-04-99200005",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R0",
+      "seed": 99200005,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R0-05-99200006",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R0",
+      "seed": 99200006,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R0-06-99200007",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R0",
+      "seed": 99200007,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R0-07-99200008",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R0",
+      "seed": 99200008,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R1-00-99200009",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R1",
+      "seed": 99200009,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R1-01-99200010",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R1",
+      "seed": 99200010,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R1-02-99200011",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R1",
+      "seed": 99200011,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R1-03-99200012",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R1",
+      "seed": 99200012,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R1-04-99200013",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R1",
+      "seed": 99200013,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R1-05-99200014",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R1",
+      "seed": 99200014,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R1-06-99200015",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R1",
+      "seed": 99200015,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R1-07-99200016",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R1",
+      "seed": 99200016,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R2-00-99200017",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R2",
+      "seed": 99200017,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R2-01-99200018",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R2",
+      "seed": 99200018,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R2-02-99200019",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R2",
+      "seed": 99200019,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R2-03-99200020",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R2",
+      "seed": 99200020,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R2-04-99200021",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R2",
+      "seed": 99200021,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R2-05-99200022",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R2",
+      "seed": 99200022,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R2-06-99200023",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R2",
+      "seed": 99200023,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R2-07-99200024",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R2",
+      "seed": 99200024,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R3-00-99200025",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R3",
+      "seed": 99200025,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R3-01-99200026",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R3",
+      "seed": 99200026,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R3-02-99200027",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R3",
+      "seed": 99200027,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R3-03-99200028",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R3",
+      "seed": 99200028,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R3-04-99200029",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R3",
+      "seed": 99200029,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R3-05-99200030",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R3",
+      "seed": 99200030,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R3-06-99200031",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R3",
+      "seed": 99200031,
+      "verdict": "BLOCKED"
+    },
+    {
+      "case_id": "R3-07-99200032",
+      "reason": "detailed_evidence_unavailable",
+      "regime": "R3",
+      "seed": 99200032,
+      "verdict": "BLOCKED"
+    }
+  ],
+  "expected_cases": 32,
+  "failures": [],
+  "formal_execution_performed": false,
+  "frozen_verdict_rewritten": false,
+  "limitations": [
+    "schema checks do not prove numerical headings or recovery predictions",
+    "missing historical evidence is not reconstructed"
+  ],
+  "missing": [
+    "/tmp/as018-p0-formal-result-v2-20260916.json",
+    "/tmp/as018-p0-formal-work-v2-20260916.stages.jsonl",
+    "/tmp/as018-p0-formal-work-v2-20260916"
+  ],
+  "schema": "UMBRA_RETROSPECTIVE_BASELINE_AUDIT_V1",
+  "validator_sha256": "035fd8993e56ec6cb419de52b12dec1d15895aedb3db34eaf99ddf305f73c22b",
+  "verdict": "BLOCKED"
+}

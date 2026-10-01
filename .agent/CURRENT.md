@@ -1,3 +1,44 @@
+# Current reconciled state — 2026-09-30
+
+Active user work: trustworthy baseline → sustained life → repeated companion
+acceptance. Isolated branch `baseline-life-companion-20260930`, starting at
+`7284f41d6129e623cadbd70cff35a8229f62795e`. Accepted AS-018 organism semantics
+remain `e8d048b510a477e677637b67bc0f56473cfe6540`; production is unchanged.
+
+AS-017 is permanently terminal `AS017_FRESH_R1_FAIL`, nine formal seeds
+consumed. AS-018 V1 is permanently terminal protocol evidence, seed 99100001
+consumed and 99100002–99100032 retired. AS-018 P0 V2 job
+`job-mu3l6lrx-ddb17f3a` completed 2026-09-16, exit 0; surviving stdout reports
+32 completed/accepted and 32 consumed. Reserve all 99200001–99200032 against
+reuse. Detailed result, stage journal, databases/traces/linkage are not found
+in the documented accessible search scope. Independent retrospective audit is
+BLOCKED, with all 32 case-level validations unavailable. Do not manufacture
+rows or treat absence as a demonstrated organism failure. The reported PASS
+is preserved, but formal integrated viability is not independently revalidated.
+
+Disposable controls prove the frozen database shape validator can accept
+altered snapshot contents, payloads and checkpoint hashes. New copy-only audit
+recomputes these hashes, checks exact trace scope/RRE schema and reconciles
+individual durable stage/artifact bindings. It neither changes the frozen
+runner nor establishes that historical P0 artifacts were actually corrupt.
+
+A non-formal 1,024-tick continuity probe passed three restart/Habitat
+reattachment boundaries with no differences in the declared owner/RNG state
+comparison, 54 checkpoint epochs and sampled RSS maximum 64.37109375 MiB.
+Its 128-event compaction threshold is a development override. This is not
+formal lifecycle, 100k, S3, causal necessity, or companion qualification. All
+earlier failed probe harness attempts remain preserved.
+
+The concrete sustained-life/causal/14-day repeated-interaction proposal is
+`docs/qualification/BASELINE_LIFE_COMPANION_PROTOCOL_V1.md`, CANDIDATE — NOT
+CANONICAL. P1–P5 have not been launched. A qualified reusable release remains
+gated on accepted empirical evidence and owner participation, not packaging.
+Historical accepted AS-018 regression remains 1422 passed / 4 skipped / nine
+inherited failures, unwaived. See `docs/evidence/continuity-20260930/` for new
+targeted results and audit accounting.
+
+## Historical authority snapshots (preserved, not current instructions)
+
 # CURRENT AUTHORITY — UMBRA-AS-017 P0 FORMAL LAUNCH READY
 
 Lock V2 launch gates passed before formal organism creation. The clean

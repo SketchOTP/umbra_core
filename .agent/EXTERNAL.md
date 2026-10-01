@@ -492,3 +492,15 @@ probability, source priority, or planner semantics.
 - [SQLite how to corrupt](https://www.sqlite.org/howtocorrupt.html) — REFERENCE:
   separating a database from a surviving WAL can lose committed state; validation
   uses isolated copies while preserving originals.
+
+## Baseline/life/companion protocol references — 2026-09-30
+
+- https://www.sqlite.org/howtocorrupt.html — REFERENCE (primary documentation,
+  fetched this task): preserve a matching interrupted database/journal set and
+  validate disposable copies. No SQLite dependency or organism change.
+- https://www.bartneck.de/publications/2009/measurementInstrumentsRobots/ —
+  REFERENCE (authors' primary publication, fetched this task): separate human
+  perception dimensions from objective mechanism/continuity evidence. Used
+  structurally for the proposed repeated-interaction rubric; neither a robot
+  perception rating nor this reference certifies UMBRA or consciousness.
+  Proposed human thresholds remain prospective and require review.

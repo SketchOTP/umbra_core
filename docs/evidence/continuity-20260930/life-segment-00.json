@@ -1,0 +1,44 @@
+{
+  "checkpoint_epoch": 13,
+  "database_sha256_at_boundary": "e82f2dd7502f68b457c85f38817e6fac05bd9621bdc535bd71d6fb6664b2b7ed",
+  "memory_bounded": true,
+  "tick": 256,
+  "validation": {
+    "cryptographic_chain": {
+      "chain_status": "ok",
+      "chain_tip_hash": "04e36c90cfff70879dceff92e42d99c878b6f771c126a3b3614bc2b8b292a2fb",
+      "database": "/tmp/umbra-copy-audit-qtb9pyo8/life.sqlite",
+      "event_count": 145,
+      "identity": "0fe44c22-3653-b930-d561-d189507b5e01",
+      "ledger_tip": {
+        "event_hash": "04e36c90cfff70879dceff92e42d99c878b6f771c126a3b3614bc2b8b292a2fb",
+        "sequence": 1320
+      },
+      "max_event_sequence": 1320,
+      "mutating_api_used": false,
+      "runtime_ready_count": 0,
+      "snapshot_count": 6,
+      "sqlite_integrity": "ok"
+    },
+    "failures": [],
+    "historical_birth_identity_bound": true,
+    "hot_tail_events": 47,
+    "identity": {
+      "agent_id": "0fe44c22-3653-b930-d561-d189507b5e01",
+      "birth_event_id": "41de02de-420b-39eb-e319-e31d77382329",
+      "created_at": 1700000097.093004,
+      "identity_commitment": "a22b8cc6bb07c0b85825d910888a6745f1b608552934a8614755036de2631411",
+      "lifecycle_sequence": 0,
+      "lineage_id": "0fe44c22-3653-b930-d561-d189507b5e01",
+      "schema_version": "1.0.0"
+    },
+    "source": "/home/sketch/Projects/umbra-life-evidence-20260930-v4/life.sqlite",
+    "source_sha256": "e82f2dd7502f68b457c85f38817e6fac05bd9621bdc535bd71d6fb6664b2b7ed",
+    "sqlite": {
+      "foreign_key_check_rows": 0,
+      "integrity_check": "ok"
+    },
+    "terminal_tick": 256,
+    "verdict": "PASS"
+  }
+}

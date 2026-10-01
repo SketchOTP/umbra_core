@@ -1,3 +1,18 @@
+# Current entrypoint — baseline/life/companion reconciliation (2026-09-30)
+
+Read the top of CURRENT.md first. AS-018 P0 V2 has a surviving reported PASS,
+but detailed case artifacts remain unavailable; the copy-only audit is BLOCKED.
+Do not use the historical zero-consumption/launch-ready sections below as
+current state. No consumed formal seed may be rerun. Production is unchanged.
+
+Active packet: `.agent/tasks/active/UMBRA-BASELINE-LIFE-COMPANION-20260930/`.
+Evidence: `docs/evidence/continuity-20260930/`.
+Prospective acceptance proposal:
+`docs/qualification/BASELINE_LIFE_COMPANION_PROTOCOL_V1.md`.
+P1–P5 and qualified release remain unestablished.
+
+## Historical routing snapshots (preserved)
+
 # UMBRA-AS-017 — SCIENTIFIC LOCK V2 ESTABLISHED
 
 - Lock V1 is permanently preserved and superseded pre-execution by

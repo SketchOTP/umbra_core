@@ -1,3 +1,17 @@
+# Current profile — AS-018 development-qualified; formal baseline audit blocked
+
+As of 2026-09-30 the semantic subject remains
+`e8d048b510a477e677637b67bc0f56473cfe6540`. Its production tree is unchanged.
+Fresh development 32/32 and accepted regression evidence remain preserved.
+AS-018 P0 V2 has a surviving 32-case PASS stdout but missing detailed case
+artifacts, so independent qualification is not established by this review.
+All 32 V2 formal seeds remain unavailable for reuse. AS-017 is terminal;
+AS-018 V1 consumed one seed before creation and retired its remaining 31.
+No sustained-life/resource/whole-core causal/companion acceptance is qualified
+from a shortened development probe or historical summary. See CURRENT.md.
+
+## Historical profile snapshots (preserved)
+
 # Current profile — UMBRA-AS-015 TERMINAL
 
 AS-015 is permanently terminal at `AS015_FRESH_R2_FAIL`. Its prospective lock
