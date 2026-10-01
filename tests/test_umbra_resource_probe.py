@@ -7,7 +7,7 @@ from types import SimpleNamespace
 import pytest
 
 from tools.umbra_resource_probe import (ResourceRecorder, cadence_due,
-    checkpoint_measurements, coverage_complete, observe_maintenance, preflight)
+    checkpoint_measurements, coverage_complete, observe_maintenance, preflight, observed_file_size)
 from umbra_core.persistence import Store
 
 
@@ -89,3 +89,7 @@ def test_wrong_protocol_hash_blocks_before_organism_or_work_creation(tmp_path):
     with pytest.raises(ValueError, match="protocol_hash_mismatch"):
         preflight(tmp_path / "must-not-exist", "fake-candidate", "wrong-hash")
     assert not (tmp_path / "must-not-exist").exists()
+
+
+def test_sidecar_disappearance_is_zero_size_not_a_failed_observer(tmp_path):
+    assert observed_file_size(tmp_path / "closed-wal") == 0

@@ -36,6 +36,14 @@ def cadence_due(tick, last_tick, now, last_time):
     return tick - last_tick >= 100 or now - last_time >= 5.0
 
 
+def observed_file_size(path):
+    # WAL/SHM can disappear between stat calls at a lawful connection close.
+    try:
+        return path.stat().st_size
+    except FileNotFoundError:
+        return 0
+
+
 def coverage_complete(compactions, eviction, restart, ticks, restart_tick):
     return compactions >= 5 and eviction and restart and ticks >= restart_tick + 100
 
@@ -90,7 +98,7 @@ class ResourceRecorder:
 
     def _sample(self, reason):
         now = time.monotonic()
-        sizes = {name: path.stat().st_size if path.exists() else 0 for name, path in (
+        sizes = {name: observed_file_size(path) for name, path in (
             ("database", self.database), ("wal", Path(str(self.database) + "-wal")),
             ("shm", Path(str(self.database) + "-shm")))}
         export = self.root / "export"
