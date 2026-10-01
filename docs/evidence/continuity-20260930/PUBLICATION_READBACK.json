@@ -1,0 +1,49 @@
+{
+  "schema": "UMBRA_VALIDATION_CANDIDATE_PUBLICATION_READBACK_V1",
+  "observed_at_utc": "2026-10-01 02:19:48 UTC",
+  "implementation_and_evidence_commit": "41e8866a7f8aee094e3d6f01a0cc2e202e5b6b42",
+  "starting_commit": "7284f41d6129e623cadbd70cff35a8229f62795e",
+  "remote": "git@github.com:SketchOTP/umbra_core.git",
+  "remote_refs_verified_by_ls_remote": ["as017-recovery-development", "baseline-life-companion-20260930"],
+  "master_unchanged": "fd8c50e1134d7d2ef54e20148ac9b7880e63708d",
+  "sealed_review_remote_blob_sha256": "4a2f574573bd21a84a2a8efdafd0d8f36b267c298e68572af7ee69a44e7b6786",
+  "final_blocked_audit_sha256": "4240013f34ebd5b5aa96750ea8684bea82e98d7b7520e7fc3fbcbab89dea0cd1",
+  "prospective_protocol_sha256": "3c4076e79ca9524141b61c4b50645b50166d288194968dfaa040d87ae3d2e851",
+  "production_git_subtree": "63b3044ffd2ccf0cb25f4d87cb9f2f22d88d8863",
+  "production_semantic_subject": "e8d048b510a477e677637b67bc0f56473cfe6540",
+  "production_delta": false,
+  "clean_detached_remote_readback_checkout": "/home/sketch/Projects/umbra-baseline-readback-20260930",
+  "detached_head": "41e8866a7f8aee094e3d6f01a0cc2e202e5b6b42",
+  "import_origins": {
+    "umbra_core.runtime": "/home/sketch/Projects/umbra-baseline-readback-20260930/umbra_core/runtime.py",
+    "tools.umbra_baseline_audit": "/home/sketch/Projects/umbra-baseline-readback-20260930/tools/umbra_baseline_audit.py"
+  },
+  "detached_focused_tests": {
+    "command": "/home/sketch/cs14n-runtime/bin/python -m pytest -q tests/test_umbra_baseline_audit.py tests/test_umbra_life_probe.py tests/test_governance_validation.py --junitxml=/home/sketch/Projects/umbra-baseline-life-companion/docs/evidence/continuity-20260930/detached-readback-tests.xml",
+    "exit_code": 0,
+    "passed": 29,
+    "elapsed_seconds": 5.21,
+    "output_sha256": "f0e36f927d1cfb9c0cf55e42c90f1dddc8c105ff6879b02295b0c11201bc912a"
+  },
+  "governance": "PASS",
+  "authority_3_0": "PASS repository governance/required-record checks; no new strategic acceptance",
+  "diff_check": "PASS",
+  "notion": {
+    "page_id": "3b3833cb27ff80309f1fe73e7af37fe6",
+    "update_succeeded": true,
+    "refetch_succeeded": true,
+    "readback_verified": [
+      "current reconciled September 30 position",
+      "exact publication commit and sealed review hash",
+      "blocked audit hash and missing original-case limitation",
+      "historical lock-time zero-consumption text labeled historical",
+      "1024-tick development scope and unqualified downstream studies",
+      "prospective protocol labeled CANDIDATE",
+      "permanent V1 and other history retained"
+    ]
+  },
+  "formal_seeds_consumed_this_task": 0,
+  "new_formal_stages": [],
+  "qualified_release": false,
+  "scope": "publication/restorability evidence only; does not repair missing historical P0 artifacts"
+}

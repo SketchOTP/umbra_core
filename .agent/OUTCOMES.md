@@ -2358,3 +2358,21 @@ Outcome remains PARTIAL: missing original 32-case formal artifacts block
 independent baseline acceptance; shortened continuity is demonstrated, while
 100k/S3/current-core causal and repeated human companion qualification are
 unrun. The organism is unchanged. No qualified reusable-core release.
+
+### Publication and source restore — 2026-09-30
+
+Implementation/evidence commit `41e8866a7f8aee094e3d6f01a0cc2e202e5b6b42`
+pushed to `baseline-life-companion-20260930` and fast-forwarded public
+`as017-recovery-development`; both refetched and matched. The remote sealed
+review blob hash matches the local `4a2f5745…` artifact. Master remains
+`fd8c50e1134d7d2ef54e20148ac9b7880e63708d`. A separate clean detached checkout
+restored from the remote passed 29 focused tests (5.21 seconds), Governance
+and diff-check; import origins and unchanged production subtree were verified.
+
+Canonical Notion page `3b3833cb27ff80309f1fe73e7af37fe6` was successfully
+updated and refetched. Current-state banner, exact commit/hashes, reported
+P0 vs missing independent validation, shortened probe limitations and proposed
+companion protocol were read back. Historical lock-time zero/not-launched
+text is labeled historical; predecessor failure entries remain present.
+`PUBLICATION_READBACK.json` and `detached-readback-tests.xml` record the checks.
+This follow-up is record-only and does not change the tested production/tools.
