@@ -175,3 +175,16 @@ or substitute the 1024-tick development probe for sustained-life qualification.
 - protected-tests.xml: `0d8f79dde9c2c4ceba313721e76001eefa3508ef9f5c6cb321b9c1126a427bcb`.
 
 New formal organisms/seeds consumed = **0/0**. P1–P5 = **NOT RUN**.
+
+### Raw-output publication preservation
+
+Staging discovered trailing whitespace in pytest's original failing diagnostic
+XML, not in executable source. The first staged diff-check therefore reported
+that raw-output issue. Preserve the exact original output losslessly as
+`journal-baseline-red.xml.gz`; its decompressed SHA remains
+`9e36c3a73907a09c03a37ea85bd97fc23ed04cd20565793e7aa8c5144e7495a0`.
+Original uncompressed bytes also remain in parent commit
+`6688201480941b52f6c6804f6c2ea2abf5348c91` (exact publication receipt records
+the verified full SHA). No failed assertion/output is rewritten or discarded.
+The final full baseline-to-publication diff-check is rerun after this lossless
+artifact packaging; source and production bytes are unchanged.
